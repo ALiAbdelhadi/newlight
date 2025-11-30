@@ -1,0 +1,72 @@
+{
+    "loading": {
+        "title": "جارٍ تحميل طلبك...",
+        "description": "لن يستغرق هذا وقتًا طويلاً"
+    },
+    "auth-section": {
+        "account": "الحساب",
+        "signIn": "تسجيل الدخول",
+        "signUp": "إنشاء حساب",
+        "helpSupport": "المساعدة والدعم",
+        "dashboard": "لوحة التحكم",
+        "loading": "جاري التحميل...",
+        "userMenu": "قائمة المستخدم"
+    },
+    "cart": {
+        "title": "سلة التسوق",
+        "items": "عناصر",
+        "item": "عنصر",
+        "loading": "جاري تحميل سلة التسوق...",
+        "emptyCart": {
+            "title": "سلة التسوق فارغة",
+            "description": "أضف بعض العناصر إلى سلتك للبدء",
+            "continueShopping": "متابعة التسوق"
+        },
+        "signInRequired": {
+            "title": "قم بتسجيل الدخول لعرض سلتك",
+            "description": "يرجى تسجيل الدخول للوصول إلى سلتك وبدء التسوق",
+            "signUp": "إنشاء حساب"
+        },
+        "actions": {
+            "viewDetails": "عرض التفاصيل",
+            "orderNow": "اطلب الآن",
+            "remove": "إزالة",
+            "openCart": "فتح السلة"
+        },
+        "messages": {
+            "quantityUpdated": "تم تحديث الكمية",
+            "itemRemoved": "تم حذف العنصر من السلة بنجاح",
+            "failedToLoad": "فشل في تحميل عناصر السلة",
+            "errorLoading": "خطأ في تحميل السلة",
+            "failedToUpdate": "فشل في تحديث الكمية",
+            "failedToRemove": "فشل في حذف العنصر. يرجى المحاولة مرة أخرى"
+        },
+        "discount": "خصم"
+    },
+    "footer": {
+        "logo": {
+            "part1": "نيو",
+            "part2": "لايت"
+        },
+        "sections": {
+            "products": {
+                "title": "المنتجات",
+                "indoor": "إضاءة داخلية",
+                "outdoor": "إضاءة خارجية",
+                "smart": "حلول ذكية"
+            },
+            "resources": {
+                "title": "الموارد",
+                "catalog": "الكتالوج",
+                "technical": "البيانات التقنية",
+                "installation": "أدلة التركيب"
+            },
+            "company": {
+                "title": "الشركة",
+                "about": "من نحن",
+                "contact": "اتصل بنا"
+            }
+        },
+        "copyright": "الضوء الجديد. جميع الحقوق محفوظة."
+    }
+}

@@ -1,0 +1,72 @@
+{
+    "loading": {
+        "title": "Loading your order...",
+        "description": "This won’t take long"
+    },
+    "cart": {
+        "title": "Shopping Cart",
+        "items": "items",
+        "item": "item",
+        "loading": "Loading Cart...",
+        "emptyCart": {
+            "title": "Your cart is empty",
+            "description": "Add some items to your cart to get started",
+            "continueShopping": "Continue Shopping"
+        },
+        "signInRequired": {
+            "title": "Sign in to view your cart",
+            "description": "Please sign in to access your cart and start shopping",
+            "signUp": "Sign Up"
+        },
+        "actions": {
+            "viewDetails": "View Details",
+            "orderNow": "Order Now",
+            "remove": "Remove",
+            "openCart": "Open Cart"
+        },
+        "messages": {
+            "quantityUpdated": "Quantity updated",
+            "itemRemoved": "Item removed from cart successfully.",
+            "failedToLoad": "Failed to load cart items",
+            "errorLoading": "Error loading cart",
+            "failedToUpdate": "Failed to update quantity",
+            "failedToRemove": "Failed to remove item. Please try again."
+        },
+        "discount": "discount"
+    },
+    "auth-section": {
+        "account": "Account",
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "helpSupport": "Help & Support",
+        "dashboard": "Dashboard",
+        "loading": "Loading...",
+        "userMenu": "User menu"
+    },
+    "footer": {
+        "logo": {
+            "part1": "NEW",
+            "part2": "LIGHT"
+        },
+        "sections": {
+            "products": {
+                "title": "Products",
+                "indoor": "Interior Lighting",
+                "outdoor": "Outdoor Lighting",
+                "smart": "Smart Solutions"
+            },
+            "resources": {
+                "title": "Resources",
+                "catalog": "Catalog",
+                "technical": "Technical Data",
+                "installation": "Installation Guides"
+            },
+            "company": {
+                "title": "Company",
+                "about": "About Us",
+                "contact": "Contact"
+            }
+        },
+        "copyright": "New Light. All rights reserved."
+    }
+}
