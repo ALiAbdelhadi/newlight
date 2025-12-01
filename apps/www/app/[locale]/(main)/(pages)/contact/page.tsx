@@ -1,5 +1,7 @@
 "use client"
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Link } from '@/i18n/navigation';
 import { Clock, Globe, Mail, MapPin, Navigation, Phone, Send } from 'lucide-react';
 import React from 'react';
@@ -112,7 +114,7 @@ const ContactPage: React.FC = () => {
                                             </Link>
                                         </div>
                                         <div className="flex items-center space-x-2 ">
-                                            <FaWhatsapp className="w-4 h-4" />
+                                            <FaWhatsapp className="w-4 h-4 text-muted-foreground" />
                                             <Link href="https://wa.me/201066076077" className="text-sm transition-colors duration-300 text-muted-foreground">
                                                 WhatsApp 24/7 Support
                                             </Link>
@@ -134,28 +136,24 @@ const ContactPage: React.FC = () => {
                             </div>
                         </div>
                         <div className='py-3'>
-                            <button
+                            <Button
                                 onClick={handleGetDirections}
-                                className="w-full sm:w-auto bg-primary text-primary-foreground px-6 py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                                size={"lg"}
+                                className="w-full sm:w-auto font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
                             >
                                 <Navigation className="w-5 h-5" />
                                 <span>Get Directions</span>
-                            </button>
+                            </Button>
                         </div>
                     </div>
-                    <div className="relative">
-                        <div className="h-64 sm:h-80 lg:h-96">
-                            <iframe
-                                src="https://www.google.com/maps/place/86+Abbas+El-Akkad,+Al+Manteqah+Al+Oula,+Nasr+City,+Cairo+Governorate+4450303/@30.0569394,31.3357533,17z/data=!3m1!4b1!4m6!3m5!1s0x14583e65c2004317:0x39c0906de32bb05d!8m2!3d30.0569394!4d31.3383282!16s%2Fg%2F11l_cy9ycs?entry=ttu&g_ep=EgoyMDI1MTEyMy4xIKXMDSoASAFQAw%3D%3D"
-                                width="100%"
-                                height="100%"
-                                style={{ border: 0 }}
-                                allowFullScreen={true}
-                                loading="lazy"
-                                referrerPolicy="no-referrer-when-downgrade"
-                                title="Alphabyte Tower Location"
-                                className="w-full h-full"
-                            />
+                    <div className="relative pb-8">
+                        <div className="h-110">
+                            <div className="relative w-full h-110"> 
+                                <iframe
+                                    className="absolute top-0 left-0 w-full h-110 rounded-xl"
+                                    src="https://maps.google.com/maps?width=600&height=400&hl=en&q=86%20Abbas%20El-Akkad%2C%20Al%20Manteqah%20Al%20Oula%2C%20Nasr%20City%2C%20Cairo%20Governorate&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+                                />
+                            </div>
                         </div>
                         <div className="absolute inset-0 bg-background/20 pointer-events-none" />
                     </div>
@@ -168,70 +166,70 @@ const ContactPage: React.FC = () => {
                                 <div className='flex items-end flex-col gap-6'>
                                     <div className='grid grid-cols-2 gap-4 w-full'>
                                         <div className="space-y-2">
-                                            <label
+                                            <Label
                                                 htmlFor="fullName"
                                                 className="block text-sm font-medium transition-colors duration-300 text-muted-foreground"
                                             >
                                                 Full Name*
-                                            </label>
-                                            <input
+                                            </Label>
+                                            <Input
                                                 type="text"
                                                 id="fullName"
                                                 value={formData.fullName}
                                                 onChange={(e) => handleInputChange('fullName', e.target.value)}
                                                 placeholder="Enter your name"
-                                                className="w-full px-4 py-3 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent border bg-white border-gray-300 text-gray-900 placeholder-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                                                className="w-full"
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label
+                                            <Label
                                                 htmlFor="jobPosition"
                                                 className="block text-sm font-medium transition-colors duration-300 text-muted-foreground"
                                             >
                                                 Job Position
-                                            </label>
-                                            <input
+                                            </Label>
+                                            <Input
                                                 type="text"
                                                 id="jobPosition"
                                                 value={formData.jobPosition}
                                                 onChange={(e) => handleInputChange('jobPosition', e.target.value)}
                                                 placeholder="Enter your job position"
-                                                className="w-full px-4 py-3 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent border bg-white border-gray-300 text-gray-900 placeholder-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                                                className="w-full"
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label
+                                            <Label
                                                 htmlFor="email"
                                                 className="block text-sm font-medium transition-colors duration-300 text-muted-foreground"
                                             >
                                                 Email Address
-                                            </label>
-                                            <input
+                                            </Label>
+                                            <Input
                                                 type="email"
                                                 id="email"
                                                 value={formData.email}
                                                 onChange={(e) => handleInputChange('email', e.target.value)}
                                                 placeholder="Enter your email"
-                                                className="w-full px-4 py-3 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent border bg-white border-gray-300 text-gray-900 placeholder-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                                                className="w-full"
                                                 required
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label
+                                            <Label
                                                 htmlFor="phoneNumber"
                                                 className="block text-sm font-medium transition-colors duration-300 text-muted-foreground"
                                             >
                                                 Phone Number
-                                            </label>
-                                            <input
+                                            </Label>
+                                            <Input
                                                 type="tel"
                                                 id="phoneNumber"
                                                 value={formData.phoneNumber}
                                                 onChange={(e) => handleInputChange('phoneNumber', e.target.value)}
                                                 placeholder="Enter your phone number"
-                                                className="w-full px-4 py-3 rounded-lg transition-all duration-200 focus:ring-2 focus:ring-emerald-500 focus:border-transparent border bg-white border-gray-300 text-gray-900 placeholder-gray-500 dark:bg-gray-700 dark:border-gray-600 dark:text-white dark:placeholder-gray-400"
+                                                className="w-full"
                                                 required
                                             />
                                         </div>
