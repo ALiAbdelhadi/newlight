@@ -66,7 +66,7 @@ const ContactPage: React.FC = () => {
                                     Get In Touch
                                 </h1>
                                 <p className="leading-relaxed max-w-md transition-colors duration-300 text-muted-foreground">
-                                    We'd love to hear from you! Whether you have questions, need
+                                    We&apos;d love to hear from you! Whether you have questions, need
                                     support, or want to learn more about our services, our team is here
                                     to help.
                                 </p>

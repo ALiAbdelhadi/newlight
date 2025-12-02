@@ -129,9 +129,9 @@ export function Hero() {
                         }}
                     />
                     <div ref={heroTextRef} className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-8 text-center">
-                        <h1 className="font-serif text-6xl lg:text-7xl mb-4 italic text-white">Thesaurus</h1>
+                        <h1 className="font-serif text-6xl lg:text-7xl mb-4 italic text-white">Illuminate</h1>
                         <p className="text-2xl lg:text-3xl font-light tracking-wider uppercase text-white/70">
-                            Residential Lighting
+                            Inspiration In Every Glow
                         </p>
                     </div>
                 </div>

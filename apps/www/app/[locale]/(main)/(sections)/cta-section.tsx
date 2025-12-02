@@ -19,6 +19,7 @@ export function CTASection() {
             gsap.set([headingRef.current, descriptionRef.current, buttonRef.current], {
                 opacity: 0,
                 y: 40,
+                
             })
 
             const tl = gsap.timeline({
@@ -27,6 +28,7 @@ export function CTASection() {
                     start: "top center",
                     end: "top 30%",
                     scrub: 1,
+                    once: true
                 },
             })
 
@@ -35,6 +37,7 @@ export function CTASection() {
                 y: 0,
                 duration: 1,
                 ease: "power3.out",
+                once: true
             })
                 .to(
                     descriptionRef.current,
@@ -43,6 +46,7 @@ export function CTASection() {
                         y: 0,
                         duration: 1,
                         ease: "power3.out",
+                        once: true
                     },
                     0.2,
                 )
@@ -53,6 +57,7 @@ export function CTASection() {
                         y: 0,
                         duration: 1,
                         ease: "power3.out",
+                        once: true
                     },
                     0.4,
                 )

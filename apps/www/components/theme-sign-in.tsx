@@ -1,22 +1,21 @@
 "use client";
 
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { SignIn } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function ThemedSignIn() {
   const { theme } = useTheme();
-  const [mountedComponent, setMountedComponent] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMountedComponent(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
   }, []);
 
-  if (!mountedComponent) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <div className="max-h-[90vh] col-span-full lg:col-span-1 overflow-auto hide-scrollbar">

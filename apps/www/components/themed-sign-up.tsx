@@ -8,15 +8,14 @@ import { useEffect, useState } from "react";
 
 export function ThemedSignUp() {
   const { theme } = useTheme();
-  const [mountedComponent, setMountedComponent] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMountedComponent(true);
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
   }, []);
 
-  if (!mountedComponent) {
-    return null;
-  }
+  if (!mounted) return null;
 
   return (
     <div className="max-h-[90vh] col-span-full lg:col-span-1 overflow-auto hide-scrollbar">

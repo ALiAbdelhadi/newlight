@@ -1,151 +1,98 @@
-"use client";
+"use client"
 
-import { searchProducts } from "@/actions/search";
-import { ProductCard } from "@/components/product-card";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Link } from '@/i18n/navigation';
-import { Contact, Home, Search, ShoppingBag } from "lucide-react";
-import { useTranslations } from 'next-intl';
-import { useEffect, useState } from "react";
-import { useDebounce } from "use-debounce";
-
-interface Product {
-  productId: string;
-  productName: string;
-  Brand: string;
-  price: number;
-  productImages: string[];
-  sectionType: string;
-  spotlightType: string;
-  discount: number;
-  ProductId: string;
-  chandelierLightingType: string;
-  hNumber: number;
-  maximumWattage: string;
-  lampBase: string;
-  mainMaterial: string;
-  beamAngle: string;
-}
+import { useEffect, useRef } from "react"
+import { Link } from "@/i18n/navigation"
+import gsap from "gsap"
 
 export default function NotFound() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  useEffect(() => {
-    const performSearch = async () => {
-      if (debouncedSearchTerm.trim() === "") {
-        setFilteredProducts([]);
-        return;
-      }
-      setIsSearching(true);
-      try {
-        const results = await searchProducts(debouncedSearchTerm);
-        interface SearchResult {
-          productId: string;
-          productName: string;
-          Brand: string;
-          price: number;
-          productImages: string[];
-          sectionType: string;
-          spotlightType: string;
-          discount?: number;
-          chandelierLightingType: string;
-          hNumber: number;
-          maximumWattage: string;
-          lampBase: string;
-          mainMaterial: string;
-          beamAngle: string;
-        }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const numberRef = useRef<HTMLDivElement>(null)
+  const textRef = useRef<HTMLDivElement>(null)
+  const buttonsRef = useRef<HTMLDivElement>(null)
 
-        const formattedResults: Product[] = (results as SearchResult[]).map((product: SearchResult): Product => ({
-          ...product,
-          ProductId: product.productId,
-          discount: product.discount || 0,
-        }));
-        setFilteredProducts(formattedResults);
-      } catch (error) {
-        console.error("Error searching products:", error);
-        setFilteredProducts([]);
-      } finally {
-        setIsSearching(false);
-      }
-    };
-    performSearch();
-  }, [debouncedSearchTerm]);
-  const t = useTranslations('not-found');
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.set([numberRef.current, textRef.current, buttonsRef.current], {
+        opacity: 0,
+        y: 30,
+      })
+
+      const timeline = gsap.timeline({
+        defaults: { ease: "power3.out" },
+      })
+
+      timeline.to(numberRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      })
+
+      timeline.to(
+        textRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        },
+        0.2,
+      )
+
+      timeline.to(
+        buttonsRef.current,
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+        },
+        0.4,
+      )
+
+      gsap.to(numberRef.current, {
+        y: -10,
+        duration: 2,
+        ease: "sine.inOut",
+        repeat: -1,
+        yoyo: true,
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
+
   return (
-    <div className="flex flex-col min-h-screen bg-background">
-      <div className="grow flex flex-col items-center justify-start pt-16 px-4 md:px-6">
-        <div className="w-full space-y-8">
-          <h1 className="text-4xl font-extrabold tracking-tight text-center lg:text-5xl">
-            {t('title')}
-          </h1>
-          <p className="text-xl text-center text-muted-foreground">
-            {t('description')}
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-background text-foreground flex items-center justify-center px-6"
+    >
+      <div className="max-w-2xl w-full text-center">
+        <div ref={numberRef} className="mb-8">
+          <h1 className="text-9xl lg:text-10xl font-light tracking-tighter mb-4">404</h1>
+          <div className="h-px w-24 bg-border/30 mx-auto" />
+        </div>
+
+        <div ref={textRef} className="mb-12">
+          <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-4 text-foreground">Page Not Found</h2>
+          <p className="text-lg md:text-xl font-light tracking-wide text-muted-foreground mb-8">
+            The page you are looking for might have been removed or is temporarily unavailable. Let us help you find
+            what you need.
           </p>
-          <div className="relative max-w-xl mx-auto ">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground " />
-            <Input
-              type="search"
-              placeholder={t('placeholder')}
-              className="pl-10 pr-4 py-4 h-12 w-full text-lg shadow-md rounded-xl border border-input outline-none"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
-          {isSearching && (
-            <div className="text-center">
-              <p className="text-lg text-muted-foreground">Searching...</p>
-            </div>
-          )}
-          {filteredProducts.length > 0 && (
-            <Card className="w-full">
-              <CardHeader>
-                <CardTitle className="text-xl text-primary">Search Results</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5  gap-6">
-                  {filteredProducts.map((product) => (
-                    <ProductCard key={product.productId} product={product} />
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          )}
-          <Card className="max-w-2xl mx-auto">
-            <CardHeader>
-              <CardTitle>{t('card-title')}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 ">
-                <Link
-                  href="/"
-                  className="flex items-center justify-center p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-                >
-                  <Home className="mr-2 h-5 w-5" />
-                  {t('home-page')}
-                </Link>
-                <Link
-                  href="/category"
-                  className="flex items-center justify-center p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-                >
-                  <ShoppingBag className="mr-2 h-5 w-5" />
-                  {t('all-products')}
-                </Link>
-                <Link
-                  href="/contact-us"
-                  className="flex items-center justify-center p-4 rounded-lg bg-primary/10 hover:bg-primary/20 transition-colors"
-                >
-                  <Contact className="mr-2 h-5 w-5" />
-                  {t('contact-us')}
-                </Link>
-              </div>
-            </CardContent>
-          </Card>
+        </div>
+
+        <div ref={buttonsRef} className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link
+            href="/"
+            className="px-8 py-3 bg-primary text-primary-foreground font-light tracking-wide transition-all duration-300 hover:bg-primary/90 uppercase text-sm"
+          >
+            Return Home
+          </Link>
+          <Link
+            href="/contact"
+            className="px-8 py-3 border border-border text-foreground font-light tracking-wide transition-all duration-300 hover:bg-secondary uppercase text-sm"
+          >
+            Contact Support
+          </Link>
         </div>
       </div>
     </div>
-  );
+  )
 }

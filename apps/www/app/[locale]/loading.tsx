@@ -1,20 +1,74 @@
-import { useTranslations } from 'next-intl';
+"use client"
+
+import { useEffect, useRef } from "react"
+import gsap from "gsap"
 
 export default function Loading() {
-  const t = useTranslations('loading');
+  const containerRef = useRef<HTMLDivElement>(null)
+  const dotsRef = useRef<(HTMLDivElement | null)[]>([])
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const dots = dotsRef.current.filter(Boolean)
+
+      if (dots.length === 0) return
+
+      // Create staggered animation for each dot
+      const timeline = gsap.timeline({ repeat: -1 })
+
+      dots.forEach((dot, index) => {
+        timeline.to(
+          dot,
+          {
+            opacity: 0.3,
+            scale: 1.2,
+            duration: 0.6,
+            ease: "sine.inOut",
+          },
+          index * 0.2,
+        )
+
+        timeline.to(
+          dot,
+          {
+            opacity: 1,
+            scale: 1,
+            duration: 0.6,
+            ease: "sine.inOut",
+          },
+          index * 0.2 + 0.3,
+        )
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center bg-background">
-      <div className="flex flex-col items-center mt-14 space-y-4">
-        <div className="relative h-12 w-12 animate-pulse">
-          <div className="absolute inset-0 rounded-full bg-linear-to-r from-primary to-primary-foreground opacity-50 blur-xl" />
-          <div className="absolute inset-0 rounded-full bg-primary animate-ping" />
-          <div className="absolute inset-0 rounded-full bg-primary" />
+    <div
+      ref={containerRef}
+      className="min-h-screen bg-background text-foreground flex items-center justify-center px-6"
+    >
+      <div className="text-center">
+        <div className="mb-8">
+          <div className="flex justify-center gap-4 mb-8">
+            {[0, 1, 2].map((i) => (
+              <div
+                key={i}
+                ref={(el) => {
+                  if (el) dotsRef.current[i] = el
+                }}
+                className="w-3 h-3 rounded-full bg-primary"
+              />
+            ))}
+          </div>
+          <h2 className="text-2xl md:text-3xl font-light tracking-tight text-foreground mb-2">Loading</h2>
+          <p className="text-muted-foreground font-light tracking-wide">
+            Please wait while we prepare everything for you
+          </p>
         </div>
-        <p className="text-lg font-medium text-foreground">
-          {t('title')}
-        </p>
+        <div className="h-px w-16 bg-border/30 mx-auto mt-8" />
       </div>
     </div>
-  );
+  )
 }
