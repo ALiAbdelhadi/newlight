@@ -47,7 +47,7 @@ export default function Loading() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-background text-foreground flex items-center justify-center px-6"
+      className="min-h-screen text-foreground flex items-center justify-center px-6"
     >
       <div className="text-center">
         <div className="mb-8">

@@ -2,70 +2,95 @@
 
 import { Container } from "@/components/container"
 import { ProductCard } from "@/components/product-card"
+import { useTranslations } from 'next-intl';
 
-const SAMPLE_PRODUCTS = [
+interface Product {
+    id: string;
+    image: string;
+    title: string;
+    category: string;
+    price: number;
+    badge?: string;
+}
+
+const PRODUCT_BASE_DATA = [
     {
         id: "1",
-        image: "/products/image-1.png",
-        title: "Pendant Light",
-        category: "Residential",
+        image: "/products/indoor/2×120-led/nl-2×120-30w.png",
         price: 299,
-        badge: "New",
+        titleKey: "pendantLightTitle",
+        categoryKey: "categoryResidential",
+        badgeKey: "badgeNew",
     },
     {
         id: "2",
-        image: "/products/image-2.png",
-        title: "Wall Sconce",
-        category: "Indoor",
+        image: "/products/indoor/cob/nl-recessed/nl-recessed-5w.png",
         price: 149,
+        titleKey: "wallSconceTitle",
+        categoryKey: "categoryIndoor",
     },
     {
         id: "3",
-        image: "/products/image-3.png",
-        title: "Floor Lamp",
-        category: "Residential",
+        image: "/products/indoor/cob-frames/ln-1995-bronze-rounded/ln-1995-bronze-rounded (1).png",
         price: 399,
-        badge: "Featured",
+        titleKey: "floorLampTitle",
+        categoryKey: "categoryResidential",
+        badgeKey: "badgeFeatured",
     },
     {
         id: "4",
-        image: "/products/image-4.png",
-        title: "Table Lamp",
-        category: "Indoor",
+        image: "/products/outdoor/blade/nl-111-gray-7w/nl-111-gray-7w.png",
         price: 199,
+        titleKey: "tableLampTitle",
+        categoryKey: "categoryIndoor",
     },
     {
         id: "5",
-        image: "/products/image-5.png",
-        title: "Ceiling Fixture",
-        category: "Residential",
+        image: "/products/indoor/magnatic/nl-609-6w/nl-609-6w (1).png",
         price: 549,
+        titleKey: "ceilingFixtureTitle",
+        categoryKey: "categoryResidential",
     },
     {
         id: "6",
-        image: "/products/image-5.png",
-        title: "Outdoor Light",
-        category: "Outdoor",
+        image: "/products/outdoor/blukhead/nl-bh-18w.png",
         price: 179,
-        badge: "Sale",
+        titleKey: "outdoorLightTitle",
+        categoryKey: "categoryOutdoor",
+        badgeKey: "badgeSale",
     },
-]
+];
 
 export function Products() {
+    const t = useTranslations('products-section');
+    const tProductData = useTranslations('products-section.productData');
+
+
     const handleProductClick = (productId: string) => {
         console.log(`Clicked product: ${productId}`)
     }
 
+    const localizedProducts: Product[] = PRODUCT_BASE_DATA.map(baseProduct => ({
+        id: baseProduct.id,
+        image: baseProduct.image,
+        price: baseProduct.price,
+        title: tProductData(baseProduct.titleKey),
+        category: tProductData(baseProduct.categoryKey),
+        badge: baseProduct.badgeKey ? tProductData(baseProduct.badgeKey) : undefined,
+    }));
+
+
     return (
-        <div className="min-h-screen bg-background text-foreground">
+        <div className="min-h-screen text-foreground">
             <Container>
                 <section className="pt-12 pb-6">
                     <div>
                         <div className="mb-16">
-                            <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-4">Our Collection</h2>
+                            <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-4">
+                                {t('headerTitle')}
+                            </h2>
                             <p className="text-lg text-muted-foreground font-light max-w-2xl">
-                                Premium residential lighting designed with elegance and functionality in mind. Each piece reflects our
-                                commitment to quality and aesthetic excellence.
+                                {t('headerDescription')}
                             </p>
                         </div>
                     </div>
@@ -73,8 +98,12 @@ export function Products() {
                 <section className="pb-20">
                     <div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-                            {SAMPLE_PRODUCTS.map((product) => (
-                                <ProductCard key={product.id} {...product} onClick={() => handleProductClick(product.id)} />
+                            {localizedProducts.map((product) => (
+                                <ProductCard
+                                    key={product.id}
+                                    {...product}
+                                    onClick={() => handleProductClick(product.id)}
+                                />
                             ))}
                         </div>
                     </div>

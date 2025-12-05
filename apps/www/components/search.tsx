@@ -35,7 +35,7 @@ export function SearchSheet() {
             </SheetTrigger>
             <SheetContent
                 side="top"
-                className="w-full bg-background border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                className="w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
@@ -54,7 +54,7 @@ export function SearchSheet() {
                             </button>
                         </SheetClose>
                     </div>
-                    <div className="flex-1 overflow-y-auto bg-background">
+                    <div className="flex-1 overflow-y-auto">
                         <div className="container mx-auto max-w-3xl px-8 py-12">
                             <div className="relative">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />

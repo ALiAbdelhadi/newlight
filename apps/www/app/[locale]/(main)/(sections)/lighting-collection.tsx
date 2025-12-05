@@ -2,12 +2,15 @@
 import { Container } from "@/components/container";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useTranslations } from 'next-intl';
 import Image from "next/image";
 import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 export function NewCollection() {
+    const t = useTranslations('collection-section');
+
     const sectionRef = useRef(null);
     const leftImageRef = useRef<HTMLImageElement>(null);
     const rightImageRef = useRef<HTMLImageElement>(null);
@@ -26,6 +29,7 @@ export function NewCollection() {
             filter: "grayscale(60%)",
             opacity: 0.5,
         });
+
         const animateImage = (element: HTMLElement, trigger: HTMLElement) => {
             gsap.to(element, {
                 filter: "grayscale(00%)",
@@ -54,12 +58,12 @@ export function NewCollection() {
     return (
         <section
             ref={sectionRef}
-            className="min-h-screen bg-background py-20 transition-colors"
+            className="min-h-screen py-20 transition-colors"
         >
             <Container>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
                     <div ref={leftCardRef}>
-                        <div className="relative overflow-hidden rounded-none aspect-square w-[90%] mb-6 flex justify-center items-center bg-muted">
+                        <div className="relative overflow-hidden rounded-none aspect-square  mb-6 flex justify-center items-center bg-muted">
                             <Image
                                 ref={leftImageRef}
                                 src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=800&q=80"
@@ -71,17 +75,17 @@ export function NewCollection() {
                         </div>
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
-                                Living Tomorrow
+                                {t('livingTomorrowTitle')}
                             </h2>
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
-                                A Residential Insights Report
+                                {t('livingTomorrowReport')}
                             </p>
                             <div className="flex items-center gap-2 pt-2">
                                 <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
-                                    Explore
+                                    {t('exploreAction')}
                                 </span>
                                 <svg
-                                    className="w-5 h-5 text-foreground"
+                                    className="w-5 h-5 text-foreground rtl:rotate-180"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"
@@ -97,7 +101,7 @@ export function NewCollection() {
                         </div>
                     </div>
                     <div ref={rightCardRef}>
-                        <div className="relative overflow-hidden rounded-none aspect-4/3 w-[90%] mb-6 flex justify-center items-center bg-muted">
+                        <div className="relative overflow-hidden rounded-none aspect-4/3  mb-6 flex justify-center items-center bg-muted">
                             <Image
                                 ref={rightImageRef}
                                 src="https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
@@ -109,17 +113,17 @@ export function NewCollection() {
                         </div>
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
-                                Finishes
+                                {t('finishesTitle')}
                             </h2>
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
-                                Explore our product finishes
+                                {t('finishesExplore')}
                             </p>
                             <div className="flex items-center gap-2 pt-2">
                                 <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
-                                    Discover
+                                    {t('discoverAction')}
                                 </span>
                                 <svg
-                                    className="w-5 h-5 text-foreground"
+                                    className="w-5 h-5 text-foreground rtl:rotate-180"
                                     fill="none"
                                     viewBox="0 0 24 24"
                                     stroke="currentColor"

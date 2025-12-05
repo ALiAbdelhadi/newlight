@@ -1,0 +1,1321 @@
+{
+    "categories": {
+        "indoor": {
+            "track-light": [
+                {
+                    "jy-202-15w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 15,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1320LM (3000k) / 1400LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "cob": [
+                {
+                    "jy-535-5w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 5,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "440 LM (3000K / 6500K)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "45°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K /  6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-539-7w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 7,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "540LM (3000k) / 560LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-540-7w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 7,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "540LM (3000k) / 560LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53° ",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-805-7w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 7,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "560LM (3000k) / 600LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "90°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-810-10w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 10,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "840LM (3000k) / 870LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-810-12w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "950LM (3000k) / 1000LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-810-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1550LM (3000k) / 1600LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-810-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2600LM (3000k) / 2700LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-812-12w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1085LM (3000k) / 1285LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-813-7w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 7,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "600LM (3000k) / 610LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-813-20w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 20,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2000LM (3000k) / 2020LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-813-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2910LM (3000k) / 2920LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-813-40w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 40,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "4300LM (3000k) / 4400LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "panel-light": [
+                {
+                    "jy-903-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "600LM (3000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-903-10w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "750LM (3000k) / 800LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-903-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1650LM (3000k) / 1600LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-903-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2700LM (3000k) / 2750LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-904-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "600LM (3000k) / 610LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-904-10w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 10,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "810LM (3000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-904-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1700LM (3000k) / 1610LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-913-5w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 5,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "330LM (3000k) / 350LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-913-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "630LM (3000k) / 650LM(6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-913-12w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "630LM (3000k) / 650LM(6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-913-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1730LM(3000k) / 1800LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-922-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "600LM (3000k) / 650LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-922-12w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "950LM(3000k) / 990LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-922-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1500LM (3000k) / 1650LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-922-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2700LM (3000k) / 2750LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-923-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "420LM (3000k) / 470LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-923-12w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 12,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "890LM (3000k) / 900LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-923-18w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 18,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1400LM (3000k) / 1450LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-595-44w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 44,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "4500LM",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "Phillips External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-595-48w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 48,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "4500LM",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "Balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 44,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "double-spotlight": [
+                {
+                    "jy-dw-0124gls-28w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 28,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1000LM (3000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-dw-0124gls-42w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 42,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1440LM (3000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "strip": [
+                {
+                    "jy-5050-12v-3000k": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": "",
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "590LM/M",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-5050-12v-6500k": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": "",
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "620LM/M",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 20,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "linear": [
+                {
+                    "jy-pdt-0140030ln30-15w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 15,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1350 LM ",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-pdt-0140030ln30-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2700LM ",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnrd-001b-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "3250LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnrd-001s-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2400LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-005b-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2850LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-005s-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2300LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-007-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "3000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-008-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "3050LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-009-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2500LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-011-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-lnsd-012-32w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 32,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "2500LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 44,
+                            "maxIP": 65,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ]
+        },
+        "outdoor": {
+            "uplight": [
+                {
+                    "jy-un-002-24w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 24,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "1760LM (3000k) / 1800LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-un-001-7w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 7,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "590LM (3000k) / 630LM (6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-un-007-3w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 3,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-un-008-3w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 3,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-un-009-3w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 3,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "spikes": [
+                {
+                    "jy-316-5w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 5,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "330LM",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-317-5w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 5,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "330LM",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "flood-light": [
+                {
+                    "jy-5053-100w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 100,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "9000LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "90°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-5053-150w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 150,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "14600LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "90°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    },
+                    "jy-5053-200w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 200,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "14600LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "90°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "bollard": [
+                {
+                    "jy-bo-001-650mm-8w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 8,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "340LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "53°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "wall-washer": [
+                {
+                    "jy-309-36w": {
+                        "specificationsTable": {
+                            "Input": "(Optional) DC24V",
+                            "Maximum wattage": 36,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "3600 LM",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "20°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "balcom External Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "3000K",
+                            "IP": 65,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "street-light": [
+                {
+                    "jy-sl-001-150": {
+                        "specificationsTable": {
+                            "Input": "AC 100-277v ~ 50/60 hz",
+                            "Maximum wattage": 150,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "18000LM ~ 19500LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 97",
+                            "Beam Angle": "120°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "Phillips Internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "6500K",
+                            "IP": 66,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "stairs-light": [
+                {
+                    "jy-sl-003-30w": {
+                        "specificationsTable": {
+                            "Input": "AC 85-265v ~ 50/60 hz",
+                            "Maximum wattage": 30,
+                            "Brand Of Led": "Epistar",
+                            "Luminous Flux": "18000LM ~ 19500LM (3000k / 4000k / 6500k)",
+                            "Main Material": "Die-Casting Aluminum",
+                            "CRI": "≥ 80",
+                            "Beam Angle": "120°",
+                            "Working Temperature": "-10° to 45° C",
+                            "Fixture Dimmable": "No",
+                            "Electrical": "Phillips Internal Driver",
+                            "Power Factor": "≥0.5",
+                            "Color Temperature": "6500K",
+                            "IP": 66,
+                            "maxIP": 68,
+                            "Energy Saving": "90%",
+                            "Life Time": "50,000"
+                        }
+                    }
+                }
+            ],
+            "up-and-down": []
+        } 
+    }
+}

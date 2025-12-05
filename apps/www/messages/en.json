@@ -3,6 +3,19 @@
         "title": "Loading your order...",
         "description": "This won’t take long"
     },
+    "nav": {
+        "logoNew": "new",
+        "logoLight": "light",
+        "desktopContactSr": "Contact",
+        "mobileMenuTitleHome": "Home",
+        "mobileMenuTitleProducts": "Products",
+        "mobileMenuTitleAbout": "About",
+        "mobileMenuTitleContact": "Contact",
+        "mobileMenuLabelLanguage": "Language",
+        "mobileMenuLabelTheme": "Theme",
+        "mobileMenuLabelSearch": "Search",
+        "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
+    },
     "cart": {
         "title": "Shopping Cart",
         "items": "items",
@@ -43,6 +56,51 @@
         "loading": "Loading...",
         "userMenu": "User menu"
     },
+    "hero-section": {
+        "illuminate": "Illuminate",
+        "inspirationGlow": "Inspiration In Every Glow",
+        "inspiration": "Inspiration",
+        "technicalResources": "Technical Resources",
+        "weAre": "We Are",
+        "weAreNewLight": "New Light",
+        "products": "Products"
+    },
+    "collection-section": {
+        "livingTomorrowTitle": "Living Tomorrow",
+        "livingTomorrowReport": "A Residential Insights Report",
+        "exploreAction": "Explore",
+        "finishesTitle": "Finishes",
+        "finishesExplore": "Explore our product finishes",
+        "discoverAction": "Discover"
+    },
+    "category-section": {
+        "header": {
+            "title": "Product Categories",
+            "subtitle": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+        },
+        "categories": {
+            "indoor": {
+                "title": "Indoor Lighting",
+                "subtitle": "Interior Collection",
+                "description": "Sophisticated lighting solutions designed to enhance every interior space. From ambient ceiling fixtures to accent wall lights, our indoor collection combines aesthetic excellence with functional illumination.",
+                "href": "/category/indoor"
+            },
+            "outdoor": {
+                "title": "Outdoor Lighting",
+                "subtitle": "Exterior Collection",
+                "description": "Weather-resistant lighting engineered for outdoor environments. Illuminate gardens, pathways, and architectural features with fixtures built to withstand the elements while delivering exceptional performance.",
+                "href": "/category/outdoor"
+            }
+        },
+        "features": {
+            "consultationTitle": "Expert Consultation",
+            "consultationDescription": "Professional lighting design assistance to help you select the perfect fixtures for your project.",
+            "technicalTitle": "Technical Support",
+            "technicalDescription": "Comprehensive installation guides and technical specifications for all products.",
+            "qualityTitle": "Quality Assurance",
+            "qualityDescription": "All fixtures undergo rigorous testing to meet international lighting standards."
+        }
+    },
     "footer": {
         "logo": {
             "part1": "NEW",
@@ -68,5 +126,58 @@
             }
         },
         "copyright": "New Light. All rights reserved."
+    },
+    "CategoryCard": {
+        "text": "Explore Collection"
+    },
+    "features-section": {
+        "headerTitle": "Why Choose Us",
+        "footerCta": "All products backed by quality assurance and customer satisfaction guarantee",
+        "features": [
+            {
+                "title": "Lighting Study",
+                "description": "Professional lighting calculations based on international lux standards."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "Top-tier lighting fixtures engineered for durability and long-term performance."
+            },
+            {
+                "title": "Fast Delivery",
+                "description": "5-7 days delivery with real-time tracking across all regions."
+            },
+            {
+                "title": "Extended Warranty",
+                "description": "3-5 years comprehensive warranty on all premium lighting products."
+            },
+            {
+                "title": "Cash on Delivery",
+                "description": "Flexible payment options including secure cash on delivery."
+            }
+        ]
+    },
+    "cta-section": {
+        "heading": "Ready to Illuminate Your Space?",
+        "description": "Discover our curated collection of premium residential and commercial lighting solutions",
+        "buttonText": "Shop Collection",
+        "buttonHref": "/products"
+    },
+    "products-section": {
+        "headerTitle": "Our Collection",
+        "headerDescription": "Premium residential lighting designed with elegance and functionality in mind. Each piece reflects our commitment to quality and aesthetic excellence.",
+        "productData": {
+            "pendantLightTitle": "Pendant Light",
+            "wallSconceTitle": "Wall Sconce",
+            "floorLampTitle": "Floor Lamp",
+            "tableLampTitle": "Table Lamp",
+            "ceilingFixtureTitle": "Ceiling Fixture",
+            "outdoorLightTitle": "Outdoor Light",
+            "categoryResidential": "Residential",
+            "categoryIndoor": "Indoor",
+            "categoryOutdoor": "Outdoor",
+            "badgeNew": "New",
+            "badgeFeatured": "Featured",
+            "badgeSale": "Sale"
+        }
     }
 }

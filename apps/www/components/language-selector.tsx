@@ -2,9 +2,9 @@
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Globe, X } from "lucide-react"
-import { useState, useTransition } from "react"
-import { usePathname, useRouter } from "next/navigation"
 import { useLocale } from "next-intl"
+import { usePathname, useRouter } from "next/navigation"
+import { useState, useTransition } from "react"
 
 interface Language {
     code: "en" | "ar"
@@ -40,8 +40,8 @@ export function LanguageSelector() {
                 segments.shift()
             }
 
-            const newPath = segments.length > 0 
-                ? `/${languageCode}/${segments.join('/')}` 
+            const newPath = segments.length > 0
+                ? `/${languageCode}/${segments.join('/')}`
                 : `/${languageCode}`
 
             const newLanguage = LANGUAGES.find(lang => lang.code === languageCode)
@@ -64,14 +64,14 @@ export function LanguageSelector() {
                 >
                     <div className="flex items-center gap-2">
                         <span className="hidden sm:inline text-sm text-foreground">International</span>
-                        <Globe className="h-4 w-4 text-foreground" />
+                        <Globe className="md:h-4 md:w-4 h-5 w-5 text-foreground" />
                     </div>
                     <span className="text-xs text-muted-foreground">{currentLanguage.code.toUpperCase()}</span>
                 </button>
             </SheetTrigger>
             <SheetContent
                 side="top"
-                className="w-full bg-background border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
+                className="p-0 w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
@@ -86,8 +86,8 @@ export function LanguageSelector() {
                             </button>
                         </SheetClose>
                     </div>
-                    <div className="flex-1 overflow-y-auto bg-background">
-                        <div className="container mx-auto max-w-7xl px-8 py-12">
+                    <div className="flex-1 overflow-y-auto">
+                        <div className="py-8 px-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16">
                                 <div>
                                     <h2 className="text-3xl font-light mb-8 tracking-wide text-foreground">
@@ -100,15 +100,15 @@ export function LanguageSelector() {
                                                 onClick={() => handleLanguageSelect(language.code)}
                                                 disabled={isPending || language.code === currentLanguage.code}
                                                 className={`group flex items-center gap-3 text-left transition-all duration-200 hover:translate-x-2 ${language.code === currentLanguage.code
-                                                        ? 'text-foreground'
-                                                        : 'text-muted-foreground hover:text-foreground'
+                                                    ? 'text-foreground'
+                                                    : 'text-muted-foreground hover:text-foreground'
                                                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                                             >
                                                 {language.code === currentLanguage.code && (
-                                                    <span className="text-foreground">→</span>
+                                                    <span className="text-foreground rtl:rotate-180">→</span>
                                                 )}
                                                 {language.code !== currentLanguage.code && (
-                                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-foreground">
+                                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-foreground rtl:rotate-180">
                                                         →
                                                     </span>
                                                 )}

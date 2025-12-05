@@ -62,7 +62,7 @@ export default function NotFound() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-background text-foreground flex items-center justify-center px-6"
+      className="min-h-screen text-foreground flex items-center justify-center px-6"
     >
       <div className="max-w-2xl w-full text-center">
         <div ref={numberRef} className="mb-8">

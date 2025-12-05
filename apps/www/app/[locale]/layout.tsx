@@ -48,7 +48,7 @@ export default async function RootLayout({
   return (
     <ClerkProvider>
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} >
-        <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth")} suppressHydrationWarning>
+        <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth bg-card")} suppressHydrationWarning>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

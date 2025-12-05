@@ -17,7 +17,7 @@ const prisma = new PrismaClient({
   log: ['warn', 'error'],
 });
 
-// Enhanced Type Definitions
+
 type SupportedLanguage = "ar" | "en";
 type ProductColorTemp = "warm" | "cool" | "white";
 type ProductIP = "IP20" | "IP44" | "IP54" | "IP65" | "IP68";
@@ -209,22 +209,22 @@ class OptimizedFileResolver {
 
   private static readonly SEARCH_PATTERNS = {
     static: [
-      'src/data/products-details-static.json',
+      'data/products-details-static.json',
       'data/products-details-static.json',
       'products-details-static.json',
-      'apps/web/src/data/products-details-static.json',
+      'apps/web/data/products-details-static.json',
     ],
     arabic: [
       'src/data/products-details-ar.json',
       'data/products-details-ar.json',
       'products-details-ar.json',
-      'apps/web/src/data/products-details-ar.json',
+      'apps/web/data/products-details-ar.json',
     ],
     english: [
       'src/data/products-details-en.json',
       'data/products-details-en.json',
       'products-details-en.json',
-      'apps/web/src/data/products-details-en.json',
+      'apps/web/data/products-details-en.json',
     ]
   };
 

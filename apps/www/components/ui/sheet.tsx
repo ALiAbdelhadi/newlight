@@ -3,7 +3,6 @@
 import { cn } from "@/lib/utils"
 import * as SheetPrimitive from "@radix-ui/react-dialog"
 import { cva, type VariantProps } from "class-variance-authority"
-import { XIcon } from "lucide-react"
 import { useLocale } from "next-intl"
 import * as React from "react"
 import { createContext, useContext } from "react"

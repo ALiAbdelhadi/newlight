@@ -1,18 +1,22 @@
 "use client"
 
+import AuthSection from "@/components/auth-section"
 import { Container } from "@/components/container"
 import { LanguageSelector } from "@/components/language-selector"
+import { SearchSheet } from "@/components/search"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { ScrollArea } from "@/components/ui/scroll-area"
 import { Link } from "@/i18n/navigation"
-import { MapPin, Menu, X } from "lucide-react"
-import AuthSection from "../auth-section"
-import { SearchSheet } from "../search"
-import { AuthSectionWrapper } from "./auth-section-wrapper"
-import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
-import { ScrollArea } from "../ui/scroll-area"
+import { MapPin, Menu, X } from "lucide-react"
+import { useTranslations } from 'next-intl'
+import { useEffect, useRef, useState } from "react"
+import { AuthSectionWrapper } from "./auth-section-wrapper"
+import { useLocale } from "next-intl"
 
 export function Nav() {
+    const t = useTranslations('nav');
+
     const [isScrolled, setIsScrolled] = useState(false)
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
     const navRef = useRef<HTMLElement>(null)
@@ -64,7 +68,6 @@ export function Nav() {
 
         return () => ctx.revert()
     }, [])
-
     useEffect(() => {
         if (!mobileMenuRef.current) return
 
@@ -93,6 +96,8 @@ export function Nav() {
         }
     }, [isMobileMenuOpen])
 
+    const handleMobileLinkClick = () => setIsMobileMenuOpen(false);
+    const locale = useLocale() === "ar" ? "rtl" : "ltr"
     return (
         <>
             <header
@@ -111,10 +116,10 @@ export function Nav() {
                                 className="flex items-baseline gap-1 group relative z-50"
                             >
                                 <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground transition-all duration-300 group-hover:tracking-tight">
-                                    new
+                                    {t('logoNew')}
                                 </h1>
                                 <p className="text-2xl font-light tracking-widest uppercase text-foreground/90 transition-all duration-300 group-hover:tracking-wider">
-                                    light
+                                    {t('logoLight')}
                                 </p>
                             </Link>
                             <nav ref={navItemsRef} className="hidden lg:flex items-center gap-2 text-sm">
@@ -125,9 +130,11 @@ export function Nav() {
                                 <NavItem>
                                     <ThemeToggle />
                                 </NavItem>
+                                <NavDivider />
                                 <NavItem>
                                     <SearchSheet />
                                 </NavItem>
+                                <NavDivider />
                                 <NavItem>
                                     <Link
                                         href="/contact"
@@ -135,7 +142,7 @@ export function Nav() {
                                     >
                                         <div className="absolute inset-0 bg-linear-to-r from-muted/0 via-muted/50 to-muted/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
                                         <MapPin className="h-5 w-5 relative z-10 transition-transform duration-300 group-hover:scale-110" />
-                                        <span className="sr-only">Contact</span>
+                                        <span className="sr-only">{t('desktopContactSr')}</span>
                                     </Link>
                                 </NavItem>
                                 <NavDivider />
@@ -168,44 +175,44 @@ export function Nav() {
                     style={{ top: "64px" }}
                 >
                     <Container className="h-full">
-                        <ScrollArea className="h-[calc(100vh-64px)] w-full">
+                        <ScrollArea className="h-[calc(100vh-64px)] w-full"  dir={locale}>
                             <div className="py-8 px-2">
                                 <div className="space-y-6">
                                     <div className="space-y-4">
                                         <MobileMenuItem>
                                             <Link
                                                 href="/"
-                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                onClick={handleMobileLinkClick}
                                                 className="block text-2xl font-light tracking-wide text-foreground hover:text-foreground/70 transition-colors py-2"
                                             >
-                                                Home
+                                                {t('mobileMenuTitleHome')}
                                             </Link>
                                         </MobileMenuItem>
                                         <MobileMenuItem>
                                             <Link
                                                 href="/category"
-                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                onClick={handleMobileLinkClick}
                                                 className="block text-2xl font-light tracking-wide text-foreground hover:text-foreground/70 transition-colors py-2"
                                             >
-                                                Products
+                                                {t('mobileMenuTitleProducts')}
                                             </Link>
                                         </MobileMenuItem>
                                         <MobileMenuItem>
                                             <Link
                                                 href="/about"
-                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                onClick={handleMobileLinkClick}
                                                 className="block text-2xl font-light tracking-wide text-foreground hover:text-foreground/70 transition-colors py-2"
                                             >
-                                                About
+                                                {t('mobileMenuTitleAbout')}
                                             </Link>
                                         </MobileMenuItem>
                                         <MobileMenuItem>
                                             <Link
                                                 href="/contact"
-                                                onClick={() => setIsMobileMenuOpen(false)}
+                                                onClick={handleMobileLinkClick}
                                                 className="block text-2xl font-light tracking-wide text-foreground hover:text-foreground/70 transition-colors py-2"
                                             >
-                                                Contact
+                                                {t('mobileMenuTitleContact')}
                                             </Link>
                                         </MobileMenuItem>
                                     </div>
@@ -214,7 +221,7 @@ export function Nav() {
                                         <MobileMenuItem>
                                             <div className="flex items-center justify-between py-2">
                                                 <span className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                                                    Language
+                                                    {t('mobileMenuLabelLanguage')}
                                                 </span>
                                                 <LanguageSelector />
                                             </div>
@@ -222,7 +229,7 @@ export function Nav() {
                                         <MobileMenuItem>
                                             <div className="flex items-center justify-between py-2">
                                                 <span className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                                                    Theme
+                                                    {t('mobileMenuLabelTheme')}
                                                 </span>
                                                 <ThemeToggle />
                                             </div>
@@ -230,7 +237,7 @@ export function Nav() {
                                         <MobileMenuItem>
                                             <div className="flex items-center justify-between py-2">
                                                 <span className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                                                    Search
+                                                    {t('mobileMenuLabelSearch')}
                                                 </span>
                                                 <SearchSheet />
                                             </div>
@@ -247,7 +254,7 @@ export function Nav() {
                                 </div>
                                 <div className="mt-12 pt-8 border-t border-border/30">
                                     <p className="text-xs uppercase tracking-widest text-muted-foreground font-light text-center">
-                                        The New Thesaurus: Premium Lighting Solutions
+                                        {t('mobileMenuFooterCta')}
                                     </p>
                                 </div>
                             </div>

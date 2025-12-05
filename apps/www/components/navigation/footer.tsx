@@ -15,7 +15,7 @@ export function Footer() {
     return (
         <footer className="border-t border-border bg-card/60 backdrop-blur-xl supports-backdrop-filter:bg-card/80">
             <Container>
-                <div className="max-w-7xl mx-auto px-6 py-12">
+                <div className="py-12">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
                         <div className="flex flex-col items-center md:items-start">
                             <div className="flex items-center space-x-1">

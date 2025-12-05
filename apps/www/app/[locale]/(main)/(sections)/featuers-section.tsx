@@ -6,48 +6,39 @@ import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { CheckCircle, Lightbulb, PenTool, Shield, Truck } from "lucide-react"
 import type React from "react"
 import { useEffect, useRef } from "react"
+import { useTranslations } from 'next-intl'; 
 
 gsap.registerPlugin(ScrollTrigger)
 
-interface Feature {
-    icon: React.ReactNode
+interface FeatureData {
     title: string
     description: string
 }
 
+interface Feature extends FeatureData {
+    icon: React.ReactNode
+}
 
-const features: Feature[] = [
-    {
-        icon: <PenTool className="w-8 h-8 text-foreground" />,
-        title: "Lighting Study",
-        description: "Professional lighting calculations based on international lux standards.",
-    },
-    {
-        icon: <Lightbulb className="w-8 h-8 text-foreground" />,
-        title: "Premium Quality Products",
-        description: "Top-tier lighting fixtures engineered for durability and long-term performance.",
-    },
-    {
-        icon: <Truck className="w-8 h-8 text-foreground" />,
-        title: "Fast Delivery",
-        description: "5-7 days delivery with real-time tracking across all regions.",
-    },
-    {
-        icon: <Shield className="w-8 h-8 text-foreground" />,
-        title: "Extended Warranty",
-        description: "3-5 years comprehensive warranty on all premium lighting products.",
-    },
-    {
-        icon: <CheckCircle className="w-8 h-8 text-foreground" />,
-        title: "Cash on Delivery",
-        description: "Flexible payment options including secure cash on delivery.",
-    },
+const localIcons: React.ReactNode[] = [
+    <PenTool className="w-8 h-8 text-foreground" key="pen-tool" />,
+    <Lightbulb className="w-8 h-8 text-foreground" key="lightbulb" />,
+    <Truck className="w-8 h-8 text-foreground" key="truck" />,
+    <Shield className="w-8 h-8 text-foreground" key="shield" />,
+    <CheckCircle className="w-8 h-8 text-foreground" key="check-circle" />,
 ]
 
-
 export function FeaturesSection() {
+    const t = useTranslations('features-section');
+
     const sectionRef = useRef<HTMLDivElement>(null)
     const featureRefs = useRef<HTMLDivElement[]>([])
+
+    const translatedFeaturesData = t.raw('features') as FeatureData[];
+
+    const features: Feature[] = translatedFeaturesData.map((data, index) => ({
+        ...data,
+        icon: localIcons[index] || <Lightbulb className="w-8 h-8 text-foreground" />,
+    }));
 
     useEffect(() => {
         const ctx = gsap.context(() => {
@@ -81,7 +72,9 @@ export function FeaturesSection() {
         <section ref={sectionRef} className="min-h-screen bg-card text-card-foreground lg:py-16 py-12">
             <Container>
                 <div className="mb-16">
-                    <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-4 text-balance">Why Choose Us</h2>
+                    <h2 className="text-5xl md:text-6xl font-light tracking-tighter mb-4 text-balance">
+                        {t('headerTitle')}
+                    </h2>
                     <div className="h-px w-12 bg-border" />
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 lg:gap-12">
@@ -104,7 +97,7 @@ export function FeaturesSection() {
                 </div>
                 <div className="mt-16 pt-12 border-t border-border">
                     <p className="text-sm uppercase font-light tracking-widest text-muted-foreground">
-                        All products backed by quality assurance and customer satisfaction guarantee
+                        {t('footerCta')}
                     </p>
                 </div>
             </Container>

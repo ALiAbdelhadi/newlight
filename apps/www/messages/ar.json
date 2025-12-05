@@ -3,6 +3,19 @@
         "title": "جارٍ تحميل طلبك...",
         "description": "لن يستغرق هذا وقتًا طويلاً"
     },
+    "nav": {
+        "logoNew": "نيو",
+        "logoLight": "لايت",
+        "desktopContactSr": "تواصل",
+        "mobileMenuTitleHome": "الرئيسية",
+        "mobileMenuTitleProducts": "المنتجات",
+        "mobileMenuTitleAbout": "حول الشركة",
+        "mobileMenuTitleContact": "اتصال",
+        "mobileMenuLabelLanguage": "اللغة",
+        "mobileMenuLabelTheme": "السمة",
+        "mobileMenuLabelSearch": "بحث",
+        "mobileMenuFooterCta": "المكنز الجديد: حلول الإضاءة المتميزة"
+    },
     "auth-section": {
         "account": "الحساب",
         "signIn": "تسجيل الدخول",
@@ -11,6 +24,51 @@
         "dashboard": "لوحة التحكم",
         "loading": "جاري التحميل...",
         "userMenu": "قائمة المستخدم"
+    },
+    "hero-section": {
+        "illuminate": "أضِئ",
+        "inspirationGlow": "إلهام في كل إشراقة",
+        "inspiration": "الإلهام",
+        "technicalResources": "الموارد التقنية",
+        "weAre": "نحن",
+        "weAreNewLight": "نيو لايت",
+        "products": "المنتجات"
+    },
+    "collection-section": {
+        "livingTomorrowTitle": "نعيش الغد",
+        "livingTomorrowReport": "تقرير رؤى الإضاءة السكنية",
+        "exploreAction": "استكشف",
+        "finishesTitle": "التشطيبات",
+        "finishesExplore": "اكتشف تشطيبات منتجاتنا",
+        "discoverAction": "اكتشف"
+    },
+    "category-section": {
+        "header": {
+            "title": "فئات المنتجات",
+            "subtitle": "اكتشف مجموعاتنا المنسقة من حلول الإضاءة المتميزة، المصممة بدقة للتطبيقات الداخلية والخارجية على حد سواء."
+        },
+        "categories": {
+            "indoor": {
+                "title": "إضاءة داخلية",
+                "subtitle": "مجموعة الديكور الداخلي",
+                "description": "حلول إضاءة متطورة مصممة لتعزيز كل مساحة داخلية. من وحدات السقف المحيطة إلى مصابيح الجدران الموجهة، تجمع مجموعتنا الداخلية بين التميز الجمالي والإضاءة الوظيفية.",
+                "href": "/category/indoor"
+            },
+            "outdoor": {
+                "title": "إضاءة خارجية",
+                "subtitle": "مجموعة الديكور الخارجي",
+                "description": "إضاءة مقاومة للعوامل الجوية ومُهندسة للبيئات الخارجية. أضئ الحدائق والممرات والملامح المعمارية بتركيبات مصممة لتحمل العناصر مع تقديم أداء استثنائي.",
+                "href": "/category/outdoor"
+            }
+        },
+        "features": {
+            "consultationTitle": "استشارات الخبراء",
+            "consultationDescription": "مساعدة احترافية في تصميم الإضاءة لمساعدتك في اختيار التركيبات المثالية لمشروعك.",
+            "technicalTitle": "الدعم الفني",
+            "technicalDescription": "أدلة التثبيت الشاملة والمواصفات التقنية لجميع المنتجات.",
+            "qualityTitle": "ضمان الجودة",
+            "qualityDescription": "تخضع جميع التركيبات لاختبارات صارمة لتلبية معايير الإضاءة الدولية."
+        }
     },
     "cart": {
         "title": "سلة التسوق",
@@ -68,5 +126,58 @@
             }
         },
         "copyright": "الضوء الجديد. جميع الحقوق محفوظة."
+    },
+    "CategoryCard": {
+        "text": "استكشاف المجموعة"
+    },
+    "features-section": {
+        "headerTitle": "لماذا تختارنا",
+        "footerCta": "جميع المنتجات مدعومة بضمان الجودة ورضا العملاء",
+        "features": [
+            {
+                "title": "دراسة الإضاءة",
+                "description": "حسابات إضاءة احترافية بناءً على معايير اللوكس الدولية."
+            },
+            {
+                "title": "منتجات ذات جودة عالية",
+                "description": "تركيبات إضاءة من الدرجة الأولى مصممة للمتانة والأداء طويل الأمد."
+            },
+            {
+                "title": "توصيل سريع",
+                "description": "توصيل في غضون 5-7 أيام مع تتبع في الوقت الفعلي في جميع المناطق."
+            },
+            {
+                "title": "ضمان ممتد",
+                "description": "ضمان شامل لمدة 3-5 سنوات على جميع منتجات الإضاءة الممتازة."
+            },
+            {
+                "title": "الدفع عند الاستلام",
+                "description": "خيارات دفع مرنة بما في ذلك الدفع الآمن عند الاستلام."
+            }
+        ]
+    },
+    "cta-section": {
+        "heading": "هل أنت مستعد لإضاءة مساحتك؟",
+        "description": "اكتشف مجموعتنا المنسقة من حلول الإضاءة المتميزة للمساحات السكنية والتجارية",
+        "buttonText": "تسوق المجموعة",
+        "buttonHref": "/products"
+    },
+    "products-section": {
+        "headerTitle": "مجموعتنا",
+        "headerDescription": "إضاءة سكنية فاخرة مصممة بأناقة ووظيفية. كل قطعة تعكس التزامنا بالجودة والتميز الجمالي.",
+        "productData": {
+            "pendantLightTitle": "إضاءة متدلية",
+            "wallSconceTitle": "مصباح جداري",
+            "floorLampTitle": "مصباح أرضي",
+            "tableLampTitle": "مصباح طاولة",
+            "ceilingFixtureTitle": "وحدة سقف",
+            "outdoorLightTitle": "إضاءة خارجية",
+            "categoryResidential": "سكني",
+            "categoryIndoor": "داخلي",
+            "categoryOutdoor": "خارجي",
+            "badgeNew": "جديد",
+            "badgeFeatured": "مميز",
+            "badgeSale": "تخفيضات"
+        }
     }
 }

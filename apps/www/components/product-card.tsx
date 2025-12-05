@@ -92,7 +92,7 @@ export function ProductCard({ id, image, title, category, price, currency = "EGP
     }
 
     return (
-        <div ref={cardRef} onClick={onClick} className="group cursor-pointer rounded-2xl p-6 hover:shadow-sm">
+        <div ref={cardRef} onClick={onClick} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30">
             <div
                 className="relative overflow-hidden bg-muted mb-6 aspect-square"
                 onMouseEnter={handleMouseEnter}
@@ -128,7 +128,7 @@ export function ProductCard({ id, image, title, category, price, currency = "EGP
                     </div>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         <span className="text-xs font-medium uppercase tracking-wider text-foreground">View</span>
-                        <svg className="w-4 h-4 text-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <svg className="w-4 h-4 text-foreground rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </div>
