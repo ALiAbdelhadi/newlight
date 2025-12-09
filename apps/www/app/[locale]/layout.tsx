@@ -46,9 +46,33 @@ export default async function RootLayout({
     notFound();
   }
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        variables: {
+          fontFamily: roboto.style.fontFamily,
+          fontSize: "14px",
+        },
+      }}
+    >
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} >
         <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth bg-card")} suppressHydrationWarning>
+          <script
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{
+              __html: `
+              try {
+                const theme = localStorage.getItem('theme-preference');
+                const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+                const shouldBeDark = theme === 'dark' || (!theme && prefersDark);
+                if (shouldBeDark) {
+                  document.documentElement.classList.add('dark');
+                } else {
+                  document.documentElement.classList.remove('dark');
+                }
+              } catch (e) {}
+            `,
+            }}
+          />
           <ThemeProvider
             attribute="class"
             defaultTheme="system"

@@ -179,5 +179,46 @@
             "badgeFeatured": "Featured",
             "badgeSale": "Sale"
         }
+    },
+    "categories-page": {
+        "heroTitle": "Explore Categories",
+        "heroSubtitle": "Discover our curated collection of premium lighting solutions for every space",
+        "categoryIndoor": "Indoor",
+        "categoryIndoorDesc": "Ambient and task lighting for residential and commercial spaces",
+        "categoryOutdoor": "Outdoor",
+        "categoryOutdoorDesc": "Durable lighting solutions for gardens, patios, and exterior areas",
+        "categoryFeatured": "Featured",
+        "categoryFeaturedDesc": "Hand-picked selections and trending lighting designs",
+        "ctaTitle": "Need Help Choosing?",
+        "ctaDescription": "Browse our comprehensive guides or contact our lighting experts for personalized recommendations",
+        "ctaContact": "Contact Us",
+        "ctaLearn": "Learn More"
+    },
+    "categories-page": {
+        "heroTitle": "Illuminate Your World",
+        "heroSubtitle": "Discover our curated collection of premium lighting solutions designed to transform every space into a masterpiece of light and shadow.",
+        "categoryIndoor": "Indoor",
+        "categoryIndoorDesc": "Elegant interior lighting for living spaces, bedrooms, and workspaces.",
+        "categoryOutdoor": "Outdoor",
+        "categoryOutdoorDesc": "Weather-resistant lighting for gardens, pathways, and architectural facades.",
+        "categoryFeatured": "Featured",
+        "categoryFeaturedDesc": "Our most exclusive designer collections and limited editions.",
+        "ctaTitle": "Need Expert Guidance?",
+        "ctaDescription": "Our lighting specialists are here to help you find the perfect illumination for your project. From residential to commercial spaces, we provide personalized consultation.",
+        "ctaContact": "Contact Us",
+        "ctaLearn": "Learn More",
+        "exploreCollection": "Explore Collection",
+        "productsCount": "{count} products"
+    },
+    "sub-category-page": {
+        "backTo": "Back to {category}",
+        "noSubcategories": "No subcategories available",
+        "exploreCollection": "Explore our {name} collection"
+    },
+    "section-type-page": {
+        "noProducts": "No products available in this category",
+        "productCount": "{count} {count, plural, =1 {product} other {products}}",
+        "products": "products",
+        "product": "product"
     }
 }

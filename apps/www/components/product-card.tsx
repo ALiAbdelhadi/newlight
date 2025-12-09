@@ -92,7 +92,7 @@ export function ProductCard({ id, image, title, category, price, currency = "EGP
     }
 
     return (
-        <div ref={cardRef} onClick={onClick} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30">
+        <div ref={cardRef} onClick={onClick} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30 transition-all">
             <div
                 className="relative overflow-hidden bg-muted mb-6 aspect-square"
                 onMouseEnter={handleMouseEnter}

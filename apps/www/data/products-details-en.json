@@ -1,1321 +1,2758 @@
 {
     "categories": {
         "indoor": {
-            "track-light": [
-                {
-                    "jy-202-15w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 15,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1320LM (3000k) / 1400LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    }
-                }
-            ],
             "cob": [
                 {
-                    "jy-535-5w": {
+                    "nl-r-ds-5w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 5,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "440 LM (3000K / 6500K)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "45°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K /  6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-539-7w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 7,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "540LM (3000k) / 560LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-540-7w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 7,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "540LM (3000k) / 560LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53° ",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-805-7w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 7,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "560LM (3000k) / 600LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "90°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-810-10w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 10,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "840LM (3000k) / 870LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "350 Lm",
+                            "main_material": "ABS Housing - PC Lens",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "90x45 mm",
+                            "hole_size": "Ø 75 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
                             "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black"
+                            ]
                         }
                     },
-                    "jy-810-12w": {
+                    "nl-r-ds-6.5w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "950LM (3000k) / 1000LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6.5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "350 Lm",
+                            "main_material": "ABS Housing - PC Lens",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "88x51 mm",
+                            "hole_size": "Ø 75 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
                             "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black"
+                            ]
                         }
                     },
-                    "jy-810-18w": {
+                    "nl-recessed-5w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1550LM (3000k) / 1600LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "450 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "88x51 mm",
+                            "hole_size": "Ø 75 mm",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black"
+                            ]
                         }
                     },
-                    "jy-810-30w": {
+                    "nl-recessed-20w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2600LM (3000k) / 2700LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "162x42 mm",
+                            "hole_size": "Ø 145 mm",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black"
+                            ]
                         }
                     },
-                    "jy-812-12w": {
+                    "nl-recessed-30w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1085LM (3000k) / 1285LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "2700 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "224x49 mm",
+                            "hole_size": "Ø 200 mm",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-813-7w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 7,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "600LM (3000k) / 610LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-813-20w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 20,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2000LM (3000k) / 2020LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-813-30w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2910LM (3000k) / 2920LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-813-40w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 40,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "4300LM (3000k) / 4400LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
                         }
                     }
                 }
             ],
-            "panel-light": [
+            "magnetic": [
                 {
-                    "jy-903-8w": {
+                    "nl-a603-6w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "600LM (3000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L110*W22*H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
                             "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-903-10w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "750LM (3000k) / 800LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-903-18w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1650LM (3000k) / 1600LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-903-30w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2700LM (3000k) / 2750LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-904-8w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "600LM (3000k) / 610LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-904-10w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 10,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "810LM (3000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-904-18w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1700LM (3000k) / 1610LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-913-5w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 5,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "330LM (3000k) / 350LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-913-8w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "630LM (3000k) / 650LM(6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-913-12w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "630LM (3000k) / 650LM(6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-913-18w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1730LM(3000k) / 1800LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-922-8w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "600LM (3000k) / 650LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-922-12w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "950LM(3000k) / 990LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-922-18w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1500LM (3000k) / 1650LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-922-30w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2700LM (3000k) / 2750LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-923-8w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "420LM (3000k) / 470LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-923-12w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 12,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "890LM (3000k) / 900LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-923-18w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 18,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1400LM (3000k) / 1450LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-595-44w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 44,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "4500LM",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "Phillips External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
                             "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-595-48w": {
+                    "nl-a603-12w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 48,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "4500LM",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "Balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L220*W22*H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
                             "maxIP": 44,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
-                    }
+                    },
+                    "nl-a603-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L331*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a603-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L439*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a603-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L547*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a606-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L110*W22*H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a606-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L220*W22*H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a606-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L331*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a606-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L439*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a606-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L547*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a609-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a609-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a609-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a609-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a609-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L110*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L223*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L331*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L439*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L547*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403-36w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 36,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L658*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-ip905-5w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 5,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L230×W80×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-l601-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L307*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-l601-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L607*W22*H25  mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-l601-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L907*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-l601-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L1207*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n801-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 180,
+                            "product_dimensions": "L500 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n801-22w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 22,
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 180,
+                            "product_dimensions": "L1000 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n801-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 180,
+                            "product_dimensions": "L2000 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n801-57w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 57,
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 180,
+                            "product_dimensions": "L3000 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n803-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "30*H300 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n803-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "40*H300 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n805-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "66*H90 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-n806-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum+Glass",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "45*H231 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501-3w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 3,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "35*H80 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "48*H105 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "58*H130 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "68*H155 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t503-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Ø 75 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t506-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Ø 95 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t509-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Ø 95 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t512-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Ø 100 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1001-220v-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "210 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1001-220v-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "340 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1001-220v-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "460 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1001-220v-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "600 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1002-220v-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "210 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1002-220v-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "340 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1002-220v-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "460 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-tr1002-220v-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "600 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-zl07-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "(L327+L307)*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-zl07-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "(L627+L607)*W22*H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-r107c3": {}
+                }
+            ],
+            "magnetic-accessories": [
+                {
+                    "nl-e1030": {},
+                    "nl-e1031": {},
+                    "nl-e1032": {},
+                    "nl-r1015": {},
+                    "nl-r1018": {},
+                    "nl-r1021": {},
+                    "nl-wl012": {},
+                    "nl-z1001": {},
+                    "nl-z1003": {},
+                    "nl-z1005": {},
+                    "nl-z1007": {},
+                    "nl-f012": {}
                 }
             ],
             "double-spotlight": [
+                {}
+            ],
+            "panel": [
                 {
-                    "jy-dw-0124gls-28w": {
+                    "nl-60×60-led": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 28,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1000LM (3000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 100-250V",
+                            "maximum_wattage": 48,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "4800 Lm",
+                            "main_material": "Aluminum Frame-PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "595×595×30 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
                         }
                     },
-                    "jy-dw-0124gls-42w": {
+                    "nl-led-dl-20w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 42,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1440LM (3000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": "Plastic Housing - PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "170x28 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
                             "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-led-dl-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "2700 Lm",
+                            "main_material": "Plastic Housing -PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x28 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-pl-r-s-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1250 Lm",
+                            "main_material": "Aluminum Frame-LGP",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x35 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-pl-r-s-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1680 Lm",
+                            "main_material": "Aluminum Frame-LGP",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "300x35 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-pl-r-3w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 3,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "210 Lm",
+                            "main_material": "Aluminum Frame-LGP",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "80x24 mm",
+                            "hole_size": "75 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-pl-r-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 6,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "420 Lm",
+                            "main_material": "Aluminum Frame-LGP",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "110x24 mm",
+                            "hole_size": "105 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-pl-r-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 170-265V",
+                            "maximum_wattage": 18,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1250 Lm",
+                            "main_material": "Aluminum Frame-LGP",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x24 mm",
+                            "hole_size": "206 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-s-r-dl-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 6,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "540 Lm",
+                            "main_material": "Plastic Housing -PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "85x2 mm",
+                            "hole_size": "75 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-s-r-dl-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": "Plastic Housing -PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "170x24 mm",
+                            "hole_size": "158 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-s-r-dl-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "2700 Lm",
+                            "main_material": "Plastic Housing - PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x24 mm",
+                            "hole_size": "208x208 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-s-s-dl-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 18,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": "Plastic Housing -PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "170x28 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-s-s-dl-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-240V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "2700 Lm",
+                            "main_material": "Plastic Housing -PC Cover",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x28 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
                         }
                     }
                 }
             ],
             "strip": [
                 {
-                    "jy-5050-12v-3000k": {
+                    "nl-strip-2835-19w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": "",
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "590LM/M",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "220V 50/60Hz Ra80",
+                            "maximum_wattage": 19,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": false,
+                            "cri": ">80",
+                            "beam_angle": false,
+                            "product_dimensions": "10 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": []
                         }
                     },
-                    "jy-5050-12v-6500k": {
+                    "nl-strip-2835-24w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": "",
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "620LM/M",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "220V 50/60Hz Ra80",
+                            "maximum_wattage": 24,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "1800 Lm",
+                            "main_material": false,
+                            "cri": ">80",
+                            "beam_angle": false,
+                            "product_dimensions": "10 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 20,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": []
                         }
                     }
                 }
             ],
-            "linear": [
+            "track": [
                 {
-                    "jy-pdt-0140030ln30-15w": {
+                    "nl-l1001-2000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 15,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1350 LM ",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L2000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-pdt-0140030ln30-30w": {
+                    "nl-l1001-3000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2700LM ",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L3000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnrd-001b-32w": {
+                    "nl-l1003-2000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "3250LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L2000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnrd-001s-32w": {
+                    "nl-l1003-3000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2400LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L3000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnsd-005b-32w": {
+                    "nl-l1005-2000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2850LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L2000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnsd-005s-32w": {
+                    "nl-l1005-3000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2300LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L3000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnsd-007-32w": {
+                    "nl-l1007-2000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "3000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L2000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-lnsd-008-32w": {
+                    "nl-l1007-3000mm": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "3050LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-lnsd-009-32w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2500LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-lnsd-011-32w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
-                        }
-                    },
-                    "jy-lnsd-012-32w": {
-                        "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 32,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "2500LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 44,
-                            "maxIP": 65,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "main_material": "Plastic Housing",
+                            "product_dimensions": "L3000mm",
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     }
                 }
-            ]
+            ],
+            "drivers": {
+                "track-built-in": [
+                    {
+                        "nl-dv-102-100w": {
+                            "specificationsTable": {
+                                "maximum_wattage": 100,
+                                "main_material": "L170×W22×H38",
+                                "surface_color": [
+                                    "black"
+                                ]
+                            }
+                        },
+                        "nl-dv-102-200w": {
+                            "specificationsTable": {
+                                "maximum_wattage": 200,
+                                "main_material": "L260×W22×H38",
+                                "surface_color": [
+                                    "black"
+                                ]
+                            }
+                        }
+                    }
+                ]
+            },
+            "track-light": []
         },
         "outdoor": {
             "uplight": [
                 {
-                    "jy-un-002-24w": {
+                    "nl-1001-2w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 24,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "1760LM (3000k) / 1800LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 65,
-                            "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 2,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "80x50 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-un-001-7w": {
+                    "nl-1046-2w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 7,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "590LM (3000k) / 630LM (6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 65,
-                            "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 2,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "70x40 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-un-007-3w": {
+                    "nl-1050-2w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 3,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 65,
-                            "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 2,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "70x40 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-un-008-3w": {
+                    "nl-1051-3w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 3,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 65,
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 2,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum + Stainless Steel Faceplate ",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "D 5 CM",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 67,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-un-009-3w": {
+                    "nl-1100-2w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 3,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "5000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
-                            "IP": 65,
-                            "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 2,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "70x40 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     }
                 }
             ],
             "spikes": [
                 {
-                    "jy-316-5w": {
+                    "nl-spike-1-5w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 5,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "330LM",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "80x50 mm",
+                            "hole_size": "Ø 65 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-317-5w": {
+                    "nl-spike-2-5w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 5,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "330LM",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-spike-3-5w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-spike-4-5w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-spike-5-5w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 5,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     }
                 }
             ],
             "flood-light": [
                 {
-                    "jy-5053-100w": {
+                    "nl-floodlight-50w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 100,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "9000LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "90°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 100-250V",
+                            "maximum_wattage": 50,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "5000 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "230x180x45 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-5053-150w": {
+                    "nl-floodlight-100w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 150,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "14600LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "90°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 100-250V",
+                            "maximum_wattage": 100,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "10000 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "280x240x50 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     },
-                    "jy-5053-200w": {
+                    "nl-floodlight-150w": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 200,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "14600LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "90°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 100-250V",
+                            "maximum_wattage": 150,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "15000 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "340x285x55 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-floodlight-200w": {
+                        "specificationsTable": {
+                            "voltage": "AC 100-250V",
+                            "maximum_wattage": 200,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "20000 Lm",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "400x300x55 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.9",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     }
                 }
             ],
             "bollard": [
                 {
-                    "jy-bo-001-650mm-8w": {
+                    "nl-bollard-1": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 8,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "340LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "53°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K / 4000K / 6500K",
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 – 90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
-                    }
-                }
-            ],
-            "wall-washer": [
-                {
-                    "jy-309-36w": {
+                    },
+                    "nl-bollard-2": {
                         "specificationsTable": {
-                            "Input": "(Optional) DC24V",
-                            "Maximum wattage": 36,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "3600 LM",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "20°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "balcom External Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "3000K",
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 – 90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
                             "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
-                    }
-                }
-            ],
-            "street-light": [
-                {
-                    "jy-sl-001-150": {
+                    },
+                    "nl-bollard-3": {
                         "specificationsTable": {
-                            "Input": "AC 100-277v ~ 50/60 hz",
-                            "Maximum wattage": 150,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "18000LM ~ 19500LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 97",
-                            "Beam Angle": "120°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "Phillips Internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "6500K",
-                            "IP": 66,
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 – 90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-bollard-4": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 – 90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
                         }
                     }
                 }
             ],
             "stairs-light": [
                 {
-                    "jy-sl-003-30w": {
+                    "nl-stairs-light-1": {
                         "specificationsTable": {
-                            "Input": "AC 85-265v ~ 50/60 hz",
-                            "Maximum wattage": 30,
-                            "Brand Of Led": "Epistar",
-                            "Luminous Flux": "18000LM ~ 19500LM (3000k / 4000k / 6500k)",
-                            "Main Material": "Die-Casting Aluminum",
-                            "CRI": "≥ 80",
-                            "Beam Angle": "120°",
-                            "Working Temperature": "-10° to 45° C",
-                            "Fixture Dimmable": "No",
-                            "Electrical": "Phillips Internal Driver",
-                            "Power Factor": "≥0.5",
-                            "Color Temperature": "6500K",
-                            "IP": 66,
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
                             "maxIP": 68,
-                            "Energy Saving": "90%",
-                            "Life Time": "50,000"
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-stairs-light-2": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-stairs-light-3": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-stairs-light-4": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-stairs-light-5": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-stairs-light-6": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
                         }
                     }
                 }
             ],
-            "up-and-down": []
-        } 
+            "wall-light": [
+                {
+                    "nl-w-l-1": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "H300mm×W90mm×D100 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-w-l-2": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "H100mm×W100mm×D100 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-w-l-3": {
+                        "specificationsTable": {
+                            "voltage": "AC 100–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Height: 180mm  Width (bottom): 80mm - Width (top): 120mm Depth: 95mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-w-l-4": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "Height: ~200mm - Diameter: ~80mm - Depth from wall: ~100mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-w-l-5": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "H 300mm × W 100mm × D 90mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white",
+                                "gold"
+                            ]
+                        }
+                    },
+                    "nl-w-l-6": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "H 280mm × W 100mm × D 90mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 20,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white",
+                                "gold"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "high-pay": [
+                {
+                    "nl-high-pay-100w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 100,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "13000 Lm",
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "225x103 mm",
+                            "hole_size": "Ø 65 mm",
+                            "power_factor": ">0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-high-pay-150w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 150,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "19500 Lm",
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "330x110 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-high-pay-200w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 200,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "26000 Lm",
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "380x110 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "drive-over": [
+                {
+                    "nl-drive-over-1": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 6,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with powder-coated finish",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.95",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-drive-over-2": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 8,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with powder-coated finish",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.95",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ]
+        }
     }
 }

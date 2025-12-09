@@ -179,5 +179,63 @@
             "badgeFeatured": "مميز",
             "badgeSale": "تخفيضات"
         }
+    },
+    "categories-page": {
+        "heroTitle": "استكشف الفئات",
+        "heroSubtitle": "اكتشف مجموعتنا المنتقاة من حلول الإضاءة المتميزة لكل مساحة",
+        "categoryIndoor": "داخلي",
+        "categoryIndoorDesc": "إضاءة محيطة وموضعية للمساحات السكنية والتجارية",
+        "categoryOutdoor": "خارجي",
+        "categoryOutdoorDesc": "حلول إضاءة متينة للحدائق والفناءات والمناطق الخارجية",
+        "categoryFeatured": "مختار",
+        "categoryFeaturedDesc": "تصميمات إضاءة مختارة يدويًا وشهيرة الاتجاهات",
+        "ctaTitle": "هل تحتاج إلى مساعدة في الاختيار؟",
+        "ctaDescription": "استعرض أدلتنا الشاملة أو اتصل بخبراء الإضاءة لدينا للحصول على توصيات شخصية",
+        "ctaContact": "اتصل بنا",
+        "ctaLearn": "تعرف على المزيد"
+    },
+    "category-page": {
+        "categoryIndoor": "داخلي",
+        "categoryIndoorDesc": "اكتشف مجموعتنا المتميزة من حلول الإضاءة الداخلية، من الثريات الأنيقة إلى التركيبات الحديثة",
+        "categoryOutdoor": "خارجي",
+        "categoryOutdoorDesc": "حلول إضاءة متينة ومقاومة للعوامل الجوية للحدائق والفناءات والمناطق الخارجية",
+        "categoryFeatured": "مختار",
+        "categoryFeaturedDesc": "استكشف مجموعتنا المختارة يدويًا وتصميمات الإضاءة الحديثة التي تحدد المساحات المعاصرة",
+        "notFound": "الفئة غير موجودة",
+        "notFoundDesc": "لم نتمكن من العثور على الفئة التي تبحث عنها",
+        "backToCategories": "العودة إلى الفئات",
+        "showing": "عرض",
+        "products": "المنتجات",
+        "sortBy": "ترتيب",
+        "filter": "تصفية",
+        "ctaTitle": "هل أنت مستعد للإضاءة؟",
+        "ctaDesc": "استكشف حلول إضاءة أخرى أو احصل على المشورة من فريقنا"
+    },
+    "categories-page": {
+        "heroTitle": "أضئ عالمك",
+        "heroSubtitle": "اكتشف مجموعتنا المنتقاة من حلول الإضاءة الفاخرة المصممة لتحويل كل مساحة إلى تحفة فنية من الضوء والظل.",
+        "categoryIndoor": "داخلي",
+        "categoryIndoorDesc": "إضاءة داخلية أنيقة لغرف المعيشة وغرف النوم ومساحات العمل.",
+        "categoryOutdoor": "خارجي",
+        "categoryOutdoorDesc": "إضاءة مقاومة للعوامل الجوية للحدائق والممرات والواجهات المعمارية.",
+        "categoryFeatured": "مميز",
+        "categoryFeaturedDesc": "أكثر مجموعات المصممين حصرية والإصدارات المحدودة.",
+        "ctaTitle": "هل تحتاج إلى إرشادات الخبراء؟",
+        "ctaDescription": "متخصصو الإضاءة لدينا هنا لمساعدتك في إيجاد الإضاءة المثالية لمشروعك. من المساحات السكنية إلى التجارية، نقدم استشارات مخصصة.",
+        "ctaContact": "اتصل بنا",
+        "ctaLearn": "اعرف المزيد",
+        "exploreCollection": "استكشف المجموعة",
+        "productsCount": "{count} منتجات"
+    },
+    "sub-category-page": {
+        "backTo": "العودة إلى {category}",
+        "noSubcategories": "لا توجد فئات فرعية متاحة",
+        "exploreCollection": "استكشف مجموعة {name} الخاصة بنا"
+    },
+    "section-type-page": {
+        "noProducts": "لا توجد منتجات متاحة في هذه الفئة",
+        "productCount": "{count} {count, plural, =1 {منتج} other {منتجات}}",
+        "products": "منتجات",
+        "product": "منتج"
     }
 }

@@ -1,1913 +1,1662 @@
-{
+{ 
   "categories": {
-    "balcom": {
-      "indoor": {
-        "track-light": [
+    "indoor": {
+      "cob": [
+        {
+          "nl-r-ds-5w": {
+            "productId": "nl-r-ds-5w",
+            "productName": "nl-r-ds-5w",
+            "productImages": [
+              "/products/indoor/cob/directional-spotlights/nl-r-ds-5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r-ds-6.5w": {
+            "productId": "nl-r-ds-6.5w",
+            "productName": "nl-r-ds-6.5w",
+            "productImages": [
+              "/products/indoor/cob/directional-spotlights/nl-r-ds-6.5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-5w": {
+            "productId": "nl-recessed-5w",
+            "productName": "nl-recessed-5w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-20w": {
+            "productId": "nl-recessed-20w",
+            "productName": "nl-recessed-20w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-20w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-30w": {
+            "productId": "nl-recessed-30w",
+            "productName": "nl-recessed-30w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-30w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "magnetic": [
+        {
+          "nl-a603-6w": {
+            "productId": "nl-a603-6w",
+            "productName": "nl-a603-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (1).png",
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (2).png",
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-12w": {
+            "productId": "nl-a603-12w",
+            "productName": "nl-a603-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (1).png",
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (2).png",
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-18w": {
+            "productId": "nl-a603-18w",
+            "productName": "nl-a603-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (1).png",
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (2).png",
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-24w": {
+            "productId": "nl-a603-24w",
+            "productName": "nl-a603-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (2).png",
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-30w": {
+            "productId": "nl-a603-30w",
+            "productName": "nl-a603-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (1).png",
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (2).png",
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-6w": {
+            "productId": "nl-a606-6w",
+            "productName": "nl-a606-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (1).jpg",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (2).png",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-12w": {
+            "productId": "nl-a606-12w",
+            "productName": "nl-a606-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (1).jpg",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (2).png",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-18w": {
+            "productId": "nl-a606-18w",
+            "productName": "nl-a606-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (1).jpg",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (2).png",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-24w": {
+            "productId": "nl-a606-24w",
+            "productName": "nl-a606-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (1).jpg",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (2).png",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-30w": {
+            "productId": "nl-a606-30w",
+            "productName": "nl-a606-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (1).jpg",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (2).png",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-6w": {
+            "productId": "nl-a609-6w",
+            "productName": "nl-a609-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-6w/nl-a609-6w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-12w": {
+            "productId": "nl-a609-12w",
+            "productName": "nl-a609-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-12w/nl-a609-12w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-18w": {
+            "productId": "nl-a609-18w",
+            "productName": "nl-a609-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-18w/nl-a609-18w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-24w": {
+            "productId": "nl-a609-24w",
+            "productName": "nl-a609-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-24w/nl-a609-24w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-30w": {
+            "productId": "nl-a609-30w",
+            "productName": "nl-a609-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-30w/nl-a609-30w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-6w": {
+            "productId": "nl-a612-6w",
+            "productName": "nl-a612-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (1).png",
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (2).png",
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-12w": {
+            "productId": "nl-a612-12w",
+            "productName": "nl-a612-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (1).png",
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (2).png",
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-18w": {
+            "productId": "nl-a612-18w",
+            "productName": "nl-a612-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (1).png",
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (2).png",
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-24w": {
+            "productId": "nl-a612-24w",
+            "productName": "nl-a612-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (1).png",
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (2).png",
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-30w": {
+            "productId": "nl-a612-30w",
+            "productName": "nl-a612-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (1).png",
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (2).png",
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-6w": {
+            "productId": "nl-d403-6w",
+            "productName": "nl-d403-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (1).png",
+              "/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-12w": {
+            "productId": "nl-d403-12w",
+            "productName": "nl-d403-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (1).png",
+              "/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-18w": {
+            "productId": "nl-d403-18w",
+            "productName": "nl-d403-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (1).png",
+              "/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-24w": {
+            "productId": "nl-d403-24w",
+            "productName": "nl-d403-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (1).png",
+              "/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-30w": {
+            "productId": "nl-d403-30w",
+            "productName": "nl-d403-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (1).png",
+              "/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-36w": {
+            "productId": "nl-d403-36w",
+            "productName": "nl-d403-36w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (1).png",
+              "/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-ip905-5w": {
+            "productId": "nl-ip905-5w",
+            "productName": "nl-ip905-5w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (1).png",
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (2).png",
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-10w": {
+            "productId": "nl-l601-10w",
+            "productName": "nl-l601-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-10w/nl-l601-10w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-20w": {
+            "productId": "nl-l601-20w",
+            "productName": "nl-l601-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-20w/nl-l601-20w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-30w": {
+            "productId": "nl-l601-30w",
+            "productName": "nl-l601-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-30w/nl-l601-30w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-40w": {
+            "productId": "nl-l601-40w",
+            "productName": "nl-l601-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-40w/nl-l601-40w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-12w": {
+            "productId": "nl-n801-12w",
+            "productName": "nl-n801-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (1).png",
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (2).png",
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-22w": {
+            "productId": "nl-n801-22w",
+            "productName": "nl-n801-22w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (1).png",
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (2).png",
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-40w": {
+            "productId": "nl-n801-40w",
+            "productName": "nl-n801-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (1).png",
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (2).png",
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-57w": {
+            "productId": "nl-n801-57w",
+            "productName": "nl-n801-57w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (1).png",
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (2).png",
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n803-6w": {
+            "productId": "nl-n803-6w",
+            "productName": "nl-n803-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (1).png",
+              "/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n803-12w": {
+            "productId": "nl-n803-12w",
+            "productName": "nl-n803-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (1).png",
+              "/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n805-12w": {
+            "productId": "nl-n805-12w",
+            "productName": "nl-n805-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n805-12w/nl-n805-12w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n806-6w": {
+            "productId": "nl-n806-6w",
+            "productName": "nl-n806-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n806-6w/nl-n806-6w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-3w": {
+            "productId": "nl-t501-3w",
+            "productName": "nl-t501-3w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (1).png",
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (2).png",
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (3).jpg"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-10w": {
+            "productId": "nl-t501-10w",
+            "productName": "nl-t501-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (1).jpg",
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (2).png",
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-20w": {
+            "productId": "nl-t501-20w",
+            "productName": "nl-t501-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (1).png",
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (2).png",
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).jpg"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-30w": {
+            "productId": "nl-t501-30w",
+            "productName": "nl-t501-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (1).png",
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (2).png",
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).jpg"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t503-9w": {
+            "productId": "nl-t503-9w",
+            "productName": "nl-t503-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (1).png",
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (2).png",
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t506-9w": {
+            "productId": "nl-t506-9w",
+            "productName": "nl-t506-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (1).png",
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (2).png",
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t509-9w": {
+            "productId": "nl-t509-9w",
+            "productName": "nl-t509-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (1).png",
+              "/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t512-9w": {
+            "productId": "nl-t512-9w",
+            "productName": "nl-t512-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (1).png",
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (2).png",
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-10w": {
+            "productId": "nl-tr1001-220v-10w",
+            "productName": "nl-tr1001-220v-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-10w/nl-tr1001-220v-10w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-20w": {
+            "productId": "nl-tr1001-220v-20w",
+            "productName": "nl-tr1001-220v-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-20w/nl-tr1001-220v-20w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-30w": {
+            "productId": "nl-tr1001-220v-30w",
+            "productName": "nl-tr1001-220v-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-30w/nl-tr1001-220v-30w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-40w": {
+            "productId": "nl-tr1001-220v-40w",
+            "productName": "nl-tr1001-220v-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-40w/nl-tr1001-220v-40w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-10w": {
+            "productId": "nl-tr1002-220v-10w",
+            "productName": "nl-tr1002-220v-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-10w/nl-tr1002-220v-10w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-20w": {
+            "productId": "nl-tr1002-220v-20w",
+            "productName": "nl-tr1002-220v-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-20w/nl-tr1002-220v-20w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-30w": {
+            "productId": "nl-tr1002-220v-30w",
+            "productName": "nl-tr1002-220v-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-30w/nl-tr1002-220v-30w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-40w": {
+            "productId": "nl-tr1002-220v-40w",
+            "productName": "nl-tr1002-220v-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-40w/nl-tr1002-220v-40w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-zl07-20w": {
+            "productId": "nl-zl07-20w",
+            "productName": "nl-zl07-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-zl07-20w/nl-zl07-20w (1).png",
+              "/products/indoor/magnetic/nl-zl07-20w/nl-zl07-20w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-zl07-40w": {
+            "productId": "nl-zl07-40w",
+            "productName": "nl-zl07-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-zl07-40w/nl-zl07-40w (1).png",
+              "/products/indoor/magnetic/nl-zl07-40w/nl-zl07-40w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r107c3": {
+            "productId": "nl-r107c3",
+            "productName": "nl-r107c3",
+            "productImages": [
+              "/products/indoor/magnetic/remote-magnetic/nl-r107c3.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "magnetic-accessories": [
+        {
+          "nl-e1030": {
+            "productId": "nl-e1030",
+            "productName": "nl-e1030",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1030.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-e1031": {
+            "productId": "nl-e1031",
+            "productName": "nl-e1031",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1031.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-e1032": {
+            "productId": "nl-e1032",
+            "productName": "nl-e1032",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1032.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1015": {
+            "productId": "nl-r1015",
+            "productName": "nl-r1015",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1015.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1018": {
+            "productId": "nl-r1018",
+            "productName": "nl-r1018",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1018.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1021": {
+            "productId": "nl-r1021",
+            "productName": "nl-r1021",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1021.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-wl012": {
+            "productId": "nl-wl012",
+            "productName": "nl-wl012",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-wl012.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1001": {
+            "productId": "nl-z1001",
+            "productName": "nl-z1001",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1001.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1003": {
+            "productId": "nl-z1003",
+            "productName": "nl-z1003",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1003.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1005": {
+            "productId": "nl-z1005",
+            "productName": "nl-z1005",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1005.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1007": {
+            "productId": "nl-z1007",
+            "productName": "nl-z1007",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1007.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-f012": {
+            "productId": "nl-f012",
+            "productName": "nl-f012",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-f012.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "panel": [
+        {
+          "nl-60×60-led": {
+            "productId": "nl-60×60-led",
+            "productName": "nl-60×60-led",
+            "productImages": [
+              "/products/indoor/panel/60×60-led/nl-60×60-led-48w.png"
+            ],
+            "subCategory": "60×60",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-led-dl-20w": {
+            "productId": "nl-led-dl-20w",
+            "productName": "nl-led-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-20w.png"
+            ],
+            "subCategory": "led-panel-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-led-dl-30w": {
+            "productId": "nl-led-dl-30w",
+            "productName": "nl-led-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-30w.png"
+            ],
+            "subCategory": "led-panel-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-s-18w": {
+            "productId": "nl-pl-r-s-18w",
+            "productName": "nl-pl-r-s-18w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-18w.png"
+            ],
+            "subCategory": "pl-round-surface",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-s-24w": {
+            "productId": "nl-pl-r-s-24w",
+            "productName": "nl-pl-r-s-24w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-24w.png"
+            ],
+            "subCategory": "pl-round-surface",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-3w": {
+            "productId": "nl-pl-r-3w",
+            "productName": "nl-pl-r-3w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-3w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-6w": {
+            "productId": "nl-pl-r-6w",
+            "productName": "nl-pl-r-6w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-6w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-18w": {
+            "productId": "nl-pl-r-18w",
+            "productName": "nl-pl-r-18w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-18w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-6w": {
+            "productId": "nl-s-r-dl-6w",
+            "productName": "nl-s-r-dl-6w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w.png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-20w": {
+            "productId": "nl-s-r-dl-20w",
+            "productName": "nl-s-r-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w.png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-30w": {
+            "productId": "nl-s-r-dl-30w",
+            "productName": "nl-s-r-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w.png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-s-dl-20w": {
+            "productId": "nl-s-s-dl-20w",
+            "productName": "nl-s-s-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-20w.png"
+            ],
+            "subCategory": "squared-surface-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-s-dl-30w": {
+            "productId": "nl-s-s-dl-30w",
+            "productName": "nl-s-s-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-30w.png"
+            ],
+            "subCategory": "squared-surface-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "strip": [
+        {
+          "nl-strip-2835-19w": {
+            "productId": "nl-strip-2835-19w",
+            "productName": "nl-strip-2835-19w",
+            "productImages": [
+              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (1).png",
+              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).png"
+            ],
+            "subCategory": "strip",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-strip-2835-24w": {
+            "productId": "nl-strip-2835-24w",
+            "productName": "nl-strip-2835-24w",
+            "productImages": [
+              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (1).png",
+              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).png"
+            ],
+            "subCategory": "strip",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "track": [
+        {
+          "nl-l1001-2000mm": {
+            "productId": "nl-l1001-2000mm",
+            "productName": "nl-l1001-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (1).png",
+              "/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1001-3000mm": {
+            "productId": "nl-l1001-3000mm",
+            "productName": "nl-l1001-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (1).png",
+              "/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1003-2000mm": {
+            "productId": "nl-l1003-2000mm",
+            "productName": "nl-l1003-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (1).png",
+              "/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1003-3000mm": {
+            "productId": "nl-l1003-3000mm",
+            "productName": "nl-l1003-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (1).png",
+              "/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1005-2000mm": {
+            "productId": "nl-l1005-2000mm",
+            "productName": "nl-l1005-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (1).png",
+              "/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1005-3000mm": {
+            "productId": "nl-l1005-3000mm",
+            "productName": "nl-l1005-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (1).png",
+              "/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1007-2000mm": {
+            "productId": "nl-l1007-2000mm",
+            "productName": "nl-l1007-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (1).png",
+              "/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1007-3000mm": {
+            "productId": "nl-l1007-3000mm",
+            "productName": "nl-l1007-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (1).png",
+              "/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "drivers": {
+        "track-built-in-driver": [
           {
-            "jy-202-15w": {
-              "ProductId": "jy-202-15w",
-              "productName": "JY-202-15W",
+            "nl-dv-102-100w": {
+              "productId": "nl-dv-102-100w",
+              "productName": "nl-dv-102-100w",
               "productImages": [
-                "/indoor/product202/jy-202-15w/JY-202-15W (1).png",
-                "/indoor/product202/jy-202-15w/JY-202-15W (2).png"
+                "/products/indoor/drivers/track-built-in/nl-dv102-100w.jpg"
               ],
-              "MaxIP": 65,
-              "spotlightType": "track-light",
-              "brand": "balcom",
+              "subCategory": "track-built-in-driver",
               "price": 729,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "cob": [
-          {
-            "jy-535-5w": {
-              "ProductId": "jy-535-5w",
-              "productName": "JY-535-5W",
-              "productImages": [
-                "/indoor/products500/jy-535-5w/JY-535-5W (1).png",
-                "/indoor/products500/jy-535-5w/JY-535-5W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 295,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
+              "categoryType": "indoor",
+              "inventory": 10
             },
-            "jy-539-7w": {
-              "ProductId": "jy-539-7w",
-              "productName": "JY-539-7W",
+            "nl-dv-102-200w": {
+              "productId": "nl-dv-102-200w",
+              "productName": "nl-dv-102-200w",
               "productImages": [
-                "/indoor/products500/jy-539-7w/JY-539-7W (1).png",
-                "/indoor/products500/jy-539-7w/JY-539-7W (2).png"
+                "/products/indoor/drivers/track-built-in/nl-dv102-200w.png"
               ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 469,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-540-7w": {
-              "ProductId": "jy-540-7w",
-              "productName": "JY-540-7W",
-              "productImages": [
-                "/indoor/products500/jy-540-7w/JY-540-7W (1).png",
-                "/indoor/products500/jy-540-7w/JY-540-7W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 469,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-805-7w": {
-              "ProductId": "jy-805-7w",
-              "productName": "JY-805-7W",
-              "productImages": [
-                "/indoor/products800/jy-805-7w/JY-805-7W (1).png",
-                "/indoor/products800/jy-805-7w/JY-805-7W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 359,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-810-10w": {
-              "ProductId": "jy-810-10w",
-              "productName": "JY-810-10W",
-              "productImages": [
-                "/indoor/products800/jy-810-10w/JY-810-10W (1).png",
-                "/indoor/products800/jy-810-10w/JY-810-10W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 529,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-810-12w": {
-              "ProductId": "jy-810-12w",
-              "productName": "JY-810-12W",
-              "productImages": [
-                "/indoor/products800/jy-810-12w/JY-810-12W (1).png",
-                "/indoor/products800/jy-810-12w/JY-810-12W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 440,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-810-18w": {
-              "ProductId": "jy-810-18w",
-              "productName": "JY-810-18W",
-              "productImages": [
-                "/indoor/products800/jy-810-18w/JY-810-18W (1).png",
-                "/indoor/products800/jy-810-18w/JY-810-18W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 939,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-810-30w": {
-              "ProductId": "jy-810-30w",
-              "productName": "JY-810-30W",
-              "productImages": [
-                "/indoor/products800/jy-810-30w/JY-810-30W (1).png",
-                "/indoor/products800/jy-810-30w/JY-810-30W (2).png"
-              ],
-              "MaxIP": 54,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 1075,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-812-12w": {
-              "ProductId": "jy-812-12w",
-              "productName": "JY-812-12W",
-              "productImages": [
-                "/indoor/products800/jy-812-12w/JY-812-12W (1).png",
-                "/indoor/products800/jy-812-12w/JY-812-12W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 585,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-813-7w": {
-              "ProductId": "jy-813-7w",
-              "productName": "JY-813-7W",
-              "productImages": [
-                "/indoor/products800/jy-813-7w/JY-813-7W (1).png",
-                "/indoor/products800/jy-813-7w/JY-813-7W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 549,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-813-20w": {
-              "ProductId": "jy-813-20w",
-              "productName": "JY-813-20W",
-              "productImages": [
-                "/indoor/products800/jy-813-20w/JY-813-20W (1).png",
-                "/indoor/products800/jy-813-20w/JY-813-20W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 889,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-813-30w": {
-              "ProductId": "jy-813-30w",
-              "productName": "JY-813-30W",
-              "productImages": [
-                "/indoor/products800/jy-813-30w/JY-813-30W (1).png",
-                "/indoor/products800/jy-813-30w/JY-813-30W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 1075,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-813-40w": {
-              "ProductId": "jy-813-40w",
-              "productName": "JY-813-40W",
-              "productImages": [
-                "/indoor/products800/jy-813-40w/JY-813-40W (1).png",
-                "/indoor/products800/jy-813-40w/JY-813-40W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "cob",
-              "brand": "balcom",
-              "price": 1319,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "panel-light": [
-          {
-            "jy-903-8w": {
-              "ProductId": "jy-903-8w",
-              "productName": "JY-903-8W",
-              "productImages": [
-                "/indoor/products900/jy-903-8w/JY-903-8W (1).png",
-                "/indoor/products900/jy-903-8w/JY-903-8W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 439,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-903-10w": {
-              "ProductId": "jy-903-10w",
-              "productName": "JY-903-10W",
-              "productImages": [
-                "/indoor/products900/jy-903-10w/JY-903-10W (1).png",
-                "/indoor/products900/jy-903-10w/JY-903-10W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 529,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-903-18w": {
-              "ProductId": "jy-903-18w",
-              "productName": "JY-903-18W",
-              "productImages": [
-                "/indoor/products900/jy-903-18w/JY-903-18W (1).png",
-                "/indoor/products900/jy-903-18w/JY-903-18W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 685,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-903-30w": {
-              "ProductId": "jy-903-30w",
-              "productName": "JY-903-30W",
-              "productImages": [
-                "/indoor/products900/jy-903-30w/JY-903-30W (1).png",
-                "/indoor/products900/jy-903-30w/JY-903-30W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 1049,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-904-8w": {
-              "ProductId": "jy-904-8w",
-              "productName": "JY-904-8W",
-              "productImages": [
-                "/indoor/products900/jy-904-8w/JY-904-8W (1).png",
-                "/indoor/products900/jy-904-8w/JY-904-8W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 499,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-904-10w": {
-              "ProductId": "jy-904-10w",
-              "productName": "JY-904-10w",
-              "productImages": [
-                "/indoor/products900/jy-904-10w/JY-904-10W (1).png",
-                "/indoor/products900/jy-904-10w/JY-904-10W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 555,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-904-18w": {
-              "ProductId": "jy-904-18w",
-              "productName": "JY-904-18W",
-              "productImages": [
-                "/indoor/products900/jy-904-18w/JY-904-18W (1).png",
-                "/indoor/products900/jy-904-18w/JY-904-18W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 819,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-913-5w": {
-              "ProductId": "jy-913-5w",
-              "productName": "JY-913-5W",
-              "productImages": [
-                "/indoor/products900/jy-913-5w/JY-913-5W (1).png",
-                "/indoor/products900/jy-913-5w/JY-913-5W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 259,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-913-8w": {
-              "ProductId": "jy-913-8w",
-              "productName": "JY-913-8W",
-              "productImages": [
-                "/indoor/products900/jy-913-8w/JY-913-8W (1).png",
-                "/indoor/products900/jy-913-8w/JY-913-8W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 279,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-913-12w": {
-              "ProductId": "jy-913-12w",
-              "productName": "JY-913-12W",
-              "productImages": [
-                "/indoor/products900/jy-913-12w/JY-913-12W (1).png",
-                "/indoor/products900/jy-913-12w/JY-913-12W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 294,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-913-18w": {
-              "ProductId": "jy-913-18w",
-              "productName": "JY-913-18W",
-              "productImages": [
-                "/indoor/products900/jy-913-18w/JY-913-18W (1).png",
-                "/indoor/products900/jy-913-18w/JY-913-18W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 525,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-922-8w": {
-              "ProductId": "jy-922-8w",
-              "productName": "JY-922-8W",
-              "productImages": [
-                "/indoor/products900/jy-922-8w/JY-922-8W (1).png",
-                "/indoor/products900/jy-922-8w/JY-922-8W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 349,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-922-12w": {
-              "ProductId": "jy-922-12w",
-              "productName": "JY-922-12W",
-              "productImages": [
-                "/indoor/products900/jy-922-12w/JY-922-12W (1).png",
-                "/indoor/products900/jy-922-12w/JY-922-12W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 499,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-922-18w": {
-              "ProductId": "jy-922-18w",
-              "productName": "JY-922-18W",
-              "productImages": [
-                "/indoor/products900/jy-922-18w/JY-922-18W (1).png",
-                "/indoor/products900/jy-922-18w/JY-922-18W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 745,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-922-30w": {
-              "ProductId": "jy-922-30w",
-              "productName": "JY-922-30W",
-              "productImages": [
-                "/indoor/products900/jy-922-30w/JY-922-30W (1).png",
-                "/indoor/products900/jy-922-30w/JY-922-30W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 1099,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-923-8w": {
-              "ProductId": "jy-923-8w",
-              "productName": "JY-923-8W",
-              "productImages": [
-                "/indoor/products900/jy-923-8w/JY-923-8W (1).png",
-                "/indoor/products900/jy-923-8w/JY-923-8W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 399,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-923-12w": {
-              "ProductId": "jy-923-12w",
-              "productName": "JY-923-12W",
-              "productImages": [
-                "/indoor/products900/jy-923-12w/JY-923-12W (1).png",
-                "/indoor/products900/jy-923-12w/JY-923-12W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 529,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-923-18w": {
-              "ProductId": "jy-923-18w",
-              "productName": "JY-923-18W",
-              "productImages": [
-                "/indoor/products900/jy-923-18w/JY-923-18W (1).png",
-                "/indoor/products900/jy-923-18w/JY-923-18W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 749,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-595-44w": {
-              "ProductId": "jy-595-44w",
-              "productName": "JY-595-44W",
-              "productImages": [
-                "/indoor/products500/jy-595-44w/JY-595-44W (1).png",
-                "/indoor/products500/jy-595-44w/JY-595-44W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 1625,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-595-48w": {
-              "ProductId": "jy-595-48w",
-              "productName": "JY-595-48W",
-              "productImages": [
-                "/indoor/products500/jy-595-48w/JY-595-48W (1).png",
-                "/indoor/products500/jy-595-48w/JY-595-48W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "panel-light",
-              "brand": "balcom",
-              "price": 1299,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "double-spotlight": [
-          {
-            "jy-dw-0124gls-28w": {
-              "ProductId": "jy-dw-0124gls-28w",
-              "productName": "JY-DW-0124GLS-28W",
-              "productImages": [
-                "/indoor/doublespot/jy-dw-0124gls-28w/JY-DW-0124GLS-2x14W (1).png",
-                "/indoor/doublespot/jy-dw-0124gls-28w/JY-DW-0124GLS-2x14W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "double-spotlight",
-              "brand": "balcom",
-              "price": 779,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-dw-0124gls-42w": {
-              "ProductId": "jy-dw-0124gls-42w",
-              "productName": "JY-DW-0124GLS-42W",
-              "productImages": [
-                "/indoor/doublespot/jy-dw-0124gls-42w/JY-DW-0124GLS-3x14W (1).png",
-                "/indoor/doublespot/jy-dw-0124gls-42w/JY-DW-0124GLS-3x14W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "double-spotlight",
-              "brand": "balcom",
-              "price": 1169,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "strip": [
-          {
-            "jy-5050-12v-3000k": {
-              "ProductId": "jy-5050-12v-3000k",
-              "productName": "JY-5050-12v-3000k",
-              "productImages": [
-                "/indoor/strip/jy-5050-12v-3000k/JY-5050-12V-3000K (1).png",
-                "/indoor/strip/jy-5050-12v-3000k/JY-5050-12V-3000K (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "strip",
-              "brand": "balcom",
-              "price": 845,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-5050-12v-6500k": {
-              "ProductId": "jy-5050-12v-6500k",
-              "productName": "JY-5050-12v-6500k",
-              "productImages": [
-                "/indoor/strip/jy-5050-12v-6500k/JY-5050-60-12v-6500K (1).png",
-                "/indoor/strip/jy-5050-12v-6500k/JY-5050-60-12v-6500K (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "strip",
-              "brand": "balcom",
-              "price": 845,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "linear": [
-          {
-            "jy-pdt-0140030ln30-15w": {
-              "ProductId": "jy-pdt-0140030ln30-15w",
-              "productName": "JY-pdt-0140030ln30-15w",
-              "productImages": [
-                "/indoor/linear/jy-pdt-0140030ln30-7w/JY-PDT-0140030LN30-7W(1).png",
-                "/indoor/linear/jy-pdt-0140030ln30-7w/JY-PDT-0140030LN30-7W(2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 1235,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-pdt-0140030ln30-30w": {
-              "ProductId": "jy-pdt-0140030ln30-30w",
-              "productName": "JY-pdt-0140030ln30-30w",
-              "productImages": [
-                "/indoor/linear/jy-pdt-0140030ln30-7w/JY-PDT-0140030LN30-7W(1).png",
-                "/indoor/linear/jy-pdt-0140030ln30-7w/JY-PDT-0140030LN30-7W(2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 1429,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnrd-001b-32w": {
-              "ProductId": "jy-lnrd-001b-32w",
-              "productName": "JY-LNRD-001B-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnrd-001b-32w/JY-LNRD-001B-32W (1).png",
-                "/indoor/linear/jy-lnrd-001b-32w/JY-LNRD-001B-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnrd-001s-32w": {
-              "ProductId": "jy-lnrd-001s-32w",
-              "productName": "JY-LNRD-001S-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnrd-001s-32w/JY-LNRD-001S-32W (1).png",
-                "/indoor/linear/jy-lnrd-001s-32w/JY-LNRD-001S-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-005b-32w": {
-              "ProductId": "jy-lnsd-005b-32w",
-              "productName": "JY-LNSD-005B-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-005b-32w/JY-LNSD-005B-32W (1).png",
-                "/indoor/linear/jy-lnsd-005b-32w/JY-LNSD-005B-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-005s-32w": {
-              "ProductId": "jy-lnsd-005s-32w",
-              "productName": "JY-LNSD-005s-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-005s-32w/JY-LNSD-005S-32W (1).png",
-                "/indoor/linear/jy-lnsd-005s-32w/JY-LNSD-005S-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-007-32w": {
-              "ProductId": "jy-lnsd-007-32w",
-              "productName": "JY-LNSD-007-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-007-32w/JY-LNSD-007-32W (1).png",
-                "/indoor/linear/jy-lnsd-007-32w/JY-LNSD-007-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-008-32w": {
-              "ProductId": "jy-lnsd-008-32w",
-              "productName": "JY-LNRD-008-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-008-32w/JY-LNSD-008-32W (1).png",
-                "/indoor/linear/jy-lnsd-008-32w/JY-LNSD-008-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-009-32w": {
-              "ProductId": "jy-lnsd-009-32w",
-              "productName": "JY-LNSD-009-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-009-32w/JY-LNSD-009-32W (1).png",
-                "/indoor/linear/jy-lnsd-009-32w/JY-LNSD-009-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-011-32w": {
-              "ProductId": "jy-lnsd-011-32w",
-              "productName": "JY-LNSD-011-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-011-32w/JY-LNSD-011-32W (1).png",
-                "/indoor/linear/jy-lnsd-011-32w/JY-LNSD-011-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-lnsd-012-32w": {
-              "ProductId": "jy-lnsd-012-32w",
-              "productName": "JY-LNSD-012-32W",
-              "productImages": [
-                "/indoor/linear/jy-lnsd-012-32w/JY-LNSD-012-32W (1).png",
-                "/indoor/linear/jy-lnsd-012-32w/JY-LNSD-012-32W (2).png"
-              ],
-              "MaxIP": 65,
-              "spotlightType": "linear",
-              "brand": "balcom",
-              "price": 3999,
-              "sectionType": "indoor",
-              "quantity": 10,
-              "discount": 0.13
+              "subCategory": "track-built-in-driver",
+              "price": 729,
+              "categoryType": "indoor",
+              "inventory": 10
             }
           }
         ]
       },
-      "outdoor": {
-        "uplight": [
-          {
-            "jy-un-002-24w": {
-              "ProductId": "jy-un-002-24w",
-              "productName": "JY-UN-002-24W",
-              "productImages": [
-                "/outdoor/uplight/JY-UN-002-24W/JY-UN-002-24W (1).png",
-                "/outdoor/uplight/JY-UN-002-24W/JY-UN-002-24W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "uplight",
-              "brand": "balcom",
-              "price": 3599,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-un-001-7w": {
-              "ProductId": "jy-un-001-7w",
-              "productName": "JY-UN-001-7W",
-              "productImages": [
-                "/outdoor/uplight/JY-UN-001-7W/JY-UN-001-7W (1).png",
-                "/outdoor/uplight/JY-UN-001-7W/JY-UN-001-7W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "uplight",
-              "brand": "balcom",
-              "price": 1999,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-un-007-3w": {
-              "ProductId": "jy-un-007-3w",
-              "productName": "JY-UN-007-3W",
-              "productImages": [
-                "/outdoor/uplight/JY-UN-007-3W/JY-UN-007-3W (1).png",
-                "/outdoor/uplight/JY-UN-007-3W/JY-UN-007-3W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "uplight",
-              "brand": "balcom",
-              "price": 1299,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-un-008-3w": {
-              "ProductId": "jy-un-008-3w",
-              "productName": "JY-UN-008-3W",
-              "productImages": [
-                "/outdoor/uplight/JY-UN-008-3W/JY-UN-008-3W (1).png",
-                "/outdoor/uplight/JY-UN-008-3W/JY-UN-008-3W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "uplight",
-              "brand": "balcom",
-              "price": 1299,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-un-009-3w": {
-              "ProductId": "jy-un-009-3w",
-              "productName": "JY-UN-009-3W",
-              "productImages": [
-                "/outdoor/uplight/JY-UN-009-3W/JY-UN-009-3W (1).png",
-                "/outdoor/uplight/JY-UN-009-3W/JY-UN-009-3W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "uplight",
-              "brand": "balcom",
-              "price": 1299,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "spikes": [
-          {
-            "jy-316-5w": {
-              "ProductId": "jy-316-5w",
-              "productName": "JY-316-5W",
-              "productImages": [
-                "/outdoor/spikes/JY-316-5W/JY-316-5W.jpg"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "spikes",
-              "brand": "balcom",
-              "price": 715,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-317-5w": {
-              "ProductId": "jy-317-5w",
-              "productName": "JY-317-5W",
-              "productImages": [
-                "/outdoor/spikes/JY-317-5W/JY-317-5W.jpg"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "spikes",
-              "brand": "balcom",
-              "price": 715,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "flood-light": [
-          {
-            "jy-5053-100w": {
-              "ProductId": "jy-5053-100w",
-              "productName": "JY-5053-100W",
-              "productImages": [
-                "/outdoor/floodlight/JY-5053-100W/JY-5053-100W (1).png",
-                "/outdoor/floodlight/JY-5053-100W/JY-5053-100W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "flood-light",
-              "brand": "balcom",
-              "price": 2635,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-5053-150w": {
-              "ProductId": "jy-5053-150w",
-              "productName": "JY-5053-150W",
-              "productImages": [
-                "/outdoor/floodlight/JY-5053-150W/JY-5053-150W (1).png",
-                "/outdoor/floodlight/JY-5053-150W/JY-5053-150W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "flood-light",
-              "brand": "balcom",
-              "price": 4099,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            },
-            "jy-5053-200w": {
-              "ProductId": "jy-5053-200w",
-              "productName": "JY-5053-200W",
-              "productImages": [
-                "/outdoor/floodlight/JY-5053-200W/JY-5053-200W (1).png",
-                "/outdoor/floodlight/JY-5053-200W/JY-5053-200W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "flood-light",
-              "brand": "balcom",
-              "price": 4874,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "bollard": [
-          {
-            "jy-bo-001-650mm-8w": {
-              "ProductId": "jy-bo-001-650mm-8w",
-              "productName": "JY-BO-001-650MM-8W",
-              "productImages": [
-                "/outdoor/Bollard/JY-BO-001-650MM-8W/JY-BO-001-650MM-8W (1).png",
-                "/outdoor/Bollard/JY-BO-001-650MM-8W/JY-BO-001-650MM-8W (2).png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "bollard",
-              "brand": "balcom",
-              "price": 3699,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ],
-        "wall-washer": [
-          {
-            "jy-309-36w": {
-              "ProductId": "jy-309-36w",
-              "productName": "JY-309-36W",
-              "productImages": [
-                "/outdoor/wall-washer/JY-309-36W.png"
-              ],
-              "MaxIP": 68,
-              "spotlightType": "wall-washer",
-              "brand": "balcom",
-              "price": 4745,
-              "sectionType": "outdoor",
-              "quantity": 10,
-              "discount": 0.13
-            }
-          }
-        ]
-      }
+      "track-light": [],
+      "double-spotlight": []
     },
-    "mister-led": {
-      "chandelier": {
-        "mc15c": [
-          {
-            "mc15c001": {
-              "ProductId": "mc15c001",
-              "productName": "MC15C001",
-              "productImages": [
-                "/chandelier/MC15C/MC15C001.png"
-              ],
-              "spotlightType": "mc15c",
-              "brand": "mister-led",
-              "chandelierLightingType": "LED",
-              "price": 4649,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
+    "outdoor": {
+      "bulkhead": [],
+      "bollard": [
+        {
+          "nl-bollard-1": {
+            "productId": "nl-bollard-1",
+            "productName": "nl-bollard-1",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-2": {
+            "productId": "nl-bollard-2",
+            "productName": "nl-bollard-2",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-3": {
+            "productId": "nl-bollard-3",
+            "productName": "nl-bollard-3",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-4": {
+            "productId": "nl-bollard-4",
+            "productName": "nl-bollard-4",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc15f": [
-          {
-            "mc15f001": {
-              "ProductId": "mc15f001",
-              "productName": "MC15F001",
-              "productImages": [
-                "/chandelier/MC15F/MC15F001.png"
-              ],
-              "spotlightType": "mc15f",
-              "brand": "mister-led",
-              "chandelierLightingType": "LED",
-              "price": 4734,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "drive-over": [
+        {
+          "nl-drive-over-1": {
+            "productId": "nl-drive-over-1",
+            "productName": "nl-drive-over-1",
+            "productImages": [
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (1).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (2).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (3).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (4).webp"
+            ],
+            "subCategory": "drive-over",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-drive-over-2": {
+            "productId": "nl-drive-over-2",
+            "productName": "nl-drive-over-2",
+            "productImages": [
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (1).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (2).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (3).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (4).webp"
+            ],
+            "subCategory": "drive-over",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc15g": [
-          {
-            "mc15g001": {
-              "ProductId": "mc15g001",
-              "productName": "MC15G001",
-              "productImages": [
-                "/chandelier/MC15G/MC15G001.png"
-              ],
-              "spotlightType": "mc15g",
-              "brand": "mister-led",
-              "Hnumber": 1,
-              "chandelierLightingType": "lamp",
-              "price": 3379,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "flood-light": [
+        {
+          "nl-floodlight-50w": {
+            "productId": "nl-floodlight-50w",
+            "productName": "nl-floodlight-50w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-50w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-100w": {
+            "productId": "nl-floodlight-100w",
+            "productName": "nl-floodlight-100w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-100w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-150w": {
+            "productId": "nl-floodlight-150w",
+            "productName": "nl-floodlight-150w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-150w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-200w": {
+            "productId": "nl-floodlight-200w",
+            "productName": "nl-floodlight-200w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-200w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc15p": [
-          {
-            "mc15p400": {
-              "ProductId": "mc15p400",
-              "productName": "MC15P400",
-              "productImages": [
-                "/chandelier/MC15P/MC15P400.png"
-              ],
-              "spotlightType": "mc15p",
-              "brand": "mister-led",
-              "Hnumber": 1,
-              "chandelierLightingType": "lamp",
-              "price": 1305,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "high-pay": [
+        {
+          "nl-high-pay-100w": {
+            "productId": "nl-high-pay-100w",
+            "productName": "nl-high-pay-100w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-100w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-high-pay-150w": {
+            "productId": "nl-high-pay-150w",
+            "productName": "nl-high-pay-150w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-150w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-high-pay-200w": {
+            "productId": "nl-high-pay-200w",
+            "productName": "nl-high-pay-200w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-200w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc15e": [
-          {
-            "mc15e004": {
-              "ProductId": "mc15e004",
-              "productName": "MC15E004",
-              "productImages": [
-                "/chandelier/MC15E/MC15E004.png"
-              ],
-              "spotlightType": "mc15e",
-              "brand": "mister-led",
-              "chandelierLightingType": "lamp",
-              "price": 7099,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "Hnumber": 4,
-              "discount": 0.3
-            }
+        }
+      ],
+      "spikes": [
+        {
+          "nl-spike-1-5w": {
+            "productId": "nl-spike-1-5w",
+            "productName": "nl-spike-1-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-1-5w.png"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-2-5w": {
+            "productId": "nl-spike-2-5w",
+            "productName": "nl-spike-2-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (2).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-3-5w": {
+            "productId": "nl-spike-3-5w",
+            "productName": "nl-spike-3-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-4-5w": {
+            "productId": "nl-spike-4-5w",
+            "productName": "nl-spike-4-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-5-5w": {
+            "productId": "nl-spike-5-5w",
+            "productName": "nl-spike-5-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc1608": [
-          {
-            "mc1608-h6": {
-              "ProductId": "mc1608-h6",
-              "productName": "MC1608-H6",
-              "productImages": [
-                "/chandelier/MC1608/MC1608-H6.png"
-              ],
-              "spotlightType": "mc1608",
-              "brand": "mister-led",
-              "Hnumber": 6,
-              "chandelierLightingType": "lamp",
-              "price": 5746,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc1608-w1": {
-              "ProductId": "mc1608-w1",
-              "productName": "MC1608-W1",
-              "productImages": [
-                "/chandelier/MC1608/MC1608-W1.jpg"
-              ],
-              "spotlightType": "mc1608",
-              "brand": "mister-led",
-              "Hnumber": 1,
-              "chandelierLightingType": "lamp",
-              "price": 676,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "stairs-light": [
+        {
+          "nl-stairs-light-1": {
+            "productId": "nl-stairs-light-1",
+            "productName": "nl-stairs-light-1",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-1-5w.png"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-2": {
+            "productId": "nl-stairs-light-2",
+            "productName": "nl-stairs-light-2",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (2).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-3": {
+            "productId": "nl-stairs-light-3",
+            "productName": "nl-stairs-light-3",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-4": {
+            "productId": "nl-stairs-light-4",
+            "productName": "nl-stairs-light-4",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-5": {
+            "productId": "nl-stairs-light-5",
+            "productName": "nl-stairs-light-5",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (2).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc6014": [
-          {
-            "mc6014-h3": {
-              "ProductId": "mc6014-h3",
-              "productName": "MC6014-H3",
-              "productImages": [
-                "/chandelier/MC6014/MC6014-H3.png"
-              ],
-              "spotlightType": "mc6014",
-              "Hnumber": 3,
-              "chandelierLightingType": "lamp",
-              "price": 3549,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6014-h5": {
-              "ProductId": "mc6014-h5",
-              "productName": "MC6014-H5",
-              "productImages": [
-                "/chandelier/MC6014/MC6014-H5.png"
-              ],
-              "spotlightType": "mc6014",
-              "chandelierLightingType": "lamp",
-              "price": 5069,
-              "Hnumber": 5,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "uplight": [
+        {
+          "nl-1001-2w": {
+            "productId": "nl-1001-2w",
+            "productName": "nl-1001-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1001-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1046-2w": {
+            "productId": "nl-1046-2w",
+            "productName": "nl-1046-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1046-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1050-2w": {
+            "productId": "nl-1050-2w",
+            "productName": "nl-1050-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (1).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (2).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (3).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (4).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (5).webp"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1051-3w": {
+            "productId": "nl-1051-3w",
+            "productName": "nl-1051-3w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1051-2/nl-1051 (1).webp",
+              "/products/outdoor/uplight/nl-1051-2/nl-1051 (2).webp"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1100-2w": {
+            "productId": "nl-1100-2w",
+            "productName": "nl-1100-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1100-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc6015": [
-          {
-            "mc6015-h3": {
-              "ProductId": "mc6015-h3",
-              "productName": "MC6015-H3",
-              "productImages": [
-                "/chandelier/MC6015/MC6015-H3.png"
-              ],
-              "spotlightType": "mc6015",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 3219,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6015-h5": {
-              "ProductId": "mc6015-h5",
-              "productName": "MC6015-H5",
-              "productImages": [
-                "/chandelier/MC6015/MC6015-H5.png"
-              ],
-              "spotlightType": "mc6015",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 4819,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6015-h6": {
-              "ProductId": "mc6015-h6",
-              "productName": "MC6015-H6",
-              "productImages": [
-                "/chandelier/MC6015/MC6015-H6.png"
-              ],
-              "spotlightType": "mc6015",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 6,
-              "price": 5915,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6015-w1": {
-              "ProductId": "mc6015-w1",
-              "productName": "MC6015-W1",
-              "productImages": [
-                "/chandelier/MC6015/MC6015-W1.png"
-              ],
-              "spotlightType": "mc6015",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 845,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
+        }
+      ],
+      "wall-light": [
+        {
+          "nl-w-l-1": {
+            "productId": "nl-w-l-1",
+            "productName": "nl-w-l-1",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1 (1).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-2": {
+            "productId": "nl-w-l-2",
+            "productName": "nl-w-l-2",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (3).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-3": {
+            "productId": "nl-w-l-3",
+            "productName": "nl-w-l-3",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (2).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-4": {
+            "productId": "nl-w-l-4",
+            "productName": "nl-w-l-4",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-5": {
+            "productId": "nl-w-l-5",
+            "productName": "nl-w-l-5",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-6": {
+            "productId": "nl-w-l-6",
+            "productName": "nl-w-l-6",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
           }
-        ],
-        "mc6031": [
-          {
-            "mc6031-h3": {
-              "ProductId": "mc6031-h3",
-              "productName": "MC6031-H3",
-              "productImages": [
-                "/chandelier/MC6031/MC6031-H3.png"
-              ],
-              "spotlightType": "mc6031",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 2875,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6031-h3d": {
-              "ProductId": "mc6031-h3d",
-              "productName": "MC6031-H3D",
-              "productImages": [
-                "/chandelier/MC6031/MC6031-H3D.png"
-              ],
-              "spotlightType": "mc6031",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 2875,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6031-h5": {
-              "ProductId": "mc6031-h5",
-              "productName": "MC6031-H5",
-              "productImages": [
-                "/chandelier/MC6031/MC6031-H5.png"
-              ],
-              "spotlightType": "mc6031",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 4565,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6031-h5d": {
-              "ProductId": "mc6031-h5d",
-              "productName": "MC6031-H5D",
-              "productImages": [
-                "/chandelier/MC6031/MC6031-H5D.png"
-              ],
-              "spotlightType": "mc6031",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 4565,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6031-s2": {
-              "ProductId": "mc6031-s2",
-              "productName": "MC6031-S2",
-              "productImages": [
-                "/chandelier/MC6031/MC6031-S2.png"
-              ],
-              "spotlightType": "mc6031",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 2709,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6038": [
-          {
-            "mc6038-p1": {
-              "ProductId": "mc6038-p1",
-              "productName": "MC6038-P1",
-              "productImages": [
-                "/chandelier/MC6038/MC6038-P1.jpg"
-              ],
-              "spotlightType": "mc6038",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 4479,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6041": [
-          {
-            "mc6041-w1": {
-              "ProductId": "mc6041-w1",
-              "productName": "MC6041-W1",
-              "productImages": [
-                "/chandelier/MC6041/MC6041-W1.png"
-              ],
-              "spotlightType": "mc6041",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1019,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6041-p6": {
-              "ProductId": "mc6041-p6",
-              "productName": "MC6041-P6",
-              "productImages": [
-                "/chandelier/MC6041/MC6041-P6.png"
-              ],
-              "spotlightType": "mc6041",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 6,
-              "price": 5409,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6041-p8": {
-              "ProductId": "mc6041-p8",
-              "productName": "MC6041-P8",
-              "productImages": [
-                "/chandelier/MC6041/MC6041-P8.png"
-              ],
-              "spotlightType": "mc6041",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 8,
-              "price": 6595,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6051": [
-          {
-            "mc6051-1": {
-              "ProductId": "mc6051-1",
-              "productName": "MC6051-1",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-1.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "LED",
-              "price": 6425,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-3": {
-              "ProductId": "mc6051-3",
-              "productName": "MC6051-3",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-3.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "LED",
-              "price": 7269,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-4": {
-              "ProductId": "mc6051-4",
-              "productName": "MC6051-4",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-4.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "LED",
-              "price": 8789,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-t8": {
-              "ProductId": "mc6051-t8",
-              "productName": "MC6051-t8",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-T8.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "LED",
-              "price": 3215,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-p3": {
-              "ProductId": "mc6051-p3",
-              "productName": "MC6051-p3",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-P3.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 4395,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-p4": {
-              "ProductId": "mc6051-p4",
-              "productName": "MC6051-p4",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-P4.jpg"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 4,
-              "price": 5069,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-p1": {
-              "ProductId": "mc6051-p1",
-              "productName": "MC6051-p1",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-P1.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1525,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6051-w1": {
-              "ProductId": "mc6051-w1",
-              "productName": "MC6051-w1",
-              "productImages": [
-                "/chandelier/MC6051/MC6051-W1.png"
-              ],
-              "spotlightType": "mc6051",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1609,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6091": [
-          {
-            "mc6091-h3": {
-              "ProductId": "mc6091-h3",
-              "productName": "MC6091-H3",
-              "productImages": [
-                "/chandelier/MC6091/MC6091-H3.png"
-              ],
-              "spotlightType": "mc6091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 2705,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6091-h5": {
-              "ProductId": "mc6091-h5",
-              "productName": "MC6091-H5",
-              "productImages": [
-                "/chandelier/MC6091/MC6091-H5.png"
-              ],
-              "spotlightType": "mc6091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 3889,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6091-h8": {
-              "ProductId": "mc6091-h8",
-              "productName": "MC6091-H8",
-              "productImages": [
-                "/chandelier/MC6091/MC6091-H8.png"
-              ],
-              "spotlightType": "mc6091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 8,
-              "price": 5409,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6091-w1": {
-              "ProductId": "mc6091-w1",
-              "productName": "MC6091-W1",
-              "productImages": [
-                "/chandelier/MC6091/MC6091-W1.png"
-              ],
-              "spotlightType": "mc6091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 845,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6094": [
-          {
-            "mc6094-p1": {
-              "ProductId": "mc6094-p1",
-              "productName": "MC6094-P1",
-              "productImages": [
-                "/chandelier/MC6094/MC6094-P1.png"
-              ],
-              "spotlightType": "mc6094",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1355,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc6097": [
-          {
-            "mc6097-h3": {
-              "ProductId": "mc6097-h3",
-              "productName": "MC6097-H3",
-              "productImages": [
-                "/chandelier/MC6097/MC6097-H3.png"
-              ],
-              "spotlightType": "mc6097",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 3,
-              "price": 2535,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc6097-w1": {
-              "ProductId": "mc6097-w1",
-              "productName": "MC6097-W1",
-              "productImages": [
-                "/chandelier/MC6097/MC6097-W1.png"
-              ],
-              "spotlightType": "mc6097",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 679,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc7021": [
-          {
-            "mc7021-h4": {
-              "ProductId": "mc7021-h4",
-              "productName": "MC7021-H4",
-              "productImages": [
-                "/chandelier/MC7021/MC7021-H4.png"
-              ],
-              "spotlightType": "mc7021",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 4,
-              "price": 3211,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc7021-h8": {
-              "ProductId": "mc7021",
-              "productName": "MC7021",
-              "productImages": [
-                "/chandelier/MC7021/MC7021.jpg"
-              ],
-              "spotlightType": "mc7021",
-              "chandelierLightingType": "LED",
-              "Hnumber": 8,
-              "price": 6255,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc7023": [
-          {
-            "mc7023-p5": {
-              "ProductId": "mc7023-p5",
-              "productName": "MC7023-P5",
-              "productImages": [
-                "/chandelier/MC7023/MC7023-P5.png"
-              ],
-              "spotlightType": "mc7023",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 5409,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc7091": [
-          {
-            "mc7091-rod": {
-              "ProductId": "mc7091-rod",
-              "productName": "MC7091-Rod",
-              "productImages": [
-                "/chandelier/MC7091/MC7091-Rod.png"
-              ],
-              "spotlightType": "mc7091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1690,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc7091-s4": {
-              "ProductId": "mc7091-s4",
-              "productName": "MC7091-S4",
-              "productImages": [
-                "/chandelier/MC7091/MC7091-S4.jpg"
-              ],
-              "spotlightType": "mc7091",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 4,
-              "price": 3379,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc7104": [
-          {
-            "mc7104-2": {
-              "ProductId": "mc7104-2",
-              "productName": "MC7104-2",
-              "productImages": [
-                "/chandelier/MC7104/MC7104-2.png"
-              ],
-              "spotlightType": "mc7104",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 2,
-              "price": 4735,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "mc7104-1": {
-              "ProductId": "mc7104-1",
-              "productName": "MC7104-1",
-              "productImages": [
-                "/chandelier/MC7104/MC7104-1.png"
-              ],
-              "spotlightType": "mc7104",
-              "chandelierLightingType": "LED",
-              "price": 5239,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc7105": [
-          {
-            "mc7105-c1": {
-              "ProductId": "mc7105-c1",
-              "productName": "MC7105-C1",
-              "productImages": [
-                "/chandelier/MC7105/MC7105-C1.png"
-              ],
-              "spotlightType": "mc7105",
-              "chandelierLightingType": "LED",
-              "price": 6679,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh0109": [
-          {
-            "oh0109-h5": {
-              "ProductId": "oh0109-h5",
-              "productName": "OH0109-H5",
-              "productImages": [
-                "/chandelier/OH0109/OH0109-H5.png"
-              ],
-              "spotlightType": "oh0109",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 3215,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1109": [
-          {
-            "oh1109-h5": {
-              "ProductId": "oh1109-h5",
-              "productName": "OH1109-H5",
-              "productImages": [
-                "/chandelier/OH1109/OH1109-H5.png"
-              ],
-              "spotlightType": "oh1109",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 7605,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1203": [
-          {
-            "oh1203-h5": {
-              "ProductId": "oh1203-h5",
-              "productName": "OH1203-H5",
-              "productImages": [
-                "/chandelier/OH1203/OH1203-H5.jpg"
-              ],
-              "spotlightType": "oh1203",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 3549,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "oh1203-w1": {
-              "ProductId": "oh1203-w1",
-              "productName": "OH1203-W1",
-              "productImages": [
-                "/chandelier/OH1203/OH1203-W1.jpg"
-              ],
-              "spotlightType": "oh1203",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 845,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1207": [
-          {
-            "oh1207-w1": {
-              "ProductId": "oh1207-w1",
-              "productName": "OH1207-W1",
-              "productImages": [
-                "/chandelier/OH1207/OH1207-W1.jpg"
-              ],
-              "spotlightType": "oh1207",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1099,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "oh1207-s2": {
-              "ProductId": "oh1207-s2",
-              "productName": "OH1207-S2",
-              "productImages": [
-                "/chandelier/OH1207/OH1207-S2.jpeg"
-              ],
-              "spotlightType": "oh1207",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 1,
-              "price": 1319,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1209": [
-          {
-            "oh1209-h5": {
-              "ProductId": "oh1209-h5",
-              "productName": "OH1209-H5",
-              "productImages": [
-                "/chandelier/OH1209/OH1209-H5.jpg"
-              ],
-              "spotlightType": "oh1209",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 5,
-              "price": 4989,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            },
-            "oh1209-h9": {
-              "ProductId": "oh1209-h9",
-              "productName": "OH1209-H9",
-              "productImages": [
-                "/chandelier/OH1209/OH1209-H9.jpg"
-              ],
-              "spotlightType": "oh1209",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 9,
-              "price": 7775,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1309": [
-          {
-            "oh1309-h6": {
-              "ProductId": "oh1309-h6",
-              "productName": "OH1309-H6",
-              "productImages": [
-                "/chandelier/OH1309/OH1309-H6.jpg"
-              ],
-              "spotlightType": "oh1309",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 6,
-              "price": 3549,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "oh1601": [
-          {
-            "oh1601-h6": {
-              "ProductId": "oh1601-h6",
-              "productName": "OH1601-H6",
-              "productImages": [
-                "/chandelier/OH1601/OH1601-H6.jpg"
-              ],
-              "spotlightType": "oh1601",
-              "chandelierLightingType": "lamp",
-              "Hnumber": 6,
-              "price": 4989,
-              "sectionType": "chandelier",
-              "brand": "mister-led",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ],
-        "mc15w": [
-          {
-            "mc15w009": {
-              "ProductId": "mc15w009",
-              "productName": "MC15W009",
-              "productImages": [
-                "/chandelier/MC15W/MC15W009.jpg"
-              ],
-              "spotlightType": "mc15w",
-              "brand": "mister-led",
-              "chandelierLightingType": "LED",
-              "price": 1525,
-              "sectionType": "chandelier",
-              "quantity": 10,
-              "discount": 0.3
-            }
-          }
-        ]
-      }
+        }
+      ]
     }
   }
 }
