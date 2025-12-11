@@ -43,3 +43,10 @@ export interface Language {
     nativeName: string
     region: string
 }
+
+
+export enum ProductColorTemp {
+    warm = "warm",
+    cool = "cool",
+    white = "white",
+}

@@ -1,7 +1,23 @@
-import { getCategoryByType } from "@repo/database"
+
 import { getLocale } from "next-intl/server"
 import { notFound } from "next/navigation"
 import SubCategoryPage from "./sub-category"
+import { getCategoryByType } from "@/lib/db"
+
+export const revalidate = 7200
+
+export async function generateStaticParams() {
+    // Pre-generate pages for known category types
+    const locales = ["en", "ar"]
+    const subCategories = ["indoor", "outdoor"]
+
+    return locales.flatMap((locale) =>
+        subCategories.map((subCategory) => ({
+            locale,
+            subCategory,
+        })),
+    )
+}
 
 type Props = {
     params: Promise<{
@@ -25,5 +41,5 @@ export default async function CategorySubCategoryPage({ params }: Props) {
         notFound()
     }
 
-    return <SubCategoryPage category={category} locale={currentLocale} />
+    return <SubCategoryPage category={category} />
 }

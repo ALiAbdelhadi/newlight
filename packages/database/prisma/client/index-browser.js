@@ -21,12 +21,12 @@ exports.Prisma = Prisma
 exports.$Enums = {}
 
 /**
- * Prisma Client JS version: 6.19.0
- * Query Engine version: 2ba551f319ab1df4bc874a89965d8b3641056773
+ * Prisma Client JS version: 6.19.1
+ * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
  */
 Prisma.prismaVersion = {
-  client: "6.19.0",
-  engine: "2ba551f319ab1df4bc874a89965d8b3641056773"
+  client: "6.19.1",
+  engine: "c2990dca591cba766e3b7ef5d9e8a84796e47ab7"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -212,6 +212,7 @@ exports.Prisma.ProductTranslationScalarFieldEnum = {
   name: 'name',
   description: 'description',
   metaTitle: 'metaTitle',
+  specifications: 'specifications',
   metaDescription: 'metaDescription',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
@@ -312,6 +313,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -320,6 +326,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   CUSTOMER: 'CUSTOMER',
@@ -344,6 +356,14 @@ exports.ProductColorTemp = exports.$Enums.ProductColorTemp = {
   WARM_3000K: 'WARM_3000K',
   COOL_4000K: 'COOL_4000K',
   WHITE_6500K: 'WHITE_6500K'
+};
+
+exports.AvailableColors = exports.$Enums.AvailableColors = {
+  BlACK: 'BlACK',
+  GRAY: 'GRAY',
+  WHITE: 'WHITE',
+  GOLD: 'GOLD',
+  WOOD: 'WOOD'
 };
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {

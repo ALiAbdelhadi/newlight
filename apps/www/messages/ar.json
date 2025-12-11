@@ -180,20 +180,6 @@
             "badgeSale": "تخفيضات"
         }
     },
-    "categories-page": {
-        "heroTitle": "استكشف الفئات",
-        "heroSubtitle": "اكتشف مجموعتنا المنتقاة من حلول الإضاءة المتميزة لكل مساحة",
-        "categoryIndoor": "داخلي",
-        "categoryIndoorDesc": "إضاءة محيطة وموضعية للمساحات السكنية والتجارية",
-        "categoryOutdoor": "خارجي",
-        "categoryOutdoorDesc": "حلول إضاءة متينة للحدائق والفناءات والمناطق الخارجية",
-        "categoryFeatured": "مختار",
-        "categoryFeaturedDesc": "تصميمات إضاءة مختارة يدويًا وشهيرة الاتجاهات",
-        "ctaTitle": "هل تحتاج إلى مساعدة في الاختيار؟",
-        "ctaDescription": "استعرض أدلتنا الشاملة أو اتصل بخبراء الإضاءة لدينا للحصول على توصيات شخصية",
-        "ctaContact": "اتصل بنا",
-        "ctaLearn": "تعرف على المزيد"
-    },
     "category-page": {
         "categoryIndoor": "داخلي",
         "categoryIndoorDesc": "اكتشف مجموعتنا المتميزة من حلول الإضاءة الداخلية، من الثريات الأنيقة إلى التركيبات الحديثة",
@@ -237,5 +223,37 @@
         "productCount": "{count} {count, plural, =1 {منتج} other {منتجات}}",
         "products": "منتجات",
         "product": "منتج"
+    },
+    "product-page": {
+        "technicalLabel": "تقني",
+        "featured": "مميز",
+        "inStock": "متوفر",
+        "available": "{count} متاح",
+        "outOfStock": "غير متوفر",
+        "colorTemperature": "درجة حرارة اللون",
+        "availableColors": "الألوان المتاحة",
+        "specifications": "المواصفات",
+        "noImage": "لا تتوفر صورة",
+        "voltage": "الجهد الكهربائي",
+        "maxWattage": "أقصى واط",
+        "brandOfLed": "علامة LED",
+        "luminousFlux": "التدفق الضوئي",
+        "mainMaterial": "المادة الرئيسية",
+        "cri": "مؤشر إعادة إنتاج اللون",
+        "beamAngle": "زاوية الشعاع",
+        "productDimensions": "أبعاد المنتج",
+        "holeSize": "حجم الفتحة",
+        "powerFactor": "معامل القدرة",
+        "ipRating": "تصنيف IP",
+        "maxIpRating": "أقصى تصنيف IP",
+        "lifeTime": "العمر الافتراضي",
+        "hours": "ساعة",
+        "currency": "ج.م"
+    },
+    "metadatas": {
+        "category-page": {
+            "metaTitle": "اقسام الإضاءة",
+            "metaDescription": "اكتشف مجموعاتنا المنسقة من حلول الإضاءة المتميزة، المصممة بدقة للاضاءة الداخلية والخارجية على حد سواء."
+        }
     }
 }

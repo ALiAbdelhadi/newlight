@@ -1,25 +1,19 @@
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import dotenv from "dotenv";
-import { CategoryType, PrismaClient, ProductColorTemp, ProductIP } from "../prisma/client/client";
+import { CategoryType, PrismaClient, ProductColorTemp, ProductIP, AvailableColors } from "../prisma/client/client";
 import { PrismaNeon } from '@prisma/adapter-neon';
 
-// Load environment variables (root .env if running from package subfolder)
 dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") });
 dotenv.config();
 
-// Use process cwd as base to stay compatible with CommonJS compilation (no import.meta)
 const __dirname = process.cwd();
-
-// Use DIRECT_URL for seeding (direct database connection, not Accelerate)
-// This ensures writes are committed immediately
 const directUrl = process.env.DIRECT_URL || process.env.DATABASE_URL;
 
 if (!directUrl) {
-  throw new Error('DIRECT_URL or DATABASE_URL must be defined in environment variables');
+  throw new Error('DIRECT_URL or DATABASE_URL must be defined');
 }
 
-// Check if using Prisma Accelerate (prisma+postgres://) - if so, use DIRECT_URL
 const isAccelerate = directUrl.startsWith('prisma+');
 const connectionString = isAccelerate ? (process.env.DIRECT_URL || directUrl) : directUrl;
 const isUsingDirectConnection = connectionString.startsWith('postgresql://');
@@ -27,18 +21,12 @@ const isUsingDirectConnection = connectionString.startsWith('postgresql://');
 let prisma: PrismaClient;
 
 if (isAccelerate && isUsingDirectConnection) {
-  // Use Neon adapter for direct connection
   const adapter = new PrismaNeon({ connectionString });
   prisma = new PrismaClient({ adapter, log: ['warn', 'error'] });
 } else {
-  // Use standard PrismaClient (for Accelerate or direct postgresql)
   prisma = new PrismaClient({
     log: ['warn', 'error'],
-    datasources: {
-      db: {
-        url: connectionString,
-      },
-    },
+    datasources: { db: { url: connectionString } },
   });
 }
 
@@ -47,13 +35,14 @@ if (isAccelerate && isUsingDirectConnection) {
 type SupportedLanguage = "ar" | "en";
 
 interface TranslationMap {
-  [key: string]: {
-    en: string;
-    ar: string;
-  };
+  [key: string]: { en: string; ar: string };
 }
 
-interface StaticProductData {
+interface SpecificationsTable {
+  [key: string]: any;
+}
+
+interface ProductData {
   productId: string;
   productName: string;
   productImages: string[];
@@ -63,123 +52,104 @@ interface StaticProductData {
   inventory: number;
 }
 
-interface SpecificationsTable {
-  voltage?: string | string[];
-  maximum_wattage?: number | string;
-  brand_of_led?: string;
-  luminous_flux?: string;
-  main_material?: string | boolean;
-  cri?: string;
-  beam_angle?: number | boolean;
-  product_dimensions?: string;
-  hole_size?: string;
-  power_factor?: string;
-  color_Temperature?: number[];
-  IP?: number;
-  maxIP?: number;
-  life_time?: number;
-  surface_color?: string[];
+interface TranslationData {
+  productName?: string;
+  description?: string;
+  specificationsTable?: SpecificationsTable;
 }
 
 // ==================== SLUG GENERATOR ====================
 
-class SmartSlugGenerator {
-  private static readonly SLUG_CACHE = new Map<string, Set<string>>();
+class SlugGenerator {
+  private static cache = new Map<string, Set<string>>();
 
-  static generateUniqueSlug(text: string, context: string = 'global'): string {
-    const baseSlug = this.sanitizeText(text);
-    const cacheKey = context;
-
-    if (!this.SLUG_CACHE.has(cacheKey)) {
-      this.SLUG_CACHE.set(cacheKey, new Set());
-    }
-
-    const existingSlugs = this.SLUG_CACHE.get(cacheKey)!;
-    let finalSlug = baseSlug;
-    let counter = 1;
-
-    while (existingSlugs.has(finalSlug)) {
-      finalSlug = `${baseSlug}-${counter}`;
-      counter++;
-    }
-
-    existingSlugs.add(finalSlug);
-    return finalSlug;
-  }
-
-  private static sanitizeText(text: string): string {
-    return text
+  static generate(text: string, context: string = 'global'): string {
+    const base = text
       .toLowerCase()
       .trim()
       .replace(/[\u064B-\u065F\u0670\u06D6-\u06ED]/g, '')
       .replace(/[^\w\s\u0600-\u06FF-]/g, '')
-      .replace(/[\s_\u00A0]+/g, '-')
+      .replace(/[\s_]+/g, '-')
       .replace(/^-+|-+$/g, '')
       .substring(0, 50)
       .replace(/-+$/, '');
+
+    if (!this.cache.has(context)) {
+      this.cache.set(context, new Set());
+    }
+
+    const existing = this.cache.get(context)!;
+    let slug = base;
+    let counter = 1;
+
+    while (existing.has(slug)) {
+      slug = `${base}-${counter}`;
+      counter++;
+    }
+
+    existing.add(slug);
+    return slug;
   }
 
-  static clearCache(): void {
-    this.SLUG_CACHE.clear();
+  static clear(): void {
+    this.cache.clear();
   }
 }
 
 // ==================== TRANSLATION REGISTRY ====================
 
 class TranslationRegistry {
-  private static readonly CATEGORY_TRANSLATIONS: TranslationMap = {
+  private static readonly CATEGORY_MAP: TranslationMap = {
     indoor: { en: "Indoor Lighting", ar: "إضاءة داخلية" },
     outdoor: { en: "Outdoor Lighting", ar: "إضاءة خارجية" },
   };
 
-  private static readonly SUBCATEGORY_TRANSLATIONS: TranslationMap = {
+  private static readonly SUBCATEGORY_MAP: TranslationMap = {
     cob: { en: "COB Lighting", ar: "إضاءة COB" },
-    magnetic: { en: "Magnetic Track", ar: "مسار مغناطيسي" },
+    magnetic: { en: "Magnetic Track", ar: "عود مغناطيسي" },
     "magnetic-accessories": { en: "Magnetic Accessories", ar: "ملحقات مغناطيسية" },
-    panel: { en: "Panel Lights", ar: "إضاءة بانل" },
+    panel: { en: "Panel Lights", ar: "بانل لايت" },
     strip: { en: "LED Strips", ar: "شرائط LED" },
-    track: { en: "Track Systems", ar: "أنظمة المسار" },
-    drivers: { en: "Drivers", ar: "المحركات" },
-    uplight: { en: "Uplights", ar: "إضاءة علوية" },
-    spikes: { en: "Spike Lights", ar: "إضاءة حربات" },
+    track: { en: "Track Systems", ar: "أعواد تراك" },
+    drivers: { en: "Drivers", ar: "ترانسات" },
+    uplight: { en: "Uplights", ar: "إضاءة تحت الأرض" },
+    spikes: { en: "Spike Lights", ar: "حربات" },
     "flood-light": { en: "Flood Lights", ar: "كشافات" },
-    bollard: { en: "Bollard Lights", ar: "إضاءة أعمدة" },
-    "stairs-light": { en: "Stair Lights", ar: "إضاءة سلالم" },
+    bollard: { en: "Bollard Lights", ar: "أعمدة إنارة" },
+    "stairs-light": { en: "Stair Lights", ar: "درج سلم" },
     "wall-light": { en: "Wall Lights", ar: "إضاءة جدارية" },
-    "high-pay": { en: "High Bay", ar: "إضاءة علوية صناعية" },
+    "high-pay": { en: "High Bay", ar: "إضاءة صناعية" },
     "drive-over": { en: "Drive Over Lights", ar: "إضاءة أرضية" },
+    "track-built-in-driver": { en: "Track Built-in Drivers", ar: "ترانسات تراك" },
   };
 
-  static getCategoryTranslation(category: string, language: SupportedLanguage): string {
-    return this.CATEGORY_TRANSLATIONS[category]?.[language] || category;
+  static getCategory(key: string, lang: SupportedLanguage): string {
+    return this.CATEGORY_MAP[key]?.[lang] || key;
   }
 
-  static getSubCategoryTranslation(subCategory: string, language: SupportedLanguage): string {
-    return this.SUBCATEGORY_TRANSLATIONS[subCategory]?.[language] || subCategory;
+  static getSubCategory(key: string, lang: SupportedLanguage): string {
+    return this.SUBCATEGORY_MAP[key]?.[lang] || key;
   }
 }
 
 // ==================== FILE RESOLVER ====================
 
 class FileResolver {
-  private static readonly SEARCH_PATTERNS = {
+  private static readonly PATTERNS = {
     static: [
       'apps/www/data/products-details-static.json',
       'prisma/data/products-details-static.json',
       'data/products-details-static.json',
-      'product-details.static.json',
     ],
-    arabic: [
+    ar: [
       'apps/www/data/products-details-ar.json',
       'prisma/data/products-details-ar.json',
       'data/products-details-ar.json',
-      'product-details-ar.json',
     ],
-    english: [
+    en: [
       'apps/www/data/products-details-en.json',
       'prisma/data/products-details-en.json',
       'data/products-details-en.json',
-      'product-details-en.json',
     ]
   };
 
@@ -190,30 +160,26 @@ class FileResolver {
     process.cwd(),
   ];
 
-  static resolveFile(fileType: keyof typeof this.SEARCH_PATTERNS): string | null {
-    const patterns = this.SEARCH_PATTERNS[fileType];
-
-    for (const basePath of this.BASE_PATHS) {
-      for (const pattern of patterns) {
-        const fullPath = path.resolve(basePath, pattern);
-        if (existsSync(fullPath)) {
-          console.log(`✅ Found ${fileType} file: ${fullPath}`);
-          return fullPath;
+  static resolve(type: 'static' | 'ar' | 'en'): string | null {
+    for (const base of this.BASE_PATHS) {
+      for (const pattern of this.PATTERNS[type]) {
+        const full = path.resolve(base, pattern);
+        if (existsSync(full)) {
+          console.log(`✅ Found ${type}: ${full}`);
+          return full;
         }
       }
     }
-
-    console.warn(`⚠️ ${fileType} file not found`);
+    console.warn(`⚠️ Not found: ${type}`);
     return null;
   }
 
   static loadJson(filePath: string | null): any {
     if (!filePath || !existsSync(filePath)) return null;
-
     try {
       return JSON.parse(readFileSync(filePath, "utf8"));
     } catch (error) {
-      console.error(`❌ Failed to load JSON file: ${filePath}`, error);
+      console.error(`❌ Failed to load: ${filePath}`, error);
       return null;
     }
   }
@@ -222,85 +188,202 @@ class FileResolver {
 // ==================== DATA PROCESSOR ====================
 
 class DataProcessor {
-  static mapColorTemperature(temps: number[] | undefined): ProductColorTemp[] {
-    if (!temps || !Array.isArray(temps)) return [];
+  static mapColorTemp(temps: number[] | undefined): ProductColorTemp[] {
+    if (!temps || !Array.isArray(temps)) return [ProductColorTemp.WARM_3000K];
 
     const mapped: ProductColorTemp[] = [];
-    temps.forEach(temp => {
-      if (temp === 3000) mapped.push(ProductColorTemp.WARM_3000K);
-      if (temp === 4000) mapped.push(ProductColorTemp.COOL_4000K);
-      if (temp === 6500) mapped.push(ProductColorTemp.WHITE_6500K);
-    });
+    if (temps.includes(3000)) mapped.push(ProductColorTemp.WARM_3000K);
+    if (temps.includes(4000)) mapped.push(ProductColorTemp.COOL_4000K);
+    if (temps.includes(6500)) mapped.push(ProductColorTemp.WHITE_6500K);
 
     return mapped.length > 0 ? mapped : [ProductColorTemp.WARM_3000K];
   }
 
-  static mapIPRating(ip: number | undefined): ProductIP {
-    if (!ip) return ProductIP.IP20;
-
-    switch (ip) {
-      case 20: return ProductIP.IP20;
-      case 44: return ProductIP.IP44;
-      case 54: return ProductIP.IP54;
-      case 65: return ProductIP.IP65;
-      case 68: return ProductIP.IP68;
-      default: return ProductIP.IP20;
-    }
+  static mapIP(ip: number | undefined): ProductIP {
+    const map: Record<number, ProductIP> = {
+      20: ProductIP.IP20,
+      44: ProductIP.IP44,
+      54: ProductIP.IP54,
+      65: ProductIP.IP65,
+      68: ProductIP.IP68,
+    };
+    return ip ? (map[ip] || ProductIP.IP20) : ProductIP.IP20;
   }
 
-  static mapMaxIPRating(maxIp: number | undefined): ProductIP | null {
-    if (!maxIp) return null;
+  static mapAvailableColors(colors: string[] | undefined): AvailableColors[] {
+    if (!colors || !Array.isArray(colors)) return [];
 
-    switch (maxIp) {
-      case 44: return ProductIP.IP44;
-      case 54: return ProductIP.IP54;
-      case 65: return ProductIP.IP65;
-      case 68: return ProductIP.IP68;
-      default: return null;
+    const colorMap: Record<string, AvailableColors> = {
+      'black': AvailableColors.BlACK,
+      'gray': AvailableColors.GRAY,
+      'grey': AvailableColors.GRAY,
+      'white': AvailableColors.WHITE,
+      'gold': AvailableColors.GOLD,
+      'wood': AvailableColors.WOOD,
+      // Arabic mappings
+      'أسود': AvailableColors.BlACK,
+      'رمادي': AvailableColors.GRAY,
+      'أبيض': AvailableColors.WHITE,
+      'ذهبي': AvailableColors.GOLD,
+      'خشبي': AvailableColors.WOOD,
+    };
+
+    const mapped: AvailableColors[] = [];
+    for (const color of colors) {
+      const normalized = color.toLowerCase().trim();
+      if (colorMap[normalized]) {
+        mapped.push(colorMap[normalized]);
+      }
     }
+
+    return mapped;
   }
 
-  static extractSpecValue(value: any): string {
+  static extractValue(value: any): string {
     if (value === null || value === undefined || value === false) return '';
     if (typeof value === 'string') return value.trim();
     if (typeof value === 'number') return String(value);
     if (Array.isArray(value)) return value.join(', ');
     return JSON.stringify(value);
   }
+
+  static normalizeSpecs(specs: any): any {
+    if (!specs || typeof specs !== 'object') return {};
+
+    const normalized: any = {};
+    for (const [key, value] of Object.entries(specs)) {
+      const normalizedValue = value === null || value === undefined || value === false
+        ? value
+        : typeof value === 'string'
+          ? value.trim()
+          : value;
+      normalized[key] = normalizedValue;
+    }
+    return normalized;
+  }
+}
+
+// ==================== DESCRIPTION BUILDER ====================
+
+class DescriptionBuilder {
+  static build(locale: SupportedLanguage, productName: string, specs: any): string {
+    if (!specs || typeof specs !== 'object' || Object.keys(specs).length === 0) {
+      return locale === 'ar'
+        ? `${productName} - حل إضاءة احترافي مصمم لتلبية احتياجاتك.`
+        : `${productName} - Professional lighting solution designed to meet your needs.`;
+    }
+
+    const isAr = locale === 'ar';
+
+    // Get key specs
+    const wattage = specs['maximum_wattage'] || specs['أقصى قوة كهربائية (w)'];
+    const flux = specs['luminous_flux'] || specs['الومن'];
+    const colorTemp = specs['color_Temperature'] || specs['درجة حرارة لون الاضاءة'];
+    const ip = specs['IP'] || specs['درجة الحماية'];
+    const maxIp = specs['maxIP'] || specs['درجة الحماية القصوي'];
+    const material = specs['main_material'] || specs['مادة التصنيع'];
+    const cri = specs['cri'] || specs['مؤشر تجسيد الألوان'];
+    const lifeTime = specs['life_time'] || specs['العمر الافتراضي'];
+
+    // Build medium-length description
+    if (isAr) {
+      let desc = `${productName} حل إضاءة احترافي`;
+
+      // Technical specs
+      const techSpecs = [];
+      if (wattage) techSpecs.push(`قوة ${wattage} واط`);
+      if (flux) techSpecs.push(`تدفق ضوئي ${flux}`);
+      if (colorTemp && Array.isArray(colorTemp)) {
+        const temps = colorTemp.map(t => `${t}K`).join('/');
+        techSpecs.push(`درجات حرارة لونية ${temps}`);
+      }
+
+      if (techSpecs.length > 0) {
+        desc += ` يتميز بـ${techSpecs.join('، ')}`;
+      }
+
+      // Quality features
+      const features = [];
+      if (material) features.push(`مصنوع من ${material}`);
+      if (cri) features.push(`مؤشر CRI ${cri}`);
+
+      if (features.length > 0) {
+        desc += `. ${features.join('، ')}`;
+      }
+
+      // Protection and durability
+      if (maxIp) {
+        desc += `، مع حماية IP${maxIp} للاستخدام الداخلي والخارجي`;
+      } else if (ip) {
+        desc += `، مع حماية IP${ip}`;
+      }
+
+      if (lifeTime) {
+        desc += `. عمر افتراضي يصل إلى ${lifeTime} ساعة`;
+      }
+
+      return desc + '.';
+
+    } else {
+      let desc = `${productName} is a professional lighting solution`;
+
+      // Technical specs
+      const techSpecs = [];
+      if (wattage) techSpecs.push(`${wattage}W power`);
+      if (flux) techSpecs.push(`${flux} luminous flux`);
+      if (colorTemp && Array.isArray(colorTemp)) {
+        const temps = colorTemp.map(t => `${t}K`).join('/');
+        techSpecs.push(`${temps} color temperature`);
+      }
+
+      if (techSpecs.length > 0) {
+        desc += ` featuring ${techSpecs.join(', ')}`;
+      }
+
+      // Quality features
+      const features = [];
+      if (material) features.push(`${material} construction`);
+      if (cri) features.push(`CRI ${cri}`);
+
+      if (features.length > 0) {
+        desc += `. Built with ${features.join(' and ')}`;
+      }
+
+      // Protection and durability
+      if (maxIp) {
+        desc += `, rated IP${maxIp} for indoor and outdoor use`;
+      } else if (ip) {
+        desc += `, rated IP${ip}`;
+      }
+
+      if (lifeTime) {
+        desc += `. Lifespan up to ${lifeTime} hours`;
+      }
+
+      return desc + '.';
+    }
+  }
 }
 
 // ==================== LOGGER ====================
 
 class Logger {
-  private static metrics = {
-    categories: 0,
-    subCategories: 0,
-    products: 0,
-    translations: 0,
-    errors: 0,
-  };
+  private static metrics = { categories: 0, subCategories: 0, products: 0, translations: 0, errors: 0 };
 
-  static success(message: string): void {
-    console.log(`✅ ${message}`);
-  }
-
-  static error(message: string, error?: any): void {
-    console.error(`❌ ${message}`);
-    if (error) console.error(error);
+  static success(msg: string): void { console.log(`✅ ${msg}`); }
+  static error(msg: string, err?: any): void {
+    console.error(`❌ ${msg}`);
+    if (err) console.error(err);
     this.metrics.errors++;
   }
+  static info(msg: string): void { console.log(`ℹ️ ${msg}`); }
+  static warn(msg: string): void { console.warn(`⚠️ ${msg}`); }
 
-  static info(message: string): void {
-    console.log(`ℹ️ ${message}`);
-  }
+  static inc(metric: keyof typeof Logger.metrics): void { this.metrics[metric]++; }
 
-  static incrementMetric(metric: keyof typeof this.metrics): void {
-    this.metrics[metric]++;
-  }
-
-  static displaySummary(): void {
-    console.log('\n📊 IMPORT SUMMARY:');
-    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
+  static summary(): void {
+    console.log('\n📊 SUMMARY:');
+    console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
     console.log(`📂 Categories: ${this.metrics.categories}`);
     console.log(`📁 SubCategories: ${this.metrics.subCategories}`);
     console.log(`📦 Products: ${this.metrics.products}`);
@@ -309,52 +392,36 @@ class Logger {
   }
 }
 
-// ==================== MAIN SEED ENGINE ====================
+// ==================== SEED ENGINE ====================
 
 class SeedEngine {
-  private static async loadDataFiles() {
-    const staticPath = FileResolver.resolveFile('static');
-    const arabicPath = FileResolver.resolveFile('arabic');
-    const englishPath = FileResolver.resolveFile('english');
-
-    if (!staticPath) {
-      throw new Error("❌ Static data file is required!");
-    }
-
-    const staticData = FileResolver.loadJson(staticPath);
-    const arabicData = FileResolver.loadJson(arabicPath);
-    const englishData = FileResolver.loadJson(englishPath);
-
-    return { staticData, arabicData, englishData };
-  }
-
-  static async seedDatabase() {
+  static async seed() {
     try {
-      console.log('🚀 STARTING DATABASE SEED');
-      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+      console.log('🚀 STARTING MULTILINGUAL SEED');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
-      // Clear existing data
       await this.clearDatabase();
 
-      // Load data files
-      const { staticData, arabicData, englishData } = await this.loadDataFiles();
+      const staticPath = FileResolver.resolve('static');
+      const arPath = FileResolver.resolve('ar');
+      const enPath = FileResolver.resolve('en');
 
-      if (!staticData?.categories) {
-        throw new Error("Invalid static data structure");
-      }
+      if (!staticPath) throw new Error("Static file required!");
 
-      // Process all categories and products
+      const staticData = FileResolver.loadJson(staticPath);
+      const arData = FileResolver.loadJson(arPath);
+      const enData = FileResolver.loadJson(enPath);
+
+      if (!staticData?.categories) throw new Error("Invalid static data structure");
+
+      const translations = { ar: arData, en: enData };
+
       for (const [categoryType, categoryData] of Object.entries(staticData.categories)) {
-        await this.processCategoryType(
-          categoryType as CategoryType,
-          categoryData as any,
-          arabicData,
-          englishData
-        );
+        await this.processCategory(categoryType as CategoryType, categoryData as any, translations);
       }
 
-      Logger.displaySummary();
-      Logger.success('\n🎉 DATABASE SEED COMPLETED SUCCESSFULLY!');
+      Logger.summary();
+      Logger.success('\n🎉 SEED COMPLETED!');
 
     } catch (error) {
       Logger.error('💥 SEED FAILED', error);
@@ -363,8 +430,7 @@ class SeedEngine {
   }
 
   private static async clearDatabase() {
-    Logger.info('🗑️ Clearing existing data...');
-
+    Logger.info('🗑️ Clearing database...');
     await prisma.productTranslation.deleteMany({});
     await prisma.cartItem.deleteMany({});
     await prisma.orderItem.deleteMany({});
@@ -373,20 +439,17 @@ class SeedEngine {
     await prisma.subCategory.deleteMany({});
     await prisma.categoryTranslation.deleteMany({});
     await prisma.category.deleteMany({});
-
     Logger.success('Database cleared');
   }
 
-  private static async processCategoryType(
+  private static async processCategory(
     categoryType: CategoryType,
     categoryData: any,
-    arabicData: any,
-    englishData: any
+    translations: { ar: any; en: any }
   ) {
-    Logger.info(`\n📂 Processing category: ${categoryType}`);
+    Logger.info(`\n📂 Processing: ${categoryType}`);
 
-    // Create Category
-    const categorySlug = SmartSlugGenerator.generateUniqueSlug(categoryType, 'category');
+    const categorySlug = SlugGenerator.generate(categoryType, 'category');
 
     const category = await prisma.category.create({
       data: {
@@ -398,11 +461,10 @@ class SeedEngine {
       },
     });
 
-    Logger.incrementMetric('categories');
+    Logger.inc('categories');
 
-    // Create Category Translations
     for (const locale of ['en', 'ar'] as SupportedLanguage[]) {
-      const translatedName = TranslationRegistry.getCategoryTranslation(categoryType, locale);
+      const translatedName = TranslationRegistry.getCategory(categoryType, locale);
 
       await prisma.categoryTranslation.create({
         data: {
@@ -413,35 +475,16 @@ class SeedEngine {
         },
       });
 
-      Logger.incrementMetric('translations');
+      Logger.inc('translations');
     }
 
-    // Process SubCategories
     for (const [subCategoryName, subCategoryProducts] of Object.entries(categoryData)) {
-      // Handle special case: drivers has nested subcategories
-      // Structure: { "drivers": { "track-built-in-driver": [...] } }
-      if (subCategoryName === 'drivers' && subCategoryProducts && typeof subCategoryProducts === 'object' && !Array.isArray(subCategoryProducts)) {
-        // Process each nested subcategory within drivers
-        for (const [nestedSubCategoryName, nestedProducts] of Object.entries(subCategoryProducts)) {
-          await this.processSubCategory(
-            category.id,
-            nestedSubCategoryName,
-            nestedProducts as any,
-            categoryType,
-            arabicData,
-            englishData
-          );
+      if (subCategoryName === 'drivers' && typeof subCategoryProducts === 'object' && subCategoryProducts !== null && !Array.isArray(subCategoryProducts)) {
+        for (const [nestedSubCat, nestedProducts] of Object.entries(subCategoryProducts)) {
+          await this.processSubCategory(category.id, nestedSubCat, nestedProducts as any, categoryType, translations);
         }
       } else {
-        // Normal subcategory processing
-        await this.processSubCategory(
-          category.id,
-          subCategoryName,
-          subCategoryProducts as any,
-          categoryType,
-          arabicData,
-          englishData
-        );
+        await this.processSubCategory(category.id, subCategoryName, subCategoryProducts as any, categoryType, translations);
       }
     }
   }
@@ -451,28 +494,26 @@ class SeedEngine {
     subCategoryName: string,
     subCategoryProducts: any,
     categoryType: CategoryType,
-    arabicData: any,
-    englishData: any
+    translations: { ar: any; en: any }
   ) {
-    Logger.info(`  📁 Processing subcategory: ${subCategoryName}`);
+    Logger.info(`  📁 SubCategory: ${subCategoryName}`);
 
-    const subCategorySlug = SmartSlugGenerator.generateUniqueSlug(subCategoryName, 'subcategory');
+    const subCategorySlug = SlugGenerator.generate(subCategoryName, 'subcategory');
 
     const subCategory = await prisma.subCategory.create({
       data: {
         categoryId,
         slug: subCategorySlug,
-        imageUrl: this.getFirstProductImage(subCategoryProducts),
+        imageUrl: this.getFirstImage(subCategoryProducts),
         order: 0,
         isActive: true,
       },
     });
 
-    Logger.incrementMetric('subCategories');
+    Logger.inc('subCategories');
 
-    // Create SubCategory Translations
     for (const locale of ['en', 'ar'] as SupportedLanguage[]) {
-      const translatedName = TranslationRegistry.getSubCategoryTranslation(subCategoryName, locale);
+      const translatedName = TranslationRegistry.getSubCategory(subCategoryName, locale);
 
       await prisma.subCategoryTranslation.create({
         data: {
@@ -483,13 +524,10 @@ class SeedEngine {
         },
       });
 
-      Logger.incrementMetric('translations');
+      Logger.inc('translations');
     }
 
-    // Normalize and process Products (handles both arrays and objects)
-    const groups = Array.isArray(subCategoryProducts)
-      ? subCategoryProducts
-      : [subCategoryProducts];
+    const groups = Array.isArray(subCategoryProducts) ? subCategoryProducts : [subCategoryProducts];
 
     for (const group of groups) {
       if (Array.isArray(group)) {
@@ -502,8 +540,7 @@ class SeedEngine {
                 subCategory.id,
                 categoryType,
                 subCategoryName,
-                arabicData,
-                englishData
+                translations
               );
             }
           }
@@ -516,15 +553,14 @@ class SeedEngine {
             subCategory.id,
             categoryType,
             subCategoryName,
-            arabicData,
-            englishData
+            translations
           );
         }
       }
     }
   }
 
-  private static getFirstProductImage(products: any): string | null {
+  private static getFirstImage(products: any): string | null {
     const groups = Array.isArray(products) ? products : [products];
 
     for (const group of groups) {
@@ -535,18 +571,14 @@ class SeedEngine {
           if (item && typeof item === 'object') {
             for (const productData of Object.values(item)) {
               const data = productData as any;
-              if (data.productImages && data.productImages.length > 0) {
-                return data.productImages[0];
-              }
+              if (data.productImages?.length) return data.productImages[0];
             }
           }
         }
       } else if (typeof group === 'object') {
         for (const productData of Object.values(group)) {
           const data = productData as any;
-          if (data?.productImages?.length) {
-            return data.productImages[0];
-          }
+          if (data?.productImages?.length) return data.productImages[0];
         }
       }
     }
@@ -556,24 +588,44 @@ class SeedEngine {
 
   private static async processProduct(
     productId: string,
-    productData: StaticProductData,
+    productData: ProductData,
     subCategoryId: string,
     categoryType: CategoryType,
     subCategoryName: string,
-    arabicData: any,
-    englishData: any
+    translations: { ar: any; en: any }
   ) {
     try {
-      // Find specifications from translation files
-      const enSpecs = this.findProductSpecs(productId, categoryType, subCategoryName, englishData);
-      const arSpecs = this.findProductSpecs(productId, categoryType, subCategoryName, arabicData);
+      const translationsData = {
+        en: this.findProductTranslation(productId, categoryType, subCategoryName, translations.en),
+        ar: this.findProductTranslation(productId, categoryType, subCategoryName, translations.ar),
+      };
 
-      const specs = enSpecs?.specificationsTable || arSpecs?.specificationsTable || {};
+      const enSpecs = translationsData.en?.specificationsTable || {};
+      const arSpecs = DataProcessor.normalizeSpecs(translationsData.ar?.specificationsTable);
+      const productSlug = SlugGenerator.generate(productData.productName || productId, 'product');
 
-      // Create product slug
-      const productSlug = SmartSlugGenerator.generateUniqueSlug(productData.productName || productId, 'product');
+      const voltage = DataProcessor.extractValue(enSpecs.voltage || arSpecs["المدخل"]);
+      const maxWattage = typeof enSpecs.maximum_wattage === 'number' ? enSpecs.maximum_wattage :
+        typeof arSpecs["أقصى قوة كهربائية (w)"] === 'number' ? arSpecs["أقصى قوة كهربائية (w)"] : null;
+      const brandOfLed = DataProcessor.extractValue(enSpecs.brand_of_led || arSpecs["علامة الليد التجارية"]);
+      const luminousFlux = DataProcessor.extractValue(enSpecs.luminous_flux || arSpecs["الومن"]);
+      const mainMaterial = DataProcessor.extractValue(enSpecs.main_material || arSpecs["مادة التصنيع"]);
+      const cri = DataProcessor.extractValue(enSpecs.cri || arSpecs["مؤشر تجسيد الألوان"]);
+      const beamAngle = typeof enSpecs.beam_angle === 'number' ? enSpecs.beam_angle :
+        typeof arSpecs["زاوية الإضاءة°"] === 'number' ? arSpecs["زاوية الإضاءة°"] : null;
+      const productDimensions = DataProcessor.extractValue(enSpecs.product_dimensions || arSpecs["ابعاد المنتج"]);
+      const holeSize = DataProcessor.extractValue(enSpecs.hole_size || arSpecs["حجم الفتحة"]);
+      const powerFactor = DataProcessor.extractValue(enSpecs.power_factor || arSpecs["معامل القدرة"] || arSpecs["عامل القدرة"]);
+      const colorTemperatures = DataProcessor.mapColorTemp(enSpecs.color_Temperature || arSpecs["درجة حرارة لون الاضاءة"]);
+      const ipRating = DataProcessor.mapIP(enSpecs.IP || arSpecs["درجة الحماية"]);
+      const maxIpRating = DataProcessor.mapIP(enSpecs.maxIP || arSpecs["درجة الحماية القصوي"]);
+      const lifeTime = enSpecs.life_time || arSpecs["العمر الافتراضي"] || null;
+      
+      // Map surface_color to AvailableColors enum
+      const availableColors = DataProcessor.mapAvailableColors(
+        enSpecs.surface_color || arSpecs["الالوان المتوفره الي المنتج"]
+      );
 
-      // Create Product
       const product = await prisma.product.create({
         data: {
           productId: productData.productId,
@@ -582,122 +634,129 @@ class SeedEngine {
           price: productData.price || 0,
           inventory: productData.inventory || 0,
           images: productData.productImages || [],
-
-          // Specifications
-          voltage: DataProcessor.extractSpecValue(specs.voltage),
-          maxWattage: typeof specs.maximum_wattage === 'number' ? specs.maximum_wattage : null,
-          brandOfLed: DataProcessor.extractSpecValue(specs.brand_of_led),
-          luminousFlux: DataProcessor.extractSpecValue(specs.luminous_flux),
-          mainMaterial: DataProcessor.extractSpecValue(specs.main_material),
-          cri: DataProcessor.extractSpecValue(specs.cri),
-          beamAngle: typeof specs.beam_angle === 'number' ? specs.beam_angle : null,
-          productDimensions: DataProcessor.extractSpecValue(specs.product_dimensions),
-          holeSize: DataProcessor.extractSpecValue(specs.hole_size),
-          powerFactor: DataProcessor.extractSpecValue(specs.power_factor),
-          colorTemperatures: DataProcessor.mapColorTemperature(specs.color_Temperature),
-          ipRating: DataProcessor.mapIPRating(specs.IP),
-          maxIpRating: DataProcessor.mapMaxIPRating(specs.maxIP),
-          lifeTime: specs.life_time || null,
-          availableColors: specs.surface_color || [],
-
+          voltage,
+          maxWattage,
+          brandOfLed,
+          luminousFlux,
+          mainMaterial,
+          cri,
+          beamAngle,
+          productDimensions,
+          holeSize,
+          powerFactor,
+          colorTemperatures,
+          ipRating,
+          maxIpRating,
+          lifeTime,
+          availableColors,
           isActive: true,
           isFeatured: false,
           order: 0,
         },
       });
 
-      Logger.incrementMetric('products');
+      Logger.inc('products');
 
-      // Create Product Translations
       for (const locale of ['en', 'ar'] as SupportedLanguage[]) {
-        const translatedName = locale === 'en'
-          ? (enSpecs?.productName || productData.productName)
-          : (arSpecs?.productName || productData.productName);
+        const localeData = translationsData[locale];
+        const specs = locale === 'en' ? enSpecs : arSpecs;
+
+        const translatedName = localeData?.productName || productData.productName || productId;
+
+        // Simple description from specs
+        const description = DescriptionBuilder.build(locale, translatedName, specs);
 
         await prisma.productTranslation.create({
           data: {
             productId: product.id,
             locale,
-            name: translatedName || productId,
-            description: `${translatedName} - Professional lighting solution`,
+            name: translatedName,
+            description,
+            specifications: specs,
           },
         });
 
-        Logger.incrementMetric('translations');
+        Logger.inc('translations');
       }
 
       console.log(`    ✅ Product: ${productId}`);
 
     } catch (error) {
-      Logger.error(`Failed to process product: ${productId}`, error);
+      Logger.error(`Failed: ${productId}`, error);
     }
   }
 
-  private static findProductSpecs(
+  private static findProductTranslation(
     productId: string,
     categoryType: string,
     subCategoryName: string,
     translationData: any
-  ): any {
-    const subCategoryProducts = translationData?.categories?.[categoryType]?.[subCategoryName];
-    if (!subCategoryProducts) return null;
+  ): TranslationData | null {
+    const aliasMap: Record<string, string[]> = {
+      'track-built-in-driver': ['track-built-in'],
+      'track-built-in': ['track-built-in-driver'],
+    };
 
-    const groups = Array.isArray(subCategoryProducts)
-      ? subCategoryProducts
-      : [subCategoryProducts];
+    const candidateKeys = [subCategoryName, ...(aliasMap[subCategoryName] || [])];
 
-    for (const group of groups) {
-      if (!group) continue;
+    for (const key of candidateKeys) {
+      const subCategoryProducts = translationData?.categories?.[categoryType]?.[key];
+      if (!subCategoryProducts) continue;
 
-      if (Array.isArray(group)) {
-        for (const item of group) {
-          if (item && typeof item === 'object' && item[productId]) {
-            return item[productId];
+      const groups = Array.isArray(subCategoryProducts) ? subCategoryProducts : [subCategoryProducts];
+
+      for (const group of groups) {
+        if (!group) continue;
+
+        if (Array.isArray(group)) {
+          for (const item of group) {
+            if (item && typeof item === 'object' && item[productId]) {
+              if (key !== subCategoryName) {
+                Logger.warn(`Using alias "${key}" for subcategory "${subCategoryName}"`);
+              }
+              return item[productId];
+            }
           }
+        } else if (typeof group === 'object' && group[productId]) {
+          if (key !== subCategoryName) {
+            Logger.warn(`Using alias "${key}" for subcategory "${subCategoryName}"`);
+          }
+          return group[productId];
         }
-      } else if (typeof group === 'object' && group[productId]) {
-        return group[productId];
       }
     }
 
+    Logger.warn(`No translation found for product "${productId}" in subcategory "${subCategoryName}" (${categoryType})`);
     return null;
   }
 }
 
-// ==================== MAIN EXECUTION ====================
+// ==================== MAIN ====================
 
 async function main() {
   const startTime = Date.now();
 
   try {
-    console.log('🔌 Connecting to database...');
-    console.log(`   Using: ${isAccelerate && isUsingDirectConnection ? 'DIRECT_URL (Neon direct)' : isAccelerate ? 'DATABASE_URL (Prisma Accelerate)' : 'DATABASE_URL (Direct)'}`);
+    console.log('🔌 Connecting...');
     await prisma.$connect();
-    Logger.success('Database connected');
+    Logger.success('Connected');
 
-    await SeedEngine.seedDatabase();
+    await SeedEngine.seed();
 
     const duration = ((Date.now() - startTime) / 1000).toFixed(2);
     console.log(`\n⏱️ Total time: ${duration}s`);
 
   } catch (error) {
-    console.error('💥 Seed failed:', error);
+    console.error('💥 Failed:', error);
     process.exit(1);
   } finally {
     await prisma.$disconnect();
   }
 }
 
-// Error handlers
 process.on('unhandledRejection', (error) => {
   console.error('Unhandled rejection:', error);
   process.exit(1);
 });
 
-process.on('uncaughtException', (error) => {
-  console.error('Uncaught exception:', error);
-  process.exit(1);
-});
-
-// Execute
 main();

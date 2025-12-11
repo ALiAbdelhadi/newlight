@@ -3,13 +3,15 @@
 import { Container } from "@/components/container"
 import { ProductCard } from "@/components/product-card"
 import { Link } from "@/i18n/navigation"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from "next-intl"
 import { ArrowLeft } from "lucide-react"
 
-gsap.registerPlugin(ScrollTrigger)
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger)
+}
 
 type SubCategory = {
     id: string
@@ -47,7 +49,6 @@ type SubCategory = {
 
 interface SectionTypePageProps {
     subCategory: SubCategory
-    locale: string
 }
 
 export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
@@ -55,6 +56,7 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
     const heroRef = useRef<HTMLElement>(null)
     const gridRef = useRef<HTMLDivElement>(null)
     const cardRefs = useRef<HTMLDivElement[]>([])
+    const [isClient, setIsClient] = useState(false)
 
     const subCategoryTranslation = subCategory.translations[0]
     const categoryTranslation = subCategory.category.translations[0]
@@ -62,7 +64,11 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
     const categoryName = categoryTranslation?.name || subCategory.category.categoryType
 
     useEffect(() => {
-        if (!heroRef.current) return
+        setIsClient(true)
+    }, [])
+
+    useEffect(() => {
+        if (!isClient || !heroRef.current) return
 
         const ctx = gsap.context(() => {
             gsap.from(heroRef.current, {
@@ -76,45 +82,45 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                     once: true,
                 },
             })
-        })
+        }, heroRef)
 
         return () => ctx.revert()
-    }, [])
+    }, [isClient])
 
     useEffect(() => {
-        if (cardRefs.current.length === 0) return
+        if (!isClient) return
 
-        cardRefs.current.forEach((el, index) => {
-            if (!el) return
+        // Filter out undefined refs
+        const validRefs = cardRefs.current.filter((el): el is HTMLDivElement => el !== null && el !== undefined)
+        if (validRefs.length === 0) return
 
-            gsap.from(el, {
-                opacity: 0,
-                y: 40,
-                duration: 0.9,
-                delay: index * 0.08,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 88%",
-                    once: true,
-                },
+        const ctx = gsap.context(() => {
+            validRefs.forEach((el, index) => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 40,
+                    duration: 0.9,
+                    delay: index * 0.08,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 88%",
+                        once: true,
+                    },
+                })
             })
-        })
+        }, gridRef)
 
-        return () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-        }
-    }, [subCategory.products])
+        return () => ctx.revert()
+    }, [isClient, subCategory.products])
 
     const productCount = subCategory.products.length
     const productLabel = productCount === 1 ? t("product") : t("products")
 
     return (
         <main className="min-h-screen bg-background">
-            {/* Hero Section */}
-            <section ref={heroRef} className="pt-28 pb-12 lg:pt-36 lg:pb-16">
+            <section ref={heroRef} className="py-24">
                 <Container>
-                    {/* Back Link */}
                     <Link
                         href={`/category/${subCategory.category.slug}`}
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
@@ -122,7 +128,6 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                         <ArrowLeft className="w-4 h-4 rtl:rotate-180 transition-transform group-hover:-translate-x-1" />
                         <span className="font-light tracking-wide">{categoryName}</span>
                     </Link>
-
                     <div className="max-w-3xl space-y-6">
                         <div className="space-y-4">
                             <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">{categoryName}</p>
@@ -139,8 +144,6 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                     </div>
                 </Container>
             </section>
-
-            {/* Products Grid */}
             <section ref={gridRef} className="pb-28 lg:pb-36">
                 <Container>
                     {subCategory.products.length === 0 ? (
@@ -149,14 +152,12 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                         </div>
                     ) : (
                         <>
-                            {/* Products Count */}
+
                             <div className="mb-10 pb-6 border-b border-border">
                                 <p className="text-sm text-muted-foreground font-light tracking-wide">
                                     {productCount} {productLabel}
                                 </p>
                             </div>
-
-                            {/* Products Grid */}
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
                                 {subCategory.products.map((product, index) => {
                                     const productTranslation = product.translations[0]

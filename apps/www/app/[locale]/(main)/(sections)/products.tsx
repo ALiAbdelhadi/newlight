@@ -3,6 +3,7 @@
 import { Container } from "@/components/container"
 import { ProductCard } from "@/components/product-card"
 import { useTranslations } from 'next-intl';
+import { Link } from "@/i18n/navigation"
 
 interface Product {
     id: string;
@@ -11,73 +12,71 @@ interface Product {
     category: string;
     price: number;
     badge?: string;
+    productId: string;
+    categorySlug: string;
+    subCategorySlug: string;
 }
 
-const PRODUCT_BASE_DATA = [
-    {
-        id: "1",
-        image: "/products/indoor/2×120-led/nl-2×120-30w.png",
-        price: 299,
-        titleKey: "pendantLightTitle",
-        categoryKey: "categoryResidential",
-        badgeKey: "badgeNew",
-    },
-    {
-        id: "2",
-        image: "/products/indoor/cob/nl-recessed/nl-recessed-5w.png",
-        price: 149,
-        titleKey: "wallSconceTitle",
-        categoryKey: "categoryIndoor",
-    },
-    {
-        id: "3",
-        image: "/products/indoor/cob-frames/ln-1995-bronze-rounded/ln-1995-bronze-rounded (1).png",
-        price: 399,
-        titleKey: "floorLampTitle",
-        categoryKey: "categoryResidential",
-        badgeKey: "badgeFeatured",
-    },
-    {
-        id: "4",
-        image: "/products/outdoor/blade/nl-111-gray-7w/nl-111-gray-7w.png",
-        price: 199,
-        titleKey: "tableLampTitle",
-        categoryKey: "categoryIndoor",
-    },
-    {
-        id: "5",
-        image: "/products/indoor/magnatic/nl-609-6w/nl-609-6w (1).png",
-        price: 549,
-        titleKey: "ceilingFixtureTitle",
-        categoryKey: "categoryResidential",
-    },
-    {
-        id: "6",
-        image: "/products/outdoor/blukhead/nl-bh-18w.png",
-        price: 179,
-        titleKey: "outdoorLightTitle",
-        categoryKey: "categoryOutdoor",
-        badgeKey: "badgeSale",
-    },
-];
+type ProductFromDB = {
+    id: string;
+    productId: string;
+    slug: string;
+    price: number;
+    images: string[];
+    isFeatured: boolean;
+    translations: Array<{
+        locale: string;
+        name: string;
+        description: string | null;
+    }>;
+    subCategory: {
+        slug: string;
+        translations: Array<{
+            locale: string;
+            name: string;
+            description: string | null;
+        }>;
+        category: {
+            slug: string;
+            translations: Array<{
+                locale: string;
+                name: string;
+                description: string | null;
+            }>;
+        };
+    };
+}
 
-export function Products() {
+interface ProductsProps {
+    products: ProductFromDB[];
+}
+
+export function Products({ products }: ProductsProps) {
     const t = useTranslations('products-section');
-    const tProductData = useTranslations('products-section.productData');
-
 
     const handleProductClick = (productId: string) => {
         console.log(`Clicked product: ${productId}`)
     }
 
-    const localizedProducts: Product[] = PRODUCT_BASE_DATA.map(baseProduct => ({
-        id: baseProduct.id,
-        image: baseProduct.image,
-        price: baseProduct.price,
-        title: tProductData(baseProduct.titleKey),
-        category: tProductData(baseProduct.categoryKey),
-        badge: baseProduct.badgeKey ? tProductData(baseProduct.badgeKey) : undefined,
-    }));
+    const mappedProducts: Product[] = products.map(product => {
+        const productTranslation = product.translations[0]
+        const subCategoryTranslation = product.subCategory.translations[0]
+        const productName = productTranslation?.name || product.productId
+        const categoryName = subCategoryTranslation?.name || product.subCategory.slug
+        const productImage = product.images[0] || "/placeholder.svg"
+
+        return {
+            id: product.id,
+            image: productImage,
+            title: productName,
+            category: categoryName,
+            price: product.price,
+            badge: product.isFeatured ? "Featured" : undefined,
+            productId: product.productId,
+            categorySlug: product.subCategory.category.slug,
+            subCategorySlug: product.subCategory.slug,
+        }
+    });
 
 
     return (
@@ -97,15 +96,28 @@ export function Products() {
                 </section>
                 <section className="pb-20">
                     <div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-                            {localizedProducts.map((product) => (
-                                <ProductCard
-                                    key={product.id}
-                                    {...product}
-                                    onClick={() => handleProductClick(product.id)}
-                                />
-                            ))}
-                        </div>
+                        {mappedProducts.length === 0 ? (
+                            <div className="text-center py-24 border border-border rounded-sm bg-secondary/20">
+                                <p className="text-muted-foreground font-light text-lg tracking-wide">
+                                    {t('noProducts') || 'No products available'}
+                                </p>
+                            </div>
+                        ) : (
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
+                                {mappedProducts.map((product) => (
+                                    <Link
+                                        key={product.id}
+                                        href={`/category/${product.categorySlug}/${product.subCategorySlug}/${product.productId}`}
+                                        className="block"
+                                    >
+                                        <ProductCard
+                                            {...product}
+                                            onClick={() => handleProductClick(product.id)}
+                                        />
+                                    </Link>
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </section>
             </Container>

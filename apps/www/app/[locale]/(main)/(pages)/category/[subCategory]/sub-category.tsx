@@ -6,10 +6,13 @@ import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from "next-intl"
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import { ArrowLeft } from "lucide-react"
 
-gsap.registerPlugin(ScrollTrigger)
+// Register plugin only once on client side
+if (typeof window !== "undefined") {
+    gsap.registerPlugin(ScrollTrigger)
+}
 
 type Category = {
     id: string
@@ -38,20 +41,24 @@ type Category = {
 
 interface SubCategoryPageProps {
     category: Category
-    locale: string
 }
 
 export default function SubCategoryPage({ category }: SubCategoryPageProps) {
     const t = useTranslations("sub-category-page")
     const heroRef = useRef<HTMLElement>(null)
     const gridRef = useRef<HTMLDivElement>(null)
-    const cardRefs = useRef<HTMLDivElement[]>([])
+    const cardRefs = useRef<(HTMLDivElement | null)[]>([])
+    const [isClient, setIsClient] = useState(false)
 
     const categoryTranslation = category.translations[0]
     const categoryName = categoryTranslation?.name || category.categoryType
 
     useEffect(() => {
-        if (!heroRef.current) return
+        setIsClient(true)
+    }, [])
+
+    useEffect(() => {
+        if (!isClient || !heroRef.current) return
 
         const ctx = gsap.context(() => {
             gsap.from(heroRef.current, {
@@ -65,42 +72,42 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                     once: true,
                 },
             })
-        })
+        }, heroRef)
 
         return () => ctx.revert()
-    }, [])
+    }, [isClient])
 
     useEffect(() => {
-        if (cardRefs.current.length === 0) return
+        if (!isClient || category.subCategories.length === 0) return
 
-        cardRefs.current.forEach((el, index) => {
-            if (!el) return
+        // Filter out null refs and ensure we have valid elements
+        const validCards = cardRefs.current.filter((el): el is HTMLDivElement => el !== null)
+        if (validCards.length === 0) return
 
-            gsap.from(el, {
-                opacity: 0,
-                y: 40,
-                duration: 1,
-                delay: index * 0.12,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: el,
-                    start: "top 85%",
-                    once: true,
-                },
+        const ctx = gsap.context(() => {
+            validCards.forEach((el, index) => {
+                gsap.from(el, {
+                    opacity: 0,
+                    y: 40,
+                    duration: 1,
+                    delay: index * 0.12,
+                    ease: "power3.out",
+                    scrollTrigger: {
+                        trigger: el,
+                        start: "top 85%",
+                        once: true,
+                    },
+                })
             })
-        })
+        }, gridRef)
 
-        return () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-        }
-    }, [category.subCategories])
+        return () => ctx.revert()
+    }, [isClient, category.subCategories])
 
     return (
         <main className="min-h-screen bg-background">
-            {/* Hero Section */}
-            <section ref={heroRef} className="pt-28 pb-16 lg:pt-36 lg:pb-20">
+            <section ref={heroRef} className="py-24">
                 <Container>
-                    {/* Back Link */}
                     <Link
                         href="/category"
                         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
@@ -108,7 +115,6 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                         <ArrowLeft className="w-4 h-4 rtl:rotate-180 transition-transform group-hover:-translate-x-1" />
                         <span className="font-light tracking-wide">{t("backTo", { category: "Categories" })}</span>
                     </Link>
-
                     <div className="max-w-3xl space-y-6">
                         <div className="space-y-4">
                             <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">Collection</p>
@@ -125,8 +131,6 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                     </div>
                 </Container>
             </section>
-
-            {/* Subcategories Grid */}
             <section ref={gridRef} className="pb-28 lg:pb-36">
                 <Container>
                     {category.subCategories.length === 0 ? (
@@ -142,7 +146,7 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                                     <div
                                         key={subCategory.id}
                                         ref={(el) => {
-                                            if (el) cardRefs.current[index] = el
+                                            cardRefs.current[index] = el
                                         }}
                                     >
                                         <CategoryCard

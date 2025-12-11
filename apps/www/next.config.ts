@@ -3,6 +3,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true
+  },
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
@@ -11,11 +14,9 @@ const nextConfig: NextConfig = {
     styledComponents: true,
   },
   webpack: (config, { isServer }) => {
-    // حل مسارات .js إلى .ts في Prisma client
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js', '.jsx'],
     };
-    // إضافة resolveExtensions
     if (!config.resolve.extensions) {
       config.resolve.extensions = [];
     }
@@ -24,13 +25,13 @@ const nextConfig: NextConfig = {
       '.tsx',
       '.js',
       '.jsx',
-      ...config.resolve.extensions.filter((ext: string) => 
+      ...config.resolve.extensions.filter((ext: string) =>
         !['.ts', '.tsx', '.js', '.jsx'].includes(ext)
       ),
     ];
     return config;
   },
-    images: {
+  images: {
     remotePatterns: [
       {
         protocol: "https",

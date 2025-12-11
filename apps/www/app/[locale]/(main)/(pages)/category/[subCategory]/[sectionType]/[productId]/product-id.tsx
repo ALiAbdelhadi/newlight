@@ -2,12 +2,14 @@
 
 import { Container } from "@/components/container"
 import { Link } from "@/i18n/navigation"
-import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import ProductColorTempButtons from "@/components/color-temp-buttons"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useTranslations } from "next-intl"
-import { Check, X, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
+import { useLocale, useTranslations } from "next-intl"
+import Image from "next/image"
+import { useEffect, useRef, useState } from "react"
+import ProductSurfaceColorButtons from "@/components/surface-color-button"
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -33,6 +35,7 @@ type Product = {
     maxIpRating: string | null
     lifeTime: number | null
     availableColors: string[]
+    specifications?: Record<string, string | number | string[]>
     isActive: boolean
     isFeatured: boolean
     translations: Array<{
@@ -61,12 +64,18 @@ type Product = {
 
 interface ProductIdPageProps {
     product: Product
-    locale: string
 }
 
 export default function ProductIdPage({ product }: ProductIdPageProps) {
     const t = useTranslations("product-page")
+    const locale = useLocale()
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
+    const [selectedColorTemp, setSelectedColorTemp] = useState<string>(
+        product.colorTemperatures[0] || ""
+    )
+    const [surfaceColor, setSurfaceColor] = useState<string>(
+        product.availableColors[0] || ""
+    )
     const heroRef = useRef<HTMLElement>(null)
     const specsRef = useRef<HTMLElement>(null)
 
@@ -121,29 +130,126 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return () => ctx.revert()
     }, [])
 
-    const specifications = [
-        { label: t("voltage"), value: product.voltage },
-        { label: t("maxWattage"), value: product.maxWattage ? `${product.maxWattage}W` : null },
-        { label: t("brandOfLed"), value: product.brandOfLed },
-        { label: t("luminousFlux"), value: product.luminousFlux },
-        { label: t("mainMaterial"), value: product.mainMaterial },
-        { label: t("cri"), value: product.cri },
-        { label: t("beamAngle"), value: product.beamAngle ? `${product.beamAngle}°` : null },
-        { label: t("productDimensions"), value: product.productDimensions },
-        { label: t("holeSize"), value: product.holeSize },
-        { label: t("powerFactor"), value: product.powerFactor },
-        { label: t("ipRating"), value: product.ipRating },
-        { label: t("maxIpRating"), value: product.maxIpRating },
-        {
-            label: t("lifeTime"),
-            value: product.lifeTime ? `${product.lifeTime.toLocaleString()} ${t("hours")}` : null,
-        },
-    ].filter((spec) => spec.value)
+    const preferredOrder = [
+        "المدخل",
+        "voltage",
+        "أقصى قوة كهربائية (W)",
+        "maximum_wattage",
+        "علامة الليد التجارية",
+        "brand_of_led",
+        "اللومن",
+        "luminous_flux",
+        "مادة التصنيع",
+        "main_material",
+        "مؤشر تجسيد الألوان",
+        "cri",
+        "زاوية الإضاءة°",
+        "beam_angle",
+        "أبعاد المنتج",
+        "product_dimensions",
+        "حجم الفتحة",
+        "hole_size",
+        "معامل القدرة",
+        "power_factor",
+        "درجة الحماية",
+        "IP",
+        "أقصى درجة حماية",
+        "maxIP",
+        "العمر الافتراضي",
+        "life_time",
+        "درجة حرارة لون الاضاءة",
+        "color_Temperature",
+        "الالوان المتوفره الي المنتج",
+        "surface_color",
+    ] as const
+
+    const formatter = new Intl.NumberFormat(locale, {
+        maximumFractionDigits: 2,
+        ...(locale.startsWith("ar") ? { numberingSystem: "arab" } : {}),
+    })
+
+    const formatNumber = (value: number | string) => {
+        const num = typeof value === "number" ? value : Number(value)
+        if (Number.isFinite(num)) return formatter.format(num)
+        return value.toString()
+    }
+
+    const formatColorTemps = (temps: string[]) => {
+        const isArabic = locale.startsWith("ar")
+        const map: Record<string, string> = {
+            WARM_3000K: isArabic ? "دافئ 3000" : "Warm 3000",
+            COOL_4000K: isArabic ? "بارد 4000" : "Cool 4000",
+            WHITE_6500K: isArabic ? "أبيض 6500" : "White 6500",
+        }
+        const joiner = isArabic ? " ، " : ", "
+        return temps
+            .map((temp) => map[temp] || temp.replace(/_/g, " ").toLowerCase())
+            .join(joiner)
+    }
+
+    const formatValue = (label: string, value: string | number | string[]) => {
+        if (value === null || value === undefined || value === "") return ""
+
+        const isArabic = locale.startsWith("ar")
+        const joiner = isArabic ? " ، " : ", "
+
+        if (Array.isArray(value)) {
+            return value.map((v) => `${formatNumber(v)}K`).join(joiner)
+        }
+
+        const normalizedLabel = label.toLowerCase()
+
+        if (["أقصى قوة كهربائية (w)", "maximum_wattage"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
+            const unit = isArabic ? "وات" : "W"
+            return `${formatNumber(value)} ${unit}`
+        }
+
+        if (["درجة الحماية القصوي", "maxip"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
+            return formatNumber(value)
+        }
+
+        if (["درجة حرارة لون الاضاءة", "color_temperature", "color temperature"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
+            return formatNumber(value)
+        }
+
+        if (["اللومن", "luminous_flux"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
+            const unit = isArabic ? "لومن" : "lm"
+            return `${formatNumber(value)} ${unit}`
+        }
+        if (["العمر الافتراضي", "life_time"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
+            const unit = isArabic ? "ساعة" : "hours"
+            return `${formatNumber(value)} ${unit}`
+        }
+
+        return Array.isArray(value) ? value.join(joiner) : value.toString()
+    }
+
+    const specEntries = Object.entries(product.specifications || {})
+        .map(([label, value]) => {
+            if (value === null || value === undefined || value === "") return null
+            return { label, value: formatValue(label, value) }
+        })
+        .filter(Boolean) as Array<{ label: string; value: string | number }>
+    if (product.colorTemperatures.length > 0) {
+        const colorTempLabel = locale.startsWith("ar") ? "درجة حرارة لون الاضاءة" : "Color temperature"
+        specEntries.push({
+            label: colorTempLabel,
+            value: formatColorTemps(product.colorTemperatures),
+        })
+    }
+
+    const specifications = specEntries.sort((a, b) => {
+        const ia = preferredOrder.indexOf(a.label as (typeof preferredOrder)[number])
+        const ib = preferredOrder.indexOf(b.label as (typeof preferredOrder)[number])
+        if (ia !== -1 && ib !== -1) return ia - ib
+        if (ia !== -1) return -1
+        if (ib !== -1) return 1
+        return a.label.localeCompare(b.label, "ar")
+    })
 
     return (
         <main className="min-h-screen bg-background">
-            {/* Breadcrumb */}
-            <section className="pt-28 pb-6 lg:pt-32">
+            <section className="py-24">
                 <Container>
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Link
@@ -164,13 +270,10 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                     </nav>
                 </Container>
             </section>
-
-            {/* Product Hero */}
             <section ref={heroRef} className="pb-20 lg:pb-28">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
-                        {/* Product Images */}
-                        <div className="space-y-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
+                        <div className="space-y-4 col-span-2">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
@@ -179,6 +282,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                         fill
                                         className="object-cover"
                                         priority
+                                        quality={100}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-muted-foreground font-light">
@@ -193,8 +297,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     </div>
                                 )}
                             </div>
-
-                            {/* Thumbnail Gallery */}
                             {product.images.length > 1 && (
                                 <div className="grid grid-cols-4 gap-3">
                                     {product.images.map((image, index) => (
@@ -215,19 +317,14 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                 </div>
                             )}
                         </div>
-
-                        {/* Product Info */}
-                        <div className="space-y-8 lg:pt-4">
-                            {/* Header */}
+                        <div className="space-y-8 lg:pt-4 col-span-3">
                             <div className="space-y-4">
                                 <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">{subCategoryName}</p>
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground leading-[1.1]">
                                     {productName}
                                 </h1>
-                                <div className="h-px w-16 bg-accent" />
+                                <div className="h-px w-16 bg-primary" />
                             </div>
-
-                            {/* Description */}
                             {productDescription && (
                                 <div className="prose prose-sm max-w-none">
                                     <p className="text-muted-foreground font-light leading-relaxed text-base tracking-wide">
@@ -235,102 +332,58 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     </p>
                                 </div>
                             )}
-
-                            {/* Price */}
                             <div className="flex items-baseline gap-2 py-6 border-y border-border">
                                 <span className="text-lg font-light text-muted-foreground">{t("currency")}</span>
                                 <span className="text-5xl md:text-6xl font-serif font-light tracking-tight text-foreground">
                                     {product.price.toLocaleString()}
                                 </span>
                             </div>
-
-                            {/* Stock Status */}
-                            <div>
-                                {product.inventory > 0 ? (
-                                    <div className="flex items-center gap-3 text-sm">
-                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-green-100 text-green-700">
-                                            <Check className="w-4 h-4" />
-                                        </div>
-                                        <span className="font-light tracking-wide text-green-700">
-                                            {t("inStock")} ({t("available", { count: product.inventory })})
-                                        </span>
-                                    </div>
-                                ) : (
-                                    <div className="flex items-center gap-3 text-sm">
-                                        <div className="flex items-center justify-center w-6 h-6 rounded-full bg-red-100 text-red-700">
-                                            <X className="w-4 h-4" />
-                                        </div>
-                                        <span className="font-light tracking-wide text-red-700">{t("outOfStock")}</span>
-                                    </div>
-                                )}
-                            </div>
-
-                            {/* Color Temperature */}
                             {product.colorTemperatures.length > 0 && (
-                                <div className="space-y-3">
-                                    <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                                        {t("colorTemperature")}
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.colorTemperatures.map((temp) => (
-                                            <span
-                                                key={temp}
-                                                className="px-4 py-2 bg-secondary text-secondary-foreground rounded-sm text-sm font-light tracking-wide"
-                                            >
-                                                {temp.replace("_", " ")}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
+                                <ProductColorTempButtons
+                                    productId={product.productId}
+                                    availableTemps={product.colorTemperatures}
+                                    initialTemp={selectedColorTemp}
+                                    onColorTempChange={setSelectedColorTemp}
+                                />
                             )}
-
-                            {/* Available Colors */}
-                            {product.availableColors.length > 0 && (
-                                <div className="space-y-3">
-                                    <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                                        {t("availableColors")}
-                                    </p>
-                                    <div className="flex flex-wrap gap-2">
-                                        {product.availableColors.map((color) => (
-                                            <span
-                                                key={color}
-                                                className="px-4 py-2 bg-secondary text-secondary-foreground rounded-sm text-sm font-light tracking-wide capitalize"
-                                            >
-                                                {color}
-                                            </span>
-                                        ))}
-                                    </div>
-                                </div>
+                            {product.availableColors && product.availableColors.length > 0 && (
+                                <ProductSurfaceColorButtons
+                                    productId={product.productId}
+                                    availableColors={product.availableColors}
+                                    initialColor={surfaceColor}
+                                    onSurfaceColorChange={setSurfaceColor}
+                                />
                             )}
                         </div>
                     </div>
                 </Container>
             </section>
-
-            {/* Specifications */}
             {specifications.length > 0 && (
-                <section ref={specsRef} className="border-t border-border bg-secondary/20 py-20 lg:py-28">
+                <section ref={specsRef} className="border-t border-border bg-secondary/20 py-24">
                     <Container>
                         <div className="mb-12">
-                            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light mb-4">Technical</p>
+                            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light mb-4">
+                                {t("technicalLabel")}
+                            </p>
                             <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light tracking-tight text-foreground">
                                 {t("specifications")}
                             </h2>
                             <div className="h-px w-16 bg-accent mt-4" />
                         </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
-                            {specifications.map((spec, index) => (
-                                <div
-                                    key={index}
-                                    className="bg-card border border-border rounded-sm p-6 hover:border-accent/50 transition-colors duration-300"
-                                >
-                                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-light mb-2">
-                                        {spec.label}
-                                    </p>
-                                    <p className="text-lg font-light text-foreground tracking-wide">{spec.value}</p>
-                                </div>
-                            ))}
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full border border-border text-sm">
+                                <tbody>
+                                    {specifications.map((spec, index) => (
+                                        <tr
+                                            key={index}
+                                            className="border-b border-border/70 hover:bg-secondary/40 transition-colors"
+                                        >
+                                            <td className="px-4 py-3 text-muted-foreground font-light whitespace-nowrap">{spec.label}</td>
+                                            <td className="px-4 py-3 text-foreground font-light">{spec.value}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
                         </div>
                     </Container>
                 </section>

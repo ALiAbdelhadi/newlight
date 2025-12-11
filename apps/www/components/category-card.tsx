@@ -67,9 +67,9 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
     }, [])
 
     return (
-        <div ref={cardRef} className="group">
+        <div ref={cardRef} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30 transition-all">
             <Link href={href} className="block">
-                <div ref={imageRef} className="relative overflow-hidden aspect-4/5 mb-8 bg-muted">
+                <div ref={imageRef} className="relative overflow-hidden aspect-square mb-8 bg-muted">
                     <Image
                         src={imageUrl}
                         alt={title}
@@ -77,20 +77,16 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
                         width={1000}
                         height={1250}
                     />
-                    <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
                 <div ref={contentRef} className="space-y-4">
                     <div>
-                        <p className="text-sm uppercase tracking-widest text-muted-foreground mb-2 font-light">
+                        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2 font-light">
                             {subtitle}
                         </p>
-                        <h3 className="text-4xl md:text-5xl font-light tracking-tight text-foreground mb-3">
+                        <h3 className="text-xl md:text-2xl font-light tracking-tight text-foreground mb-3">
                             {title}
                         </h3>
                     </div>
-                    <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide leading-relaxed">
-                        {description}
-                    </p>
                     <div className="flex items-center gap-2 pt-2">
                         <span className="text-foreground text-sm font-medium tracking-wider uppercase group-hover:text-muted-foreground transition-colors">
                             {t("text")}
@@ -109,7 +105,7 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
                             />
                         </svg>
                     </div>
-                    <div className="h-px w-12 bg-border" />
+                    <div className="h-px w-12 bg-border group-hover:bg-primary" />
                 </div>
             </Link>
         </div>

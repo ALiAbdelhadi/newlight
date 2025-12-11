@@ -181,20 +181,6 @@
         }
     },
     "categories-page": {
-        "heroTitle": "Explore Categories",
-        "heroSubtitle": "Discover our curated collection of premium lighting solutions for every space",
-        "categoryIndoor": "Indoor",
-        "categoryIndoorDesc": "Ambient and task lighting for residential and commercial spaces",
-        "categoryOutdoor": "Outdoor",
-        "categoryOutdoorDesc": "Durable lighting solutions for gardens, patios, and exterior areas",
-        "categoryFeatured": "Featured",
-        "categoryFeaturedDesc": "Hand-picked selections and trending lighting designs",
-        "ctaTitle": "Need Help Choosing?",
-        "ctaDescription": "Browse our comprehensive guides or contact our lighting experts for personalized recommendations",
-        "ctaContact": "Contact Us",
-        "ctaLearn": "Learn More"
-    },
-    "categories-page": {
         "heroTitle": "Illuminate Your World",
         "heroSubtitle": "Discover our curated collection of premium lighting solutions designed to transform every space into a masterpiece of light and shadow.",
         "categoryIndoor": "Indoor",
@@ -220,5 +206,37 @@
         "productCount": "{count} {count, plural, =1 {product} other {products}}",
         "products": "products",
         "product": "product"
+    },
+    "product-page": {
+        "technicalLabel": "Technical",
+        "featured": "Featured",
+        "inStock": "In Stock",
+        "available": "{count} available",
+        "outOfStock": "Out of Stock",
+        "colorTemperature": "Color Temperature",
+        "availableColors": "Available Colors",
+        "specifications": "Specifications",
+        "noImage": "No image available",
+        "voltage": "Voltage",
+        "maxWattage": "Max Wattage",
+        "brandOfLed": "Brand of LED",
+        "luminousFlux": "Luminous Flux",
+        "mainMaterial": "Main Material",
+        "cri": "CRI",
+        "beamAngle": "Beam Angle",
+        "productDimensions": "Product Dimensions",
+        "holeSize": "Hole Size",
+        "powerFactor": "Power Factor",
+        "ipRating": "IP Rating",
+        "maxIpRating": "Max IP Rating",
+        "lifeTime": "Life Time",
+        "hours": "hours",
+        "currency": "EGP"
+    },
+    "metadatas": {
+        "category-page": {
+            "metaTitle": "Product Categories",
+            "metaDescription": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+        }
     }
 }
