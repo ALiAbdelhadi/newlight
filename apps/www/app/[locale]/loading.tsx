@@ -1,19 +1,21 @@
 "use client"
 
-import { useEffect, useRef } from "react"
 import gsap from "gsap"
+import { useTranslations } from "next-intl"
+import { useEffect, useRef } from "react"
 
 export default function Loading() {
   const containerRef = useRef<HTMLDivElement>(null)
   const dotsRef = useRef<(HTMLDivElement | null)[]>([])
 
+  const t = useTranslations("LoadingScreen")
+
   useEffect(() => {
+
     const ctx = gsap.context(() => {
       const dots = dotsRef.current.filter(Boolean)
 
       if (dots.length === 0) return
-
-      // Create staggered animation for each dot
       const timeline = gsap.timeline({ repeat: -1 })
 
       dots.forEach((dot, index) => {
@@ -27,7 +29,6 @@ export default function Loading() {
           },
           index * 0.2,
         )
-
         timeline.to(
           dot,
           {
@@ -62,9 +63,11 @@ export default function Loading() {
               />
             ))}
           </div>
-          <h2 className="text-2xl md:text-3xl font-light tracking-tight text-foreground mb-2">Loading</h2>
+          <h2 className="text-2xl md:text-3xl font-light tracking-tight text-foreground mb-2">
+            {t("title")}
+          </h2>
           <p className="text-muted-foreground font-light tracking-wide">
-            Please wait while we prepare everything for you
+            {t("message")}
           </p>
         </div>
         <div className="h-px w-16 bg-border/30 mx-auto mt-8" />

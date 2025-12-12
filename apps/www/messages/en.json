@@ -1,4 +1,12 @@
 {
+    "LoadingScreen": {
+        "title": "Loading",
+        "message": "Please wait while we prepare everything for you"
+    },
+    "Common": {
+        "welcome": "Welcome",
+        "error": "An error occurred"
+    },
     "loading": {
         "title": "Loading your order...",
         "description": "This won’t take long"
@@ -72,6 +80,65 @@
         "finishesTitle": "Finishes",
         "finishesExplore": "Explore our product finishes",
         "discoverAction": "Discover"
+    },
+    "about-us-page": {
+        "metaTitle": "About Us | Premium Lighting Solutions",
+        "metaDescription": "Discover our story, mission, and vision. Leading provider of premium indoor and outdoor lighting solutions for residential and commercial spaces.",
+        "heroTitle": "Illuminating Excellence",
+        "heroSubtitle": "For over a decade, we have been at the forefront of lighting innovation, transforming spaces with our carefully curated collection of premium lighting solutions. Our passion for quality and design excellence drives everything we do.",
+        "featuresTitle": "Why Choose Us",
+        "featuresSubtitle": "We combine expertise, quality, and innovation to deliver exceptional lighting experiences.",
+        "features": [
+            {
+                "title": "Expert Lighting Design",
+                "description": "Our certified lighting specialists provide professional calculations based on international lux standards, ensuring optimal illumination for every space. From residential to commercial projects, we deliver customized lighting solutions."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "We source only the finest lighting fixtures from world-renowned manufacturers. Each product undergoes rigorous quality control to ensure exceptional performance, durability, and aesthetic excellence that stands the test of time."
+            },
+            {
+                "title": "Fast Delivery Service",
+                "description": "Experience efficient delivery within 5-7 business days with real-time tracking across all regions. Our logistics partners ensure your lighting fixtures arrive safely and on schedule, ready for installation."
+            },
+            {
+                "title": "Extended Warranty Coverage",
+                "description": "All our premium lighting products come with comprehensive 3-5 year warranty coverage. We stand behind the quality of our products and provide responsive support throughout the warranty period."
+            },
+            {
+                "title": "Flexible Payment Options",
+                "description": "Shop with confidence using our flexible payment methods including secure cash on delivery, bank transfers, Your convenience and security are our priority."
+            },
+            {
+                "title": "Energy Efficiency",
+                "description": "Our LED lighting solutions deliver exceptional energy savings of up to 80% compared to traditional lighting. Reduce your carbon footprint while enjoying superior illumination quality and lower electricity costs."
+            }
+        ],
+        "categoriesTitle": "Our Collections",
+        "categoriesSubtitle": "Explore our comprehensive range of indoor and outdoor lighting solutions.",
+        "categories": [
+            {
+                "title": "Indoor Lighting",
+                "description": "Transform your interior spaces with our exquisite collection of chandeliers, pendant lights, wall sconces, recessed lighting, and decorative fixtures. Perfect for residential, hospitality, and commercial environments.",
+                "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+                "slug": "indoor"
+            },
+            {
+                "title": "Outdoor Lighting",
+                "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions. From garden path lights to architectural facade lighting, create stunning nighttime ambiance and enhanced security.",
+                "image": "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+                "slug": "outdoor"
+            }
+        ],
+        "exploreCategory": "Explore Collection",
+        "visionTitle": "Our Vision",
+        "visionDescription": "To be the leading provider of innovative lighting solutions in the region, setting new standards for quality, design excellence, and customer satisfaction. We envision a future where every space is transformed through the artistry of light, creating environments that inspire, comfort, and elevate the human experience.",
+        "missionTitle": "Our Mission",
+        "missionDescription": "To deliver exceptional lighting solutions that combine cutting-edge technology, timeless design, and sustainable practices. We are committed to understanding our clients' unique needs and exceeding their expectations through personalized service, expert guidance, and premium products that enhance both functionality and aesthetics.",
+        "ctaTitle": "Ready to Transform Your Space?",
+        "ctaDescription": "Discover our complete collection of premium lighting solutions and let our experts help you create the perfect ambiance for your project.",
+        "ctaExplore": "Explore Collections",
+        "ctaContact": "Contact Us"
     },
     "category-section": {
         "header": {
