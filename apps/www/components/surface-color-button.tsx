@@ -1,8 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
-import { useState } from "react";
+import { Check, Loader2 } from "lucide-react";
+import { useState, useTransition } from "react";
+import { changeProductAvailableColor } from "@/lib/surface-color";
+import { AvailableColors } from "@repo/database";
 
 const formatAvailableColor = (color: string, locale: string): string => {
     const isArabic = locale.startsWith("ar");
@@ -16,28 +18,43 @@ const formatAvailableColor = (color: string, locale: string): string => {
     return map[color] || color.replace(/_/g, " ");
 };
 
-interface ProductAvailableColorButtonsProps {
+interface ProductSurfaceColorButtonsProps {
     productId: string;
     availableColors: string[];
     initialColor?: string;
-    onAvailableColorChange?: (newColor: string) => void;
+    onSurfaceColorChange?: (newColor: string) => void;
 }
 
-export default function ProductAvailableColorButtons({
+export default function ProductSurfaceColorButtons({
     productId,
     availableColors,
     initialColor,
-    onAvailableColorChange,
-}: ProductAvailableColorButtonsProps) {
+    onSurfaceColorChange,
+}: ProductSurfaceColorButtonsProps) {
     const locale = "ar";
-
     const [selectedColor, setSelectedColor] = useState<string>(
         initialColor || availableColors[0] || ""
     );
+    const [isPending, startTransition] = useTransition();
 
-    const handleAvailableColorChange = (color: string) => {
+    const handleColorChange = async (color: string) => {
+        // Optimistic update
         setSelectedColor(color);
-        onAvailableColorChange?.(color);
+        onSurfaceColorChange?.(color);
+
+        // Update database
+        startTransition(async () => {
+            try {
+                await changeProductAvailableColor({
+                    productId,
+                    newAvailableColor: color as AvailableColors,
+                });
+            } catch (error) {
+                console.error("Failed to update surface color:", error);
+                // Revert on error
+                setSelectedColor(initialColor || availableColors[0] || "");
+            }
+        });
     };
 
     if (availableColors.length === 0) return null;
@@ -77,17 +94,18 @@ export default function ProductAvailableColorButtons({
         };
     };
 
-    const isLightColor = (color: string) => {
-        return color === "WHITE";
-    };
-
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
-                        {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
-                    </p>
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
+                            {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
+                        </p>
+                        {isPending && (
+                            <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+                        )}
+                    </div>
                     <p className="text-xs text-muted-foreground/70 font-light">
                         {formatAvailableColor(selectedColor, locale)}
                     </p>
@@ -97,25 +115,27 @@ export default function ProductAvailableColorButtons({
                 {availableColors.map((color) => {
                     const isSelected = selectedColor === color;
                     const colorClasses = getColorClasses(color);
-                    const isLight = isLightColor(color);
 
                     return (
                         <button
                             key={color}
-                            onClick={() => handleAvailableColorChange(color)}
-                            className="group relative"
+                            onClick={() => handleColorChange(color)}
+                            disabled={isPending}
+                            className="group relative disabled:opacity-50 disabled:cursor-not-allowed"
                             aria-label={formatAvailableColor(color, locale)}
                         >
                             <div
-                                className={cn("absolute -inset-1 rounded-full transition-all duration-300",
+                                className={cn(
+                                    "absolute -inset-1 rounded-full transition-all duration-300",
                                     isSelected
                                         ? `${colorClasses.ring} ring-2 ring-offset-2 ring-offset-background opacity-100`
                                         : "opacity-0 group-hover:opacity-50"
                                 )}
                             />
                             <div
-                                className={cn("flex items-center justify-center cursor-pointer relative w-7 h-7 rounded-full shadow-md border-2 transition-all duration-300"
-                                    , colorClasses.bg,
+                                className={cn(
+                                    "flex items-center justify-center cursor-pointer relative w-7 h-7 rounded-full shadow-md border-2 transition-all duration-300",
+                                    colorClasses.bg,
                                     colorClasses.border,
                                     isSelected
                                         ? "scale-110 shadow-lg"
@@ -123,7 +143,8 @@ export default function ProductAvailableColorButtons({
                                 )}
                             >
                                 <div
-                                    className={cn("transition-all duration-300",
+                                    className={cn(
+                                        "transition-all duration-300",
                                         isSelected ? "opacity-100 scale-100" : "opacity-0 scale-0"
                                     )}
                                 >
@@ -146,6 +167,6 @@ export default function ProductAvailableColorButtons({
                     );
                 })}
             </div>
-        </div >
+        </div>
     );
 }

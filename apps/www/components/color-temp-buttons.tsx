@@ -1,9 +1,12 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { changeProductColorTemp } from "@/lib/product-temp";
 import { cn } from "@/lib/utils";
+import { ProductColorTemp } from "@repo/database";
+import { Loader2 } from "lucide-react";
 import { useLocale } from "next-intl";
-import { useState, useEffect } from "react";
+import { useState, useTransition } from "react";
 
 const formatColorTemp = (temp: string, locale: string): string => {
     const isArabic = locale.startsWith("ar");
@@ -29,45 +32,43 @@ export default function ProductColorTempButtons({
     onColorTempChange,
 }: ProductColorTempButtonsProps) {
     const locale = useLocale();
-    
-    const storageKey = `product-${productId}-color-temp`;
-    
-    const [selectedTemp, setSelectedTemp] = useState<string>(() => {
-        if (typeof window !== "undefined") {
-            const saved = localStorage.getItem(storageKey);
-            if (saved && availableTemps.includes(saved)) {
-                return saved;
-            }
-        }
-        return initialTemp || availableTemps[0] || "";
-    });
-    useEffect(() => {
-        if (selectedTemp && typeof window !== "undefined") {
-            localStorage.setItem(storageKey, selectedTemp);
-        }
-    }, [selectedTemp, storageKey]);
+    const [selectedTemp, setSelectedTemp] = useState<string>(
+        initialTemp || availableTemps[0] || ""
+    );
+    const [isPending, startTransition] = useTransition();
 
-    useEffect(() => {
-        if (initialTemp && availableTemps.includes(initialTemp) && initialTemp !== selectedTemp) {
-            setSelectedTemp(initialTemp);
-        } else if (availableTemps.length > 0 && !availableTemps.includes(selectedTemp)) {
-            setSelectedTemp(availableTemps[0]);
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [initialTemp, availableTemps]);
-
-    const handleColorTempChange = (colorTemp: string) => {
+    const handleColorTempChange = async (colorTemp: string) => {
+        // Update UI immediately (optimistic update)
         setSelectedTemp(colorTemp);
         onColorTempChange?.(colorTemp);
+
+        // Update database in background
+        startTransition(async () => {
+            try {
+                await changeProductColorTemp({
+                    productId,
+                    newColorTemp: colorTemp as ProductColorTemp,
+                });
+            } catch (error) {
+                console.error("Failed to update color temperature:", error);
+                // Revert on error
+                setSelectedTemp(initialTemp || availableTemps[0] || "");
+            }
+        });
     };
 
     if (availableTemps.length === 0) return null;
 
     return (
         <div className="space-y-3">
-            <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                {locale.startsWith("ar") ? "درجة حرارة اللون" : "Color Temperature"}
-            </p>
+            <div className="flex items-center gap-2">
+                <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
+                    {locale.startsWith("ar") ? "درجة حرارة اللون" : "Color Temperature"}
+                </p>
+                {isPending && (
+                    <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
+                )}
+            </div>
             <div className="flex flex-wrap gap-2">
                 {availableTemps.map((temp) => {
                     const isSelected = selectedTemp === temp;
@@ -76,11 +77,13 @@ export default function ProductColorTempButtons({
                             key={temp}
                             variant={isSelected ? "default" : "outline"}
                             onClick={() => handleColorTempChange(temp)}
+                            disabled={isPending}
                             className={cn(
                                 "px-4 py-2 rounded-sm text-sm font-light tracking-wide transition-all",
                                 isSelected
                                     ? "bg-primary text-primary-foreground shadow-lg"
                                     : "bg-background hover:bg-secondary",
+                                isPending && "opacity-50 cursor-not-allowed"
                             )}
                         >
                             {formatColorTemp(temp, locale)}
