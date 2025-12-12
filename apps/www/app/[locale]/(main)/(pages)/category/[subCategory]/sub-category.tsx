@@ -155,7 +155,7 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                                             description={
                                                 subCategoryTranslation?.description || t("exploreCollection", { name: subCategoryName })
                                             }
-                                            imageUrl={subCategory.imageUrl || "/lighting-fixture.jpg"}
+                                            imageUrl={subCategory.imageUrl || ""}
                                             href={`/category/${category.slug}/${subCategory.slug}`}
                                             index={index}
                                         />

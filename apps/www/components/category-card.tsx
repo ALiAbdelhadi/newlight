@@ -67,7 +67,7 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
     }, [])
 
     return (
-        <div ref={cardRef} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30 transition-all">
+        <div ref={cardRef} className="group cursor-pointer rounded-2xl p-6 transition-all">
             <Link href={href} className="block">
                 <div ref={imageRef} className="relative overflow-hidden aspect-square mb-8 bg-muted">
                     <Image
