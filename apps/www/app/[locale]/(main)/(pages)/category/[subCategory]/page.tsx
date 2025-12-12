@@ -5,6 +5,7 @@ import SubCategoryPage from "./sub-category"
 import { getCategoryByType } from "@/lib/db"
 
 export const revalidate = 7200
+export const dynamic = "force-dynamic"
 
 export async function generateStaticParams() {
     // Pre-generate pages for known category types
