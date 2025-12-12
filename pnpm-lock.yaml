@@ -81,9 +81,6 @@ importers:
       '@ducanh2912/next-pwa':
         specifier: ^10.2.9
         version: 10.2.9(next@16.0.8(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.1(react@19.2.1))(react@19.2.1))(webpack@5.103.0)
-      '@prisma/client':
-        specifier: ^6.19.0
-        version: 6.19.1(prisma@6.19.1(typescript@5.9.3))(typescript@5.9.3)
       '@prisma/extension-optimize':
         specifier: ^2.0.1
         version: 2.0.1(@prisma/client@6.19.1(prisma@6.19.1(typescript@5.9.3))(typescript@5.9.3))
@@ -144,9 +141,6 @@ importers:
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
-      prisma:
-        specifier: ^6.14.0
-        version: 6.19.1(typescript@5.9.3)
       react:
         specifier: 19.2.1
         version: 19.2.1
@@ -9227,6 +9221,7 @@ snapshots:
       typescript: 5.9.3
     transitivePeerDependencies:
       - magicast
+    optional: true
 
   process-nextick-args@2.0.1: {}
 
