@@ -1,0 +1,339 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "./client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String            @id @default(cuid())
+  email           String            @unique
+  name            String?
+  password        String
+  role            UserRole          @default(CUSTOMER)
+  emailVerified   DateTime?
+  image           String?
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  cart            Cart?
+  orders          Order[]
+  shippingAddress ShippingAddress[]
+
+  @@map("users")
+}
+
+model Category {
+  id            String                @id @default(cuid())
+  categoryType  CategoryType
+  slug          String                @unique
+  imageUrl      String?
+  order         Int                   @default(0)
+  isActive      Boolean               @default(true)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  translations  CategoryTranslation[]
+  subCategories SubCategory[]
+
+  @@index([categoryType])
+  @@index([slug])
+  @@map("categories")
+}
+
+model CategoryTranslation {
+  id          String   @id @default(cuid())
+  categoryId  String
+  locale      String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, locale])
+  @@index([locale])
+  @@map("category_translations")
+}
+
+model SubCategory {
+  id           String                   @id @default(cuid())
+  categoryId   String
+  slug         String
+  imageUrl     String?
+  order        Int                      @default(0)
+  isActive     Boolean                  @default(true)
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+  products     Product[]
+  category     Category                 @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  translations SubCategoryTranslation[]
+
+  @@unique([categoryId, slug])
+  @@index([categoryId])
+  @@index([slug])
+  @@map("sub_categories")
+}
+
+model SubCategoryTranslation {
+  id            String      @id @default(cuid())
+  subCategoryId String
+  locale        String
+  name          String
+  description   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+
+  @@unique([subCategoryId, locale])
+  @@index([locale])
+  @@map("sub_category_translations")
+}
+
+model Product {
+  id                String               @id @default(cuid())
+  productId         String               @unique
+  subCategoryId     String
+  slug              String               @unique
+  price             Float
+  inventory         Int                  @default(0)
+  images            String[]
+  voltage           String?
+  maxWattage        Float?
+  brandOfLed        String?
+  luminousFlux      String?
+  mainMaterial      String?
+  cri               String?
+  beamAngle         Int?
+  productDimensions String?
+  holeSize          String?
+  powerFactor       String?
+  colorTemperatures ProductColorTemp[]
+  ipRating          ProductIP?
+  maxIpRating       ProductIP?
+  lifeTime          Int?
+  availableColors   AvailableColors[]
+  isActive          Boolean              @default(true)
+  isFeatured        Boolean              @default(false)
+  order             Int                  @default(0)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  cartItems         CartItem[]
+  orderItems        OrderItem[]
+  translations      ProductTranslation[]
+  subCategory       SubCategory          @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([subCategoryId])
+  @@index([slug])
+  @@index([isActive, isFeatured])
+  @@map("products")
+}
+
+model ProductTranslation {
+  id              String   @id @default(cuid())
+  productId       String
+  locale          String
+  name            String
+  description     String?
+  metaTitle       String?
+  specifications  Json?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+  @@index([locale])
+  @@map("product_translations")
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id                String   @id @default(cuid())
+  cartId            String
+  productId         String
+  quantity          Int      @default(1)
+  selectedColorTemp String?
+  selectedColor     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  cart              Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId, selectedColorTemp, selectedColor])
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id                String           @id @default(cuid())
+  userId            String
+  orderNumber       String           @unique
+  subtotal          Float
+  shippingCost      Float
+  tax               Float
+  total             Float
+  status            OrderStatus      @default(awaiting_shipment)
+  shippingOption    OrderOption      @default(StandardShipping)
+  paymentMethod     String?
+  paymentStatus     String?
+  paidAt            DateTime?
+  shippingAddressId String?
+  trackingNumber    String?
+  shippedAt         DateTime?
+  deliveredAt       DateTime?
+  customerNotes     String?
+  adminNotes        String?
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  items             OrderItem[]
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                String            @id @default(cuid())
+  orderId           String
+  productId         String
+  productName       String
+  productImage      String
+  price             Float
+  quantity          Int
+  selectedColorTemp ProductColorTemp?
+  selectedColor     String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  order             Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product           Product           @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+model ShippingAddress {
+  id           String   @id @default(cuid())
+  userId       String
+  fullName     String
+  phone        String
+  email        String?
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String?
+  postalCode   String
+  country      String   @default("Egypt")
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isDefault])
+  @@map("shipping_addresses")
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+model Configuration {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  isPublic    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("configurations")
+}
+
+enum ProductColorTemp {
+  WARM_3000K
+  COOL_4000K
+  WHITE_6500K
+
+  @@map("product_color_temp")
+}
+
+enum AvailableColors {
+  BlACK
+  GRAY
+  WHITE
+  GOLD
+  WOOD
+
+  @@map("available_colors")
+}
+
+enum ProductIP {
+  IP20
+  IP44
+  IP54
+  IP65
+  IP68
+
+  @@map("product_ip")
+}
+
+enum OrderOption {
+  BasicShipping
+  StandardShipping
+  ExpressShipping
+
+  @@map("order_option")
+}
+
+enum OrderStatus {
+  awaiting_shipment
+  processing
+  shipped
+  delivered
+  fulfilled
+  cancelled
+  refunded
+
+  @@map("order_status")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+
+  @@map("user_role")
+}
+
+enum CategoryType {
+  indoor
+  outdoor
+
+  @@map("category_type")
+}
