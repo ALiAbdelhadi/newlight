@@ -7,8 +7,7 @@
         "iad1"
     ],
     "env": {
-        "DATABASE_URL": "@database-url",
-        "DIRECT_URL": "@direct-url"
+        "DATABASE_URL": "@DATABASE_URL"
     },
     "build": {
         "env": {
