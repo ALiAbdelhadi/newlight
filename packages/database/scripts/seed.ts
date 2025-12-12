@@ -1,7 +1,7 @@
 import { existsSync, readFileSync } from "fs";
 import path from "path";
 import dotenv from "dotenv";
-import { CategoryType, PrismaClient, ProductColorTemp, ProductIP, AvailableColors } from "../prisma/client/client";
+import { CategoryType, PrismaClient, ProductColorTemp, ProductIP, AvailableColors } from '@prisma/client';
 import { PrismaNeon } from '@prisma/adapter-neon';
 
 dotenv.config({ path: path.resolve(process.cwd(), "..", ".env") });
