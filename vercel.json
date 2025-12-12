@@ -1,0 +1,26 @@
+{
+    "buildCommand": "pnpm run build",
+    "devCommand": "pnpm run dev",
+    "installCommand": "pnpm install",
+    "framework": "nextjs",
+    "regions": [
+        "iad1"
+    ],
+    "env": {
+        "DATABASE_URL": "@database-url",
+        "DIRECT_URL": "@direct-url"
+    },
+    "build": {
+        "env": {
+            "PRISMA_GENERATE_SKIP_AUTOINSTALL": "false"
+        }
+    },
+    "functions": {
+        "app/**/*.tsx": {
+            "maxDuration": 30
+        },
+        "app/api/**/*.ts": {
+            "maxDuration": 30
+        }
+    }
+}

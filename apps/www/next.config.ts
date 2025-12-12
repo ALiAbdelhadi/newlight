@@ -3,9 +3,6 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
-  typescript: {
-    ignoreBuildErrors: true
-  },
   compress: true,
   poweredByHeader: false,
   reactStrictMode: true,
@@ -13,13 +10,25 @@ const nextConfig: NextConfig = {
   compiler: {
     styledComponents: true,
   },
+  experimental: {
+    serverComponentsExternalPackages: ['@prisma/client', 'prisma'],
+  },
+
   webpack: (config, { isServer }) => {
+    if (isServer) {
+      config.externals.push({
+        '@prisma/client': 'commonjs @prisma/client',
+      });
+    }
+
     config.resolve.extensionAlias = {
       '.js': ['.ts', '.tsx', '.js', '.jsx'],
     };
+
     if (!config.resolve.extensions) {
       config.resolve.extensions = [];
     }
+
     config.resolve.extensions = [
       '.ts',
       '.tsx',
@@ -29,8 +38,10 @@ const nextConfig: NextConfig = {
         !['.ts', '.tsx', '.js', '.jsx'].includes(ext)
       ),
     ];
+
     return config;
   },
+
   images: {
     remotePatterns: [
       {
@@ -51,6 +62,31 @@ config = withPWA({
   sw: "sw.js",
   fallbacks: {
     document: "/offline",
+  },
+  cacheOnFrontEndNav: true,
+  aggressiveFrontEndNavCaching: false,
+  reloadOnOnline: true,
+  workboxOptions: {
+    disableDevLogs: true,
+    exclude: [
+      /\.map$/,
+      /^manifest.*\.js$/,
+      /icons\/.*$/,
+      /_buildManifest\.js$/,
+      /_ssgManifest\.js$/,
+    ],
+    runtimeCaching: [
+      {
+        urlPattern: /^https?.*/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'offlineCache',
+          expiration: {
+            maxEntries: 200,
+          },
+        },
+      },
+    ],
   },
 })(config);
 
