@@ -6,9 +6,7 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "postinstall": "prisma generate",
-    "prisma:build": "prisma generate && turbo build"
+    "lint": "eslint"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.35.5",
