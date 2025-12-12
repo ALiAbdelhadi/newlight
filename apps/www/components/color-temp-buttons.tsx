@@ -38,11 +38,8 @@ export default function ProductColorTempButtons({
     const [isPending, startTransition] = useTransition();
 
     const handleColorTempChange = async (colorTemp: string) => {
-        // Update UI immediately (optimistic update)
         setSelectedTemp(colorTemp);
         onColorTempChange?.(colorTemp);
-
-        // Update database in background
         startTransition(async () => {
             try {
                 await changeProductColorTemp({
@@ -51,7 +48,6 @@ export default function ProductColorTempButtons({
                 });
             } catch (error) {
                 console.error("Failed to update color temperature:", error);
-                // Revert on error
                 setSelectedTemp(initialTemp || availableTemps[0] || "");
             }
         });

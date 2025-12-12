@@ -11,9 +11,52 @@ export async function getLocaleOrDefault(providedLocale?: string): Promise<strin
         return "en"
     }
 }
-function extractSpecifications(product: any, locale: string) {
-    const translation = product.translations?.find((t: any) => t.locale === locale)
+
+interface ProductWithTranslations {
+    translations?: Array<{ locale: string; specifications?: unknown }>
+}
+
+function extractSpecifications(product: ProductWithTranslations, locale: string) {
+    const translation = product.translations?.find((t) => t.locale === locale)
     return translation?.specifications || null
+}
+
+function sortAlphabetically<T extends { 
+    order?: number
+    isFeatured?: boolean
+    translations?: Array<{ locale: string; name: string }> 
+}>(
+    items: T[],
+    locale: string
+): T[] {
+    return [...items].sort((a, b) => {
+        if (a.isFeatured !== undefined && b.isFeatured !== undefined) {
+            if (a.isFeatured && !b.isFeatured) return -1
+            if (!a.isFeatured && b.isFeatured) return 1
+        } else if (a.isFeatured) {
+            return -1
+        } else if (b.isFeatured) {
+            return 1
+        }
+
+        if (a.order !== undefined && b.order !== undefined) {
+            if (a.order !== b.order) {
+                return a.order - b.order
+            }
+        } else if (a.order !== undefined) {
+            return -1
+        } else if (b.order !== undefined) {
+            return 1
+        }
+
+        const nameA = a.translations?.find((t) => t.locale === locale)?.name || ""
+        const nameB = b.translations?.find((t) => t.locale === locale)?.name || ""
+
+        return nameA.localeCompare(nameB, locale === "ar" ? "ar" : "en", {
+            numeric: true,
+            sensitivity: "base",
+        })
+    })
 }
 
 export async function getCategoryBySlug(slug: string, locale?: string) {
@@ -38,6 +81,10 @@ export async function getCategoryBySlug(slug: string, locale?: string) {
             },
         },
     })
+
+    if (category?.subCategories) {
+        category.subCategories = sortAlphabetically(category.subCategories, resolvedLocale)
+    }
 
     return category
 }
@@ -68,6 +115,10 @@ export async function getCategoryByType(categoryType: "indoor" | "outdoor", loca
         },
     })
 
+    if (category?.subCategories) {
+        category.subCategories = sortAlphabetically(category.subCategories, resolvedLocale)
+    }
+
     return category
 }
 
@@ -94,21 +145,22 @@ export async function getSubCategoryBySlug(categorySlug: string, subCategorySlug
             },
             products: {
                 where: { isActive: true },
-                orderBy: { order: "asc" },
+                orderBy: [{ isFeatured: "desc" }, { order: "asc" }],
                 include: {
-                    translations: true, // جلب جميع الترجمات لاستخراج المواصفات
+                    translations: true,
                 },
             },
         },
     })
 
-    // استخراج المواصفات للمنتجات
     if (subCategory?.products) {
         subCategory.products = subCategory.products.map(product => ({
             ...product,
             specifications: extractSpecifications(product, resolvedLocale),
             translations: product.translations.filter(t => t.locale === resolvedLocale)
         }))
+
+        subCategory.products = sortAlphabetically(subCategory.products, resolvedLocale)
     }
 
     return subCategory
@@ -134,8 +186,7 @@ export async function getSubCategories(categorySlug: string, locale?: string) {
             },
         },
     })
-
-    return subCategories
+    return sortAlphabetically(subCategories, resolvedLocale)
 }
 
 export async function getProductsBySubCategory(
@@ -179,6 +230,7 @@ export async function getProductsBySubCategory(
             specifications: extractSpecifications(product, resolvedLocale),
             translations: product.translations.filter(t => t.locale === resolvedLocale)
         }))
+        subCategory.products = sortAlphabetically(subCategory.products, resolvedLocale)
     }
 
     return subCategory
@@ -291,24 +343,27 @@ export async function getAllProducts(locale?: string, limit?: number) {
         },
     })
 
-    return products.map(product => ({
+    const mappedProducts = products.map(product => ({
         ...product,
         specifications: extractSpecifications(product, resolvedLocale),
         translations: product.translations.filter(t => t.locale === resolvedLocale)
     }))
+
+    return sortAlphabetically(mappedProducts, resolvedLocale)
 }
 
-export async function getAllCategories() {
+export async function getAllCategories(locale?: string) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
     const categories = await prisma.category.findMany({
         where: {
             isActive: true,
         },
-        select: {
-            slug: true,
-            categoryType: true,
+        include: {
+            translations: {
+                where: { locale: resolvedLocale },
+            },
         },
         orderBy: { order: "asc" },
     })
-
-    return categories
+    return sortAlphabetically(categories, resolvedLocale)
 }

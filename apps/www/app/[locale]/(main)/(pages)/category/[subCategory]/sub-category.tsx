@@ -9,7 +9,6 @@ import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
 import { ArrowLeft } from "lucide-react"
 
-// Register plugin only once on client side
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger)
 }
@@ -68,7 +67,7 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: heroRef.current,
-                    start: "top 80%",
+                    start: "top 60%",
                     once: true,
                 },
             })
@@ -80,7 +79,6 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
     useEffect(() => {
         if (!isClient || category.subCategories.length === 0) return
 
-        // Filter out null refs and ensure we have valid elements
         const validCards = cardRefs.current.filter((el): el is HTMLDivElement => el !== null)
         if (validCards.length === 0) return
 
@@ -89,12 +87,12 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                 gsap.from(el, {
                     opacity: 0,
                     y: 40,
-                    duration: 1,
-                    delay: index * 0.12,
+                    duration: 0.7,
+                    delay: index * 0.05,
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: el,
-                        start: "top 85%",
+                        start: "top 66%",
                         once: true,
                     },
                 })

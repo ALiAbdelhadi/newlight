@@ -38,7 +38,7 @@ export default async function CategoriesPage() {
                 slug: outdoorCategory.slug,
                 name: outdoorCategory.translations[0]?.name || "Outdoor",
                 description: outdoorCategory.translations[0]?.description || "",
-                imageUrl: outdoorCategory.subCategories[1]?.imageUrl,
+                imageUrl: outdoorCategory.subCategories[0]?.imageUrl,
             }
             : null,
     ].filter(Boolean) as Array<{

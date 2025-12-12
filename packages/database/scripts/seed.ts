@@ -214,14 +214,13 @@ class DataProcessor {
     if (!colors || !Array.isArray(colors)) return [];
 
     const colorMap: Record<string, AvailableColors> = {
-      'black': AvailableColors.BlACK,
+      'black': AvailableColors.BLACK,
       'gray': AvailableColors.GRAY,
       'grey': AvailableColors.GRAY,
       'white': AvailableColors.WHITE,
       'gold': AvailableColors.GOLD,
       'wood': AvailableColors.WOOD,
-      // Arabic mappings
-      'أسود': AvailableColors.BlACK,
+      'أسود': AvailableColors.BLACK,
       'رمادي': AvailableColors.GRAY,
       'أبيض': AvailableColors.WHITE,
       'ذهبي': AvailableColors.GOLD,
@@ -620,8 +619,7 @@ class SeedEngine {
       const ipRating = DataProcessor.mapIP(enSpecs.IP || arSpecs["درجة الحماية"]);
       const maxIpRating = DataProcessor.mapIP(enSpecs.maxIP || arSpecs["درجة الحماية القصوي"]);
       const lifeTime = enSpecs.life_time || arSpecs["العمر الافتراضي"] || null;
-      
-      // Map surface_color to AvailableColors enum
+
       const availableColors = DataProcessor.mapAvailableColors(
         enSpecs.surface_color || arSpecs["الالوان المتوفره الي المنتج"]
       );

@@ -1,4 +1,4 @@
-{ 
+{
   "categories": {
     "indoor": {
       "cob": [
@@ -131,9 +131,9 @@
             "productId": "nl-a606-6w",
             "productName": "nl-a606-6w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (1).jpg",
-              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (2).png",
-              "/products/indoor/magnetic/nl-a606-6w/nl-a603-6w (3).png"
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (1).png",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (2).png",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -144,9 +144,9 @@
             "productId": "nl-a606-12w",
             "productName": "nl-a606-12w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (1).jpg",
-              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (2).png",
-              "/products/indoor/magnetic/nl-a606-12w/nl-a603-12w (3).png"
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (1).png",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (2).png",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -157,9 +157,9 @@
             "productId": "nl-a606-18w",
             "productName": "nl-a606-18w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (1).jpg",
-              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (2).png",
-              "/products/indoor/magnetic/nl-a606-18w/nl-a603-18w (3).png"
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (1).png",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (2).png",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -170,9 +170,9 @@
             "productId": "nl-a606-24w",
             "productName": "nl-a606-24w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (1).jpg",
-              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (2).png",
-              "/products/indoor/magnetic/nl-a606-24w/nl-a603-24w (3).png"
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (1).png",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (2).png",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -183,9 +183,9 @@
             "productId": "nl-a606-30w",
             "productName": "nl-a606-30w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (1).jpg",
-              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (2).png",
-              "/products/indoor/magnetic/nl-a606-30w/nl-a603-30w (3).png"
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (1).png",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (2).png",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -196,7 +196,7 @@
             "productId": "nl-a609-6w",
             "productName": "nl-a609-6w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a609-6w/nl-a609-6w (1).png"
+              "/products/indoor/magnetic/nl-a609-6w/nl-609-6w (1).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -207,7 +207,7 @@
             "productId": "nl-a609-12w",
             "productName": "nl-a609-12w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a609-12w/nl-a609-12w (1).png"
+              "/products/indoor/magnetic/nl-a609-12w/nl-609-12w (1).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -218,7 +218,7 @@
             "productId": "nl-a609-18w",
             "productName": "nl-a609-18w",
             "productImages": [
-              "/products/indoor/magnetic/nl-a609-18w/nl-a609-18w (1).png"
+              "/products/indoor/magnetic/nl-a609-12w/nl-609-12w (1).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -556,7 +556,7 @@
             "productId": "nl-t501-10w",
             "productName": "nl-t501-10w",
             "productImages": [
-              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (1).jpg",
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (1).png",
               "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (2).png",
               "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (3).png"
             ],
@@ -584,7 +584,7 @@
             "productImages": [
               "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (1).png",
               "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (2).png",
-              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).jpg"
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).png"
             ],
             "subCategory": "magnetic",
             "price": 729,
@@ -835,17 +835,6 @@
             "categoryType": "indoor",
             "inventory": 10
           },
-          "nl-wl012": {
-            "productId": "nl-wl012",
-            "productName": "nl-wl012",
-            "productImages": [
-              "/products/indoor/magnetic-accessories/nl-wl012.png"
-            ],
-            "subCategory": "magnetic-accessories",
-            "price": 729,
-            "categoryType": "indoor",
-            "inventory": 10
-          },
           "nl-z1001": {
             "productId": "nl-z1001",
             "productName": "nl-z1001",
@@ -997,7 +986,7 @@
             "productId": "nl-s-r-dl-6w",
             "productName": "nl-s-r-dl-6w",
             "productImages": [
-              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w.png"
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
             "price": 729,
@@ -1008,7 +997,7 @@
             "productId": "nl-s-r-dl-20w",
             "productName": "nl-s-r-dl-20w",
             "productImages": [
-              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w.png"
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
             "price": 729,
@@ -1019,7 +1008,7 @@
             "productId": "nl-s-r-dl-30w",
             "productName": "nl-s-r-dl-30w",
             "productImages": [
-              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w.png"
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
             "price": 729,
@@ -1451,7 +1440,9 @@
             "productId": "nl-stairs-light-1",
             "productName": "nl-stairs-light-1",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-1-5w.png"
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (3).webp"
             ],
             "subCategory": "stairs-light",
             "price": 729,
@@ -1462,8 +1453,10 @@
             "productId": "nl-stairs-light-2",
             "productName": "nl-stairs-light-2",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (2).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp"
             ],
             "subCategory": "stairs-light",
             "price": 729,
@@ -1474,9 +1467,9 @@
             "productId": "nl-stairs-light-3",
             "productName": "nl-stairs-light-3",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (3).webp"
             ],
             "subCategory": "stairs-light",
             "price": 729,
@@ -1487,9 +1480,8 @@
             "productId": "nl-stairs-light-4",
             "productName": "nl-stairs-light-4",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp",
-              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-black-5w.png",
+              "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-gray-5w.png"
             ],
             "subCategory": "stairs-light",
             "price": 729,
@@ -1500,9 +1492,19 @@
             "productId": "nl-stairs-light-5",
             "productName": "nl-stairs-light-5",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (2).webp",
-              "/products/outdoor/spikes/nl-spike-5/nl-drive-over-5-5w (2).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-black-7w.png",
+              "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-gray-7w.png"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-6": {
+            "productId": "nl-stairs-light-6",
+            "productName": "nl-stairs-light-6",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-6-gray-5w.png"
             ],
             "subCategory": "stairs-light",
             "price": 729,

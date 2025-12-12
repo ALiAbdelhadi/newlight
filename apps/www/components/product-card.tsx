@@ -102,7 +102,8 @@ export function ProductCard({ id, image, title, category, price, currency = "EGP
                     ref={imageRef}
                     src={image || "/placeholder.svg"}
                     alt={title}
-                    fill
+                    width={500}
+                    height={500}
                     className="object-cover h-full w-full"
                     priority={false}
                 />

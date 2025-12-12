@@ -78,7 +78,7 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                 ease: "power3.out",
                 scrollTrigger: {
                     trigger: heroRef.current,
-                    start: "top 80%",
+                    start: "top 60%",
                     once: true,
                 },
             })
@@ -99,12 +99,12 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                 gsap.from(el, {
                     opacity: 0,
                     y: 40,
-                    duration: 0.9,
-                    delay: index * 0.08,
+                    duration: 0.7,
+                    delay: index * 0.05,
                     ease: "power3.out",
                     scrollTrigger: {
                         trigger: el,
-                        start: "top 88%",
+                        start: "top 66%",
                         once: true,
                     },
                 })

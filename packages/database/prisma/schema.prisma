@@ -283,7 +283,7 @@ enum ProductColorTemp {
 }
 
 enum AvailableColors {
-  BlACK
+  BLACK  
   GRAY
   WHITE
   GOLD

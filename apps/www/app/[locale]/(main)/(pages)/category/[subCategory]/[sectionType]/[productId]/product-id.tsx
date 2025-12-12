@@ -1,15 +1,15 @@
 "use client"
 
-import { Container } from "@/components/container"
-import { Link } from "@/i18n/navigation"
 import ProductColorTempButtons from "@/components/color-temp-buttons"
+import { Container } from "@/components/container"
+import ProductSurfaceColorButtons from "@/components/surface-color-button"
+import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ChevronRight } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
-import ProductSurfaceColorButtons from "@/components/surface-color-button"
 
 gsap.registerPlugin(ScrollTrigger)
 

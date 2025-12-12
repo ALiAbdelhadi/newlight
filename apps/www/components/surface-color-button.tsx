@@ -1,10 +1,11 @@
 "use client";
 
-import { cn } from "@/lib/utils";
-import { Check, Loader2 } from "lucide-react";
-import { useState, useTransition } from "react";
 import { changeProductAvailableColor } from "@/lib/surface-color";
+import { cn } from "@/lib/utils";
 import { AvailableColors } from "@repo/database";
+import { Check, Loader2 } from "lucide-react";
+import { useLocale } from "next-intl";
+import { useState, useTransition } from "react";
 
 const formatAvailableColor = (color: string, locale: string): string => {
     const isArabic = locale.startsWith("ar");
@@ -31,18 +32,16 @@ export default function ProductSurfaceColorButtons({
     initialColor,
     onSurfaceColorChange,
 }: ProductSurfaceColorButtonsProps) {
-    const locale = "ar";
+    const locale = useLocale();
     const [selectedColor, setSelectedColor] = useState<string>(
         initialColor || availableColors[0] || ""
     );
     const [isPending, startTransition] = useTransition();
 
     const handleColorChange = async (color: string) => {
-        // Optimistic update
         setSelectedColor(color);
         onSurfaceColorChange?.(color);
 
-        // Update database
         startTransition(async () => {
             try {
                 await changeProductAvailableColor({
@@ -51,7 +50,6 @@ export default function ProductSurfaceColorButtons({
                 });
             } catch (error) {
                 console.error("Failed to update surface color:", error);
-                // Revert on error
                 setSelectedColor(initialColor || availableColors[0] || "");
             }
         });
@@ -60,37 +58,43 @@ export default function ProductSurfaceColorButtons({
     if (availableColors.length === 0) return null;
 
     const getColorClasses = (color: string) => {
-        const colorMap: Record<string, { bg: string; border: string; ring: string }> = {
+        const colorMap: Record<string, { bg: string; border: string; ring: string; checkColor: string }> = {
             BLACK: {
-                bg: "bg-gradient-to-br from-gray-950 to-black",
-                border: "border-gray-800",
-                ring: "ring-gray-700"
+                bg: "bg-black",
+                border: "border-gray-900",
+                ring: "ring-gray-700",
+                checkColor: "text-white"
             },
             GRAY: {
                 bg: "bg-gradient-to-br from-gray-400 to-gray-600",
                 border: "border-gray-500",
-                ring: "ring-gray-500"
+                ring: "ring-gray-500",
+                checkColor: "text-white"
             },
             WHITE: {
                 bg: "bg-gradient-to-br from-gray-50 to-white",
                 border: "border-gray-300",
-                ring: "ring-gray-300"
+                ring: "ring-gray-300",
+                checkColor: "text-gray-900"
             },
             GOLD: {
                 bg: "bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600",
                 border: "border-yellow-600",
-                ring: "ring-yellow-500"
+                ring: "ring-yellow-500",
+                checkColor: "text-white"
             },
             WOOD: {
                 bg: "bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800",
                 border: "border-amber-700",
-                ring: "ring-amber-600"
+                ring: "ring-amber-600",
+                checkColor: "text-white"
             },
         };
         return colorMap[color] || {
             bg: "bg-gradient-to-br from-gray-200 to-gray-300",
             border: "border-gray-400",
-            ring: "ring-gray-400"
+            ring: "ring-gray-400",
+            checkColor: "text-gray-900"
         };
     };
 
@@ -99,23 +103,19 @@ export default function ProductSurfaceColorButtons({
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                        <p className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
+                        <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
                             {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
                         </p>
                         {isPending && (
                             <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
                         )}
                     </div>
-                    <p className="text-xs text-muted-foreground/70 font-light">
-                        {formatAvailableColor(selectedColor, locale)}
-                    </p>
                 </div>
             </div>
             <div className="flex flex-wrap gap-3">
                 {availableColors.map((color) => {
                     const isSelected = selectedColor === color;
                     const colorClasses = getColorClasses(color);
-
                     return (
                         <button
                             key={color}
@@ -149,11 +149,11 @@ export default function ProductSurfaceColorButtons({
                                     )}
                                 >
                                     <Check
-                                        className="w-4 h-4 text-muted-foreground drop-shadow-sm"
+                                        className={cn("w-4 h-4 drop-shadow-sm", colorClasses.checkColor)}
                                         strokeWidth={2.5}
                                     />
                                 </div>
-                                <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
+                                <div className="absolute inset-0 rounded-full bg-border opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                             </div>
                             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
                                 <span className={cn(
