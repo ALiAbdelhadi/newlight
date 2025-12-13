@@ -1,0 +1,50 @@
+{
+  "name": "@repo/database",
+  "version": "1.0.0",
+  "description": "Database package with Prisma client",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "default": "./index.ts"
+    },
+    "./client": {
+      "types": "./prisma/client/index.d.ts",
+      "default": "./prisma/client/index.js"
+    }
+  },
+  "scripts": {
+    "db:generate": "prisma generate && node ./scripts/fix-prisma-imports.js",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "db:studio": "prisma studio",
+    "db:seed": "tsx ./scripts/seed.ts",
+    "clean": "rm -rf .turbo node_modules dist prisma/client .prisma",
+    "postinstall": "prisma generate",
+    "import:products": "tsx ./scripts/import-products.ts",
+    "verify": "prisma validate && prisma format"
+  },
+  "keywords": [
+    "prisma",
+    "database",
+    "postgres"
+  ],
+  "author": "Alphabyte",
+  "license": "ISC",
+  "dependencies": {
+    "@prisma/adapter-neon": "^6.19.0",
+    "@prisma/client": "^6.19.0",
+    "@prisma/extension-optimize": "^2.0.1",
+    "@prisma/instrumentation": "^6.19.1",
+    "dotenv": "^17.2.3",
+    "dotenv-flow": "^4.1.0"
+  },
+  "devDependencies": {
+    "@repo/typescript-config": "workspace:*",
+    "@types/node": "^24.10.2",
+    "prisma": "^6.19.0",
+    "tsx": "^4.21.0",
+    "typescript": "5.9.2"
+  }
+}

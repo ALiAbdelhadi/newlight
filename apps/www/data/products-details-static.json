@@ -1,0 +1,1664 @@
+{
+  "categories": {
+    "indoor": {
+      "cob": [
+        {
+          "nl-r-ds-5w": {
+            "productId": "nl-r-ds-5w",
+            "productName": "nl-r-ds-5w",
+            "productImages": [
+              "/products/indoor/cob/directional-spotlights/nl-r-ds-5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r-ds-6.5w": {
+            "productId": "nl-r-ds-6.5w",
+            "productName": "nl-r-ds-6.5w",
+            "productImages": [
+              "/products/indoor/cob/directional-spotlights/nl-r-ds-6.5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-5w": {
+            "productId": "nl-recessed-5w",
+            "productName": "nl-recessed-5w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-5w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-20w": {
+            "productId": "nl-recessed-20w",
+            "productName": "nl-recessed-20w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-20w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-recessed-30w": {
+            "productId": "nl-recessed-30w",
+            "productName": "nl-recessed-30w",
+            "productImages": [
+              "/products/indoor/cob/nl-recessed/nl-recessed-30w.png"
+            ],
+            "subCategory": "cob",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "magnetic": [
+        {
+          "nl-a603-6w": {
+            "productId": "nl-a603-6w",
+            "productName": "nl-a603-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (1).png",
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (2).png",
+              "/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-12w": {
+            "productId": "nl-a603-12w",
+            "productName": "nl-a603-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (1).png",
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (2).png",
+              "/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-18w": {
+            "productId": "nl-a603-18w",
+            "productName": "nl-a603-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (1).png",
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (2).png",
+              "/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-24w": {
+            "productId": "nl-a603-24w",
+            "productName": "nl-a603-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (2).png",
+              "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a603-30w": {
+            "productId": "nl-a603-30w",
+            "productName": "nl-a603-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (1).png",
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (2).png",
+              "/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-6w": {
+            "productId": "nl-a606-6w",
+            "productName": "nl-a606-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (1).png",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (2).png",
+              "/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-12w": {
+            "productId": "nl-a606-12w",
+            "productName": "nl-a606-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (1).png",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (2).png",
+              "/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-18w": {
+            "productId": "nl-a606-18w",
+            "productName": "nl-a606-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (1).png",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (2).png",
+              "/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-24w": {
+            "productId": "nl-a606-24w",
+            "productName": "nl-a606-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (1).png",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (2).png",
+              "/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a606-30w": {
+            "productId": "nl-a606-30w",
+            "productName": "nl-a606-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (1).png",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (2).png",
+              "/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-6w": {
+            "productId": "nl-a609-6w",
+            "productName": "nl-a609-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-6w/nl-609-6w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-12w": {
+            "productId": "nl-a609-12w",
+            "productName": "nl-a609-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-12w/nl-609-12w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-18w": {
+            "productId": "nl-a609-18w",
+            "productName": "nl-a609-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-12w/nl-609-12w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-24w": {
+            "productId": "nl-a609-24w",
+            "productName": "nl-a609-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-24w/nl-a609-24w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a609-30w": {
+            "productId": "nl-a609-30w",
+            "productName": "nl-a609-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a609-30w/nl-a609-30w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-6w": {
+            "productId": "nl-a612-6w",
+            "productName": "nl-a612-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (1).png",
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (2).png",
+              "/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-12w": {
+            "productId": "nl-a612-12w",
+            "productName": "nl-a612-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (1).png",
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (2).png",
+              "/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-18w": {
+            "productId": "nl-a612-18w",
+            "productName": "nl-a612-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (1).png",
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (2).png",
+              "/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-24w": {
+            "productId": "nl-a612-24w",
+            "productName": "nl-a612-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (1).png",
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (2).png",
+              "/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-a612-30w": {
+            "productId": "nl-a612-30w",
+            "productName": "nl-a612-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (1).png",
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (2).png",
+              "/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-6w": {
+            "productId": "nl-d403-6w",
+            "productName": "nl-d403-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (1).png",
+              "/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-12w": {
+            "productId": "nl-d403-12w",
+            "productName": "nl-d403-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (1).png",
+              "/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-18w": {
+            "productId": "nl-d403-18w",
+            "productName": "nl-d403-18w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (1).png",
+              "/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-24w": {
+            "productId": "nl-d403-24w",
+            "productName": "nl-d403-24w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (1).png",
+              "/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-30w": {
+            "productId": "nl-d403-30w",
+            "productName": "nl-d403-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (1).png",
+              "/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-d403-36w": {
+            "productId": "nl-d403-36w",
+            "productName": "nl-d403-36w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (1).png",
+              "/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-ip905-5w": {
+            "productId": "nl-ip905-5w",
+            "productName": "nl-ip905-5w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (1).png",
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (2).png",
+              "/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-10w": {
+            "productId": "nl-l601-10w",
+            "productName": "nl-l601-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-10w/nl-l601-10w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-20w": {
+            "productId": "nl-l601-20w",
+            "productName": "nl-l601-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-20w/nl-l601-20w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-30w": {
+            "productId": "nl-l601-30w",
+            "productName": "nl-l601-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-30w/nl-l601-30w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l601-40w": {
+            "productId": "nl-l601-40w",
+            "productName": "nl-l601-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-l601-40w/nl-l601-40w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-12w": {
+            "productId": "nl-n801-12w",
+            "productName": "nl-n801-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (1).png",
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (2).png",
+              "/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-22w": {
+            "productId": "nl-n801-22w",
+            "productName": "nl-n801-22w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (1).png",
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (2).png",
+              "/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-40w": {
+            "productId": "nl-n801-40w",
+            "productName": "nl-n801-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (1).png",
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (2).png",
+              "/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n801-57w": {
+            "productId": "nl-n801-57w",
+            "productName": "nl-n801-57w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (1).png",
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (2).png",
+              "/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n803-6w": {
+            "productId": "nl-n803-6w",
+            "productName": "nl-n803-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (1).png",
+              "/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n803-12w": {
+            "productId": "nl-n803-12w",
+            "productName": "nl-n803-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (1).png",
+              "/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n805-12w": {
+            "productId": "nl-n805-12w",
+            "productName": "nl-n805-12w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n805-12w/nl-n805-12w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-n806-6w": {
+            "productId": "nl-n806-6w",
+            "productName": "nl-n806-6w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-n806-6w/nl-n806-6w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-3w": {
+            "productId": "nl-t501-3w",
+            "productName": "nl-t501-3w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (1).png",
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (2).png",
+              "/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (3).jpg"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-10w": {
+            "productId": "nl-t501-10w",
+            "productName": "nl-t501-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (1).png",
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (2).png",
+              "/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-20w": {
+            "productId": "nl-t501-20w",
+            "productName": "nl-t501-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (1).png",
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (2).png",
+              "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).jpg"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t501-30w": {
+            "productId": "nl-t501-30w",
+            "productName": "nl-t501-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (1).png",
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (2).png",
+              "/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t503-9w": {
+            "productId": "nl-t503-9w",
+            "productName": "nl-t503-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (1).png",
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (2).png",
+              "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t506-9w": {
+            "productId": "nl-t506-9w",
+            "productName": "nl-t506-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (1).png",
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (2).png",
+              "/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t509-9w": {
+            "productId": "nl-t509-9w",
+            "productName": "nl-t509-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (1).png",
+              "/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-t512-9w": {
+            "productId": "nl-t512-9w",
+            "productName": "nl-t512-9w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (1).png",
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (2).png",
+              "/products/indoor/magnetic/nl-t512-9w/nl-t512-9w (3).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-10w": {
+            "productId": "nl-tr1001-220v-10w",
+            "productName": "nl-tr1001-220v-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-10w/nl-tr1001-220v-10w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-20w": {
+            "productId": "nl-tr1001-220v-20w",
+            "productName": "nl-tr1001-220v-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-20w/nl-tr1001-220v-20w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-30w": {
+            "productId": "nl-tr1001-220v-30w",
+            "productName": "nl-tr1001-220v-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-30w/nl-tr1001-220v-30w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1001-220v-40w": {
+            "productId": "nl-tr1001-220v-40w",
+            "productName": "nl-tr1001-220v-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1001-220v-40w/nl-tr1001-220v-40w.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-10w": {
+            "productId": "nl-tr1002-220v-10w",
+            "productName": "nl-tr1002-220v-10w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-10w/nl-tr1002-220v-10w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-20w": {
+            "productId": "nl-tr1002-220v-20w",
+            "productName": "nl-tr1002-220v-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-20w/nl-tr1002-220v-20w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-30w": {
+            "productId": "nl-tr1002-220v-30w",
+            "productName": "nl-tr1002-220v-30w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-30w/nl-tr1002-220v-30w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-tr1002-220v-40w": {
+            "productId": "nl-tr1002-220v-40w",
+            "productName": "nl-tr1002-220v-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-tr1002-220v-40w/nl-tr1002-220v-40w (1).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-zl07-20w": {
+            "productId": "nl-zl07-20w",
+            "productName": "nl-zl07-20w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-zl07-20w/nl-zl07-20w (1).png",
+              "/products/indoor/magnetic/nl-zl07-20w/nl-zl07-20w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-zl07-40w": {
+            "productId": "nl-zl07-40w",
+            "productName": "nl-zl07-40w",
+            "productImages": [
+              "/products/indoor/magnetic/nl-zl07-40w/nl-zl07-40w (1).png",
+              "/products/indoor/magnetic/nl-zl07-40w/nl-zl07-40w (2).png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r107c3": {
+            "productId": "nl-r107c3",
+            "productName": "nl-r107c3",
+            "productImages": [
+              "/products/indoor/magnetic/remote-magnetic/nl-r107c3.png"
+            ],
+            "subCategory": "magnetic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "magnetic-accessories": [
+        {
+          "nl-e1030": {
+            "productId": "nl-e1030",
+            "productName": "nl-e1030",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1030.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-e1031": {
+            "productId": "nl-e1031",
+            "productName": "nl-e1031",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1031.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-e1032": {
+            "productId": "nl-e1032",
+            "productName": "nl-e1032",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-e1032.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1015": {
+            "productId": "nl-r1015",
+            "productName": "nl-r1015",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1015.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1018": {
+            "productId": "nl-r1018",
+            "productName": "nl-r1018",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1018.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-r1021": {
+            "productId": "nl-r1021",
+            "productName": "nl-r1021",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-r1021.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1001": {
+            "productId": "nl-z1001",
+            "productName": "nl-z1001",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1001.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1003": {
+            "productId": "nl-z1003",
+            "productName": "nl-z1003",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1003.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1005": {
+            "productId": "nl-z1005",
+            "productName": "nl-z1005",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1005.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-z1007": {
+            "productId": "nl-z1007",
+            "productName": "nl-z1007",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-z1007.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-f012": {
+            "productId": "nl-f012",
+            "productName": "nl-f012",
+            "productImages": [
+              "/products/indoor/magnetic-accessories/nl-fI012.png"
+            ],
+            "subCategory": "magnetic-accessories",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "panel": [
+        {
+          "nl-60×60-led": {
+            "productId": "nl-60×60-led",
+            "productName": "nl-60×60-led",
+            "productImages": [
+              "/products/indoor/panel/60×60-led/nl-60×60-led-48w.png"
+            ],
+            "subCategory": "60×60",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-led-dl-20w": {
+            "productId": "nl-led-dl-20w",
+            "productName": "nl-led-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-20w.png"
+            ],
+            "subCategory": "led-panel-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-led-dl-30w": {
+            "productId": "nl-led-dl-30w",
+            "productName": "nl-led-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-30w.png"
+            ],
+            "subCategory": "led-panel-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-s-18w": {
+            "productId": "nl-pl-r-s-18w",
+            "productName": "nl-pl-r-s-18w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-18w.png"
+            ],
+            "subCategory": "pl-round-surface",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-s-24w": {
+            "productId": "nl-pl-r-s-24w",
+            "productName": "nl-pl-r-s-24w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-24w.png"
+            ],
+            "subCategory": "pl-round-surface",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-3w": {
+            "productId": "nl-pl-r-3w",
+            "productName": "nl-pl-r-3w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-3w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-6w": {
+            "productId": "nl-pl-r-6w",
+            "productName": "nl-pl-r-6w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-6w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-pl-r-18w": {
+            "productId": "nl-pl-r-18w",
+            "productName": "nl-pl-r-18w",
+            "productImages": [
+              "/products/indoor/panel/nl-pl-r/nl-pl-r-18w.png"
+            ],
+            "subCategory": "pl-r",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-6w": {
+            "productId": "nl-s-r-dl-6w",
+            "productName": "nl-s-r-dl-6w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w (1).png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-20w": {
+            "productId": "nl-s-r-dl-20w",
+            "productName": "nl-s-r-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w (1).png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-r-dl-30w": {
+            "productId": "nl-s-r-dl-30w",
+            "productName": "nl-s-r-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w (1).png"
+            ],
+            "subCategory": "squared-recessed-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-s-dl-20w": {
+            "productId": "nl-s-s-dl-20w",
+            "productName": "nl-s-s-dl-20w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-20w.png"
+            ],
+            "subCategory": "squared-surface-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-s-s-dl-30w": {
+            "productId": "nl-s-s-dl-30w",
+            "productName": "nl-s-s-dl-30w",
+            "productImages": [
+              "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-30w.png"
+            ],
+            "subCategory": "squared-surface-plastic",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "strip": [
+        {
+          "nl-strip-2835-19w": {
+            "productId": "nl-strip-2835-19w",
+            "productName": "nl-strip-2835-19w",
+            "productImages": [
+              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (1).png",
+              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).png"
+            ],
+            "subCategory": "strip",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-strip-2835-24w": {
+            "productId": "nl-strip-2835-24w",
+            "productName": "nl-strip-2835-24w",
+            "productImages": [
+              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (1).png",
+              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).png"
+            ],
+            "subCategory": "strip",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "track": [
+        {
+          "nl-l1001-2000mm": {
+            "productId": "nl-l1001-2000mm",
+            "productName": "nl-l1001-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (1).png",
+              "/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1001-3000mm": {
+            "productId": "nl-l1001-3000mm",
+            "productName": "nl-l1001-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (1).png",
+              "/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1003-2000mm": {
+            "productId": "nl-l1003-2000mm",
+            "productName": "nl-l1003-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (1).png",
+              "/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1003-3000mm": {
+            "productId": "nl-l1003-3000mm",
+            "productName": "nl-l1003-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (1).png",
+              "/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1005-2000mm": {
+            "productId": "nl-l1005-2000mm",
+            "productName": "nl-l1005-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (1).png",
+              "/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1005-3000mm": {
+            "productId": "nl-l1005-3000mm",
+            "productName": "nl-l1005-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (1).png",
+              "/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1007-2000mm": {
+            "productId": "nl-l1007-2000mm",
+            "productName": "nl-l1007-2000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (1).png",
+              "/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          },
+          "nl-l1007-3000mm": {
+            "productId": "nl-l1007-3000mm",
+            "productName": "nl-l1007-3000mm",
+            "productImages": [
+              "/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (1).png",
+              "/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (2).png"
+            ],
+            "subCategory": "track",
+            "price": 729,
+            "categoryType": "indoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "drivers": {
+        "track-built-in": [
+          {
+            "nl-dv-102-100w": {
+              "productId": "nl-dv-102-100w",
+              "productName": "nl-dv-102-100w",
+              "productImages": [
+                "/products/indoor/drivers/track-built-in/nl-dv102-100w.jpg"
+              ],
+              "subCategory": "track-built-in-driver",
+              "price": 729,
+              "categoryType": "indoor",
+              "inventory": 10
+            },
+            "nl-dv-102-200w": {
+              "productId": "nl-dv-102-200w",
+              "productName": "nl-dv-102-200w",
+              "productImages": [
+                "/products/indoor/drivers/track-built-in/nl-dv102-200w.png"
+              ],
+              "subCategory": "track-built-in-driver",
+              "price": 729,
+              "categoryType": "indoor",
+              "inventory": 10
+            }
+          }
+        ]
+      },
+      "track-light": [],
+      "double-spotlight": []
+    },
+    "outdoor": {
+      "bulkhead": [],
+      "bollard": [
+        {
+          "nl-bollard-1": {
+            "productId": "nl-bollard-1",
+            "productName": "nl-bollard-1",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-2": {
+            "productId": "nl-bollard-2",
+            "productName": "nl-bollard-2",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-3": {
+            "productId": "nl-bollard-3",
+            "productName": "nl-bollard-3",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-bollard-4": {
+            "productId": "nl-bollard-4",
+            "productName": "nl-bollard-4",
+            "productImages": [
+              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (1).webp",
+              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (2).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "drive-over": [
+        {
+          "nl-drive-over-1": {
+            "productId": "nl-drive-over-1",
+            "productName": "nl-drive-over-1",
+            "productImages": [
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (1).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (2).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (3).webp",
+              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (4).webp"
+            ],
+            "subCategory": "drive-over",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-drive-over-2": {
+            "productId": "nl-drive-over-2",
+            "productName": "nl-drive-over-2",
+            "productImages": [
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (1).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (2).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (3).webp",
+              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (4).webp"
+            ],
+            "subCategory": "drive-over",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "flood-light": [
+        {
+          "nl-floodlight-50w": {
+            "productId": "nl-floodlight-50w",
+            "productName": "nl-floodlight-50w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-50w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-100w": {
+            "productId": "nl-floodlight-100w",
+            "productName": "nl-floodlight-100w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-100w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-150w": {
+            "productId": "nl-floodlight-150w",
+            "productName": "nl-floodlight-150w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-150w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-floodlight-200w": {
+            "productId": "nl-floodlight-200w",
+            "productName": "nl-floodlight-200w",
+            "productImages": [
+              "/products/outdoor/flood-light/nl-floodlight-200w.jpg"
+            ],
+            "subCategory": "flood-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "high-pay": [
+        {
+          "nl-high-pay-100w": {
+            "productId": "nl-high-pay-100w",
+            "productName": "nl-high-pay-100w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-100w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-high-pay-150w": {
+            "productId": "nl-high-pay-150w",
+            "productName": "nl-high-pay-150w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-150w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-high-pay-200w": {
+            "productId": "nl-high-pay-200w",
+            "productName": "nl-high-pay-200w",
+            "productImages": [
+              "/products/outdoor/high-pay/nl-high-pay-200w.png"
+            ],
+            "subCategory": "high-pay",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "spikes": [
+        {
+          "nl-spike-1-5w": {
+            "productId": "nl-spike-1-5w",
+            "productName": "nl-spike-1-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-1-5w.png"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-2-5w": {
+            "productId": "nl-spike-2-5w",
+            "productName": "nl-spike-2-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (2).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-3-5w": {
+            "productId": "nl-spike-3-5w",
+            "productName": "nl-spike-3-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-4-5w": {
+            "productId": "nl-spike-4-5w",
+            "productName": "nl-spike-4-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-5-5w": {
+            "productId": "nl-spike-5-5w",
+            "productName": "nl-spike-5-5w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "stairs-light": [
+        {
+          "nl-stairs-light-1": {
+            "productId": "nl-stairs-light-1",
+            "productName": "nl-stairs-light-1",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (3).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-2": {
+            "productId": "nl-stairs-light-2",
+            "productName": "nl-stairs-light-2",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-3": {
+            "productId": "nl-stairs-light-3",
+            "productName": "nl-stairs-light-3",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (3).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-4": {
+            "productId": "nl-stairs-light-4",
+            "productName": "nl-stairs-light-4",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-black-5w.png",
+              "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-gray-5w.png"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-5": {
+            "productId": "nl-stairs-light-5",
+            "productName": "nl-stairs-light-5",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-black-7w.png",
+              "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-gray-7w.png"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-stairs-light-6": {
+            "productId": "nl-stairs-light-6",
+            "productName": "nl-stairs-light-6",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-6-gray-5w.png"
+            ],
+            "subCategory": "stairs-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "uplight": [
+        {
+          "nl-1001-2w": {
+            "productId": "nl-1001-2w",
+            "productName": "nl-1001-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1001-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1046-2w": {
+            "productId": "nl-1046-2w",
+            "productName": "nl-1046-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1046-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1050-2w": {
+            "productId": "nl-1050-2w",
+            "productName": "nl-1050-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (1).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (2).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (3).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (4).webp",
+              "/products/outdoor/uplight/nl-1050-4/nl-1050 (5).webp"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1051-3w": {
+            "productId": "nl-1051-3w",
+            "productName": "nl-1051-3w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1051-2/nl-1051 (1).webp",
+              "/products/outdoor/uplight/nl-1051-2/nl-1051 (2).webp"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-1100-2w": {
+            "productId": "nl-1100-2w",
+            "productName": "nl-1100-2w",
+            "productImages": [
+              "/products/outdoor/uplight/nl-1100-2w.png"
+            ],
+            "subCategory": "uplight",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "wall-light": [
+        {
+          "nl-w-l-1": {
+            "productId": "nl-w-l-1",
+            "productName": "nl-w-l-1",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1 (1).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-2": {
+            "productId": "nl-w-l-2",
+            "productName": "nl-w-l-2",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (3).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-3": {
+            "productId": "nl-w-l-3",
+            "productName": "nl-w-l-3",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (2).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-4": {
+            "productId": "nl-w-l-4",
+            "productName": "nl-w-l-4",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-5": {
+            "productId": "nl-w-l-5",
+            "productName": "nl-w-l-5",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-w-l-6": {
+            "productId": "nl-w-l-6",
+            "productName": "nl-w-l-6",
+            "productImages": [
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).webp",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).webp"
+            ],
+            "subCategory": "wall-light",
+            "price": 729,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ]
+    }
+  }
+}

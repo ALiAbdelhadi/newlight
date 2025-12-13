@@ -1,0 +1,397 @@
+{
+    "LoadingScreen": {
+        "title": "Loading",
+        "message": "Please wait while we prepare everything for you"
+    },
+    "Common": {
+        "welcome": "Welcome",
+        "error": "An error occurred"
+    },
+    "loading": {
+        "title": "Loading your order...",
+        "description": "This won’t take long"
+    },
+    "nav": {
+        "logoNew": "new",
+        "logoLight": "light",
+        "desktopContactSr": "Contact",
+        "mobileMenuTitleHome": "Home",
+        "mobileMenuTitleProducts": "Products",
+        "mobileMenuTitleAbout": "About",
+        "mobileMenuTitleContact": "Contact",
+        "mobileMenuLabelLanguage": "Language",
+        "mobileMenuLabelTheme": "Theme",
+        "mobileMenuLabelSearch": "Search",
+        "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
+    },
+    "cart": {
+        "title": "Shopping Cart",
+        "items": "items",
+        "item": "item",
+        "loading": "Loading Cart...",
+        "emptyCart": {
+            "title": "Your cart is empty",
+            "description": "Add some items to your cart to get started",
+            "continueShopping": "Continue Shopping"
+        },
+        "signInRequired": {
+            "title": "Sign in to view your cart",
+            "description": "Please sign in to access your cart and start shopping",
+            "signUp": "Sign Up"
+        },
+        "actions": {
+            "viewDetails": "View Details",
+            "orderNow": "Order Now",
+            "remove": "Remove",
+            "openCart": "Open Cart"
+        },
+        "messages": {
+            "quantityUpdated": "Quantity updated",
+            "itemRemoved": "Item removed from cart successfully.",
+            "failedToLoad": "Failed to load cart items",
+            "errorLoading": "Error loading cart",
+            "failedToUpdate": "Failed to update quantity",
+            "failedToRemove": "Failed to remove item. Please try again."
+        },
+        "discount": "discount"
+    },
+    "auth-section": {
+        "account": "Account",
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "helpSupport": "Help & Support",
+        "dashboard": "Dashboard",
+        "loading": "Loading...",
+        "userMenu": "User menu"
+    },
+    "hero-section": {
+        "illuminate": "Illuminate",
+        "inspirationGlow": "Inspiration In Every Glow",
+        "inspiration": "Inspiration",
+        "technicalResources": "Technical Resources",
+        "weAre": "We Are",
+        "weAreNewLight": "New Light",
+        "products": "Products"
+    },
+    "collection-section": {
+        "livingTomorrowTitle": "Living Tomorrow",
+        "livingTomorrowReport": "A Residential Insights Report",
+        "exploreAction": "Explore",
+        "finishesTitle": "Finishes",
+        "finishesExplore": "Explore our product finishes",
+        "discoverAction": "Discover"
+    },
+    "about-us-page": {
+        "metaTitle": "About Us | Premium Lighting Solutions",
+        "metaDescription": "Discover our story, mission, and vision. Leading provider of premium indoor and outdoor lighting solutions for residential and commercial spaces.",
+        "heroTitle": "Illuminating Excellence",
+        "heroSubtitle": "For over a decade, we have been at the forefront of lighting innovation, transforming spaces with our carefully curated collection of premium lighting solutions. Our passion for quality and design excellence drives everything we do.",
+        "featuresTitle": "Why Choose Us",
+        "featuresSubtitle": "We combine expertise, quality, and innovation to deliver exceptional lighting experiences.",
+        "features": [
+            {
+                "title": "Expert Lighting Design",
+                "description": "Our certified lighting specialists provide professional calculations based on international lux standards, ensuring optimal illumination for every space. From residential to commercial projects, we deliver customized lighting solutions."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "We source only the finest lighting fixtures from world-renowned manufacturers. Each product undergoes rigorous quality control to ensure exceptional performance, durability, and aesthetic excellence that stands the test of time."
+            },
+            {
+                "title": "Fast Delivery Service",
+                "description": "Experience efficient delivery within 5-7 business days with real-time tracking across all regions. Our logistics partners ensure your lighting fixtures arrive safely and on schedule, ready for installation."
+            },
+            {
+                "title": "Extended Warranty Coverage",
+                "description": "All our premium lighting products come with comprehensive 3-5 year warranty coverage. We stand behind the quality of our products and provide responsive support throughout the warranty period."
+            },
+            {
+                "title": "Flexible Payment Options",
+                "description": "Shop with confidence using our flexible payment methods including secure cash on delivery, bank transfers, Your convenience and security are our priority."
+            },
+            {
+                "title": "Energy Efficiency",
+                "description": "Our LED lighting solutions deliver exceptional energy savings of up to 80% compared to traditional lighting. Reduce your carbon footprint while enjoying superior illumination quality and lower electricity costs."
+            }
+        ],
+        "categoriesTitle": "Our Collections",
+        "categoriesSubtitle": "Explore our comprehensive range of indoor and outdoor lighting solutions.",
+        "categories": [
+            {
+                "title": "Indoor Lighting",
+                "description": "Transform your interior spaces with our exquisite collection of chandeliers, pendant lights, wall sconces, recessed lighting, and decorative fixtures. Perfect for residential, hospitality, and commercial environments.",
+                "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+                "slug": "indoor"
+            },
+            {
+                "title": "Outdoor Lighting",
+                "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions. From garden path lights to architectural facade lighting, create stunning nighttime ambiance and enhanced security.",
+                "image": "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+                "slug": "outdoor"
+            }
+        ],
+        "exploreCategory": "Explore Collection",
+        "visionTitle": "Our Vision",
+        "visionDescription": "To be the leading provider of innovative lighting solutions in the region, setting new standards for quality, design excellence, and customer satisfaction. We envision a future where every space is transformed through the artistry of light, creating environments that inspire, comfort, and elevate the human experience.",
+        "missionTitle": "Our Mission",
+        "missionDescription": "To deliver exceptional lighting solutions that combine cutting-edge technology, timeless design, and sustainable practices. We are committed to understanding our clients' unique needs and exceeding their expectations through personalized service, expert guidance, and premium products that enhance both functionality and aesthetics.",
+        "ctaTitle": "Ready to Transform Your Space?",
+        "ctaDescription": "Discover our complete collection of premium lighting solutions and let our experts help you create the perfect ambiance for your project.",
+        "ctaExplore": "Explore Collections",
+        "ctaContact": "Contact Us"
+    },
+    "privacy-page": {
+        "metaTitle": "Privacy Policy | Premium Lighting Solutions",
+        "metaDescription": "Learn how we collect, use, and protect your personal information. Our commitment to your privacy and data security.",
+        "heroTitle": "Privacy Policy",
+        "heroSubtitle": "Your privacy is important to us. This policy outlines how we collect, use, and protect your personal information when you visit our website or use our services.",
+        "lastUpdated": "Last Updated",
+        "updateDate": "December 12, 2024",
+        "sections": {
+            "dataCollection": {
+                "title": "Information We Collect",
+                "content": "We collect various types of information to provide and improve our services to you:",
+                "items": [
+                    "Personal identification information (name, email address, phone number, shipping address)",
+                    "Browsing behavior and website usage data through cookies and analytics",
+                    "Communication preferences and correspondence with our customer service team"
+                ]
+            },
+            "dataUsage": {
+                "title": "How We Use Your Information",
+                "content": "We use the collected information for the following purposes:",
+                "items": [
+                    "Processing and fulfilling your orders, including shipping and delivery",
+                    "Providing customer support and responding to your inquiries",
+                    "Sending important updates about your orders and our services",
+                    "Improving our website functionality and user experience",
+                    "Analyzing trends and preferences to enhance our product offerings",
+                    "Sending promotional materials and newsletters (with your consent)"
+                ]
+            },
+            "cookies": {
+                "title": "Cookies and Tracking Technologies",
+                "content": "We use cookies and similar tracking technologies to enhance your browsing experience:",
+                "items": [
+                    "Essential cookies for website functionality and security",
+                    "Analytics cookies to understand how visitors interact with our website",
+                    "Marketing cookies for personalized advertising (with your consent)",
+                    "Preference cookies to remember your settings and choices"
+                ]
+            },
+            "dataSecurity": {
+                "title": "Data Security",
+                "content": "We implement industry-standard security measures to protect your personal information:",
+                "items": [
+                    "SSL encryption for all data transmission between your browser and our servers",
+                    "Regular security audits and vulnerability assessments",
+                    "Restricted access to personal data on a need-to-know basis",
+                    "Regular backups and disaster recovery procedures"
+                ]
+            },
+            "userRights": {
+                "title": "Your Rights",
+                "content": "You have the following rights regarding your personal information:",
+                "items": [
+                    "Request correction of inaccurate or incomplete personal information",
+                    "Withdraw consent for marketing communications at any time"
+                ]
+            },
+            "dataSharing": {
+                "title": "Information Sharing",
+                "content": "We do not sell your personal information. We may share your data with:",
+                "items": [
+                    "Shipping and logistics partners to fulfill your orders",
+                    "Payment processors to handle secure transactions",
+                    "Analytics and marketing service providers (with anonymized data)",
+                    "Legal authorities when required by law or to protect our rights",
+                    "Business partners for joint marketing initiatives (with your explicit consent)"
+                ]
+            },
+            "childrenPrivacy": {
+                "title": "Children's Privacy",
+                "content": "Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately so we can delete such information."
+            },
+            "policyChanges": {
+                "title": "Changes to This Policy",
+                "content": "We may update this privacy policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any significant changes by posting the updated policy on our website and updating the 'Last Updated' date. We encourage you to review this policy periodically."
+            }
+        },
+        "contact": {
+            "title": "Contact Us",
+            "content": "If you have any questions, concerns, or requests regarding this privacy policy or how we handle your personal information, please contact us:",
+            "emailLabel": "Email",
+            "email": "privacy@newlight.com",
+            "phoneLabel": "Phone",
+            "phone": "+20 10 66076077",
+            "addressLabel": "Address",
+            "address": "Cairo, Egypt"
+        }
+    },
+    "category-section": {
+        "header": {
+            "title": "Product Categories",
+            "subtitle": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+        },
+        "categories": {
+            "indoor": {
+                "title": "Indoor Lighting",
+                "subtitle": "Interior Collection",
+                "description": "Sophisticated lighting solutions designed to enhance every interior space. From ambient ceiling fixtures to accent wall lights, our indoor collection combines aesthetic excellence with functional illumination.",
+                "href": "/category/indoor"
+            },
+            "outdoor": {
+                "title": "Outdoor Lighting",
+                "subtitle": "Exterior Collection",
+                "description": "Weather-resistant lighting engineered for outdoor environments. Illuminate gardens, pathways, and architectural features with fixtures built to withstand the elements while delivering exceptional performance.",
+                "href": "/category/outdoor"
+            }
+        },
+        "features": {
+            "consultationTitle": "Expert Consultation",
+            "consultationDescription": "Professional lighting design assistance to help you select the perfect fixtures for your project.",
+            "technicalTitle": "Technical Support",
+            "technicalDescription": "Comprehensive installation guides and technical specifications for all products.",
+            "qualityTitle": "Quality Assurance",
+            "qualityDescription": "All fixtures undergo rigorous testing to meet international lighting standards."
+        }
+    },
+    "footer": {
+        "logo": {
+            "part1": "NEW",
+            "part2": "LIGHT"
+        },
+        "sections": {
+            "products": {
+                "title": "Products",
+                "indoor": "Interior Lighting",
+                "outdoor": "Outdoor Lighting",
+                "smart": "Smart Solutions"
+            },
+            "resources": {
+                "title": "Resources",
+                "catalog": "Catalog",
+                "technical": "Technical Data",
+                "installation": "Installation Guides"
+            },
+            "company": {
+                "title": "Company",
+                "about": "About Us",
+                "contact": "Contact"
+            }
+        },
+        "copyright": "New Light. All rights reserved."
+    },
+    "CategoryCard": {
+        "text": "Explore Collection"
+    },
+    "features-section": {
+        "headerTitle": "Why Choose Us",
+        "footerCta": "All products backed by quality assurance and customer satisfaction guarantee",
+        "features": [
+            {
+                "title": "Lighting Study",
+                "description": "Professional lighting calculations based on international lux standards."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "Top-tier lighting fixtures engineered for durability and long-term performance."
+            },
+            {
+                "title": "Fast Delivery",
+                "description": "5-7 days delivery with real-time tracking across all regions."
+            },
+            {
+                "title": "Extended Warranty",
+                "description": "3-5 years comprehensive warranty on all premium lighting products."
+            },
+            {
+                "title": "Cash on Delivery",
+                "description": "Flexible payment options including secure cash on delivery."
+            }
+        ]
+    },
+    "cta-section": {
+        "heading": "Ready to Illuminate Your Space?",
+        "description": "Discover our curated collection of premium residential and commercial lighting solutions",
+        "buttonText": "Shop Collection",
+        "buttonHref": "/products"
+    },
+    "products-section": {
+        "headerTitle": "Our Collection",
+        "headerDescription": "Premium residential lighting designed with elegance and functionality in mind. Each piece reflects our commitment to quality and aesthetic excellence.",
+        "productData": {
+            "pendantLightTitle": "Pendant Light",
+            "wallSconceTitle": "Wall Sconce",
+            "floorLampTitle": "Floor Lamp",
+            "tableLampTitle": "Table Lamp",
+            "ceilingFixtureTitle": "Ceiling Fixture",
+            "outdoorLightTitle": "Outdoor Light",
+            "categoryResidential": "Residential",
+            "categoryIndoor": "Indoor",
+            "categoryOutdoor": "Outdoor",
+            "badgeNew": "New",
+            "badgeFeatured": "Featured",
+            "badgeSale": "Sale"
+        }
+    },
+    "categories-page": {
+        "heroTitle": "Illuminate Your World",
+        "heroSubtitle": "Discover our curated collection of premium lighting solutions designed to transform every space into a masterpiece of light and shadow.",
+        "categoryIndoor": "Indoor",
+        "categoryIndoorDesc": "Elegant interior lighting for living spaces, bedrooms, and workspaces.",
+        "categoryOutdoor": "Outdoor",
+        "categoryOutdoorDesc": "Weather-resistant lighting for gardens, pathways, and architectural facades.",
+        "categoryFeatured": "Featured",
+        "categoryFeaturedDesc": "Our most exclusive designer collections and limited editions.",
+        "ctaTitle": "Need Expert Guidance?",
+        "ctaDescription": "Our lighting specialists are here to help you find the perfect illumination for your project. From residential to commercial spaces, we provide personalized consultation.",
+        "ctaContact": "Contact Us",
+        "ctaLearn": "Learn More",
+        "exploreCollection": "Explore Collection",
+        "productsCount": "{count} products"
+    },
+    "sub-category-page": {
+        "backTo": "Back to {category}",
+        "noSubcategories": "No subcategories available",
+        "exploreCollection": "Explore our {name} collection"
+    },
+    "section-type-page": {
+        "noProducts": "No products available in this category",
+        "productCount": "{count} {count, plural, =1 {product} other {products}}",
+        "products": "products",
+        "product": "product"
+    },
+    "product-page": {
+        "technicalLabel": "Technical",
+        "featured": "Featured",
+        "inStock": "In Stock",
+        "available": "{count} available",
+        "outOfStock": "Out of Stock",
+        "colorTemperature": "Color Temperature",
+        "availableColors": "Available Colors",
+        "specifications": "Specifications",
+        "noImage": "No image available",
+        "voltage": "Voltage",
+        "maxWattage": "Max Wattage",
+        "brandOfLed": "Brand of LED",
+        "luminousFlux": "Luminous Flux",
+        "mainMaterial": "Main Material",
+        "cri": "CRI",
+        "beamAngle": "Beam Angle",
+        "productDimensions": "Product Dimensions",
+        "holeSize": "Hole Size",
+        "powerFactor": "Power Factor",
+        "ipRating": "IP Rating",
+        "maxIpRating": "Max IP Rating",
+        "lifeTime": "Life Time",
+        "hours": "hours",
+        "currency": "EGP"
+    },
+    "metadatas": {
+        "category-page": {
+            "metaTitle": "Product Categories",
+            "metaDescription": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+        }
+    }
+}
