@@ -16,9 +16,27 @@ interface ProductWithTranslations {
     translations?: Array<{ locale: string; specifications?: unknown }>
 }
 
-function extractSpecifications(product: ProductWithTranslations, locale: string) {
+function extractSpecifications(product: ProductWithTranslations, locale: string): Record<string, string | number | string[]> | null {
     const translation = product.translations?.find((t) => t.locale === locale)
-    return translation?.specifications || null
+    const specs = translation?.specifications
+    
+    if (!specs || typeof specs !== 'object' || Array.isArray(specs)) {
+        return null
+    }
+    
+    // Type guard to ensure it's a Record
+    const record = specs as Record<string, unknown>
+    const result: Record<string, string | number | string[]> = {}
+    let hasValidEntries = false
+    
+    for (const [key, value] of Object.entries(record)) {
+        if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) {
+            result[key] = value as string | number | string[]
+            hasValidEntries = true
+        }
+    }
+    
+    return hasValidEntries ? result : null
 }
 
 function sortAlphabetically<T extends { 

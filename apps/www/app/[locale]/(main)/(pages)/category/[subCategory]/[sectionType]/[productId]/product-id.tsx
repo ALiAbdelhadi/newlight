@@ -35,7 +35,7 @@ type Product = {
     maxIpRating: string | null
     lifeTime: number | null
     availableColors: string[]
-    specifications?: Record<string, string | number | string[]>
+    specifications?: Record<string, string | number | string[]> | null  // Add | null here
     isActive: boolean
     isFeatured: boolean
     translations: Array<{

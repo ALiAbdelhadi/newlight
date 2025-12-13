@@ -46,5 +46,11 @@ export default async function CategoryProductIdPage({ params }: Props) {
         notFound()
     }
 
-    return <ProductIdPage product={product} />
+    // Ensure specifications type matches expected type
+    const productWithCorrectSpecs = {
+        ...product,
+        specifications: product.specifications as Record<string, string | number | string[]> | null | undefined
+    }
+
+    return <ProductIdPage product={productWithCorrectSpecs} />
 }

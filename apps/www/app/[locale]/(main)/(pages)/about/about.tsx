@@ -41,7 +41,7 @@ export function AboutUsClient() {
     const t = useTranslations("about-us-page")
     const sectionRef = useRef<HTMLDivElement>(null)
     const featureRefs = useRef<HTMLDivElement[]>([])
-    const categoryRefs = useRef<HTMLDivElement[]>([])
+    const categoryRefs = useRef<HTMLElement[]>([])
     const visionMissionRef = useRef<HTMLDivElement>(null)
 
     const translatedFeaturesData = t.raw("features") as FeatureData[]
