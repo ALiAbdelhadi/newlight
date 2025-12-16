@@ -1,19 +1,33 @@
-import { useTranslations } from 'next-intl';
 import * as z from 'zod';
 
-export const createContactSchema = (t: ReturnType<typeof useTranslations>) => z.object({
+export const createContactSchema = (translations: {
+    fullNameMin: string;
+    fullNameMax: string;
+    jobPositionMin: string;
+    jobPositionMax: string;
+    emailInvalid: string;
+    phoneMin: string;
+    phoneMax: string;
+    phoneInvalid: string;
+}) => z.object({
     fullName: z.string()
-        .min(2, { message: t('form.validation.fullName.min') })
-        .max(100, { message: t('form.validation.fullName.max') }),
+        .min(2, { message: translations.fullNameMin })
+        .max(100, { message: translations.fullNameMax }),
     jobPosition: z.string()
-        .min(2, { message: t('form.validation.jobPosition.min') })
-        .max(100, { message: t('form.validation.jobPosition.max') }),
+        .min(2, { message: translations.jobPositionMin })
+        .max(100, { message: translations.jobPositionMax }),
     email: z.string()
-        .email({ message: t('form.validation.email.invalid') }),
+        .email({ message: translations.emailInvalid }),
     phoneNumber: z.string()
-        .min(10, { message: t('form.validation.phoneNumber.min') })
-        .max(15, { message: t('form.validation.phoneNumber.max') })
-        .regex(/^[+]?[\d\s-()]+$/, { message: t('form.validation.phoneNumber.invalid') })
+        .min(10, { message: translations.phoneMin })
+        .max(15, { message: translations.phoneMax })
+        .regex(/^[+]?[\d\s-()]+$/, { message: translations.phoneInvalid })
 });
 
-export type ContactFormData = z.infer<ReturnType<typeof createContactSchema>>;
+
+export type ContactFormData = {
+    fullName: string;
+    jobPosition: string;
+    email: string;
+    phoneNumber: string;
+};

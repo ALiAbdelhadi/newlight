@@ -7,13 +7,23 @@ import { ContactFormData, createContactSchema } from '@/lib/validation/contact';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Clock, Globe, Mail, MapPin, Navigation, Phone, Send } from 'lucide-react';
 import { useTranslations } from 'next-intl';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from "react-icons/fa";
 
 const ContactPage: React.FC = () => {
     const t = useTranslations('contact');
-    const contactSchema = createContactSchema(t);
+
+    const contactSchema = useMemo(() => createContactSchema({
+        fullNameMin: t('form.validation.fullName.min'),
+        fullNameMax: t('form.validation.fullName.max'),
+        jobPositionMin: t('form.validation.jobPosition.min'),
+        jobPositionMax: t('form.validation.jobPosition.max'),
+        emailInvalid: t('form.validation.email.invalid'),
+        phoneMin: t('form.validation.phoneNumber.min'),
+        phoneMax: t('form.validation.phoneNumber.max'),
+        phoneInvalid: t('form.validation.phoneNumber.invalid'),
+    }), [t]);
 
     const {
         register,
@@ -26,7 +36,6 @@ const ContactPage: React.FC = () => {
     });
 
     const onSubmit = async (data: ContactFormData): Promise<void> => {
-        // Simulate API call
         await new Promise(resolve => setTimeout(resolve, 1500));
 
         console.log('Demo request submitted:', data);
