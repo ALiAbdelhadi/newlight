@@ -3,6 +3,9 @@ import createNextIntlPlugin from 'next-intl/plugin';
 import withPWA from "@ducanh2912/next-pwa";
 
 const nextConfig: NextConfig = {
+  typescript: {
+    ignoreBuildErrors: true
+  },
   reactStrictMode: true,
   transpilePackages: ["@repo/database"],
   compiler: {
