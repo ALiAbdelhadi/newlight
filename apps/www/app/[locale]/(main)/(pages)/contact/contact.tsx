@@ -3,27 +3,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/i18n/navigation';
-import { ContactFormData, createContactSchema } from '@/lib/validation/contact';
+import { ContactFormData, getContactSchema } from '@/lib/validation/contact';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Clock, Globe, Mail, MapPin, Navigation, Phone, Send } from 'lucide-react';
-import { useTranslations } from 'next-intl';
-import React, { useMemo } from 'react';
+import { useLocale, useTranslations } from 'next-intl';
+import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from "react-icons/fa";
 
 const ContactPage: React.FC = () => {
     const t = useTranslations('contact');
-
-    const contactSchema = useMemo(() => createContactSchema({
-        fullNameMin: t('form.validation.fullName.min'),
-        fullNameMax: t('form.validation.fullName.max'),
-        jobPositionMin: t('form.validation.jobPosition.min'),
-        jobPositionMax: t('form.validation.jobPosition.max'),
-        emailInvalid: t('form.validation.email.invalid'),
-        phoneMin: t('form.validation.phoneNumber.min'),
-        phoneMax: t('form.validation.phoneNumber.max'),
-        phoneInvalid: t('form.validation.phoneNumber.invalid'),
-    }), [t]);
+    const locale = useLocale();
 
     const {
         register,
@@ -31,7 +21,7 @@ const ContactPage: React.FC = () => {
         formState: { errors, isSubmitting },
         reset
     } = useForm<ContactFormData>({
-        resolver: zodResolver(contactSchema),
+        resolver: zodResolver(getContactSchema(locale)),
         mode: 'onChange'
     });
 
