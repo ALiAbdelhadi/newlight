@@ -311,6 +311,7 @@ class DescriptionBuilder {
       }
 
       // Protection and durability
+
       if (maxIp) {
         desc += `، مع حماية IP${maxIp} للاستخدام الداخلي والخارجي`;
       } else if (ip) {
@@ -326,7 +327,6 @@ class DescriptionBuilder {
     } else {
       let desc = `${productName} is a professional lighting solution`;
 
-      // Technical specs
       const techSpecs = [];
       if (wattage) techSpecs.push(`${wattage}W power`);
       if (flux) techSpecs.push(`${flux} luminous flux`);

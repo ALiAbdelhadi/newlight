@@ -3,41 +3,16 @@
 import CategoryCard from "@/components/category-card"
 import { Container } from "@/components/container"
 import { Link } from "@/i18n/navigation"
+import { Category } from "@/types"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { ArrowLeft } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useEffect, useRef, useState } from "react"
-import { ArrowLeft } from "lucide-react"
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger)
 }
-
-type Category = {
-    id: string
-    categoryType: "indoor" | "outdoor"
-    slug: string
-    imageUrl: string | null
-    translations: Array<{
-        locale: string
-        name: string
-        description: string | null
-    }>
-    subCategories: Array<{
-        id: string
-        slug: string
-        imageUrl: string | null
-        translations: Array<{
-            locale: string
-            name: string
-            description: string | null
-        }>
-        _count: {
-            products: number
-        }
-    }>
-}
-
 interface SubCategoryPageProps {
     category: Category
 }
@@ -103,7 +78,7 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
     }, [isClient, category.subCategories])
 
     return (
-        <main className="min-h-screen bg-background">
+        <div className="min-h-screen">
             <section ref={heroRef} className="py-24">
                 <Container>
                     <Link
@@ -164,6 +139,6 @@ export default function SubCategoryPage({ category }: SubCategoryPageProps) {
                     )}
                 </Container>
             </section>
-        </main>
+        </div>
     )
 }

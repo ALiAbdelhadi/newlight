@@ -106,7 +106,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
     }, [categories])
 
     return (
-        <main className="min-h-screen bg-background">
+        <div className="min-h-screen">
             <section ref={heroRef} className="py-24">
                 <Container>
                     <div className="max-w-4xl mx-auto text-center space-y-8">
@@ -216,6 +216,6 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                     </div>
                 </Container>
             </section>
-        </main>
+        </div>
     )
 }

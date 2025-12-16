@@ -1,11 +1,9 @@
 "use client";
 
-import { changeProductAvailableColor } from "@/lib/surface-color";
 import { cn } from "@/lib/utils";
-import { AvailableColors } from "@repo/database";
-import { Check, Loader2 } from "lucide-react";
+import { Check } from "lucide-react";
 import { useLocale } from "next-intl";
-import { useState, useTransition } from "react";
+import { useState } from "react";
 
 const formatAvailableColor = (color: string, locale: string): string => {
     const isArabic = locale.startsWith("ar");
@@ -36,23 +34,10 @@ export default function ProductSurfaceColorButtons({
     const [selectedColor, setSelectedColor] = useState<string>(
         initialColor || availableColors[0] || ""
     );
-    const [isPending, startTransition] = useTransition();
 
-    const handleColorChange = async (color: string) => {
+    const handleColorChange = (color: string) => {
         setSelectedColor(color);
         onSurfaceColorChange?.(color);
-
-        startTransition(async () => {
-            try {
-                await changeProductAvailableColor({
-                    productId,
-                    newAvailableColor: color as AvailableColors,
-                });
-            } catch (error) {
-                console.error("Failed to update surface color:", error);
-                setSelectedColor(initialColor || availableColors[0] || "");
-            }
-        });
     };
 
     if (availableColors.length === 0) return null;
@@ -102,14 +87,9 @@ export default function ProductSurfaceColorButtons({
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                        <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
-                            {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
-                        </p>
-                        {isPending && (
-                            <Loader2 className="w-3 h-3 animate-spin text-muted-foreground" />
-                        )}
-                    </div>
+                    <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
+                        {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
+                    </p>
                 </div>
             </div>
             <div className="flex flex-wrap gap-3">
@@ -120,8 +100,7 @@ export default function ProductSurfaceColorButtons({
                         <button
                             key={color}
                             onClick={() => handleColorChange(color)}
-                            disabled={isPending}
-                            className="group relative disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="group relative"
                             aria-label={formatAvailableColor(color, locale)}
                         >
                             <div

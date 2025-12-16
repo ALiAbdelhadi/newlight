@@ -189,7 +189,7 @@ export function Hero() {
                                     href="category"
                                     className="text-3xl md:text-4xl lg:text-5xl font-light text-primary-foreground transition-all duration-300 hover:tracking-wider"
                                 >
-                                    {t('products')}
+                                    {t('category')}
                                 </Link>
                             </div>
                         </div>

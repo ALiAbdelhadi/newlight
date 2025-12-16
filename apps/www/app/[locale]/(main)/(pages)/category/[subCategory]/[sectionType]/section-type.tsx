@@ -3,48 +3,15 @@
 import { Container } from "@/components/container"
 import { ProductCard } from "@/components/product-card"
 import { Link } from "@/i18n/navigation"
-import { useEffect, useRef, useState } from "react"
+import { SubCategory } from "@/types"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useTranslations } from "next-intl"
 import { ArrowLeft } from "lucide-react"
+import { useTranslations } from "next-intl"
+import { useEffect, useRef, useState } from "react"
 
 if (typeof window !== "undefined") {
     gsap.registerPlugin(ScrollTrigger)
-}
-
-type SubCategory = {
-    id: string
-    slug: string
-    imageUrl: string | null
-    translations: Array<{
-        locale: string
-        name: string
-        description: string | null
-    }>
-    category: {
-        id: string
-        slug: string
-        categoryType: "indoor" | "outdoor"
-        translations: Array<{
-            locale: string
-            name: string
-            description: string | null
-        }>
-    }
-    products: Array<{
-        id: string
-        productId: string
-        slug: string
-        price: number
-        images: string[]
-        isFeatured: boolean
-        translations: Array<{
-            locale: string
-            name: string
-            description: string | null
-        }>
-    }>
 }
 
 interface SectionTypePageProps {
@@ -90,7 +57,6 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
     useEffect(() => {
         if (!isClient) return
 
-        // Filter out undefined refs
         const validRefs = cardRefs.current.filter((el): el is HTMLDivElement => el !== null && el !== undefined)
         if (validRefs.length === 0) return
 
@@ -118,7 +84,7 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
     const productLabel = productCount === 1 ? t("product") : t("products")
 
     return (
-        <main className="min-h-screen bg-background">
+        <div className="min-h-screen">
             <section ref={heroRef} className="py-24">
                 <Container>
                     <Link
@@ -152,7 +118,6 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                         </div>
                     ) : (
                         <>
-
                             <div className="mb-10 pb-6 border-b border-border">
                                 <p className="text-sm text-muted-foreground font-light tracking-wide">
                                     {productCount} {productLabel}
@@ -191,6 +156,6 @@ export default function SectionTypePage({ subCategory }: SectionTypePageProps) {
                     )}
                 </Container>
             </section>
-        </main>
+        </div>
     )
 }

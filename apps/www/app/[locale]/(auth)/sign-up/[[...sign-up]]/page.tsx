@@ -43,8 +43,8 @@ export default function SignUpPage() {
         </div>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-border overflow-hidden">
-            <div ref={imageRef} className="hidden lg:block relative min-h-[700px] overflow-hidden bg-muted">
-              <Image src="/new-collection/new-collection-1.jpg" alt="Join New Light" fill className="object-cover" />
+            <div ref={imageRef} className="hidden lg:block relative min-h-175 overflow-hidden bg-muted">
+              <Image src="/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp" alt="Join New Light" fill className="object-cover" />
               <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/40 to-transparent flex flex-col justify-end p-12">
                 <div className="space-y-4">
                   <h2 className="text-5xl font-light tracking-tight text-white">Join Us</h2>

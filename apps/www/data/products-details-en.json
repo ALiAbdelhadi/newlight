@@ -24,8 +24,7 @@
                             "maxIP": 44,
                             "life_time": 50000,
                             "surface_color": [
-                                "white",
-                                "black"
+                                "white"
                             ]
                         }
                     },
@@ -50,8 +49,7 @@
                             "maxIP": 44,
                             "life_time": 50000,
                             "surface_color": [
-                                "white",
-                                "black"
+                                "white"
                             ]
                         }
                     },
@@ -76,8 +74,7 @@
                             "maxIP": 68,
                             "life_time": 50000,
                             "surface_color": [
-                                "white",
-                                "black"
+                                "white"
                             ]
                         }
                     },
@@ -102,8 +99,7 @@
                             "maxIP": 68,
                             "life_time": 50000,
                             "surface_color": [
-                                "white",
-                                "black"
+                                "white"
                             ]
                         }
                     },

@@ -1,10 +1,62 @@
-import { notFound } from "next/navigation"
-import { getLocale } from "next-intl/server"
-import SectionTypePage from "./section-type"
 import { getProductsBySubCategory, getSubCategories } from "@/lib/db"
+import { constructMetadata } from "@/lib/metadata"
+import { Metadata } from "next"
+import { getLocale, getTranslations } from "next-intl/server"
+import { notFound } from "next/navigation"
+import SectionTypePage from "./section-type"
+import { SupportedLanguage } from "@/types"
 
 export const revalidate = 3600
 export const dynamic = "force-dynamic"
+export const dynamicParams = true
+
+type Props = {
+    params: Promise<{
+        subCategory: string
+        sectionType: string
+        locale: string
+    }>
+}
+
+type MetadataProps = {
+    params: Promise<{
+        subCategory: string
+        sectionType: string
+    }>
+}
+
+export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
+    const { subCategory, sectionType } = await params
+
+    const locale = await getLocale() as SupportedLanguage
+    const t = await getTranslations("metadatas.section-type-page")
+
+    const data = await getProductsBySubCategory(subCategory, sectionType, locale)
+
+    if (!data) {
+        notFound()
+    }
+
+    const subCategoryName = data.translations[0]?.name || data.slug
+    const categoryName = data.category.translations[0]?.name || data.category.categoryType
+
+    const firstProductImage = data.products?.[0]?.images?.[0] ||
+        data.imageUrl ||
+        undefined
+
+    return constructMetadata({
+        title: t("title", {
+            section: subCategoryName,
+            category: categoryName,
+        }),
+        description: t("description", {
+            section: subCategoryName,
+            category: categoryName,
+        }),
+        locale,
+        image: firstProductImage,
+    })
+}
 
 export async function generateStaticParams() {
     try {
@@ -28,19 +80,8 @@ export async function generateStaticParams() {
 
         return params
     } catch {
-        // Fallback: return empty array, pages will be generated on-demand
         return []
     }
-}
-
-export const dynamicParams = true
-
-type Props = {
-    params: Promise<{
-        subCategory: string
-        sectionType: string
-        locale: string
-    }>
 }
 
 export default async function CategorySectionTypePage({ params }: Props) {

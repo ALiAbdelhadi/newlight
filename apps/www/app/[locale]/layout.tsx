@@ -3,8 +3,11 @@ import { RegisterServiceWorker } from "@/components/register-sw";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { routing } from '@/i18n/routing';
+import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
+import { SupportedLanguage } from "@/types";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { Almarai, Roboto } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -21,17 +24,18 @@ const almarai = Almarai({
   subsets: ["arabic"],
   display: "swap",
 })
-// export async function generateMetadata({
-//   params
-// }: {
-//   params: Promise<{ locale: string }>
-// }): Promise<Metadata> {
-//   const { locale } = await params
 
-//   return constructMetadata({
-//     locale: locale as SupportedLanguage
-//   })
-// }
+export async function generateMetadata({
+  params
+}: {
+  params: Promise<{ locale: string }>
+}): Promise<Metadata> {
+  const { locale } = await params
+
+  return constructMetadata({
+    locale: locale as SupportedLanguage
+  })
+}
 
 export default async function RootLayout({
   children,

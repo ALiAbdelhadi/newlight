@@ -3,6 +3,12 @@
         "title": "Loading",
         "message": "Please wait while we prepare everything for you"
     },
+    "notFound": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for might have been removed or is temporarily unavailable. Let us help you find what you need.",
+        "home": "Return Home",
+        "contact": "Contact Support"
+    },
     "Common": {
         "welcome": "Welcome",
         "error": "An error occurred"
@@ -53,7 +59,8 @@
             "failedToUpdate": "Failed to update quantity",
             "failedToRemove": "Failed to remove item. Please try again."
         },
-        "discount": "discount"
+        "discount": "discount",
+        "orderNow": "Order Now"
     },
     "auth-section": {
         "account": "Account",
@@ -71,7 +78,7 @@
         "technicalResources": "Technical Resources",
         "weAre": "We Are",
         "weAreNewLight": "New Light",
-        "products": "Products"
+        "category": "Category"
     },
     "collection-section": {
         "livingTomorrowTitle": "Living Tomorrow",
@@ -82,8 +89,6 @@
         "discoverAction": "Discover"
     },
     "about-us-page": {
-        "metaTitle": "About Us | Premium Lighting Solutions",
-        "metaDescription": "Discover our story, mission, and vision. Leading provider of premium indoor and outdoor lighting solutions for residential and commercial spaces.",
         "heroTitle": "Illuminating Excellence",
         "heroSubtitle": "For over a decade, we have been at the forefront of lighting innovation, transforming spaces with our carefully curated collection of premium lighting solutions. Our passion for quality and design excellence drives everything we do.",
         "featuresTitle": "Why Choose Us",
@@ -141,8 +146,6 @@
         "ctaContact": "Contact Us"
     },
     "privacy-page": {
-        "metaTitle": "Privacy Policy | Premium Lighting Solutions",
-        "metaDescription": "Learn how we collect, use, and protect your personal information. Our commitment to your privacy and data security.",
         "heroTitle": "Privacy Policy",
         "heroSubtitle": "Your privacy is important to us. This policy outlines how we collect, use, and protect your personal information when you visit our website or use our services.",
         "lastUpdated": "Last Updated",
@@ -226,6 +229,63 @@
             "phone": "+20 10 66076077",
             "addressLabel": "Address",
             "address": "Cairo, Egypt"
+        }
+    },
+    "contact": {
+        "title": "Get In Touch",
+        "description": "We'd love to hear from you! Whether you have questions about our lighting products, need consultation, or want to explore our innovative lighting solutions, our team is here to help.",
+        "address": {
+            "title": "Our Address",
+            "company": "New Light",
+            "street": "86 Abbas El-Akkad, Al Manteqah Al Oula,",
+            "city": "Nasr City, Cairo"
+        },
+        "contactInfo": {
+            "title": "Contact Info",
+            "whatsapp": "WhatsApp 24/7 Support",
+            "workingHours": "Sun-Thu: 9AM - 6PM"
+        },
+        "getDirections": "Get Directions",
+        "form": {
+            "title": "Request a Demo",
+            "fields": {
+                "fullName": "Full Name*",
+                "jobPosition": "Job Position",
+                "email": "Email Address",
+                "phoneNumber": "Phone Number"
+            },
+            "placeholders": {
+                "fullName": "Enter your name",
+                "jobPosition": "Enter your job position",
+                "email": "Enter your email",
+                "phoneNumber": "Enter your phone number"
+            },
+            "submit": "Request Demo",
+            "submitting": "Submitting...",
+            "successMessage": "Demo request submitted successfully!",
+            "validation": {
+                "fullName": {
+                    "min": "Full name must be at least 2 characters",
+                    "max": "Full name must not exceed 100 characters"
+                },
+                "jobPosition": {
+                    "min": "Job position must be at least 2 characters",
+                    "max": "Job position must not exceed 100 characters"
+                },
+                "email": {
+                    "invalid": "Please enter a valid email address"
+                },
+                "phoneNumber": {
+                    "min": "Phone number must be at least 10 digits",
+                    "max": "Phone number must not exceed 15 digits",
+                    "invalid": "Please enter a valid phone number"
+                }
+            }
+        },
+        "footer": {
+            "languages": "Available in Arabic & English",
+            "responseTime": "Response within 24 hours",
+            "consultation": "Free consultation"
         }
     },
     "category-section": {
@@ -315,7 +375,7 @@
         "heading": "Ready to Illuminate Your Space?",
         "description": "Discover our curated collection of premium residential and commercial lighting solutions",
         "buttonText": "Shop Collection",
-        "buttonHref": "/products"
+        "buttonHref": "/category"
     },
     "products-section": {
         "headerTitle": "Our Collection",
@@ -363,35 +423,158 @@
         "product": "product"
     },
     "product-page": {
-        "technicalLabel": "Technical",
+        "noImage": "No Image Available",
         "featured": "Featured",
-        "inStock": "In Stock",
-        "available": "{count} available",
+        "currency": "EGP",
+        "quantity": "Quantity",
+        "addToCart": "Add to Cart",
+        "addingToCart": "Adding...",
+        "orderNow": "Order Now",
+        "processing": "Processing...",
         "outOfStock": "Out of Stock",
+        "technicalLabel": "Technical Specifications",
+        "specifications": "Detailed Specifications",
+        "bulkOrderTitle": "Bulk Orders",
+        "bulkOrderDescription": "For large orders, please contact our sales team for special pricing and personalized service",
+        "close": "Close",
+        "contactSalesTeam": "Contact Sales Team",
+        "signInRequired": {
+            "title": "Sign In Required",
+            "description": "Please sign in to add products to your cart"
+        },
+        "addedToCart": "Added to Cart",
+        "configurationError": "Configuration Error",
+        "pleaseTryAgain": "Please try again",
+        "configurationSaved": "Configuration Saved",
+        "redirectingToPreview": "Redirecting to preview...",
+        "invalidQuantity": "Invalid quantity"
+    },
+    "preview": {
+        "home": "Home",
+        "orderPreview": "Order Preview",
+        "reviewOrder": "Review Your Order",
+        "reviewDescription": "Please review your order details before proceeding to checkout",
+        "noImage": "No Image Available",
+        "keySpecs": "Key Specifications",
+        "orderSummary": "Order Summary",
         "colorTemperature": "Color Temperature",
-        "availableColors": "Available Colors",
-        "specifications": "Specifications",
-        "noImage": "No image available",
-        "voltage": "Voltage",
-        "maxWattage": "Max Wattage",
-        "brandOfLed": "Brand of LED",
-        "luminousFlux": "Luminous Flux",
-        "mainMaterial": "Main Material",
-        "cri": "CRI",
-        "beamAngle": "Beam Angle",
-        "productDimensions": "Product Dimensions",
-        "holeSize": "Hole Size",
-        "powerFactor": "Power Factor",
-        "ipRating": "IP Rating",
-        "maxIpRating": "Max IP Rating",
-        "lifeTime": "Life Time",
-        "hours": "hours",
-        "currency": "EGP"
+        "surfaceColor": "Surface Color",
+        "quantity": "Quantity",
+        "unitPrice": "Unit Price",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "currency": "EGP",
+        "proceedToCheckout": "Proceed to Checkout",
+        "processing": "Processing...",
+        "secureCheckout": "Secure & encrypted checkout"
+    },
+    "confirm": {
+        "home": "Home",
+        "orderPreview": "Confirm Order",
+        "confirmOrder": "Confirm Order",
+        "confirmYourOrder": "Confirm Your Order",
+        "confirmDescription": "Please enter your shipping information to complete your order",
+        "orderSummary": "Order Summary",
+        "quantity": "Quantity",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "calculatedAtCheckout": "Calculated at checkout",
+        "currency": "EGP",
+        "shippingInformation": "Shipping Information",
+        "fullName": "Full Name",
+        "phone": "Phone Number",
+        "email": "Email Address",
+        "addressLine1": "Address Line 1",
+        "addressLine2": "Address Line 2",
+        "city": "City",
+        "state": "State/Province",
+        "postalCode": "Postal Code",
+        "shippingOption": "Shipping Option",
+        "basicShipping": "Basic Shipping",
+        "standardShipping": "Standard Shipping",
+        "expressShipping": "Express Shipping",
+        "saveAndContinue": "Save & Continue",
+        "fullNamePlaceholder": "Enter your full name",
+        "phonePlaceholder": "Enter your phone number",
+        "emailPlaceholder": "Enter your email address",
+        "addressPlaceholder": "Enter your address",
+        "cityPlaceholder": "Enter your city",
+        "statePlaceholder": "Enter your state/province",
+        "postalCodePlaceholder": "Enter your postal code"
+    },
+    "complete": {
+        "orderConfirmed": "Order Confirmed!",
+        "thankYou": "Thank you for your order",
+        "orderNumber": "Order Number",
+        "orderPlaced": "Order Placed",
+        "processing": "Processing",
+        "estimatedDelivery": "Estimated Delivery",
+        "orderItems": "Order Items",
+        "colorTemp": "Color Temperature",
+        "color": "Color",
+        "quantity": "Quantity",
+        "each": "each",
+        "currency": "EGP",
+        "shippingAddress": "Shipping Address",
+        "shippingMethod": "Shipping Method",
+        "paymentSummary": "Payment Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "total": "Total",
+        "viewOrderDetails": "View Order Details",
+        "continueShopping": "Continue Shopping"
+    },
+    "offline": {
+        "title": "You're offline",
+        "description": "Please check your internet connection"
     },
     "metadatas": {
         "category-page": {
-            "metaTitle": "Product Categories",
-            "metaDescription": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+            "title": "Lighting Collections | Premium Indoor & Outdoor Solutions",
+            "description": "Explore our curated lighting collections including premium indoor and outdoor solutions. Designed to transform every space with elegance, performance, and timeless design."
+        },
+        "sub-category-page": {
+            "title": "{category} Lighting Collection | Premium Design Solutions",
+            "description": "Explore our {category} lighting collection featuring carefully curated designs that combine elegance, performance, and timeless aesthetics."
+        },
+        "section-type-page": {
+            "title": "{section} | {category} Lighting Collection",
+            "description": "Explore our {section} collection within the {category} lighting range. Premium designs crafted to elevate your space with elegance and performance."
+        },
+        "product-page": {
+            "title": "{name} | {category}",
+            "description": "{name} designed for {category}. Specifications include {specs}."
+        },
+        "offline": {
+            "title": "Offline",
+            "description": "You are currently offline. Please check your network connection."
+        },
+        "privacy-page": {
+            "title": "Privacy Policy | Premium Lighting Solutions",
+            "description": "Learn how we collect, use, and protect your personal information. Our commitment to your privacy and data security."
+        },
+        "about-us-page": {
+            "title": "About Us | Premium Lighting Solutions",
+            "description": "Discover our story, mission, and vision. Leading provider of premium indoor and outdoor lighting solutions for residential and commercial spaces."
+        },
+        "contact": {
+            "title": "Contact Us - Get In Touch | New Light",
+            "description": "Contact New Light for inquiries about our lighting products and solutions. We're here to illuminate your spaces with the perfect lighting."
+        },
+        "preview": {
+            "title": "Review Order - {name} | {category} | New Light",
+            "description": "Review your order for {name}. Configuration: {config}. Total: {price} EGP. Secure checkout with New Light lighting solutions.",
+            "defaultTitle": "Review Your Order | New Light",
+            "defaultDescription": "Review your lighting product order before checkout. Secure payment and fast delivery with New Light."
+        },
+        "confirm": {
+            "title": "Confirm Order | {product}",
+            "description": "Finalize your order for {product}. Review shipping details and confirm securely."
+        },
+        "complete": {
+            "title": "Order Completed | #{orderNumber}",
+            "description": "Thank you for your purchase. Your order #{orderNumber} has been successfully placed and is now being processed."
         }
     }
 }

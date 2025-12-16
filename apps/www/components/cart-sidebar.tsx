@@ -1,14 +1,17 @@
 "use client"
+import { CartColorTempSelector, CartSurfaceColorSelector } from "@/components/cart-color-selectors"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { CartItem } from "@/types"
 import { useAuth } from "@clerk/nextjs"
-import { Loader2, ShoppingBag, ShoppingCart, Trash2 } from "lucide-react"
+import { Loader2, ShoppingBag, ShoppingBagIcon, ShoppingCart, Trash2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
+import { ScrollArea } from "./ui/scroll-area"
 
 export function CartSidebar() {
     const { isSignedIn, userId } = useAuth()
@@ -17,6 +20,7 @@ export function CartSidebar() {
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [isLoading, setIsLoading] = useState(false)
     const [isUpdating, setIsUpdating] = useState<string | null>(null)
+
     useEffect(() => {
         const fetchCartItems = async () => {
             if (!isSignedIn || !userId) return
@@ -85,6 +89,66 @@ export function CartSidebar() {
         }
     }
 
+    const updateColorTemp = async (itemId: string, newColorTemp: string) => {
+        const previousItems = [...cartItems]
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId ? { ...item, selectedColorTemp: newColorTemp } : item
+            )
+        )
+
+        setIsUpdating(itemId)
+        try {
+            const response = await fetch("/api/cart/update-options", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ itemId, selectedColorTemp: newColorTemp }),
+            })
+
+            if (response.ok) {
+                toast.success(t("messages.colorTempUpdated"))
+            } else {
+                setCartItems(previousItems)
+                toast.error(t("messages.failedToUpdate"))
+            }
+        } catch {
+            setCartItems(previousItems)
+            toast.error(t("messages.failedToUpdate"))
+        } finally {
+            setIsUpdating(null)
+        }
+    }
+
+    const updateSurfaceColor = async (itemId: string, newColor: string) => {
+        const previousItems = [...cartItems]
+        setCartItems((prevItems) =>
+            prevItems.map((item) =>
+                item.id === itemId ? { ...item, selectedColor: newColor } : item
+            )
+        )
+
+        setIsUpdating(itemId)
+        try {
+            const response = await fetch("/api/cart/update-options", {
+                method: "PATCH",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ itemId, selectedColor: newColor }),
+            })
+
+            if (response.ok) {
+                toast.success(t("messages.colorUpdated"))
+            } else {
+                setCartItems(previousItems)
+                toast.error(t("messages.failedToUpdate"))
+            }
+        } catch {
+            setCartItems(previousItems)
+            toast.error(t("messages.failedToUpdate"))
+        } finally {
+            setIsUpdating(null)
+        }
+    }
+
     const removeItem = async (itemId: string) => {
         const previousItems = [...cartItems]
         setCartItems((prevItems) => prevItems.filter((item) => item.id !== itemId))
@@ -113,6 +177,7 @@ export function CartSidebar() {
     }
 
     const totalItems = cartItems.reduce((total, item) => total + item.quantity, 0)
+
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
@@ -133,38 +198,42 @@ export function CartSidebar() {
                     )}
                 </Button>
             </SheetTrigger>
-            <SheetContent>
-                <SheetHeader className="border-b border-border/50 pb-2">
-                    <SheetTitle className="flex items-center gap-3 text-lg font-semibold">
-                        <ShoppingBag className="h-5 w-5 text-muted-foreground" />
-                        <span>{t("title")}</span>
-                        {totalItems > 0 && (
-                            <Badge variant="secondary" className="ml-auto text-xs">
-                                {totalItems}
-                            </Badge>
+            <SheetContent className="h-full">
+                <ScrollArea className="h-[calc(100vh-64px)] w-full">
+                    <SheetHeader className="border-b border-border/50 pb-2">
+                        <SheetTitle className="flex items-center gap-3 text-lg font-semibold">
+                            <ShoppingBag className="h-5 w-5 text-muted-foreground" />
+                            <span>{t("title")}</span>
+                            {totalItems > 0 && (
+                                <Badge variant="secondary" className="ml-auto text-xs">
+                                    {totalItems}
+                                </Badge>
+                            )}
+                        </SheetTitle>
+                    </SheetHeader>
+                    <div className="flex-1 overflow-hidden flex flex-col">
+                        {!isSignedIn ? (
+                            <EmptyState
+                                icon={ShoppingCart}
+                                title={t("signInRequired.title")}
+                                description={t("signInRequired.description")}
+                            />
+                        ) : isLoading ? (
+                            <LoadingState />
+                        ) : cartItems.length === 0 ? (
+                            <EmptyState icon={ShoppingCart} title={t("emptyCart.title")} description={t("emptyCart.description")} />
+                        ) : (
+                            <CartItemsList
+                                items={cartItems}
+                                isUpdating={isUpdating}
+                                onUpdateQuantity={updateQuantity}
+                                onUpdateColorTemp={updateColorTemp}
+                                onUpdateSurfaceColor={updateSurfaceColor}
+                                onRemoveItem={removeItem}
+                            />
                         )}
-                    </SheetTitle>
-                </SheetHeader>
-                <div className="flex-1 overflow-hidden flex flex-col">
-                    {!isSignedIn ? (
-                        <EmptyState
-                            icon={ShoppingCart}
-                            title={t("signInRequired.title")}
-                            description={t("signInRequired.description")}
-                        />
-                    ) : isLoading ? (
-                        <LoadingState />
-                    ) : cartItems.length === 0 ? (
-                        <EmptyState icon={ShoppingCart} title={t("emptyCart.title")} description={t("emptyCart.description")} />
-                    ) : (
-                        <CartItemsList
-                            items={cartItems}
-                            isUpdating={isUpdating}
-                            onUpdateQuantity={updateQuantity}
-                            onRemoveItem={removeItem}
-                        />
-                    )}
-                </div>
+                    </div>
+                </ScrollArea>
             </SheetContent>
         </Sheet>
     )
@@ -175,7 +244,7 @@ function EmptyState({
     title,
     description,
 }: {
-    icon: any
+    icon: React.ElementType
     title: string
     description: string
 }) {
@@ -206,15 +275,19 @@ function CartItemsList({
     items,
     isUpdating,
     onUpdateQuantity,
+    onUpdateColorTemp,
+    onUpdateSurfaceColor,
     onRemoveItem,
 }: {
     items: CartItem[]
     isUpdating: string | null
     onUpdateQuantity: (id: string, quantity: number) => Promise<void>
+    onUpdateColorTemp: (id: string, colorTemp: string) => Promise<void>
+    onUpdateSurfaceColor: (id: string, color: string) => Promise<void>
     onRemoveItem: (id: string) => Promise<void>
 }) {
     return (
-        <div className="flex-1 overflow-y-auto px-4 py-3">
+        <div className="flex-1 overflow-y-auto py-4">
             <div className="space-y-2">
                 {items.map((item) => (
                     <CartItemCard
@@ -222,6 +295,8 @@ function CartItemsList({
                         item={item}
                         isUpdating={isUpdating === item.id}
                         onUpdateQuantity={onUpdateQuantity}
+                        onUpdateColorTemp={onUpdateColorTemp}
+                        onUpdateSurfaceColor={onUpdateSurfaceColor}
                         onRemoveItem={onRemoveItem}
                     />
                 ))}
@@ -234,78 +309,146 @@ function CartItemCard({
     item,
     isUpdating,
     onUpdateQuantity,
+    onUpdateColorTemp,
+    onUpdateSurfaceColor,
     onRemoveItem,
 }: {
     item: CartItem
     isUpdating: boolean
     onUpdateQuantity: (id: string, quantity: number) => Promise<void>
+    onUpdateColorTemp: (id: string, colorTemp: string) => Promise<void>
+    onUpdateSurfaceColor: (id: string, color: string) => Promise<void>
     onRemoveItem: (id: string) => Promise<void>
 }) {
+    const t = useTranslations("cart")
+
+    const hasColorTemps = Array.isArray(item.colorTemperatures) && item.colorTemperatures.length > 0
+    const hasColors = Array.isArray(item.availableColors) && item.availableColors.length > 0
+
     return (
         <div className="group relative bg-card border border-border/50 rounded-lg p-3 hover:border-border/80 hover:shadow-sm transition-all duration-200">
             <div className="flex gap-3">
-                {/* Product Image */}
-                {item.productImages?.[0] && (
-                    <div className="relative shrink-0 w-16 h-16">
+                <Link
+                    href={`/preview/${item.productId}`}
+                    className="relative shrink-0 w-16 h-16 cursor-pointer"
+                >
+                    {item.productImages?.[0] ? (
                         <Image
-                            src={item.productImages[0] || "/placeholder.svg"}
+                            src={item.productImages[0]}
                             alt={item.productName}
                             fill
-                            className="object-cover rounded-md"
+                            className="object-cover rounded-md hover:opacity-80 transition-opacity"
                         />
-                        {item.discount > 0 && (
-                            <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs px-1.5 py-0.5">
-                                -{Math.round(item.discount * 100)}%
-                            </Badge>
-                        )}
-                    </div>
-                )}
+                    ) : (
+                        <div className="w-full h-full bg-muted rounded-md flex items-center justify-center hover:bg-muted/80 transition-colors">
+                            <ShoppingCart className="h-6 w-6 text-muted-foreground/50" />
+                        </div>
+                    )}
+                    {item.discount > 0 && (
+                        <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs px-1.5 py-0.5">
+                            -{Math.round(item.discount)}%
+                        </Badge>
+                    )}
+                </Link>
                 <div className="flex-1 min-w-0 flex flex-col justify-between">
                     <div className="space-y-1">
-                        <div className="flex justify-between items-start gap-2">
-                            <h4 className="font-medium text-sm leading-tight line-clamp-2">{item.productName}</h4>
+                        <div className="flex justify-between items-start gap-1">
+                            <Link
+                                href={`/preview/${item.productId}`}
+                                className="font-medium text-sm leading-tight line-clamp-2 hover:text-primary transition-colors"
+                            >
+                                {item.productName}
+                            </Link>
                             <Button
-                                variant="ghost"
+                                variant="outline"
                                 size="icon"
-                                className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
+                                className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 bg-red-200/40 hover:bg-red-200"
                                 onClick={() => onRemoveItem(item.id)}
                                 disabled={isUpdating}
                             >
-                                {isUpdating ? <Loader2 className="h-3 w-3 animate-spin" /> : <Trash2 className="h-3 w-3" />}
+                                {isUpdating ? (
+                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                ) : (
+                                    <Trash2 className="h-3 w-3" />
+                                )}
                             </Button>
                         </div>
-                        <p className="text-xs text-muted-foreground">
-                            {item.brand} • {item.spotlightType}
-                        </p>
+                        <div className="flex flex-wrap gap-1 text-xs text-muted-foreground">
+                            {item.category && <span>{item.category}</span>}
+                            {item.category && item.subCategory && <span>•</span>}
+                            {item.subCategory && <span>{item.subCategory}</span>}
+                        </div>
+                        {(hasColorTemps || hasColors) && (
+                            <div className="flex flex-col gap-1.5 mt-2">
+                                {hasColorTemps && (
+                                    <CartColorTempSelector
+                                        productId={item.productId}
+                                        availableTemps={item.colorTemperatures}
+                                        selectedTemp={item.selectedColorTemp || item.colorTemperatures[0]}
+                                        onChange={(temp) => onUpdateColorTemp(item.id, temp)}
+                                        disabled={isUpdating}
+                                    />
+                                )}
+                                {hasColors && (
+                                    <CartSurfaceColorSelector
+                                        availableColors={item.availableColors}
+                                        selectedColor={item.selectedColor || item.availableColors[0]}
+                                        onChange={(color) => onUpdateSurfaceColor(item.id, color)}
+                                        disabled={isUpdating}
+                                    />
+                                )}
+                            </div>
+                        )}
                     </div>
-                    <div className="flex items-center justify-between gap-2 pt-1">
-                        {/* <div className="space-y-0.5">
-                            <DiscountPrice price={item.price} quantity={item.quantity} discount={item.discount} />
-                            {item.discount > 0 && (
-                                <NormalPrice price={item.price} quantity={item.quantity} className="text-xs text-muted-foreground line-through" />
-                            )}
-                        </div> */}
-                        <div className="flex items-center gap-1 bg-muted rounded-md p-1">
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-5 w-5 text-xs"
-                                onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
-                                disabled={isUpdating || item.quantity <= 1}
-                            >
-                                −
-                            </Button>
-                            <span className="w-6 text-center text-xs font-medium">{item.quantity}</span>
-                            <Button
-                                variant="ghost"
-                                size="icon"
-                                className="h-5 w-5 text-xs"
-                                onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
-                                disabled={isUpdating}
-                            >
-                                +
-                            </Button>
+                    <div className="space-y-2 pt-2">
+                        <div className="flex items-center justify-between gap-2">
+                            <div className="space-y-0.5">
+                                <p className="text-sm font-semibold">
+                                    {item.totalPrice.toLocaleString()} {t("currency")}
+                                </p>
+                                {item.discount > 0 && (
+                                    <p className="text-xs text-muted-foreground line-through">
+                                        {(item.price * item.quantity).toLocaleString()}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="flex items-center gap-1 bg-muted rounded-md p-1">
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-5 w-5 text-xs"
+                                    onClick={() => onUpdateQuantity(item.id, item.quantity - 1)}
+                                    disabled={isUpdating || item.quantity <= 1}
+                                >
+                                    −
+                                </Button>
+                                <span className="w-6 text-center text-xs font-medium">
+                                    {item.quantity}
+                                </span>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-5 w-5 text-xs"
+                                    onClick={() => onUpdateQuantity(item.id, item.quantity + 1)}
+                                    disabled={isUpdating}
+                                >
+                                    +
+                                </Button>
+                            </div>
                         </div>
+                        <Link
+                            href={`/preview/${item.productId}`}
+                            className="w-full"
+                        >
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                className="w-full h-7 text-xs gap-1.5 hover:bg-primary hover:text-primary-foreground transition-colors"
+                            >
+                                <ShoppingBagIcon className="h-3 w-3" />
+                                {t("orderNow")}
+                            </Button>
+                        </Link>
                     </div>
                 </div>
             </div>

@@ -1,9 +1,9 @@
 "use client"
 
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { usePathname, useRouter } from 'next/navigation'
 import { Globe, X } from "lucide-react"
 import { useLocale } from "next-intl"
-import { usePathname, useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 
 interface Language {

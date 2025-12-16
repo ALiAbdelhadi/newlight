@@ -1,20 +1,19 @@
-import { getTranslations, setRequestLocale } from "next-intl/server"
-import { AboutUsClient } from "./about"
-import type { Metadata } from "next"
+import { constructMetadata } from "@/lib/metadata";
+import { SupportedLanguage } from "@/types";
+import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
+import { AboutUsClient } from "./about";
 
-export async function generateMetadata({
-    params,
-}: {
-    params: Promise<{ locale: string }>
-}): Promise<Metadata> {
-    const { locale } = await params
-    const t = await getTranslations({ locale, namespace: "about-us-page" })
+export async function generateMetadata() {
+    const t = await getTranslations("metadatas.about-us-page");
 
-    return {
-        title: t("metaTitle"),
-        description: t("metaDescription"),
-    }
+    const locale = await getLocale() as SupportedLanguage
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale
+    });
 }
+
 
 export default async function AboutUsPage({
     params,

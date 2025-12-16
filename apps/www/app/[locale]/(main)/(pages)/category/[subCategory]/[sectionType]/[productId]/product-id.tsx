@@ -1,66 +1,33 @@
 "use client"
 
+import { addToCart } from "@/actions/cart"
+import { saveConfiguration } from "@/actions/configuration"
 import ProductColorTempButtons from "@/components/color-temp-buttons"
 import { Container } from "@/components/container"
 import ProductSurfaceColorButtons from "@/components/surface-color-button"
-import { Link } from "@/i18n/navigation"
+import { Button } from "@/components/ui/button"
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from "@/components/ui/dialog"
+import { Link, useRouter } from "@/i18n/navigation"
+import { Product } from "@/types"
+import { useAuth } from "@clerk/nextjs"
+import { useMutation } from "@tanstack/react-query"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Loader2, Minus, Plus, ShoppingCart } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
-import { useEffect, useRef, useState } from "react"
+import { startTransition, useCallback, useEffect, useRef, useState } from "react"
+import { toast } from "sonner"
 
 gsap.registerPlugin(ScrollTrigger)
-
-type Product = {
-    id: string
-    productId: string
-    slug: string
-    price: number
-    inventory: number
-    images: string[]
-    voltage: string | null
-    maxWattage: number | null
-    brandOfLed: string | null
-    luminousFlux: string | null
-    mainMaterial: string | null
-    cri: string | null
-    beamAngle: number | null
-    productDimensions: string | null
-    holeSize: string | null
-    powerFactor: string | null
-    colorTemperatures: string[]
-    ipRating: string | null
-    maxIpRating: string | null
-    lifeTime: number | null
-    availableColors: string[]
-    specifications?: Record<string, string | number | string[]> | null
-    isActive: boolean
-    isFeatured: boolean
-    translations: Array<{
-        locale: string
-        name: string
-        description: string | null
-    }>
-    subCategory: {
-        id: string
-        slug: string
-        translations: Array<{
-            locale: string
-            name: string
-        }>
-        category: {
-            id: string
-            slug: string
-            categoryType: "indoor" | "outdoor"
-            translations: Array<{
-                locale: string
-                name: string
-            }>
-        }
-    }
-}
 
 interface ProductIdPageProps {
     product: Product
@@ -69,13 +36,16 @@ interface ProductIdPageProps {
 export default function ProductIdPage({ product }: ProductIdPageProps) {
     const t = useTranslations("product-page")
     const locale = useLocale()
+    const router = useRouter()
+    const { isSignedIn } = useAuth()
+
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
-    const [selectedColorTemp, setSelectedColorTemp] = useState<string>(
-        product.colorTemperatures[0] || ""
-    )
-    const [surfaceColor, setSurfaceColor] = useState<string>(
-        product.availableColors[0] || ""
-    )
+    const [selectedColorTemp, setSelectedColorTemp] = useState<string>(product.colorTemperatures[0] || "")
+    const [surfaceColor, setSurfaceColor] = useState<string>(product.availableColors[0] || "")
+    const [quantity, setQuantity] = useState(1)
+    const [isAddingToCart, setIsAddingToCart] = useState(false)
+    const [showDialog, setShowDialog] = useState(false)
+
     const heroRef = useRef<HTMLElement>(null)
     const specsRef = useRef<HTMLElement>(null)
 
@@ -87,6 +57,85 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const productDescription = productTranslation?.description
     const subCategoryName = subCategoryTranslation?.name || product.subCategory.slug
     const categoryName = categoryTranslation?.name || product.subCategory.category.categoryType
+
+    const { mutate: saveConfig, isPending: isSaving } = useMutation({
+        mutationKey: ["save-configuration", product.productId],
+        mutationFn: () =>
+            saveConfiguration({
+                productId: product.productId,
+                quantity,
+                selectedColorTemp: selectedColorTemp || undefined,
+                selectedColor: surfaceColor || undefined,
+            }),
+        onSuccess: (result) => {
+            // Type guard to check if result is the success object
+            if (result && typeof result === 'object' && 'success' in result) {
+                if (!result.success || !result.configId) {
+                    toast.error(t("configurationError"), {
+                        description: t("pleaseTryAgain"),
+                    })
+                    return
+                }
+
+                toast.success(t("configurationSaved"), {
+                    description: t("redirectingToPreview"),
+                })
+
+                router.push(`/preview/${result.configId}`)
+            } else {
+                toast.error(t("configurationError"), {
+                    description: t("pleaseTryAgain"),
+                })
+            }
+        },
+        onError: (error) => {
+            console.error("Failed to save configuration:", error)
+            toast.error(t("configurationError"), {
+                description: t("pleaseTryAgain"),
+            })
+        },
+    })
+
+    const handleOrderNow = useCallback(() => {
+        if (isSaving) return
+
+        if (quantity < 1) {
+            toast.error(t("invalidQuantity"))
+            return
+        }
+
+        // Save configuration and redirect - NO SIGN IN REQUIRED
+        saveConfig()
+    }, [isSaving, quantity, saveConfig, t])
+
+    const handleAddToCart = useCallback(() => {
+        setIsAddingToCart(true)
+
+        // Check if user is signed in - SIGN IN REQUIRED FOR CART
+        if (!isSignedIn) {
+            toast.error(t("signInRequired.title"), {
+                description: t("signInRequired.description")
+            })
+            setIsAddingToCart(false)
+            return
+        }
+
+        startTransition(async () => {
+            try {
+                await addToCart(product.productId, quantity, selectedColorTemp, surfaceColor)
+                toast.success(t("addedToCart"), {
+                    description: `${productName} ${t("addedToCart").toLowerCase()}`,
+                })
+            } catch (error) {
+                console.error("Failed to add to cart", error)
+                toast.error("Error", {
+                    description: "Failed to add to cart",
+                })
+            } finally {
+                setIsAddingToCart(false)
+            }
+        })
+    }, [isSignedIn, quantity, product.productId, selectedColorTemp, surfaceColor, productName, t])
 
     useEffect(() => {
         if (!heroRef.current) return
@@ -130,33 +179,37 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return () => ctx.revert()
     }, [])
 
-    // Function to convert snake_case or camelCase to readable format
+    const formatAvailableColor = (color: string, isArabic: boolean): string => {
+        const map: Record<string, string> = {
+            BLACK: isArabic ? "أسود" : "Black",
+            GRAY: isArabic ? "رمادي" : "Gray",
+            WHITE: isArabic ? "أبيض" : "White",
+            GOLD: isArabic ? "ذهبي" : "Gold",
+            WOOD: isArabic ? "خشبي" : "Wood",
+        }
+        return map[color] || color.replace(/_/g, " ")
+    }
+
     const formatLabel = (label: string, isArabic: boolean): string => {
-        // If Arabic, return as is
         if (isArabic) {
             return label
         }
-
-        // Special handling for IP-related labels
         const lowerLabel = label.toLowerCase()
-        if (lowerLabel === 'ip' || lowerLabel === 'ip_rating' || lowerLabel === 'iprating') {
-            return 'IP'
+        if (lowerLabel === "ip" || lowerLabel === "ip_rating" || lowerLabel === "iprating") {
+            return "IP"
         }
-        if (lowerLabel === 'maxip' || lowerLabel === 'max_ip' || lowerLabel === 'maxiprating') {
-            return 'Max IP'
+        if (lowerLabel === "maxip" || lowerLabel === "max_ip" || lowerLabel === "maxiprating") {
+            return "Max IP"
         }
-
-        // For English, convert to readable format
         return label
-            .replace(/_/g, ' ') // Replace underscores with spaces
-            .replace(/([A-Z])/g, ' $1') // Add space before capital letters
-            .split(' ')
-            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-            .join(' ')
+            .replace(/_/g, " ")
+            .replace(/([A-Z])/g, " $1")
+            .split(" ")
+            .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(" ")
             .trim()
     }
 
-    // Preferred order for specifications display
     const preferredOrder = [
         "input",
         "المدخل",
@@ -216,17 +269,16 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return value.toString()
     }
 
+    const isArabic = locale.startsWith("ar")
+
     const formatColorTemps = (temps: string[]) => {
-        const isArabic = locale.startsWith("ar")
         const map: Record<string, string> = {
             WARM_3000K: isArabic ? "دافئ 3000K" : "Warm 3000K",
             COOL_4000K: isArabic ? "بارد 4000K" : "Cool 4000K",
             WHITE_6500K: isArabic ? "أبيض 6500K" : "White 6500K",
         }
         const joiner = isArabic ? " / " : " / "
-        return temps
-            .map((temp) => map[temp] || temp.replace(/_/g, " ").toLowerCase())
-            .join(joiner)
+        return temps.map((temp) => map[temp] || temp.replace(/_/g, " ").toLowerCase()).join(joiner)
     }
 
     const formatValue = (label: string, value: string | number | string[]) => {
@@ -235,25 +287,27 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         const isArabic = locale.startsWith("ar")
         const joiner = isArabic ? " ، " : ", "
 
-        // Handle arrays differently based on label
         if (Array.isArray(value)) {
             const normalizedLabel = label.toLowerCase()
 
-            // Check if it's color-related (surface_color, available_colors, etc.)
-            if (["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة", "color"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
-                // Don't add "K" for colors
-                return value.join(joiner)
+            if (
+                ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة", "color"].some((l) =>
+                    normalizedLabel.includes(l.toLowerCase()),
+                )
+            ) {
+                return value.map(color => formatAvailableColor(color, isArabic)).join(joiner)
             }
-
-            // For other arrays (like color temperatures in array format), add K
             return value.map((v) => `${formatNumber(v)}K`).join(joiner)
         }
 
         const normalizedLabel = label.toLowerCase()
 
-        // Check if it's a surface color or available colors field - don't add K
-        if (["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
-            return value.toString()
+        if (
+            ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة"].some((l) =>
+                normalizedLabel.includes(l.toLowerCase()),
+            )
+        ) {
+            return formatAvailableColor(value.toString(), isArabic)
         }
 
         if (["أقصى قوة كهربائية", "maximum_wattage", "wattage"].some((l) => normalizedLabel.includes(l.toLowerCase()))) {
@@ -290,32 +344,27 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return value.toString()
     }
 
-    const isArabic = locale.startsWith("ar")
-
-    // Create a map to track which specs have been added to avoid duplicates
-    const addedSpecs = new Map<string, boolean>()
-
     const specEntries = Object.entries(product.specifications || {})
         .map(([label, value]) => {
             if (value === null || value === undefined || value === "") return null
 
-            const normalizedLabel = label.toLowerCase().replace(/[_\s]/g, '')
+            const normalizedLabel = label.toLowerCase().replace(/[_\s]/g, "")
 
-            // Skip if this is a color_temperature field and we already have color temperatures
-            if ((normalizedLabel.includes('colortemperature') || normalizedLabel.includes('colourtemperature'))
-                && product.colorTemperatures.length > 0) {
+            if (
+                (normalizedLabel.includes("colortemperature") || normalizedLabel.includes("colourtemperature")) &&
+                product.colorTemperatures.length > 0
+            ) {
                 return null
             }
 
             return {
                 originalLabel: label,
                 label: formatLabel(label, isArabic),
-                value: formatValue(label, value)
+                value: formatValue(label, value),
             }
         })
         .filter(Boolean) as Array<{ originalLabel: string; label: string; value: string | number }>
 
-    // Only add color temperatures if they exist and haven't been added yet
     if (product.colorTemperatures.length > 0) {
         const colorTempLabel = isArabic ? "درجة حرارة اللون" : "Color Temperature"
         specEntries.push({
@@ -326,15 +375,13 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     }
 
     const specifications = specEntries.sort((a, b) => {
-        const normalizeKey = (key: string) => key.toLowerCase().replace(/\s+/g, '_')
+        const normalizeKey = (key: string) => key.toLowerCase().replace(/\s+/g, "_")
 
-        const ia = preferredOrder.findIndex(order =>
-            normalizeKey(order) === normalizeKey(a.originalLabel) ||
-            normalizeKey(order) === normalizeKey(a.label)
+        const ia = preferredOrder.findIndex(
+            (order) => normalizeKey(order) === normalizeKey(a.originalLabel) || normalizeKey(order) === normalizeKey(a.label),
         )
-        const ib = preferredOrder.findIndex(order =>
-            normalizeKey(order) === normalizeKey(b.originalLabel) ||
-            normalizeKey(order) === normalizeKey(b.label)
+        const ib = preferredOrder.findIndex(
+            (order) => normalizeKey(order) === normalizeKey(b.originalLabel) || normalizeKey(order) === normalizeKey(b.label),
         )
 
         if (ia !== -1 && ib !== -1) return ia - ib
@@ -343,11 +390,13 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return a.label.localeCompare(b.label, isArabic ? "ar" : "en")
     })
 
+    const isOutOfStock = product.inventory <= 0
+
     return (
-        <main className="min-h-screen bg-background">
+        <div className="min-h-screen">
             <section className="py-24">
                 <Container>
-                    <nav className="flex items-center gap-2 text-sm text-muted-foreground">
+                    <nav className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
                         <Link
                             href={`/category/${product.subCategory.category.slug}`}
                             className="hover:text-foreground transition-colors font-light tracking-wide"
@@ -369,7 +418,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             <section ref={heroRef} className="pb-20 lg:pb-28">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
-                        <div className="space-y-4 col-span-2">
+                        <div className="space-y-4 md:col-span-2 col-span-3 ">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
@@ -394,7 +443,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                 )}
                             </div>
                             {product.images.length > 1 && (
-                                <div className="grid grid-cols-4 gap-3">
+                                <div className="grid grid-cols-4 gap-3 col-span-2">
                                     {product.images.map((image, index) => (
                                         <button
                                             key={index}
@@ -450,6 +499,62 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     onSurfaceColorChange={setSurfaceColor}
                                 />
                             )}
+                            <div className="space-y-6 pt-4">
+                                <div>
+                                    <div className="flex items-center justify-between gap-3 md:px-1 px-0">
+                                        <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
+                                            {t("quantity")}
+                                        </span>
+                                        <div className="flex items-center border border-border rounded-sm">
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-10 w-10 rounded-none hover:bg-secondary border-r border-border"
+                                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                                disabled={isOutOfStock}
+                                            >
+                                                <Minus className="h-4 w-4" />
+                                            </Button>
+                                            <span className="w-12 text-center font-light tabular-nums ">{quantity}</span>
+                                            <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                className="h-10 w-10 rounded-none hover:bg-secondary border-l border-border"
+                                                onClick={() => setQuantity(Math.min(product.inventory, quantity + 1))}
+                                                disabled={isOutOfStock}
+                                            >
+                                                <Plus className="h-4 w-4" />
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    {isOutOfStock && <span className="text-sm text-destructive font-light">{t("outOfStock")}</span>}
+                                </div>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <Button
+                                        onClick={handleAddToCart}
+                                        disabled={isAddingToCart || isOutOfStock || isSaving}
+                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm bg-transparent "
+                                        variant="outline"
+                                    >
+                                        <ShoppingCart className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
+                                        {isAddingToCart ? t("addingToCart") : t("addToCart")}
+                                    </Button>
+                                    <Button
+                                        onClick={handleOrderNow}
+                                        disabled={isAddingToCart || isOutOfStock || isSaving}
+                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm "
+                                    >
+                                        {isSaving ? (
+                                            <>
+                                                <Loader2 className="w-5 h-5 ltr:mr-2 rtl:ml-2 animate-spin" />
+                                                {t("processing")}
+                                            </>
+                                        ) : (
+                                            t("orderNow")
+                                        )}
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </Container>
@@ -470,12 +575,11 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                             <table className="min-w-full border border-border text-sm">
                                 <tbody>
                                     {specifications.map((spec, index) => (
-                                        <tr
-                                            key={index}
-                                            className="border-b border-border/70 hover:bg-secondary/40 transition-colors"
-                                        >
-                                            <td className="px-4 py-3 text-muted-foreground font-light whitespace-nowrap">{spec.label}</td>
-                                            <td className="px-4 py-3 text-foreground font-light">{spec.value}</td>
+                                        <tr key={index} className="border-b border-border/70 hover:bg-secondary/40 transition-colors">
+                                            <td className="py-4 px-6 font-light text-muted-foreground uppercase tracking-[0.15em] text-xs w-1/3">
+                                                {spec.label}
+                                            </td>
+                                            <td className="py-4 px-6 font-light text-foreground text-base">{spec.value}</td>
                                         </tr>
                                     ))}
                                 </tbody>
@@ -484,6 +588,26 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                     </Container>
                 </section>
             )}
-        </main>
+            <Dialog open={showDialog} onOpenChange={setShowDialog}>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>{t("bulkOrderTitle")}</DialogTitle>
+                        <DialogDescription>{t("bulkOrderDescription")}</DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="secondary">{t("close")}</Button>
+                        </DialogClose>
+                        <a
+                            href="tel:+1154466259"
+                            onClick={() => setShowDialog(false)}
+                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md inline-flex items-center"
+                        >
+                            {t("contactSalesTeam")}
+                        </a>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+        </div>
     )
 }

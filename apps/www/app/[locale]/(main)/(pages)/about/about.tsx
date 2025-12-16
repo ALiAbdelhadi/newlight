@@ -144,7 +144,7 @@ export function AboutUsClient() {
     }, [])
 
     return (
-        <div ref={sectionRef} className="min-h-screen bg-background">
+        <div ref={sectionRef} className="min-h-screen">
             <section className="min-h-[60vh] flex items-center justify-center bg-card text-card-foreground py-24 lg:py-32">
                 <Container>
                     <div className="max-w-4xl mx-auto text-center">

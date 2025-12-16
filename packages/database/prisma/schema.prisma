@@ -7,19 +7,51 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Configuration {
+  key               String     @unique
+  value             String
+  description       String?
+  isPublic          Boolean    @default(false)
+  id                String     @id @default(cuid())
+  productId         String
+  configPrice       Float
+  priceIncrease     Float
+  shippingPrice     Float
+  discount          Float
+  quantity          Int
+  lampPriceIncrease Float?
+  totalPrice        Float
+  currency          String     @default("EGP")
+  selectedColorTemp String? 
+  selectedColor     String? 
+  
+  productIp         ProductIP?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  orders     Order[]     @relation("ConfigurationToOrder")
+  users      User[]      @relation("ConfigurationToUser")
+  orderItems OrderItem[] @relation("ConfigurationToOrderItem")
+
+  @@map("configurations")
+}
+
 model User {
-  id              String            @id @default(cuid())
-  email           String            @unique
-  name            String?
-  password        String
-  role            UserRole          @default(CUSTOMER)
-  emailVerified   DateTime?
-  image           String?
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
+  id                String   @id
+  email             String?
+  phoneNumber       String?
+  preferredLanguage String   @default("ar")
+  preferredCurrency String   @default("EGP")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  configurationId   String?
+  productId         String?
+  shippingAddressId String? @unique
+  configuration   Configuration?   @relation("ConfigurationToUser", fields: [configurationId], references: [id])
+  product         Product?         @relation("UserToProduct", fields: [productId], references: [id])
+  shippingAddress ShippingAddress?
   cart            Cart?
   orders          Order[]
-  shippingAddress ShippingAddress[]
 
   @@map("users")
 }
@@ -122,6 +154,7 @@ model Product {
   orderItems        OrderItem[]
   translations      ProductTranslation[]
   subCategory       SubCategory          @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  users             User[]               @relation("UserToProduct")
 
   @@index([productId])
   @@index([subCategoryId])
@@ -178,15 +211,15 @@ model CartItem {
 }
 
 model Order {
-  id                String           @id @default(cuid())
+  id                String      @id @default(cuid())
   userId            String
-  orderNumber       String           @unique
+  orderNumber       String      @unique
   subtotal          Float
   shippingCost      Float
-  tax               Float
+  tax               Float?
   total             Float
-  status            OrderStatus      @default(awaiting_shipment)
-  shippingOption    OrderOption      @default(StandardShipping)
+  status            OrderStatus @default(awaiting_shipment)
+  shippingOption    OrderOption @default(StandardShipping)
   paymentMethod     String?
   paymentStatus     String?
   paidAt            DateTime?
@@ -196,11 +229,14 @@ model Order {
   deliveredAt       DateTime?
   customerNotes     String?
   adminNotes        String?
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  items             OrderItem[]
-  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
-  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  configurationId   String?
+
+  items           OrderItem[]
+  shippingAddress ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  configuration   Configuration?   @relation("ConfigurationToOrder", fields: [configurationId], references: [id])
 
   @@index([userId])
   @@index([orderNumber])
@@ -221,8 +257,11 @@ model OrderItem {
   selectedColor     String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  order             Order             @relation(fields: [orderId], references: [id], onDelete: Cascade)
-  product           Product           @relation(fields: [productId], references: [id])
+  configurationId   String?
+
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product        @relation(fields: [productId], references: [id])
+  configuration Configuration? @relation("ConfigurationToOrderItem", fields: [configurationId], references: [id])
 
   @@index([orderId])
   @@index([productId])
@@ -231,7 +270,7 @@ model OrderItem {
 
 model ShippingAddress {
   id           String   @id @default(cuid())
-  userId       String
+  userId       String   @unique
   fullName     String
   phone        String
   email        String?
@@ -262,18 +301,6 @@ model SystemSetting {
   @@map("system_settings")
 }
 
-model Configuration {
-  id          String   @id @default(cuid())
-  key         String   @unique
-  value       String
-  description String?
-  isPublic    Boolean  @default(false)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("configurations")
-}
-
 enum ProductColorTemp {
   WARM_3000K
   COOL_4000K
@@ -283,7 +310,7 @@ enum ProductColorTemp {
 }
 
 enum AvailableColors {
-  BLACK  
+  BLACK
   GRAY
   WHITE
   GOLD

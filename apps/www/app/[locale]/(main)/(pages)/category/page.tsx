@@ -1,17 +1,20 @@
 import { getCategoryByType } from "@/lib/db"
-import type { Metadata } from "next"
+import { constructMetadata } from "@/lib/metadata"
+import { SupportedLanguage } from "@/types"
 import { getLocale, getTranslations } from "next-intl/server"
 import CategoriesSection from "./category"
 
 export const revalidate = 14400
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata() {
     const t = await getTranslations("metadatas.category-page")
 
-    return {
-        title: t("metaTitle"),
-        description: t("metaDescription"),
-    }
+    const locale = await getLocale() as SupportedLanguage
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale
+    });
 }
 
 export default async function CategoriesPage() {
@@ -29,7 +32,7 @@ export default async function CategoriesPage() {
                 slug: indoorCategory.slug,
                 name: indoorCategory.translations[0]?.name || "Indoor",
                 description: indoorCategory.translations[0]?.description || "",
-                imageUrl: indoorCategory.subCategories[0]?.imageUrl ,
+                imageUrl: indoorCategory.subCategories[0]?.imageUrl,
             }
             : null,
         outdoorCategory

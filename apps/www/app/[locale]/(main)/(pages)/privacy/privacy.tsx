@@ -90,7 +90,7 @@ export function PrivacyClient() {
     ]
 
     return (
-        <main className="min-h-screen bg-background">
+        <div className="min-h-screen">
             <section className="relative py-24 md:py-32">
                 <Container>
                     <div ref={heroRef} className="mx-auto max-w-3xl text-center">
@@ -145,6 +145,6 @@ export function PrivacyClient() {
                     </div>
                 </Container>
             </section>
-        </main>
+        </div>
     )
 }
