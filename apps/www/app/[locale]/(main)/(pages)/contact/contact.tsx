@@ -22,7 +22,12 @@ const ContactPage: React.FC = () => {
         reset
     } = useForm<ContactFormData>({
         resolver: zodResolver(getContactSchema(locale)),
-        mode: 'onChange'
+        defaultValues: {
+            fullName: "",
+            jobPosition: "",
+            email: "",
+            phoneNumber: ""
+        }
     });
 
     const onSubmit = async (data: ContactFormData): Promise<void> => {
@@ -157,10 +162,10 @@ const ContactPage: React.FC = () => {
                                                 id="fullName"
                                                 {...register('fullName')}
                                                 placeholder={t('form.placeholders.fullName')}
-                                                className="w-full"
+                                                className={`w-full ${errors.fullName ? "border-destructive" : ""}`}
                                             />
                                             {errors.fullName && (
-                                                <p className="text-sm text-red-500">{errors.fullName.message}</p>
+                                                <p className="text-sm text-destructive">{errors.fullName.message}</p>
                                             )}
                                         </div>
                                         <div className="space-y-2">
@@ -175,10 +180,10 @@ const ContactPage: React.FC = () => {
                                                 id="jobPosition"
                                                 {...register('jobPosition')}
                                                 placeholder={t('form.placeholders.jobPosition')}
-                                                className="w-full"
+                                                className={`w-full ${errors.jobPosition ? "border-destructive" : ""}`}
                                             />
                                             {errors.jobPosition && (
-                                                <p className="text-sm text-red-500">{errors.jobPosition.message}</p>
+                                                <p className="text-sm text-destructive">{errors.jobPosition.message}</p>
                                             )}
                                         </div>
                                         <div className="space-y-2">
@@ -193,10 +198,10 @@ const ContactPage: React.FC = () => {
                                                 id="email"
                                                 {...register('email')}
                                                 placeholder={t('form.placeholders.email')}
-                                                className="w-full"
+                                                className={`w-full ${errors.email ? "border-destructive" : ""}`}
                                             />
                                             {errors.email && (
-                                                <p className="text-sm text-red-500">{errors.email.message}</p>
+                                                <p className="text-sm text-destructive">{errors.email.message}</p>
                                             )}
                                         </div>
                                         <div className="space-y-2">
@@ -211,10 +216,10 @@ const ContactPage: React.FC = () => {
                                                 id="phoneNumber"
                                                 {...register('phoneNumber')}
                                                 placeholder={t('form.placeholders.phoneNumber')}
-                                                className="w-full"
+                                                className={`w-full ${errors.phoneNumber ? "border-destructive" : ""}`}
                                             />
                                             {errors.phoneNumber && (
-                                                <p className="text-sm text-red-500">{errors.phoneNumber.message}</p>
+                                                <p className="text-sm text-destructive">{errors.phoneNumber.message}</p>
                                             )}
                                         </div>
                                     </div>
