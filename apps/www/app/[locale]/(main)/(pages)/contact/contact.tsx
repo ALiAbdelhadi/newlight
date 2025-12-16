@@ -3,13 +3,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Link } from '@/i18n/navigation';
-import { ContactFormData, getContactSchema } from '@/lib/validation/contact';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Clock, Globe, Mail, MapPin, Navigation, Phone, Send } from 'lucide-react';
 import { useLocale, useTranslations } from 'next-intl';
 import React from 'react';
 import { useForm } from 'react-hook-form';
 import { FaWhatsapp } from "react-icons/fa";
+
+// Define the form data type
+interface ContactFormData {
+    fullName: string;
+    jobPosition: string;
+    email: string;
+    phoneNumber: string;
+}
 
 const ContactPage: React.FC = () => {
     const t = useTranslations('contact');
@@ -21,7 +27,6 @@ const ContactPage: React.FC = () => {
         formState: { errors, isSubmitting },
         reset
     } = useForm<ContactFormData>({
-        resolver: zodResolver(getContactSchema(locale)),
         defaultValues: {
             fullName: "",
             jobPosition: "",
@@ -58,7 +63,7 @@ const ContactPage: React.FC = () => {
                             </div>
                             <div className="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-4">
-                                    <div className="flex items-center space-x-3">
+                                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
                                         <div className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 bg-emerald-100 text-emerald-600 dark:bg-emerald-900/50 dark:text-emerald-400">
                                             <MapPin className="w-6 h-6" />
                                         </div>
@@ -68,7 +73,7 @@ const ContactPage: React.FC = () => {
                                             </h4>
                                         </div>
                                     </div>
-                                    <div className="pl-15 space-y-1">
+                                    <div className="ltr:pl-15 rtl:pr-15 space-y-1">
                                         <p className="text-sm font-medium transition-colors duration-300 text-muted-foreground">
                                             {t('address.company')}
                                         </p>
@@ -81,7 +86,7 @@ const ContactPage: React.FC = () => {
                                     </div>
                                 </div>
                                 <div className="space-y-4">
-                                    <div className="flex items-center space-x-3">
+                                    <div className="flex items-center space-x-3 rtl:space-x-reverse">
                                         <div className="w-12 h-12 rounded-lg flex items-center justify-center transition-colors duration-300 bg-primary/15 text-primary">
                                             <Phone className="w-6 h-6" />
                                         </div>
@@ -91,26 +96,26 @@ const ContactPage: React.FC = () => {
                                             </h4>
                                         </div>
                                     </div>
-                                    <div className="pl-15 space-y-2">
-                                        <div className="flex items-center space-x-2">
+                                    <div className="ltr:pl-15 rtl:pr-15 space-y-2">
+                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                             <Phone className="w-4 h-4 transition-colors duration-300 text-muted-foreground" />
-                                            <Link href="tel:+201066076077" className="text-sm transition-colors duration-300 text-muted-foreground">
+                                            <Link href="tel:+201066076077" className="text-sm transition-colors duration-300 text-muted-foreground hover:text-foreground">
                                                 +20 10 66076077
                                             </Link>
                                         </div>
-                                        <div className="flex items-center space-x-2 ">
+                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                             <FaWhatsapp className="w-4 h-4 text-muted-foreground" />
-                                            <Link href="https://wa.me/201066076077" className="text-sm transition-colors duration-300 text-muted-foreground">
+                                            <Link href="https://wa.me/201066076077" target="_blank" className="text-sm transition-colors duration-300 text-muted-foreground hover:text-foreground">
                                                 {t('contactInfo.whatsapp')}
                                             </Link>
                                         </div>
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                             <Mail className="w-4 h-4 transition-colors duration-300 text-muted-foreground" />
                                             <p className="text-sm transition-colors duration-300 text-muted-foreground">
                                                 info@newlight.com.eg
                                             </p>
                                         </div>
-                                        <div className="flex items-center space-x-2">
+                                        <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                             <Clock className="w-4 h-4 transition-colors duration-300 text-muted-foreground" />
                                             <p className="text-sm transition-colors duration-300 text-muted-foreground">
                                                 {t('contactInfo.workingHours')}
@@ -124,7 +129,7 @@ const ContactPage: React.FC = () => {
                             <Button
                                 onClick={handleGetDirections}
                                 size={"lg"}
-                                className="w-full sm:w-auto font-medium transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg"
+                                className="w-full sm:w-auto font-medium transition-all duration-200 flex items-center justify-center space-x-2 rtl:space-x-reverse shadow-md hover:shadow-lg"
                             >
                                 <Navigation className="w-5 h-5" />
                                 <span>{t('getDirections')}</span>
@@ -137,6 +142,7 @@ const ContactPage: React.FC = () => {
                                 <iframe
                                     className="absolute top-0 left-0 w-full h-110 rounded-xl"
                                     src="https://maps.google.com/maps?width=600&height=400&hl=en&q=86%20Abbas%20El-Akkad%2C%20Al%20Manteqah%20Al%20Oula%2C%20Nasr%20City%2C%20Cairo%20Governorate&t=&z=16&ie=UTF8&iwloc=B&output=embed"
+                                    title="New Light Company Location"
                                 />
                             </div>
                         </div>
@@ -160,13 +166,10 @@ const ContactPage: React.FC = () => {
                                             <Input
                                                 type="text"
                                                 id="fullName"
-                                                {...register('fullName')}
+                                                {...register('fullName', { required: true })}
                                                 placeholder={t('form.placeholders.fullName')}
-                                                className={`w-full ${errors.fullName ? "border-destructive" : ""}`}
+                                                className="w-full h-12"
                                             />
-                                            {errors.fullName && (
-                                                <p className="text-sm text-destructive">{errors.fullName.message}</p>
-                                            )}
                                         </div>
                                         <div className="space-y-2">
                                             <Label
@@ -178,13 +181,10 @@ const ContactPage: React.FC = () => {
                                             <Input
                                                 type="text"
                                                 id="jobPosition"
-                                                {...register('jobPosition')}
+                                                {...register('jobPosition', { required: true })}
                                                 placeholder={t('form.placeholders.jobPosition')}
-                                                className={`w-full ${errors.jobPosition ? "border-destructive" : ""}`}
+                                                className="w-full h-12"
                                             />
-                                            {errors.jobPosition && (
-                                                <p className="text-sm text-destructive">{errors.jobPosition.message}</p>
-                                            )}
                                         </div>
                                         <div className="space-y-2">
                                             <Label
@@ -196,13 +196,10 @@ const ContactPage: React.FC = () => {
                                             <Input
                                                 type="email"
                                                 id="email"
-                                                {...register('email')}
+                                                {...register('email', { required: true })}
                                                 placeholder={t('form.placeholders.email')}
-                                                className={`w-full ${errors.email ? "border-destructive" : ""}`}
+                                                className="w-full h-12"
                                             />
-                                            {errors.email && (
-                                                <p className="text-sm text-destructive">{errors.email.message}</p>
-                                            )}
                                         </div>
                                         <div className="space-y-2">
                                             <Label
@@ -214,20 +211,17 @@ const ContactPage: React.FC = () => {
                                             <Input
                                                 type="tel"
                                                 id="phoneNumber"
-                                                {...register('phoneNumber')}
+                                                {...register('phoneNumber', { required: true })}
                                                 placeholder={t('form.placeholders.phoneNumber')}
-                                                className={`w-full ${errors.phoneNumber ? "border-destructive" : ""}`}
+                                                className="w-full h-12"
                                             />
-                                            {errors.phoneNumber && (
-                                                <p className="text-sm text-destructive">{errors.phoneNumber.message}</p>
-                                            )}
                                         </div>
                                     </div>
                                     <div className='w-full'>
                                         <Button
                                             type="submit"
                                             disabled={isSubmitting}
-                                            className="w-full px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2 shadow-md hover:shadow-lg disabled:cursor-not-allowed"
+                                            className="w-full h-14 text-base uppercase tracking-[0.2em] px-8 py-3 rounded-lg font-semibold transition-all duration-200 flex items-center justify-center space-x-2 rtl:space-x-reverse shadow-md hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-50"
                                         >
                                             {isSubmitting ? (
                                                 <>
@@ -245,16 +239,16 @@ const ContactPage: React.FC = () => {
                                 </div>
                             </form>
                             <div className="mt-8 pt-6 border-t border-border">
-                                <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 text-sm text-muted-foreground">
-                                    <div className="flex items-center space-x-2">
+                                <div className="flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-6 rtl:sm:space-x-reverse text-sm text-muted-foreground">
+                                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                         <Globe className="w-4 h-4" />
                                         <span>{t('footer.languages')}</span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                         <span>•</span>
                                         <span>{t('footer.responseTime')}</span>
                                     </div>
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                         <span>•</span>
                                         <span>{t('footer.consultation')}</span>
                                     </div>
