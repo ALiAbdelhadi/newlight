@@ -1,7 +1,7 @@
 "use client"
 
 import { Container } from '@/components/container';
-
+import Image from 'next/image';
 interface CollectionCard {
     slug: string;
     title: string;
@@ -32,7 +32,6 @@ export default function NewCollectionClient({
 }: NewCollectionClientProps) {
     return (
         <main className="min-h-screen bg-background">
-            {/* Hero Section */}
             <section className="py-20 lg:py-32">
                 <Container>
                     <div className="text-center max-w-4xl mx-auto animate-fadeIn">
@@ -45,8 +44,6 @@ export default function NewCollectionClient({
                     </div>
                 </Container>
             </section>
-
-            {/* Collections Grid */}
             <section className="py-16">
                 <Container>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -59,10 +56,12 @@ export default function NewCollectionClient({
                                     animation: `fadeInUp 0.6s ease-out forwards ${index * 0.1}s`
                                 }}
                             >
-                                <div className="aspect-[4/3] overflow-hidden">
-                                    <img
+                                <div className="aspect-4/3 overflow-hidden">
+                                    <Image
                                         src={collection.imageUrl}
                                         alt={collection.imageAlt}
+                                        width={1000}
+                                        height={700}
                                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                     />
                                 </div>
@@ -96,8 +95,6 @@ export default function NewCollectionClient({
                     </div>
                 </Container>
             </section>
-
-            {/* CTA Section */}
             <section className="bg-card text-card-foreground py-20 border-t border-border">
                 <Container>
                     <div className="text-center">

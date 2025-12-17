@@ -9,7 +9,7 @@ import { useEffect, useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function NewCollection() {
+export function Collection() {
     const t = useTranslations('collection-section');
 
     const sectionRef = useRef(null);
@@ -90,7 +90,7 @@ export function NewCollection() {
                         <div className="relative overflow-hidden rounded-none aspect-4/3  mb-6 flex justify-center items-center bg-muted">
                             <Image
                                 ref={rightImageRef}
-                                src="/new-collection/new-collection-2/nl-new-collection-1.jpg"
+                                src="/new-collection/new-collection-2/new-collection-1.jpg"
                                 alt="Premium product finishes detail"
                                 className="h-full w-full object-cover"
                                 width={1000}
