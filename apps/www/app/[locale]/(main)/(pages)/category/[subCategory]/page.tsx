@@ -47,7 +47,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     return constructMetadata({
         title: t("title", { category: categoryName }),
         description: t("description", { category: categoryName }),
-        locale,
+        locale: locale as SupportedLanguage,
         image: categoryImage,
         keywords: subCategoryNames,
     })

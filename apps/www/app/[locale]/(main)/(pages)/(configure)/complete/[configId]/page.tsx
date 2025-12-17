@@ -34,7 +34,7 @@ export async function generateMetadata({ searchParams }: MetadataProps): Promise
     return constructMetadata({
         title: t("title", { orderNumber: order.orderNumber }),
         description: t("description", { orderNumber: order.orderNumber }),
-        locale,
+        locale: locale as SupportedLanguage,
         image: productImage
     })
 }

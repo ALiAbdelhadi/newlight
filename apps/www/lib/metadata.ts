@@ -5,7 +5,7 @@ export function constructMetadata({
     title,
     description,
     locale = "en",
-    image,
+    image = locale === "ar" ? "/brand/ar/logo-white.png" : "/brand/en/logo-white.png",
     icons = "/favicon.ico",
     openGraph,
     twitter,
@@ -15,11 +15,11 @@ export function constructMetadata({
 }: {
     title?: string
     description?: string
+    locale?: SupportedLanguage
     image?: string
     icons?: string
     openGraph?: Metadata["openGraph"]
     twitter?: Metadata["twitter"]
-    locale?: SupportedLanguage
     keywords?: string
     noIndex?: boolean
     canonicalUrl?: string
@@ -30,10 +30,8 @@ export function constructMetadata({
     }
 
     const defaultDescriptions: Record<SupportedLanguage, string> = {
-        en:
-            "New light Company: Elevate your spaces with exquisite Indoor and outdoor lighting solutions. Explore our curated selection of spotlights, light poles, LED fixtures, linear lighting, and bollards, meticulously crafted for enduring brilliance and energy efficiency. Experience the New light difference – exceptional illumination at exceptional value.",
-        ar:
-            "شركة نيو لايت: ارتقِ بمساحاتك مع حلول الإضاءة الداخلية والخارجية الراقية. استكشف تشكيلتنا المختارة من الكشافات، أعمدة الإنارة، تجهيزات ليد، الثريات، الإضاءات الخطية، والبولارد — مصممة بعناية للحصول على سطوع دائم وكفاءة في استهلاك الطاقة. اكتشف فرق نيو لايت — إضاءة استثنائية بقيمة استثنائية.",
+        en: "New light Company: Elevate your spaces with exquisite Indoor and outdoor lighting solutions. Explore our curated selection of spotlights, light poles, LED fixtures, linear lighting, and bollards, meticulously crafted for enduring brilliance and energy efficiency. Experience the New light difference – exceptional illumination at exceptional value.",
+        ar: "شركة نيو لايت: ارتقِ بمساحاتك مع حلول الإضاءة الداخلية والخارجية الراقية. استكشف تشكيلتنا المختارة من الكشافات، أعمدة الإنارة، تجهيزات ليد، الثريات، الإضاءات الخطية، والبولارد — مصممة بعناية للحصول على سطوع دائم وكفاءة في استهلاك الطاقة. اكتشف فرق نيو لايت — إضاءة استثنائية بقيمة استثنائية.",
     }
 
     const defaultKeywords = [
@@ -81,19 +79,17 @@ export function constructMetadata({
         "تركيب الإضاءة",
     ]
 
-    const ogLocale = locale === "ar" ? "ar_EG" : "en_US"
     const baseUrl = "https://newlight-eg.vercel.app"
-    const siteUrl = canonicalUrl || `${baseUrl}/${locale}/`
     const siteName = "New light Company"
+    const ogLocale = locale === "ar" ? "ar_EG" : "en_US"
 
-    const resolvedTitle = title ?? defaultTitles[locale]
-    const resolvedDescription = description ?? defaultDescriptions[locale]
+    const resolvedTitle = title || defaultTitles[locale]
+    const resolvedDescription = description || defaultDescriptions[locale]
+    const siteUrl = canonicalUrl || `${baseUrl}/${locale}/`
 
     const defaultImage = locale === "ar" ? "/brand/ar/logo-white.png" : "/brand/en/logo-white.png"
-    const resolvedImage = image
-        ? (image.startsWith("http") ? image : `${baseUrl}${image}`)
-        : `${baseUrl}${defaultImage}`
-
+    const imageToUse = image || defaultImage
+    const resolvedImage = imageToUse.startsWith("http") ? imageToUse : `${baseUrl}${imageToUse}`
     const imageAlt = locale === "ar" ? "شعار شركة نيو لايت" : "New light Company Logo"
 
     const allKeywords = keywords
@@ -126,7 +122,7 @@ export function constructMetadata({
         twitter: twitter ?? {
             card: "summary_large_image",
             site: "@NewlightEG",
-            creator: "Ali Abdelhadi",
+            creator: "@NewlightEG",
             title: resolvedTitle,
             description: resolvedDescription,
             images: {
@@ -144,9 +140,7 @@ export function constructMetadata({
             "twitter:image": resolvedImage,
             "twitter:image:alt": imageAlt,
         },
-
         icons,
-
         metadataBase: new URL(baseUrl),
 
         robots: {

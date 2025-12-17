@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         return constructMetadata({
             title: t("defaultTitle"),
             description: t("defaultDescription"),
-            locale,
+            locale: locale as SupportedLanguage,
         })
     }
 
@@ -42,8 +42,8 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     return constructMetadata({
         title: t("title", { product: productName }),
         description: t("description", { product: productName }),
-        locale,
-        image: productImage
+        image: productImage,
+        locale: locale as SupportedLanguage,
     })
 }
 

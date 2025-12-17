@@ -53,7 +53,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
             section: subCategoryName,
             category: categoryName,
         }),
-        locale,
+        locale: locale as SupportedLanguage,
         image: firstProductImage,
     })
 }

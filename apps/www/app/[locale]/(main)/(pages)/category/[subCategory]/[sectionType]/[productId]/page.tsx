@@ -110,7 +110,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
                 ? "مواصفات احترافية عالية الجودة"
                 : "professional-grade specifications"),
         }),
-        locale,
+        locale: locale as SupportedLanguage,
         image: productImage,
         keywords: productKeywords,
     })

@@ -10,7 +10,7 @@ export async function generateMetadata() {
     return constructMetadata({
         title: t("title"),
         description: t("description"),
-        locale
+        locale: locale as SupportedLanguage,
     });
 }
 
