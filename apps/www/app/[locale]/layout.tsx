@@ -7,10 +7,9 @@ import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { SupportedLanguage } from "@/types";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Metadata } from "next";
+import { Metadata, Viewport } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { Almarai, Roboto } from "next/font/google";
-import Head from "next/head";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
@@ -34,10 +33,39 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params
 
-  return constructMetadata({
+  const metadata = constructMetadata({
     locale: locale as SupportedLanguage
   })
+
+  return {
+    ...metadata,
+    manifest: "/manifest.json",
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: "New Light",
+    },
+    icons: {
+      icon: [
+        { url: "/favicon.ico" },
+        { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
+        { url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
+        { url: "/web-app-manifest-512x512.png", sizes: "512x512", type: "image/png" },
+      ],
+      apple: [
+        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
+      ],
+    },
+  }
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
+  themeColor: "#ffffff",
+};
 
 export default async function RootLayout({
   children,
@@ -61,11 +89,6 @@ export default async function RootLayout({
       }}
     >
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} >
-        <Head>
-          <link rel="manifest" href="/manifest.json" />
-          <link rel="apple-touch-icon" href="/icon.png" />
-          <link rel="theme-color" href="#FFF" />
-        </Head>
         <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth bg-card")} suppressHydrationWarning>
           <script
             suppressHydrationWarning
