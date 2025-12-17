@@ -1,5 +1,3 @@
-// lib/metadata.ts
-
 import { SupportedLanguage } from "@/types"
 import { Metadata } from "next/types"
 
@@ -91,7 +89,7 @@ export function constructMetadata({
     const resolvedTitle = title ?? defaultTitles[locale]
     const resolvedDescription = description ?? defaultDescriptions[locale]
 
-    const defaultImage = locale === "ar" ? "/logo-ar.png" : "/logo-en.png"
+    const defaultImage = locale === "ar" ? "/brand/ar/logo-white.png" : "/brand/en/logo-white.png"
     const resolvedImage = image
         ? (image.startsWith("http") ? image : `${baseUrl}${image}`)
         : `${baseUrl}${defaultImage}`
