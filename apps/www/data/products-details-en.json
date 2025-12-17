@@ -1390,12 +1390,9 @@
                     "nl-f012": {}
                 }
             ],
-            "double-spotlight": [
-                {}
-            ],
             "panel": [
                 {
-                    "nl-60×60-led": {
+                    "nl-60*60-led": {
                         "specificationsTable": {
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 48,
@@ -1871,8 +1868,7 @@
                         }
                     }
                 ]
-            },
-            "track-light": []
+            }
         },
         "outdoor": {
             "uplight": [
@@ -2043,29 +2039,6 @@
                         }
                     },
                     "nl-spike-3-5w": {
-                        "specificationsTable": {
-                            "voltage": "AC 85-265V",
-                            "maximum_wattage": 5,
-                            "brand_of_led": "Bridge lux",
-                            "luminous_flux": "-",
-                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
-                            "cri": ">80",
-                            "beam_angle": 60,
-                            "product_dimensions": "-",
-                            "hole_size": "-",
-                            "power_factor": ">0.5",
-                            "color_Temperature": [
-                                3000
-                            ],
-                            "IP": 65,
-                            "maxIP": 68,
-                            "life_time": 50000,
-                            "surface_color": [
-                                "black"
-                            ]
-                        }
-                    },
-                    "nl-spike-4-5w": {
                         "specificationsTable": {
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 5,

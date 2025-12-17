@@ -1,16 +1,27 @@
+// components/footer.tsx
+
 import { Container } from "@/components/container";
 import { Link } from "@/i18n/navigation";
+import { getFooterSubCategories } from "@/lib/db";
 import { convertToArabicNumerals } from "@/lib/utils";
-import { useLocale, useTranslations } from "next-intl";
+import { getLocale, getTranslations } from "next-intl/server";
 
-export function Footer() {
-    const t = useTranslations("footer");
-    const locale = useLocale();
+export async function Footer() {
+    const t = await getTranslations("footer");
+    const locale = await getLocale();
+
+    const subCategories = await getFooterSubCategories(locale as "en" | "ar");
+
+    const indoorSubCategories = subCategories.filter(
+        (sub) => sub.categoryType === "indoor"
+    );
+    const outdoorSubCategories = subCategories.filter(
+        (sub) => sub.categoryType === "outdoor"
+    );
 
     const currentYear = new Date().getFullYear();
-    const localizedYear = locale === "ar"
-        ? convertToArabicNumerals(currentYear)
-        : currentYear;
+    const localizedYear =
+        locale === "ar" ? convertToArabicNumerals(currentYear) : currentYear;
 
     return (
         <footer className="border-t border-border bg-card/60 backdrop-blur-xl supports-backdrop-filter:bg-card/80">
@@ -29,46 +40,48 @@ export function Footer() {
                         </div>
                         <div>
                             <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
-                                {t("sections.products.title")}
+                                {t("sections.products.indoor")}
                             </h5>
                             <ul className="space-y-3 text-sm text-muted-foreground">
-                                <li>
-                                    <Link href="/indoor" className="hover:text-foreground transition-colors">
-                                        {t("sections.products.indoor")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/outdoor" className="hover:text-foreground transition-colors">
-                                        {t("sections.products.outdoor")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="hover:text-foreground transition-colors">
-                                        {t("sections.products.smart")}
-                                    </Link>
-                                </li>
+                                {indoorSubCategories.length > 0 ? (
+                                    indoorSubCategories.map((subCategory) => (
+                                        <li key={subCategory.id}>
+                                            <Link
+                                                href={`/category/indoor/${subCategory.slug}`}
+                                                className="hover:text-foreground transition-colors"
+                                            >
+                                                {subCategory.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="text-muted-foreground/70">
+                                        {t("sections.products.noSubCategories")}
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <div>
                             <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
-                                {t("sections.resources.title")}
+                                {t("sections.products.outdoor")}
                             </h5>
                             <ul className="space-y-3 text-sm text-muted-foreground">
-                                <li>
-                                    <Link href="/catalog" className="hover:text-foreground transition-colors">
-                                        {t("sections.resources.catalog")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="hover:text-foreground transition-colors">
-                                        {t("sections.resources.technical")}
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="#" className="hover:text-foreground transition-colors">
-                                        {t("sections.resources.installation")}
-                                    </Link>
-                                </li>
+                                {outdoorSubCategories.length > 0 ? (
+                                    outdoorSubCategories.map((subCategory) => (
+                                        <li key={subCategory.id}>
+                                            <Link
+                                                href={`/category/outdoor/${subCategory.slug}`}
+                                                className="hover:text-foreground transition-colors"
+                                            >
+                                                {subCategory.name}
+                                            </Link>
+                                        </li>
+                                    ))
+                                ) : (
+                                    <li className="text-muted-foreground/70">
+                                        {t("sections.products.noSubCategories")}
+                                    </li>
+                                )}
                             </ul>
                         </div>
                         <div>
@@ -77,22 +90,42 @@ export function Footer() {
                             </h5>
                             <ul className="space-y-3 text-sm text-muted-foreground">
                                 <li>
-                                    <Link href="/about" className="hover:text-foreground transition-colors">
+                                    <Link
+                                        href="/about"
+                                        className="hover:text-foreground transition-colors"
+                                    >
                                         {t("sections.company.about")}
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/contact" className="hover:text-foreground transition-colors">
+                                    <Link
+                                        href="/contact"
+                                        className="hover:text-foreground transition-colors"
+                                    >
                                         {t("sections.company.contact")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/privacy"
+                                        className="hover:text-foreground transition-colors"
+                                    >
+                                        {t("sections.company.privacy")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
+                                        href="/faqs"
+                                        className="hover:text-foreground transition-colors"
+                                    >
+                                        {t("sections.company.faqs")}
                                     </Link>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="mt-12 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-                        &copy;{" "}
-                        {localizedYear}{" "}
-                        {t("copyright")}
+                        &copy; {localizedYear} {t("copyright")}
                     </div>
                 </div>
             </Container>

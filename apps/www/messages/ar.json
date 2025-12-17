@@ -3,6 +3,24 @@
         "title": "جاري التحميل",
         "message": "الرجاء الانتظار ريثما نجهز كل شيء من أجلك"
     },
+    "language-selector": {
+        "international": "دولي",
+        "close": "إغلاق",
+        "pending": "جاري تغيير اللغة...",
+        "footerText": "ثيسوروس الجديد: دليل حلول الإضاءة السكنية",
+        "languages": {
+            "en": {
+                "name": "الإنجليزية",
+                "nativeName": "English",
+                "region": "دولي"
+            },
+            "ar": {
+                "name": "العربية",
+                "nativeName": "العربية",
+                "region": "الشرق الأوسط"
+            }
+        }
+    },
     "notFound": {
         "title": "الصفحة غير موجودة",
         "description": "الصفحة التي تبحث عنها قد تكون أزيلت أو غير متاحة مؤقتًا. دعنا نساعدك في العثور على ما تحتاجه.",
@@ -48,13 +66,178 @@
         "weAreNewLight": "نيو لايت",
         "products": "الأقسام"
     },
+    "collection-detail": {
+        "breadcrumbHome": "الرئيسية",
+        "breadcrumbCollections": "المجموعات",
+        "featured": "مميزة",
+        "tags": "الوسوم",
+        "projectInfo": "معلومات المشروع",
+        "category": "الفئة",
+        "published": "تاريخ النشر",
+        "specifications": "المواصفات",
+        "interestedTitle": "مهتم بهذا المشروع؟",
+        "interestedDescription": "دعنا نناقش كيف يمكننا إنشاء شيء مماثل لك",
+        "contactButton": "اتصل بنا",
+        "galleryTitle": "معرض المشروع",
+        "relatedTitle": "مشاريع ذات صلة",
+        "backToCollection": "العودة إلى المجموعات",
+        "categories": {
+            "chandeliers": "ثريات",
+            "pendantLights": "إضاءة معلقة",
+            "wallLights": "إضاءة جدارية",
+            "floorLamps": "مصابيح أرضية",
+            "tableLamps": "مصابيح طاولة",
+            "ceilingLights": "إضاءة السقف",
+            "outdoorLighting": "إضاءة خارجية",
+            "smartLighting": "إضاءة ذكية",
+            "ledStrips": "شرائط LED",
+            "decorativeLights": "إضاءة ديكورية"
+        },
+        "specifications": {
+            "material": "المادة",
+            "dimensions": "الأبعاد",
+            "weight": "الوزن",
+            "voltage": "الجهد الكهربائي",
+            "wattage": "القوة الكهربائية",
+            "lightColor": "لون الإضاءة",
+            "lightTemperature": "درجة حرارة الإضاءة",
+            "lumens": "اللومن",
+            "beamAngle": "زاوية الشعاع",
+            "ipRating": "تصنيف IP",
+            "warranty": "الضمان",
+            "certification": "الشهادات",
+            "installation": "طريقة التركيب",
+            "dimmable": "قابل للتعتيم",
+            "energyRating": "تصنيف الطاقة",
+            "lifespan": "العمر الافتراضي",
+            "colorRendering": "مؤشر تجسيد اللون",
+            "finish": "اللمسة النهائية",
+            "bulbType": "نوع اللمبة",
+            "numberOfBulbs": "عدد اللمبات"
+        },
+        "values": {
+            "warmWhite": "أبيض دافئ",
+            "coolWhite": "أبيض بارد",
+            "daylight": "ضوء النهار",
+            "rgb": "RGB",
+            "yes": "نعم",
+            "no": "لا",
+            "included": "مشمول",
+            "notIncluded": "غير مشمول",
+            "optional": "اختياري",
+            "ceiling": "سقف",
+            "wall": "جدار",
+            "floor": "أرضية",
+            "surface": "سطحي",
+            "recessed": "غائر",
+            "suspended": "معلق",
+            "years": "سنوات",
+            "hours": "ساعة",
+            "modern": "عصري",
+            "classic": "كلاسيكي",
+            "industrial": "صناعي",
+            "minimalist": "بسيط",
+            "luxury": "فاخر",
+            "led": "LED",
+            "halogen": "هالوجين",
+            "incandescent": "متوهج",
+            "cfl": "فلورسنت مدمج"
+        },
+        "materials": {
+            "brass": "نحاس",
+            "steel": "فولاذ",
+            "aluminum": "ألومنيوم",
+            "glass": "زجاج",
+            "crystal": "كريستال",
+            "wood": "خشب",
+            "plastic": "بلاستيك",
+            "fabric": "قماش",
+            "ceramic": "سيراميك",
+            "marble": "رخام"
+        },
+        "descriptions": {
+            "exploreCollection": "استكشف مجموعتنا الحصرية من حلول الإضاءة الفاخرة",
+            "premiumQuality": "جودة ممتازة وتصميم استثنائي",
+            "customizable": "قابل للتخصيص حسب احتياجاتك",
+            "energyEfficient": "موفر للطاقة وصديق للبيئة",
+            "easyInstallation": "سهل التركيب والصيانة",
+            "longLastingDurability": "متانة طويلة الأمد"
+        },
+        "cta": {
+            "viewDetails": "عرض التفاصيل",
+            "addToCart": "أضف إلى السلة",
+            "requestQuote": "طلب عرض سعر",
+            "downloadCatalog": "تحميل الكتالوج",
+            "shareProject": "مشاركة المشروع",
+            "saveToWishlist": "حفظ في المفضلة",
+            "compareProducts": "مقارنة المنتجات"
+        },
+        "tags": {
+            "newArrival": "وصل حديثاً",
+            "bestSeller": "الأكثر مبيعاً",
+            "limitedEdition": "إصدار محدود",
+            "onSale": "تخفيضات",
+            "freeShipping": "شحن مجاني",
+            "customizable": "قابل للتخصيص",
+            "energyStar": "Energy Star",
+            "waterproof": "ضد الماء",
+            "dimmerCompatible": "متوافق مع الديمر",
+            "smartHome": "منزل ذكي"
+        },
+        "filters": {
+            "filterBy": "تصفية حسب",
+            "sortBy": "ترتيب حسب",
+            "priceRange": "نطاق السعر",
+            "style": "الأسلوب",
+            "room": "الغرفة",
+            "brand": "العلامة التجارية",
+            "clearFilters": "مسح الفلاتر",
+            "applyFilters": "تطبيق الفلاتر",
+            "newest": "الأحدث",
+            "priceHighToLow": "السعر: الأعلى إلى الأدنى",
+            "priceLowToHigh": "السعر: الأدنى إلى الأعلى",
+            "popular": "الأكثر شعبية",
+            "rating": "التقييم"
+        },
+        "rooms": {
+            "livingRoom": "غرفة المعيشة",
+            "bedroom": "غرفة النوم",
+            "kitchen": "المطبخ",
+            "bathroom": "الحمام",
+            "diningRoom": "غرفة الطعام",
+            "office": "المكتب",
+            "hallway": "الممر",
+            "outdoor": "خارجي",
+            "commercial": "تجاري"
+        },
+        "errors": {
+            "notFound": "المجموعة غير موجودة",
+            "loadingError": "حدث خطأ أثناء التحميل",
+            "tryAgain": "حاول مرة أخرى"
+        },
+        "meta": {
+            "seoTitle": "مجموعة الإضاءة الفاخرة - {title}",
+            "seoDescription": "اكتشف {title} - حلول إضاءة فاخرة بتصميم استثنائي وجودة ممتازة",
+            "ogTitle": "{title} | مجموعة الإضاءة الحصرية",
+            "ogDescription": "{description}"
+        }
+    },
     "collection-section": {
-        "livingTomorrowTitle": "نعيش الغد",
-        "livingTomorrowReport": "تقرير رؤى الإضاءة السكنية",
-        "exploreAction": "استكشف",
-        "finishesTitle": "التشطيبات",
-        "finishesExplore": "اكتشف تشطيبات منتجاتنا",
-        "discoverAction": "اكتشف"
+        "sectionTitle": "المجموعة الجديدة",
+        "sectionDescription": "استكشف أحدث ابتكاراتنا في التصميم والتكنولوجيا",
+        "living-tomorrowTitle": "الحياة في المستقبل",
+        "living-tomorrowDescription": "اختبر مستقبل الحياة المستدامة من خلال التصميم المبتكر والتكنولوجيا المتطورة.",
+        "living-tomorrowAction": "استكشف",
+        "premium-finishesTitle": "التشطيبات الفاخرة",
+        "premium-finishesDescription": "اكتشف مجموعتنا المنتقاة من المواد والملمس التي تحدد الفخامة الحديثة.",
+        "premium-finishesAction": "اكتشف",
+        "sustainable-designTitle": "التصميم المستدام",
+        "sustainable-designDescription": "بناء مستقبل أفضل بمواد صديقة للبيئة وحلول موفرة للطاقة.",
+        "sustainable-designAction": "اعرف المزيد",
+        "smart-spacesTitle": "المساحات الذكية",
+        "smart-spacesDescription": "دمج الأنظمة الذكية التي تتكيف مع أسلوب حياتك وتحسن تجربتك اليومية.",
+        "smart-spacesAction": "استكشف التقنية",
+        "buttonText": "استكشف المجموعة"
     },
     "about-us-page": {
         "heroTitle": "تميز في الإضاءة",
@@ -194,7 +377,9 @@
             "company": {
                 "title": "الشركة",
                 "about": "من نحن",
-                "contact": "اتصل بنا"
+                "contact": "اتصل بنا",
+                "privacy": "الخصوصية",
+                "faqs": "الاسئلة الاكثر تكرارا"
             }
         },
         "copyright": "الضوء الجديد. جميع الحقوق محفوظة."

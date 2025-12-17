@@ -1,30 +1,18 @@
 "use client"
 
 import { addToCart } from "@/actions/cart"
-import { saveConfiguration } from "@/actions/configuration"
 import ProductColorTempButtons from "@/components/color-temp-buttons"
 import { Container } from "@/components/container"
 import ProductSurfaceColorButtons from "@/components/surface-color-button"
 import { Button } from "@/components/ui/button"
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle,
-} from "@/components/ui/dialog"
-import { Link, useRouter } from "@/i18n/navigation"
+import { Link } from "@/i18n/navigation"
 import { Product } from "@/types"
-import { useAuth } from "@clerk/nextjs"
-import { useMutation } from "@tanstack/react-query"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ChevronRight, Loader2, Minus, Plus, ShoppingCart } from "lucide-react"
+import { ChevronRight, Minus, Plus, ShoppingCart } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import Image from "next/image"
-import { startTransition, useCallback, useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -36,15 +24,11 @@ interface ProductIdPageProps {
 export default function ProductIdPage({ product }: ProductIdPageProps) {
     const t = useTranslations("product-page")
     const locale = useLocale()
-    const router = useRouter()
-    const { isSignedIn } = useAuth()
-
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     const [selectedColorTemp, setSelectedColorTemp] = useState<string>(product.colorTemperatures[0] || "")
     const [surfaceColor, setSurfaceColor] = useState<string>(product.availableColors[0] || "")
     const [quantity, setQuantity] = useState(1)
     const [isAddingToCart, setIsAddingToCart] = useState(false)
-    const [showDialog, setShowDialog] = useState(false)
 
     const heroRef = useRef<HTMLElement>(null)
     const specsRef = useRef<HTMLElement>(null)
@@ -58,84 +42,27 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const subCategoryName = subCategoryTranslation?.name || product.subCategory.slug
     const categoryName = categoryTranslation?.name || product.subCategory.category.categoryType
 
-    const { mutate: saveConfig, isPending: isSaving } = useMutation({
-        mutationKey: ["save-configuration", product.productId],
-        mutationFn: () =>
-            saveConfiguration({
-                productId: product.productId,
-                quantity,
-                selectedColorTemp: selectedColorTemp || undefined,
-                selectedColor: surfaceColor || undefined,
-            }),
-        onSuccess: (result) => {
-            // Type guard to check if result is the success object
-            if (result && typeof result === 'object' && 'success' in result) {
-                if (!result.success || !result.configId) {
-                    toast.error(t("configurationError"), {
-                        description: t("pleaseTryAgain"),
-                    })
-                    return
-                }
-
-                toast.success(t("configurationSaved"), {
-                    description: t("redirectingToPreview"),
-                })
-
-                router.push(`/preview/${result.configId}`)
-            } else {
-                toast.error(t("configurationError"), {
-                    description: t("pleaseTryAgain"),
-                })
-            }
-        },
-        onError: (error) => {
-            console.error("Failed to save configuration:", error)
-            toast.error(t("configurationError"), {
-                description: t("pleaseTryAgain"),
-            })
-        },
-    })
-
-    const handleOrderNow = useCallback(() => {
-        if (isSaving) return
-
-        if (quantity < 1) {
-            toast.error(t("invalidQuantity"))
-            return
-        }
-
-        // Save configuration and redirect - NO SIGN IN REQUIRED
-        saveConfig()
-    }, [isSaving, quantity, saveConfig, t])
-
-    const handleAddToCart = useCallback(() => {
+    const handleAddToCart = async () => {
         setIsAddingToCart(true)
-
-        // Check if user is signed in - SIGN IN REQUIRED FOR CART
-        if (!isSignedIn) {
-            toast.error(t("signInRequired.title"), {
-                description: t("signInRequired.description")
+        try {
+            await addToCart(product.productId, quantity, selectedColorTemp, surfaceColor)
+            toast.success(t("addedToCart"), {
+                description: `${productName} ${t("addedToCart").toLowerCase()}`,
             })
+        } catch (error) {
+            console.error("Failed to add to cart", error)
+            toast.error("Error", {
+                description: "Failed to add to cart",
+            })
+        } finally {
             setIsAddingToCart(false)
-            return
         }
+    }
 
-        startTransition(async () => {
-            try {
-                await addToCart(product.productId, quantity, selectedColorTemp, surfaceColor)
-                toast.success(t("addedToCart"), {
-                    description: `${productName} ${t("addedToCart").toLowerCase()}`,
-                })
-            } catch (error) {
-                console.error("Failed to add to cart", error)
-                toast.error("Error", {
-                    description: "Failed to add to cart",
-                })
-            } finally {
-                setIsAddingToCart(false)
-            }
-        })
-    }, [isSignedIn, quantity, product.productId, selectedColorTemp, surfaceColor, productName, t])
+    const handleOrderNow = async () => {
+        await handleAddToCart()
+        window.location.href = `/${locale}/cart`
+    }
 
     useEffect(() => {
         if (!heroRef.current) return
@@ -179,6 +106,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return () => ctx.revert()
     }, [])
 
+    // دالة لترجمة الألوان - تحول BLACK إلى "أسود" أو "Black"
     const formatAvailableColor = (color: string, isArabic: boolean): string => {
         const map: Record<string, string> = {
             BLACK: isArabic ? "أسود" : "Black",
@@ -190,10 +118,14 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return map[color] || color.replace(/_/g, " ")
     }
 
+    // Function to convert snake_case or camelCase to readable format
     const formatLabel = (label: string, isArabic: boolean): string => {
+        // If Arabic, return as is
         if (isArabic) {
             return label
         }
+
+        // Special handling for IP-related labels
         const lowerLabel = label.toLowerCase()
         if (lowerLabel === "ip" || lowerLabel === "ip_rating" || lowerLabel === "iprating") {
             return "IP"
@@ -201,15 +133,18 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         if (lowerLabel === "maxip" || lowerLabel === "max_ip" || lowerLabel === "maxiprating") {
             return "Max IP"
         }
+
+        // For English, convert to readable format
         return label
-            .replace(/_/g, " ")
-            .replace(/([A-Z])/g, " $1")
+            .replace(/_/g, " ") // Replace underscores with spaces
+            .replace(/([A-Z])/g, " $1") // Add space before capital letters
             .split(" ")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(" ")
             .trim()
     }
 
+    // Preferred order for specifications display
     const preferredOrder = [
         "input",
         "المدخل",
@@ -269,9 +204,8 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return value.toString()
     }
 
-    const isArabic = locale.startsWith("ar")
-
     const formatColorTemps = (temps: string[]) => {
+        const isArabic = locale.startsWith("ar")
         const map: Record<string, string> = {
             WARM_3000K: isArabic ? "دافئ 3000K" : "Warm 3000K",
             COOL_4000K: isArabic ? "بارد 4000K" : "Cool 4000K",
@@ -287,21 +221,27 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         const isArabic = locale.startsWith("ar")
         const joiner = isArabic ? " ، " : ", "
 
+        // Handle arrays differently based on label
         if (Array.isArray(value)) {
             const normalizedLabel = label.toLowerCase()
 
+            // Check if it's color-related (surface_color, available_colors, etc.)
             if (
                 ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة", "color"].some((l) =>
                     normalizedLabel.includes(l.toLowerCase()),
                 )
             ) {
+                // ترجمة الألوان
                 return value.map(color => formatAvailableColor(color, isArabic)).join(joiner)
             }
+
+            // For other arrays (like color temperatures in array format), add K
             return value.map((v) => `${formatNumber(v)}K`).join(joiner)
         }
 
         const normalizedLabel = label.toLowerCase()
 
+        // Check if it's a surface color or available colors field - translate the color
         if (
             ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة"].some((l) =>
                 normalizedLabel.includes(l.toLowerCase()),
@@ -344,12 +284,18 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return value.toString()
     }
 
+    const isArabic = locale.startsWith("ar")
+
+    // Create a map to track which specs have been added to avoid duplicates
+    const addedSpecs = new Map<string, boolean>()
+
     const specEntries = Object.entries(product.specifications || {})
         .map(([label, value]) => {
             if (value === null || value === undefined || value === "") return null
 
             const normalizedLabel = label.toLowerCase().replace(/[_\s]/g, "")
 
+            // Skip if this is a color_temperature field and we already have color temperatures
             if (
                 (normalizedLabel.includes("colortemperature") || normalizedLabel.includes("colourtemperature")) &&
                 product.colorTemperatures.length > 0
@@ -365,6 +311,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         })
         .filter(Boolean) as Array<{ originalLabel: string; label: string; value: string | number }>
 
+    // Only add color temperatures if they exist and haven't been added yet
     if (product.colorTemperatures.length > 0) {
         const colorTempLabel = isArabic ? "درجة حرارة اللون" : "Color Temperature"
         specEntries.push({
@@ -393,7 +340,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const isOutOfStock = product.inventory <= 0
 
     return (
-        <div className="min-h-screen">
+        <main className="min-h-screen bg-background">
             <section className="py-24">
                 <Container>
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap">
@@ -418,7 +365,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             <section ref={heroRef} className="pb-20 lg:pb-28">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
-                        <div className="space-y-4 md:col-span-2 col-span-3 ">
+                        <div className="space-y-4 col-span-2">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
@@ -443,7 +390,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                 )}
                             </div>
                             {product.images.length > 1 && (
-                                <div className="grid grid-cols-4 gap-3 col-span-2">
+                                <div className="grid grid-cols-4 gap-3">
                                     {product.images.map((image, index) => (
                                         <button
                                             key={index}
@@ -499,9 +446,10 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     onSurfaceColorChange={setSurfaceColor}
                                 />
                             )}
+
                             <div className="space-y-6 pt-4">
-                                <div>
-                                    <div className="flex items-center justify-between gap-3 md:px-1 px-0">
+                                <div className="flex items-center gap-6">
+                                    <div className="flex items-center gap-3">
                                         <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
                                             {t("quantity")}
                                         </span>
@@ -509,17 +457,17 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
-                                                className="h-10 w-10 rounded-none hover:bg-secondary border-r border-border"
+                                                className="h-10 w-10 rounded-none hover:bg-secondary"
                                                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                                                 disabled={isOutOfStock}
                                             >
                                                 <Minus className="h-4 w-4" />
                                             </Button>
-                                            <span className="w-12 text-center font-light tabular-nums ">{quantity}</span>
+                                            <span className="w-12 text-center font-light tabular-nums">{quantity}</span>
                                             <Button
                                                 variant="ghost"
                                                 size="icon"
-                                                className="h-10 w-10 rounded-none hover:bg-secondary border-l border-border"
+                                                className="h-10 w-10 rounded-none hover:bg-secondary"
                                                 onClick={() => setQuantity(Math.min(product.inventory, quantity + 1))}
                                                 disabled={isOutOfStock}
                                             >
@@ -529,11 +477,12 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     </div>
                                     {isOutOfStock && <span className="text-sm text-destructive font-light">{t("outOfStock")}</span>}
                                 </div>
+
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button
                                         onClick={handleAddToCart}
-                                        disabled={isAddingToCart || isOutOfStock || isSaving}
-                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm bg-transparent "
+                                        disabled={isAddingToCart || isOutOfStock}
+                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm bg-transparent"
                                         variant="outline"
                                     >
                                         <ShoppingCart className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
@@ -541,17 +490,10 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     </Button>
                                     <Button
                                         onClick={handleOrderNow}
-                                        disabled={isAddingToCart || isOutOfStock || isSaving}
-                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm "
+                                        disabled={isAddingToCart || isOutOfStock}
+                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm"
                                     >
-                                        {isSaving ? (
-                                            <>
-                                                <Loader2 className="w-5 h-5 ltr:mr-2 rtl:ml-2 animate-spin" />
-                                                {t("processing")}
-                                            </>
-                                        ) : (
-                                            t("orderNow")
-                                        )}
+                                        {t("orderNow")}
                                     </Button>
                                 </div>
                             </div>
@@ -588,26 +530,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                     </Container>
                 </section>
             )}
-            <Dialog open={showDialog} onOpenChange={setShowDialog}>
-                <DialogContent>
-                    <DialogHeader>
-                        <DialogTitle>{t("bulkOrderTitle")}</DialogTitle>
-                        <DialogDescription>{t("bulkOrderDescription")}</DialogDescription>
-                    </DialogHeader>
-                    <DialogFooter>
-                        <DialogClose asChild>
-                            <Button variant="secondary">{t("close")}</Button>
-                        </DialogClose>
-                        <a
-                            href="tel:+1154466259"
-                            onClick={() => setShowDialog(false)}
-                            className="bg-primary text-primary-foreground hover:bg-primary/90 px-4 py-2 rounded-md inline-flex items-center"
-                        >
-                            {t("contactSalesTeam")}
-                        </a>
-                    </DialogFooter>
-                </DialogContent>
-            </Dialog>
-        </div>
+        </main>
     )
 }

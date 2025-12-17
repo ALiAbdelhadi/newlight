@@ -1,3 +1,4 @@
+import { SupportedLanguage } from "@/types"
 import { prisma } from "@repo/database"
 import { getLocale } from "next-intl/server"
 
@@ -19,30 +20,30 @@ interface ProductWithTranslations {
 function extractSpecifications(product: ProductWithTranslations, locale: string): Record<string, string | number | string[]> | null {
     const translation = product.translations?.find((t) => t.locale === locale)
     const specs = translation?.specifications
-    
+
     if (!specs || typeof specs !== 'object' || Array.isArray(specs)) {
         return null
     }
-    
+
     // Type guard to ensure it's a Record
     const record = specs as Record<string, unknown>
     const result: Record<string, string | number | string[]> = {}
     let hasValidEntries = false
-    
+
     for (const [key, value] of Object.entries(record)) {
         if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) {
             result[key] = value as string | number | string[]
             hasValidEntries = true
         }
     }
-    
+
     return hasValidEntries ? result : null
 }
 
-function sortAlphabetically<T extends { 
+function sortAlphabetically<T extends {
     order?: number
     isFeatured?: boolean
-    translations?: Array<{ locale: string; name: string }> 
+    translations?: Array<{ locale: string; name: string }>
 }>(
     items: T[],
     locale: string
@@ -471,10 +472,10 @@ export async function searchContent(query: string, locale?: string, limit: numbe
     })
 
     const normalizedSearchTerm = searchTerm.toLowerCase()
-    const categoryTypeMatch: "indoor" | "outdoor" | null = 
+    const categoryTypeMatch: "indoor" | "outdoor" | null =
         normalizedSearchTerm === "indoor" ? "indoor" :
-        normalizedSearchTerm === "outdoor" ? "outdoor" :
-        null
+            normalizedSearchTerm === "outdoor" ? "outdoor" :
+                null
 
     const categories = await prisma.category.findMany({
         where: {
@@ -589,5 +590,54 @@ export async function searchContent(query: string, locale?: string, limit: numbe
         products: mappedProducts,
         categories: mappedCategories,
         subCategories: mappedSubCategories,
+    }
+}
+export interface FooterSubCategory {
+    id: string;
+    slug: string;
+    name: string;
+    categorySlug: string;
+    categoryType: "indoor" | "outdoor";
+}
+
+export async function getFooterSubCategories(
+    locale: SupportedLanguage
+): Promise<FooterSubCategory[]> {
+    try {
+        const subCategories = await prisma.subCategory.findMany({
+            where: {
+                isActive: true,
+            },
+            include: {
+                translations: {
+                    where: {
+                        locale: locale,
+                    },
+                },
+                category: {
+                    include: {
+                        translations: {
+                            where: {
+                                locale: locale,
+                            },
+                        },
+                    },
+                },
+            },
+            orderBy: {
+                order: "asc",
+            },
+        });
+
+        return subCategories.map((subCat) => ({
+            id: subCat.id,
+            slug: subCat.slug,
+            name: subCat.translations[0]?.name || subCat.slug,
+            categorySlug: subCat.category?.slug || "",
+            categoryType: subCat.category?.categoryType as "indoor" | "outdoor",
+        }));
+    } catch (error) {
+        console.error("Error fetching footer sub-categories:", error);
+        return [];
     }
 }

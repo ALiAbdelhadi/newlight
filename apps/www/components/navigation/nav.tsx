@@ -9,10 +9,9 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { MapPin, Menu, X } from "lucide-react"
-import { useTranslations } from 'next-intl'
+import { useLocale, useTranslations } from 'next-intl'
 import { useEffect, useRef, useState } from "react"
 import { AuthSectionWrapper } from "./auth-section-wrapper"
-import { useLocale } from "next-intl"
 
 export function Nav() {
     const t = useTranslations('nav');

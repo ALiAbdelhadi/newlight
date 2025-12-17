@@ -1,9 +1,9 @@
 "use client"
 
-import { Container } from "@/components/container"
-import { ProductCard } from "@/components/product-card"
+import { Container } from "@/components/container";
+import { ProductCard } from "@/components/product-card";
+import { Link } from "@/i18n/navigation";
 import { useTranslations } from 'next-intl';
-import { Link } from "@/i18n/navigation"
 
 interface Product {
     id: string;

@@ -1,5 +1,6 @@
 "use client";
 import { Container } from "@/components/container";
+import { Link } from "@/i18n/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useTranslations } from 'next-intl';
@@ -75,29 +76,14 @@ export function NewCollection() {
                         </div>
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
-                                {t('livingTomorrowTitle')}
+                                {t('living-tomorrowTitle')}
                             </h2>
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
-                                {t('livingTomorrowReport')}
+                                {t('living-tomorrowDescription')}
                             </p>
-                            <div className="flex items-center gap-2 pt-2">
-                                <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
-                                    {t('exploreAction')}
-                                </span>
-                                <svg
-                                    className="w-5 h-5 text-foreground rtl:rotate-180"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                    />
-                                </svg>
-                            </div>
+                            {/* <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
+                                {t('living-tomorrowAction')}
+                            </span> */}
                         </div>
                     </div>
                     <div ref={rightCardRef}>
@@ -113,32 +99,25 @@ export function NewCollection() {
                         </div>
                         <div className="space-y-3">
                             <h2 className="text-4xl md:text-5xl font-light tracking-tight text-foreground">
-                                {t('finishesTitle')}
+                                {t('premium-finishesTitle')}
                             </h2>
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
-                                {t('finishesExplore')}
+                                {t('premium-finishesDescription')}
                             </p>
-                            <div className="flex items-center gap-2 pt-2">
-                                <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
-                                    {t('discoverAction')}
-                                </span>
-                                <svg
-                                    className="w-5 h-5 text-foreground rtl:rotate-180"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1.5}
-                                        d="M17 8l4 4m0 0l-4 4m4-4H3"
-                                    />
-                                </svg>
-                            </div>
+                            {/* <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
+                                {t('premium-finishesAction')}
+                            </span> */}
                         </div>
                     </div>
                 </div>
+            <div className="text-center py-12">
+                <Link
+                    href="/new-collection"
+                    className="inline-block px-8 py-4 bg-primary text-primary-foreground font-light tracking-wider uppercase text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
+                >
+                    {t('buttonText')}
+                </Link>
+            </div>
             </Container>
         </section>
     );

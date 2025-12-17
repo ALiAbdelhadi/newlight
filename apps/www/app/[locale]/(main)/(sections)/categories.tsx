@@ -25,7 +25,6 @@ export default function CategorySection() {
     const subtitleRef = useRef<HTMLParagraphElement>(null)
 
     useEffect(() => {
-        // GSAP logic remains untouched
         const ctx = gsap.context(() => {
             gsap.set([titleRef.current, subtitleRef.current], {
                 opacity: 0,

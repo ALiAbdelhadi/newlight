@@ -3,6 +3,24 @@
         "title": "Loading",
         "message": "Please wait while we prepare everything for you"
     },
+    "language-selector": {
+        "international": "International",
+        "close": "Close",
+        "pending": "Switching language...",
+        "footerText": "The New Thesaurus: A Guide to Residential Lighting Solutions",
+        "languages": {
+            "en": {
+                "name": "English",
+                "nativeName": "English",
+                "region": "International"
+            },
+            "ar": {
+                "name": "Arabic",
+                "nativeName": "العربية",
+                "region": "Middle East"
+            }
+        }
+    },
     "notFound": {
         "title": "Page Not Found",
         "description": "The page you are looking for might have been removed or is temporarily unavailable. Let us help you find what you need.",
@@ -29,6 +47,179 @@
         "mobileMenuLabelTheme": "Theme",
         "mobileMenuLabelSearch": "Search",
         "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
+    },
+    "collection-detail": {
+        "breadcrumbHome": "Home",
+        "breadcrumbCollections": "Collections",
+        "featured": "Featured",
+        "tags": "Tags",
+        "projectInfo": "Project Info",
+        "category": "Category",
+        "published": "Published",
+        "specifications": "Specifications",
+        "interestedTitle": "Interested in This Project?",
+        "interestedDescription": "Let's discuss how we can create something similar for you",
+        "contactButton": "Contact Us",
+        "galleryTitle": "Project Gallery",
+        "relatedTitle": "Related Projects",
+        "backToCollection": "Back to Collection",
+        "categories": {
+            "chandeliers": "Chandeliers",
+            "pendantLights": "Pendant Lights",
+            "wallLights": "Wall Lights",
+            "floorLamps": "Floor Lamps",
+            "tableLamps": "Table Lamps",
+            "ceilingLights": "Ceiling Lights",
+            "outdoorLighting": "Outdoor Lighting",
+            "smartLighting": "Smart Lighting",
+            "ledStrips": "LED Strips",
+            "decorativeLights": "Decorative Lights"
+        },
+        "specifications": {
+            "material": "Material",
+            "dimensions": "Dimensions",
+            "weight": "Weight",
+            "voltage": "Voltage",
+            "wattage": "Wattage",
+            "lightColor": "Light Color",
+            "lightTemperature": "Color Temperature",
+            "lumens": "Lumens",
+            "beamAngle": "Beam Angle",
+            "ipRating": "IP Rating",
+            "warranty": "Warranty",
+            "certification": "Certifications",
+            "installation": "Installation Type",
+            "dimmable": "Dimmable",
+            "energyRating": "Energy Rating",
+            "lifespan": "Lifespan",
+            "colorRendering": "CRI (Color Rendering Index)",
+            "finish": "Finish",
+            "bulbType": "Bulb Type",
+            "numberOfBulbs": "Number of Bulbs"
+        },
+        "values": {
+            "warmWhite": "Warm White",
+            "coolWhite": "Cool White",
+            "daylight": "Daylight",
+            "rgb": "RGB",
+            "yes": "Yes",
+            "no": "No",
+            "included": "Included",
+            "notIncluded": "Not Included",
+            "optional": "Optional",
+            "ceiling": "Ceiling",
+            "wall": "Wall",
+            "floor": "Floor",
+            "surface": "Surface",
+            "recessed": "Recessed",
+            "suspended": "Suspended",
+            "years": "Years",
+            "hours": "Hours",
+            "modern": "Modern",
+            "classic": "Classic",
+            "industrial": "Industrial",
+            "minimalist": "Minimalist",
+            "luxury": "Luxury",
+            "led": "LED",
+            "halogen": "Halogen",
+            "incandescent": "Incandescent",
+            "cfl": "CFL"
+        },
+        "materials": {
+            "brass": "Brass",
+            "steel": "Steel",
+            "aluminum": "Aluminum",
+            "glass": "Glass",
+            "crystal": "Crystal",
+            "wood": "Wood",
+            "plastic": "Plastic",
+            "fabric": "Fabric",
+            "ceramic": "Ceramic",
+            "marble": "Marble"
+        },
+        "descriptions": {
+            "exploreCollection": "Explore our exclusive collection of premium lighting solutions",
+            "premiumQuality": "Premium quality and exceptional design",
+            "customizable": "Customizable to your specific needs",
+            "energyEfficient": "Energy efficient and eco-friendly",
+            "easyInstallation": "Easy installation and maintenance",
+            "longLastingDurability": "Long-lasting durability"
+        },
+        "cta": {
+            "viewDetails": "View Details",
+            "addToCart": "Add to Cart",
+            "requestQuote": "Request Quote",
+            "downloadCatalog": "Download Catalog",
+            "shareProject": "Share Project",
+            "saveToWishlist": "Save to Wishlist",
+            "compareProducts": "Compare Products"
+        },
+        "tags": {
+            "newArrival": "New Arrival",
+            "bestSeller": "Best Seller",
+            "limitedEdition": "Limited Edition",
+            "onSale": "On Sale",
+            "freeShipping": "Free Shipping",
+            "customizable": "Customizable",
+            "energyStar": "Energy Star",
+            "waterproof": "Waterproof",
+            "dimmerCompatible": "Dimmer Compatible",
+            "smartHome": "Smart Home"
+        },
+        "filters": {
+            "filterBy": "Filter By",
+            "sortBy": "Sort By",
+            "priceRange": "Price Range",
+            "style": "Style",
+            "room": "Room",
+            "brand": "Brand",
+            "clearFilters": "Clear Filters",
+            "applyFilters": "Apply Filters",
+            "newest": "Newest",
+            "priceHighToLow": "Price: High to Low",
+            "priceLowToHigh": "Price: Low to High",
+            "popular": "Most Popular",
+            "rating": "Rating"
+        },
+        "rooms": {
+            "livingRoom": "Living Room",
+            "bedroom": "Bedroom",
+            "kitchen": "Kitchen",
+            "bathroom": "Bathroom",
+            "diningRoom": "Dining Room",
+            "office": "Office",
+            "hallway": "Hallway",
+            "outdoor": "Outdoor",
+            "commercial": "Commercial"
+        },
+        "errors": {
+            "notFound": "Collection not found",
+            "loadingError": "An error occurred while loading",
+            "tryAgain": "Try Again"
+        },
+        "meta": {
+            "seoTitle": "Premium Lighting Collection - {title}",
+            "seoDescription": "Discover {title} - Premium lighting solutions with exceptional design and quality",
+            "ogTitle": "{title} | Exclusive Lighting Collection",
+            "ogDescription": "{description}"
+        }
+    },
+    "collection-section": {
+        "sectionTitle": "New Collection",
+        "sectionDescription": "Explore our latest innovations in design and technology",
+        "living-tomorrowTitle": "Living Tomorrow",
+        "living-tomorrowDescription": "Experience the future of sustainable living through innovative design and cutting-edge technology.",
+        "living-tomorrowAction": "Explore",
+        "premium-finishesTitle": "Premium Finishes",
+        "premium-finishesDescription": "Discover our curated selection of materials and textures that define modern luxury.",
+        "premium-finishesAction": "Discover",
+        "sustainable-designTitle": "Sustainable Design",
+        "sustainable-designDescription": "Building a better future with eco-conscious materials and energy-efficient solutions.",
+        "sustainable-designAction": "Learn More",
+        "smart-spacesTitle": "Smart Spaces",
+        "smart-spacesDescription": "Integrate intelligent systems that adapt to your lifestyle and enhance your daily experience.",
+        "smart-spacesAction": "Explore Tech",
+        "buttonText": "Explore Collection"
     },
     "cart": {
         "title": "Shopping Cart",
@@ -79,14 +270,6 @@
         "weAre": "We Are",
         "weAreNewLight": "New Light",
         "category": "Category"
-    },
-    "collection-section": {
-        "livingTomorrowTitle": "Living Tomorrow",
-        "livingTomorrowReport": "A Residential Insights Report",
-        "exploreAction": "Explore",
-        "finishesTitle": "Finishes",
-        "finishesExplore": "Explore our product finishes",
-        "discoverAction": "Discover"
     },
     "about-us-page": {
         "heroTitle": "Illuminating Excellence",
@@ -337,7 +520,9 @@
             "company": {
                 "title": "Company",
                 "about": "About Us",
-                "contact": "Contact"
+                "contact": "Contact",
+                "privacy": "Privacy",
+                "faqs": "FAQs"
             }
         },
         "copyright": "New Light. All rights reserved."

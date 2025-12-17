@@ -894,8 +894,8 @@
       ],
       "panel": [
         {
-          "nl-60×60-led": {
-            "productId": "nl-60×60-led",
+          "nl-60*60-led": {
+            "productId": "nl-60*60-led",
             "productName": "nl-60×60-led",
             "productImages": [
               "/products/indoor/panel/60×60-led/nl-60×60-led-48w.png"
@@ -1046,7 +1046,7 @@
             "productName": "nl-strip-2835-19w",
             "productImages": [
               "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (1).png",
-              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).png"
+              "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).jpg"
             ],
             "subCategory": "strip",
             "price": 729,
@@ -1058,7 +1058,7 @@
             "productName": "nl-strip-2835-24w",
             "productImages": [
               "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (1).png",
-              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).png"
+              "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).jpg"
             ],
             "subCategory": "strip",
             "price": 729,
@@ -1194,9 +1194,7 @@
             }
           }
         ]
-      },
-      "track-light": [],
-      "double-spotlight": []
+      }
     },
     "outdoor": {
       "bulkhead": [],
@@ -1407,18 +1405,6 @@
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-spike-4-5w": {
-            "productId": "nl-spike-4-5w",
-            "productName": "nl-spike-4-5w",
-            "productImages": [
-              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-4/nl-drive-over-4-5w (2).webp"
-            ],
-            "subCategory": "spikes",
-            "price": 729,
-            "categoryType": "outdoor",
-            "inventory": 10
-          },
           "nl-spike-5-5w": {
             "productId": "nl-spike-5-5w",
             "productName": "nl-spike-5-5w",
@@ -1467,9 +1453,9 @@
             "productId": "nl-stairs-light-3",
             "productName": "nl-stairs-light-3",
             "productImages": [
-              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (1).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (2).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-blade (3).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (3).webp"
             ],
             "subCategory": "stairs-light",
             "price": 729,
