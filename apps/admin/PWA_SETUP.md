@@ -45,3 +45,4 @@ After adding the icons:
 - Icons must be in PNG format
 - Icons should have transparent backgrounds for best results
 
+
