@@ -10,6 +10,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { Almarai, Roboto } from "next/font/google";
+import Head from "next/head";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
@@ -24,6 +25,7 @@ const almarai = Almarai({
   subsets: ["arabic"],
   display: "swap",
 })
+
 
 export async function generateMetadata({
   params
@@ -59,6 +61,11 @@ export default async function RootLayout({
       }}
     >
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} >
+        <Head>
+          <link rel="manifest" href="/manifest.json" />
+          <link rel="apple-touch-icon" href="/icon.png" />
+          <link rel="theme-color" href="#FFF" />
+        </Head>
         <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth bg-card")} suppressHydrationWarning>
           <script
             suppressHydrationWarning

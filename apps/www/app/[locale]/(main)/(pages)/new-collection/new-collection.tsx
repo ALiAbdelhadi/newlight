@@ -26,7 +26,7 @@ interface NewCollectionClientProps {
     };
 }
 
-export default function NewCollectionClient({
+export default function NewCollection({
     filteredCollections,
     translations: t,
 }: NewCollectionClientProps) {
