@@ -204,6 +204,87 @@
             "ogDescription": "{description}"
         }
     },
+    "technical-resources": {
+        "hero": {
+            "label": "Technical Excellence",
+            "title": "Lighting Design Studies",
+            "subtitle": "Transform your space with professional lighting analysis and design. Discover how proper lighting studies can revolutionize the atmosphere and functionality of any environment."
+        },
+        "intro": {
+            "title": "The Art & Science of Lighting",
+            "description": "Lighting design is more than just placing fixtures. It's a comprehensive study that considers architecture, human psychology, energy efficiency, and aesthetic harmony. A professional lighting study analyzes every aspect of your space to create the perfect illumination strategy.",
+            "impact": "The right lighting design can transform a cold, uninviting space into a warm, welcoming environment. It can highlight architectural features, improve productivity, enhance mood, and even influence behavior."
+        },
+        "benefits": {
+            "label": "Why It Matters",
+            "title": "Benefits of Professional Lighting Studies",
+            "optimized": {
+                "title": "Optimized Illumination",
+                "description": "Achieve perfect light levels for every space and activity, ensuring comfort and functionality."
+            },
+            "energy": {
+                "title": "Energy Efficiency",
+                "description": "Reduce energy consumption by up to 60% with strategic lighting design and smart controls."
+            },
+            "mood": {
+                "title": "Mood Enhancement",
+                "description": "Create the perfect atmosphere for any occasion with layered lighting and color temperature control."
+            },
+            "professional": {
+                "title": "Professional Results",
+                "description": "Get expert recommendations backed by photometric calculations and industry standards."
+            }
+        },
+        "comparison": {
+            "title": "The Transformation",
+            "subtitle": "See how professional lighting studies completely transform spaces from dull and uninviting to vibrant and welcoming.",
+            "before": "Before",
+            "after": "After",
+            "beforeTitle": "Without Lighting Study",
+            "afterTitle": "With Professional Design",
+            "beforePoints": {
+                "1": "Poor light distribution and dark corners",
+                "2": "Harsh shadows and glare issues",
+                "3": "Uncomfortable atmosphere and low energy efficiency"
+            },
+            "afterPoints": {
+                "1": "Balanced illumination throughout the space",
+                "2": "Comfortable lighting with no glare or harsh shadows",
+                "3": "Enhanced ambiance with 60% energy savings"
+            }
+        },
+        "process": {
+            "label": "Our Methodology",
+            "title": "The Lighting Study Process",
+            "analysis": {
+                "title": "Space Analysis",
+                "description": "We begin by thoroughly analyzing your space, understanding its architecture, natural light sources, usage patterns, and specific requirements. Every detail matters in creating the perfect lighting solution."
+            },
+            "design": {
+                "title": "Design Development",
+                "description": "Our team develops a comprehensive lighting plan using industry-leading software. We consider fixture types, placement, color temperatures, and control systems to create the ideal lighting scheme."
+            },
+            "simulation": {
+                "title": "3D Visualization",
+                "description": "Using advanced photometric software, we create realistic 3D renderings showing exactly how your space will look with the proposed lighting design. See the results before installation."
+            },
+            "implementation": {
+                "title": "Implementation Support",
+                "description": "We provide detailed specifications, product recommendations, and installation guidelines. Our team ensures seamless execution from design to final commissioning."
+            }
+        },
+        "resources": {
+            "title": "Download Technical Resources",
+            "description": "Access our comprehensive lighting design guides, photometric data sheets, and technical specifications to help you make informed decisions.",
+            "download": "Download Resources"
+        },
+        "cta": {
+            "title": "Ready to Transform Your Space?",
+            "description": "Let our lighting experts create a custom design study for your project. Contact us today for a professional consultation.",
+            "contact": "Get Free Consultation",
+            "explore": "Explore Products"
+        }
+    },
     "collection-section": {
         "sectionTitle": "New Collection",
         "sectionDescription": "Explore our latest innovations in design and technology",
@@ -760,6 +841,11 @@
         "complete": {
             "title": "Order Completed | #{orderNumber}",
             "description": "Thank you for your purchase. Your order #{orderNumber} has been successfully placed and is now being processed."
+        },
+        "technical-resources": {
+            "title": "Technical Resources - Lighting Design Studies | New Light",
+            "description": "Discover the power of professional lighting studies...",
+            "keywords": "lighting design, lighting studies, photometric analysis..."
         }
     }
 }
