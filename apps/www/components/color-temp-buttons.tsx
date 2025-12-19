@@ -65,9 +65,9 @@ export default function ProductColorTempButtons({
                             variant="outline"
                             onClick={() => handleTempChange(temp)}
                             className={cn(
-                                "group relative transition-all duration-300",
+                                "group relative transition-all duration-300 w-full md:w-fit ",
                                 isSelected
-                                    ? "border-accent bg-accent/10 scale-105 shadow-md"
+                                    ? "border-accent bg-accent/10 scale-102 shadow-md"
                                     : "border-border hover:border-accent/50 hover:bg-accent/5"
                             )}
                             aria-label={formatColorTemp(temp, locale)}
