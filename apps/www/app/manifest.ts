@@ -12,6 +12,12 @@ export default function manifest(): MetadataRoute.Manifest {
         "scope": "/",
         "icons": [
             {
+                "src": "/favicon.svg",
+                "sizes": "any",
+                "type": "image/svg+xml",
+                "purpose": "any"
+            },
+            {
                 "src": "/web-app-manifest-192x192.png",
                 "sizes": "192x192",
                 "type": "image/png",
@@ -54,3 +60,4 @@ export default function manifest(): MetadataRoute.Manifest {
         "categories": ["shopping", "business"]
     }
 }
+

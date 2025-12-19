@@ -371,6 +371,48 @@ export async function getAllProducts(locale?: string, limit?: number) {
     return sortAlphabetically(mappedProducts, resolvedLocale)
 }
 
+export async function getProductsByIds(productIds: string[], locale?: string) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
+    const products = await prisma.product.findMany({
+        where: {
+            productId: {
+                in: productIds,
+            },
+            isActive: true,
+        },
+        include: {
+            translations: true,
+            subCategory: {
+                include: {
+                    translations: {
+                        where: { locale: resolvedLocale },
+                    },
+                    category: {
+                        include: {
+                            translations: {
+                                where: { locale: resolvedLocale },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    })
+
+    const mappedProducts = products.map(product => ({
+        ...product,
+        specifications: extractSpecifications(product, resolvedLocale),
+        translations: product.translations.filter(t => t.locale === resolvedLocale)
+    }))
+
+    // ترتيب المنتجات حسب ترتيب productIds المحدد
+    const orderedProducts = productIds
+        .map(id => mappedProducts.find(p => p.productId === id))
+        .filter((p): p is NonNullable<typeof p> => p !== undefined)
+
+    return orderedProducts
+}
+
 export async function getAllCategories(locale?: string) {
     const resolvedLocale = await getLocaleOrDefault(locale)
     const categories = await prisma.category.findMany({
@@ -639,5 +681,214 @@ export async function getFooterSubCategories(
     } catch (error) {
         console.error("Error fetching footer sub-categories:", error);
         return [];
+    }
+}
+
+
+
+export async function getProductVariants(
+    productId: string,
+    locale?: string
+) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
+
+    const product = await prisma.product.findUnique({
+        where: { productId, isActive: true },
+        select: { baseProductId: true }
+    })
+
+    if (!product || !product.baseProductId) {
+        return []
+    }
+
+    const variants = await prisma.product.findMany({
+        where: {
+            baseProductId: product.baseProductId,
+            isActive: true,
+        },
+        orderBy: {
+            displayOrder: 'asc'
+        },
+        include: {
+            translations: {
+                where: { locale: resolvedLocale }
+            }
+        }
+    })
+
+    return variants.map(variant => ({
+        id: variant.id,
+        productId: variant.productId,
+        slug: variant.slug,
+        variantType: variant.variantType,
+        variantValue: variant.variantValue,
+        price: variant.price,
+        inventory: variant.inventory,
+        images: variant.images,
+        name: variant.translations[0]?.name || variant.productId,
+        isActive: variant.isActive,
+        isFeatured: variant.isFeatured,
+        colorImageMap: variant.colorImageMap as Record<string, string[]> | null,
+        availableColors: variant.availableColors,
+    }))
+}
+
+/**
+ * الحصول على المنتج مع جميع الـ variants
+ */
+export async function getProductByIdWithVariants(
+    productId: string,
+    locale?: string
+) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
+
+    const product = await prisma.product.findUnique({
+        where: {
+            productId,
+            isActive: true,
+        },
+        include: {
+            translations: true,
+            subCategory: {
+                include: {
+                    translations: {
+                        where: { locale: resolvedLocale },
+                    },
+                    category: {
+                        include: {
+                            translations: {
+                                where: { locale: resolvedLocale },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    })
+
+    if (!product) {
+        return null
+    }
+
+    const variants = await getProductVariants(productId, resolvedLocale)
+
+    return {
+        ...product,
+        specifications: extractSpecifications(product, resolvedLocale),
+        translations: product.translations.filter(t => t.locale === resolvedLocale),
+        variants: variants,
+        colorImageMap: product.colorImageMap as Record<string, string[]> | null,
+    }
+}
+
+export async function getProductBySlugWithVariants(
+    slug: string,
+    locale?: string
+) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
+
+    const product = await prisma.product.findUnique({
+        where: {
+            slug,
+            isActive: true,
+        },
+        include: {
+            translations: true,
+            subCategory: {
+                include: {
+                    translations: {
+                        where: { locale: resolvedLocale },
+                    },
+                    category: {
+                        include: {
+                            translations: {
+                                where: { locale: resolvedLocale },
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    })
+
+    if (!product) {
+        return null
+    }
+
+    const variants = await getProductVariants(product.productId, resolvedLocale)
+
+    return {
+        ...product,
+        specifications: extractSpecifications(product, resolvedLocale),
+        translations: product.translations.filter(t => t.locale === resolvedLocale),
+        variants: variants,
+        colorImageMap: product.colorImageMap as Record<string, string[]> | null,
+    }
+}
+
+export async function getProductsWithUniqueVariants(
+    categorySlug: string,
+    subCategorySlug: string,
+    locale?: string
+) {
+    const resolvedLocale = await getLocaleOrDefault(locale)
+
+    const subCategory = await prisma.subCategory.findFirst({
+        where: {
+            slug: subCategorySlug,
+            category: {
+                slug: categorySlug,
+            },
+            isActive: true,
+        },
+        include: {
+            translations: {
+                where: { locale: resolvedLocale },
+            },
+            category: {
+                include: {
+                    translations: {
+                        where: { locale: resolvedLocale },
+                    },
+                },
+            },
+            products: {
+                where: { isActive: true },
+                orderBy: [
+                    { isFeatured: "desc" },
+                    { displayOrder: "asc" },
+                    { order: "asc" }
+                ],
+                include: {
+                    translations: true,
+                },
+            },
+        },
+    })
+
+    if (!subCategory) {
+        return null
+    }
+
+    const seenBaseProducts = new Set<string>()
+    const uniqueProducts = subCategory.products.filter(product => {
+        const baseId = product.baseProductId || product.productId
+        if (seenBaseProducts.has(baseId)) {
+            return false
+        }
+        seenBaseProducts.add(baseId)
+        return true
+    })
+
+    const mappedProducts = uniqueProducts.map(product => ({
+        ...product,
+        specifications: extractSpecifications(product, resolvedLocale),
+        translations: product.translations.filter(t => t.locale === resolvedLocale),
+        colorImageMap: product.colorImageMap as Record<string, string[]> | null,
+    }))
+
+    return {
+        ...subCategory,
+        products: sortAlphabetically(mappedProducts, resolvedLocale)
     }
 }

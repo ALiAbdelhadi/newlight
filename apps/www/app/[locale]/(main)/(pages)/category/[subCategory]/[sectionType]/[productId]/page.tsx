@@ -1,4 +1,4 @@
-import { getAllProducts, getProductById } from "@/lib/db"
+import { getAllProducts, getProductByIdWithVariants } from "@/lib/db"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
 import { Metadata } from "next"
@@ -24,7 +24,6 @@ type MetadataProps = {
         productId: string
     }>
 }
-
 function buildSpecsDescription(
     specs: Record<string, string | number | string[]> | null | undefined,
     locale: string
@@ -61,29 +60,30 @@ function buildSpecsDescription(
 }
 
 export async function generateMetadata({ params }: MetadataProps): Promise<Metadata> {
-    // ✅ await params first
     const { productId } = await params
-
     const locale = await getLocale() as SupportedLanguage
     const t = await getTranslations("metadatas.product-page")
 
-    const product = await getProductById(productId, locale)
+    const product = await getProductByIdWithVariants(productId, locale)
 
     if (!product) {
         notFound()
     }
 
-    const productTranslation = product.translations[0]
-    const subCategoryTranslation = product.subCategory?.translations[0]
-    const categoryTranslation = product.subCategory?.category?.translations[0]
+    const productName = product.translations[0]?.name || product.productId
 
-    const productName = productTranslation?.name || product.productId
-    const subCategoryName = subCategoryTranslation?.name || product.subCategory?.slug || ""
-    const categoryName = categoryTranslation?.name || product.subCategory?.category?.categoryType || ""
+    const productDescription = product.translations[0]?.description
+
+    const categoryName = product.subCategory.category.translations[0]?.name ||
+        product.subCategory.category.categoryType
+
+    const subCategoryName = product.subCategory.translations[0]?.name ||
+        product.subCategory.slug
+
 
     const specsText = buildSpecsDescription(product.specifications, locale)
 
-    const productImage = product.images?.[0] || undefined
+    const productImage = product.images[0] || undefined
 
     const productKeywords = [
         productName,
@@ -95,6 +95,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         product.brandOfLed,
         product.mainMaterial,
     ].filter(Boolean).join(", ")
+
 
     return constructMetadata({
         title: t("title", {
@@ -116,6 +117,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     })
 }
 
+
 export async function generateStaticParams() {
     try {
         const products = await getAllProducts("en", 100)
@@ -134,20 +136,15 @@ export async function generateStaticParams() {
     }
 }
 
-export default async function CategoryProductIdPage({ params }: Props) {
+
+export default async function ProductPage({ params }: Props) {
     const { productId } = await params
     const currentLocale = await getLocale()
-
-    const product = await getProductById(productId, currentLocale)
+    const product = await getProductByIdWithVariants(productId, currentLocale)
 
     if (!product) {
         notFound()
     }
 
-    const productWithCorrectSpecs = {
-        ...product,
-        specifications: product.specifications as Record<string, string | number | string[]> | null | undefined
-    }
-
-    return <ProductIdPage product={productWithCorrectSpecs} />
+    return <ProductIdPage product={product} />
 }

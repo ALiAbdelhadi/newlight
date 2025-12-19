@@ -127,6 +127,11 @@ model Product {
   productId         String               @unique
   subCategoryId     String
   slug              String               @unique
+  baseProductId     String?              
+  variantType       String?              
+  variantValue      String?              
+  displayOrder      Int                  @default(0)
+  colorImageMap     Json?                
   price             Float
   inventory         Int                  @default(0)
   images            String[]
@@ -156,6 +161,7 @@ model Product {
   subCategory       SubCategory          @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
   users             User[]               @relation("UserToProduct")
 
+  @@index([baseProductId])
   @@index([productId])
   @@index([subCategoryId])
   @@index([slug])

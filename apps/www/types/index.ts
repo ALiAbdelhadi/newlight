@@ -1,4 +1,4 @@
-import { Configuration, Prisma } from "@repo/database";
+import { Prisma } from "@repo/database";
 
 export type SupportedLanguage = "en" | "ar"
 
@@ -56,6 +56,22 @@ export enum ProductColorTemp {
     white = "white",
 }
 
+export interface ProductVariant {
+    id: string
+    productId: string
+    slug: string
+    variantType: string | null
+    variantValue: string | null
+    price: number
+    inventory: number
+    images: string[]
+    name: string
+    isActive: boolean
+    isFeatured: boolean
+    colorImageMap: Record<string, string[]> | null
+    availableColors: string[]
+}
+
 export type Product = {
     id: string
     productId: string
@@ -78,6 +94,12 @@ export type Product = {
     maxIpRating: string | null
     lifeTime: number | null
     availableColors: string[]
+    baseProductId: string | null
+    variantType: string | null
+    variantValue: string | null
+    displayOrder: number
+    colorImageMap: Record<string, string[]> | null
+    variants?: ProductVariant[]
     specifications?: Record<string, string | number | string[]> | null
     isActive: boolean
     isFeatured: boolean
@@ -418,7 +440,6 @@ export type Category = {
     }>
 }
 
-
 export type SubCategory = {
     id: string
     slug: string
@@ -445,6 +466,10 @@ export type SubCategory = {
         price: number
         images: string[]
         isFeatured: boolean
+        baseProductId: string | null 
+        variantType: string | null 
+        variantValue: string | null 
+        colorImageMap: Record<string, string[]> | null
         translations: Array<{
             locale: string
             name: string

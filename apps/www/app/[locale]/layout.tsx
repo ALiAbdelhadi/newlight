@@ -7,7 +7,7 @@ import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { SupportedLanguage } from "@/types";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Metadata, Viewport } from "next";
+import { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { Almarai, Roboto } from "next/font/google";
 import { notFound } from "next/navigation";
@@ -47,6 +47,7 @@ export async function generateMetadata({
     },
     icons: {
       icon: [
+        { url: "/favicon.svg", type: "image/svg+xml" },
         { url: "/favicon.ico" },
         { url: "/favicon-96x96.png", sizes: "96x96", type: "image/png" },
         { url: "/web-app-manifest-192x192.png", sizes: "192x192", type: "image/png" },
@@ -59,13 +60,6 @@ export async function generateMetadata({
   }
 }
 
-export const viewport: Viewport = {
-  width: "device-width",
-  initialScale: 1,
-  maximumScale: 5,
-  userScalable: true,
-  themeColor: "#ffffff",
-};
 
 export default async function RootLayout({
   children,

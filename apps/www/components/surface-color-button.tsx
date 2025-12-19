@@ -1,27 +1,30 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-import { Check } from "lucide-react";
-import { useLocale } from "next-intl";
-import { useState } from "react";
+import { cn } from "@/lib/utils"
+import { Check } from "lucide-react"
+import { useLocale } from "next-intl"
+import { useState } from "react"
 
 const formatAvailableColor = (color: string, locale: string): string => {
-    const isArabic = locale.startsWith("ar");
+    const isArabic = locale.startsWith("ar")
     const map: Record<string, string> = {
         BLACK: isArabic ? "أسود" : "Black",
         GRAY: isArabic ? "رمادي" : "Gray",
         WHITE: isArabic ? "أبيض" : "White",
         GOLD: isArabic ? "ذهبي" : "Gold",
         WOOD: isArabic ? "خشبي" : "Wood",
-    };
-    return map[color] || color.replace(/_/g, " ");
-};
+    }
+    return map[color] || color.replace(/_/g, " ")
+}
 
 interface ProductSurfaceColorButtonsProps {
-    productId: string;
-    availableColors: string[];
-    initialColor?: string;
-    onSurfaceColorChange?: (newColor: string) => void;
+    productId: string
+    availableColors: string[]
+    initialColor?: string
+    onSurfaceColorChange?: (newColor: string) => void
+    onImageChange?: (images: string[]) => void
+    colorImageMap?: Record<string, string[]> | null
+    defaultImages?: string[]
 }
 
 export default function ProductSurfaceColorButtons({
@@ -29,18 +32,28 @@ export default function ProductSurfaceColorButtons({
     availableColors,
     initialColor,
     onSurfaceColorChange,
+    onImageChange,
+    colorImageMap,
+    defaultImages = [],
 }: ProductSurfaceColorButtonsProps) {
-    const locale = useLocale();
+    const locale = useLocale()
     const [selectedColor, setSelectedColor] = useState<string>(
         initialColor || availableColors[0] || ""
-    );
+    )
 
     const handleColorChange = (color: string) => {
-        setSelectedColor(color);
-        onSurfaceColorChange?.(color);
-    };
+        setSelectedColor(color)
+        onSurfaceColorChange?.(color)
 
-    if (availableColors.length === 0) return null;
+        if (colorImageMap && colorImageMap[color]) {
+            onImageChange?.(colorImageMap[color])
+        } else if (defaultImages.length > 0) {
+
+            onImageChange?.(defaultImages)
+        }
+    }
+
+    if (availableColors.length === 0) return null
 
     const getColorClasses = (color: string) => {
         const colorMap: Record<string, { bg: string; border: string; ring: string; checkColor: string }> = {
@@ -74,14 +87,21 @@ export default function ProductSurfaceColorButtons({
                 ring: "ring-amber-600",
                 checkColor: "text-white"
             },
-        };
+        }
         return colorMap[color] || {
             bg: "bg-gradient-to-br from-gray-200 to-gray-300",
             border: "border-gray-400",
             ring: "ring-gray-400",
             checkColor: "text-gray-900"
-        };
-    };
+        }
+    }
+
+    const getColorImageCount = (color: string): number => {
+        if (colorImageMap && colorImageMap[color]) {
+            return colorImageMap[color].length
+        }
+        return 0
+    }
 
     return (
         <div className="space-y-4">
@@ -90,12 +110,23 @@ export default function ProductSurfaceColorButtons({
                     <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
                         {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
                     </p>
+                    {colorImageMap && Object.keys(colorImageMap).length > 0 && (
+                        <p className="text-xs text-muted-foreground/70 font-light">
+                            {locale.startsWith("ar")
+                                ? "سيتم تحديث الصور عند اختيار اللون"
+                                : "Images will update when selecting color"}
+                        </p>
+                    )}
                 </div>
             </div>
+
             <div className="flex flex-wrap gap-3">
                 {availableColors.map((color) => {
-                    const isSelected = selectedColor === color;
-                    const colorClasses = getColorClasses(color);
+                    const isSelected = selectedColor === color
+                    const colorClasses = getColorClasses(color)
+                    const imageCount = getColorImageCount(color)
+                    const hasCustomImages = imageCount > 0
+
                     return (
                         <button
                             key={color}
@@ -111,6 +142,7 @@ export default function ProductSurfaceColorButtons({
                                         : "opacity-0 group-hover:opacity-50"
                                 )}
                             />
+
                             <div
                                 className={cn(
                                     "flex items-center justify-center cursor-pointer relative w-7 h-7 rounded-full shadow-md border-2 transition-all duration-300",
@@ -134,6 +166,13 @@ export default function ProductSurfaceColorButtons({
                                 </div>
                                 <div className="absolute inset-0 rounded-full bg-border opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                             </div>
+
+                            {hasCustomImages && (
+                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full border border-background"
+                                    title={`${imageCount} ${locale.startsWith("ar") ? "صورة" : "images"}`}
+                                />
+                            )}
+
                             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
                                 <span className={cn(
                                     "text-xs font-light tracking-wide transition-opacity duration-300",
@@ -143,9 +182,9 @@ export default function ProductSurfaceColorButtons({
                                 </span>
                             </div>
                         </button>
-                    );
+                    )
                 })}
             </div>
         </div>
-    );
+    )
 }

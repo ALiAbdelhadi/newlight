@@ -12,8 +12,8 @@ export default clerkMiddleware((auth, req) => {
 
 export const config = {
   matcher: [
-    // Pages except static files
-    "/((?!_next|_vercel|.*\\..*).*)",
+    // Pages except static files and manifest.json
+    "/((?!_next|_vercel|manifest\\.json|.*\\..*).*)",
     // API routes
     "/(api|trpc)(.*)",
   ],

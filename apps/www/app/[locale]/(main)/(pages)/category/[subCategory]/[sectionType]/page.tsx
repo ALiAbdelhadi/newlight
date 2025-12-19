@@ -1,4 +1,4 @@
-import { getProductsBySubCategory, getSubCategories } from "@/lib/db"
+import { getProductsWithUniqueVariants, getSubCategories } from "@/lib/db"
 import { constructMetadata } from "@/lib/metadata"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     const locale = await getLocale() as SupportedLanguage
     const t = await getTranslations("metadatas.section-type-page")
 
-    const data = await getProductsBySubCategory(subCategory, sectionType, locale)
+    const data = await getProductsWithUniqueVariants(subCategory, sectionType, locale)
 
     if (!data) {
         notFound()
@@ -87,7 +87,8 @@ export async function generateStaticParams() {
 export default async function CategorySectionTypePage({ params }: Props) {
     const { subCategory, sectionType } = await params
     const currentLocale = await getLocale()
-    const category = await getProductsBySubCategory(subCategory, sectionType, currentLocale)
+
+    const category = await getProductsWithUniqueVariants(subCategory, sectionType, currentLocale)
 
     if (!category) {
         notFound()

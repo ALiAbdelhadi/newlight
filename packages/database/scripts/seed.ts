@@ -274,7 +274,6 @@ class DescriptionBuilder {
 
     const isAr = locale === 'ar';
 
-    // Get key specs
     const wattage = specs['maximum_wattage'] || specs['أقصى قوة كهربائية (w)'];
     const flux = specs['luminous_flux'] || specs['الومن'];
     const colorTemp = specs['color_Temperature'] || specs['درجة حرارة لون الاضاءة'];
@@ -284,11 +283,9 @@ class DescriptionBuilder {
     const cri = specs['cri'] || specs['مؤشر تجسيد الألوان'];
     const lifeTime = specs['life_time'] || specs['العمر الافتراضي'];
 
-    // Build medium-length description
     if (isAr) {
       let desc = `${productName} حل إضاءة احترافي`;
 
-      // Technical specs
       const techSpecs = [];
       if (wattage) techSpecs.push(`قوة ${wattage} واط`);
       if (flux) techSpecs.push(`تدفق ضوئي ${flux}`);
@@ -301,7 +298,6 @@ class DescriptionBuilder {
         desc += ` يتميز بـ${techSpecs.join('، ')}`;
       }
 
-      // Quality features
       const features = [];
       if (material) features.push(`مصنوع من ${material}`);
       if (cri) features.push(`مؤشر CRI ${cri}`);
@@ -309,8 +305,6 @@ class DescriptionBuilder {
       if (features.length > 0) {
         desc += `. ${features.join('، ')}`;
       }
-
-      // Protection and durability
 
       if (maxIp) {
         desc += `، مع حماية IP${maxIp} للاستخدام الداخلي والخارجي`;
@@ -339,7 +333,6 @@ class DescriptionBuilder {
         desc += ` featuring ${techSpecs.join(', ')}`;
       }
 
-      // Quality features
       const features = [];
       if (material) features.push(`${material} construction`);
       if (cri) features.push(`CRI ${cri}`);
@@ -348,7 +341,6 @@ class DescriptionBuilder {
         desc += `. Built with ${features.join(' and ')}`;
       }
 
-      // Protection and durability
       if (maxIp) {
         desc += `, rated IP${maxIp} for indoor and outdoor use`;
       } else if (ip) {
@@ -361,6 +353,104 @@ class DescriptionBuilder {
 
       return desc + '.';
     }
+  }
+}
+
+// ==================== VARIANT DETECTOR ====================
+
+class VariantDetector {
+  static extractVariantInfo(productId: string): {
+    baseProductId: string;
+    variantType: string;
+    variantValue: string;
+  } | null {
+    const cleanId = productId.trim().toLowerCase();
+
+    // Pattern 1: wattage (5w, 6.5w, 100w)
+    const wattageMatch = cleanId.match(/^(.+?)[-_](\d+(?:\.\d+)?w)$/i);
+    if (wattageMatch) {
+      return {
+        baseProductId: wattageMatch[1],
+        variantType: "wattage",
+        variantValue: wattageMatch[2],
+      };
+    }
+
+    // Pattern 2: length (2000mm, 3000mm)
+    const lengthMatch = cleanId.match(/^(.+?)[-_](\d+mm)$/i);
+    if (lengthMatch) {
+      return {
+        baseProductId: lengthMatch[1],
+        variantType: "length",
+        variantValue: lengthMatch[2],
+      };
+    }
+
+    // Pattern 3: voltage (220v, 110v)
+    const voltageMatch = cleanId.match(/^(.+?)[-_](\d+v)$/i);
+    if (voltageMatch) {
+      return {
+        baseProductId: voltageMatch[1],
+        variantType: "voltage",
+        variantValue: voltageMatch[2],
+      };
+    }
+
+    // Pattern 4: size with wattage (nl-spike-1-5w)
+    const sizeWithWattageMatch = cleanId.match(/^(.+?)[-_](\d+)[-_](\d+(?:\.\d+)?w)$/i);
+    if (sizeWithWattageMatch) {
+      return {
+        baseProductId: `${sizeWithWattageMatch[1]}-${sizeWithWattageMatch[2]}`,
+        variantType: "wattage",
+        variantValue: sizeWithWattageMatch[3],
+      };
+    }
+
+    return null;
+  }
+
+  static getDisplayOrder(variantValue: string): number {
+    const numMatch = variantValue.match(/(\d+(?:\.\d+)?)/);
+    if (numMatch) {
+      return parseFloat(numMatch[1]);
+    }
+    return 0;
+  }
+
+  static mapColorImages(
+    images: string[],
+    availableColors: AvailableColors[]
+  ): Record<string, string[]> {
+    const colorMap: Record<string, string[]> = {};
+
+    if (availableColors.length <= 1) {
+      return {};
+    }
+
+    for (const color of availableColors) {
+      const colorLower = color.toLowerCase();
+      const matchingImages = images.filter(img =>
+        img.toLowerCase().includes(colorLower) ||
+        img.toLowerCase().includes(this.getColorAlias(color))
+      );
+
+      if (matchingImages.length > 0) {
+        colorMap[color] = matchingImages;
+      }
+    }
+
+    return colorMap;
+  }
+
+  private static getColorAlias(color: string): string {
+    const aliases: Record<string, string> = {
+      BLACK: 'black',
+      GRAY: 'gray|grey',
+      WHITE: 'white',
+      GOLD: 'gold',
+      WOOD: 'wood',
+    };
+    return aliases[color] || color.toLowerCase();
   }
 }
 
@@ -624,11 +714,32 @@ class SeedEngine {
         enSpecs.surface_color || arSpecs["الالوان المتوفره الي المنتج"]
       );
 
+      const variantInfo = VariantDetector.extractVariantInfo(productId);
+      const baseProductId = variantInfo?.baseProductId || productId;
+      const variantType = variantInfo?.variantType || null;
+      const variantValue = variantInfo?.variantValue || null;
+      const displayOrder = variantInfo
+        ? VariantDetector.getDisplayOrder(variantInfo.variantValue)
+        : 0;
+
+      const colorImageMap = VariantDetector.mapColorImages(
+        productData.productImages || [],
+        availableColors
+      );
+
       const product = await prisma.product.create({
         data: {
           productId: productData.productId,
           subCategoryId,
           slug: productSlug,
+          baseProductId,
+          variantType,
+          variantValue,
+          displayOrder,
+          colorImageMap: Object.keys(colorImageMap).length > 0
+            ? colorImageMap
+            : null,
+
           price: productData.price || 0,
           inventory: productData.inventory || 0,
           images: productData.productImages || [],
@@ -660,8 +771,6 @@ class SeedEngine {
         const specs = locale === 'en' ? enSpecs : arSpecs;
 
         const translatedName = localeData?.productName || productData.productName || productId;
-
-        // Simple description from specs
         const description = DescriptionBuilder.build(locale, translatedName, specs);
 
         await prisma.productTranslation.create({
