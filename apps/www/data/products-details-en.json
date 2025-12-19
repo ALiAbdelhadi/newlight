@@ -8,7 +8,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 5,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "350 Lm",
+                            "luminous_flux": 350,
                             "main_material": "ABS Housing - PC Lens",
                             "cri": ">80",
                             "beam_angle": 60,
@@ -33,7 +33,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 6.5,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "350 Lm",
+                            "luminous_flux": 350,
                             "main_material": "ABS Housing - PC Lens",
                             "cri": ">80",
                             "beam_angle": 60,
@@ -58,7 +58,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 5,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "450 Lm",
+                            "luminous_flux": 450,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -83,7 +83,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 20,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -108,7 +108,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "2700 Lm",
+                            "luminous_flux": 2700,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -136,7 +136,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 6,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L110×W22×H82 mm",
@@ -158,7 +158,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 12,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L220×W22×H82 mm",
@@ -180,7 +180,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 18,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L331×W22×H25 mm",
@@ -202,7 +202,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 18,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L439×W22×H25 mm",
@@ -224,10 +224,76 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L547×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a603c-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L110×W22×H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a603c-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L220×W22×H82 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a603c-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-cast Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L331×W22×H25 mm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -466,7 +532,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 6,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L115×W22×H25 mm",
@@ -488,7 +554,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 12,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L115×W22×H25 mm",
@@ -510,7 +576,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 18,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L115×W22×H25 mm",
@@ -532,7 +598,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 24,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L115×W22×H25 mm",
@@ -551,6 +617,116 @@
                         }
                     },
                     "nl-a612-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612c-6w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 6,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612c-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612c-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612c-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L115×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-a612c-30w": {
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
@@ -576,7 +752,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 6,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L110×W22×H25 mm",
@@ -598,7 +774,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 12,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L223×W22×H25 mm",
@@ -620,7 +796,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 18,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L331×W22×H25 mm",
@@ -642,7 +818,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 24,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L439×W22×H25 mm",
@@ -664,7 +840,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L547×W22×H25 mm",
@@ -683,6 +859,116 @@
                         }
                     },
                     "nl-d403-36w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 36,
+                            "main_material": "Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L658×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403c-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L223×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403c-18w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 18,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L331×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403c-24w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 24,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L439×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403c-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L547×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-d403c-36w": {
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 36,
@@ -730,7 +1016,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 10,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L307×W22×H25 mm",
@@ -752,7 +1038,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 10,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L607×W22×H25  mm",
@@ -774,7 +1060,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 10,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "L907×W22×H25 mm",
@@ -793,6 +1079,94 @@
                         }
                     },
                     "nl-l601-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "main_material": "Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L1207×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-601c-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L307×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-601c-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L607×W22×H25  mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-601c-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "L907×W22×H25 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-601c-40w": {
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 40,
@@ -990,7 +1364,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 3,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "35×H80 mm",
@@ -1012,7 +1386,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 10,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "48×H105 mm",
@@ -1034,7 +1408,7 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 20,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "58×H130 mm",
@@ -1056,10 +1430,54 @@
                         "specificationsTable": {
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
-                            "main_material": "Die-Casting Aluminum",
+                            "main_material": "Aluminum",
                             "cri": ">80",
                             "beam_angle": 60,
                             "product_dimensions": "68×H155 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501c-10w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 10,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "48×H105 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-t501c-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "58×H130 mm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -1397,7 +1815,7 @@
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 48,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "4800 Lm",
+                            "luminous_flux": 4800,
                             "main_material": "Aluminum Frame-PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1422,7 +1840,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 20,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": "Plastic Housing - PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1447,7 +1865,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 30,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "2700 Lm",
+                            "luminous_flux": 2700,
                             "main_material": "Plastic Housing -PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1472,7 +1890,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 18,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1250 Lm",
+                            "luminous_flux": 1250,
                             "main_material": "Aluminum Frame-LGP",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1497,7 +1915,7 @@
                             "voltage": "AC 175-265V",
                             "maximum_wattage": 24,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1680 Lm",
+                            "luminous_flux": 1680,
                             "main_material": "Aluminum Frame-LGP",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1522,7 +1940,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 3,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "210 Lm",
+                            "luminous_flux": 210,
                             "main_material": "Aluminum Frame-LGP",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1547,7 +1965,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 6,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "420 Lm",
+                            "luminous_flux": 420,
                             "main_material": "Aluminum Frame-LGP",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1572,7 +1990,7 @@
                             "voltage": "AC 170-265V",
                             "maximum_wattage": 18,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1250 Lm",
+                            "luminous_flux": 1250,
                             "main_material": "Aluminum Frame-LGP",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1597,7 +2015,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 6,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "540 Lm",
+                            "luminous_flux": 540,
                             "main_material": "Plastic Housing -PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1622,7 +2040,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 20,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": "Plastic Housing -PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1647,7 +2065,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 30,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "2700 Lm",
+                            "luminous_flux": 2700,
                             "main_material": "Plastic Housing - PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1672,7 +2090,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 18,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": "Plastic Housing -PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1697,7 +2115,7 @@
                             "voltage": "AC 175-240V",
                             "maximum_wattage": 30,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "2700 Lm",
+                            "luminous_flux": 2700,
                             "main_material": "Plastic Housing -PC Cover",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -1726,7 +2144,7 @@
                             "voltage": "220V 50/60Hz Ra80",
                             "maximum_wattage": 19,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": false,
                             "cri": ">80",
                             "beam_angle": false,
@@ -1749,7 +2167,7 @@
                             "voltage": "220V 50/60Hz Ra80",
                             "maximum_wattage": 24,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "1800 Lm",
+                            "luminous_flux": 1800,
                             "main_material": false,
                             "cri": ">80",
                             "beam_angle": false,
@@ -1868,7 +2286,452 @@
                         }
                     }
                 ]
-            }
+            },
+            "linear": [
+                {
+                    "nl-l-1-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 5200,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "200x30×7 mm",
+                            "hole_size": "Ø 40 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-1-60w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 60,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 7800,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "200x30×7 mm",
+                            "hole_size": "Ø 60 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-1-80w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 80,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 10400,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "200x30×7 mm",
+                            "hole_size": "Ø 80 mm",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-2-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 2600,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "560x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-2-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 5200,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "1140x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-2-60w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 60,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 7800,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "1700x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-2-80w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 80,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 10400,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "12260x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-3-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 2600,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "560x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-3-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 5200,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "1140x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-3-60w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 60,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 7800,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "1700x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-l-3-80w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 80,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 10400,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "12260x50×70 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "cylinder": [
+                {
+                    "nl-c-1-15w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 1950,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "135×94 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-c-1-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 2600,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "135×94 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-c-1-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 3900,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "135×94 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": 24,
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-c-1-40w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 5200,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "135×94 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 44,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "downlight": [
+                {
+                    "nl-d-1-20w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 20,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 2600,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "D 135 × H130 × Z 120 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    },
+                    "nl-d-1-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 3900,
+                            "main_material": "Made Of injection moulded acrylic",
+                            "cri": ">85",
+                            "beam_angle": 24,
+                            "product_dimensions": "D 135 × H130 × Z 120 mm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black",
+                                "white"
+                            ]
+                        }
+                    }
+                }
+            ]
         },
         "outdoor": {
             "uplight": [
@@ -2093,7 +2956,7 @@
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 50,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "5000 Lm",
+                            "luminous_flux": 5000,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2118,7 +2981,7 @@
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 100,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "10000 Lm",
+                            "luminous_flux": 10000,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2143,7 +3006,7 @@
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 150,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "15000 Lm",
+                            "luminous_flux": 15000,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2168,7 +3031,7 @@
                             "voltage": "AC 100-250V",
                             "maximum_wattage": 200,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "20000 Lm",
+                            "luminous_flux": 20000,
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2600,7 +3463,7 @@
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 100,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "13000 Lm",
+                            "luminous_flux": 13000,
                             "main_material": "Die-cast Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2625,7 +3488,7 @@
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 150,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "19500 Lm",
+                            "luminous_flux": 19500,
                             "main_material": "Die-cast Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2650,7 +3513,7 @@
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 200,
                             "brand_of_led": "Bridge lux",
-                            "luminous_flux": "26000 Lm",
+                            "luminous_flux": 26000,
                             "main_material": "Die-cast Aluminum",
                             "cri": ">80",
                             "beam_angle": 120,
@@ -2714,6 +3577,56 @@
                             ],
                             "IP": 65,
                             "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "wall-washer": [
+                {
+                    "nl-wl-30w": {
+                        "specificationsTable": {
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 30,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 3900,
+                            "main_material": "Die-cast Aluminum treated and painted with electrostatic powder coating",
+                            "cri": ">80",
+                            "beam_angle": 24,
+                            "product_dimensions": "60 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 44,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-wl-60w": {
+                        "specificationsTable": {
+                            "voltage": "AC 220V",
+                            "maximum_wattage": 60,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": 7800,
+                            "main_material": "Die-cast Aluminum treated and painted with electrostatic powder coating",
+                            "cri": ">80",
+                            "beam_angle": 24,
+                            "product_dimensions": "120 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 44,
+                            "maxIP": 65,
                             "life_time": 50000,
                             "surface_color": [
                                 "black"

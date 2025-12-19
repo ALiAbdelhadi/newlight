@@ -4,6 +4,7 @@ packages:
 
 onlyBuiltDependencies:
   - '@clerk/shared'
+  - '@parcel/watcher'
   - '@prisma/client'
   - '@prisma/engines'
   - '@swc/core'
