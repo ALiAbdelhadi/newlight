@@ -59,8 +59,8 @@ export default function CategorySection() {
         return {
             ...categoryData,
             imageUrl: index === 0
-                ? "https://images.unsplash.com/photo-1513694203232-719a280e022f?w=800&q=80"
-                : "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80",
+                ? "/category/indoor-lighting-1.png"
+                : "/category/outdoor-lighting-1.png",
             index: index,
         };
     });
@@ -87,7 +87,7 @@ export default function CategorySection() {
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-20">
                         {categories.map((category) => (
                             <CategoryCard
-                                key={category.href} 
+                                key={category.href}
                                 {...category}
                                 index={category.index}
                             />

@@ -25,9 +25,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const t = useTranslations("product-page")
     const locale = useLocale()
 
-    const [displayedImages, setDisplayedImages] = useState<string[]>(product.images)
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
-
     const [selectedColorTemp, setSelectedColorTemp] = useState<string>(product.colorTemperatures[0] || "")
     const [surfaceColor, setSurfaceColor] = useState<string>(product.availableColors[0] || "")
     const [quantity, setQuantity] = useState(1)
@@ -44,19 +42,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const productDescription = productTranslation?.description
     const subCategoryName = subCategoryTranslation?.name || product.subCategory.slug
     const categoryName = categoryTranslation?.name || product.subCategory.category.categoryType
-
-    const handleImageChange = (newImages: string[]) => {
-        setDisplayedImages(newImages)
-        setSelectedImageIndex(0)
-    }
-
-    useEffect(() => {
-        if (product.colorImageMap && surfaceColor && product.colorImageMap[surfaceColor]) {
-            setDisplayedImages(product.colorImageMap[surfaceColor])
-        } else {
-            setDisplayedImages(product.images)
-        }
-    }, [surfaceColor, product.colorImageMap, product.images])
 
     const handleAddToCart = async () => {
         setIsAddingToCart(true)
@@ -293,8 +278,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
 
     const addedSpecs = new Map<string, boolean>()
 
-
-
     const specEntries = Object.entries(product.specifications || {})
         .map(([label, value]) => {
             if (value === null || value === undefined || value === "") return null
@@ -340,7 +323,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return a.label.localeCompare(b.label, isArabic ? "ar" : "en")
     })
 
-
     const isOutOfStock = product.inventory <= 0
 
     return (
@@ -371,9 +353,9 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
                         <div className="space-y-4 col-span-2">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
-                                {displayedImages.length > 0 ? (
+                                {product.images.length > 0 ? (
                                     <Image
-                                        src={displayedImages[selectedImageIndex] || displayedImages[0]}
+                                        src={product.images[selectedImageIndex] || product.images[0]}
                                         alt={productName}
                                         fill
                                         className="object-cover"
@@ -393,9 +375,9 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     </div>
                                 )}
                             </div>
-                            {displayedImages.length > 1 && (
+                            {product.images.length > 1 && (
                                 <div className="grid grid-cols-4 gap-3">
-                                    {displayedImages.map((image, index) => (
+                                    {product.images.map((image, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImageIndex(index)}
@@ -460,9 +442,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     availableColors={product.availableColors}
                                     initialColor={surfaceColor}
                                     onSurfaceColorChange={setSurfaceColor}
-                                    onImageChange={handleImageChange}
-                                    colorImageMap={product.colorImageMap}
-                                    defaultImages={product.images}
                                 />
                             )}
                             <div className="space-y-6 pt-4">

@@ -22,9 +22,6 @@ interface ProductSurfaceColorButtonsProps {
     availableColors: string[]
     initialColor?: string
     onSurfaceColorChange?: (newColor: string) => void
-    onImageChange?: (images: string[]) => void
-    colorImageMap?: Record<string, string[]> | null
-    defaultImages?: string[]
 }
 
 export default function ProductSurfaceColorButtons({
@@ -32,9 +29,6 @@ export default function ProductSurfaceColorButtons({
     availableColors,
     initialColor,
     onSurfaceColorChange,
-    onImageChange,
-    colorImageMap,
-    defaultImages = [],
 }: ProductSurfaceColorButtonsProps) {
     const locale = useLocale()
     const [selectedColor, setSelectedColor] = useState<string>(
@@ -44,13 +38,6 @@ export default function ProductSurfaceColorButtons({
     const handleColorChange = (color: string) => {
         setSelectedColor(color)
         onSurfaceColorChange?.(color)
-
-        if (colorImageMap && colorImageMap[color]) {
-            onImageChange?.(colorImageMap[color])
-        } else if (defaultImages.length > 0) {
-
-            onImageChange?.(defaultImages)
-        }
     }
 
     if (availableColors.length === 0) return null
@@ -96,13 +83,6 @@ export default function ProductSurfaceColorButtons({
         }
     }
 
-    const getColorImageCount = (color: string): number => {
-        if (colorImageMap && colorImageMap[color]) {
-            return colorImageMap[color].length
-        }
-        return 0
-    }
-
     return (
         <div className="space-y-4">
             <div className="flex items-center justify-between">
@@ -110,13 +90,6 @@ export default function ProductSurfaceColorButtons({
                     <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
                         {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
                     </p>
-                    {colorImageMap && Object.keys(colorImageMap).length > 0 && (
-                        <p className="text-xs text-muted-foreground/70 font-light">
-                            {locale.startsWith("ar")
-                                ? "سيتم تحديث الصور عند اختيار اللون"
-                                : "Images will update when selecting color"}
-                        </p>
-                    )}
                 </div>
             </div>
 
@@ -124,8 +97,6 @@ export default function ProductSurfaceColorButtons({
                 {availableColors.map((color) => {
                     const isSelected = selectedColor === color
                     const colorClasses = getColorClasses(color)
-                    const imageCount = getColorImageCount(color)
-                    const hasCustomImages = imageCount > 0
 
                     return (
                         <button
@@ -166,12 +137,6 @@ export default function ProductSurfaceColorButtons({
                                 </div>
                                 <div className="absolute inset-0 rounded-full bg-border opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
                             </div>
-
-                            {hasCustomImages && (
-                                <div className="absolute -top-1 -right-1 w-3 h-3 bg-accent rounded-full border border-background"
-                                    title={`${imageCount} ${locale.startsWith("ar") ? "صورة" : "images"}`}
-                                />
-                            )}
 
                             <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
                                 <span className={cn(
