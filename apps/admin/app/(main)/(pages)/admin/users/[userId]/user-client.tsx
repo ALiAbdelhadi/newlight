@@ -1,8 +1,6 @@
 "use client";
 
-import NormalPrice from "@/components//normal-price";
 import { Container } from "@/components/container";
-import DiscountPrice from "@/components/discount-price";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,8 +19,8 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import UserAvatar from "@/components/user-avatar";
-import { formatPrice } from "@/lib/utils";
-import { Order, Product, ShippingAddress, User } from "@prisma/client";
+import { formatPrice } from "@/lib/price";
+import { Prisma } from "@repo/database";
 import { format } from "date-fns";
 import { Edit2, FilePenIcon } from "lucide-react";
 import Image from "next/image";
@@ -30,11 +28,25 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 import StatusDropdown from "../../../../../../components/status-dropdown-menu";
 
-interface UserWithDetails extends User {
-  shippingAddress: ShippingAddress | null;
-  product: Product | null;
-  orders: Order[];
-}
+const userWithDetailsInclude = Prisma.validator<Prisma.UserInclude>()({
+  shippingAddress: true,
+  product: true,
+  orders: {
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
+      shippingAddress: true,
+      configuration: true,
+    },
+  },
+});
+
+type UserWithDetails = Prisma.UserGetPayload<{
+  include: typeof userWithDetailsInclude;
+}>;
 
 interface UserPageClientProps {
   user: UserWithDetails;
@@ -53,92 +65,87 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
 
   const renderOrders = useMemo(
     () =>
-      filteredOrders.map((order) => (
-        <TableRow key={order.id}>
-          <TableCell className="hover:text-primary hover:underline font-medium">
-            <Link href={`/admin/dashboard/Orders/${order.id}`}>
-              #{order.id}
-            </Link>
-          </TableCell>
-          <TableCell>
-            <div className="flex items-center gap-3 w-[200px]">
-              {order.productImages && order.productImages.length > 0 && (
-                <Image
-                  src={order.productImages[0]}
-                  alt="Product Image"
-                  width={40}
-                  height={40}
-                  className="rounded-md object-cover shrink-0"
-                />
-              )}
-              <p className="uppercase text-sm font-medium line-clamp-2">
-                {order.productName}
-              </p>
-            </div>
-          </TableCell>
-          <TableCell className="capitalize font-medium">
-            {order.productColorTemp}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.brand === "balcom" ? order.productIp : "—"}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.brand === "mister-led" &&
-              order.chandelierLightingType === "lamp"
-              ? order.productChandLamp
-              : "—"}
-          </TableCell>
-          <TableCell className="font-medium">
-            <NormalPrice price={order.configPrice} />
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.discountRate && order.discountRate > 0
-              ? `${(order.discountRate * 100).toFixed(0)}%`
-              : "—"}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.discountRate && order.discountRate > 0 ? (
-              <DiscountPrice
-                price={order.configPrice}
-                discount={order.discountRate}
-              />
-            ) : (
-              "—"
-            )}
-          </TableCell>
-          <TableCell className="text-center font-medium">
-            {order.quantity}
-          </TableCell>
-          <TableCell className="font-medium">
-            {formatPrice(order.shippingPrice)}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.discountRate && order.discountRate > 0 ? (
-              <DiscountPrice
-                price={order.configPrice}
-                discount={order.discountRate}
-                quantity={order.quantity}
-                shippingPrice={order.shippingPrice}
-              />
-            ) : (
-              <NormalPrice
-                price={order.configPrice}
-                shippingPrice={order.shippingPrice}
-                quantity={order.quantity}
-              />
-            )}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.createdAt?.toLocaleDateString()}
-          </TableCell>
-          <TableCell className="font-medium">
-            {order.orderTimeReceived?.toLocaleDateString()}
-          </TableCell>
-          <TableCell>
-            <StatusDropdown id={order.id} orderStatus={order.status} />
-          </TableCell>
-        </TableRow>
-      )),
+      filteredOrders.map((order) => {
+        const firstItem = order.items[0];
+        const totalItems = order.items.reduce((sum, item) => sum + item.quantity, 0);
+
+        return (
+          <TableRow key={order.id}>
+            <TableCell className="hover:text-primary hover:underline font-medium">
+              <Link href={`/admin/dashboard/orders/${order.id}`}>
+                #{order.orderNumber}
+              </Link>
+            </TableCell>
+            <TableCell>
+              <div className="flex items-center gap-3 w-[200px]">
+                {firstItem?.productImage && (
+                  <Image
+                    src={firstItem.productImage}
+                    alt="Product Image"
+                    width={40}
+                    height={40}
+                    className="rounded-md object-cover shrink-0"
+                  />
+                )}
+                <div className="flex flex-col">
+                  <p className="text-sm font-medium line-clamp-2">
+                    {firstItem?.productName || "N/A"}
+                  </p>
+                  {order.items.length > 1 && (
+                    <span className="text-xs text-muted-foreground">
+                      +{order.items.length - 1} more items
+                    </span>
+                  )}
+                </div>
+              </div>
+            </TableCell>
+            <TableCell className="capitalize font-medium">
+              {firstItem?.selectedColorTemp || "—"}
+            </TableCell>
+            <TableCell className="font-medium">
+              {firstItem?.product?.ipRating || "—"}
+            </TableCell>
+            <TableCell className="font-medium">
+              {firstItem?.selectedColor || "—"}
+            </TableCell>
+            <TableCell className="font-medium">
+              {formatPrice(firstItem?.price || 0)}
+            </TableCell>
+            <TableCell className="font-medium">
+              {order.configuration && order.configuration.discount > 0
+                ? `${(order.configuration.discount * 100).toFixed(0)}%`
+                : "—"}
+            </TableCell>
+            <TableCell className="font-medium">
+              {order.configuration && order.configuration.discount > 0
+                ? formatPrice(
+                  (firstItem?.price || 0) * (1 - order.configuration.discount)
+                )
+                : "—"}
+            </TableCell>
+            <TableCell className="text-center font-medium">
+              {totalItems}
+            </TableCell>
+            <TableCell className="font-medium">
+              {formatPrice(order.shippingCost)}
+            </TableCell>
+            <TableCell className="font-medium">
+              {formatPrice(order.total)}
+            </TableCell>
+            <TableCell className="font-medium">
+              {format(new Date(order.createdAt), "MMM dd, yyyy")}
+            </TableCell>
+            <TableCell className="font-medium">
+              {order.deliveredAt
+                ? format(new Date(order.deliveredAt), "MMM dd, yyyy")
+                : "—"}
+            </TableCell>
+            <TableCell>
+              <StatusDropdown id={order.id} orderStatus={order.status} />
+            </TableCell>
+          </TableRow>
+        );
+      }),
     [filteredOrders]
   );
 
@@ -147,7 +154,7 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
       <Container>
         <div className="mb-8">
           <h1 className="text-3xl font-bold">
-            {user.shippingAddress?.fullName}&apos;s Account
+            {user.shippingAddress?.fullName || user.email}&apos;s Account
           </h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
@@ -192,7 +199,7 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
                     Phone
                   </p>
                   <p className="text-sm font-medium">
-                    {user.shippingAddress?.phoneNumber || "—"}
+                    {user.shippingAddress?.phone || user.phoneNumber || "—"}
                   </p>
                 </div>
               </div>
@@ -215,11 +222,23 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
                   </h3>
                   <div className="space-y-2 text-sm">
                     <p className="text-muted-foreground">
-                      {user.shippingAddress?.address || "—"}
+                      {user.shippingAddress?.addressLine1 || "—"}
+                    </p>
+                    {user.shippingAddress?.addressLine2 && (
+                      <p className="text-muted-foreground">
+                        {user.shippingAddress.addressLine2}
+                      </p>
+                    )}
+                    <p className="text-muted-foreground">
+                      {user.shippingAddress?.city}, {user.shippingAddress?.state}{" "}
+                      {user.shippingAddress?.postalCode}
+                    </p>
+                    <p className="text-muted-foreground">
+                      {user.shippingAddress?.country}
                     </p>
                     <p className="text-muted-foreground">{user.email}</p>
                     <p className="text-muted-foreground">
-                      {user.shippingAddress?.phoneNumber || "—"}
+                      {user.shippingAddress?.phone || user.phoneNumber || "—"}
                     </p>
                   </div>
                 </div>
@@ -229,10 +248,22 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
                   </h3>
                   <div className="space-y-2 text-sm">
                     <p className="text-muted-foreground">
-                      {user.shippingAddress?.address || "—"}
+                      {user.shippingAddress?.addressLine1 || "—"}
+                    </p>
+                    {user.shippingAddress?.addressLine2 && (
+                      <p className="text-muted-foreground">
+                        {user.shippingAddress.addressLine2}
+                      </p>
+                    )}
+                    <p className="text-muted-foreground">
+                      {user.shippingAddress?.city}, {user.shippingAddress?.state}{" "}
+                      {user.shippingAddress?.postalCode}
                     </p>
                     <p className="text-muted-foreground">
-                      {user.shippingAddress?.phoneNumber || "—"}
+                      {user.shippingAddress?.country}
+                    </p>
+                    <p className="text-muted-foreground">
+                      {user.shippingAddress?.phone || user.phoneNumber || "—"}
                     </p>
                   </div>
                 </div>
@@ -244,7 +275,7 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
           <CardHeader className="pb-4">
             <div>
               <CardTitle className="text-lg">Order History</CardTitle>
-              <CardDescription>View and manage your past orders</CardDescription>
+              <CardDescription>View and manage past orders</CardDescription>
             </div>
           </CardHeader>
           <CardContent>
@@ -304,7 +335,7 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
                           IP
                         </TableHead>
                         <TableHead className="text-xs font-semibold">
-                          Lamp
+                          Color
                         </TableHead>
                         <TableHead className="text-xs font-semibold">
                           Price
@@ -328,7 +359,7 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
                           Order Date
                         </TableHead>
                         <TableHead className="text-xs font-semibold">
-                          Est. Date
+                          Delivery Date
                         </TableHead>
                         <TableHead className="text-xs font-semibold">
                           Status

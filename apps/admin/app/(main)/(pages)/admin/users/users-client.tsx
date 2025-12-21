@@ -12,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import UserAvatar from "@/components/user-avatar";
+import { OrderStatus } from "@repo/database";
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -33,7 +34,7 @@ type UserWithShipping = {
   } | null;
   orders: {
     id: string;
-    status: string;
+    status: OrderStatus;
     total: number;
   }[];
 };
@@ -42,29 +43,26 @@ const UsersClient = ({ users }: { users: UserWithShipping[] }) => {
   const [searchItem, setSearchItem] = useState<string>("");
   const [filteredUsers, setFilteredUsers] = useState<UserWithShipping[]>(users);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value;
     setSearchItem(searchValue);
     setLoading(true);
-    setError(null);
+
     try {
-      const filteredItems = users.filter(
-        (user: UserWithShipping) =>
+      const filteredItems = users.filter((user: UserWithShipping) => {
+        const searchLower = searchValue.toLowerCase();
+        return (
           user.shippingAddress?.phone?.includes(searchValue) ||
           user.phoneNumber?.includes(searchValue) ||
-          user.shippingAddress?.fullName
-            .toLowerCase()
-            .includes(searchValue.toLowerCase()) ||
-          user.shippingAddress?.addressLine1
-            .toLowerCase()
-            .includes(searchValue.toLowerCase()) ||
-          user.email?.toLowerCase().includes(searchValue.toLowerCase()),
-      );
+          user.shippingAddress?.fullName?.toLowerCase().includes(searchLower) ||
+          user.shippingAddress?.addressLine1?.toLowerCase().includes(searchLower) ||
+          user.email?.toLowerCase().includes(searchLower)
+        );
+      });
       setFilteredUsers(filteredItems);
     } catch (error) {
-      setError("Error filtering customers");
+      console.error("Error filtering customers:", error);
     } finally {
       setLoading(false);
     }
@@ -129,17 +127,7 @@ const UsersClient = ({ users }: { users: UserWithShipping[] }) => {
                       </TableCell>
                     </TableRow>
                   )}
-                  {error && (
-                    <TableRow>
-                      <TableCell
-                        colSpan={7}
-                        className="text-center text-red-600"
-                      >
-                        {error}
-                      </TableCell>
-                    </TableRow>
-                  )}
-                  {!loading && !error && filteredUsers.length === 0 && (
+                  {!loading && filteredUsers.length === 0 && (
                     <TableRow>
                       <TableCell colSpan={7} className="text-center">
                         No Customers Found
@@ -147,12 +135,11 @@ const UsersClient = ({ users }: { users: UserWithShipping[] }) => {
                     </TableRow>
                   )}
                   {!loading &&
-                    !error &&
                     filteredUsers.map((user) => (
                       <TableRow key={user.id}>
                         <TableCell>
                           <Link
-                            href={`/admin/dashboard/users/${user.id}`}
+                            href={`/admin/users/${user.id}`}
                             className="hover:text-primary hover:underline"
                           >
                             {user.id.slice(0, 8)}...
