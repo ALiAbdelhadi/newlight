@@ -2,6 +2,9 @@ import { notFound } from "next/navigation";
 import UserClient from "./user-client";
 import { prisma } from "@repo/database";
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const UserPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
   const resolvedParams = await params;
 

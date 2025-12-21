@@ -3,17 +3,22 @@ import { prisma } from "@repo/database";
 import { notFound } from "next/navigation";
 import OrdersClient from "./orders-client";
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 const OrdersPage = async () => {
   const { userId } = await auth();
   const user = await currentUser();
+
   if (!userId || !user) {
     return notFound();
   }
+
   const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
   if (user.emailAddresses[0].emailAddress !== ADMIN_EMAIL) {
     return notFound();
   }
-  
+
   const orders = await prisma.order.findMany({
     orderBy: { createdAt: "desc" },
     include: {
