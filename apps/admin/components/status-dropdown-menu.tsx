@@ -28,7 +28,7 @@ const StatusDropdown = ({
   id,
   orderStatus,
 }: {
-  id: string;
+  id: number;
   orderStatus: OrderStatus;
 }) => {
   const router = useRouter();

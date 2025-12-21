@@ -155,12 +155,12 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                         <div className="absolute inset-0 bg-linear-to-t from-foreground/70 via-foreground/20 to-transparent" />
                                         <div className="relative z-10 h-full flex flex-col justify-end p-6">
                                             <div className="space-y-3">
-                                                <h3 className="text-3xl md:text-4xl font-serif font-light text-primary-foreground tracking-wide">
+                                                <h3 className="text-3xl md:text-4xl font-serif font-light text-accent tracking-wide">
                                                     {category.name}
                                                 </h3>
                                                 <div className="h-px w-12 bg-primary-foreground/60 group-hover:bg-primary transition-all duration-500 group-hover:w-20" />
                                             </div>
-                                            <div className="mt-6 flex items-center gap-2 text-primary-foreground/80 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                                            <div className="mt-6 flex items-center gap-2 text-white/70 dark:text-black opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
                                                 <span className="text-sm uppercase tracking-widest font-light">
                                                     {t("exploreCollection")}
                                                 </span>
