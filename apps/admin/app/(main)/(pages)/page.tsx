@@ -13,7 +13,7 @@ const AdminPage = async () => {
     const isAdminEmail = user?.emailAddresses?.[0]?.emailAddress === process.env.ADMIN_EMAIL;
 
     if (!isAdminEmail) {
-        return redirect("/404");
+        return redirect("/unauthorized");
     }
 
     return <AdminClient />;

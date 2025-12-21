@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/components/container";
+import StatusDropdown from "@/components/status-dropdown-menu";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -26,7 +27,6 @@ import { Edit2, FilePenIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import StatusDropdown from "../../../../../../components/status-dropdown-menu";
 
 const userWithDetailsInclude = Prisma.validator<Prisma.UserInclude>()({
   shippingAddress: true,
