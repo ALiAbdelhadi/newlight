@@ -38,7 +38,7 @@ model Configuration {
 
 model User {
   id                String   @id
-  email             String?
+  email             String?  @unique
   phoneNumber       String?
   preferredLanguage String   @default("ar")
   preferredCurrency String   @default("EGP")
@@ -53,6 +53,7 @@ model User {
   cart            Cart?
   orders          Order[]
 
+  @@index([email])
   @@map("users")
 }
 

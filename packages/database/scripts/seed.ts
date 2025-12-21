@@ -116,7 +116,7 @@ class TranslationRegistry {
     downlight: { en: "Downlight", ar: "إضاءة Downlight " },
     linear: { en: "Linear", ar: "إضاءة linear " },
     cylinder: { en: "Cylinder", ar: "إضاءة Cylinder " },
-    "wall-washer": { en: "Cylinder", ar: "إضاءة Wall-washer " },
+    "wall-washer": { en: "Wall Washer", ar: "إضاءة Wall-washer " },
     spikes: { en: "Spike Lights", ar: "حربات" },
     "flood-light": { en: "Flood Lights", ar: "كشافات" },
     bollard: { en: "Bollard Lights", ar: "أعمدة إنارة" },
