@@ -7,6 +7,9 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { PreviewClient } from "./preview"
 
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 interface PreviewPageProps {
     params: Promise<{ configId: string }>
 }

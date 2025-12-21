@@ -1,12 +1,16 @@
 import { getConfiguration } from "@/actions/configuration"
 import { getProductWithDetails, getUserShippingAddress } from "@/actions/order"
+import { constructMetadata } from "@/lib/metadata"
+import { SupportedLanguage } from "@/types"
 import { auth } from "@clerk/nextjs/server"
+import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, redirect } from "next/navigation"
 import { ConfirmPageView } from "./confirm"
-import { constructMetadata } from "@/lib/metadata"
-import { SupportedLanguage } from "@/types"
-import { Metadata } from "next"
+
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
 
 interface ConfirmPageProps {
     params: Promise<{ configId: string }>

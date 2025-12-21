@@ -1,11 +1,16 @@
 import { getOrderDetails } from "@/actions/order"
+import { constructMetadata } from "@/lib/metadata"
+import { SupportedLanguage } from "@/types"
 import { auth } from "@clerk/nextjs/server"
+import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { CompletePageView } from "./complete"
-import { constructMetadata } from "@/lib/metadata"
-import { SupportedLanguage } from "@/types"
-import { Metadata } from "next"
+
+
+export const dynamic = 'force-dynamic'
+export const revalidate = 0
+
 
 interface CompletePageProps {
     searchParams: Promise<{ orderId?: string }>
