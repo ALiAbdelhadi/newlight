@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link } from "@/i18n/navigation"
 import Image from "next/image"
 import { useDebounce } from "use-debounce"
+import { useTranslations } from "next-intl"
 
 interface Product {
     id: string
@@ -24,6 +25,7 @@ interface Product {
 }
 
 export function SearchSheet() {
+    const t = useTranslations('search')
     const [open, setOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
     const [debouncedSearchTerm] = useDebounce(searchQuery, 300)
@@ -77,10 +79,10 @@ export function SearchSheet() {
     }
 
     const popularSearches = [
-        'indoor Lighting',
-        'lighting  Solutions',
-        'Outdoor Lighting',
-        'Smart Lighting'
+        t('suggestions.indoor'),
+        t('suggestions.solutions'),
+        t('suggestions.outdoor'),
+        t('suggestions.smart')
     ]
 
     return (
@@ -88,7 +90,7 @@ export function SearchSheet() {
             <SheetTrigger asChild>
                 <button className="group rounded-lg p-2 transition-all duration-200 hover:bg-secondary">
                     <Search className="h-5 w-5" />
-                    <span className="sr-only">Search</span>
+                    <span className="sr-only">{t('button')}</span>
                 </button>
             </SheetTrigger>
             <SheetContent
@@ -99,16 +101,16 @@ export function SearchSheet() {
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
                         <div className="flex items-baseline gap-1">
                             <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground">
-                                new
+                                {t('brand.new')}
                             </h1>
                             <p className="text-2xl font-light tracking-widest uppercase text-foreground">
-                                light
+                                {t('brand.light')}
                             </p>
                         </div>
                         <SheetClose asChild>
                             <button className="rounded-lg p-2 transition-all duration-200 hover:bg-secondary">
                                 <X className="h-6 w-6 text-foreground" />
-                                <span className="sr-only">Close</span>
+                                <span className="sr-only">{t('close')}</span>
                             </button>
                         </SheetClose>
                     </div>
@@ -119,7 +121,7 @@ export function SearchSheet() {
                                 <Input
                                     ref={inputRef}
                                     type="text"
-                                    placeholder="Search products, categories, or lighting solutions..."
+                                    placeholder={t('placeholder')}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     className="w-full pl-12 pr-4 h-14 text-lg bg-muted/50 border-border focus-visible:ring-2 focus-visible:ring-ring"
@@ -137,7 +139,7 @@ export function SearchSheet() {
                                             <div className="text-center py-12">
                                                 <Loader2 className="h-8 w-8 animate-spin text-muted-foreground mx-auto mb-4" />
                                                 <p className="text-sm text-muted-foreground">
-                                                    Searching for &quot;{searchQuery}&quot;...
+                                                    {t('searching', { query: searchQuery })}
                                                 </p>
                                             </div>
                                         ) : filteredProducts.length > 0 ? (
@@ -187,7 +189,7 @@ export function SearchSheet() {
                                                             </div>
                                                             <div className="text-right shrink-0">
                                                                 <p className="font-semibold text-foreground">
-                                                                    EGP {product.price.toFixed(2)}
+                                                                    {t('currency')} {product.price.toFixed(2)}
                                                                 </p>
                                                             </div>
                                                         </div>
@@ -197,7 +199,7 @@ export function SearchSheet() {
                                         ) : (
                                             <div className="text-center py-12">
                                                 <p className="text-sm text-muted-foreground">
-                                                    No results found for &quot;{searchQuery}&quot;
+                                                    {t('noResults', { query: searchQuery })}
                                                 </p>
                                             </div>
                                         )}
@@ -205,7 +207,7 @@ export function SearchSheet() {
                                 ) : (
                                     <div>
                                         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
-                                            Popular Searches
+                                            {t('popularSearches')}
                                         </h3>
                                         <div className="space-y-2">
                                             {popularSearches.map((item) => (
@@ -225,7 +227,7 @@ export function SearchSheet() {
                     </div>
                     <div className="px-8 py-6 border-t border-border">
                         <p className="text-sm text-muted-foreground font-light">
-                            The New Thesaurus: A Guide to Residential Lighting Solutions
+                            {t('footer')}
                         </p>
                     </div>
                 </div>

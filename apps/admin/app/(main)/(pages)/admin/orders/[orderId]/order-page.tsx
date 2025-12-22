@@ -27,6 +27,7 @@ type OrderWithDetails = Prisma.OrderGetPayload<{
       select: {
         id: true;
         email: true;
+        firstName: true;
         phoneNumber: true;
       };
     };
@@ -103,7 +104,7 @@ export default function OrderPage({ order }: OrderPageProps) {
                         height={192}
                         src={item.productImage}
                         alt={item.productName}
-                        className="w-full sm:w-48 sm:h-48 object-cover rounded-md shadow-md mb-4 sm:mb-0"
+                        className="w-full sm:w-48 sm:h-48 object-cover rounded-md mb-4 sm:mb-0"
                       />
                     )}
                     <div className="flex-1 space-y-4">
@@ -174,8 +175,8 @@ export default function OrderPage({ order }: OrderPageProps) {
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-7 w-7 mr-1.5">
                         <AvatarImage
-                          src={`https://api.dicebear.com/6.x/initials/svg?seed=${order.user.email || order.user.id}`}
-                          alt={order.user.email || ""}
+                          src={`https://api.dicebear.com/6.x/initials/svg?seed=${order.shippingAddress.fullName || order.user.id}`}
+                          alt={order.shippingAddress.fullName || ""}
                         />
                         <AvatarFallback>
                           {order.user.email
@@ -204,17 +205,14 @@ export default function OrderPage({ order }: OrderPageProps) {
                     </div>
                     <ShippingDetail
                       icon={MapPin}
-                      value={`${order.shippingAddress.addressLine1}${
-                        order.shippingAddress.addressLine2
+                      value={`${order.shippingAddress.addressLine1}${order.shippingAddress.addressLine2
                           ? `, ${order.shippingAddress.addressLine2}`
                           : ""
-                      }, ${order.shippingAddress.city}${
-                        order.shippingAddress.state
+                        }, ${order.shippingAddress.city}${order.shippingAddress.state
                           ? `, ${order.shippingAddress.state}`
                           : ""
-                      } ${order.shippingAddress.postalCode}, ${
-                        order.shippingAddress.country
-                      }`}
+                        } ${order.shippingAddress.postalCode}, ${order.shippingAddress.country
+                        }`}
                     />
                   </div>
                   <div className="space-y-4">

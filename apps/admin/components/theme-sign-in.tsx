@@ -45,7 +45,7 @@ export function ThemedSignIn() {
                 card: {
                   backgroundColor: "transparent",
                   boxShadow: "none",
-                  border: "1px solid hsl(var(--border))",
+                  // border: "1px solid hsl(var(--border))",
                   borderRadius: "0px",
                 },
                 headerTitle: {

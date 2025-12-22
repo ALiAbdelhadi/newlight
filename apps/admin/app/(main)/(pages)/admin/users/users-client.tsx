@@ -1,6 +1,7 @@
 "use client";
 
 import DashboardHeader from "@/components/dashboard-header";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import {
@@ -146,7 +147,18 @@ const UsersClient = ({ users }: { users: UserWithShipping[] }) => {
                           </Link>
                         </TableCell>
                         <TableCell className="flex items-center text-nowrap">
-                          <UserAvatar email={user.email ?? ""} className="mr-1.5" />
+                          <Avatar className="h-7 w-7 mr-1.5">
+                            <AvatarImage
+                              src={`https://api.dicebear.com/6.x/initials/svg?seed=${user.shippingAddress?.fullName || user.id}`}
+                              alt={user.shippingAddress?.fullName || ""}
+                            />
+                            <AvatarFallback>
+                              {user.email
+                                ?.split("@")[0]
+                                .slice(0, 2)
+                                .toUpperCase() || "U"}
+                            </AvatarFallback>
+                          </Avatar>
                           {user.shippingAddress?.fullName || "N/A"}
                         </TableCell>
                         <TableCell>

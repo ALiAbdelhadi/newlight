@@ -2,6 +2,8 @@
 
 import DashboardHeader from "@/components/dashboard-header";
 import StatusDropdown from "@/components/status-dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Table,
@@ -13,10 +15,10 @@ import {
 } from "@/components/ui/table";
 import { formatPrice } from "@/lib/price";
 import { Prisma } from "@repo/database";
-import { SearchIcon } from "lucide-react";
+import { SearchIcon, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 type OrderWithItems = Prisma.OrderGetPayload<{
   include: {
@@ -50,65 +52,111 @@ interface OrdersClientProps {
 
 const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
   const [searchItem, setSearchItem] = useState<string>("");
-  const [filteredOrders, setFilteredOrders] = useState<OrderWithItems[]>(orders);
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = e.target.value;
-    setSearchItem(searchValue);
-    setLoading(true);
-    setError(null);
-    try {
-      const newFilteredOrders = orders.filter((order) => {
-        const orderNumberMatch = order.orderNumber
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
-        const customerNameMatch = order.shippingAddress?.fullName
-          .toLowerCase()
-          .includes(searchValue.toLowerCase());
-        const customerEmailMatch = order.user.email
-          ?.toLowerCase()
-          .includes(searchValue.toLowerCase());
-        const productMatch = order.items.some((item) =>
-          item.productName.toLowerCase().includes(searchValue.toLowerCase())
-        );
+  const filteredOrders = useMemo(() => {
+    if (!searchItem.trim()) return orders;
 
-        return (
-          orderNumberMatch ||
-          customerNameMatch ||
-          customerEmailMatch ||
-          productMatch
-        );
-      });
-      setFilteredOrders(newFilteredOrders);
-    } catch {
-      setError("Error filtering orders.");
-    } finally {
-      setLoading(false);
-    }
+    const searchLower = searchItem.toLowerCase().trim();
+
+    return orders.filter((order) => {
+      if (order.orderNumber.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      if (order.shippingAddress?.fullName.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      if (order.user.email?.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      if (
+        order.shippingAddress?.phone.includes(searchLower) ||
+        order.user.phoneNumber?.includes(searchLower)
+      ) {
+        return true;
+      }
+
+      const hasMatchingProduct = order.items.some((item) =>
+        item.productName.toLowerCase().includes(searchLower)
+      );
+      if (hasMatchingProduct) {
+        return true;
+      }
+
+      if (order.total.toString().includes(searchLower)) {
+        return true;
+      }
+
+      if (order.status.toLowerCase().includes(searchLower)) {
+        return true;
+      }
+
+      return false;
+    });
+  }, [orders, searchItem]);
+
+  const handleClearSearch = () => {
+    setSearchItem("");
   };
+
+  const searchStats = useMemo(() => {
+    return {
+      total: orders.length,
+      filtered: filteredOrders.length,
+      isFiltering: searchItem.trim().length > 0,
+    };
+  }, [orders.length, filteredOrders.length, searchItem]);
 
   return (
     <div className="flex flex-col min-h-screen pb-10">
       <DashboardHeader Route="Orders">
         <div className="flex items-center gap-4 md:ml-auto">
-          <form className="ml-auto flex-1 sm:flex-initial">
+          <form className="ml-auto flex-1 sm:flex-initial" onSubmit={(e) => e.preventDefault()}>
             <div className="relative">
               <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 value={searchItem}
-                onChange={handleInputChange}
+                onChange={(e) => setSearchItem(e.target.value)}
                 type="text"
-                placeholder="Search orders..."
-                className="pl-8 w-full sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                placeholder="Search orders, customers, products..."
+                className="pl-8 pr-10 w-full sm:w-[300px] md:w-[200px] lg:w-[350px]"
               />
+              {searchItem && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon-sm"
+                  className="absolute right-1 top-1 h-7 w-7"
+                  onClick={handleClearSearch}
+                >
+                  <X className="h-3 w-3" />
+                </Button>
+              )}
             </div>
           </form>
         </div>
       </DashboardHeader>
+
       <div className="mt-10 px-6">
-        <h2 className="text-xl font-semibold mb-7">All Orders</h2>
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h2 className="text-xl font-semibold">All Orders</h2>
+            {searchStats.isFiltering && (
+              <p className="text-sm text-muted-foreground mt-1">
+                Showing {searchStats.filtered} of {searchStats.total} orders
+              </p>
+            )}
+          </div>
+
+          {searchStats.isFiltering && (
+            <Badge variant="secondary" className="text-sm">
+              {searchStats.filtered} results
+            </Badge>
+          )}
+        </div>
+
         <div className="overflow-x-auto border rounded-lg shadow custom-scrollbar">
           <Table>
             <TableHeader>
@@ -128,32 +176,28 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {loading && (
+              {filteredOrders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={12} className="text-center">
-                    Loading...
+                  <TableCell colSpan={12} className="text-center py-8">
+                    {searchStats.isFiltering ? (
+                      <div className="space-y-2">
+                        <p className="text-muted-foreground">
+                          No orders found matching &quot;{searchItem}&quot;
+                        </p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={handleClearSearch}
+                        >
+                          Clear Search
+                        </Button>
+                      </div>
+                    ) : (
+                      <p className="text-muted-foreground">No Orders Found</p>
+                    )}
                   </TableCell>
                 </TableRow>
-              )}
-              {error && (
-                <TableRow>
-                  <TableCell
-                    colSpan={12}
-                    className="text-center text-destructive"
-                  >
-                    {error}
-                  </TableCell>
-                </TableRow>
-              )}
-              {!loading && !error && filteredOrders.length === 0 && (
-                <TableRow>
-                  <TableCell colSpan={12} className="text-center">
-                    No Orders Found
-                  </TableCell>
-                </TableRow>
-              )}
-              {!loading &&
-                !error &&
+              ) : (
                 filteredOrders.map((order) =>
                   order.items.map((item, itemIndex) => (
                     <TableRow key={`${order.id}-${item.id}`}>
@@ -164,8 +208,8 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                             rowSpan={order.items.length}
                           >
                             <Link
-                              href={`/admin/dashboard/orders/${order.id}`}
-                              className="hover:text-primary hover:underline"
+                              href={`/admin/orders/${order.id}`}
+                              className="hover:text-primary hover:underline font-medium"
                             >
                               {order.orderNumber}
                             </Link>
@@ -235,10 +279,18 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                       )}
                     </TableRow>
                   ))
-                )}
+                )
+              )}
             </TableBody>
           </Table>
         </div>
+        {searchStats.isFiltering && searchStats.filtered > 0 && (
+          <div className="mt-4 p-4 bg-muted/50 rounded-lg">
+            <p className="text-sm text-muted-foreground">
+              <span className="font-medium">Search tip:</span> You can search by order number, customer name, email, phone, product name, status, or total amount
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

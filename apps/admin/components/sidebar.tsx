@@ -76,20 +76,6 @@ export function Sidebar({ className, stats, userInfo }: SidebarProps) {
             url: "/admin/shipping",
             badge: stats.shipping > 0 ? stats.shipping : undefined,
             badgeVariant: "warning" as const,
-        },
-        {
-            name: "Reviews",
-            icon: <Star className="h-5 w-5" />,
-            url: "/admin/reviews",
-            badge: stats.reviews > 0 ? stats.reviews : undefined,
-            badgeVariant: "info" as const,
-        },
-        {
-            name: "Notifications",
-            icon: <Bell className="h-5 w-5" />,
-            url: "/admin/notifications",
-            badge: stats.notifications > 0 ? stats.notifications : undefined,
-            badgeVariant: "destructive" as const,
         }
     ]
 

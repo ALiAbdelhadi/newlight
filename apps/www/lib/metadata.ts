@@ -38,7 +38,7 @@ export function constructMetadata({
         "Lighting", "LED", "Spotlight", "Flood Light", "Spikes", "Bollard", "Poles",
         "إضاءة", "ليد", "كشافات", "أعمدة إنارة", "بولارد"
     ]
-    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://newlight-eg.vercel.app"
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://newlight-eg.com"
     const siteName = "New Light Company"
     const ogLocale = locale === "ar" ? "ar_EG" : "en_US"
 

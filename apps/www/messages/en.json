@@ -48,6 +48,26 @@
         "mobileMenuLabelSearch": "Search",
         "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
     },
+    "search": {
+        "button": "Search",
+        "close": "Close",
+        "placeholder": "Search products, categories, or lighting solutions...",
+        "searching": "Searching for \"{query}\"...",
+        "noResults": "No results found for \"{query}\"",
+        "popularSearches": "Popular Searches",
+        "currency": "EGP",
+        "brand": {
+            "new": "new",
+            "light": "light"
+        },
+        "footer": "The New Thesaurus: A Guide to Residential Lighting Solutions",
+        "suggestions": {
+            "indoor": "indoor Lighting",
+            "solutions": "lighting Solutions",
+            "outdoor": "Outdoor Lighting",
+            "smart": "Smart Lighting"
+        }
+    },
     "collection-detail": {
         "breadcrumbHome": "Home",
         "breadcrumbCollections": "Collections",

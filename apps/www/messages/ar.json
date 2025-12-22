@@ -48,6 +48,26 @@
         "mobileMenuLabelSearch": "بحث",
         "mobileMenuFooterCta": "المكنز الجديد: حلول الإضاءة المتميزة"
     },
+    "search": {
+        "button": "بحث",
+        "close": "إغلاق",
+        "placeholder": "ابحث عن المنتجات، الفئات، أو حلول الإضاءة...",
+        "searching": "جاري البحث عن \"{query}\"...",
+        "noResults": "لم يتم العثور على نتائج لـ \"{query}\"",
+        "popularSearches": "عمليات البحث الشائعة",
+        "currency": "جنيه",
+        "brand": {
+            "new": "نيو",
+            "light": "لايت"
+        },
+        "footer": "القاموس الجديد: دليل لحلول الإضاءة السكنية",
+        "suggestions": {
+            "indoor": "الإضاءة الداخلية",
+            "solutions": "حلول الإضاءة",
+            "outdoor": "الإضاءة الخارجية",
+            "smart": "الإضاءة الذكية"
+        }
+    },
     "auth-section": {
         "account": "الحساب",
         "signIn": "تسجيل الدخول",
