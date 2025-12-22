@@ -38,21 +38,33 @@ export function constructMetadata({
         "Lighting", "LED", "Spotlight", "Flood Light", "Spikes", "Bollard", "Poles",
         "إضاءة", "ليد", "كشافات", "أعمدة إنارة", "بولارد"
     ]
+
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://newlight-eg.com"
     const siteName = "New Light Company"
     const ogLocale = locale === "ar" ? "ar_EG" : "en_US"
 
     const resolvedTitle = title || defaultTitles[locale]
     const resolvedDescription = description || defaultDescriptions[locale]
-    const siteUrl = canonicalUrl || `${baseUrl}/${locale}/`
+
+    const fullUrl = canonicalUrl
+        ? `${baseUrl}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`
+        : `${baseUrl}/${locale}/`
 
     const defaultImage = locale === "ar"
         ? `${baseUrl}/brand/ar/logo-white.png`
         : `${baseUrl}/brand/en/logo-white.png`
-
     let resolvedImage: string
     if (image) {
-        resolvedImage = image.startsWith("http") ? image : `${baseUrl}${image}`
+        if (image.startsWith("http")) {
+            resolvedImage = image
+        }
+        else if (image.includes("unsplash") || image.includes("images.")) {
+            resolvedImage = image
+        }
+
+        else {
+            resolvedImage = `${baseUrl}${image.startsWith('/') ? '' : '/'}${image}`
+        }
     } else {
         resolvedImage = defaultImage
     }
@@ -73,7 +85,7 @@ export function constructMetadata({
         openGraph: openGraph ?? {
             type: "website",
             locale: ogLocale,
-            url: siteUrl,
+            url: fullUrl,
             siteName,
             title: resolvedTitle,
             description: resolvedDescription,
@@ -95,7 +107,7 @@ export function constructMetadata({
             title: resolvedTitle,
             description: resolvedDescription,
             images: {
-                url: resolvedImage, 
+                url: resolvedImage,
                 alt: imageAlt,
             },
         },
@@ -115,10 +127,14 @@ export function constructMetadata({
         },
 
         alternates: {
-            canonical: siteUrl,
+            canonical: fullUrl,
             languages: {
-                en: `${baseUrl}/en/`,
-                ar: `${baseUrl}/ar/`,
+                en: canonicalUrl
+                    ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/en')}`
+                    : `${baseUrl}/en/`,
+                ar: canonicalUrl
+                    ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/ar')}`
+                    : `${baseUrl}/ar/`,
             },
         },
     }
