@@ -23,8 +23,8 @@ export function LanguageSelector() {
     const currentLocale = useLocale() as LanguageCode
     const [isPending, startTransition] = useTransition()
     const t = useTranslations('language-selector')
+    const tLogo = useTranslations('nav')
 
-    // إنشاء قائمة اللغات من الترجمة
     const LANGUAGES: Language[] = [
         {
             code: "en",
@@ -96,8 +96,12 @@ export function LanguageSelector() {
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
                         <div className="flex items-baseline gap-1">
-                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground">new</h1>
-                            <p className="text-2xl font-light tracking-widest uppercase text-foreground">light</p>
+                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground transition-all duration-300 group-hover:tracking-tight">
+                                {tLogo('logoNew')}
+                            </h1>
+                            <p className="text-2xl font-light tracking-widest uppercase text-foreground/90 transition-all duration-300 group-hover:tracking-wider">
+                                {tLogo('logoLight')}
+                            </p>
                         </div>
                         <SheetClose asChild>
                             <button className="rounded-lg p-2 transition-all duration-200 hover:bg-secondary">

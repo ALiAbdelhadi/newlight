@@ -50,23 +50,28 @@ export default function ProductVariantsSelector({
     }
 
     const formatVariantLabel = (variant: ProductVariant): string => {
-        const isArabic = locale.startsWith("ar")
-
         if (!variant.variantValue) {
             return variant.name
         }
 
-        const value = variant.variantValue.toUpperCase()
+        const value = variant.variantValue.toLowerCase()
 
         if (variant.variantType === "wattage") {
-            return value
+            return variant.variantValue.toUpperCase()
         } else if (variant.variantType === "length") {
-            return value
+            return variant.variantValue.toUpperCase()
         } else if (variant.variantType === "voltage") {
+            return variant.variantValue.toUpperCase()
+        } else if (variant.variantType === "height") {
+            return value.replace('cm', ' Cm')
+        } else if (variant.variantType === "dimensions") {
             return value
+                .replace(/\*/g, ' × ')
+                .replace(/-cm/g, ' Cm')
+                .replace(/cm/g, ' Cm')
         }
 
-        return value
+        return variant.variantValue.toUpperCase()
     }
 
     const getVariantTypeLabel = (variantType: string | null): string => {
@@ -77,6 +82,8 @@ export default function ProductVariantsSelector({
             wattage: { en: "Power", ar: "القوة" },
             length: { en: "Length", ar: "الطول" },
             voltage: { en: "Voltage", ar: "الفولت" },
+            height: { en: "Height", ar: "الارتفاع" },
+            dimensions: { en: "Dimensions", ar: "الأبعاد" },
         }
 
         return labels[variantType]?.[isArabic ? "ar" : "en"] || variantType
@@ -98,7 +105,6 @@ export default function ProductVariantsSelector({
                     const isSelected = selectedVariant === variant.productId
                     const isOutOfStock = variant.inventory <= 0
                     const label = formatVariantLabel(variant)
-
                     return (
                         <Button
                             key={variant.id}

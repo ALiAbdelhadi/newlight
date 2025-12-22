@@ -1632,51 +1632,107 @@
     "outdoor": {
       "bollard": [
         {
-          "nl-bollard-1": {
-            "productId": "nl-bollard-1",
-            "productName": "nl-bollard-1",
+          "nl-b-frame-60cm": {
+            "productId": "nl-b-frame-60cm",
+            "productName": "nl-b-frame-60cm",
             "productImages": [
-              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
-              "/products/outdoor/bollard/nl-bollard-1/nl-bollard (2).webp"
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (1).png",
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (2).png",
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (3).webp"
             ],
             "subCategory": "bollard",
-            "price": 729,
+            "price": 1500,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-bollard-2": {
-            "productId": "nl-bollard-2",
-            "productName": "nl-bollard-2",
+          "nl-b-frame-90cm": {
+            "productId": "nl-b-frame-90cm",
+            "productName": "nl-b-frame-90cm",
             "productImages": [
-              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (1).webp",
-              "/products/outdoor/bollard/nl-bollard-2/nl-bollard (2).webp"
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (1).png",
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (2).png",
+              "/products/outdoor/bollard/nl-b-frame/nl-b-frame (3).webp"
             ],
             "subCategory": "bollard",
-            "price": 729,
+            "price": 1850,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-bollard-3": {
-            "productId": "nl-bollard-3",
-            "productName": "nl-bollard-3",
+          "nl-b-stria-60cm": {
+            "productId": "nl-b-stria-60cm",
+            "productName": "nl-b-stria-60cm",
             "productImages": [
-              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (1).webp",
-              "/products/outdoor/bollard/nl-bollard-3/nl-bollard (2).webp"
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (1).png",
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (2).png",
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (3).webp"
             ],
             "subCategory": "bollard",
-            "price": 729,
+            "price": 1500,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-bollard-4": {
-            "productId": "nl-bollard-4",
-            "productName": "nl-bollard-4",
+          "nl-b-stria-90cm": {
+            "productId": "nl-b-stria-90cm",
+            "productName": "nl-b-stria-90cm",
             "productImages": [
-              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (1).webp",
-              "/products/outdoor/bollard/nl-bollard-4/nl-bollard (2).webp"
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (1).png",
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (2).png",
+              "/products/outdoor/bollard/nl-b-stria/nl-b-stria (3).webp"
             ],
             "subCategory": "bollard",
-            "price": 729,
+            "price": 1850,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-b-loop-60cm": {
+            "productId": "nl-b-loop-60cm",
+            "productName": "nl-b-loop-60cm",
+            "productImages": [
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (1).png",
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (2).png",
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (3).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 1500,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-b-loop-90cm": {
+            "productId": "nl-b-loop-90cm",
+            "productName": "nl-b-loop-90cm",
+            "productImages": [
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (1).png",
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (2).png",
+              "/products/outdoor/bollard/nl-b-loop/nl-b-loop (3).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 1850,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-b-beam-60cm": {
+            "productId": "nl-b-beam-60cm",
+            "productName": "nl-b-beam-60cm",
+            "productImages": [
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (2).png",
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (3).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 1500,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-b-beam-90cm": {
+            "productId": "nl-b-beam-90cm",
+            "productName": "nl-b-beam-90cm",
+            "productImages": [
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (2).png",
+              "/products/outdoor/bollard/nl-b-beam/nl-b-beam (3).webp"
+            ],
+            "subCategory": "bollard",
+            "price": 1850,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -1684,31 +1740,31 @@
       ],
       "drive-over": [
         {
-          "nl-drive-over-1": {
-            "productId": "nl-drive-over-1",
-            "productName": "nl-drive-over-1",
+          "nl-d-o-1-6w": {
+            "productId": "nl-d-o-1-6w",
+            "productName": "nl-d-o-1-6w",
             "productImages": [
-              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (1).webp",
-              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (2).webp",
-              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (3).webp",
-              "/products/outdoor/drive-over/nl-drive-over-1/nl-drive-over (4).webp"
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (1).png",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (2).webp",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (3).webp",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (4).webp"
             ],
             "subCategory": "drive-over",
-            "price": 729,
+            "price": 370,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-drive-over-2": {
-            "productId": "nl-drive-over-2",
-            "productName": "nl-drive-over-2",
+          "nl-d-o-1-8w": {
+            "productId": "nl-d-o-1-8w",
+            "productName": "nl-d-o-1-8w",
             "productImages": [
-              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (1).webp",
-              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (2).webp",
-              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (3).webp",
-              "/products/outdoor/drive-over/nl-drive-over-2/nl-drive-over (4).webp"
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (1).png",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (2).webp",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (3).webp",
+              "/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (4).webp"
             ],
             "subCategory": "drive-over",
-            "price": 729,
+            "price": 440,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -1813,40 +1869,51 @@
             "inventory": 10
           },
           "nl-spike-2-5w": {
-            "productId": "nl-spike-2-5w",
+            "productId": "nl-spike-2",
             "productName": "nl-spike-2-5w",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-2/nl-drive-over-2-5w (2).webp"
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (1).png",
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (2).webp"
             ],
             "subCategory": "spikes",
-            "price": 729,
+            "price": 390,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-spike-3-5w": {
-            "productId": "nl-spike-3-5w",
-            "productName": "nl-spike-3-5w",
+          "nl-spike-2-8w": {
+            "productId": "nl-spike-2-8w",
+            "productName": "nl-spike-2-8w",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (1).png",
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (2).webp"
             ],
             "subCategory": "spikes",
-            "price": 729,
+            "price": 430,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-spike-5-5w": {
-            "productId": "nl-spike-5-5w",
-            "productName": "nl-spike-5-5w",
+          "nl-spike-2-12w": {
+            "productId": "nl-spike-2-12w",
+            "productName": "nl-spike-2-12w",
             "productImages": [
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (1).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (2).webp",
-              "/products/outdoor/spikes/nl-spike-3/nl-drive-over-3-5w (3).webp"
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (1).png",
+              "/products/outdoor/spikes/nl-spike-2/nl-spike-2 (2).webp"
             ],
             "subCategory": "spikes",
-            "price": 729,
+            "price": 680,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-spike-3-12w": {
+            "productId": "nl-spike-3-12w",
+            "productName": "nl-spike-3-12w",
+            "productImages": [
+              "/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (1).png",
+              "/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (2).webp",
+              "/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (2).webp"
+            ],
+            "subCategory": "spikes",
+            "price": 680,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -1854,7 +1921,7 @@
       ],
       "stairs-light": [
         {
-          "nl-stairs-light-1": {
+          "nl-s-l-1": {
             "productId": "nl-stairs-light-1",
             "productName": "nl-stairs-light-1",
             "productImages": [
@@ -1863,40 +1930,86 @@
               "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (3).webp"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 480,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-stairs-light-2": {
-            "productId": "nl-stairs-light-2",
-            "productName": "nl-stairs-light-2",
+          "nl-s-l-2-5*5-cm": {
+            "productId": "nl-s-l-2-5*5-cm",
+            "productName": "nl-s-l-2-5×5-cm",
             "productImages": [
               "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
               "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
               "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 210,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-stairs-light-3": {
-            "productId": "nl-stairs-light-3",
-            "productName": "nl-stairs-light-3",
+          "nl-s-l-2-5*7-cm": {
+            "productId": "nl-s-l-2-5*7-cm",
+            "productName": "nl-s-l-2-5×7-cm",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 240,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-s-l-2-5*10-cm": {
+            "productId": "nl-s-l-2-5*10-cm",
+            "productName": "nl-s-l-2-5×10-cm",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 270,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-s-l-2-7*7-cm": {
+            "productId": "nl-s-l-2-7*7-cm",
+            "productName": "nl-s-l-2-7×7-cm",
+            "productImages": [
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
+              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+            ],
+            "subCategory": "stairs-light",
+            "price": 459,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-s-l-3": {
+            "productId": "nl-s-l-3",
+            "productName": "nl-s-l-3",
             "productImages": [
               "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (1).webp",
               "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (2).webp",
               "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (3).webp"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 240,
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-stairs-light-4": {
-            "productId": "nl-stairs-light-4",
-            "productName": "nl-stairs-light-4",
+          "nl-s-l-4": {
+            "productId": "nl-s-l-4",
+            "productName": "nl-s-l-4",
             "productImages": [
               "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-black-5w.png",
               "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-gray-5w.png"
@@ -1906,9 +2019,9 @@
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-stairs-light-5": {
-            "productId": "nl-stairs-light-5",
-            "productName": "nl-stairs-light-5",
+          "nl-s-l-5": {
+            "productId": "nl-s-l-5",
+            "productName": "nl-s-l-5",
             "productImages": [
               "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-black-7w.png",
               "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-gray-7w.png"
@@ -1918,9 +2031,9 @@
             "categoryType": "outdoor",
             "inventory": 10
           },
-          "nl-stairs-light-6": {
-            "productId": "nl-stairs-light-6",
-            "productName": "nl-stairs-light-6",
+          "nl-s-l-6": {
+            "productId": "nl-s-l-6",
+            "productName": "nl-s-l-6",
             "productImages": [
               "/products/outdoor/stairs-light/nl-stairs-light-6-gray-5w.png"
             ],
@@ -2004,7 +2117,7 @@
               "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1 (1).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 480,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2017,7 +2130,7 @@
               "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (3).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 450,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2029,7 +2142,7 @@
               "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (2).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 579,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2043,7 +2156,7 @@
               "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 300,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2057,7 +2170,7 @@
               "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 589,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2071,7 +2184,7 @@
               "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).webp"
             ],
             "subCategory": "wall-light",
-            "price": 729,
+            "price": 459,
             "categoryType": "outdoor",
             "inventory": 10
           }

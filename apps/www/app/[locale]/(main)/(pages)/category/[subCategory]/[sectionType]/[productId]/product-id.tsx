@@ -3,6 +3,7 @@
 import { addToCart } from "@/actions/cart"
 import ProductColorTempButtons from "@/components/color-temp-buttons"
 import { Container } from "@/components/container"
+import ProductVariantsSelector from "@/components/product-variants-selector"
 import ProductSurfaceColorButtons from "@/components/surface-color-button"
 import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
@@ -16,7 +17,6 @@ import { useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
 gsap.registerPlugin(ScrollTrigger)
-
 interface ProductIdPageProps {
     product: Product
 }
@@ -24,6 +24,7 @@ interface ProductIdPageProps {
 export default function ProductIdPage({ product }: ProductIdPageProps) {
     const t = useTranslations("product-page")
     const locale = useLocale()
+
     const [selectedImageIndex, setSelectedImageIndex] = useState(0)
     const [selectedColorTemp, setSelectedColorTemp] = useState<string>(product.colorTemperatures[0] || "")
     const [surfaceColor, setSurfaceColor] = useState<string>(product.availableColors[0] || "")
@@ -106,7 +107,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return () => ctx.revert()
     }, [])
 
-    // دالة لترجمة الألوان - تحول BLACK إلى "أسود" أو "Black"
     const formatAvailableColor = (color: string, isArabic: boolean): string => {
         const map: Record<string, string> = {
             BLACK: isArabic ? "أسود" : "Black",
@@ -118,14 +118,11 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         return map[color] || color.replace(/_/g, " ")
     }
 
-    // Function to convert snake_case or camelCase to readable format
     const formatLabel = (label: string, isArabic: boolean): string => {
-        // If Arabic, return as is
         if (isArabic) {
             return label
         }
 
-        // Special handling for IP-related labels
         const lowerLabel = label.toLowerCase()
         if (lowerLabel === "ip" || lowerLabel === "ip_rating" || lowerLabel === "iprating") {
             return "IP"
@@ -134,17 +131,15 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             return "Max IP"
         }
 
-        // For English, convert to readable format
         return label
-            .replace(/_/g, " ") // Replace underscores with spaces
-            .replace(/([A-Z])/g, " $1") // Add space before capital letters
+            .replace(/_/g, " ")
+            .replace(/([A-Z])/g, " $1")
             .split(" ")
             .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
             .join(" ")
             .trim()
     }
 
-    // Preferred order for specifications display
     const preferredOrder = [
         "input",
         "المدخل",
@@ -221,27 +216,22 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         const isArabic = locale.startsWith("ar")
         const joiner = isArabic ? " ، " : ", "
 
-        // Handle arrays differently based on label
         if (Array.isArray(value)) {
             const normalizedLabel = label.toLowerCase()
 
-            // Check if it's color-related (surface_color, available_colors, etc.)
             if (
                 ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة", "color"].some((l) =>
                     normalizedLabel.includes(l.toLowerCase()),
                 )
             ) {
-                // ترجمة الألوان
                 return value.map(color => formatAvailableColor(color, isArabic)).join(joiner)
             }
 
-            // For other arrays (like color temperatures in array format), add K
             return value.map((v) => `${formatNumber(v)}K`).join(joiner)
         }
 
         const normalizedLabel = label.toLowerCase()
 
-        // Check if it's a surface color or available colors field - translate the color
         if (
             ["surface_color", "لون السطح", "available_colors", "الالوان المتوفرة"].some((l) =>
                 normalizedLabel.includes(l.toLowerCase()),
@@ -286,7 +276,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
 
     const isArabic = locale.startsWith("ar")
 
-    // Create a map to track which specs have been added to avoid duplicates
     const addedSpecs = new Map<string, boolean>()
 
     const specEntries = Object.entries(product.specifications || {})
@@ -294,8 +283,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             if (value === null || value === undefined || value === "") return null
 
             const normalizedLabel = label.toLowerCase().replace(/[_\s]/g, "")
-
-            // Skip if this is a color_temperature field and we already have color temperatures
             if (
                 (normalizedLabel.includes("colortemperature") || normalizedLabel.includes("colourtemperature")) &&
                 product.colorTemperatures.length > 0
@@ -311,7 +298,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         })
         .filter(Boolean) as Array<{ originalLabel: string; label: string; value: string | number }>
 
-    // Only add color temperatures if they exist and haven't been added yet
     if (product.colorTemperatures.length > 0) {
         const colorTempLabel = isArabic ? "درجة حرارة اللون" : "Color Temperature"
         specEntries.push({
@@ -365,7 +351,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             <section ref={heroRef} className="pb-20 lg:pb-28">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
-                        <div className="space-y-4 col-span-2">
+                        <div className="space-y-4 md:col-span-2 col-span-3">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
@@ -395,7 +381,9 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImageIndex(index)}
-                                            className={`relative aspect-square bg-muted rounded-sm overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index ? "border-accent" : "border-transparent hover:border-border"
+                                            className={`relative aspect-square bg-muted rounded-sm overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
+                                                ? "border-accent"
+                                                : "border-transparent hover:border-border"
                                                 }`}
                                         >
                                             <Image
@@ -411,7 +399,9 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                         </div>
                         <div className="space-y-8 lg:pt-4 col-span-3">
                             <div className="space-y-4">
-                                <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">{subCategoryName}</p>
+                                <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">
+                                    {subCategoryName}
+                                </p>
                                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground leading-[1.1]">
                                     {productName}
                                 </h1>
@@ -430,6 +420,14 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     {product.price.toLocaleString()}
                                 </span>
                             </div>
+                            {product.variants && product.variants.length > 1 && (
+                                <ProductVariantsSelector
+                                    currentProductId={product.productId}
+                                    variants={product.variants}
+                                    categorySlug={product.subCategory.category.slug}
+                                    subCategorySlug={product.subCategory.slug}
+                                />
+                            )}
                             {product.colorTemperatures.length > 0 && (
                                 <ProductColorTempButtons
                                     productId={product.productId}
@@ -446,7 +444,6 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     onSurfaceColorChange={setSurfaceColor}
                                 />
                             )}
-
                             <div className="space-y-6 pt-4">
                                 <div className="flex items-center gap-6">
                                     <div className="flex items-center gap-3">
@@ -475,9 +472,10 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                             </Button>
                                         </div>
                                     </div>
-                                    {isOutOfStock && <span className="text-sm text-destructive font-light">{t("outOfStock")}</span>}
+                                    {isOutOfStock && (
+                                        <span className="text-sm text-destructive font-light">{t("outOfStock")}</span>
+                                    )}
                                 </div>
-
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <Button
                                         onClick={handleAddToCart}

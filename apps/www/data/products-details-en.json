@@ -2901,10 +2901,10 @@
                             ]
                         }
                     },
-                    "nl-spike-3-5w": {
+                    "nl-spike-2-8w": {
                         "specificationsTable": {
                             "voltage": "AC 85-265V",
-                            "maximum_wattage": 5,
+                            "maximum_wattage": 8,
                             "brand_of_led": "Bridge lux",
                             "luminous_flux": "-",
                             "main_material": "Die-cast Aluminum with Corrosion-resistant",
@@ -2924,10 +2924,33 @@
                             ]
                         }
                     },
-                    "nl-spike-5-5w": {
+                    "nl-spike-2-12w": {
                         "specificationsTable": {
                             "voltage": "AC 85-265V",
-                            "maximum_wattage": 5,
+                            "maximum_wattage": 12,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "Die-cast Aluminum with Corrosion-resistant",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "-",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-spike-3-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 85-265V",
+                            "maximum_wattage": 12,
                             "brand_of_led": "Bridge lux",
                             "luminous_flux": "-",
                             "main_material": "Die-cast Aluminum with Corrosion-resistant",
@@ -3055,7 +3078,7 @@
             ],
             "bollard": [
                 {
-                    "nl-bollard-1": {
+                    "nl-b-frame-60cm": {
                         "specificationsTable": {
                             "voltage": "AC 110–240V, 50/60Hz",
                             "maximum_wattage": 15,
@@ -3064,7 +3087,7 @@
                             "main_material": "-",
                             "cri": ">80",
                             "beam_angle": 120,
-                            "product_dimensions": "60 – 90 cm",
+                            "product_dimensions": "60 cm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -3079,7 +3102,7 @@
                             ]
                         }
                     },
-                    "nl-bollard-2": {
+                    "nl-b-frame-90cm": {
                         "specificationsTable": {
                             "voltage": "AC 110–240V, 50/60Hz",
                             "maximum_wattage": 15,
@@ -3088,7 +3111,7 @@
                             "main_material": "-",
                             "cri": ">80",
                             "beam_angle": 120,
-                            "product_dimensions": "60 – 90 cm",
+                            "product_dimensions": "90 cm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -3103,7 +3126,7 @@
                             ]
                         }
                     },
-                    "nl-bollard-3": {
+                    "nl-b-stria-60cm": {
                         "specificationsTable": {
                             "voltage": "AC 110–240V, 50/60Hz",
                             "maximum_wattage": 15,
@@ -3112,7 +3135,7 @@
                             "main_material": "-",
                             "cri": ">80",
                             "beam_angle": 120,
-                            "product_dimensions": "60 – 90 cm",
+                            "product_dimensions": "60 cm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -3127,7 +3150,7 @@
                             ]
                         }
                     },
-                    "nl-bollard-4": {
+                    "nl-b-stria-90cm": {
                         "specificationsTable": {
                             "voltage": "AC 110–240V, 50/60Hz",
                             "maximum_wattage": 15,
@@ -3136,7 +3159,103 @@
                             "main_material": "-",
                             "cri": ">80",
                             "beam_angle": 120,
-                            "product_dimensions": "60 – 90 cm",
+                            "product_dimensions": "90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-b-loop-60cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-b-loop-90cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "90 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-b-beam-60cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "60 cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000,
+                                4000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-b-beam-90cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 110–240V, 50/60Hz",
+                            "maximum_wattage": 15,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": "-",
+                            "cri": ">80",
+                            "beam_angle": 120,
+                            "product_dimensions": "90 cm",
                             "hole_size": "-",
                             "power_factor": ">0.5",
                             "color_Temperature": [
@@ -3155,7 +3274,7 @@
             ],
             "stairs-light": [
                 {
-                    "nl-stairs-light-1": {
+                    "nl-s-l-1": {
                         "specificationsTable": {
                             "voltage": "AC 220–240V",
                             "maximum_wattage": 7,
@@ -3180,7 +3299,107 @@
                             ]
                         }
                     },
-                    "nl-stairs-light-2": {
+                    "nl-s-l-2-5*5-cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "5 × 5 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-s-l-2-5*7-cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "5 × 7 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-s-l-2-5*10-cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "5 × 10 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-s-l-2-7*7-cm": {
+                        "specificationsTable": {
+                            "voltage": "AC 220–240V",
+                            "maximum_wattage": 7,
+                            "brand_of_led": "Bridge lux",
+                            "luminous_flux": "-",
+                            "main_material": " Powder-coated Aluminum",
+                            "cri": ">80",
+                            "beam_angle": 60,
+                            "product_dimensions": "7 × 7 Cm",
+                            "hole_size": "-",
+                            "power_factor": ">0.5",
+                            "color_Temperature": [
+                                3000
+                            ],
+                            "IP": 65,
+                            "maxIP": 68,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white",
+                                "black",
+                                "gray"
+                            ]
+                        }
+                    },
+                    "nl-s-l-3": {
                         "specificationsTable": {
                             "voltage": "AC 220–240V",
                             "maximum_wattage": 7,
@@ -3205,7 +3424,7 @@
                             ]
                         }
                     },
-                    "nl-stairs-light-3": {
+                    "nl-s-l-4": {
                         "specificationsTable": {
                             "voltage": "AC 220–240V",
                             "maximum_wattage": 7,
@@ -3230,32 +3449,7 @@
                             ]
                         }
                     },
-                    "nl-stairs-light-4": {
-                        "specificationsTable": {
-                            "voltage": "AC 220–240V",
-                            "maximum_wattage": 7,
-                            "brand_of_led": "Bridge lux",
-                            "luminous_flux": "-",
-                            "main_material": " Powder-coated Aluminum",
-                            "cri": ">80",
-                            "beam_angle": 60,
-                            "product_dimensions": "-",
-                            "hole_size": "-",
-                            "power_factor": ">0.5",
-                            "color_Temperature": [
-                                3000
-                            ],
-                            "IP": 65,
-                            "maxIP": 68,
-                            "life_time": 50000,
-                            "surface_color": [
-                                "white",
-                                "black",
-                                "gray"
-                            ]
-                        }
-                    },
-                    "nl-stairs-light-5": {
+                    "nl-s-l-5": {
                         "specificationsTable": {
                             "voltage": "AC 220–240V",
                             "maximum_wattage": 7,
@@ -3279,7 +3473,7 @@
                             ]
                         }
                     },
-                    "nl-stairs-light-6": {
+                    "nl-s-l-6": {
                         "specificationsTable": {
                             "voltage": "AC 220–240V",
                             "maximum_wattage": 7,
@@ -3537,7 +3731,7 @@
             ],
             "drive-over": [
                 {
-                    "nl-drive-over-1": {
+                    "nl-d-o-1-6w": {
                         "specificationsTable": {
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 6,
@@ -3560,7 +3754,7 @@
                             ]
                         }
                     },
-                    "nl-drive-over-2": {
+                    "nl-d-o-1-8w": {
                         "specificationsTable": {
                             "voltage": "AC 85-265V",
                             "maximum_wattage": 8,

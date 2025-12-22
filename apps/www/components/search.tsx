@@ -26,6 +26,7 @@ interface Product {
 
 export function SearchSheet() {
     const t = useTranslations('search')
+    const tLogo = useTranslations("nav")
     const [open, setOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
     const [debouncedSearchTerm] = useDebounce(searchQuery, 300)
@@ -100,11 +101,11 @@ export function SearchSheet() {
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
                         <div className="flex items-baseline gap-1">
-                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground">
-                                {t('brand.new')}
+                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground transition-all duration-300 group-hover:tracking-tight">
+                                {tLogo('logoNew')}
                             </h1>
-                            <p className="text-2xl font-light tracking-widest uppercase text-foreground">
-                                {t('brand.light')}
+                            <p className="text-2xl font-light tracking-widest uppercase text-foreground/90 transition-all duration-300 group-hover:tracking-wider">
+                                {tLogo('logoLight')}
                             </p>
                         </div>
                         <SheetClose asChild>

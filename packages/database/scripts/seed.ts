@@ -400,7 +400,27 @@ class VariantDetector {
       };
     }
 
-    // Pattern 4: size with wattage (nl-spike-1-5w)
+    // Pattern 4: height in cm (60cm, 90cm) - for bollards
+    const heightMatch = cleanId.match(/^(.+?)[-_](\d+cm)$/i);
+    if (heightMatch) {
+      return {
+        baseProductId: heightMatch[1],
+        variantType: "height",
+        variantValue: heightMatch[2],
+      };
+    }
+
+    // Pattern 5: dimensions (5*5-cm, 5*7-cm, 5*10-cm, 7*7-cm) - for stairs-light
+    const dimensionsMatch = cleanId.match(/^(.+?)[-_](\d+[*x]\d+[-_]?cm)$/i);
+    if (dimensionsMatch) {
+      return {
+        baseProductId: dimensionsMatch[1],
+        variantType: "dimensions",
+        variantValue: dimensionsMatch[2],
+      };
+    }
+
+    // Pattern 6: size with wattage (nl-spike-1-5w)
     const sizeWithWattageMatch = cleanId.match(/^(.+?)[-_](\d+)[-_](\d+(?:\.\d+)?w)$/i);
     if (sizeWithWattageMatch) {
       return {
@@ -457,7 +477,6 @@ class VariantDetector {
     return aliases[color] || color.toLowerCase();
   }
 }
-
 // ==================== LOGGER ====================
 
 class Logger {
