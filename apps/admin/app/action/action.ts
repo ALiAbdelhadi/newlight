@@ -6,7 +6,7 @@ export const changeOrderStatus = async ({
   id,
   newStatus,
 }: {
-  id: number;
+  id: string;
   newStatus: OrderStatus;
 }) => {
   await prisma.order.update({

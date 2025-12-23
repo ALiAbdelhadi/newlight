@@ -13,7 +13,6 @@ import { formatDate, formatPrice } from "@/lib/price"
 import { cn, getStatusBadgeClassName, LABEL_MAP } from "@/lib/utils"
 import { OrderStatus } from "@repo/database"
 import {
-    Filter,
     MoreHorizontal,
     Package,
     ShoppingCart,
@@ -21,9 +20,7 @@ import {
 } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
-import { useEffect, useMemo, useState } from "react"
-import { useRouter } from "next/navigation"
-import { toast } from "sonner" // أو استخدم toast library الذي تستخدمه
+import { useMemo, useState } from "react"
 
 interface FlattenedOrder {
     id: string
@@ -127,23 +124,19 @@ function DashboardSummary({ orders }: { orders: FlattenedOrder[] }) {
     )
 }
 
-export default function DashboardClient() {
+interface DashboardClientProps {
+    initialOrders: FlattenedOrder[]
+}
+
+export default function DashboardClient({ initialOrders }: DashboardClientProps) {
     const [filter, setFilter] = useState<string>("all")
-    const [orders, setOrders] = useState<FlattenedOrder[]>([])
-    const [isLoading, setIsLoading] = useState(true)
-    const [error, setError] = useState<string | null>(null)
+    const [orders, setOrders] = useState<FlattenedOrder[]>(initialOrders)
     const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null)
     const orientation = useResponsiveOrientation()
-    const router = useRouter()
 
-    useEffect(() => {
-        fetchOrders()
-    }, [])
-
-    async function fetchOrders() {
+    // Refresh orders after cancelling
+    async function refreshOrders() {
         try {
-            setIsLoading(true)
-            setError(null)
             const response = await fetch("/api/orders")
             if (!response.ok) {
                 throw new Error("Failed to fetch orders")
@@ -151,10 +144,7 @@ export default function DashboardClient() {
             const data = await response.json()
             setOrders(data)
         } catch (err) {
-            setError(err instanceof Error ? err.message : "An error occurred")
             console.error("Error fetching orders:", err)
-        } finally {
-            setIsLoading(false)
         }
     }
 
@@ -175,16 +165,11 @@ export default function DashboardClient() {
                 throw new Error(data.error || "Failed to cancel order")
             }
 
-            // إعادة تحميل الطلبات
-            await fetchOrders()
-
-            // إظهار رسالة نجاح (استخدم toast library المناسب)
-            // toast.success("Order cancelled successfully")
+            await refreshOrders()
             alert("Order cancelled successfully")
         } catch (err) {
             console.error("Error cancelling order:", err)
             const errorMessage = err instanceof Error ? err.message : "Failed to cancel order"
-            // toast.error(errorMessage)
             alert(errorMessage)
         } finally {
             setCancellingOrderId(null)
@@ -216,21 +201,7 @@ export default function DashboardClient() {
                 <div className="space-y-4">
                     <div className="flex items-center justify-between">
                         <h3 className="text-lg font-medium">Recent Orders</h3>
-                        <Button variant="outline" size="sm">
-                            <Filter className="mr-2 h-4 w-4" />
-                            Export
-                        </Button>
                     </div>
-                    {error && (
-                        <div className="rounded-lg bg-red-50 p-4 text-red-800 dark:bg-red-900/20 dark:text-red-200">
-                            Error loading orders: {error}
-                        </div>
-                    )}
-                    {isLoading && (
-                        <div className="rounded-lg bg-gray-50 p-4 text-center text-gray-600 dark:bg-gray-900 dark:text-gray-400">
-                            Loading orders...
-                        </div>
-                    )}
                     <Tabs orientation={orientation} value={filter} onValueChange={setFilter} className="w-full">
                         <TabsList
                             className={cn(
@@ -285,7 +256,7 @@ export default function DashboardClient() {
                                         </TableRow>
                                     </TableHeader>
                                     <TableBody>
-                                        {filteredOrders.length === 0 && !isLoading ? (
+                                        {filteredOrders.length === 0 ? (
                                             <TableRow>
                                                 <TableCell colSpan={11} className="text-center text-muted-foreground py-8">
                                                     No orders found

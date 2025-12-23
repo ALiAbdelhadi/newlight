@@ -1,4 +1,5 @@
 "use server";
+
 import { auth, currentUser } from "@clerk/nextjs/server";
 import { prisma } from "@repo/database";
 import { redirect } from "next/navigation";
@@ -12,74 +13,65 @@ export const DashboardServer = async () => {
   }
 
   const orders = await prisma.order.findMany({
-    where: {
-      isCompleted: true,
-      createdAt: {
-        gte: new Date(new Date().setDate(new Date().getDate() - 1)),
-      },
-    },
     orderBy: {
-      createdAt: "desc",
+      createdAt: "desc", 
     },
     include: {
       user: true,
       shippingAddress: true,
-      product: true,
+      items: {
+        include: {
+          product: true,
+        }
+      },
       configuration: true,
     },
   });
 
   const totalCustomers = await prisma.user.count();
-  const totalOrdersThatOrdered = await prisma.order.count({
-    where: {
-      isCompleted: true,
-    },
-  });
+  
+
+  const totalOrdersThatOrdered = await prisma.order.count();
 
   const TotalSales = await prisma.order.aggregate({
-    where: {
-      isCompleted: true,
-    },
     _sum: {
-      totalPrice: true,
+      total: true
     },
   });
 
   const simplifiedOrders = orders.map((order) => {
-    const discountRate =
-      order.product.discount ?? order.configuration?.discount
-    let totalPrice;
-    if (discountRate > 0) {
-      const discountedPrice = order.configPrice * (1 - discountRate);
-      totalPrice = discountedPrice * order.quantity + order.shippingPrice;
-    } else {
-      totalPrice = order.configPrice * order.quantity + order.shippingPrice;
-    }
+    const discountRate = order.configuration?.discount ?? 0;
+    const subtotal = order.subtotal;
+    const shippingCost = order.shippingCost;
+    const total = order.total;
 
     return {
       id: order.id,
+      orderNumber: order.orderNumber,
       createdAt: order.createdAt.toISOString(),
       status: order.status,
-      productPrice: order.productPrice,
-      shippingPrice: order.shippingPrice,
-      quantity: order.quantity,
-      totalPrice: totalPrice,
-      configPrice: order.configPrice,
+      subtotal: subtotal,
+      shippingCost: shippingCost,
+      total: total,
+      quantity: order.items.reduce((sum, item) => sum + item.quantity, 0),
       discountRate: discountRate,
       user: {
         id: order.user.id,
         email: order.user.email,
         phoneNumber: order.user.phoneNumber,
       },
-      product: {
-        id: order.product.id,
-        productName: order.product.productName,
-      },
+      items: order.items.map(item => ({
+        id: item.id,
+        productName: item.productName,
+        productImage: item.productImage,
+        price: item.price,
+        quantity: item.quantity,
+      })),
       shippingAddress: order.shippingAddress
         ? {
-          id: order.shippingAddress.id,
-          fullName: order.shippingAddress.fullName,
-        }
+            id: order.shippingAddress.id,
+            fullName: order.shippingAddress.fullName,
+          }
         : null,
     };
   });
@@ -90,7 +82,7 @@ export const DashboardServer = async () => {
     totalOrdersThatOrdered,
     TotalSales: {
       _sum: {
-        totalPrice: TotalSales._sum.totalPrice,
+        totalPrice: TotalSales._sum.total ?? 0,
       },
     },
     user: {
@@ -98,6 +90,12 @@ export const DashboardServer = async () => {
     },
   };
 
-  console.log("Dashboard data fetched:", result);
+  console.log("Dashboard data fetched:", {
+    ordersCount: result.orders.length,
+    totalCustomers: result.totalCustomers,
+    totalOrders: result.totalOrdersThatOrdered,
+    totalSales: result.TotalSales._sum.totalPrice,
+  });
+  
   return JSON.parse(JSON.stringify(result));
 };

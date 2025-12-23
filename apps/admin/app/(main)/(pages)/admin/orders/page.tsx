@@ -27,6 +27,8 @@ const OrdersPage = async () => {
           id: true,
           email: true,
           phoneNumber: true,
+          preferredLanguage: true,
+          preferredCurrency: true,
         },
       },
       shippingAddress: true,

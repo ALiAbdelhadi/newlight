@@ -32,13 +32,7 @@ export const getDashboardStats = unstable_cache(
 
                 // Simulated notifications (add your notification model if exists)
                 // For now, using recent orders as "notifications"
-                prisma.order.count({
-                    where: {
-                        createdAt: {
-                            gte: new Date(Date.now() - 24 * 60 * 60 * 1000), // Last 24 hours
-                        },
-                    },
-                }),
+                prisma.order.count(),
 
                 // Products with low inventory (< 10 items) as "reviews needed"
                 // Replace with actual review model when you have one

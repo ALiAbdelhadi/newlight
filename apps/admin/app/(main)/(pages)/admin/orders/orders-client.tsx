@@ -6,6 +6,12 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
   Table,
   TableBody,
   TableCell,
@@ -13,12 +19,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatPrice } from "@/lib/price";
+import { formatPrice, formatDate } from "@/lib/price";
+import { LABEL_MAP } from "@/lib/utils";
 import { Prisma } from "@repo/database";
-import { SearchIcon, X } from "lucide-react";
+import { SearchIcon, X, Download, FileSpreadsheet, FileText } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
+import * as XLSX from "xlsx";
 
 type OrderWithItems = Prisma.OrderGetPayload<{
   include: {
@@ -27,6 +36,8 @@ type OrderWithItems = Prisma.OrderGetPayload<{
         id: true;
         email: true;
         phoneNumber: true;
+        preferredLanguage: true;
+        preferredCurrency: true;
       };
     };
     shippingAddress: true;
@@ -109,10 +120,268 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
     };
   }, [orders.length, filteredOrders.length, searchItem]);
 
+  const exportToCSV = () => {
+    if (orders.length === 0) {
+      toast.error("No orders to export");
+      return;
+    }
+
+    // Flatten orders with items for export
+    interface ExportRow {
+      "Order Number": string;
+      "Order ID": string;
+      "Order Date": string;
+      "Order Updated": string;
+      "Order Status": string;
+      "Shipping Option": string;
+      "Payment Method": string | null;
+      "Payment Status": string | null;
+      "Tracking Number": string | null;
+      "Customer Notes": string | null;
+      "Admin Notes": string | null;
+      "Subtotal": number;
+      "Tax": number | null;
+      "Shipping Cost": number;
+      "Total": number;
+      "Customer Name": string;
+      "Customer Email": string | null;
+      "Customer Phone": string | null;
+      "Customer User ID": string;
+      "Customer Preferred Language": string;
+      "Customer Preferred Currency": string;
+      "Shipping Address Line 1": string | null;
+      "Shipping Address Line 2": string | null;
+      "Shipping City": string | null;
+      "Shipping State": string | null;
+      "Shipping Postal Code": string | null;
+      "Shipping Country": string | null;
+      "Shipping Email": string | null;
+      "Product ID": string;
+      "Product Name": string;
+      "Product Image": string;
+      "Product Price": number;
+      "Product Quantity": number;
+      "Product Color Temp": string | null;
+      "Product Color": string | null;
+      "Configuration IP Rating": string | null;
+      "Configuration Price": number | null;
+      "Configuration Price Increase": number | null;
+      "Configuration Discount": number | null;
+    }
+
+    const exportData: ExportRow[] = [];
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        exportData.push({
+          "Order Number": order.orderNumber,
+          "Order ID": order.id,
+          "Order Date": formatDate(order.createdAt instanceof Date ? order.createdAt.toISOString() : order.createdAt),
+          "Order Updated": formatDate(order.updatedAt instanceof Date ? order.updatedAt.toISOString() : order.updatedAt),
+          "Order Status": LABEL_MAP[order.status as keyof typeof LABEL_MAP] || order.status,
+          "Shipping Option": order.shippingOption || "N/A",
+          "Payment Method": order.paymentMethod || null,
+          "Payment Status": order.paymentStatus || null,
+          "Tracking Number": order.trackingNumber || null,
+          "Customer Notes": order.customerNotes || null,
+          "Admin Notes": order.adminNotes || null,
+          "Subtotal": order.subtotal,
+          "Tax": order.tax || null,
+          "Shipping Cost": order.shippingCost,
+          "Total": order.total,
+          "Customer Name": order.shippingAddress?.fullName || "N/A",
+          "Customer Email": order.user.email || order.shippingAddress?.email || null,
+          "Customer Phone": order.shippingAddress?.phone || order.user.phoneNumber || "N/A",
+          "Customer User ID": order.user.id,
+          "Customer Preferred Language": order.user.preferredLanguage || "N/A",
+          "Customer Preferred Currency": order.user.preferredCurrency || "N/A",
+          "Shipping Address Line 1": order.shippingAddress?.addressLine1 || null,
+          "Shipping Address Line 2": order.shippingAddress?.addressLine2 || null,
+          "Shipping City": order.shippingAddress?.city || null,
+          "Shipping State": order.shippingAddress?.state || null,
+          "Shipping Postal Code": order.shippingAddress?.postalCode || null,
+          "Shipping Country": order.shippingAddress?.country || null,
+          "Shipping Email": order.shippingAddress?.email || null,
+          "Product ID": item.productId,
+          "Product Name": item.productName,
+          "Product Image": item.productImage || "N/A",
+          "Product Price": item.price,
+          "Product Quantity": item.quantity,
+          "Product Color Temp": item.selectedColorTemp || null,
+          "Product Color": item.selectedColor || null,
+          "Configuration IP Rating": order.configuration?.productIp || item.configuration?.productIp || null,
+          "Configuration Price": order.configuration?.configPrice || item.configuration?.configPrice || null,
+          "Configuration Price Increase": order.configuration?.priceIncrease || item.configuration?.priceIncrease || null,
+          "Configuration Discount": order.configuration?.discount || item.configuration?.discount || null,
+        });
+      });
+    });
+
+    const headers = Object.keys(exportData[0]) as Array<keyof ExportRow>;
+    const csvContent = [
+      headers.join(","),
+      ...exportData.map((row) =>
+        headers.map((header) => `"${String(row[header])}"`).join(",")
+      ),
+    ].join("\n");
+
+    const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `all_orders_${new Date().toISOString().split("T")[0]}.csv`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("All orders exported to CSV successfully");
+  };
+
+  const exportToExcel = () => {
+    if (orders.length === 0) {
+      toast.error("No orders to export");
+      return;
+    }
+
+    // Flatten orders with items for export
+    interface ExportRow {
+      "Order Number": string;
+      "Order ID": string;
+      "Order Date": string;
+      "Order Updated": string;
+      "Order Status": string;
+      "Shipping Option": string;
+      "Payment Method": string | null;
+      "Payment Status": string | null;
+      "Tracking Number": string | null;
+      "Customer Notes": string | null;
+      "Admin Notes": string | null;
+      "Subtotal": number;
+      "Tax": number | null;
+      "Shipping Cost": number;
+      "Total": number;
+      "Customer Name": string;
+      "Customer Email": string | null;
+      "Customer Phone": string | null;
+      "Customer User ID": string;
+      "Customer Preferred Language": string;
+      "Customer Preferred Currency": string;
+      "Shipping Address Line 1": string | null;
+      "Shipping Address Line 2": string | null;
+      "Shipping City": string | null;
+      "Shipping State": string | null;
+      "Shipping Postal Code": string | null;
+      "Shipping Country": string | null;
+      "Shipping Email": string | null;
+      "Product ID": string;
+      "Product Name": string;
+      "Product Image": string;
+      "Product Price": number;
+      "Product Quantity": number;
+      "Product Color Temp": string | null;
+      "Product Color": string | null;
+      "Configuration IP Rating": string | null;
+      "Configuration Price": number | null;
+      "Configuration Price Increase": number | null;
+      "Configuration Discount": number | null;
+    }
+
+    const exportData: ExportRow[] = [];
+    orders.forEach((order) => {
+      order.items.forEach((item) => {
+        exportData.push({
+          "Order Number": order.orderNumber,
+          "Order ID": order.id,
+          "Order Date": formatDate(order.createdAt instanceof Date ? order.createdAt.toISOString() : order.createdAt),
+          "Order Updated": formatDate(order.updatedAt instanceof Date ? order.updatedAt.toISOString() : order.updatedAt),
+          "Order Status": LABEL_MAP[order.status as keyof typeof LABEL_MAP] || order.status,
+          "Shipping Option": order.shippingOption || "N/A",
+          "Payment Method": order.paymentMethod || null,
+          "Payment Status": order.paymentStatus || null,
+          "Tracking Number": order.trackingNumber || null,
+          "Customer Notes": order.customerNotes || null,
+          "Admin Notes": order.adminNotes || null,
+          "Subtotal": order.subtotal,
+          "Tax": order.tax || null,
+          "Shipping Cost": order.shippingCost,
+          "Total": order.total,
+          "Customer Name": order.shippingAddress?.fullName || "N/A",
+          "Customer Email": order.user.email || order.shippingAddress?.email || null,
+          "Customer Phone": order.shippingAddress?.phone || order.user.phoneNumber || "N/A",
+          "Customer User ID": order.user.id,
+          "Customer Preferred Language": order.user.preferredLanguage || "N/A",
+          "Customer Preferred Currency": order.user.preferredCurrency || "N/A",
+          "Shipping Address Line 1": order.shippingAddress?.addressLine1 || null,
+          "Shipping Address Line 2": order.shippingAddress?.addressLine2 || null,
+          "Shipping City": order.shippingAddress?.city || null,
+          "Shipping State": order.shippingAddress?.state || null,
+          "Shipping Postal Code": order.shippingAddress?.postalCode || null,
+          "Shipping Country": order.shippingAddress?.country || null,
+          "Shipping Email": order.shippingAddress?.email || null,
+          "Product ID": item.productId,
+          "Product Name": item.productName,
+          "Product Image": item.productImage || "N/A",
+          "Product Price": item.price,
+          "Product Quantity": item.quantity,
+          "Product Color Temp": item.selectedColorTemp || null,
+          "Product Color": item.selectedColor || null,
+          "Configuration IP Rating": order.configuration?.productIp || item.configuration?.productIp || null,
+          "Configuration Price": order.configuration?.configPrice || item.configuration?.configPrice || null,
+          "Configuration Price Increase": order.configuration?.priceIncrease || item.configuration?.priceIncrease || null,
+          "Configuration Discount": order.configuration?.discount || item.configuration?.discount || null,
+        });
+      });
+    });
+
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "All Orders");
+
+    const excelBuffer = XLSX.write(workbook, {
+      bookType: "xlsx",
+      type: "array",
+    });
+    const blob = new Blob([excelBuffer], {
+      type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+    });
+    const link = document.createElement("a");
+    const url = URL.createObjectURL(blob);
+    link.setAttribute("href", url);
+    link.setAttribute(
+      "download",
+      `all_orders_${new Date().toISOString().split("T")[0]}.xlsx`
+    );
+    link.style.visibility = "hidden";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success("All orders exported to Excel successfully");
+  };
+
   return (
     <div className="flex flex-col min-h-screen pb-10">
       <DashboardHeader Route="Orders">
         <div className="flex items-center gap-4 md:ml-auto">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                <Download className="mr-2 h-4 w-4" />
+                Export
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={exportToExcel}>
+                <FileSpreadsheet className="mr-2 h-4 w-4" />
+                Export as Excel
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={exportToCSV}>
+                <FileText className="mr-2 h-4 w-4" />
+                Export as CSV
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <form className="ml-auto flex-1 sm:flex-initial" onSubmit={(e) => e.preventDefault()}>
             <div className="relative">
               <SearchIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />

@@ -30,8 +30,8 @@ export function constructMetadata({
     }
 
     const defaultDescriptions: Record<SupportedLanguage, string> = {
-        en: "New Light Company: Elevate your spaces with exquisite Indoor and outdoor lighting solutions. Explore our curated selection of spotlights, light poles, LED fixtures, and more.",
-        ar: "شركة نيو لايت: ارتقِ بمساحاتك مع حلول الإضاءة الداخلية والخارجية الراقية. استكشف تشكيلتنا المختارة من الكشافات وأعمدة الإنارة.",
+        en: "New Light Company: Elevate your spaces with exquisite Indoor and outdoor lighting solutions.",
+        ar: "شركة نيو لايت: ارتقِ بمساحاتك مع حلول الإضاءة الداخلية والخارجية الراقية.",
     }
 
     const defaultKeywords = [
@@ -50,10 +50,12 @@ export function constructMetadata({
         ? `${baseUrl}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`
         : `${baseUrl}/${locale}/`
 
-    const defaultImage = locale === "ar"
-        ? `${baseUrl}/brand/ar/logo-white.png`
-        : `${baseUrl}/brand/en/logo-white.png`
+    // Image is stored in /brand/{locale}/logo-white.png in public folder
+    // But with next-intl routing, we need to add locale prefix: /{locale}/brand/{locale}/logo-white.png
+    const defaultImagePath = `/brand/${locale}/logo-white.png`
+
     let resolvedImage: string
+
     if (image) {
         if (image.startsWith("http")) {
             resolvedImage = image
@@ -61,12 +63,21 @@ export function constructMetadata({
         else if (image.includes("unsplash") || image.includes("images.")) {
             resolvedImage = image
         }
-
         else {
-            resolvedImage = `${baseUrl}${image.startsWith('/') ? '' : '/'}${image}`
+            const hasLocale = image.startsWith(`/${locale}/`) ||
+                image.startsWith('/ar/') ||
+                image.startsWith('/en/')
+
+            if (hasLocale) {
+                resolvedImage = `${baseUrl}${image}`
+            } else {
+                // Add locale prefix for next-intl routing
+                resolvedImage = `${baseUrl}/${locale}${image.startsWith('/') ? '' : '/'}${image}`
+            }
         }
     } else {
-        resolvedImage = defaultImage
+        // Add locale prefix for next-intl routing: /{locale}/brand/{locale}/logo-white.png
+        resolvedImage = `${baseUrl}/${locale}${defaultImagePath}`
     }
 
     const imageAlt = locale === "ar" ? "شعار شركة نيو لايت" : "New Light Company Logo"
@@ -79,9 +90,7 @@ export function constructMetadata({
         title: resolvedTitle,
         description: resolvedDescription,
         keywords: allKeywords,
-
         metadataBase: new URL(baseUrl),
-
         openGraph: openGraph ?? {
             type: "website",
             locale: ogLocale,
@@ -99,7 +108,6 @@ export function constructMetadata({
                 },
             ],
         },
-
         twitter: twitter ?? {
             card: "summary_large_image",
             site: "@NewlightEG",
@@ -111,9 +119,7 @@ export function constructMetadata({
                 alt: imageAlt,
             },
         },
-
         icons,
-
         robots: {
             index: !noIndex,
             follow: !noIndex,
@@ -125,7 +131,6 @@ export function constructMetadata({
                 "max-snippet": -1,
             },
         },
-
         alternates: {
             canonical: fullUrl,
             languages: {
