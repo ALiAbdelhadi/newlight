@@ -130,51 +130,8 @@ interface DashboardClientProps {
 
 export default function DashboardClient({ initialOrders }: DashboardClientProps) {
     const [filter, setFilter] = useState<string>("all")
-    const [orders, setOrders] = useState<FlattenedOrder[]>(initialOrders)
-    const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null)
+    const [orders] = useState<FlattenedOrder[]>(initialOrders)
     const orientation = useResponsiveOrientation()
-
-    // Refresh orders after cancelling
-    async function refreshOrders() {
-        try {
-            const response = await fetch("/api/orders")
-            if (!response.ok) {
-                throw new Error("Failed to fetch orders")
-            }
-            const data = await response.json()
-            setOrders(data)
-        } catch (err) {
-            console.error("Error fetching orders:", err)
-        }
-    }
-
-    const handleCancelOrder = async (orderId: string) => {
-        if (!confirm("Are you sure you want to cancel this order?")) {
-            return
-        }
-
-        try {
-            setCancellingOrderId(orderId)
-            const response = await fetch(`/api/orders/${orderId}/cancel`, {
-                method: "PATCH",
-            })
-
-            const data = await response.json()
-
-            if (!response.ok) {
-                throw new Error(data.error || "Failed to cancel order")
-            }
-
-            await refreshOrders()
-            alert("Order cancelled successfully")
-        } catch (err) {
-            console.error("Error cancelling order:", err)
-            const errorMessage = err instanceof Error ? err.message : "Failed to cancel order"
-            alert(errorMessage)
-        } finally {
-            setCancellingOrderId(null)
-        }
-    }
 
     const filteredOrders = useMemo(() => {
         if (filter === "all") return orders
@@ -183,10 +140,6 @@ export default function DashboardClient({ initialOrders }: DashboardClientProps)
 
     const calculateDiscountedPrice = (price: number, discount: number) => {
         return price * (1 - discount)
-    }
-
-    const canCancelOrder = (status: OrderStatus) => {
-        return status !== "cancelled" && status !== "shipped" && status !== "delivered" && status !== "fulfilled"
     }
 
     return (
@@ -345,15 +298,6 @@ export default function DashboardClient({ initialOrders }: DashboardClientProps)
                                                                 <DropdownMenuItem asChild>
                                                                     <Link href={`/admin/users/${order.user.id}`}>View Customer</Link>
                                                                 </DropdownMenuItem>
-                                                                {canCancelOrder(order.status) && (
-                                                                    <DropdownMenuItem
-                                                                        className="text-red-600"
-                                                                        disabled={cancellingOrderId === order.id}
-                                                                        onClick={() => handleCancelOrder(order.id)}
-                                                                    >
-                                                                        {cancellingOrderId === order.id ? "Cancelling..." : "Cancel Order"}
-                                                                    </DropdownMenuItem>
-                                                                )}
                                                             </DropdownMenuContent>
                                                         </DropdownMenu>
                                                     </TableCell>

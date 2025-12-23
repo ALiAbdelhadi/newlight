@@ -12,13 +12,27 @@ import {
 } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/price";
 import { OrderStatus, Prisma } from "@repo/database";
 import { format } from "date-fns";
-import { Box, Calendar, MapPin, Truck } from "lucide-react";
+import { Box, Calendar, MapPin, Truck, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 type OrderWithDetails = Prisma.OrderGetPayload<{
   include: {
@@ -53,6 +67,41 @@ interface OrderPageProps {
 
 export default function OrderPage({ order }: OrderPageProps) {
   const orderProgress = getOrderProgress(order.status);
+  const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState(false);
+  const router = useRouter();
+
+  const canCancelOrder = (status: OrderStatus) => {
+    return status !== "cancelled" && 
+           status !== "shipped" && 
+           status !== "delivered" && 
+           status !== "fulfilled";
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    try {
+      setCancellingOrderId(orderId);
+      const response = await fetch(`/api/orders/${orderId}/cancel`, {
+        method: "PATCH",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to cancel order");
+      }
+
+      toast.success("Order cancelled successfully");
+      setCancelDialogOpen(false);
+      router.refresh();
+    } catch (err) {
+      console.error("Error cancelling order:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to cancel order";
+      toast.error(errorMessage);
+    } finally {
+      setCancellingOrderId(null);
+    }
+  };
 
   return (
     <div className="py-8">
@@ -68,7 +117,47 @@ export default function OrderPage({ order }: OrderPageProps) {
                   Placed on {format(order.createdAt, "PPP")}
                 </CardDescription>
               </div>
-              <StatusDropdown id={order.id} orderStatus={order.status} />
+              <div className="flex items-center gap-2">
+                <StatusDropdown id={order.id} orderStatus={order.status} />
+                {canCancelOrder(order.status) && (
+                  <AlertDialog 
+                    open={cancelDialogOpen} 
+                    onOpenChange={setCancelDialogOpen}
+                  >
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="destructive"
+                        size="sm"
+                        disabled={cancellingOrderId === order.id}
+                      >
+                        <XCircle className="mr-2 h-4 w-4" />
+                        {cancellingOrderId === order.id ? "Cancelling..." : "Cancel Order"}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Cancel Order</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to cancel order #{order.orderNumber}? 
+                          This action cannot be undone. The order will be marked as cancelled.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel disabled={cancellingOrderId === order.id}>
+                          No, Keep Order
+                        </AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleCancelOrder(order.id)}
+                          disabled={cancellingOrderId === order.id}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          Yes, Cancel Order
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                )}
+              </div>
             </div>
           </CardHeader>
           <CardContent className="overflow-x-auto custom-scrollbar">

@@ -29,7 +29,7 @@ export function OrderItemsList({ items, isArabic, translations: t }: OrderItemsL
     }
 
     return (
-        <div className="bg-secondary/30 rounded-lg p-6 border border-border">
+        <div className="rounded-lg p-6 border border-border">
             <div className="flex items-center gap-2 mb-6">
                 <Package className="w-5 h-5" />
                 <h2 className="text-2xl font-serif font-light">{t.orderItems}</h2>

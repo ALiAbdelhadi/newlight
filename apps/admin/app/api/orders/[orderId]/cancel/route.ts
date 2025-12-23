@@ -4,10 +4,10 @@ import { NextResponse } from "next/server"
 
 export async function PATCH(
     request: Request,
-    { params }: { params: { orderId: string } }
+    { params }: { params: Promise<{ orderId: string }> }
 ) {
     try {
-        const { orderId } = params
+        const { orderId } = await params
 
 
         const order = await prisma.order.findUnique({

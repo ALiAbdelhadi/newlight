@@ -811,6 +811,28 @@
         "viewOrderDetails": "عرض تفاصيل الطلب",
         "continueShopping": "متابعة التسوق"
     },
+    "orderDetails": {
+        "orderDetails": "تفاصيل الطلب",
+        "orderNumber": "رقم الطلب",
+        "orderDate": "تاريخ الطلب",
+        "orderStatus": "حالة الطلب",
+        "orderItems": "عناصر الطلب",
+        "colorTemp": "درجة حرارة اللون",
+        "color": "اللون",
+        "quantity": "الكمية",
+        "each": "للقطعة",
+        "currency": "ج.م",
+        "shippingAddress": "عنوان الشحن",
+        "shippingMethod": "طريقة الشحن",
+        "paymentSummary": "ملخص الدفع",
+        "subtotal": "المجموع الفرعي",
+        "shipping": "الشحن",
+        "tax": "الضريبة",
+        "total": "الإجمالي",
+        "trackingNumber": "رقم التتبع",
+        "backToOrders": "العودة للرئيسية",
+        "continueShopping": "متابعة التسوق"
+    },
     "offline": {
         "title": "أنت غير متصل بالإنترنت",
         "description": "الرجاء التحقق من اتصالك بالإنترنت"
@@ -861,6 +883,10 @@
         "complete": {
             "title": "تم إكمال الطلب | رقم {orderNumber}",
             "description": "شكرًا لثقتك بنا. تم تنفيذ طلبك رقم {orderNumber} بنجاح وهو الآن قيد المعالجة."
+        },
+        "orderDetails": {
+            "title": "تفاصيل الطلب | #{orderNumber}",
+            "description": "عرض تفاصيل الطلب #{orderNumber}. تتبع حالة طلبك، عرض العناصر، معلومات الشحن، وملخص الدفع."
         },
         "technical-resources": {
             "title": "الموارد التقنية - دراسات التصميم الضوئي | نيو لايت",

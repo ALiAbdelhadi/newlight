@@ -12,6 +12,17 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   Table,
   TableBody,
   TableCell,
@@ -21,12 +32,13 @@ import {
 } from "@/components/ui/table";
 import { formatPrice, formatDate } from "@/lib/price";
 import { LABEL_MAP } from "@/lib/utils";
-import { Prisma } from "@repo/database";
-import { SearchIcon, X, Download, FileSpreadsheet, FileText } from "lucide-react";
+import { OrderStatus, Prisma } from "@repo/database";
+import { SearchIcon, X, Download, FileSpreadsheet, FileText, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 import * as XLSX from "xlsx";
 
 type OrderWithItems = Prisma.OrderGetPayload<{
@@ -63,6 +75,9 @@ interface OrdersClientProps {
 
 const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
   const [searchItem, setSearchItem] = useState<string>("");
+  const [cancellingOrderId, setCancellingOrderId] = useState<string | null>(null);
+  const [cancelDialogOpen, setCancelDialogOpen] = useState<string | null>(null);
+  const router = useRouter();
 
   const filteredOrders = useMemo(() => {
     if (!searchItem.trim()) return orders;
@@ -119,6 +134,38 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       isFiltering: searchItem.trim().length > 0,
     };
   }, [orders.length, filteredOrders.length, searchItem]);
+
+  const canCancelOrder = (status: OrderStatus) => {
+    return status !== "cancelled" && 
+           status !== "shipped" && 
+           status !== "delivered" && 
+           status !== "fulfilled";
+  };
+
+  const handleCancelOrder = async (orderId: string) => {
+    try {
+      setCancellingOrderId(orderId);
+      const response = await fetch(`/api/orders/${orderId}/cancel`, {
+        method: "PATCH",
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to cancel order");
+      }
+
+      toast.success("Order cancelled successfully");
+      setCancelDialogOpen(null);
+      router.refresh();
+    } catch (err) {
+      console.error("Error cancelling order:", err);
+      const errorMessage = err instanceof Error ? err.message : "Failed to cancel order";
+      toast.error(errorMessage);
+    } finally {
+      setCancellingOrderId(null);
+    }
+  };
 
   const exportToCSV = () => {
     if (orders.length === 0) {
@@ -442,12 +489,13 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                 <TableHead className="text-nowrap">Phone</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Status</TableHead>
+                <TableHead className="text-nowrap">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredOrders.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={12} className="text-center py-8">
+                  <TableCell colSpan={13} className="text-center py-8">
                     {searchStats.isFiltering ? (
                       <div className="space-y-2">
                         <p className="text-muted-foreground">
@@ -543,6 +591,46 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                               id={order.id}
                               orderStatus={order.status}
                             />
+                          </TableCell>
+                          <TableCell rowSpan={order.items.length}>
+                            {canCancelOrder(order.status) && (
+                              <AlertDialog 
+                                open={cancelDialogOpen === order.id} 
+                                onOpenChange={(open) => setCancelDialogOpen(open ? order.id : null)}
+                              >
+                                <AlertDialogTrigger asChild>
+                                  <Button
+                                    variant="destructive"
+                                    size="sm"
+                                    disabled={cancellingOrderId === order.id}
+                                  >
+                                    <XCircle className="mr-2 h-4 w-4" />
+                                    {cancellingOrderId === order.id ? "Cancelling..." : "Cancel"}
+                                  </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                  <AlertDialogHeader>
+                                    <AlertDialogTitle>Cancel Order</AlertDialogTitle>
+                                    <AlertDialogDescription>
+                                      Are you sure you want to cancel order #{order.orderNumber}? 
+                                      This action cannot be undone. The order will be marked as cancelled.
+                                    </AlertDialogDescription>
+                                  </AlertDialogHeader>
+                                  <AlertDialogFooter>
+                                    <AlertDialogCancel disabled={cancellingOrderId === order.id}>
+                                      No, Keep Order
+                                    </AlertDialogCancel>
+                                    <AlertDialogAction
+                                      onClick={() => handleCancelOrder(order.id)}
+                                      disabled={cancellingOrderId === order.id}
+                                      className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                                    >
+                                      Yes, Cancel Order
+                                    </AlertDialogAction>
+                                  </AlertDialogFooter>
+                                </AlertDialogContent>
+                              </AlertDialog>
+                            )}
                           </TableCell>
                         </>
                       )}

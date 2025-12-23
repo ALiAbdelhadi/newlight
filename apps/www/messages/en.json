@@ -811,6 +811,28 @@
         "viewOrderDetails": "View Order Details",
         "continueShopping": "Continue Shopping"
     },
+    "orderDetails": {
+        "orderDetails": "Order Details",
+        "orderNumber": "Order Number",
+        "orderDate": "Order Date",
+        "orderStatus": "Order Status",
+        "orderItems": "Order Items",
+        "colorTemp": "Color Temperature",
+        "color": "Color",
+        "quantity": "Quantity",
+        "each": "each",
+        "currency": "EGP",
+        "shippingAddress": "Shipping Address",
+        "shippingMethod": "Shipping Method",
+        "paymentSummary": "Payment Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "tax": "Tax",
+        "total": "Total",
+        "trackingNumber": "Tracking Number",
+        "backToOrders": "Back to Home",
+        "continueShopping": "Continue Shopping"
+    },
     "offline": {
         "title": "You're offline",
         "description": "Please check your internet connection"
@@ -861,6 +883,10 @@
         "complete": {
             "title": "Order Completed | #{orderNumber}",
             "description": "Thank you for your purchase. Your order #{orderNumber} has been successfully placed and is now being processed."
+        },
+        "orderDetails": {
+            "title": "Order Details | #{orderNumber}",
+            "description": "View details for order #{orderNumber}. Track your order status, view items, shipping information, and payment summary."
         },
         "technical-resources": {
             "title": "Technical Resources - Lighting Design Studies | New Light",
