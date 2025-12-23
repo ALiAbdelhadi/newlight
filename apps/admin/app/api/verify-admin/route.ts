@@ -1,20 +1,49 @@
 export async function POST(req: Request) {
-    const { role, password } = await req.json();
+    try {
+        const { role, password } = await req.json();
+        const ADMIN_NAME = process.env.ADMIN_NAME;
+        const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
 
-    const isValidRole = role === process.env.ADMIN_NAME;
-    const isValidPassword = password === process.env.ADMIN_PASSWORD;
+        if (!ADMIN_NAME || !ADMIN_PASSWORD) {
+            console.error("Admin credentials not configured in environment variables");
+            return Response.json(
+                { 
+                    success: false, 
+                    error: "Server configuration error" 
+                },
+                { status: 500 }
+            );
+        }
 
-    console.log("Validation:", { isValidRole, isValidPassword });
+        if (!role || !password) {
+            return Response.json(
+                { 
+                    success: false, 
+                    error: "Role and password are required" 
+                },
+                { status: 400 }
+            );
+        }
 
-    if (isValidRole && isValidPassword) {
-        return Response.json({ success: true });
-    } else {
-        return Response.json({
-            success: false,
-            debug: {
-                roleMatch: isValidRole,
-                passwordMatch: isValidPassword
-            }
-        });
+        const isValidRole = role.trim() === ADMIN_NAME.trim();
+        const isValidPassword = password.trim() === ADMIN_PASSWORD.trim();
+
+        if (isValidRole && isValidPassword) {
+            return Response.json({ success: true });
+        } else {
+            return Response.json({
+                success: false,
+                error: "Invalid credentials"
+            }, { status: 401 });
+        }
+    } catch (error) {
+        console.error("Admin verification error:", error);
+        return Response.json(
+            { 
+                success: false, 
+                error: "Internal server error" 
+            },
+            { status: 500 }
+        );
     }
 }
