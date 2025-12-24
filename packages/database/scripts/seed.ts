@@ -124,7 +124,7 @@ class TranslationRegistry {
     "wall-light": { en: "Wall Lights", ar: "إضاءة جدارية" },
     "high-pay": { en: "High Bay", ar: "إضاءة صناعية" },
     "drive-over": { en: "Drive Over Lights", ar: "إضاءة أرضية" },
-    "track-built-in-driver": { en: "Track Built-in Drivers", ar: "ترانسات تراك" },
+    "track-built-in-driver": { en: "Track Built-in Drivers", ar: "ترانسات مدمجة مع الأعواد" },
   };
 
   static getCategory(key: string, lang: SupportedLanguage): string {

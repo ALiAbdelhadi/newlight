@@ -3,12 +3,13 @@
 import { searchProducts } from "@/actions/search"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
-import { Search, X, Loader2 } from "lucide-react"
+import { Search, X, Loader2, Zap, Droplet } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { Link } from "@/i18n/navigation"
 import Image from "next/image"
 import { useDebounce } from "use-debounce"
-import { useTranslations } from "next-intl"
+import { useTranslations, useLocale } from "next-intl"
+import { Badge } from "@/components/ui/badge"
 
 interface Product {
     id: string
@@ -22,11 +23,16 @@ interface Product {
     categorySlug?: string
     subCategoryName?: string
     subCategorySlug?: string
+    maxWattage?: number | null
+    voltage?: string | null
+    colorTemperatures?: string[]
+    ipRating?: string | null
 }
 
 export function SearchSheet() {
     const t = useTranslations('search')
     const tLogo = useTranslations("nav")
+    const locale = useLocale()
     const [open, setOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
     const [debouncedSearchTerm] = useDebounce(searchQuery, 300)
@@ -51,7 +57,7 @@ export function SearchSheet() {
 
             setIsSearching(true)
             try {
-                const results = await searchProducts(debouncedSearchTerm)
+                const results = await searchProducts(debouncedSearchTerm, locale)
                 setFilteredProducts(results)
             } catch (error) {
                 console.error("Error searching products:", error)
@@ -62,7 +68,7 @@ export function SearchSheet() {
         }
 
         performSearch()
-    }, [debouncedSearchTerm])
+    }, [debouncedSearchTerm, locale])
 
     const handleOpenChange = (isOpen: boolean) => {
         setOpen(isOpen)
@@ -79,11 +85,18 @@ export function SearchSheet() {
         setFilteredProducts([])
     }
 
+    const formatColorTemp = (temp: string) => {
+        const tempMap: Record<string, string> = {
+            WARM_3000K: "3000K",
+            COOL_4000K: "4000K",
+            WHITE_6500K: "6500K",
+        }
+        return tempMap[temp] || temp
+    }
+
     const popularSearches = [
         t('suggestions.indoor'),
-        t('suggestions.solutions'),
         t('suggestions.outdoor'),
-        t('suggestions.smart')
     ]
 
     return (
@@ -115,7 +128,7 @@ export function SearchSheet() {
                             </button>
                         </SheetClose>
                     </div>
-                    <div className="flex-1 overflow-y-auto">
+                    <div className="flex-1 overflow-y-auto hide-scrollbar">
                         <div className="container mx-auto max-w-3xl px-8 py-12">
                             <div className="relative">
                                 <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
@@ -144,63 +157,91 @@ export function SearchSheet() {
                                                 </p>
                                             </div>
                                         ) : filteredProducts.length > 0 ? (
-                                            <div className="space-y-2">
-                                                {filteredProducts.map((product) => (
-                                                    <Link
-                                                        key={product.id}
-                                                        href={`/category/${product.categorySlug}/${product.subCategorySlug}/${product.productId}`}
-                                                        onClick={handleResultClick}
-                                                        className="block group"
-                                                    >
-                                                        <div className="flex items-center gap-4 px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors">
-                                                            {product.images[0] && (
-                                                                <div className="relative w-16 h-16 rounded-md overflow-hidden bg-muted shrink-0">
-                                                                    <Image
-                                                                        src={product.images[0]}
-                                                                        alt={product.name}
-                                                                        fill
-                                                                        className="object-cover"
-                                                                    />
-                                                                </div>
-                                                            )}
-                                                            <div className="flex-1 min-w-0">
-                                                                <p className="font-medium text-foreground group-hover:text-foreground/80 transition-colors truncate">
-                                                                    {product.name}
-                                                                </p>
-                                                                {product.description && (
-                                                                    <p className="text-sm text-muted-foreground line-clamp-1 mt-1">
-                                                                        {product.description}
-                                                                    </p>
+                                            <>
+                                                <div className="text-sm text-muted-foreground mb-4">
+                                                    {filteredProducts.length} {filteredProducts.length === 1 ? 'result' : 'results'} found
+                                                </div>
+                                                <div className="space-y-2">
+                                                    {filteredProducts.map((product) => (
+                                                        <Link
+                                                            key={product.id}
+                                                            href={`/category/${product.categorySlug}/${product.subCategorySlug}/${product.productId}`}
+                                                            onClick={handleResultClick}
+                                                            className="block group"
+                                                        >
+                                                            <div className="flex items-start gap-4 px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors">
+                                                                {product.images[0] && (
+                                                                    <div className="relative w-20 h-20 rounded-md overflow-hidden bg-muted shrink-0">
+                                                                        <Image
+                                                                            src={product.images[0]}
+                                                                            alt={product.name}
+                                                                            fill
+                                                                            className="object-cover"
+                                                                        />
+                                                                    </div>
                                                                 )}
-                                                                <div className="flex items-center gap-2 mt-1">
-                                                                    {product.categoryName && (
-                                                                        <span className="text-xs text-muted-foreground">
-                                                                            {product.categoryName}
-                                                                        </span>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <p className="font-medium text-foreground group-hover:text-foreground/80 transition-colors truncate">
+                                                                        {product.name}
+                                                                    </p>
+                                                                    {product.description && (
+                                                                        <p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+                                                                            {product.description}
+                                                                        </p>
                                                                     )}
-                                                                    {product.subCategoryName && (
-                                                                        <>
-                                                                            <span className="text-xs text-muted-foreground">/</span>
-                                                                            <span className="text-xs text-muted-foreground">
+                                                                    <div className="flex items-center gap-2 mt-2 flex-wrap">
+                                                                        {product.categoryName && (
+                                                                            <Badge variant="secondary" className="text-xs">
+                                                                                {product.categoryName}
+                                                                            </Badge>
+                                                                        )}
+                                                                        {product.subCategoryName && (
+                                                                            <Badge variant="outline" className="text-xs">
                                                                                 {product.subCategoryName}
+                                                                            </Badge>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="flex items-center gap-3 mt-2 text-xs text-muted-foreground">
+                                                                        {product.maxWattage && (
+                                                                            <div className="flex items-center gap-1">
+                                                                                <span>{product.maxWattage}W</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {product.voltage && (
+                                                                            <span>{product.voltage}</span>
+                                                                        )}
+                                                                        {product.ipRating && (
+                                                                            <div className="flex items-center gap-1">
+                                                                                <span>{product.ipRating}</span>
+                                                                            </div>
+                                                                        )}
+                                                                        {product.colorTemperatures && product.colorTemperatures.length > 0 && (
+                                                                            <span>
+                                                                                {product.colorTemperatures.map(formatColorTemp).join(", ")}
                                                                             </span>
-                                                                        </>
-                                                                    )}
+                                                                        )}
+                                                                    </div>
+                                                                </div>
+                                                                <div className="text-right shrink-0">
+                                                                    <p className="font-semibold text-foreground whitespace-nowrap">
+                                                                        {t('currency')} {product.price.toFixed(2)}
+                                                                    </p>
                                                                 </div>
                                                             </div>
-                                                            <div className="text-right shrink-0">
-                                                                <p className="font-semibold text-foreground">
-                                                                    {t('currency')} {product.price.toFixed(2)}
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    </Link>
-                                                ))}
-                                            </div>
+                                                        </Link>
+                                                    ))}
+                                                </div>
+                                            </>
                                         ) : (
                                             <div className="text-center py-12">
-                                                <p className="text-sm text-muted-foreground">
+                                                <div className="mb-4">
+                                                    <Search className="h-12 w-12 text-muted-foreground/50 mx-auto" />
+                                                </div>
+                                                <p className="text-sm text-muted-foreground mb-2">
                                                     {t('noResults', { query: searchQuery })}
+                                                </p>
+                                                <p className="text-xs text-muted-foreground">
+                                                    Try searching by product name, category, wattage, IP rating, or specifications
                                                 </p>
                                             </div>
                                         )}
@@ -210,12 +251,12 @@ export function SearchSheet() {
                                         <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
                                             {t('popularSearches')}
                                         </h3>
-                                        <div className="space-y-2">
+                                        <div className="grid grid-cols-2 gap-2">
                                             {popularSearches.map((item) => (
                                                 <button
                                                     key={item}
                                                     onClick={() => setSearchQuery(item)}
-                                                    className="block w-full text-left px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors text-foreground"
+                                                    className="text-left px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors text-foreground text-sm border border-border/50"
                                                 >
                                                     {item}
                                                 </button>

@@ -1,5 +1,3 @@
-// components/footer.tsx
-
 import { Container } from "@/components/container";
 import { Link } from "@/i18n/navigation";
 import { getFooterSubCategories } from "@/lib/db";
@@ -113,14 +111,14 @@ export async function Footer() {
                                         {t("sections.company.privacy")}
                                     </Link>
                                 </li>
-                                <li>
+                                {/* <li>
                                     <Link
                                         href="/faqs"
                                         className="hover:text-foreground transition-colors"
                                     >
                                         {t("sections.company.faqs")}
                                     </Link>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
                     </div>

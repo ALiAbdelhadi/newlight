@@ -2264,7 +2264,7 @@
                 }
             ],
             "drivers": {
-                "track-built-in": [
+                "track-built-in-driver": [
                     {
                         "nl-dv-102-100w": {
                             "specificationsTable": {
