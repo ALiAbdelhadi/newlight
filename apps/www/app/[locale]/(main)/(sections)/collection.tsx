@@ -110,14 +110,14 @@ export function Collection() {
                         </div>
                     </div>
                 </div>
-                <div className="text-center py-12">
+                {/* <div className="text-center py-12">
                     <Link
                         href="/new-collection"
                         className="inline-block px-8 py-4 bg-primary text-primary-foreground font-light tracking-wider uppercase text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
                         {t('buttonText')}
                     </Link>
-                </div>
+                </div> */}
             </Container>
         </section>
     );
