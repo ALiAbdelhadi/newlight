@@ -411,8 +411,8 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
             </section>
             <section ref={heroRef} className="pb-20 lg:pb-28">
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 lg:gap-20">
-                        <div className="space-y-4 md:col-span-2 col-span-3">
+                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-12 lg:gap-20">
+                        <div className="space-y-4 sm:col-span-2 col-span-3">
                             <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image

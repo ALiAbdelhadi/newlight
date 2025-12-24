@@ -10,7 +10,7 @@
               "/products/indoor/cob/directional-spotlights/nl-r-ds-5w.png"
             ],
             "subCategory": "cob",
-            "price": 729,
+            "price": 150,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -21,7 +21,7 @@
               "/products/indoor/cob/directional-spotlights/nl-r-ds-6.5w.png"
             ],
             "subCategory": "cob",
-            "price": 729,
+            "price": 180,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -32,7 +32,7 @@
               "/products/indoor/cob/nl-recessed/nl-recessed-5w.png"
             ],
             "subCategory": "cob",
-            "price": 729,
+            "price": 150,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -43,7 +43,7 @@
               "/products/indoor/cob/nl-recessed/nl-recessed-20w.png"
             ],
             "subCategory": "cob",
-            "price": 729,
+            "price": 400,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -54,7 +54,7 @@
               "/products/indoor/cob/nl-recessed/nl-recessed-30w.png"
             ],
             "subCategory": "cob",
-            "price": 729,
+            "price": 500,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1135,7 +1135,7 @@
               "/products/indoor/panel/60×60-led/nl-60×60-led-48w.png"
             ],
             "subCategory": "60×60",
-            "price": 729,
+            "price": 700,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1146,7 +1146,7 @@
               "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-20w.png"
             ],
             "subCategory": "led-panel-plastic",
-            "price": 729,
+            "price": 425,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1157,7 +1157,7 @@
               "/products/indoor/panel/nl-led-panel-plastic/nl-led-dl-30w.png"
             ],
             "subCategory": "led-panel-plastic",
-            "price": 729,
+            "price": 580,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1168,7 +1168,7 @@
               "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-18w.png"
             ],
             "subCategory": "pl-round-surface",
-            "price": 729,
+            "price": 350,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1179,7 +1179,7 @@
               "/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-24w.png"
             ],
             "subCategory": "pl-round-surface",
-            "price": 729,
+            "price": 450,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1190,7 +1190,7 @@
               "/products/indoor/panel/nl-pl-r/nl-pl-r-3w.png"
             ],
             "subCategory": "pl-r",
-            "price": 729,
+            "price": 150,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1201,7 +1201,7 @@
               "/products/indoor/panel/nl-pl-r/nl-pl-r-6w.png"
             ],
             "subCategory": "pl-r",
-            "price": 729,
+            "price": 180,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1212,7 +1212,7 @@
               "/products/indoor/panel/nl-pl-r/nl-pl-r-18w.png"
             ],
             "subCategory": "pl-r",
-            "price": 729,
+            "price": 325,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1223,7 +1223,7 @@
               "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
-            "price": 729,
+            "price": 200,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1234,7 +1234,7 @@
               "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
-            "price": 729,
+            "price": 500,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1245,7 +1245,7 @@
               "/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w (1).png"
             ],
             "subCategory": "squared-recessed-plastic",
-            "price": 729,
+            "price": 600,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1256,7 +1256,7 @@
               "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-20w.png"
             ],
             "subCategory": "squared-surface-plastic",
-            "price": 729,
+            "price": 625,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1267,7 +1267,7 @@
               "/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-30w.png"
             ],
             "subCategory": "squared-surface-plastic",
-            "price": 729,
+            "price": 900,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1283,7 +1283,7 @@
               "/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).jpg"
             ],
             "subCategory": "strip",
-            "price": 729,
+            "price": 1500,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1295,7 +1295,7 @@
               "/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).jpg"
             ],
             "subCategory": "strip",
-            "price": 729,
+            "price": 1000,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1411,7 +1411,7 @@
                 "/products/indoor/drivers/track-built-in/nl-dv102-100w.jpg"
               ],
               "subCategory": "track-built-in-driver",
-              "price": 375,
+              "price": 475,
               "categoryType": "indoor",
               "inventory": 10
             },
@@ -1422,7 +1422,7 @@
                 "/products/indoor/drivers/track-built-in/nl-dv102-200w.png"
               ],
               "subCategory": "track-built-in-driver",
-              "price": 600,
+              "price": 700,
               "categoryType": "indoor",
               "inventory": 10
             }
@@ -1438,7 +1438,7 @@
               "/products/indoor/linear/nl-l-1/nl-l-1-40w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 2000,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1449,7 +1449,7 @@
               "/products/indoor/linear/nl-l-1/nl-l-1-60w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 3000,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1460,7 +1460,7 @@
               "/products/indoor/linear/nl-l-1/nl-l-1-80w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 4000,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1471,7 +1471,7 @@
               "/products/indoor/linear/nl-l-2/nl-l-2-20w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 600,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1482,7 +1482,7 @@
               "/products/indoor/linear/nl-l-2/nl-l-2-40w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 1200,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1493,7 +1493,7 @@
               "/products/indoor/linear/nl-l-2/nl-l-2-60w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 1700,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1504,7 +1504,7 @@
               "/products/indoor/linear/nl-l-2/nl-l-2-80w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 12300,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1515,7 +1515,7 @@
               "/products/indoor/linear/nl-l-3/nl-l-3-20w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 600,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1526,7 +1526,7 @@
               "/products/indoor/linear/nl-l-3/nl-l-3-40w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 1200,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1537,7 +1537,7 @@
               "/products/indoor/linear/nl-l-3/nl-l-3-60w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 1700,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1548,7 +1548,7 @@
               "/products/indoor/linear/nl-l-3/nl-l-3-80w.png"
             ],
             "subCategory": "linear",
-            "price": 729,
+            "price": 12300,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1563,7 +1563,7 @@
               "/products/indoor/cylinder/nl-c-1-15w.png"
             ],
             "subCategory": "cylinder",
-            "price": 729,
+            "price": 350,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1574,7 +1574,7 @@
               "/products/indoor/cylinder/nl-c-1-20w.png"
             ],
             "subCategory": "cylinder",
-            "price": 729,
+            "price": 450,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1585,7 +1585,7 @@
               "/products/indoor/cylinder/nl-c-1-30w.png"
             ],
             "subCategory": "cylinder",
-            "price": 729,
+            "price": 550,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1596,7 +1596,7 @@
               "/products/indoor/cylinder/nl-c-1-40w.png"
             ],
             "subCategory": "cylinder",
-            "price": 729,
+            "price": 700,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1611,7 +1611,7 @@
               "/products/indoor/downlight/nl-d-1-20w.png"
             ],
             "subCategory": "downlight",
-            "price": 729,
+            "price": 950,
             "categoryType": "indoor",
             "inventory": 10
           },
@@ -1622,7 +1622,7 @@
               "/products/indoor/downlight/nl-d-1-30w.png"
             ],
             "subCategory": "downlight",
-            "price": 729,
+            "price": 1050,
             "categoryType": "indoor",
             "inventory": 10
           }
@@ -1779,7 +1779,7 @@
               "/products/outdoor/flood-light/nl-floodlight-50w.jpg"
             ],
             "subCategory": "flood-light",
-            "price": 729,
+            "price": 1000,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -1790,7 +1790,7 @@
               "/products/outdoor/flood-light/nl-floodlight-100w.jpg"
             ],
             "subCategory": "flood-light",
-            "price": 729,
+            "price": 2000,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -1801,7 +1801,7 @@
               "/products/outdoor/flood-light/nl-floodlight-150w.jpg"
             ],
             "subCategory": "flood-light",
-            "price": 729,
+            "price": 3000,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -1812,7 +1812,7 @@
               "/products/outdoor/flood-light/nl-floodlight-200w.jpg"
             ],
             "subCategory": "flood-light",
-            "price": 729,
+            "price": 4000,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -1827,7 +1827,7 @@
               "/products/outdoor/high-pay/nl-high-pay-100w.png"
             ],
             "subCategory": "high-pay",
-            "price": 729,
+            "price": 1500,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -1838,7 +1838,7 @@
               "/products/outdoor/high-pay/nl-high-pay-150w.png"
             ],
             "subCategory": "high-pay",
-            "price": 729,
+            "price": 2000,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -1849,7 +1849,7 @@
               "/products/outdoor/high-pay/nl-high-pay-200w.png"
             ],
             "subCategory": "high-pay",
-            "price": 729,
+            "price": 2500,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -1864,7 +1864,7 @@
               "/products/outdoor/spikes/nl-spike-1-5w.png"
             ],
             "subCategory": "spikes",
-            "price": 729,
+            "price": 600,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2015,7 +2015,7 @@
               "/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-gray-5w.png"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 300,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2027,7 +2027,7 @@
               "/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-gray-7w.png"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 650,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2038,7 +2038,7 @@
               "/products/outdoor/stairs-light/nl-stairs-light-6-gray-5w.png"
             ],
             "subCategory": "stairs-light",
-            "price": 729,
+            "price": 350,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -2053,7 +2053,7 @@
               "/products/outdoor/uplight/nl-1001-2w.png"
             ],
             "subCategory": "uplight",
-            "price": 729,
+            "price": 450,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2064,7 +2064,7 @@
               "/products/outdoor/uplight/nl-1046-2w.png"
             ],
             "subCategory": "uplight",
-            "price": 729,
+            "price": 400,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2079,7 +2079,7 @@
               "/products/outdoor/uplight/nl-1050-4/nl-1050 (5).webp"
             ],
             "subCategory": "uplight",
-            "price": 729,
+            "price": 550,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2091,7 +2091,7 @@
               "/products/outdoor/uplight/nl-1051-2/nl-1051 (2).webp"
             ],
             "subCategory": "uplight",
-            "price": 729,
+            "price": 450,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2102,7 +2102,7 @@
               "/products/outdoor/uplight/nl-1100-2w.png"
             ],
             "subCategory": "uplight",
-            "price": 729,
+            "price": 550,
             "categoryType": "outdoor",
             "inventory": 10
           }
@@ -2117,7 +2117,7 @@
               "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1 (1).webp"
             ],
             "subCategory": "wall-light",
-            "price": 480,
+            "price": 950,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2156,7 +2156,7 @@
               "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).webp"
             ],
             "subCategory": "wall-light",
-            "price": 300,
+            "price": 950,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2199,7 +2199,7 @@
               "/products/outdoor/wall-washer/nl-wl-30w.png"
             ],
             "subCategory": "wall-washer",
-            "price": 729,
+            "price": 2000,
             "categoryType": "outdoor",
             "inventory": 10
           },
@@ -2210,7 +2210,7 @@
               "/products/outdoor/wall-washer/nl-wl-60w.png"
             ],
             "subCategory": "wall-washer",
-            "price": 729,
+            "price": 3000,
             "categoryType": "outdoor",
             "inventory": 10
           }

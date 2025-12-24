@@ -20,7 +20,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       dir={isRTL ? "rtl" : "ltr"}
       toastOptions={{
         classNames: {
-          toast: "group toast group-[.toaster]:bg-background/70 backdrop-blur-md group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-md rounded-2xl dark:backdrop-blur-lg group-[.toaster]:border-0 group-[.toaster]:shadow-xl rtl:flex-row-reverse",
+          toast: "group toast group-[.toaster]:bg-background/70 backdrop-blur-md group-[.toaster]:text-foreground group-[.toaster]:border-border group-[.toaster]:shadow-md rounded-2xl dark:backdrop-blur-lg group-[.toaster]:border-0 group-[.toaster]:shadow-xl",
           title: "text-sm font-medium tracking-tight",
           description:
             "group-[.toast]:text-muted-foreground text-xs font-normal leading-5",

@@ -100,7 +100,7 @@ export default function ProductVariantsSelector({
                 </p>
             </div>
 
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-3 transition-all">
                 {variants.map((variant) => {
                     const isSelected = selectedVariant === variant.productId
                     const isOutOfStock = variant.inventory <= 0
@@ -114,7 +114,7 @@ export default function ProductVariantsSelector({
                             className={cn(
                                 "group relative transition-all duration-300 min-w-[80px]",
                                 isSelected
-                                    ? "border-accent bg-accent/10 scale-105 shadow-md"
+                                    ? "border-accent bg-accent/10 scale-105 shadow-md ease-in-out"
                                     : "border-border hover:border-accent/50 hover:bg-accent/5"
                             )}
                         >
@@ -147,8 +147,14 @@ export default function ProductVariantsSelector({
                 })}
             </div>
             {isPending && (
-                <div className="text-sm text-muted-foreground font-light animate-pulse">
-                    {locale.startsWith("ar") ? "جاري التحديث..." : "Updating..."}
+                <div className="flex items-center gap-2 animate-fadeIn">
+                    <div className="relative flex items-center rtl:flex-row-reverse">
+                        <div className="w-4 h-4 border-2 border-accent/20 rounded-full"></div>
+                        <div className="absolute top-0 left-0 w-4 h-4 border-2 border-t-accent border-r-transparent border-b-transparent border-l-transparent rounded-full animate-spin" />
+                    </div>
+                    <span className="text-sm text-muted-foreground font-light">
+                        {locale.startsWith("ar") ? "جاري التحديث..." : "Updating..."}
+                    </span>
                 </div>
             )}
         </div>

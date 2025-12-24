@@ -84,7 +84,7 @@ export default function ProductColorTempButtons({
                                 >
                                     {isSelected && (
                                         <div className="w-full h-full flex items-center justify-center">
-                                            <Check className="w-4 h-4 text-muted-foreground" strokeWidth={2.5} />
+                                            <Check className="w-4 h-4 text-muted" strokeWidth={2.5} />
                                         </div>
                                     )}
                                 </div>
