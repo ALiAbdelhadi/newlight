@@ -49,7 +49,6 @@ export default async function DashboardPage() {
         },
     });
 
-    // Transform orders to the format expected by DashboardClient
     const flattenedOrders = orders.flatMap((order) => {
         const customerName = order.shippingAddress?.fullName ||
             order.user.email?.split("@")[0] ||

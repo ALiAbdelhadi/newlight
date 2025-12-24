@@ -21,6 +21,7 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState } from "react"
+import { ThemeToggle } from "./theme-toggle"
 
 interface FlattenedOrder {
     id: string
@@ -58,6 +59,7 @@ function DashboardHeader() {
                 </div>
                 <div className="ml-auto flex items-center gap-4">
                     <AuthAvatar />
+                    <ThemeToggle />
                 </div>
             </div>
         </header>

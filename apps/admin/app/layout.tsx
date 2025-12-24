@@ -4,6 +4,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Almarai, Roboto } from "next/font/google";
 import "./globals.css";
 import { Provider } from "@/components/providers";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const roboto = Roboto({
   weight: ["400", "500"],
