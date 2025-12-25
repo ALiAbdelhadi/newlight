@@ -23,21 +23,17 @@ export interface CollectionCard {
     }[];
 }
 
-// Type for both useTranslations (client) and getTranslations (server)
 type TranslationFunction = (key: string, params?: any) => string;
 type TranslationObject = {
     (key: string, params?: any): string;
     raw: (key: string) => any;
 };
 
-// Function to get collection data with translations
 export const getCollectionCards = (t: TranslationFunction | TranslationObject): CollectionCard[] => {
-    // Helper to safely get raw values
     const getRaw = (key: string) => {
         if (typeof t === 'function' && 'raw' in t) {
             return (t as TranslationObject).raw(key);
         }
-        // Fallback for server-side getTranslations
         const value = t(key);
         try {
             return JSON.parse(value as string);
@@ -49,233 +45,201 @@ export const getCollectionCards = (t: TranslationFunction | TranslationObject): 
     return [
         {
             id: "1",
-            slug: "living-tomorrow",
-            imageUrl: "/new-collection/new-collection-1/nl-new-collection-1.jpg",
-            imageAlt: t('collections.living-tomorrow.imageAlt') as string,
-            title: t('collections.living-tomorrow.title') as string,
-            shortDescription: t('collections.living-tomorrow.shortDescription') as string,
-            fullDescription: t('collections.living-tomorrow.fullDescription') as string,
-            actionLabel: t('collections.living-tomorrow.actionLabel') as string,
-            aspectRatio: "square",
-            category: t('categories.Architecture') as string,
-            tags: getRaw('collections.living-tomorrow.tags'),
+            slug: "natural-woven-collection",
+            imageUrl: "/new-collection/new-collection-1/new-collection-1.png",
+            imageAlt: t('collections.natural-woven-collection.imageAlt') as string,
+            title: t('collections.natural-woven-collection.title') as string,
+            shortDescription: t('collections.natural-woven-collection.shortDescription') as string,
+            fullDescription: t('collections.natural-woven-collection.fullDescription') as string,
+            actionLabel: t('collections.natural-woven-collection.actionLabel') as string,
+            aspectRatio: "4/3",
+            category: t('categories.Natural Woven') as string,
+            tags: getRaw('collections.natural-woven-collection.tags'),
             featured: true,
-            publishedDate: "2024-11-15",
-            relatedIds: ["3", "4"],
+            publishedDate: "2024-12-25",
+            relatedIds: ["2", "3"],
             gallery: [
                 {
-                    url: "/new-collection/new-collection-1/nl-new-collection-2.jpg",
-                    alt: t('collections.living-tomorrow.gallery.image1') as string
+                    url: "/new-collection/new-collection-1/new-collection-1.png",
+                    alt: t('collections.natural-woven-collection.gallery.image1') as string
                 },
                 {
-                    url: "/new-collection/new-collection-1/nl-new-collection-3.jpg",
-                    alt: t('collections.living-tomorrow.gallery.image2') as string
+                    url: "/new-collection/new-collection-1/new-collection-2.png",
+                    alt: t('collections.natural-woven-collection.gallery.image2') as string
                 },
                 {
-                    url: "/new-collection/new-collection-1/nl-new-collection-4.jpg",
-                    alt: t('collections.living-tomorrow.gallery.image3') as string
+                    url: "/new-collection/new-collection-1/new-collection-3.png",
+                    alt: t('collections.natural-woven-collection.gallery.image3') as string
+                },
+                {
+                    url: "/new-collection/new-collection-1/new-collection-4.png",
+                    alt: t('collections.natural-woven-collection.gallery.image4') as string
                 }
             ],
             specifications: [
                 {
-                    label: t('collections.living-tomorrow.specifications.totalArea') as string,
-                    value: t('collections.living-tomorrow.specifications.totalAreaValue') as string
+                    label: t('collections.natural-woven-collection.specifications.material') as string,
+                    value: t('collections.natural-woven-collection.specifications.materialValue') as string
                 },
                 {
-                    label: t('collections.living-tomorrow.specifications.energyRating') as string,
-                    value: t('collections.living-tomorrow.specifications.energyRatingValue') as string
+                    label: t('collections.natural-woven-collection.specifications.style') as string,
+                    value: t('collections.natural-woven-collection.specifications.styleValue') as string
                 },
                 {
-                    label: t('collections.living-tomorrow.specifications.smartSystems') as string,
-                    value: t('collections.living-tomorrow.specifications.smartSystemsValue') as string
+                    label: t('collections.natural-woven-collection.specifications.installation') as string,
+                    value: t('collections.natural-woven-collection.specifications.installationValue') as string
                 },
                 {
-                    label: t('collections.living-tomorrow.specifications.sustainabilityScore') as string,
-                    value: t('collections.living-tomorrow.specifications.sustainabilityScoreValue') as string
+                    label: t('collections.natural-woven-collection.specifications.care') as string,
+                    value: t('collections.natural-woven-collection.specifications.careValue') as string
                 }
             ]
         },
         {
             id: "2",
-            slug: "premium-finishes",
-            imageUrl: "/new-collection/new-collection-2/new-collection-1.jpg",
-            imageAlt: t('collections.premium-finishes.imageAlt') as string,
-            title: t('collections.premium-finishes.title') as string,
-            shortDescription: t('collections.premium-finishes.shortDescription') as string,
-            fullDescription: t('collections.premium-finishes.fullDescription') as string,
-            actionLabel: t('collections.premium-finishes.actionLabel') as string,
+            slug: "rattan-pendant-collection",
+            imageUrl: "/new-collection/new-collection-2/new-collection-1.png",
+            imageAlt: t('collections.rattan-pendant-collection.imageAlt') as string,
+            title: t('collections.rattan-pendant-collection.title') as string,
+            shortDescription: t('collections.rattan-pendant-collection.shortDescription') as string,
+            fullDescription: t('collections.rattan-pendant-collection.fullDescription') as string,
+            actionLabel: t('collections.rattan-pendant-collection.actionLabel') as string,
             aspectRatio: "4/3",
-            category: t('categories.Materials') as string,
-            tags: getRaw('collections.premium-finishes.tags'),
+            category: t('categories.Rattan Collection') as string,
+            tags: getRaw('collections.rattan-pendant-collection.tags'),
             featured: true,
-            publishedDate: "2024-10-28",
-            relatedIds: ["1", "5"],
+            publishedDate: "2024-12-24",
+            relatedIds: ["1", "4"],
             gallery: [
                 {
-                    url: "/new-collection/new-collection-2/new-collection-2.jpg",
-                    alt: t('collections.premium-finishes.gallery.image1') as string
+                    url: "/new-collection/new-collection-2/new-collection-1.png",
+                    alt: t('collections.rattan-pendant-collection.gallery.image1') as string
                 },
                 {
-                    url: "/new-collection/new-collection-2/new-collection-3.jpg",
-                    alt: t('collections.premium-finishes.gallery.image2') as string
+                    url: "/new-collection/new-collection-2/new-collection-2.png",
+                    alt: t('collections.rattan-pendant-collection.gallery.image2') as string
                 },
                 {
-                    url: "/new-collection/new-collection-2/new-collection-4.jpg",
-                    alt: t('collections.premium-finishes.gallery.image3') as string
+                    url: "/new-collection/new-collection-2/new-collection-3.png",
+                    alt: t('collections.rattan-pendant-collection.gallery.image3') as string
+                },
+                {
+                    url: "/new-collection/new-collection-2/new-collection-4.png",
+                    alt: t('collections.rattan-pendant-collection.gallery.image4') as string
                 }
             ],
             specifications: [
                 {
-                    label: t('collections.premium-finishes.specifications.materialSources') as string,
-                    value: t('collections.premium-finishes.specifications.materialSourcesValue') as string
+                    label: t('collections.rattan-pendant-collection.specifications.variety') as string,
+                    value: t('collections.rattan-pendant-collection.specifications.varietyValue') as string
                 },
                 {
-                    label: t('collections.premium-finishes.specifications.qualityGrade') as string,
-                    value: t('collections.premium-finishes.specifications.qualityGradeValue') as string
+                    label: t('collections.rattan-pendant-collection.specifications.sizes') as string,
+                    value: t('collections.rattan-pendant-collection.specifications.sizesValue') as string
                 },
                 {
-                    label: t('collections.premium-finishes.specifications.warranty') as string,
-                    value: t('collections.premium-finishes.specifications.warrantyValue') as string
+                    label: t('collections.rattan-pendant-collection.specifications.finish') as string,
+                    value: t('collections.rattan-pendant-collection.specifications.finishValue') as string
                 },
                 {
-                    label: t('collections.premium-finishes.specifications.customization') as string,
-                    value: t('collections.premium-finishes.specifications.customizationValue') as string
+                    label: t('collections.rattan-pendant-collection.specifications.lightOutput') as string,
+                    value: t('collections.rattan-pendant-collection.specifications.lightOutputValue') as string
                 }
             ]
         },
         {
             id: "3",
-            slug: "sustainable-design",
-            imageUrl: "/new-collection/new-collection-3/new-collection-1.jpg",
-            imageAlt: t('collections.sustainable-design.imageAlt') as string,
-            title: t('collections.sustainable-design.title') as string,
-            shortDescription: t('collections.sustainable-design.shortDescription') as string,
-            fullDescription: t('collections.sustainable-design.fullDescription') as string,
-            actionLabel: t('collections.sustainable-design.actionLabel') as string,
-            aspectRatio: "square",
-            category: t('categories.Sustainability') as string,
-            tags: getRaw('collections.sustainable-design.tags'),
-            featured: false,
-            publishedDate: "2024-09-12",
-            relatedIds: ["1", "4"],
+            slug: "new-light-collection",
+            imageUrl: "/new-collection/new-collection-3/new-collection-1.png",
+            imageAlt: t('collections.new-light-collection.imageAlt') as string,
+            title: t('collections.new-light-collection.title') as string,
+            shortDescription: t('collections.new-light-collection.shortDescription') as string,
+            fullDescription: t('collections.new-light-collection.fullDescription') as string,
+            actionLabel: t('collections.new-light-collection.actionLabel') as string,
+            aspectRatio: "4/3",
+            category: t('categories.Organic Lighting') as string,
+            tags: getRaw('collections.new-light-collection.tags'),
+            featured: true,
+            publishedDate: "2024-12-23",
+            relatedIds: ["1", "2"],
+            gallery: [
+                {
+                    url: "/new-collection/new-collection-3/new-collection-1.png",
+                    alt: t('collections.new-light-collection.gallery.image1') as string
+                },
+                {
+                    url: "/new-collection/new-collection-3/new-collection-2.png",
+                    alt: t('collections.new-light-collection.gallery.image2') as string
+                },
+                {
+                    url: "/new-collection/new-collection-3/new-collection-3.png",
+                    alt: t('collections.new-light-collection.gallery.image3') as string
+                },
+                {
+                    url: "/new-collection/new-collection-3/new-collection-4.png",
+                    alt: t('collections.new-light-collection.gallery.image4') as string
+                }
+            ],
             specifications: [
                 {
-                    label: t('collections.sustainable-design.specifications.carbonFootprint') as string,
-                    value: t('collections.sustainable-design.specifications.carbonFootprintValue') as string
+                    label: t('collections.new-light-collection.specifications.brand') as string,
+                    value: t('collections.new-light-collection.specifications.brandValue') as string
                 },
                 {
-                    label: t('collections.sustainable-design.specifications.renewableEnergy') as string,
-                    value: t('collections.sustainable-design.specifications.renewableEnergyValue') as string
+                    label: t('collections.new-light-collection.specifications.craftsmanship') as string,
+                    value: t('collections.new-light-collection.specifications.craftsmanshipValue') as string
                 },
                 {
-                    label: t('collections.sustainable-design.specifications.waterConservation') as string,
-                    value: t('collections.sustainable-design.specifications.waterConservationValue') as string
+                    label: t('collections.new-light-collection.specifications.pattern') as string,
+                    value: t('collections.new-light-collection.specifications.patternValue') as string
                 },
                 {
-                    label: t('collections.sustainable-design.specifications.recycledMaterials') as string,
-                    value: t('collections.sustainable-design.specifications.recycledMaterialsValue') as string
+                    label: t('collections.new-light-collection.specifications.applications') as string,
+                    value: t('collections.new-light-collection.specifications.applicationsValue') as string
                 }
             ]
         },
         {
             id: "4",
-            slug: "smart-spaces",
-            imageUrl: "/new-collection/new-collection-4/new-collection-1.jpg",
-            imageAlt: t('collections.smart-spaces.imageAlt') as string,
-            title: t('collections.smart-spaces.title') as string,
-            shortDescription: t('collections.smart-spaces.shortDescription') as string,
-            fullDescription: t('collections.smart-spaces.fullDescription') as string,
-            actionLabel: t('collections.smart-spaces.actionLabel') as string,
-            aspectRatio: "4/3",
-            category: t('categories.Technology') as string,
-            tags: getRaw('collections.smart-spaces.tags'),
-            featured: false,
-            publishedDate: "2024-08-20",
-            relatedIds: ["1", "3"],
-            specifications: [
-                {
-                    label: t('collections.smart-spaces.specifications.aiIntegration') as string,
-                    value: t('collections.smart-spaces.specifications.aiIntegrationValue') as string
-                },
-                {
-                    label: t('collections.smart-spaces.specifications.iotDevices') as string,
-                    value: t('collections.smart-spaces.specifications.iotDevicesValue') as string
-                },
-                {
-                    label: t('collections.smart-spaces.specifications.responseTime') as string,
-                    value: t('collections.smart-spaces.specifications.responseTimeValue') as string
-                },
-                {
-                    label: t('collections.smart-spaces.specifications.securityLevel') as string,
-                    value: t('collections.smart-spaces.specifications.securityLevelValue') as string
-                }
-            ]
-        },
-        {
-            id: "5",
-            slug: "minimalist-elegance",
-            imageUrl: "/new-collection/new-collection-3/new-collection-2.jpg",
-            imageAlt: t('collections.minimalist-elegance.imageAlt') as string,
-            title: t('collections.minimalist-elegance.title') as string,
-            shortDescription: t('collections.minimalist-elegance.shortDescription') as string,
-            fullDescription: t('collections.minimalist-elegance.fullDescription') as string,
-            actionLabel: t('collections.minimalist-elegance.actionLabel') as string,
+            slug: "organic-table-floor-lamps",
+            imageUrl: "/new-collection/new-collection-4/new-collection-1.png",
+            imageAlt: t('collections.organic-table-floor-lamps.imageAlt') as string,
+            title: t('collections.organic-table-floor-lamps.title') as string,
+            shortDescription: t('collections.organic-table-floor-lamps.shortDescription') as string,
+            fullDescription: t('collections.organic-table-floor-lamps.fullDescription') as string,
+            actionLabel: t('collections.organic-table-floor-lamps.actionLabel') as string,
             aspectRatio: "square",
-            category: t('categories.Design Philosophy') as string,
-            tags: getRaw('collections.minimalist-elegance.tags'),
-            featured: true,
-            publishedDate: "2024-11-01",
-            relatedIds: ["2", "6"],
-            specifications: [
-                {
-                    label: t('collections.minimalist-elegance.specifications.designPrinciple') as string,
-                    value: t('collections.minimalist-elegance.specifications.designPrincipleValue') as string
-                },
-                {
-                    label: t('collections.minimalist-elegance.specifications.colorPalette') as string,
-                    value: t('collections.minimalist-elegance.specifications.colorPaletteValue') as string
-                },
-                {
-                    label: t('collections.minimalist-elegance.specifications.materialCount') as string,
-                    value: t('collections.minimalist-elegance.specifications.materialCountValue') as string
-                },
-                {
-                    label: t('collections.minimalist-elegance.specifications.visualNoise') as string,
-                    value: t('collections.minimalist-elegance.specifications.visualNoiseValue') as string
-                }
-            ]
-        },
-        {
-            id: "6",
-            slug: "urban-revival",
-            imageUrl: "/new-collection/new-collection-3/new-collection-3.jpg",
-            imageAlt: t('collections.urban-revival.imageAlt') as string,
-            title: t('collections.urban-revival.title') as string,
-            shortDescription: t('collections.urban-revival.shortDescription') as string,
-            fullDescription: t('collections.urban-revival.fullDescription') as string,
-            actionLabel: t('collections.urban-revival.actionLabel') as string,
-            aspectRatio: "4/3",
-            category: t('categories.Urban Planning') as string,
-            tags: getRaw('collections.urban-revival.tags'),
+            category: t('categories.Artisan Crafted') as string,
+            tags: getRaw('collections.organic-table-floor-lamps.tags'),
             featured: false,
-            publishedDate: "2024-07-15",
-            relatedIds: ["3", "5"],
+            publishedDate: "2024-12-22",
+            relatedIds: ["1", "3"],
+            gallery: [
+                {
+                    url: "/new-collection/new-collection-4/new-collection-1.png",
+                    alt: t('collections.organic-table-floor-lamps.gallery.image1') as string
+                },
+                {
+                    url: "/new-collection/new-collection-4/new-collection-2.png",
+                    alt: t('collections.organic-table-floor-lamps.gallery.image2') as string
+                },
+                {
+                    url: "/new-collection/new-collection-4/new-collection-3.png",
+                    alt: t('collections.organic-table-floor-lamps.gallery.image3') as string
+                },
+            ],
             specifications: [
                 {
-                    label: t('collections.urban-revival.specifications.historicPreservation') as string,
-                    value: t('collections.urban-revival.specifications.historicPreservationValue') as string
+                    label: t('collections.organic-table-floor-lamps.specifications.types') as string,
+                    value: t('collections.organic-table-floor-lamps.specifications.typesValue') as string
                 },
                 {
-                    label: t('collections.urban-revival.specifications.communityImpact') as string,
-                    value: t('collections.urban-revival.specifications.communityImpactValue') as string
+                    label: t('collections.organic-table-floor-lamps.specifications.baseOptions') as string,
+                    value: t('collections.organic-table-floor-lamps.specifications.baseOptionsValue') as string
                 },
                 {
-                    label: t('collections.urban-revival.specifications.investmentReturn') as string,
-                    value: t('collections.urban-revival.specifications.investmentReturnValue') as string
-                },
-                {
-                    label: t('collections.urban-revival.specifications.heritageCertification') as string,
-                    value: t('collections.urban-revival.specifications.heritageCertificationValue') as string
+                    label: t('collections.organic-table-floor-lamps.specifications.shadeStyle') as string,
+                    value: t('collections.organic-table-floor-lamps.specifications.shadeStyleValue') as string
                 }
             ]
         }
@@ -310,12 +274,10 @@ export const getRelatedCollections = (collections: CollectionCard[], id: string,
 
 export const getAllCategories = (t: TranslationFunction | TranslationObject): string[] => {
     return [
-        t('categories.Architecture') as string,
-        t('categories.Materials') as string,
-        t('categories.Sustainability') as string,
-        t('categories.Technology') as string,
-        t('categories.Design Philosophy') as string,
-        t('categories.Urban Planning') as string
+        t('categories.Natural Woven') as string,
+        t('categories.Rattan Collection') as string,
+        t('categories.Organic Lighting') as string,
+        t('categories.Artisan Crafted') as string
     ];
 };
 

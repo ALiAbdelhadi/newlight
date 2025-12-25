@@ -305,11 +305,151 @@
             "explore": "Explore Products"
         }
     },
+    "new-collection-page": {
+        "heroTitle": "Natural Lighting Collection",
+        "heroDescription": "Handcrafted lighting pieces that bring warmth and organic beauty to your space",
+        "featuredButton": "Explore Featured",
+        "filteredResults": "Filtered by",
+        "allProjects": "All Collections",
+        "showing": "Showing",
+        "of": "of",
+        "projects": "collections",
+        "clearFilters": "Clear Filters",
+        "noProjects": "No collections found",
+        "viewAll": "View All",
+        "ctaTitle": "Transform Your Space",
+        "ctaDescription": "Discover our handcrafted lighting solutions that combine natural materials with timeless design",
+        "ctaButton": "Get in Touch"
+    },
+    "categories": {
+        "Natural Woven": "Natural Woven",
+        "Rattan Collection": "Rattan Collection",
+        "Organic Lighting": "Organic Lighting",
+        "Artisan Crafted": "Artisan Crafted"
+    },
+    "collections": {
+        "natural-woven-collection": {
+            "imageAlt": "Natural woven lamp with organic texture",
+            "title": "Natural Woven Collection",
+            "shortDescription": "Handcrafted lamps featuring intricate woven patterns that create stunning light and shadow effects",
+            "fullDescription": "Our Natural Woven Collection showcases the beauty of traditional craftsmanship with contemporary design. Each piece is carefully handwoven using sustainable natural materials, creating unique patterns that cast beautiful ambient lighting. Perfect for adding warmth and texture to modern interiors.",
+            "actionLabel": "Discover Collection",
+            "tags": [
+                "Woven",
+                "Handcrafted",
+                "Natural Materials",
+                "Ambient Lighting"
+            ],
+            "gallery": {
+                "image1": "Natural woven table lamp with warm glow",
+                "image2": "Elegant woven pendant lamp in living space",
+                "image3": "Large rectangular woven pendant chandelier",
+                "image4": "UFO-shaped woven pendant light"
+            },
+            "specifications": {
+                "material": "Material",
+                "materialValue": "Natural Rattan & Bamboo",
+                "style": "Style",
+                "styleValue": "Organic Contemporary",
+                "installation": "Installation",
+                "installationValue": "Professional Installation Recommended",
+                "care": "Care",
+                "careValue": "Dust with Soft Cloth"
+            }
+        },
+        "rattan-pendant-collection": {
+            "imageAlt": "Showroom display of rattan pendant lights",
+            "title": "Rattan Pendant Collection",
+            "shortDescription": "A stunning array of handwoven rattan pendants in various shapes and sizes for any space",
+            "fullDescription": "The Rattan Pendant Collection offers an extensive selection of ceiling lights, each uniquely crafted from premium rattan. From dramatic chandeliers to intimate pendants, this collection provides versatile lighting solutions that bring natural elegance to dining rooms, living areas, and commercial spaces.",
+            "actionLabel": "View Collection",
+            "tags": [
+                "Rattan",
+                "Pendant Lights",
+                "Chandelier",
+                "Versatile"
+            ],
+            "gallery": {
+                "image1": "Multiple rattan pendants in showroom",
+                "image2": "Close-up of perforated rattan pendant lights",
+                "image3": "Floor lamps with natural rope shades",
+                "image4": "Variety of hanging rattan fixtures"
+            },
+            "specifications": {
+                "variety": "Variety",
+                "varietyValue": "15+ Unique Designs",
+                "sizes": "Sizes",
+                "sizesValue": "Small to Large Statement Pieces",
+                "finish": "Finish",
+                "finishValue": "Natural & Stained Options",
+                "lightOutput": "Light Output",
+                "lightOutputValue": "Warm Diffused Ambient"
+            }
+        },
+        "new-light-collection": {
+            "imageAlt": "New Light luxury rattan pendant light",
+            "title": "New Light Signature Collection",
+            "shortDescription": "Premium handcrafted lighting featuring intricate patterns and exceptional quality",
+            "fullDescription": "The New Light Signature Collection represents the pinnacle of artisan lighting design. Each piece is meticulously crafted using traditional weaving techniques combined with modern aesthetics. These statement pieces feature geometric patterns that create mesmerizing light effects, perfect for luxury residential and hospitality projects.",
+            "actionLabel": "Explore Premium Collection",
+            "tags": [
+                "Premium",
+                "Geometric Patterns",
+                "Luxury",
+                "Statement Pieces"
+            ],
+            "gallery": {
+                "image1": "Geometric pattern ceiling pendant in bedroom",
+                "image2": "Layered rattan pendant with fabric shade",
+                "image3": "Triple pendant arrangement over kitchen island",
+                "image4": "Large statement pendant in living room"
+            },
+            "specifications": {
+                "brand": "Brand",
+                "brandValue": "New Light",
+                "craftsmanship": "Craftsmanship",
+                "craftsmanshipValue": "Master Artisan Handwoven",
+                "pattern": "Pattern",
+                "patternValue": "Geometric Lattice Work",
+                "applications": "Applications",
+                "applicationsValue": "Residential & Hospitality"
+            }
+        },
+        "organic-table-floor-lamps": {
+            "imageAlt": "Organic table and floor lamps with natural shades",
+            "title": "Organic Table & Floor Lamps",
+            "shortDescription": "Elegant table and floor lamps with natural fiber shades for ambient task lighting",
+            "fullDescription": "Our Organic Table & Floor Lamp Collection brings warmth to any corner of your home. Featuring natural fiber shades on stylish bases, these lamps provide soft, diffused lighting perfect for reading nooks, bedrooms, and living spaces. Each piece combines functionality with organic aesthetics.",
+            "actionLabel": "Shop Lamps",
+            "tags": [
+                "Table Lamps",
+                "Floor Lamps",
+                "Natural Fibers",
+                "Task Lighting"
+            ],
+            "gallery": {
+                "image1": "Classic table lamp with pleated natural shade",
+                "image2": "Tripod floor lamp with burlap shade",
+                "image3": "Modern table lamp with metal base",
+                "image4": "Tall floor lamps with organic woven shades"
+            },
+            "specifications": {
+                "types": "Types",
+                "typesValue": "Table & Floor Lamps",
+                "baseOptions": "Base Options",
+                "baseOptionsValue": "Wood, Metal, Ceramic",
+                "shadeStyle": "Shade Style",
+                "shadeStyleValue": "Woven, Pleated, Textured",
+                "height": "Height Range",
+                "heightValue": "15\" - 65\" (38cm - 165cm)"
+            }
+        }
+    },
     "collection-section": {
         "sectionTitle": "New Collection",
         "sectionDescription": "Explore our latest innovations in design and technology",
         "living-tomorrowTitle": "Living Tomorrow",
-        "living-tomorrowDescription": "Experience the future of sustainable living through innovative design and cutting-edge technology.",
+        "living-tomorrowDescription": "Experience the future of sustainable living through innovative design.",
         "living-tomorrowAction": "Explore",
         "premium-finishesTitle": "Premium Finishes",
         "premium-finishesDescription": "Discover our curated selection of materials and textures that define modern luxury.",

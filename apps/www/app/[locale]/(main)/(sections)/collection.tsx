@@ -67,7 +67,7 @@ export function Collection() {
                         <div className="relative overflow-hidden rounded-none aspect-square  mb-6 flex justify-center items-center bg-muted">
                             <Image
                                 ref={leftImageRef}
-                                src="/new-collection/new-collection-1/nl-new-collection-1.jpg"
+                                src="/new-collection/new-collection-1/new-collection-1.png"
                                 alt="Modern architectural interior"
                                 className="h-full w-full object-cover"
                                 width={1000}
@@ -81,16 +81,13 @@ export function Collection() {
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
                                 {t('living-tomorrowDescription')}
                             </p>
-                            {/* <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
-                                {t('living-tomorrowAction')}
-                            </span> */}
                         </div>
                     </div>
                     <div ref={rightCardRef}>
                         <div className="relative overflow-hidden rounded-none aspect-4/3  mb-6 flex justify-center items-center bg-muted">
                             <Image
                                 ref={rightImageRef}
-                                src="/new-collection/new-collection-2/new-collection-1.jpg"
+                                src="/new-collection/new-collection-2/new-collection-1.png"
                                 alt="Premium product finishes detail"
                                 className="h-full w-full object-cover"
                                 width={1000}
@@ -104,20 +101,20 @@ export function Collection() {
                             <p className="text-muted-foreground text-sm md:text-base font-light tracking-wide">
                                 {t('premium-finishesDescription')}
                             </p>
-                            {/* <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
+                            <span className="text-foreground text-sm font-medium tracking-wider uppercase hover:text-muted-foreground transition-colors">
                                 {t('premium-finishesAction')}
-                            </span> */}
+                            </span>
                         </div>
                     </div>
                 </div>
-                {/* <div className="text-center py-12">
+                <div className="text-center py-12">
                     <Link
                         href="/new-collection"
                         className="inline-block px-8 py-4 bg-primary text-primary-foreground font-light tracking-wider uppercase text-sm transition-all duration-300 hover:scale-105 hover:shadow-lg"
                     >
                         {t('buttonText')}
                     </Link>
-                </div> */}
+                </div>
             </Container>
         </section>
     );
