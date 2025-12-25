@@ -107,7 +107,12 @@ const ContactPage: React.FC = () => {
                                         <div className="flex items-center space-x-2 rtl:space-x-reverse">
                                             <Mail className="w-4 h-4 transition-colors duration-300 text-muted-foreground" />
                                             <p className="text-sm transition-colors duration-300 text-muted-foreground">
-                                                info@newlight.com.eg
+                                                <Link
+                                                    href="mailto:mostafa@newlight-eg.com"
+                                                    className="underline underline-offset-4 hover:opacity-80 transition"
+                                                >
+                                                    mostafa@newlight-eg.com
+                                                </Link>
                                             </p>
                                         </div>
                                         <div className="flex items-center space-x-2 rtl:space-x-reverse">

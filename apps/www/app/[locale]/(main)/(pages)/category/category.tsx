@@ -168,7 +168,7 @@ export default function CategoriesSection({ categories }: CategoriesSectionProps
                                             </div>
                                         </div>
                                     </div>
-                                    <p className="text-muted-foreground font-light text-sm tracking-wide leading-relaxed">
+                                    <p className="text-muted-foreground font-light text-base tracking-wide leading-relaxed">
                                         {category.description}
                                     </p>
                                 </Link>

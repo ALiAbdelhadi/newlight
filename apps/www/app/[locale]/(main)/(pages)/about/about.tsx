@@ -3,7 +3,7 @@
 import { Container } from "@/components/container"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { Award, CircleCheck, Eye, Lamp, Lightbulb, Shield, Target, Truck, Zap } from "lucide-react"
+import { ArrowRight, Award, CircleCheck, Eye, Lamp, Lightbulb, Shield, Target, Truck, Zap } from "lucide-react"
 import type React from "react"
 import { useEffect, useRef } from "react"
 import { useTranslations } from "next-intl"
@@ -196,36 +196,44 @@ export function AboutUsClient() {
                         <p className="text-lg text-muted-foreground font-light max-w-2xl">{t("categoriesSubtitle")}</p>
                         <div className="h-px w-12 bg-border mt-6" />
                     </div>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
                         {categories.map((category, index) => (
-                            <Link
+                            <div
                                 key={index}
-                                href={`/category/${category.slug}`}
                                 ref={(el) => {
                                     if (el) categoryRefs.current[index] = el
                                 }}
-                                className="group relative overflow-hidden rounded-lg aspect-4/3 bg-secondary"
+                                className="group"
                             >
-                                <div className="absolute inset-0">
-                                    <Image
-                                        src={category.image || "/placeholder.svg"}
-                                        alt={category.title}
-                                        fill
-                                        className="object-cover transition-transform duration-700 group-hover:scale-110"
-                                    />
-                                    <div className="absolute inset-0 bg-linear-to-t from-foreground/80 via-foreground/40 to-transparent" />
-                                </div>
-                                <div className="relative h-full flex flex-col justify-end p-8 lg:p-12">
-                                    <h3 className="text-3xl md:text-4xl font-serif font-light tracking-tight text-background mb-3">
-                                        {category.title}
-                                    </h3>
-                                    <p className="text-base text-background/90 font-light leading-relaxed mb-4">{category.description}</p>
-                                    <div className="flex items-center gap-2 text-sm text-background font-light">
-                                        <span>{t("exploreCategory")}</span>
-                                        <span className="transition-transform duration-300 group-hover:translate-x-2 rtl:-rotate-180">→</span>
+                                <Link href={`/category/${category.slug}`}>
+                                    <div className="relative overflow-hidden rounded-sm aspect-4/5 bg-muted mb-6">
+                                        <div
+                                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                                            style={{
+                                                backgroundImage: `url('${category.image || "/placeholder.svg"}')`,
+                                            }}
+                                        />
+                                        <div className="absolute inset-0 bg-linear-to-t from-foreground/70 via-foreground/20 to-transparent" />
+                                        <div className="relative z-10 h-full flex flex-col justify-end p-6">
+                                            <div className="space-y-2">
+                                                <h3 className="text-3xl md:text-4xl font-serif font-light tracking-wide text-accent">
+                                                    {category.title}
+                                                </h3>
+                                                <div className="h-px w-12 bg-primary-foreground/60 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" />
+                                                <p className="text-accent/70 font-light text-base tracking-wide leading-relaxed max-w-xl">
+                                                    {category.description}
+                                                </p>
+                                            </div>
+                                            <div className="mt-6 flex items-center gap-2 text-white/70 dark:text-black opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                                                <div className="flex items-center gap-2 text-sm text-background font-light">
+                                                    <span>{t("exploreCategory")}</span>
+                                                    <ArrowRight className="w-4 h-4 text-background/80 rtl:rotate-180" />
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </Link>
+                                </Link>
+                            </div>
                         ))}
                     </div>
                 </Container>
@@ -261,7 +269,6 @@ export function AboutUsClient() {
                         </h2>
                         <p className="text-lg text-muted-foreground font-light leading-relaxed mb-8">{t("ctaDescription")}</p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-
                             <Link
                                 href="/category"
                                 className="px-8 py-4 bg-primary text-primary-foreground font-light tracking-wide transition-all duration-300 hover:bg-primary/90 hover:scale-105"

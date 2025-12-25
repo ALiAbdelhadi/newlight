@@ -408,14 +408,14 @@
         "categories": [
             {
                 "title": "Indoor Lighting",
-                "description": "Transform your interior spaces with our exquisite collection of chandeliers, pendant lights, wall sconces, recessed lighting, and decorative fixtures. Perfect for residential, hospitality, and commercial environments.",
+                "description": "Transform your interior spaces with our exquisite collection.",
                 "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
                 "slug": "indoor"
             },
             {
                 "title": "Outdoor Lighting",
-                "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions. From garden path lights to architectural facade lighting, create stunning nighttime ambiance and enhanced security.",
-                "image": "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+                "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions.",
+                "image": "/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
                 "slug": "outdoor"
             }
         ],
