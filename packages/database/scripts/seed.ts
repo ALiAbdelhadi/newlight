@@ -125,6 +125,10 @@ class TranslationRegistry {
     "high-pay": { en: "High Bay", ar: "إضاءة صناعية" },
     "drive-over": { en: "Drive Over Lights", ar: "إضاءة أرضية" },
     "track-built-in-driver": { en: "Track Built-in Drivers", ar: "ترانسات مدمجة مع الأعواد" },
+    "plafonnier": { en: "Plafonnier", ar: "بلفونيرة" },
+    "bulkhead": { en: "Bulkhead", ar: "عين بقرة" },
+    "exit": { en: "Exit", ar: "مخرج طوارئ" },
+    "poles-head": { en: "Poles Head", ar: "رأس العمود" },
   };
 
   static getCategory(key: string, lang: SupportedLanguage): string {
@@ -722,6 +726,8 @@ class SeedEngine {
       const brandOfLed = DataProcessor.extractValue(enSpecs.brand_of_led || arSpecs["علامة الليد التجارية"]);
       const luminousFlux = DataProcessor.extractValue(enSpecs.luminous_flux || arSpecs["الومن"]);
       const mainMaterial = DataProcessor.extractValue(enSpecs.main_material || arSpecs["مادة التصنيع"]);
+      const lightingType = DataProcessor.extractValue(enSpecs.lighting_type || arSpecs[" نوع الأضاءة"]);
+      const driver = DataProcessor.extractValue(enSpecs.driver || arSpecs["الترانس / البطارية"]);
       const cri = DataProcessor.extractValue(enSpecs.cri || arSpecs["مؤشر تجسيد الألوان"]);
       const beamAngle = typeof enSpecs.beam_angle === 'number' ? enSpecs.beam_angle :
         typeof arSpecs["زاوية الإضاءة°"] === 'number' ? arSpecs["زاوية الإضاءة°"] : null;
@@ -760,8 +766,8 @@ class SeedEngine {
           variantValue,
           displayOrder,
           colorImageMap: Object.keys(colorImageMap).length > 0
-            ? colorImageMap
-            : null,
+            ? (colorImageMap as any)
+            : undefined,
 
           price: productData.price || 0,
           inventory: productData.inventory || 0,
@@ -778,6 +784,8 @@ class SeedEngine {
           powerFactor,
           colorTemperatures,
           ipRating,
+          lightingType,
+          driver,
           maxIpRating,
           lifeTime,
           availableColors,

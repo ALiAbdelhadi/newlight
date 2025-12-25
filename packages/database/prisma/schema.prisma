@@ -8,11 +8,11 @@ datasource db {
 }
 
 model Configuration {
-  key               String     @unique
+  key               String  @unique
   value             String
   description       String?
-  isPublic          Boolean    @default(false)
-  id                String     @id @default(cuid())
+  isPublic          Boolean @default(false)
+  id                String  @id @default(cuid())
   productId         String
   configPrice       Float
   priceIncrease     Float
@@ -21,13 +21,13 @@ model Configuration {
   quantity          Int
   lampPriceIncrease Float?
   totalPrice        Float
-  currency          String     @default("EGP")
-  selectedColorTemp String? 
-  selectedColor     String? 
-  
-  productIp         ProductIP?
-  createdAt         DateTime   @default(now())
-  updatedAt         DateTime   @updatedAt
+  currency          String  @default("EGP")
+  selectedColorTemp String?
+  selectedColor     String?
+
+  productIp ProductIP?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
   orders     Order[]     @relation("ConfigurationToOrder")
   users      User[]      @relation("ConfigurationToUser")
@@ -37,21 +37,21 @@ model Configuration {
 }
 
 model User {
-  id                String   @id
-  email             String?  @unique
+  id                String           @id
+  email             String?          @unique
   phoneNumber       String?
-  preferredLanguage String   @default("ar")
-  preferredCurrency String   @default("EGP")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  preferredLanguage String           @default("ar")
+  preferredCurrency String           @default("EGP")
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
   configurationId   String?
   productId         String?
-  shippingAddressId String? @unique
-  configuration   Configuration?   @relation("ConfigurationToUser", fields: [configurationId], references: [id])
-  product         Product?         @relation("UserToProduct", fields: [productId], references: [id])
-  shippingAddress ShippingAddress?
-  cart            Cart?
-  orders          Order[]
+  shippingAddressId String?          @unique
+  configuration     Configuration?   @relation("ConfigurationToUser", fields: [configurationId], references: [id])
+  product           Product?         @relation("UserToProduct", fields: [productId], references: [id])
+  shippingAddress   ShippingAddress?
+  cart              Cart?
+  orders            Order[]
 
   @@index([email])
   @@map("users")
@@ -128,11 +128,11 @@ model Product {
   productId         String               @unique
   subCategoryId     String
   slug              String               @unique
-  baseProductId     String?              
-  variantType       String?              
-  variantValue      String?              
+  baseProductId     String?
+  variantType       String?
+  variantValue      String?
   displayOrder      Int                  @default(0)
-  colorImageMap     Json?                
+  colorImageMap     Json?
   price             Float
   inventory         Int                  @default(0)
   images            String[]
@@ -144,6 +144,8 @@ model Product {
   cri               String?
   beamAngle         Int?
   productDimensions String?
+  lightingType      String?
+  driver            String?
   holeSize          String?
   powerFactor       String?
   colorTemperatures ProductColorTemp[]
