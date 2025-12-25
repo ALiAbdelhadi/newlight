@@ -1627,6 +1627,36 @@
             "inventory": 10
           }
         }
+      ],
+      "plafonnier": [
+        {
+          "nl-p-9w": {
+            "productId": "nl-p-9w",
+            "productName": "nl-p-9w",
+            "productImages": [
+              "/products/indoor/plafonnier/nl-p-9w/nl-p-9w (1).png",
+              "/products/indoor/plafonnier/nl-p-9w/nl-p-9w (2).png",
+              "/products/indoor/plafonnier/nl-p-9w/nl-p-9w (3).png"
+            ],
+            "subCategory": "bulkhead",
+            "price": 550,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-p-12w": {
+            "productId": "nl-p-12w",
+            "productName": "nl-p-12w",
+            "productImages": [
+              "/products/indoor/plafonnier/nl-p-12w/nl-p-12w (1).png",
+              "/products/indoor/plafonnier/nl-p-12w/nl-p-12w (2).png",
+              "/products/indoor/plafonnier/nl-p-12w/nl-p-12w (3).png"
+            ],
+            "subCategory": "bulkhead",
+            "price": 630,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
       ]
     },
     "outdoor": {
@@ -2211,6 +2241,83 @@
             ],
             "subCategory": "wall-washer",
             "price": 3000,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "bulkhead": [
+        {
+          "nl-b-h-9w": {
+            "productId": "nl-b-h-9w",
+            "productName": "nl-b-h-9w",
+            "productImages": [
+              "/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (1).png",
+              "/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (2).png",
+              "/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (3).png"
+            ],
+            "subCategory": "bulkhead",
+            "price": 350,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-b-h-12w": {
+            "productId": "nl-b-h-12w",
+            "productName": "nl-b-h-12w",
+            "productImages": [
+              "/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (1).png",
+              "/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (2).png",
+              "/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (3).png"
+            ],
+            "subCategory": "bulkhead",
+            "price": 420,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "exit": [
+        {
+          "nl-exit-3w": {
+            "productId": "nl-exit-3w",
+            "productName": "nl-exit-3w",
+            "productImages": [
+              "/products/outdoor/exit/nl-exit-3w (1).png",
+              "/products/outdoor/exit/nl-exit-3w (2).png",
+              "/products/outdoor/exit/nl-exit-3w (3).png"
+            ],
+            "subCategory": "exit",
+            "price": 1750,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "poles-head": [
+        {
+          "nl-garden-pole-1": {
+            "productId": "nl-garden-pole-1",
+            "productName": "nl-garden-pole-1",
+            "productImages": [
+              "/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (1).png",
+              "/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (2).png",
+              "/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (3).png"
+            ],
+            "subCategory": "poles-head",
+            "price": 6000,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-garden-pole-2": {
+            "productId": "nl-garden-pole-2",
+            "productName": "nl-garden-pole-2",
+            "productImages": [
+              "/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (1).png",
+              "/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (2).png",
+              "/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (3).png"
+            ],
+            "subCategory": "poles-head",
+            "price": 6000,
             "categoryType": "outdoor",
             "inventory": 10
           }

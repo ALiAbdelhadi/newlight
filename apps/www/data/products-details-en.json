@@ -2731,6 +2731,62 @@
                         }
                     }
                 }
+            ],
+            "plafonnier": [
+                {
+                    "nl-p-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "brand_of_led": "-",
+                            "luminous_flux": 900,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lamp E27",
+                            "beam_angle": "-",
+                            "product_dimensions": "270×120 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-p-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "brand_of_led": "-",
+                            "luminous_flux": 1200,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lamp E27",
+                            "beam_angle": "-",
+                            "product_dimensions": "270×120 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
             ]
         },
         "outdoor": {
@@ -3820,6 +3876,148 @@
                                 3000
                             ],
                             "IP": 44,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "bulkhead": [
+                {
+                    "nl-b-h-9w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 9,
+                            "brand_of_led": "-",
+                            "luminous_flux": 900,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lamp E27",
+                            "beam_angle": "-",
+                            "product_dimensions": "107×213-95 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 20,
+                            "maxIP": 44,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-b-h-12w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 12,
+                            "brand_of_led": "-",
+                            "luminous_flux": 1200,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lamp E27",
+                            "beam_angle": "-",
+                            "product_dimensions": "107×213-95 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 65,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "exit": [
+                {
+                    "nl-exit-3w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 3,
+                            "brand_of_led": "Epistar",
+                            "luminous_flux": 300,
+                            "main_material": "Die-Casting Aluminum & Acrylic",
+                            "cri": ">85",
+                            "beam_angle": "-",
+                            "driver": "Normal with battery 3H",
+                            "product_dimensions": "245×346×111 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                6500
+                            ],
+                            "IP": 40,
+                            "maxIP": 40,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "poles-head": [
+                {
+                    "nl-garden-pole-1": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 45,
+                            "brand_of_led": "-",
+                            "luminous_flux": 4500,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lumiled",
+                            "driver": "Normal",
+                            "beam_angle": "-",
+                            "product_dimensions": "591×428 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 65,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-garden-pole-2": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 45,
+                            "brand_of_led": "-",
+                            "luminous_flux": 4500,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lumiled",
+                            "driver": "Normal",
+                            "beam_angle": "-",
+                            "product_dimensions": "448×467 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 65,
                             "maxIP": 65,
                             "life_time": 50000,
                             "surface_color": [

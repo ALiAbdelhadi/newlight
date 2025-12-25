@@ -3,6 +3,10 @@
         "title": "Loading",
         "message": "Please wait while we prepare everything for you"
     },
+    "product-card": {
+        "view": "View",
+        "currency": "EGP"
+    },
     "language-selector": {
         "international": "International",
         "close": "Close",

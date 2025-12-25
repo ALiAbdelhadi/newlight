@@ -2,6 +2,7 @@
 
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
+import { useTranslations } from "next-intl"
 import Image from "next/image"
 import { useEffect, useRef } from "react"
 
@@ -13,16 +14,15 @@ interface ProductCardProps {
     title: string
     category: string
     price: number
-    currency?: string
     badge?: string
     onClick?: () => void
 }
 
-export function ProductCard({ id, image, title, category, price, currency = "EGP", badge, onClick }: ProductCardProps) {
+export function ProductCard({ id, image, title, category, price, badge, onClick }: ProductCardProps) {
     const cardRef = useRef<HTMLDivElement>(null)
     const imageRef = useRef<HTMLImageElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-
+    const t = useTranslations("product-card")
     useEffect(() => {
         if (!cardRef.current) return
 
@@ -121,14 +121,14 @@ export function ProductCard({ id, image, title, category, price, currency = "EGP
                     </h3>
                 </div>
                 <div className="flex items-end justify-between pt-2 border-t border-border">
-                    <div className="flex items-baseline gap-1">
-                        <span className="text-2xl font-light text-foreground">{currency}</span>
+                    <div className="flex items-baseline gap-1 rtl:flex-row-reverse">
+                        <span className="text-2xl font-light text-foreground">{t("currency")}</span>
                         <span className="text-3xl font-light tracking-tight text-foreground">
                             {price !== undefined ? price.toLocaleString() : "0"}
                         </span>
                     </div>
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-xs font-medium uppercase tracking-wider text-foreground">View</span>
+                        <span className="text-xs font-medium uppercase tracking-wider text-foreground">{t("view")}</span>
                         <svg className="w-4 h-4 text-foreground rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>

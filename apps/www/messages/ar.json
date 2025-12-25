@@ -3,6 +3,10 @@
         "title": "جاري التحميل",
         "message": "الرجاء الانتظار ريثما نجهز كل شيء من أجلك"
     },
+    "product-card": {
+        "view": "استكشف",
+        "currency": "ج.م"
+    },
     "language-selector": {
         "international": "دولي",
         "close": "إغلاق",
@@ -55,7 +59,7 @@
         "searching": "جاري البحث عن \"{query}\"...",
         "noResults": "لم يتم العثور على نتائج لـ \"{query}\"",
         "popularSearches": "عمليات البحث الشائعة",
-        "currency": "جنيه",
+        "currency": "ج.م",
         "brand": {
             "new": "نيو",
             "light": "لايت"
@@ -1010,7 +1014,7 @@
         },
         "preview": {
             "title": "مراجعة الطلب - {name} | {category} | نيو لايت",
-            "description": "راجع طلبك لمنتج {name}. الإعدادات: {config}. الإجمالي: {price} جنيه. دفع آمن مع حلول الإضاءة من نيو لايت.",
+            "description": "راجع طلبك لمنتج {name}. الإعدادات: {config}. الإجمالي: {price} ج.م. دفع آمن مع حلول الإضاءة من نيو لايت.",
             "defaultTitle": "مراجعة طلبك | نيو لايت",
             "defaultDescription": "راجع طلب منتج الإضاءة الخاص بك قبل الدفع. دفع آمن وتوصيل سريع مع نيو لايت."
         },

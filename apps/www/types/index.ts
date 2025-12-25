@@ -84,6 +84,8 @@ export type Product = {
     brandOfLed: string | null
     luminousFlux: string | null
     mainMaterial: string | null
+    lightingType: string | null
+    driver: string | null
     cri: string | null
     beamAngle: number | null
     productDimensions: string | null
