@@ -273,7 +273,14 @@ class DataProcessor {
 // ==================== DESCRIPTION BUILDER ====================
 
 class DescriptionBuilder {
-  static build(locale: SupportedLanguage, productName: string, specs: any): string {
+  static build(locale: SupportedLanguage, productName: string, specs: any, subCategoryName?: string): string {
+    // Special description for magnetic-accessories
+    if (subCategoryName === 'magnetic-accessories') {
+      return locale === 'ar'
+        ? `${productName} - ملحق إضاءة احترافي مصمم لتحسين وتكملة نظام الإضاءة المغناطيسي الخاص بك.`
+        : `${productName} - Professional lighting accessory designed to enhance and complement your magnetic lighting system.`;
+    }
+
     if (!specs || typeof specs !== 'object' || Object.keys(specs).length === 0) {
       return locale === 'ar'
         ? `${productName} - حل إضاءة احترافي مصمم لتلبية احتياجاتك.`
@@ -802,7 +809,7 @@ class SeedEngine {
         const specs = locale === 'en' ? enSpecs : arSpecs;
 
         const translatedName = localeData?.productName || productData.productName || productId;
-        const description = DescriptionBuilder.build(locale, translatedName, specs);
+        const description = DescriptionBuilder.build(locale, translatedName, specs, subCategoryName);
 
         await prisma.productTranslation.create({
           data: {

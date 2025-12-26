@@ -2322,6 +2322,63 @@
             "inventory": 10
           }
         }
+      ],
+      "street-light": [
+        {
+          "nl-s-l-100w": {
+            "productId": "nl-s-l-100w",
+            "productName": "nl-s-l-100w",
+            "productImages": [
+              "/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (1).png",
+              "/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (2).png"
+            ],
+            "subCategory": "street-light",
+            "price": 2000,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-s-l-150w": {
+            "productId": "nl-s-l-150w",
+            "productName": "nl-s-l-150w",
+            "productImages": [
+              "/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (1).png",
+              "/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (2).png"
+            ],
+            "subCategory": "street-light",
+            "price": 2500,
+            "categoryType": "outdoor",
+            "inventory": 10
+          },
+          "nl-s-l-200w": {
+            "productId": "nl-s-l-200w",
+            "productName": "nl-s-l-200w",
+            "productImages": [
+              "/products/outdoor/street-light/nl-s-l-200w/nl-s-l-200w (1).png",
+              "/products/outdoor/street-light/nl-s-l-200w/nl-s-l-200w (2).png"
+            ],
+            "subCategory": "street-light",
+            "price": 3000,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
+      ],
+      "dustproof-led": [
+        {
+          "nl-d-p-1": {
+            "productId": "nl-d-p-1",
+            "productName": "nl-d-p-1",
+            "productImages": [
+              "/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (1).png",
+              "/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (2).png",
+              "/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (3).png"
+            ],
+            "subCategory": "dustproof-led",
+            "price": 750,
+            "categoryType": "outdoor",
+            "inventory": 10
+          }
+        }
       ]
     }
   }

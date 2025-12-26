@@ -3905,8 +3905,8 @@
                                 4000,
                                 6500
                             ],
-                            "IP": 20,
-                            "maxIP": 44,
+                            "IP": 65,
+                            "maxIP": 65,
                             "life_time": 50000,
                             "surface_color": [
                                 "black"
@@ -4022,6 +4022,120 @@
                             "life_time": 50000,
                             "surface_color": [
                                 "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "street-light": [
+                {
+                    "nl-s-l-100w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 100,
+                            "brand_of_led": "-",
+                            "luminous_flux": 11000,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lumileds",
+                            "driver": "Done LED Driver",
+                            "beam_angle": 120,
+                            "product_dimensions": "541×258×60×62 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 66,
+                            "maxIP": 66,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-s-l-150w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 150,
+                            "brand_of_led": "-",
+                            "luminous_flux": 16500,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lumileds",
+                            "driver": "Done LED Driver",
+                            "beam_angle": 120,
+                            "product_dimensions": "541×258×60×62 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 66,
+                            "maxIP": 66,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    },
+                    "nl-s-l-200w": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 200,
+                            "brand_of_led": "-",
+                            "luminous_flux": 22000,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "lighting_type": "Lumileds",
+                            "driver": "Done LED Driver",
+                            "beam_angle": 120,
+                            "product_dimensions": "541×258×60×62 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 66,
+                            "maxIP": 66,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "black"
+                            ]
+                        }
+                    }
+                }
+            ],
+            "dustproof-led": [
+                {
+                    "nl-d-p-1": {
+                        "specificationsTable": {
+                            "voltage": "AC 175-265V",
+                            "maximum_wattage": 40,
+                            "brand_of_led": "-",
+                            "luminous_flux": 4800,
+                            "main_material": "Die-Casting Aluminum",
+                            "cri": ">85",
+                            "beam_angle": 120,
+                            "product_dimensions": "120×85×75 mm",
+                            "hole_size": "-",
+                            "power_factor": "0.95",
+                            "color_Temperature": [
+                                3000,
+                                4000,
+                                6500
+                            ],
+                            "IP": 65,
+                            "maxIP": 65,
+                            "life_time": 50000,
+                            "surface_color": [
+                                "white"
                             ]
                         }
                     }

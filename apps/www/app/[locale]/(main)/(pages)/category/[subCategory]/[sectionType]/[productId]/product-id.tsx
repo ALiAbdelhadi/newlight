@@ -338,8 +338,9 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     }
 
     const isArabic = locale.startsWith("ar")
+    const isMagneticAccessories = product.subCategory.slug === "magnetic-accessories"
 
-    const specEntries = Object.entries(product.specifications || {})
+    const specEntries = isMagneticAccessories ? [] : Object.entries(product.specifications || {})
         .map(([label, value]) => {
             if (value === null || value === undefined || value === "") return null
 
@@ -359,7 +360,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
         })
         .filter((spec): spec is NonNullable<typeof spec> => spec !== null)
 
-    if (product.colorTemperatures.length > 0) {
+    if (!isMagneticAccessories && product.colorTemperatures.length > 0) {
         const colorTempLabel = isArabic ? "درجة حرارة اللون" : "Color Temperature"
         specEntries.push({
             originalLabel: "color_temperature",
@@ -490,7 +491,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     subCategorySlug={product.subCategory.slug}
                                 />
                             )}
-                            {product.colorTemperatures.length > 0 && (
+                            {!isMagneticAccessories && product.colorTemperatures.length > 0 && (
                                 <ProductColorTempButtons
                                     productId={product.productId}
                                     availableTemps={product.colorTemperatures}
