@@ -4123,6 +4123,7 @@
                             "main_material": "Die-Casting Aluminum",
                             "cri": ">85",
                             "beam_angle": 120,
+                            "lighting_type": "LED Tube",
                             "product_dimensions": "120×85×75 mm",
                             "hole_size": "-",
                             "power_factor": "0.95",

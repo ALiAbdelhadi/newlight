@@ -129,6 +129,8 @@ class TranslationRegistry {
     "bulkhead": { en: "Bulkhead", ar: "عين بقرة" },
     "exit": { en: "Exit", ar: "مخرج طوارئ" },
     "poles-head": { en: "Poles Head", ar: "رأس العمود" },
+    "street-light": { en: "Street Light", ar: "إضاءة الشوارع" },
+    "dustproof-led": { en: "2×120 Cm Dustproof Led", ar: "كشافات 2×120 Cm" },
   };
 
   static getCategory(key: string, lang: SupportedLanguage): string {
