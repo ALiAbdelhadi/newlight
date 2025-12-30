@@ -1968,11 +1968,9 @@
             "productId": "nl-s-l-2-5*5-cm",
             "productName": "nl-s-l-2-5×5-cm",
             "productImages": [
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-stairs-light (1).png",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-stairs-light (2).png",
+              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-stairs-light (3).png"
             ],
             "subCategory": "stairs-light",
             "price": 210,
@@ -1983,11 +1981,10 @@
             "productId": "nl-s-l-2-5*7-cm",
             "productName": "nl-s-l-2-5×7-cm",
             "productImages": [
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (1).png",
+              "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (2).png",
+              "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (3).png",
+              "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (4).png"
             ],
             "subCategory": "stairs-light",
             "price": 240,
@@ -1998,11 +1995,8 @@
             "productId": "nl-s-l-2-5*10-cm",
             "productName": "nl-s-l-2-5×10-cm",
             "productImages": [
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp"
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (1).png",
+              "/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (2).png"
             ],
             "subCategory": "stairs-light",
             "price": 270,
@@ -2144,7 +2138,7 @@
             "productId": "nl-w-l-1",
             "productName": "nl-w-l-1",
             "productImages": [
-              "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1 (1).webp"
+              "/products/outdoor/wall-light/nl-w-l-1/nl-wall-light-1.png"
             ],
             "subCategory": "wall-light",
             "price": 950,
@@ -2155,9 +2149,8 @@
             "productId": "nl-w-l-2",
             "productName": "nl-w-l-2",
             "productImages": [
-              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (1).webp",
-              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (2).webp",
-              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (3).webp"
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (1).png",
+              "/products/outdoor/wall-light/nl-w-l-2/nl-wall-light-2 (2).png"
             ],
             "subCategory": "wall-light",
             "price": 450,
@@ -2168,8 +2161,8 @@
             "productId": "nl-w-l-3",
             "productName": "nl-w-l-3",
             "productImages": [
-              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (1).webp",
-              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (2).webp"
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (1).png",
+              "/products/outdoor/wall-light/nl-w-l-3/nl-wall-light-3 (2).png"
             ],
             "subCategory": "wall-light",
             "price": 579,
@@ -2180,10 +2173,10 @@
             "productId": "nl-w-l-4",
             "productName": "nl-w-l-4",
             "productImages": [
-              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (1).webp",
-              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (2).webp",
-              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (3).webp",
-              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).webp"
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (1).png",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (2).png",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (3).png",
+              "/products/outdoor/wall-light/nl-w-l-4/nl-wall-light-4 (4).png"
             ],
             "subCategory": "wall-light",
             "price": 950,
@@ -2197,7 +2190,8 @@
               "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (1).webp",
               "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (2).webp",
               "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (3).webp",
-              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp"
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp",
+              "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (5).webp"
             ],
             "subCategory": "wall-light",
             "price": 589,
@@ -2208,10 +2202,10 @@
             "productId": "nl-w-l-6",
             "productName": "nl-w-l-6",
             "productImages": [
-              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).webp",
-              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).webp",
-              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).webp",
-              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).webp"
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).png",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).png",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).png",
+              "/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).png"
             ],
             "subCategory": "wall-light",
             "price": 459,
