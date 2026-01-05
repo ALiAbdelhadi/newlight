@@ -875,7 +875,9 @@
         "pleaseTryAgain": "يرجى المحاولة مرة أخرى",
         "configurationSaved": "تم حفظ الإعدادات",
         "redirectingToPreview": "جاري التحويل إلى صفحة المعاينة...",
-        "invalidQuantity": "الكمية غير صحيحة"
+        "invalidQuantity": "الكمية غير صحيحة",
+        "decreaseQuantity": "تقليل الكمية",
+        "increaseQuantity": "زيادة الكمية"
     },
     "preview": {
         "home": "الرئيسية",

@@ -877,7 +877,9 @@
         "pleaseTryAgain": "Please try again",
         "configurationSaved": "Configuration Saved",
         "redirectingToPreview": "Redirecting to preview...",
-        "invalidQuantity": "Invalid quantity"
+        "invalidQuantity": "Invalid quantity",
+        "decreaseQuantity": "Decrease Quantity",
+        "increaseQuantity": "Increase Quantity"
     },
     "preview": {
         "home": "Home",
