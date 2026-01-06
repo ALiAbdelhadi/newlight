@@ -877,7 +877,8 @@
         "redirectingToPreview": "جاري التحويل إلى صفحة المعاينة...",
         "invalidQuantity": "الكمية غير صحيحة",
         "decreaseQuantity": "تقليل الكمية",
-        "increaseQuantity": "زيادة الكمية"
+        "increaseQuantity": "زيادة الكمية",
+        "viewImage": "أظهار صورة المنتج"
     },
     "preview": {
         "home": "الرئيسية",

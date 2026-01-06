@@ -1,8 +1,12 @@
+import { CartService } from "@/lib/services/cart-service"
+import { removeCartItemSchema, updateCartItemSchema } from "@/lib/validation/scehma"
 import { auth } from "@clerk/nextjs/server"
-import { prisma } from "@repo/database"
 import { getLocale } from "next-intl/server"
 import { NextResponse } from "next/server"
 
+/**
+ * GET - Fetch user's cart
+ */
 export async function GET() {
   const { userId } = await auth()
   const locale = await getLocale()
@@ -12,44 +16,14 @@ export async function GET() {
   }
 
   try {
-    const cart = await prisma.cart.findUnique({
-      where: { userId },
-      include: {
-        items: {
-          include: {
-            product: {
-              include: {
-                translations: {
-                  where: { locale: locale },
-                  take: 1,
-                },
-                subCategory: {
-                  include: {
-                    translations: {
-                      where: { locale: locale },
-                      take: 1,
-                    },
-                    category: {
-                      include: {
-                        translations: {
-                          where: { locale: locale },
-                          take: 1,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    })
+    // Use CartService instead of direct Prisma
+    const cart = await CartService.getCartWithItems(userId, locale)
 
     if (!cart) {
       return NextResponse.json([])
     }
 
+    // Format items for frontend
     const cartItems = cart.items.map((item) => {
       const productTranslation = item.product.translations[0]
       const subCategoryTranslation = item.product.subCategory.translations[0]
@@ -77,13 +51,13 @@ export async function GET() {
     return NextResponse.json(cartItems)
   } catch (error) {
     console.error("Error fetching cart:", error)
-    return NextResponse.json(
-      { error: "Failed to fetch cart" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: "Failed to fetch cart" }, { status: 500 })
   }
 }
 
+/**
+ * PATCH - Update cart item quantity
+ */
 export async function PATCH(request: Request) {
   const { userId } = await auth()
   const locale = await getLocale()
@@ -93,46 +67,35 @@ export async function PATCH(request: Request) {
   }
 
   try {
-    const { itemId, quantity } = await request.json()
+    const body = await request.json()
 
-    if (!itemId || quantity < 1) {
+    // Validate input
+    const validation = updateCartItemSchema.safeParse(body)
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Invalid request" },
+        { error: "Invalid request", details: validation.error },
         { status: 400 }
       )
     }
 
-    const updatedItem = await prisma.cartItem.update({
-      where: { id: itemId },
-      data: { quantity },
-      include: {
-        product: {
-          include: {
-            translations: {
-              where: { locale: locale },
-              take: 1,
-            },
-            subCategory: {
-              include: {
-                translations: {
-                  where: { locale: locale },
-                  take: 1,
-                },
-                category: {
-                  include: {
-                    translations: {
-                      where: { locale: locale },
-                      take: 1,
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
+    const { itemId, quantity } = validation.data
+
+    // Use CartService
+    const result = await CartService.updateItemQuantity({
+      userId,
+      itemId,
+      quantity,
     })
 
+    // Get updated item with full details
+    const cart = await CartService.getCartWithItems(userId, locale)
+    const updatedItem = cart?.items.find((item) => item.id === itemId)
+
+    if (!updatedItem) {
+      return NextResponse.json({ error: "Item not found" }, { status: 404 })
+    }
+
+    // Format response
     const productTranslation = updatedItem.product.translations[0]
     const subCategoryTranslation = updatedItem.product.subCategory.translations[0]
     const categoryTranslation = updatedItem.product.subCategory.category.translations[0]
@@ -156,6 +119,16 @@ export async function PATCH(request: Request) {
     return NextResponse.json(formattedItem)
   } catch (error) {
     console.error("Error updating cart item:", error)
+
+    if (error instanceof Error) {
+      if (error.message === "CART_ITEM_NOT_FOUND") {
+        return NextResponse.json({ error: "Cart item not found" }, { status: 404 })
+      }
+      if (error.message === "INVALID_QUANTITY") {
+        return NextResponse.json({ error: "Invalid quantity" }, { status: 400 })
+      }
+    }
+
     return NextResponse.json(
       { error: "Failed to update cart item" },
       { status: 500 }
@@ -163,6 +136,9 @@ export async function PATCH(request: Request) {
   }
 }
 
+/**
+ * DELETE - Remove item from cart
+ */
 export async function DELETE(request: Request) {
   const { userId } = await auth()
 
@@ -171,37 +147,33 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    const { itemId } = await request.json()
+    const body = await request.json()
 
-    if (!itemId) {
+    // Validate input
+    const validation = removeCartItemSchema.safeParse(body)
+    if (!validation.success) {
       return NextResponse.json(
-        { error: "Item ID required" },
+        { error: "Invalid request", details: validation.error },
         { status: 400 }
       )
     }
 
-    // Verify the item belongs to the user's cart
-    const cartItem = await prisma.cartItem.findFirst({
-      where: {
-        id: itemId,
-        cart: { userId },
-      },
-    })
+    const { itemId } = validation.data
 
-    if (!cartItem) {
-      return NextResponse.json(
-        { error: "Cart item not found" },
-        { status: 404 }
-      )
-    }
-
-    await prisma.cartItem.delete({
-      where: { id: itemId },
+    // Use CartService
+    await CartService.removeItem({
+      userId,
+      itemId,
     })
 
     return NextResponse.json({ success: true })
   } catch (error) {
     console.error("Error deleting cart item:", error)
+
+    if (error instanceof Error && error.message === "CART_ITEM_NOT_FOUND") {
+      return NextResponse.json({ error: "Cart item not found" }, { status: 404 })
+    }
+
     return NextResponse.json(
       { error: "Failed to delete cart item" },
       { status: 500 }

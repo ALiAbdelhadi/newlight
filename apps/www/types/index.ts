@@ -395,7 +395,47 @@ export interface ConfirmPageViewProps {
     }
     isArabic: boolean
 }
+export interface ConfirmFormProps {
+    configId: string
+    userId: string
+    existingAddress?: {
+        fullName: string
+        phone: string
+        email?: string
+        addressLine1: string
+        addressLine2?: string
+        city: string
+        state?: string
+        postalCode: string
+        country: string
+    }
+    translations: {
+        shippingInformation: string
+        fullName: string
+        phone: string
+        email: string
+        addressLine1: string
+        addressLine2: string
+        city: string
+        state: string
+        postalCode: string
+        shippingOption: string
+        basicShipping: string
+        standardShipping: string
+        expressShipping: string
+        saveAndContinue: string
+        fullNamePlaceholder: string
+        phonePlaceholder: string
+        emailPlaceholder: string
+        addressPlaceholder: string
+        cityPlaceholder: string
+        statePlaceholder: string
+        postalCodePlaceholder: string
+    }
+    isArabic: boolean
+}
 
+export type ShippingOption = "BasicShipping" | "StandardShipping" | "ExpressShipping"
 export interface OrderSummaryProps {
     product: {
         productId: string
@@ -468,9 +508,9 @@ export type SubCategory = {
         price: number
         images: string[]
         isFeatured: boolean
-        baseProductId: string | null 
-        variantType: string | null 
-        variantValue: string | null 
+        baseProductId: string | null
+        variantType: string | null
+        variantValue: string | null
         colorImageMap: Record<string, string[]> | null
         translations: Array<{
             locale: string

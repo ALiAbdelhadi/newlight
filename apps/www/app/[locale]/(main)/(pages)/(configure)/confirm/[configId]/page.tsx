@@ -8,7 +8,6 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, redirect } from "next/navigation"
 import { ConfirmPageView } from "./confirm"
 
-
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
@@ -36,7 +35,11 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
     const product = await getProductWithDetails(configuration.productId, locale)
     if (!product) {
-        notFound()
+        return constructMetadata({
+            title: t("defaultTitle"),
+            description: t("defaultDescription"),
+            locale: locale as SupportedLanguage,
+        })
     }
 
     const productImage = product.images?.[0] || undefined
@@ -54,12 +57,13 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 export default async function ConfirmPage({ params }: ConfirmPageProps) {
     const { userId } = await auth()
     const locale = await getLocale()
-    const t = await getTranslations("confirm")
     const { configId } = await params
 
     if (!userId) {
         redirect(`/${locale}/preview/${configId}`)
     }
+
+    const t = await getTranslations("confirm")
 
     const [configuration, existingAddress] = await Promise.all([
         getConfiguration(configId),
@@ -118,6 +122,7 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
     }
 
     const isArabic = locale.startsWith("ar")
+
     const productTranslation = product.translations[0]
     const productName = productTranslation?.name || product.productId
 
@@ -128,7 +133,7 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
             configuration={configuration}
             product={product}
             productName={productName}
-            existingAddress={formattedAddress}  // ✅ استخدم البيانات المحولة
+            existingAddress={formattedAddress}
             translations={translations}
             isArabic={isArabic}
         />

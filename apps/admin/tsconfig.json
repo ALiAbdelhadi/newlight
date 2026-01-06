@@ -34,7 +34,7 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-  ],
+, "../www/lib/services/cart-service.ts", "../www/lib/services/product-service.ts", "../www/lib/services/user-service.ts"  ],
   "exclude": [
     "node_modules"
   ]

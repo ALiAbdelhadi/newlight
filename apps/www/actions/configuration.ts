@@ -3,7 +3,8 @@
 import { auth } from "@clerk/nextjs/server"
 import { prisma } from "@repo/database"
 import { revalidatePath } from "next/cache"
-import { NextResponse } from "next/server"
+import { ProductService } from "@/lib/services/product-service"
+import { UserService } from "@/lib/services/user-service"
 
 interface SaveConfigurationArgs {
     productId: string
@@ -13,39 +14,32 @@ interface SaveConfigurationArgs {
     configId?: string
 }
 
+/**
+ * Save or update configuration
+ * Note: Configurations don't go through service layer as they're temporary/session data
+ * But we use ProductService for product validation
+ */
 export async function saveConfiguration(args: SaveConfigurationArgs) {
-    // Get userId but don't require it for saveConfiguration
-    const { userId } = await auth()
-
     try {
-        // Get product details
-        const product = await prisma.product.findUnique({
-            where: { productId: args.productId },
-            include: {
-                translations: {
-                    where: { locale: "en" },
-                    take: 1,
-                },
-            },
-        })
+        // Get userId (optional for guests)
+        const { userId } = await auth()
+
+        // 1. Validate product exists using ProductService
+        const product = await ProductService.getProduct(args.productId, "en")
 
         if (!product) {
-            throw new Error("Product not found")
+            return {
+                success: false,
+                error: "Product not found",
+            }
         }
 
-        // If user is logged in, try to update existing config
+        // 2. If user is logged in, handle user configuration
         if (userId) {
             // Ensure user exists
-            let user = await prisma.user.findUnique({
-                where: { id: userId },
-            })
+            await UserService.getOrCreateUser(userId)
 
-            if (!user) {
-                user = await prisma.user.create({
-                    data: { id: userId },
-                })
-            }
-
+            // If updating existing config
             if (args.configId) {
                 const existingConfig = await prisma.configuration.findFirst({
                     where: {
@@ -114,7 +108,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        // Create new configuration WITHOUT user (for guests)
+        // 3. Guest configuration (no user connection)
         const configuration = await prisma.configuration.create({
             data: {
                 key: `config_${Date.now()}_${Math.random().toString(36).substring(7)}`,
@@ -143,17 +137,24 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             configId: configuration.id,
             productId: args.productId,
         }
+
     } catch (error) {
         console.error("Failed to save configuration:", error)
-        throw new Error("Failed to save configuration")
+
+        return {
+            success: false,
+            error: "Failed to save configuration",
+        }
     }
 }
 
+/**
+ * Get configuration by ID
+ */
 export async function getConfiguration(configId: string) {
-    const { userId } = await auth()
-
-    // Allow getting configuration without authentication
     try {
+        const { userId } = await auth()
+
         // If user is logged in, check if config belongs to them
         if (userId) {
             const configuration = await prisma.configuration.findFirst({
@@ -169,7 +170,7 @@ export async function getConfiguration(configId: string) {
             })
 
             if (configuration) {
-                // Parse the stored value safely
+                // Parse stored value
                 let configValue
                 try {
                     configValue = JSON.parse(configuration.value)
@@ -186,7 +187,7 @@ export async function getConfiguration(configId: string) {
             }
         }
 
-        // For guests or if not found with user, try to get config without user check
+        // For guests or if not found with user check
         const configuration = await prisma.configuration.findUnique({
             where: { id: configId },
             include: {
@@ -198,7 +199,7 @@ export async function getConfiguration(configId: string) {
             return null
         }
 
-        // Parse the stored value
+        // Parse stored value
         let configValue
         try {
             configValue = JSON.parse(configuration.value)
@@ -211,12 +212,16 @@ export async function getConfiguration(configId: string) {
             selectedColorTemp: configValue.selectedColorTemp || configuration.selectedColorTemp,
             selectedColor: configValue.selectedColor || configuration.selectedColor,
         }
+
     } catch (error) {
         console.error("Failed to get configuration:", error)
         return null
     }
 }
 
+/**
+ * Update configuration quantity
+ */
 export async function updateConfigurationQuantity({
     configId,
     quantity,
@@ -224,13 +229,16 @@ export async function updateConfigurationQuantity({
     configId: string
     quantity: number
 }) {
-    const { userId } = await auth()
-
-    if (quantity < 1) {
-        throw new Error("Invalid quantity")
-    }
-
     try {
+        const { userId } = await auth()
+
+        if (quantity < 1) {
+            return {
+                success: false,
+                error: "Invalid quantity",
+            }
+        }
+
         // If user is logged in, verify ownership
         if (userId) {
             const config = await prisma.configuration.findFirst({
@@ -241,12 +249,12 @@ export async function updateConfigurationQuantity({
                     },
                 },
                 include: {
-                    users: true
-                }
+                    users: true,
+                },
             })
 
             if (config) {
-                const newTotalPrice = (config.configPrice * quantity) - config.discount
+                const newTotalPrice = config.configPrice * quantity - config.discount
 
                 const updatedConfig = await prisma.configuration.update({
                     where: { id: configId },
@@ -265,19 +273,22 @@ export async function updateConfigurationQuantity({
             }
         }
 
-        // For guests, just update the configuration
+        // For guests
         const config = await prisma.configuration.findUnique({
             where: { id: configId },
             include: {
-                users: true
-            }
+                users: true,
+            },
         })
 
         if (!config) {
-            throw new Error("Configuration not found")
+            return {
+                success: false,
+                error: "Configuration not found",
+            }
         }
 
-        const newTotalPrice = (config.configPrice * quantity) - config.discount
+        const newTotalPrice = config.configPrice * quantity - config.discount
 
         const updatedConfig = await prisma.configuration.update({
             where: { id: configId },
@@ -293,13 +304,20 @@ export async function updateConfigurationQuantity({
             success: true,
             configuration: updatedConfig,
         }
+
     } catch (error) {
         console.error("Failed to update configuration quantity:", error)
-        throw new Error("Failed to update configuration quantity")
+
+        return {
+            success: false,
+            error: "Failed to update configuration quantity",
+        }
     }
 }
 
-// Helper function to associate a configuration with a user (when they sign in)
+/**
+ * Associate configuration with user (when they sign in)
+ */
 export async function associateConfigurationWithUser(configId: string, userId: string) {
     try {
         const configuration = await prisma.configuration.findUnique({
@@ -308,24 +326,22 @@ export async function associateConfigurationWithUser(configId: string, userId: s
         })
 
         if (!configuration) {
-            throw new Error("Configuration not found")
+            return {
+                success: false,
+                error: "Configuration not found",
+            }
         }
 
         // If configuration already has users, don't override
         if (configuration.users.length > 0) {
-            return { success: false, message: "Configuration already has an owner" }
+            return {
+                success: false,
+                error: "Configuration already has an owner",
+            }
         }
 
         // Ensure user exists
-        let user = await prisma.user.findUnique({
-            where: { id: userId },
-        })
-
-        if (!user) {
-            user = await prisma.user.create({
-                data: { id: userId },
-            })
-        }
+        await UserService.getOrCreateUser(userId)
 
         // Associate configuration with user
         await prisma.configuration.update({
@@ -337,9 +353,17 @@ export async function associateConfigurationWithUser(configId: string, userId: s
             },
         })
 
-        return { success: true, message: "Configuration associated with user" }
+        return {
+            success: true,
+            message: "Configuration associated with user",
+        }
+
     } catch (error) {
         console.error("Failed to associate configuration with user:", error)
-        throw new Error("Failed to associate configuration with user")
+
+        return {
+            success: false,
+            error: "Failed to associate configuration with user",
+        }
     }
 }

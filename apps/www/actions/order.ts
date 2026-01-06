@@ -1,10 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
-import type { OrderWithDetails } from '@/types'
+import type { OrderWithDetails } from "@/types"
 import { auth } from "@clerk/nextjs/server"
-import { prisma } from "@repo/database"
 import { revalidatePath } from "next/cache"
 import { OrderService } from "@/lib/services/order-service"
+import { UserService } from "@/lib/services/user-service"
+import { ProductService } from "@/lib/services/product-service"
+import { prisma } from "@repo/database"
 
 // ============================================
 // Configuration & Product Queries (No Auth)
@@ -17,7 +20,7 @@ export async function getConfigurationDetails(configId: string) {
     try {
         const configuration = await prisma.configuration.findUnique({
             where: { id: configId },
-            include: { users: true }
+            include: { users: true },
         })
         return configuration
     } catch (error) {
@@ -31,31 +34,7 @@ export async function getConfigurationDetails(configId: string) {
  */
 export async function getProductWithDetails(productId: string, locale: string) {
     try {
-        const product = await prisma.product.findUnique({
-            where: { productId },
-            include: {
-                translations: {
-                    where: { locale },
-                    take: 1,
-                },
-                subCategory: {
-                    include: {
-                        translations: {
-                            where: { locale },
-                            take: 1,
-                        },
-                        category: {
-                            include: {
-                                translations: {
-                                    where: { locale },
-                                    take: 1,
-                                },
-                            },
-                        },
-                    },
-                },
-            },
-        })
+        const product = await ProductService.getProduct(productId, locale)
         return product
     } catch (error) {
         console.error("Error getting product details:", error)
@@ -72,11 +51,8 @@ export async function getProductWithDetails(productId: string, locale: string) {
  */
 export async function getUserShippingAddress(userId: string) {
     try {
-        const user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: { shippingAddress: true },
-        })
-        return user?.shippingAddress || null
+        const address = await UserService.getShippingAddress(userId)
+        return address
     } catch (error) {
         console.error("Error getting shipping address:", error)
         return null
@@ -86,42 +62,28 @@ export async function getUserShippingAddress(userId: string) {
 /**
  * Save or update user's shipping address
  */
-export async function saveShippingAddress(userId: string, data: {
-    fullName: string
-    phone: string
-    email?: string
-    addressLine1: string
-    addressLine2?: string
-    city: string
-    state?: string
-    postalCode: string
-    country?: string
-}) {
+export async function saveShippingAddress(
+    userId: string,
+    data: {
+        fullName: string
+        phone: string
+        email?: string
+        addressLine1: string
+        addressLine2?: string
+        city: string
+        state?: string
+        postalCode: string
+        country?: string
+    }
+) {
     try {
-        const existingAddress = await prisma.shippingAddress.findUnique({
-            where: { userId }
-        })
+        const result = await UserService.saveShippingAddress(userId, data)
 
-        if (existingAddress) {
-            const updated = await prisma.shippingAddress.update({
-                where: { userId },
-                data: {
-                    ...data,
-                    country: data.country || "Egypt"
-                }
-            })
-            return { success: true, address: updated }
-        } else {
-            const created = await prisma.shippingAddress.create({
-                data: {
-                    userId,
-                    ...data,
-                    country: data.country || "Egypt",
-                    isDefault: true
-                }
-            })
-            return { success: true, address: created }
+        if (result.success) {
+            revalidatePath("/checkout")
         }
+
+        return result
     } catch (error) {
         console.error("Error saving shipping address:", error)
         return { success: false, error: "Failed to save shipping address" }
@@ -134,7 +96,6 @@ export async function saveShippingAddress(userId: string, data: {
 
 /**
  * Create order from configuration with full idempotency & transactional safety
- * Uses OrderService for business logic encapsulation
  */
 export async function createOrderFromConfiguration(
     configId: string,
@@ -149,21 +110,18 @@ export async function createOrderFromConfiguration(
             return {
                 success: false,
                 error: "Authentication required",
-                requiresAuth: true
+                requiresAuth: true,
             }
         }
 
         // 2. Validate shipping address exists
-        const shippingAddress = await prisma.shippingAddress.findUnique({
-            where: { userId },
-            select: { id: true },
-        })
+        const shippingAddress = await UserService.getShippingAddress(userId)
 
         if (!shippingAddress) {
             return {
                 success: false,
                 error: "Shipping address required",
-                needsShippingAddress: true
+                needsShippingAddress: true,
             }
         }
 
@@ -181,48 +139,45 @@ export async function createOrderFromConfiguration(
 
         // 5. Handle result
         if (result.success) {
+            // Revalidate paths
             revalidatePath("/orders")
-
-            // TODO: Queue background jobs
-            // await OrderQueue.queuePaymentProcessing(result.orderId)
-            // await OrderQueue.queueOrderConfirmation(result.orderId)
+            revalidatePath(`/orders/${result.orderId}`)
 
             return {
                 success: true,
                 order: { id: result.orderId },
                 orderNumber: result.orderNumber,
-                isDuplicate: result.isDuplicate || false
+                isDuplicate: result.isDuplicate || false,
             }
         }
 
         return {
             success: false,
-            error: result.error || "Failed to create order"
+            error: result.error || "Failed to create order",
         }
-
     } catch (error) {
         console.error("Order creation error:", error)
 
         // Handle specific error types
         if (error instanceof Error) {
-            if (error.message.includes("INSUFFICIENT_INVENTORY")) {
+            if (error.message.includes("Insufficient inventory")) {
                 return {
                     success: false,
-                    error: "Product is out of stock"
+                    error: "Product is out of stock",
                 }
             }
 
-            if (error.message.includes("CONFIGURATION_NOT_FOUND")) {
+            if (error.message.includes("Configuration not found")) {
                 return {
                     success: false,
-                    error: "Configuration not found"
+                    error: "Configuration not found",
                 }
             }
         }
 
         return {
             success: false,
-            error: "Failed to create order"
+            error: "Failed to create order",
         }
     }
 }
@@ -234,9 +189,7 @@ export async function createOrderFromConfiguration(
 /**
  * Get order details with full relations
  */
-export async function getOrderDetails(
-    orderId: string
-): Promise<OrderWithDetails | null> {
+export async function getOrderDetails(orderId: string): Promise<OrderWithDetails | null> {
     try {
         const { userId } = await auth()
 
@@ -276,10 +229,7 @@ export async function getOrderDetails(
 /**
  * Get all user orders (paginated)
  */
-export async function getUserOrders(
-    page: number = 1,
-    limit: number = 10
-) {
+export async function getUserOrders(page: number = 1, limit: number = 10) {
     try {
         const { userId } = await auth()
 
@@ -287,50 +237,31 @@ export async function getUserOrders(
             return {
                 success: false,
                 error: "Authentication required",
-                orders: []
+                orders: [],
             }
         }
 
-        const skip = (page - 1) * limit
-
-        const [orders, total] = await Promise.all([
-            prisma.order.findMany({
-                where: { userId },
-                include: {
-                    items: {
-                        include: {
-                            product: {
-                                include: {
-                                    translations: { take: 1 }
-                                }
-                            }
-                        }
-                    },
-                    shippingAddress: true,
-                },
-                orderBy: { createdAt: "desc" },
-                skip,
-                take: limit,
-            }),
-            prisma.order.count({ where: { userId } })
-        ])
+        const { orders, pagination } = await UserService.getOrderHistory(userId, {
+            skip: (page - 1) * limit,
+            take: limit,
+        })
 
         return {
             success: true,
             orders,
             pagination: {
-                total,
+                total: pagination.total,
                 page,
                 limit,
-                totalPages: Math.ceil(total / limit)
-            }
+                totalPages: Math.ceil(pagination.total / limit),
+            },
         }
     } catch (error) {
         console.error("Error getting user orders:", error)
         return {
             success: false,
             error: "Failed to fetch orders",
-            orders: []
+            orders: [],
         }
     }
 }
@@ -341,7 +272,6 @@ export async function getUserOrders(
 
 /**
  * Cancel order and restore inventory
- * Uses OrderService for transactional safety
  */
 export async function cancelOrder(orderId: string) {
     try {
@@ -352,7 +282,7 @@ export async function cancelOrder(orderId: string) {
             return {
                 success: false,
                 error: "Authentication required",
-                requiresAuth: true
+                requiresAuth: true,
             }
         }
 
@@ -366,30 +296,29 @@ export async function cancelOrder(orderId: string) {
         }
 
         return result
-
     } catch (error) {
         console.error("Order cancellation error:", error)
 
         // Handle specific errors
         if (error instanceof Error) {
-            if (error.message.includes("ORDER_NOT_FOUND")) {
+            if (error.message.includes("Order not found")) {
                 return {
                     success: false,
-                    error: "Order not found"
+                    error: "Order not found",
                 }
             }
 
-            if (error.message.includes("ORDER_NOT_CANCELLABLE")) {
+            if (error.message.includes("Order cannot be cancelled")) {
                 return {
                     success: false,
-                    error: "Order cannot be cancelled at this stage"
+                    error: "Order cannot be cancelled at this stage",
                 }
             }
         }
 
         return {
             success: false,
-            error: "Failed to cancel order"
+            error: "Failed to cancel order",
         }
     }
 }
@@ -404,7 +333,14 @@ export async function cancelOrder(orderId: string) {
  */
 export async function updateOrderStatus(
     orderId: string,
-    status: "awaiting_shipment" | "processing" | "shipped" | "delivered" | "fulfilled" | "cancelled" | "refunded",
+    status:
+        | "awaiting_shipment"
+        | "processing"
+        | "shipped"
+        | "delivered"
+        | "fulfilled"
+        | "cancelled"
+        | "refunded",
     trackingNumber?: string
 ) {
     try {
@@ -413,7 +349,7 @@ export async function updateOrderStatus(
         if (!userId) {
             return {
                 success: false,
-                error: "Authentication required"
+                error: "Authentication required",
             }
         }
 
@@ -421,15 +357,15 @@ export async function updateOrderStatus(
         const order = await prisma.order.findFirst({
             where: {
                 id: orderId,
-                userId
+                userId,
             },
-            select: { id: true, status: true }
+            select: { id: true, status: true },
         })
 
         if (!order) {
             return {
                 success: false,
-                error: "Order not found"
+                error: "Order not found",
             }
         }
 
@@ -455,14 +391,13 @@ export async function updateOrderStatus(
 
         return {
             success: true,
-            order: updatedOrder
+            order: updatedOrder,
         }
-
     } catch (error) {
         console.error("Error updating order status:", error)
         return {
             success: false,
-            error: "Failed to update order status"
+            error: "Failed to update order status",
         }
     }
 }
@@ -483,9 +418,9 @@ export async function canCancelOrder(orderId: string): Promise<boolean> {
         const order = await prisma.order.findFirst({
             where: {
                 id: orderId,
-                userId
+                userId,
             },
-            select: { status: true }
+            select: { status: true },
         })
 
         if (!order) return false
@@ -508,27 +443,8 @@ export async function getUserOrderStats() {
             return null
         }
 
-        const stats = await prisma.order.groupBy({
-            by: ["status"],
-            where: { userId },
-            _count: { id: true },
-            _sum: { total: true }
-        })
-
-        const totalOrders = stats.reduce((sum, stat) => sum + stat._count.id, 0)
-        const totalSpent = stats.reduce((sum, stat) => sum + (stat._sum.total || 0), 0)
-
-        return {
-            totalOrders,
-            totalSpent,
-            byStatus: stats.reduce((acc, stat) => {
-                acc[stat.status] = {
-                    count: stat._count.id,
-                    total: stat._sum.total || 0
-                }
-                return acc
-            }, {} as Record<string, { count: number; total: number }>)
-        }
+        const stats = await UserService.getUserStats(userId)
+        return stats
     } catch (error) {
         console.error("Error getting order stats:", error)
         return null

@@ -12,7 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import UserAvatar from "@/components/user-avatar";
 import { OrderStatus } from "@repo/database";
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";

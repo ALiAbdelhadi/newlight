@@ -136,10 +136,10 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
   }, [orders.length, filteredOrders.length, searchItem]);
 
   const canCancelOrder = (status: OrderStatus) => {
-    return status !== "cancelled" && 
-           status !== "shipped" && 
-           status !== "delivered" && 
-           status !== "fulfilled";
+    return status !== "cancelled" &&
+      status !== "shipped" &&
+      status !== "delivered" &&
+      status !== "fulfilled";
   };
 
   const handleCancelOrder = async (orderId: string) => {
@@ -173,7 +173,6 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       return;
     }
 
-    // Flatten orders with items for export
     interface ExportRow {
       "Order Number": string;
       "Order ID": string;
@@ -292,7 +291,6 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       return;
     }
 
-    // Flatten orders with items for export
     interface ExportRow {
       "Order Number": string;
       "Order ID": string;
@@ -594,8 +592,8 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                           </TableCell>
                           <TableCell rowSpan={order.items.length}>
                             {canCancelOrder(order.status) && (
-                              <AlertDialog 
-                                open={cancelDialogOpen === order.id} 
+                              <AlertDialog
+                                open={cancelDialogOpen === order.id}
                                 onOpenChange={(open) => setCancelDialogOpen(open ? order.id : null)}
                               >
                                 <AlertDialogTrigger asChild>
@@ -612,7 +610,7 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                                   <AlertDialogHeader>
                                     <AlertDialogTitle>Cancel Order</AlertDialogTitle>
                                     <AlertDialogDescription>
-                                      Are you sure you want to cancel order #{order.orderNumber}? 
+                                      Are you sure you want to cancel order #{order.orderNumber}?
                                       This action cannot be undone. The order will be marked as cancelled.
                                     </AlertDialogDescription>
                                   </AlertDialogHeader>

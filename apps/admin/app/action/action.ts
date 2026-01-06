@@ -1,16 +1,11 @@
 "use server";
 
-import { OrderStatus, prisma } from "@repo/database";
+import { OrderService } from "@/lib/services/order-service";
+import { OrderStatus } from "@repo/database";
 
-export const changeOrderStatus = async ({
-  id,
-  newStatus,
-}: {
+export const changeOrderStatus = async ({ id, newStatus }: {
   id: string;
   newStatus: OrderStatus;
 }) => {
-  await prisma.order.update({
-    where: { id },
-    data: { status: newStatus },
-  });
-};
+  return OrderService.updateOrderStatus(id, newStatus)
+}

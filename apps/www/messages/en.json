@@ -879,7 +879,8 @@
         "redirectingToPreview": "Redirecting to preview...",
         "invalidQuantity": "Invalid quantity",
         "decreaseQuantity": "Decrease Quantity",
-        "increaseQuantity": "Increase Quantity"
+        "increaseQuantity": "Increase Quantity",
+        "viewImage": "View Product Image"
     },
     "preview": {
         "home": "Home",
