@@ -59,11 +59,16 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                 selectedColor: surfaceColor || undefined,
             }),
         onSuccess: (result) => {
-            // Improved type guard
             if (result && typeof result === 'object' && 'success' in result && result.success && 'configId' in result && result.configId) {
-                toast.success(t("configurationSaved"), {
-                    description: t("redirectingToPreview"),
-                })
+                if ('cacheCleared' in result && !result.cacheCleared) {
+                    toast.warning(t("configurationSaved"), {
+                        description: t("cacheClearingFailed"),
+                    })
+                } else {
+                    toast.success(t("configurationSaved"), {
+                        description: t("redirectingToPreview"),
+                    })
+                }
                 router.push(`/preview/${result.configId}`)
             } else {
                 toast.error(t("configurationError"), {

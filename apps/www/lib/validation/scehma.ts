@@ -49,8 +49,8 @@ export type RemoveCartItemInput = z.infer<typeof removeCartItemSchema>
  * Shipping Address Schema
  */
 export const shippingAddressSchema = z.object({
-    fullName: z.string().min(2, "Full name must be at least 2 characters"),
-    phone: z.string().min(10, "Phone number must be at least 10 characters"),
+    fullName: z.string().regex(/^[\u0621-\u064Aa-zA-Z\s]+$/).min(2, "Full name must be at least 2 characters"),
+    phone: z.string().regex(/^[\+]?[0-9]{10,15}$/).min(10, "Phone number must be at least 10 characters"),
     email: z.string().email("Invalid email address").optional(),
     addressLine1: z.string().min(5, "Address must be at least 5 characters"),
     addressLine2: z.string().optional(),
@@ -66,10 +66,10 @@ export type ShippingAddressInput = z.infer<typeof shippingAddressSchema>
  * Configuration Schema
  */
 export const saveConfigurationSchema = z.object({
-    productId: z.string().min(1, "Product ID is required"),
+    productId: z.string().min(1, "Product ID is required").max(1000),
     quantity: z.number().int().min(1, "Quantity must be at least 1"),
-    selectedColorTemp: z.string().optional(),
-    selectedColor: z.string().optional(),
+    selectedColorTemp: z.enum(['WARM_3000K', 'COOL_4000K', 'WHITE_6500K']).optional(),
+    selectedColor: z.enum(['BLACK', 'GRAY', 'WHITE', 'GOLD', 'WOOD']).optional(),
     configId: z.string().optional(),
 })
 

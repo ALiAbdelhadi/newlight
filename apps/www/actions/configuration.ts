@@ -14,17 +14,20 @@ interface SaveConfigurationArgs {
     configId?: string
 }
 
-/**
- * Save or update configuration
- * Note: Configurations don't go through service layer as they're temporary/session data
- * But we use ProductService for product validation
- */
+async function safeRevalidatePath(path: string): Promise<boolean> {
+    try {
+        revalidatePath(path)
+        return true
+    } catch (error) {
+        console.error(`Failed to revalidate path: ${path}`, error)
+        return false
+    }
+}
+
 export async function saveConfiguration(args: SaveConfigurationArgs) {
     try {
-        // Get userId (optional for guests)
         const { userId } = await auth()
 
-        // 1. Validate product exists using ProductService
         const product = await ProductService.getProduct(args.productId, "en")
 
         if (!product) {
@@ -34,12 +37,9 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        // 2. If user is logged in, handle user configuration
         if (userId) {
-            // Ensure user exists
             await UserService.getOrCreateUser(userId)
 
-            // If updating existing config
             if (args.configId) {
                 const existingConfig = await prisma.configuration.findFirst({
                     where: {
@@ -64,17 +64,17 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                         },
                     })
 
-                    revalidatePath(`/preview/${args.configId}`)
+                    const revalidated = await safeRevalidatePath(`/preview/${args.configId}`)
 
                     return {
                         success: true,
                         configId: updatedConfig.id,
                         productId: args.productId,
+                        cacheCleared: revalidated,
                     }
                 }
             }
 
-            // Create new configuration with user connection
             const configuration = await prisma.configuration.create({
                 data: {
                     key: `config_${Date.now()}_${Math.random().toString(36).substring(7)}`,
@@ -99,16 +99,16 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                 },
             })
 
-            revalidatePath(`/preview/${configuration.id}`)
+            const revalidated = await safeRevalidatePath(`/preview/${configuration.id}`)
 
             return {
                 success: true,
                 configId: configuration.id,
                 productId: args.productId,
+                cacheCleared: revalidated,
             }
         }
 
-        // 3. Guest configuration (no user connection)
         const configuration = await prisma.configuration.create({
             data: {
                 key: `config_${Date.now()}_${Math.random().toString(36).substring(7)}`,
@@ -130,12 +130,13 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             },
         })
 
-        revalidatePath(`/preview/${configuration.id}`)
+        const revalidated = await safeRevalidatePath(`/preview/${configuration.id}`)
 
         return {
             success: true,
             configId: configuration.id,
             productId: args.productId,
+            cacheCleared: revalidated,
         }
 
     } catch (error) {
@@ -148,14 +149,10 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
     }
 }
 
-/**
- * Get configuration by ID
- */
 export async function getConfiguration(configId: string) {
     try {
         const { userId } = await auth()
 
-        // If user is logged in, check if config belongs to them
         if (userId) {
             const configuration = await prisma.configuration.findFirst({
                 where: {
@@ -170,7 +167,6 @@ export async function getConfiguration(configId: string) {
             })
 
             if (configuration) {
-                // Parse stored value
                 let configValue
                 try {
                     configValue = JSON.parse(configuration.value)
@@ -187,7 +183,6 @@ export async function getConfiguration(configId: string) {
             }
         }
 
-        // For guests or if not found with user check
         const configuration = await prisma.configuration.findUnique({
             where: { id: configId },
             include: {
@@ -199,7 +194,6 @@ export async function getConfiguration(configId: string) {
             return null
         }
 
-        // Parse stored value
         let configValue
         try {
             configValue = JSON.parse(configuration.value)
@@ -219,9 +213,6 @@ export async function getConfiguration(configId: string) {
     }
 }
 
-/**
- * Update configuration quantity
- */
 export async function updateConfigurationQuantity({
     configId,
     quantity,
@@ -239,7 +230,6 @@ export async function updateConfigurationQuantity({
             }
         }
 
-        // If user is logged in, verify ownership
         if (userId) {
             const config = await prisma.configuration.findFirst({
                 where: {
@@ -264,16 +254,16 @@ export async function updateConfigurationQuantity({
                     },
                 })
 
-                revalidatePath(`/preview/${configId}`)
+                const revalidated = await safeRevalidatePath(`/preview/${configId}`)
 
                 return {
                     success: true,
                     configuration: updatedConfig,
+                    cacheCleared: revalidated,
                 }
             }
         }
 
-        // For guests
         const config = await prisma.configuration.findUnique({
             where: { id: configId },
             include: {
@@ -298,11 +288,12 @@ export async function updateConfigurationQuantity({
             },
         })
 
-        revalidatePath(`/preview/${configId}`)
+        const revalidated = await safeRevalidatePath(`/preview/${configId}`)
 
         return {
             success: true,
             configuration: updatedConfig,
+            cacheCleared: revalidated,
         }
 
     } catch (error) {
@@ -315,9 +306,6 @@ export async function updateConfigurationQuantity({
     }
 }
 
-/**
- * Associate configuration with user (when they sign in)
- */
 export async function associateConfigurationWithUser(configId: string, userId: string) {
     try {
         const configuration = await prisma.configuration.findUnique({
@@ -332,7 +320,6 @@ export async function associateConfigurationWithUser(configId: string, userId: s
             }
         }
 
-        // If configuration already has users, don't override
         if (configuration.users.length > 0) {
             return {
                 success: false,
@@ -340,10 +327,8 @@ export async function associateConfigurationWithUser(configId: string, userId: s
             }
         }
 
-        // Ensure user exists
         await UserService.getOrCreateUser(userId)
 
-        // Associate configuration with user
         await prisma.configuration.update({
             where: { id: configId },
             data: {

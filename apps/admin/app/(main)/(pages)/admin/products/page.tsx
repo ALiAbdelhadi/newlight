@@ -42,8 +42,7 @@ const Products = async ({
     return notFound();
   }
 
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-  if (user.emailAddresses[0].emailAddress !== ADMIN_EMAIL) {
+  if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
     console.log("User Not authorized");
     return notFound();
   }
@@ -96,7 +95,7 @@ const Products = async ({
     };
   });
 
-  const filteredProducts = view === 'sold' 
+  const filteredProducts = view === 'sold'
     ? productsWithStats.filter(p => p.hasSales)
     : productsWithStats;
 
@@ -158,12 +157,12 @@ const Products = async ({
                   <TableHead>Action</TableHead>
                 </TableRow>
               </TableHeader>
-              <TableBody  className="bg-transparent">
+              <TableBody className="bg-transparent">
                 {filteredProducts.length === 0 ? (
                   <TableRow>
                     <TableCell colSpan={7} className="text-center py-8">
-                      {view === 'sold' 
-                        ? 'No products with sales found' 
+                      {view === 'sold'
+                        ? 'No products with sales found'
                         : 'No products found'}
                     </TableCell>
                   </TableRow>

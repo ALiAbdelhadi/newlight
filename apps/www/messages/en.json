@@ -496,7 +496,8 @@
             "failedToRemove": "Failed to remove item. Please try again."
         },
         "discount": "discount",
-        "orderNow": "Order Now"
+        "orderNow": "Order Now",
+        "currency": "EGP"
     },
     "auth-section": {
         "account": "Account",

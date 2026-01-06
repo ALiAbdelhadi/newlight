@@ -92,6 +92,7 @@ export class OrderService {
                             subtotal,
                             shippingCost,
                             total,
+                            idempotencyKey,
                             status: "awaiting_shipment",
                             shippingOption,
                             shippingAddressId,
@@ -125,8 +126,8 @@ export class OrderService {
                     }
                 },
                 {
-                    maxWait: 5000,
-                    timeout: 10000,
+                    maxWait: 15000,
+                    timeout: 30000,
                     isolationLevel: Prisma.TransactionIsolationLevel.Serializable,
                 }
             )

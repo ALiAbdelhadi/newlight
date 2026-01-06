@@ -227,6 +227,7 @@ model Order {
   shippingCost      Float
   tax               Float?
   total             Float
+  idempotencyKey    String      @unique
   status            OrderStatus @default(awaiting_shipment)
   shippingOption    OrderOption @default(StandardShipping)
   paymentMethod     String?

@@ -6,7 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { useRouter } from "@/i18n/navigation"
+import { generateSessionKey } from "@/lib/idempotency"
 import { getShippingSchema, type ShippingAddressFormData } from "@/lib/validation/shipping"
+import { ConfirmFormProps, ShippingOption } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { AnimatePresence, motion } from "framer-motion"
 import {
@@ -23,51 +25,9 @@ import {
     Zap
 } from "lucide-react"
 import { useLocale } from "next-intl"
-import { useState, useTransition } from "react"
+import { useEffect, useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
-
-interface ConfirmFormProps {
-    configId: string
-    userId: string
-    existingAddress?: {
-        fullName: string
-        phone: string
-        email?: string
-        addressLine1: string
-        addressLine2?: string
-        city: string
-        state?: string
-        postalCode: string
-        country: string
-    }
-    translations: {
-        shippingInformation: string
-        fullName: string
-        phone: string
-        email: string
-        addressLine1: string
-        addressLine2: string
-        city: string
-        state: string
-        postalCode: string
-        shippingOption: string
-        basicShipping: string
-        standardShipping: string
-        expressShipping: string
-        saveAndContinue: string
-        fullNamePlaceholder: string
-        phonePlaceholder: string
-        emailPlaceholder: string
-        addressPlaceholder: string
-        cityPlaceholder: string
-        statePlaceholder: string
-        postalCodePlaceholder: string
-    }
-    isArabic: boolean
-}
-
-type ShippingOption = "BasicShipping" | "StandardShipping" | "ExpressShipping"
 
 const SHIPPING_OPTIONS = {
     BasicShipping: {
@@ -101,6 +61,14 @@ export function ConfirmForm({
     const locale = useLocale()
     const [isPending, startTransition] = useTransition()
     const [shippingOption, setShippingOption] = useState<ShippingOption>("StandardShipping")
+    const [isSubmitting, setIsSubmitting] = useState(false)
+
+    const submitAttemptRef = useRef(0)
+    const lastSubmitTimeRef = useRef<number>(0)
+    const abortControllerRef = useRef<AbortController | null>(null)
+    const idempotencyKeyRef = useRef<string>(
+        generateSessionKey(userId, configId)
+    )
 
     const {
         register,
@@ -121,12 +89,88 @@ export function ConfirmForm({
         }
     })
 
+    useEffect(() => {
+        return () => {
+            if (abortControllerRef.current) {
+                abortControllerRef.current.abort()
+            }
+        }
+    }, [])
+
+    useEffect(() => {
+        if (isSubmitting) {
+            const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+                e.preventDefault()
+                e.returnValue = isArabic
+                    ? "الطلب قيد المعالجة. هل تريد المغادرة؟"
+                    : "Order is being processed. Are you sure you want to leave?"
+            }
+
+            window.addEventListener('beforeunload', handleBeforeUnload)
+            return () => window.removeEventListener('beforeunload', handleBeforeUnload)
+        }
+    }, [isSubmitting, isArabic])
+
     const onSubmit = async (data: ShippingAddressFormData) => {
+        const now = Date.now()
+        const timeSinceLastSubmit = now - lastSubmitTimeRef.current
+
+        if (timeSinceLastSubmit < 2000) {
+            toast.error(
+                isArabic ? "يرجى الانتظار قبل المحاولة مرة أخرى" : "Please wait before trying again",
+                {
+                    description: isArabic
+                        ? "يمكنك المحاولة بعد ثانيتين"
+                        : "You can try again in a moment"
+                }
+            )
+            return
+        }
+
+        if (isSubmitting) {
+            toast.warning(
+                isArabic ? "الطلب قيد المعالجة" : "Order is being processed",
+                {
+                    description: isArabic
+                        ? "يرجى الانتظار..."
+                        : "Please wait..."
+                }
+            )
+            return
+        }
+
+        submitAttemptRef.current += 1
+
+        if (submitAttemptRef.current > 3) {
+            toast.error(
+                isArabic ? "تم تجاوز الحد الأقصى للمحاولات" : "Maximum attempts exceeded",
+                {
+                    description: isArabic
+                        ? "يرجى تحديث الصفحة والمحاولة مرة أخرى"
+                        : "Please refresh the page and try again"
+                }
+            )
+            return
+        }
+
+        lastSubmitTimeRef.current = now
+        setIsSubmitting(true)
+        abortControllerRef.current = new AbortController()
+
         startTransition(async () => {
             try {
-                const addressResult = await saveShippingAddress(userId, data)
+                const addressPromise = saveShippingAddress(userId, data)
+                const timeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Request timeout')), 30000)
+                )
+
+                const addressResult = await Promise.race([
+                    addressPromise,
+                    timeoutPromise
+                ]) as Awaited<ReturnType<typeof saveShippingAddress>>
 
                 if (!addressResult.success) {
+                    setIsSubmitting(false)
                     toast.error(
                         isArabic ? "فشل في حفظ العنوان" : "Failed to save address",
                         {
@@ -139,12 +183,42 @@ export function ConfirmForm({
                     return
                 }
 
-                const orderResult = await createOrderFromConfiguration(
+                const orderPromise = createOrderFromConfiguration(
                     configId,
-                    shippingOption
+                    shippingOption,
+                    idempotencyKeyRef.current
                 )
 
+                const orderTimeoutPromise = new Promise((_, reject) =>
+                    setTimeout(() => reject(new Error('Order creation timeout')), 30000)
+                )
+
+                const orderResult = await Promise.race([
+                    orderPromise,
+                    orderTimeoutPromise
+                ]) as Awaited<ReturnType<typeof createOrderFromConfiguration>>
+
                 if (!orderResult.success) {
+                    setIsSubmitting(false)
+
+                    if (orderResult.error?.includes('duplicate') || orderResult.error?.includes('already exists')) {
+                        toast.info(
+                            isArabic ? "الطلب موجود بالفعل" : "Order already exists",
+                            {
+                                description: isArabic
+                                    ? "سيتم تحويلك إلى صفحة الاكمال "
+                                    : "Redirecting to completing page"
+                            }
+                        )
+
+                        if (orderResult.order?.id) {
+                            setTimeout(() => {
+                                router.push(`/complete/configId=${configId}?orderId=${orderResult.order?.id}`)
+                            }, 1000)
+                        }
+                        return
+                    }
+
                     toast.error(
                         isArabic ? "فشل في إنشاء الطلب" : "Failed to create order",
                         {
@@ -156,6 +230,7 @@ export function ConfirmForm({
                     )
                     return
                 }
+
                 toast.success(
                     isArabic ? "تم إنشاء الطلب بنجاح!" : "Order created successfully!",
                     {
@@ -165,12 +240,29 @@ export function ConfirmForm({
                     }
                 )
 
+                window.history.pushState(null, '', window.location.href)
+
                 setTimeout(() => {
                     router.push(`/complete/configId=${configId}?orderId=${orderResult.order?.id}`)
                 }, 1500)
 
             } catch (err) {
-                console.error("Order submission error:", err)
+                setIsSubmitting(false)
+
+                if (err instanceof Error) {
+                    if (err.message === 'Request timeout' || err.message === 'Order creation timeout') {
+                        toast.error(
+                            isArabic ? "انتهت مهلة الطلب" : "Request timeout",
+                            {
+                                description: isArabic
+                                    ? "يرجى التحقق من اتصال الإنترنت والمحاولة مرة أخرى"
+                                    : "Please check your internet connection and try again"
+                            }
+                        )
+                        return
+                    }
+                }
+
                 toast.error(
                     isArabic ? "حدث خطأ غير متوقع" : "An unexpected error occurred",
                     {
@@ -182,6 +274,8 @@ export function ConfirmForm({
             }
         })
     }
+
+    const isLoading = isPending || isSubmitting
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 md:space-y-8">
@@ -219,7 +313,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.fullName && (
@@ -256,7 +350,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.phone && (
@@ -292,7 +386,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.email && (
@@ -328,7 +422,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.addressLine1 && (
@@ -356,7 +450,7 @@ export function ConfirmForm({
                             id="addressLine2"
                             {...register("addressLine2")}
                             className="h-12"
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -375,7 +469,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.city && (
@@ -401,7 +495,7 @@ export function ConfirmForm({
                             {...register("state")}
                             placeholder={t.statePlaceholder}
                             className="h-12"
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                     </div>
 
@@ -420,7 +514,7 @@ export function ConfirmForm({
                                     ? "border-green-500 focus-visible:ring-green-500"
                                     : ""
                                 }`}
-                            disabled={isPending}
+                            disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
                             {errors.postalCode && (
@@ -453,7 +547,7 @@ export function ConfirmForm({
                     value={shippingOption}
                     onValueChange={(value: ShippingOption) => setShippingOption(value)}
                     className="space-y-3"
-                    disabled={isPending}
+                    disabled={isLoading}
                 >
                     {(Object.keys(SHIPPING_OPTIONS) as ShippingOption[]).map((option) => {
                         const config = SHIPPING_OPTIONS[option]
@@ -463,12 +557,12 @@ export function ConfirmForm({
                         return (
                             <motion.div
                                 key={option}
-                                whileHover={{ scale: isPending ? 1 : 1.01 }}
-                                whileTap={{ scale: isPending ? 1 : 0.98 }}
+                                whileHover={{ scale: isLoading ? 1 : 1.01 }}
+                                whileTap={{ scale: isLoading ? 1 : 0.98 }}
                                 className={`relative flex items-center gap-4 p-4 border-2 rounded-lg cursor-pointer transition-all ${isSelected
                                     ? "border-primary bg-primary/5"
                                     : "border-border hover:border-primary/50 hover:bg-secondary/50"
-                                    } ${isPending ? "opacity-50 cursor-not-allowed" : ""}`}
+                                    } ${isLoading ? "opacity-50 cursor-not-allowed" : ""}`}
                             >
                                 <RadioGroupItem
                                     value={option}
@@ -512,11 +606,11 @@ export function ConfirmForm({
 
             <Button
                 type="submit"
-                disabled={isPending || !isValid}
+                disabled={isLoading || !isValid}
                 size="lg"
-                className="w-full h-14 text-base font-semibold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all relative overflow-hidden group"
+                className="w-full h-14 text-base font-semibold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
             >
-                {isPending ? (
+                {isLoading ? (
                     <>
                         <Loader2 className="w-5 h-5 ltr:mr-2 rtl:ml-2 animate-spin" />
                         {isArabic ? "جاري إنشاء الطلب..." : "Creating Order..."}

@@ -1,25 +1,16 @@
+import { logger } from "@/lib/logger"
 import { OrderService } from "@/lib/services/order-service"
-import { createOrderSchema } from "@/lib/validation/scehma"
 import { auth } from "@clerk/nextjs/server"
-import { NextRequest, NextResponse } from "next/server"
+import { NextResponse } from "next/server"
 
-
-/**
- * POST - Create new order
- * 
- * This endpoint creates an order with:
- * - Full validation
- * - Transactional safety
- * - Inventory reservation
- * - Idempotency support
- */
-
-
-export async function POST(request: NextRequest) {
-    // 1. Authenticate user
+export async function PATCH(
+    request: Request,
+    { params }: { params: Promise<{ orderId: string }> }
+) {
     const { userId } = await auth()
 
     if (!userId) {
+        logger.warn({ action: 'cancel_order' }, 'Unauthenticated attempt')
         return NextResponse.json(
             { error: "Authentication required" },
             { status: 401 }
@@ -27,86 +18,74 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-        // 2. Parse and validate request body
-        const body = await request.json()
-        const validation = createOrderSchema.safeParse(body)
+        const { orderId } = await params
 
-        if (!validation.success) {
+        if (!orderId) {
+            logger.warn({ action: 'cancel_order' }, 'Missing orderId')
             return NextResponse.json(
-                {
-                    error: "Invalid request data",
-                    details: validation.error
-                },
+                { error: "Order ID is required" },
                 { status: 400 }
             )
         }
 
-        const { configurationId, shippingAddressId, shippingOption, idempotencyKey } = validation.data
+        logger.info({ action: 'cancel_order' }, 'Cancellation initiated')
 
-        // 3. Create order using OrderService (handles all business logic)
-        const result = await OrderService.createOrder({
-            userId,
-            configurationId,
-            shippingAddressId,
-            shippingOption,
-            idempotencyKey: idempotencyKey || `${userId}-${configurationId}-${Date.now()}`,
-        })
+        const result = await OrderService.cancelOrder(orderId, userId)
 
-        // 4. Check if result has success property and handle accordingly
         if (!result.success) {
+            logger.warn({
+                action: 'cancel_order',
+                reason: result.error
+            }, 'Cancellation failed')
+
+            if (result.error === "Order not found") {
+                return NextResponse.json(
+                    { error: "Order not found" },
+                    { status: 404 }
+                )
+            }
+
+            if (result.error === "Order cannot be cancelled") {
+                return NextResponse.json(
+                    {
+                        error: "This order cannot be cancelled. It may have already been shipped or delivered.",
+                        details: result.error
+                    },
+                    { status: 400 }
+                )
+            }
+
+            if (result.error === "Unauthorized") {
+                return NextResponse.json(
+                    { error: "Unauthorized to cancel this order" },
+                    { status: 403 }
+                )
+            }
+
             return NextResponse.json(
-                { error: "Failed to create order" },
+                { error: result.error || "Failed to cancel order" },
                 { status: 400 }
             )
         }
 
-        // 5. Return success response
-        return NextResponse.json(
-            {
-                success: true,
-                orderId: result.orderId,
-                orderNumber: result.orderNumber,
-                isDuplicate: result.isDuplicate || false,
-                message: result.isDuplicate
-                    ? "Order already exists"
-                    : "Order created successfully",
-            },
-            { status: result.isDuplicate ? 200 : 201 }
-        )
+        logger.info({ action: 'cancel_order' }, 'Order cancelled successfully')
+
+        return NextResponse.json({
+            success: true,
+            message: result.message || "Order cancelled successfully",
+        }, { status: 200 })
 
     } catch (error) {
-        console.error("Order creation error:", error)
+        logger.error({
+            action: 'cancel_order',
+            err: error
+        }, 'Unexpected error')
 
-        // Handle specific errors
-        if (error instanceof Error) {
-            // Inventory errors
-            if (error.message.includes("Insufficient inventory")) {
-                return NextResponse.json(
-                    { error: "One or more products are out of stock" },
-                    { status: 409 }
-                )
-            }
-
-            // Configuration errors
-            if (error.message.includes("Configuration not found")) {
-                return NextResponse.json(
-                    { error: "Configuration not found" },
-                    { status: 404 }
-                )
-            }
-
-            // Product errors
-            if (error.message.includes("Product not found")) {
-                return NextResponse.json(
-                    { error: "Product not found" },
-                    { status: 404 }
-                )
-            }
-        }
-
-        // Generic error response
         return NextResponse.json(
-            { error: "Internal server error" },
+            {
+                error: "An unexpected error occurred while cancelling the order",
+                details: error instanceof Error ? error.message : "Unknown error"
+            },
             { status: 500 }
         )
     }

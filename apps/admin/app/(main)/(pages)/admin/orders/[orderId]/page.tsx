@@ -13,8 +13,8 @@ const OrderIdPage = async ({
   if (!userId || !user) {
     return notFound();
   }
-  const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-  if (user.emailAddresses[0].emailAddress !== ADMIN_EMAIL) {
+
+  if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
     return notFound();
   }
 

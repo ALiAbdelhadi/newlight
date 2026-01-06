@@ -14,8 +14,8 @@ export default async function DashboardPage() {
         return notFound();
     }
 
-    const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-    if (user.emailAddresses[0].emailAddress !== ADMIN_EMAIL) {
+
+    if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
         return notFound();
     }
 

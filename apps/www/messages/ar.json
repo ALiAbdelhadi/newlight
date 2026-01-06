@@ -597,7 +597,8 @@
             "failedToRemove": "فشل في حذف العنصر. يرجى المحاولة مرة أخرى"
         },
         "discount": "خصم",
-        "orderNow": "اطلب الآن"
+        "orderNow": "اطلب الآن",
+        "currency": "ج.م"
     },
     "footer": {
         "logo": {

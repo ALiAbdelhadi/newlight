@@ -7,15 +7,71 @@ import { revalidatePath } from "next/cache"
 import { OrderService } from "@/lib/services/order-service"
 import { UserService } from "@/lib/services/user-service"
 import { ProductService } from "@/lib/services/product-service"
+import { generateIdempotencyKey, isValidIdempotencyKey } from "@/lib/idempotency"
 import { prisma } from "@repo/database"
 
-// ============================================
-// Configuration & Product Queries (No Auth)
-// ============================================
+const idempotencyCache = new Map<string, {
+    result: any
+    timestamp: number
+    expiresAt: number
+}>()
 
-/**
- * Get configuration details (public access)
- */
+const CACHE_TTL = 5 * 60 * 1000
+const MAX_CACHE_SIZE = 10000
+
+const rateLimitMap = new Map<string, {
+    count: number
+    resetAt: number
+}>()
+
+function checkRateLimit(userId: string, maxRequests: number = 5, windowMs: number = 60000): boolean {
+    const now = Date.now()
+    const userLimit = rateLimitMap.get(userId)
+
+    if (!userLimit || now > userLimit.resetAt) {
+        rateLimitMap.set(userId, {
+            count: 1,
+            resetAt: now + windowMs
+        })
+        return true
+    }
+
+    if (userLimit.count >= maxRequests) {
+        return false
+    }
+
+    userLimit.count++
+    return true
+}
+
+function cleanCache() {
+    const now = Date.now()
+
+    for (const [key, value] of idempotencyCache.entries()) {
+        if (now > value.expiresAt) {
+            idempotencyCache.delete(key)
+        }
+    }
+
+    if (idempotencyCache.size > MAX_CACHE_SIZE) {
+        const sortedEntries = Array.from(idempotencyCache.entries())
+            .sort((a, b) => a[1].timestamp - b[1].timestamp)
+
+        const removeCount = Math.floor(MAX_CACHE_SIZE * 0.2)
+        for (let i = 0; i < removeCount; i++) {
+            idempotencyCache.delete(sortedEntries[i][0])
+        }
+    }
+
+    for (const [key, value] of rateLimitMap.entries()) {
+        if (now > value.resetAt) {
+            rateLimitMap.delete(key)
+        }
+    }
+}
+
+setInterval(cleanCache, 60000)
+
 export async function getConfigurationDetails(configId: string) {
     try {
         const configuration = await prisma.configuration.findUnique({
@@ -29,9 +85,6 @@ export async function getConfigurationDetails(configId: string) {
     }
 }
 
-/**
- * Get product with translations and category details (public access)
- */
 export async function getProductWithDetails(productId: string, locale: string) {
     try {
         const product = await ProductService.getProduct(productId, locale)
@@ -42,13 +95,6 @@ export async function getProductWithDetails(productId: string, locale: string) {
     }
 }
 
-// ============================================
-// Shipping Address Management (Auth Required)
-// ============================================
-
-/**
- * Get user's shipping address
- */
 export async function getUserShippingAddress(userId: string) {
     try {
         const address = await UserService.getShippingAddress(userId)
@@ -59,9 +105,6 @@ export async function getUserShippingAddress(userId: string) {
     }
 }
 
-/**
- * Save or update user's shipping address
- */
 export async function saveShippingAddress(
     userId: string,
     data: {
@@ -90,20 +133,12 @@ export async function saveShippingAddress(
     }
 }
 
-// ============================================
-// Order Creation (Using OrderService)
-// ============================================
-
-/**
- * Create order from configuration with full idempotency & transactional safety
- */
 export async function createOrderFromConfiguration(
     configId: string,
     shippingOption: "BasicShipping" | "StandardShipping" | "ExpressShipping" = "StandardShipping",
-    idempotencyKey?: string
+    clientIdempotencyKey?: string
 ) {
     try {
-        // 1. Authenticate user
         const { userId } = await auth()
 
         if (!userId) {
@@ -114,7 +149,63 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // 2. Validate shipping address exists
+        if (!checkRateLimit(userId, 5, 60000)) {
+            return {
+                success: false,
+                error: "Too many requests. Please try again in a minute.",
+                rateLimited: true
+            }
+        }
+
+        let idempotencyKey: string
+
+        if (clientIdempotencyKey) {
+            if (!isValidIdempotencyKey(clientIdempotencyKey)) {
+                return {
+                    success: false,
+                    error: "Invalid idempotency key format"
+                }
+            }
+            idempotencyKey = clientIdempotencyKey
+        } else {
+            idempotencyKey = generateIdempotencyKey(userId, configId)
+        }
+
+        const cached = idempotencyCache.get(idempotencyKey)
+        if (cached && Date.now() < cached.expiresAt) {
+            return {
+                ...cached.result,
+                fromCache: true,
+                isDuplicate: true
+            }
+        }
+
+        const existingOrder = await prisma.order.findUnique({
+            where: { idempotencyKey },
+            include: {
+                items: true,
+                shippingAddress: true
+            }
+        })
+
+        if (existingOrder) {
+            const result = {
+                success: true,
+                order: { id: existingOrder.id },
+                orderNumber: existingOrder.orderNumber,
+                isDuplicate: true,
+                existingOrderId: existingOrder.id
+            }
+
+            idempotencyCache.set(idempotencyKey, {
+                result,
+                timestamp: Date.now(),
+                expiresAt: Date.now() + CACHE_TTL
+            })
+
+            return result
+        }
+
         const shippingAddress = await UserService.getShippingAddress(userId)
 
         if (!shippingAddress) {
@@ -125,41 +216,94 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // 3. Generate idempotency key (or use provided)
-        const key = idempotencyKey || `${userId}-${configId}-${Date.now()}`
+        const configuration = await prisma.configuration.findFirst({
+            where: {
+                id: configId,
+                users: {
+                    some: {
+                        id: userId
+                    }
+                }
+            }
+        })
 
-        // 4. Create order using OrderService
+        if (!configuration) {
+            return {
+                success: false,
+                error: "Configuration not found or access denied"
+            }
+        }
+
         const result = await OrderService.createOrder({
             userId,
             configurationId: configId,
             shippingAddressId: shippingAddress.id,
             shippingOption,
-            idempotencyKey: key,
+            idempotencyKey,
         })
 
-        // 5. Handle result
         if (result.success) {
-            // Revalidate paths
-            revalidatePath("/orders")
-            revalidatePath(`/orders/${result.orderId}`)
-
-            return {
+            const successResult = {
                 success: true,
                 order: { id: result.orderId },
                 orderNumber: result.orderNumber,
-                isDuplicate: result.isDuplicate || false,
+                isDuplicate: false,
             }
+
+            idempotencyCache.set(idempotencyKey, {
+                result: successResult,
+                timestamp: Date.now(),
+                expiresAt: Date.now() + CACHE_TTL
+            })
+
+            revalidatePath("/orders")
+            revalidatePath(`/orders/${result.orderId}`)
+
+            return successResult
         }
 
         return {
             success: false,
             error: result.error || "Failed to create order",
         }
+
     } catch (error) {
         console.error("Order creation error:", error)
 
-        // Handle specific error types
         if (error instanceof Error) {
+            if (error.message.includes('Unique constraint') ||
+                error.message.includes('unique_constraint') ||
+                error.message.includes('idempotencyKey')) {
+
+                try {
+                    const { userId } = await auth()
+                    if (userId) {
+                        const idempotencyKey = generateIdempotencyKey(userId, configId)
+                        const existingOrder = await prisma.order.findUnique({
+                            where: { idempotencyKey }
+                        })
+
+                        if (existingOrder) {
+                            return {
+                                success: true,
+                                order: { id: existingOrder.id },
+                                orderNumber: existingOrder.orderNumber,
+                                isDuplicate: true,
+                                recoveredFromError: true
+                            }
+                        }
+                    }
+                } catch (fetchError) {
+                    console.error("Error fetching existing order:", fetchError)
+                }
+
+                return {
+                    success: false,
+                    error: "Duplicate order detected. Please check your orders.",
+                    isDuplicate: true
+                }
+            }
+
             if (error.message.includes("Insufficient inventory")) {
                 return {
                     success: false,
@@ -177,24 +321,16 @@ export async function createOrderFromConfiguration(
 
         return {
             success: false,
-            error: "Failed to create order",
+            error: "Failed to create order. Please try again.",
         }
     }
 }
 
-// ============================================
-// Order Retrieval (Auth Required)
-// ============================================
-
-/**
- * Get order details with full relations
- */
 export async function getOrderDetails(orderId: string): Promise<OrderWithDetails | null> {
     try {
         const { userId } = await auth()
 
         if (!userId) {
-            console.log("User not authenticated")
             return null
         }
 
@@ -226,9 +362,6 @@ export async function getOrderDetails(orderId: string): Promise<OrderWithDetails
     }
 }
 
-/**
- * Get all user orders (paginated)
- */
 export async function getUserOrders(page: number = 1, limit: number = 10) {
     try {
         const { userId } = await auth()
@@ -266,16 +399,8 @@ export async function getUserOrders(page: number = 1, limit: number = 10) {
     }
 }
 
-// ============================================
-// Order Cancellation (Using OrderService)
-// ============================================
-
-/**
- * Cancel order and restore inventory
- */
 export async function cancelOrder(orderId: string) {
     try {
-        // 1. Authenticate user
         const { userId } = await auth()
 
         if (!userId) {
@@ -286,11 +411,30 @@ export async function cancelOrder(orderId: string) {
             }
         }
 
-        // 2. Cancel order using OrderService
+        if (!checkRateLimit(`cancel-${userId}`, 10, 60000)) {
+            return {
+                success: false,
+                error: "Too many cancellation requests",
+                rateLimited: true
+            }
+        }
+
         const result = await OrderService.cancelOrder(orderId, userId)
 
-        // 3. Revalidate orders page
         if (result.success) {
+            try {
+                const order = await prisma.order.findUnique({
+                    where: { id: orderId },
+                    select: { idempotencyKey: true }
+                })
+
+                if (order?.idempotencyKey) {
+                    idempotencyCache.delete(order.idempotencyKey)
+                }
+            } catch (err) {
+                console.error("Error clearing cache:", err)
+            }
+
             revalidatePath("/orders")
             revalidatePath(`/orders/${orderId}`)
         }
@@ -299,7 +443,6 @@ export async function cancelOrder(orderId: string) {
     } catch (error) {
         console.error("Order cancellation error:", error)
 
-        // Handle specific errors
         if (error instanceof Error) {
             if (error.message.includes("Order not found")) {
                 return {
@@ -323,14 +466,6 @@ export async function cancelOrder(orderId: string) {
     }
 }
 
-// ============================================
-// Order Status Updates (Admin/System)
-// ============================================
-
-/**
- * Update order status
- * Typically called by admin or payment webhook
- */
 export async function updateOrderStatus(
     orderId: string,
     status:
@@ -353,13 +488,12 @@ export async function updateOrderStatus(
             }
         }
 
-        // Verify order ownership
         const order = await prisma.order.findFirst({
             where: {
                 id: orderId,
                 userId,
             },
-            select: { id: true, status: true },
+            select: { id: true, status: true, idempotencyKey: true },
         })
 
         if (!order) {
@@ -369,7 +503,6 @@ export async function updateOrderStatus(
             }
         }
 
-        // Update order
         const updateData: any = { status }
 
         if (status === "shipped" && trackingNumber) {
@@ -385,6 +518,10 @@ export async function updateOrderStatus(
             where: { id: orderId },
             data: updateData,
         })
+
+        if (order.idempotencyKey) {
+            idempotencyCache.delete(order.idempotencyKey)
+        }
 
         revalidatePath("/orders")
         revalidatePath(`/orders/${orderId}`)
@@ -402,13 +539,6 @@ export async function updateOrderStatus(
     }
 }
 
-// ============================================
-// Order Validation Helpers
-// ============================================
-
-/**
- * Check if order can be cancelled by user
- */
 export async function canCancelOrder(orderId: string): Promise<boolean> {
     try {
         const { userId } = await auth()
@@ -432,9 +562,6 @@ export async function canCancelOrder(orderId: string): Promise<boolean> {
     }
 }
 
-/**
- * Get order statistics for user
- */
 export async function getUserOrderStats() {
     try {
         const { userId } = await auth()
@@ -447,6 +574,41 @@ export async function getUserOrderStats() {
         return stats
     } catch (error) {
         console.error("Error getting order stats:", error)
+        return null
+    }
+}
+
+export async function clearIdempotencyCache(key: string) {
+    try {
+        const { userId } = await auth()
+
+        if (!userId) {
+            return { success: false, error: "Unauthorized" }
+        }
+
+        idempotencyCache.delete(key)
+
+        return { success: true }
+    } catch (error) {
+        console.error("Error clearing cache:", error)
+        return { success: false, error: "Failed to clear cache" }
+    }
+}
+
+export async function getCacheStats() {
+    try {
+        const { userId } = await auth()
+
+        if (!userId) {
+            return null
+        }
+
+        return {
+            idempotencyCacheSize: idempotencyCache.size,
+            rateLimitMapSize: rateLimitMap.size
+        }
+    } catch (error) {
+        console.error("Error getting cache stats:", error)
         return null
     }
 }

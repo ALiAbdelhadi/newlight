@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { auth } from "@clerk/nextjs/server"
 import { prisma } from "@repo/database"
 import { NextResponse } from "next/server"
