@@ -216,21 +216,38 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        const configuration = await prisma.configuration.findFirst({
-            where: {
-                id: configId,
-                users: {
-                    some: {
-                        id: userId
-                    }
-                }
-            }
+        // First, check if configuration exists (regardless of user association)
+        const configuration = await prisma.configuration.findUnique({
+            where: { id: configId },
+            include: { users: true }
         })
 
         if (!configuration) {
             return {
                 success: false,
-                error: "Configuration not found or access denied"
+                error: "Configuration not found"
+            }
+        }
+
+        // If configuration exists but is not associated with the user, associate it
+        const isUserAssociated = configuration.users.some(user => user.id === userId)
+        if (!isUserAssociated) {
+            try {
+                // Ensure user exists
+                await UserService.getOrCreateUser(userId)
+                
+                // Associate configuration with user
+                await prisma.configuration.update({
+                    where: { id: configId },
+                    data: {
+                        users: {
+                            connect: { id: userId }
+                        }
+                    }
+                })
+            } catch (error) {
+                console.error("Error associating configuration with user:", error)
+                // Continue anyway - the configuration exists and we can proceed
             }
         }
 
