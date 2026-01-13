@@ -1,0 +1,1047 @@
+{
+    "LoadingScreen": {
+        "title": "Loading",
+        "message": "Please wait while we prepare everything for you"
+    },
+    "product-card": {
+        "view": "View",
+        "currency": "EGP"
+    },
+    "language-selector": {
+        "international": "International",
+        "close": "Close",
+        "pending": "Switching language...",
+        "footerText": "The New Thesaurus: A Guide to Residential Lighting Solutions",
+        "languages": {
+            "en": {
+                "name": "English",
+                "nativeName": "English",
+                "region": "International"
+            },
+            "ar": {
+                "name": "Arabic",
+                "nativeName": "العربية",
+                "region": "Middle East"
+            }
+        }
+    },
+    "notFound": {
+        "title": "Page Not Found",
+        "description": "The page you are looking for might have been removed or is temporarily unavailable. Let us help you find what you need.",
+        "home": "Return Home",
+        "contact": "Contact Support"
+    },
+    "Common": {
+        "welcome": "Welcome",
+        "error": "An error occurred"
+    },
+    "loading": {
+        "title": "Loading your order...",
+        "description": "This won’t take long"
+    },
+    "nav": {
+        "logoNew": "new",
+        "logoLight": "light",
+        "desktopContactSr": "Contact",
+        "mobileMenuTitleHome": "Home",
+        "mobileMenuTitleProducts": "Products",
+        "mobileMenuTitleAbout": "About",
+        "mobileMenuTitleContact": "Contact",
+        "mobileMenuLabelLanguage": "Language",
+        "mobileMenuLabelTheme": "Theme",
+        "mobileMenuLabelSearch": "Search",
+        "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
+    },
+    "search": {
+        "button": "Search",
+        "close": "Close",
+        "placeholder": "Search products, categories, or lighting solutions...",
+        "searching": "Searching for \"{query}\"...",
+        "noResults": "No results found for \"{query}\"",
+        "popularSearches": "Popular Searches",
+        "currency": "EGP",
+        "brand": {
+            "new": "new",
+            "light": "light"
+        },
+        "footer": "The New Thesaurus: A Guide to Residential Lighting Solutions",
+        "suggestions": {
+            "indoor": "indoor Lighting",
+            "solutions": "lighting Solutions",
+            "outdoor": "Outdoor Lighting",
+            "smart": "Smart Lighting"
+        }
+    },
+    "collection-detail": {
+        "breadcrumbHome": "Home",
+        "breadcrumbCollections": "Collections",
+        "featured": "Featured",
+        "tags": "Tags",
+        "projectInfo": "Project Info",
+        "category": "Category",
+        "published": "Published",
+        "specifications": "Specifications",
+        "interestedTitle": "Interested in This Project?",
+        "interestedDescription": "Let's discuss how we can create something similar for you",
+        "contactButton": "Contact Us",
+        "galleryTitle": "Project Gallery",
+        "relatedTitle": "Related Projects",
+        "backToCollection": "Back to Collection",
+        "categories": {
+            "chandeliers": "Chandeliers",
+            "pendantLights": "Pendant Lights",
+            "wallLights": "Wall Lights",
+            "floorLamps": "Floor Lamps",
+            "tableLamps": "Table Lamps",
+            "ceilingLights": "Ceiling Lights",
+            "outdoorLighting": "Outdoor Lighting",
+            "smartLighting": "Smart Lighting",
+            "ledStrips": "LED Strips",
+            "decorativeLights": "Decorative Lights"
+        },
+        "specifications": {
+            "material": "Material",
+            "dimensions": "Dimensions",
+            "weight": "Weight",
+            "voltage": "Voltage",
+            "wattage": "Wattage",
+            "lightColor": "Light Color",
+            "lightTemperature": "Color Temperature",
+            "lumens": "Lumens",
+            "beamAngle": "Beam Angle",
+            "ipRating": "IP Rating",
+            "warranty": "Warranty",
+            "certification": "Certifications",
+            "installation": "Installation Type",
+            "dimmable": "Dimmable",
+            "energyRating": "Energy Rating",
+            "lifespan": "Lifespan",
+            "colorRendering": "CRI (Color Rendering Index)",
+            "finish": "Finish",
+            "bulbType": "Bulb Type",
+            "numberOfBulbs": "Number of Bulbs"
+        },
+        "values": {
+            "warmWhite": "Warm White",
+            "coolWhite": "Cool White",
+            "daylight": "Daylight",
+            "rgb": "RGB",
+            "yes": "Yes",
+            "no": "No",
+            "included": "Included",
+            "notIncluded": "Not Included",
+            "optional": "Optional",
+            "ceiling": "Ceiling",
+            "wall": "Wall",
+            "floor": "Floor",
+            "surface": "Surface",
+            "recessed": "Recessed",
+            "suspended": "Suspended",
+            "years": "Years",
+            "hours": "Hours",
+            "modern": "Modern",
+            "classic": "Classic",
+            "industrial": "Industrial",
+            "minimalist": "Minimalist",
+            "luxury": "Luxury",
+            "led": "LED",
+            "halogen": "Halogen",
+            "incandescent": "Incandescent",
+            "cfl": "CFL"
+        },
+        "materials": {
+            "brass": "Brass",
+            "steel": "Steel",
+            "aluminum": "Aluminum",
+            "glass": "Glass",
+            "crystal": "Crystal",
+            "wood": "Wood",
+            "plastic": "Plastic",
+            "fabric": "Fabric",
+            "ceramic": "Ceramic",
+            "marble": "Marble"
+        },
+        "descriptions": {
+            "exploreCollection": "Explore our exclusive collection of premium lighting solutions",
+            "premiumQuality": "Premium quality and exceptional design",
+            "customizable": "Customizable to your specific needs",
+            "energyEfficient": "Energy efficient and eco-friendly",
+            "easyInstallation": "Easy installation and maintenance",
+            "longLastingDurability": "Long-lasting durability"
+        },
+        "cta": {
+            "viewDetails": "View Details",
+            "addToCart": "Add to Cart",
+            "requestQuote": "Request Quote",
+            "downloadCatalog": "Download Catalog",
+            "shareProject": "Share Project",
+            "saveToWishlist": "Save to Wishlist",
+            "compareProducts": "Compare Products"
+        },
+        "tags": {
+            "newArrival": "New Arrival",
+            "bestSeller": "Best Seller",
+            "limitedEdition": "Limited Edition",
+            "onSale": "On Sale",
+            "freeShipping": "Free Shipping",
+            "customizable": "Customizable",
+            "energyStar": "Energy Star",
+            "waterproof": "Waterproof",
+            "dimmerCompatible": "Dimmer Compatible",
+            "smartHome": "Smart Home"
+        },
+        "filters": {
+            "filterBy": "Filter By",
+            "sortBy": "Sort By",
+            "priceRange": "Price Range",
+            "style": "Style",
+            "room": "Room",
+            "brand": "Brand",
+            "clearFilters": "Clear Filters",
+            "applyFilters": "Apply Filters",
+            "newest": "Newest",
+            "priceHighToLow": "Price: High to Low",
+            "priceLowToHigh": "Price: Low to High",
+            "popular": "Most Popular",
+            "rating": "Rating"
+        },
+        "rooms": {
+            "livingRoom": "Living Room",
+            "bedroom": "Bedroom",
+            "kitchen": "Kitchen",
+            "bathroom": "Bathroom",
+            "diningRoom": "Dining Room",
+            "office": "Office",
+            "hallway": "Hallway",
+            "outdoor": "Outdoor",
+            "commercial": "Commercial"
+        },
+        "errors": {
+            "notFound": "Collection not found",
+            "loadingError": "An error occurred while loading",
+            "tryAgain": "Try Again"
+        },
+        "meta": {
+            "seoTitle": "Premium Lighting Collection - {title}",
+            "seoDescription": "Discover {title} - Premium lighting solutions with exceptional design and quality",
+            "ogTitle": "{title} | Exclusive Lighting Collection",
+            "ogDescription": "{description}"
+        }
+    },
+    "technical-resources": {
+        "hero": {
+            "label": "Technical Excellence",
+            "title": "Lighting Design Studies",
+            "subtitle": "Transform your space with professional lighting analysis and design. Discover how proper lighting studies can revolutionize the atmosphere and functionality of any environment."
+        },
+        "intro": {
+            "title": "The Art & Science of Lighting",
+            "description": "Lighting design is more than just placing fixtures. It's a comprehensive study that considers architecture, human psychology, energy efficiency, and aesthetic harmony. A professional lighting study analyzes every aspect of your space to create the perfect illumination strategy.",
+            "impact": "The right lighting design can transform a cold, uninviting space into a warm, welcoming environment. It can highlight architectural features, improve productivity, enhance mood, and even influence behavior."
+        },
+        "benefits": {
+            "label": "Why It Matters",
+            "title": "Benefits of Professional Lighting Studies",
+            "optimized": {
+                "title": "Optimized Illumination",
+                "description": "Achieve perfect light levels for every space and activity, ensuring comfort and functionality."
+            },
+            "energy": {
+                "title": "Energy Efficiency",
+                "description": "Reduce energy consumption by up to 60% with strategic lighting design and smart controls."
+            },
+            "mood": {
+                "title": "Mood Enhancement",
+                "description": "Create the perfect atmosphere for any occasion with layered lighting and color temperature control."
+            },
+            "professional": {
+                "title": "Professional Results",
+                "description": "Get expert recommendations backed by photometric calculations and industry standards."
+            }
+        },
+        "comparison": {
+            "title": "The Transformation",
+            "subtitle": "See how professional lighting studies completely transform spaces from dull and uninviting to vibrant and welcoming.",
+            "before": "Before",
+            "after": "After",
+            "beforeTitle": "Without Lighting Study",
+            "afterTitle": "With Professional Design",
+            "beforePoints": {
+                "1": "Poor light distribution and dark corners",
+                "2": "Harsh shadows and glare issues",
+                "3": "Uncomfortable atmosphere and low energy efficiency"
+            },
+            "afterPoints": {
+                "1": "Balanced illumination throughout the space",
+                "2": "Comfortable lighting with no glare or harsh shadows",
+                "3": "Enhanced ambiance with 60% energy savings"
+            }
+        },
+        "process": {
+            "label": "Our Methodology",
+            "title": "The Lighting Study Process",
+            "analysis": {
+                "title": "Space Analysis",
+                "description": "We begin by thoroughly analyzing your space, understanding its architecture, natural light sources, usage patterns, and specific requirements. Every detail matters in creating the perfect lighting solution."
+            },
+            "design": {
+                "title": "Design Development",
+                "description": "Our team develops a comprehensive lighting plan using industry-leading software. We consider fixture types, placement, color temperatures, and control systems to create the ideal lighting scheme."
+            },
+            "simulation": {
+                "title": "3D Visualization",
+                "description": "Using advanced photometric software, we create realistic 3D renderings showing exactly how your space will look with the proposed lighting design. See the results before installation."
+            },
+            "implementation": {
+                "title": "Implementation Support",
+                "description": "We provide detailed specifications, product recommendations, and installation guidelines. Our team ensures seamless execution from design to final commissioning."
+            }
+        },
+        "resources": {
+            "title": "Download Technical Resources",
+            "description": "Access our comprehensive lighting design guides, photometric data sheets, and technical specifications to help you make informed decisions.",
+            "download": "Download Resources"
+        },
+        "cta": {
+            "title": "Ready to Transform Your Space?",
+            "description": "Let our lighting experts create a custom design study for your project. Contact us today for a professional consultation.",
+            "contact": "Get Free Consultation",
+            "explore": "Explore Products"
+        }
+    },
+    "new-collection-page": {
+        "heroTitle": "Natural Lighting Collection",
+        "heroDescription": "Handcrafted lighting pieces that bring warmth and organic beauty to your space",
+        "featuredButton": "Explore Featured",
+        "filteredResults": "Filtered by",
+        "allProjects": "All Collections",
+        "showing": "Showing",
+        "of": "of",
+        "projects": "collections",
+        "clearFilters": "Clear Filters",
+        "noProjects": "No collections found",
+        "viewAll": "View All",
+        "ctaTitle": "Transform Your Space",
+        "ctaDescription": "Discover our handcrafted lighting solutions that combine natural materials with timeless design",
+        "ctaButton": "Get in Touch"
+    },
+    "categories": {
+        "Natural Woven": "Natural Woven",
+        "Rattan Collection": "Rattan Collection",
+        "Organic Lighting": "Organic Lighting",
+        "Artisan Crafted": "Artisan Crafted"
+    },
+    "collections": {
+        "natural-woven-collection": {
+            "imageAlt": "Natural woven lamp with organic texture",
+            "title": "Natural Woven Collection",
+            "shortDescription": "Handcrafted lamps featuring intricate woven patterns that create stunning light and shadow effects",
+            "fullDescription": "Our Natural Woven Collection showcases the beauty of traditional craftsmanship with contemporary design. Each piece is carefully handwoven using sustainable natural materials, creating unique patterns that cast beautiful ambient lighting. Perfect for adding warmth and texture to modern interiors.",
+            "actionLabel": "Discover Collection",
+            "tags": [
+                "Woven",
+                "Handcrafted",
+                "Natural Materials",
+                "Ambient Lighting"
+            ],
+            "gallery": {
+                "image1": "Natural woven table lamp with warm glow",
+                "image2": "Elegant woven pendant lamp in living space",
+                "image3": "Large rectangular woven pendant chandelier",
+                "image4": "UFO-shaped woven pendant light"
+            },
+            "specifications": {
+                "material": "Material",
+                "materialValue": "Natural Rattan & Bamboo",
+                "style": "Style",
+                "styleValue": "Organic Contemporary",
+                "installation": "Installation",
+                "installationValue": "Professional Installation Recommended",
+                "care": "Care",
+                "careValue": "Dust with Soft Cloth"
+            }
+        },
+        "rattan-pendant-collection": {
+            "imageAlt": "Showroom display of rattan pendant lights",
+            "title": "Rattan Pendant Collection",
+            "shortDescription": "A stunning array of handwoven rattan pendants in various shapes and sizes for any space",
+            "fullDescription": "The Rattan Pendant Collection offers an extensive selection of ceiling lights, each uniquely crafted from premium rattan. From dramatic chandeliers to intimate pendants, this collection provides versatile lighting solutions that bring natural elegance to dining rooms, living areas, and commercial spaces.",
+            "actionLabel": "View Collection",
+            "tags": [
+                "Rattan",
+                "Pendant Lights",
+                "Chandelier",
+                "Versatile"
+            ],
+            "gallery": {
+                "image1": "Multiple rattan pendants in showroom",
+                "image2": "Close-up of perforated rattan pendant lights",
+                "image3": "Floor lamps with natural rope shades",
+                "image4": "Variety of hanging rattan fixtures"
+            },
+            "specifications": {
+                "variety": "Variety",
+                "varietyValue": "15+ Unique Designs",
+                "sizes": "Sizes",
+                "sizesValue": "Small to Large Statement Pieces",
+                "finish": "Finish",
+                "finishValue": "Natural & Stained Options",
+                "lightOutput": "Light Output",
+                "lightOutputValue": "Warm Diffused Ambient"
+            }
+        },
+        "new-light-collection": {
+            "imageAlt": "New Light luxury rattan pendant light",
+            "title": "New Light Signature Collection",
+            "shortDescription": "Premium handcrafted lighting featuring intricate patterns and exceptional quality",
+            "fullDescription": "The New Light Signature Collection represents the pinnacle of artisan lighting design. Each piece is meticulously crafted using traditional weaving techniques combined with modern aesthetics. These statement pieces feature geometric patterns that create mesmerizing light effects, perfect for luxury residential and hospitality projects.",
+            "actionLabel": "Explore Premium Collection",
+            "tags": [
+                "Premium",
+                "Geometric Patterns",
+                "Luxury",
+                "Statement Pieces"
+            ],
+            "gallery": {
+                "image1": "Geometric pattern ceiling pendant in bedroom",
+                "image2": "Layered rattan pendant with fabric shade",
+                "image3": "Triple pendant arrangement over kitchen island",
+                "image4": "Large statement pendant in living room"
+            },
+            "specifications": {
+                "brand": "Brand",
+                "brandValue": "New Light",
+                "craftsmanship": "Craftsmanship",
+                "craftsmanshipValue": "Master Artisan Handwoven",
+                "pattern": "Pattern",
+                "patternValue": "Geometric Lattice Work",
+                "applications": "Applications",
+                "applicationsValue": "Residential & Hospitality"
+            }
+        },
+        "organic-table-floor-lamps": {
+            "imageAlt": "Organic table and floor lamps with natural shades",
+            "title": "Organic Table & Floor Lamps",
+            "shortDescription": "Elegant table and floor lamps with natural fiber shades for ambient task lighting",
+            "fullDescription": "Our Organic Table & Floor Lamp Collection brings warmth to any corner of your home. Featuring natural fiber shades on stylish bases, these lamps provide soft, diffused lighting perfect for reading nooks, bedrooms, and living spaces. Each piece combines functionality with organic aesthetics.",
+            "actionLabel": "Shop Lamps",
+            "tags": [
+                "Table Lamps",
+                "Floor Lamps",
+                "Natural Fibers",
+                "Task Lighting"
+            ],
+            "gallery": {
+                "image1": "Classic table lamp with pleated natural shade",
+                "image2": "Tripod floor lamp with burlap shade",
+                "image3": "Modern table lamp with metal base",
+                "image4": "Tall floor lamps with organic woven shades"
+            },
+            "specifications": {
+                "types": "Types",
+                "typesValue": "Table & Floor Lamps",
+                "baseOptions": "Base Options",
+                "baseOptionsValue": "Wood, Metal, Ceramic",
+                "shadeStyle": "Shade Style",
+                "shadeStyleValue": "Woven, Pleated, Textured",
+                "height": "Height Range",
+                "heightValue": "15\" - 65\" (38cm - 165cm)"
+            }
+        }
+    },
+    "collection-section": {
+        "sectionTitle": "New Collection",
+        "sectionDescription": "Explore our latest innovations in design and technology",
+        "living-tomorrowTitle": "Living Tomorrow",
+        "living-tomorrowDescription": "Experience the future of sustainable living through innovative design.",
+        "living-tomorrowAction": "Explore",
+        "premium-finishesTitle": "Premium Finishes",
+        "premium-finishesDescription": "Discover our curated selection of materials and textures that define modern luxury.",
+        "premium-finishesAction": "Discover",
+        "sustainable-designTitle": "Sustainable Design",
+        "sustainable-designDescription": "Building a better future with eco-conscious materials and energy-efficient solutions.",
+        "sustainable-designAction": "Learn More",
+        "smart-spacesTitle": "Smart Spaces",
+        "smart-spacesDescription": "Integrate intelligent systems that adapt to your lifestyle and enhance your daily experience.",
+        "smart-spacesAction": "Explore Tech",
+        "buttonText": "Explore Collection"
+    },
+    "cart": {
+        "title": "Shopping Cart",
+        "items": "items",
+        "item": "item",
+        "loading": "Loading Cart...",
+        "emptyCart": {
+            "title": "Your cart is empty",
+            "description": "Add some items to your cart to get started",
+            "continueShopping": "Continue Shopping"
+        },
+        "signInRequired": {
+            "title": "Sign in to view your cart",
+            "description": "Please sign in to access your cart and start shopping",
+            "signUp": "Sign Up"
+        },
+        "actions": {
+            "viewDetails": "View Details",
+            "orderNow": "Order Now",
+            "remove": "Remove",
+            "openCart": "Open Cart"
+        },
+        "messages": {
+            "quantityUpdated": "Quantity updated",
+            "itemRemoved": "Item removed from cart successfully.",
+            "failedToLoad": "Failed to load cart items",
+            "errorLoading": "Error loading cart",
+            "failedToUpdate": "Failed to update quantity",
+            "failedToRemove": "Failed to remove item. Please try again."
+        },
+        "discount": "discount",
+        "orderNow": "Order Now",
+        "currency": "EGP"
+    },
+    "auth-section": {
+        "account": "Account",
+        "signIn": "Sign In",
+        "signUp": "Sign Up",
+        "helpSupport": "Help & Support",
+        "dashboard": "Dashboard",
+        "loading": "Loading...",
+        "userMenu": "User menu"
+    },
+    "hero-section": {
+        "illuminate": "Illuminate",
+        "inspirationGlow": "Inspiration In Every Glow",
+        "inspiration": "Inspiration",
+        "technicalResources": "Technical Resources",
+        "weAre": "We Are",
+        "weAreNewLight": "New Light",
+        "category": "Category"
+    },
+    "about-us-page": {
+        "heroTitle": "Illuminating Excellence",
+        "heroSubtitle": "For over a decade, we have been at the forefront of lighting innovation, transforming spaces with our carefully curated collection of premium lighting solutions. Our passion for quality and design excellence drives everything we do.",
+        "featuresTitle": "Why Choose Us",
+        "featuresSubtitle": "We combine expertise, quality, and innovation to deliver exceptional lighting experiences.",
+        "features": [
+            {
+                "title": "Expert Lighting Design",
+                "description": "Our certified lighting specialists provide professional calculations based on international lux standards, ensuring optimal illumination for every space. From residential to commercial projects, we deliver customized lighting solutions."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "We source only the finest lighting fixtures from world-renowned manufacturers. Each product undergoes rigorous quality control to ensure exceptional performance, durability, and aesthetic excellence that stands the test of time."
+            },
+            {
+                "title": "Fast Delivery Service",
+                "description": "Experience efficient delivery within 5-7 business days with real-time tracking across all regions. Our logistics partners ensure your lighting fixtures arrive safely and on schedule, ready for installation."
+            },
+            {
+                "title": "Extended Warranty Coverage",
+                "description": "All our premium lighting products come with comprehensive 3-5 year warranty coverage. We stand behind the quality of our products and provide responsive support throughout the warranty period."
+            },
+            {
+                "title": "Flexible Payment Options",
+                "description": "Shop with confidence using our flexible payment methods including secure cash on delivery, bank transfers, Your convenience and security are our priority."
+            },
+            {
+                "title": "Energy Efficiency",
+                "description": "Our LED lighting solutions deliver exceptional energy savings of up to 80% compared to traditional lighting. Reduce your carbon footprint while enjoying superior illumination quality and lower electricity costs."
+            }
+        ],
+        "categoriesTitle": "Our Collections",
+        "categoriesSubtitle": "Explore our comprehensive range of indoor and outdoor lighting solutions.",
+        "categories": [
+            {
+                "title": "Indoor Lighting",
+                "description": "Transform your interior spaces with our exquisite collection.",
+                "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+                "slug": "indoor"
+            },
+            {
+                "title": "Outdoor Lighting",
+                "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions.",
+                "image": "/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
+                "slug": "outdoor"
+            }
+        ],
+        "exploreCategory": "Explore Collection",
+        "visionTitle": "Our Vision",
+        "visionDescription": "To be the leading provider of innovative lighting solutions in the region, setting new standards for quality, design excellence, and customer satisfaction. We envision a future where every space is transformed through the artistry of light, creating environments that inspire, comfort, and elevate the human experience.",
+        "missionTitle": "Our Mission",
+        "missionDescription": "To deliver exceptional lighting solutions that combine cutting-edge technology, timeless design, and sustainable practices. We are committed to understanding our clients' unique needs and exceeding their expectations through personalized service, expert guidance, and premium products that enhance both functionality and aesthetics.",
+        "ctaTitle": "Ready to Transform Your Space?",
+        "ctaDescription": "Discover our complete collection of premium lighting solutions and let our experts help you create the perfect ambiance for your project.",
+        "ctaExplore": "Explore Collections",
+        "ctaContact": "Contact Us"
+    },
+    "privacy-page": {
+        "heroTitle": "Privacy Policy",
+        "heroSubtitle": "Your privacy is important to us. This policy outlines how we collect, use, and protect your personal information when you visit our website or use our services.",
+        "lastUpdated": "Last Updated",
+        "updateDate": "December 12, 2024",
+        "sections": {
+            "dataCollection": {
+                "title": "Information We Collect",
+                "content": "We collect various types of information to provide and improve our services to you:",
+                "items": [
+                    "Personal identification information (name, email address, phone number, shipping address)",
+                    "Browsing behavior and website usage data through cookies and analytics",
+                    "Communication preferences and correspondence with our customer service team"
+                ]
+            },
+            "dataUsage": {
+                "title": "How We Use Your Information",
+                "content": "We use the collected information for the following purposes:",
+                "items": [
+                    "Processing and fulfilling your orders, including shipping and delivery",
+                    "Providing customer support and responding to your inquiries",
+                    "Sending important updates about your orders and our services",
+                    "Improving our website functionality and user experience",
+                    "Analyzing trends and preferences to enhance our product offerings",
+                    "Sending promotional materials and newsletters (with your consent)"
+                ]
+            },
+            "cookies": {
+                "title": "Cookies and Tracking Technologies",
+                "content": "We use cookies and similar tracking technologies to enhance your browsing experience:",
+                "items": [
+                    "Essential cookies for website functionality and security",
+                    "Analytics cookies to understand how visitors interact with our website",
+                    "Marketing cookies for personalized advertising (with your consent)",
+                    "Preference cookies to remember your settings and choices"
+                ]
+            },
+            "dataSecurity": {
+                "title": "Data Security",
+                "content": "We implement industry-standard security measures to protect your personal information:",
+                "items": [
+                    "SSL encryption for all data transmission between your browser and our servers",
+                    "Regular security audits and vulnerability assessments",
+                    "Restricted access to personal data on a need-to-know basis",
+                    "Regular backups and disaster recovery procedures"
+                ]
+            },
+            "userRights": {
+                "title": "Your Rights",
+                "content": "You have the following rights regarding your personal information:",
+                "items": [
+                    "Request correction of inaccurate or incomplete personal information",
+                    "Withdraw consent for marketing communications at any time"
+                ]
+            },
+            "dataSharing": {
+                "title": "Information Sharing",
+                "content": "We do not sell your personal information. We may share your data with:",
+                "items": [
+                    "Shipping and logistics partners to fulfill your orders",
+                    "Payment processors to handle secure transactions",
+                    "Analytics and marketing service providers (with anonymized data)",
+                    "Legal authorities when required by law or to protect our rights",
+                    "Business partners for joint marketing initiatives (with your explicit consent)"
+                ]
+            },
+            "childrenPrivacy": {
+                "title": "Children's Privacy",
+                "content": "Our services are not directed to individuals under the age of 18. We do not knowingly collect personal information from children. If you are a parent or guardian and believe your child has provided us with personal information, please contact us immediately so we can delete such information."
+            },
+            "policyChanges": {
+                "title": "Changes to This Policy",
+                "content": "We may update this privacy policy from time to time to reflect changes in our practices or legal requirements. We will notify you of any significant changes by posting the updated policy on our website and updating the 'Last Updated' date. We encourage you to review this policy periodically."
+            }
+        },
+        "contact": {
+            "title": "Contact Us",
+            "content": "If you have any questions, concerns, or requests regarding this privacy policy or how we handle your personal information, please contact us:",
+            "emailLabel": "Email",
+            "email": "mostafa@newlight-eg.com",
+            "phoneLabel": "Phone",
+            "phone": "+20 10 66076077",
+            "addressLabel": "Address",
+            "address": "Cairo, Egypt"
+        }
+    },
+    "contact": {
+        "title": "Get In Touch",
+        "description": "We'd love to hear from you! Whether you have questions about our lighting products, need consultation, or want to explore our innovative lighting solutions, our team is here to help.",
+        "address": {
+            "title": "Our Address",
+            "company": "New Light",
+            "street": "86 Abbas El-Akkad, Al Manteqah Al Oula,",
+            "city": "Nasr City, Cairo"
+        },
+        "contactInfo": {
+            "title": "Contact Info",
+            "whatsapp": "WhatsApp 24/7 Support",
+            "workingHours": "Sun-Thu: 9AM - 6PM"
+        },
+        "getDirections": "Get Directions",
+        "social-header": "Follow Us On Social Media",
+        "form": {
+            "title": "Request a Specific Order",
+            "fields": {
+                "fullName": "Full Name*",
+                "jobPosition": "Job Position",
+                "email": "Email Address",
+                "phoneNumber": "Phone Number"
+            },
+            "placeholders": {
+                "fullName": "Enter your name",
+                "jobPosition": "Enter your job position",
+                "email": "Enter your email",
+                "phoneNumber": "Enter your phone number"
+            },
+            "submit": "Request Demo",
+            "submitting": "Submitting...",
+            "successMessage": "Demo request submitted successfully!",
+            "validation": {
+                "fullName": {
+                    "min": "Full name must be at least 2 characters",
+                    "max": "Full name must not exceed 100 characters"
+                },
+                "jobPosition": {
+                    "min": "Job position must be at least 2 characters",
+                    "max": "Job position must not exceed 100 characters"
+                },
+                "email": {
+                    "invalid": "Please enter a valid email address"
+                },
+                "phoneNumber": {
+                    "min": "Phone number must be at least 10 digits",
+                    "max": "Phone number must not exceed 15 digits",
+                    "invalid": "Please enter a valid phone number"
+                }
+            }
+        },
+        "footer": {
+            "languages": "Available in Arabic & English",
+            "responseTime": "Response within 24 hours",
+            "consultation": "Free consultation"
+        }
+    },
+    "category-section": {
+        "header": {
+            "title": "Product Categories",
+            "subtitle": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
+        },
+        "categories": {
+            "indoor": {
+                "title": "Indoor Lighting",
+                "subtitle": "Interior Collection",
+                "description": "Sophisticated lighting solutions designed to enhance every interior space. From ambient ceiling fixtures to accent wall lights, our indoor collection combines aesthetic excellence with functional illumination.",
+                "href": "/category/indoor"
+            },
+            "outdoor": {
+                "title": "Outdoor Lighting",
+                "subtitle": "Exterior Collection",
+                "description": "Weather-resistant lighting engineered for outdoor environments. Illuminate gardens, pathways, and architectural features with fixtures built to withstand the elements while delivering exceptional performance.",
+                "href": "/category/outdoor"
+            }
+        },
+        "features": {
+            "consultationTitle": "Expert Consultation",
+            "consultationDescription": "Professional lighting design assistance to help you select the perfect fixtures for your project.",
+            "technicalTitle": "Technical Support",
+            "technicalDescription": "Comprehensive installation guides and technical specifications for all products.",
+            "qualityTitle": "Quality Assurance",
+            "qualityDescription": "All fixtures undergo rigorous testing to meet international lighting standards."
+        }
+    },
+    "footer": {
+        "logo": {
+            "part1": "NEW",
+            "part2": "LIGHT"
+        },
+        "sections": {
+            "products": {
+                "title": "Products",
+                "indoor": "Interior Lighting",
+                "outdoor": "Outdoor Lighting",
+                "smart": "Smart Solutions"
+            },
+            "resources": {
+                "title": "Resources",
+                "catalog": "Catalog",
+                "technical": "Technical Data",
+                "installation": "Installation Guides"
+            },
+            "company": {
+                "title": "Company",
+                "about": "About Us",
+                "contact": "Contact",
+                "privacy": "Privacy",
+                "faqs": "FAQs"
+            }
+        },
+        "copyright": "New Light. All rights reserved.",
+        "social-header": "Follow Us On Social Media"
+    },
+    "CategoryCard": {
+        "text": "Explore Collection"
+    },
+    "features-section": {
+        "headerTitle": "Why Choose Us",
+        "footerCta": "All products backed by quality assurance and customer satisfaction guarantee",
+        "features": [
+            {
+                "title": "Lighting Study",
+                "description": "Professional lighting calculations based on international lux standards."
+            },
+            {
+                "title": "Premium Quality Products",
+                "description": "Top-tier lighting fixtures engineered for durability and long-term performance."
+            },
+            {
+                "title": "Fast Delivery",
+                "description": "5-7 days delivery with real-time tracking across all regions."
+            },
+            {
+                "title": "Extended Warranty",
+                "description": "3-5 years comprehensive warranty on all premium lighting products."
+            },
+            {
+                "title": "Cash on Delivery",
+                "description": "Flexible payment options including secure cash on delivery."
+            }
+        ]
+    },
+    "cta-section": {
+        "heading": "Ready to Illuminate Your Space?",
+        "description": "Discover our curated collection of premium residential and commercial lighting solutions",
+        "buttonText": "Shop Collection",
+        "buttonHref": "/category"
+    },
+    "products-section": {
+        "headerTitle": "Our Collection",
+        "headerDescription": "Premium residential lighting designed with elegance and functionality in mind. Each piece reflects our commitment to quality and aesthetic excellence.",
+        "productData": {
+            "pendantLightTitle": "Pendant Light",
+            "wallSconceTitle": "Wall Sconce",
+            "floorLampTitle": "Floor Lamp",
+            "tableLampTitle": "Table Lamp",
+            "ceilingFixtureTitle": "Ceiling Fixture",
+            "outdoorLightTitle": "Outdoor Light",
+            "categoryResidential": "Residential",
+            "categoryIndoor": "Indoor",
+            "categoryOutdoor": "Outdoor",
+            "badgeNew": "New",
+            "badgeFeatured": "Featured",
+            "badgeSale": "Sale"
+        }
+    },
+    "categories-page": {
+        "heroTitle": "Illuminate Your World",
+        "heroSubtitle": "Discover our curated collection of premium lighting solutions designed to transform every space into a masterpiece of light and shadow.",
+        "categoryIndoor": "Indoor",
+        "categoryIndoorDesc": "Elegant interior lighting for living spaces, bedrooms, and workspaces.",
+        "categoryOutdoor": "Outdoor",
+        "categoryOutdoorDesc": "Weather-resistant lighting for gardens, pathways, and architectural facades.",
+        "categoryFeatured": "Featured",
+        "categoryFeaturedDesc": "Our most exclusive designer collections and limited editions.",
+        "ctaTitle": "Need Expert Guidance?",
+        "ctaDescription": "Our lighting specialists are here to help you find the perfect illumination for your project. From residential to commercial spaces, we provide personalized consultation.",
+        "ctaContact": "Contact Us",
+        "ctaLearn": "Learn More",
+        "exploreCollection": "Explore Collection",
+        "productsCount": "{count} products"
+    },
+    "sub-category-page": {
+        "backTo": "Back to {category}",
+        "noSubcategories": "No subcategories available",
+        "exploreCollection": "Explore our {name} collection"
+    },
+    "section-type-page": {
+        "noProducts": "No products available in this category",
+        "productCount": "{count} {count, plural, =1 {product} other {products}}",
+        "products": "products",
+        "product": "product"
+    },
+    "product-page": {
+        "noImage": "No Image Available",
+        "featured": "Featured",
+        "currency": "EGP",
+        "quantity": "Quantity",
+        "addToCart": "Add to Cart",
+        "addingToCart": "Adding...",
+        "orderNow": "Order Now",
+        "processing": "Processing...",
+        "outOfStock": "Out of Stock",
+        "technicalLabel": "Technical Specifications",
+        "specifications": "Detailed Specifications",
+        "bulkOrderTitle": "Bulk Orders",
+        "bulkOrderDescription": "For large orders, please contact our sales team for special pricing and personalized service",
+        "close": "Close",
+        "contactSalesTeam": "Contact Sales Team",
+        "signInRequired": {
+            "title": "Sign In Required",
+            "description": "Please sign in to add products to your cart"
+        },
+        "addedToCart": "Added to Cart",
+        "configurationError": "Configuration Error",
+        "pleaseTryAgain": "Please try again",
+        "configurationSaved": "Configuration Saved",
+        "redirectingToPreview": "Redirecting to preview...",
+        "invalidQuantity": "Invalid quantity",
+        "decreaseQuantity": "Decrease Quantity",
+        "increaseQuantity": "Increase Quantity",
+        "viewImage": "View Product Image"
+    },
+    "preview": {
+        "home": "Home",
+        "orderPreview": "Order Preview",
+        "reviewOrder": "Review Your Order",
+        "reviewDescription": "Please review your order details before proceeding to checkout",
+        "noImage": "No Image Available",
+        "keySpecs": "Key Specifications",
+        "orderSummary": "Order Summary",
+        "colorTemperature": "Color Temperature",
+        "surfaceColor": "Surface Color",
+        "quantity": "Quantity",
+        "unitPrice": "Unit Price",
+        "subtotal": "Subtotal",
+        "discount": "Discount",
+        "total": "Total",
+        "currency": "EGP",
+        "proceedToCheckout": "Proceed to Checkout",
+        "processing": "Processing...",
+        "secureCheckout": "Secure & encrypted checkout"
+    },
+    "confirm": {
+        "home": "Home",
+        "orderPreview": "Confirm Order",
+        "confirmOrder": "Confirm Order",
+        "confirmYourOrder": "Confirm Your Order",
+        "confirmDescription": "Please enter your shipping information to complete your order",
+        "orderSummary": "Order Summary",
+        "quantity": "Quantity",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "calculatedAtCheckout": "Calculated at checkout",
+        "currency": "EGP",
+        "shippingInformation": "Shipping Information",
+        "fullName": "Full Name",
+        "phone": "Phone Number",
+        "email": "Email Address",
+        "addressLine1": "Address Line 1",
+        "addressLine2": "Address Line 2",
+        "city": "City",
+        "state": "State/Province",
+        "postalCode": "Postal Code",
+        "shippingOption": "Shipping Option",
+        "basicShipping": "Basic Shipping",
+        "standardShipping": "Standard Shipping",
+        "expressShipping": "Express Shipping",
+        "saveAndContinue": "Save & Continue",
+        "fullNamePlaceholder": "Enter your full name",
+        "phonePlaceholder": "Enter your phone number",
+        "emailPlaceholder": "Enter your email address",
+        "addressPlaceholder": "Enter your address",
+        "cityPlaceholder": "Enter your city",
+        "statePlaceholder": "Enter your state/province",
+        "postalCodePlaceholder": "Enter your postal code"
+    },
+    "complete": {
+        "orderConfirmed": "Order Confirmed!",
+        "thankYou": "Thank you for your order",
+        "orderNumber": "Order Number",
+        "orderPlaced": "Order Placed",
+        "processing": "Processing",
+        "estimatedDelivery": "Estimated Delivery",
+        "orderItems": "Order Items",
+        "colorTemp": "Color Temperature",
+        "color": "Color",
+        "quantity": "Quantity",
+        "each": "each",
+        "currency": "EGP",
+        "shippingAddress": "Shipping Address",
+        "shippingMethod": "Shipping Method",
+        "paymentSummary": "Payment Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "total": "Total",
+        "viewOrderDetails": "View Order Details",
+        "continueShopping": "Continue Shopping"
+    },
+    "orderDetails": {
+        "orderDetails": "Order Details",
+        "orderNumber": "Order Number",
+        "orderDate": "Order Date",
+        "orderStatus": "Order Status",
+        "orderItems": "Order Items",
+        "colorTemp": "Color Temperature",
+        "color": "Color",
+        "quantity": "Quantity",
+        "each": "each",
+        "currency": "EGP",
+        "shippingAddress": "Shipping Address",
+        "shippingMethod": "Shipping Method",
+        "paymentSummary": "Payment Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "tax": "Tax",
+        "total": "Total",
+        "trackingNumber": "Tracking Number",
+        "backToOrders": "Back to Home",
+        "continueShopping": "Continue Shopping"
+    },
+    "offline": {
+        "title": "You're offline",
+        "description": "Please check your internet connection"
+    },
+    "metadatas": {
+        "category-page": {
+            "title": "Lighting Collections | Premium Indoor & Outdoor Solutions",
+            "description": "Explore our curated lighting collections including premium indoor and outdoor solutions. Designed to transform every space with elegance, performance, and timeless design."
+        },
+        "sub-category-page": {
+            "title": "{category} Lighting Collection | Premium Design Solutions",
+            "description": "Explore our {category} lighting collection featuring carefully curated designs that combine elegance, performance, and timeless aesthetics."
+        },
+        "section-type-page": {
+            "title": "{section} | {category} Lighting Collection",
+            "description": "Explore our {section} collection within the {category} lighting range. Premium designs crafted to elevate your space with elegance and performance."
+        },
+        "product-page": {
+            "title": "{name} | {category}",
+            "description": "{name} designed for {category}. Specifications include {specs}."
+        },
+        "offline": {
+            "title": "Offline",
+            "description": "You are currently offline. Please check your network connection."
+        },
+        "privacy-page": {
+            "title": "Privacy Policy | Premium Lighting Solutions",
+            "description": "Learn how we collect, use, and protect your personal information. Our commitment to your privacy and data security."
+        },
+        "about-us-page": {
+            "title": "About Us | Premium Lighting Solutions",
+            "description": "Discover our story, mission, and vision. Leading provider of premium indoor and outdoor lighting solutions for residential and commercial spaces."
+        },
+        "contact": {
+            "title": "Contact Us - Get In Touch | New Light",
+            "description": "Contact New Light for inquiries about our lighting products and solutions. We're here to illuminate your spaces with the perfect lighting."
+        },
+        "preview": {
+            "title": "Review Order - {name} | {category} | New Light",
+            "description": "Review your order for {name}. Configuration: {config}. Total: {price} EGP. Secure checkout with New Light lighting solutions.",
+            "defaultTitle": "Review Your Order | New Light",
+            "defaultDescription": "Review your lighting product order before checkout. Secure payment and fast delivery with New Light."
+        },
+        "confirm": {
+            "title": "Confirm Order | {product}",
+            "description": "Finalize your order for {product}. Review shipping details and confirm securely."
+        },
+        "complete": {
+            "title": "Order Completed | #{orderNumber}",
+            "description": "Thank you for your purchase. Your order #{orderNumber} has been successfully placed and is now being processed."
+        },
+        "orderDetails": {
+            "title": "Order Details | #{orderNumber}",
+            "description": "View details for order #{orderNumber}. Track your order status, view items, shipping information, and payment summary."
+        },
+        "technical-resources": {
+            "title": "Technical Resources - Lighting Design Studies | New Light",
+            "description": "Discover the power of professional lighting studies...",
+            "keywords": "lighting design, lighting studies, photometric analysis..."
+        }
+    }
+}

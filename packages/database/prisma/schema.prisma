@@ -1,0 +1,492 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Configuration {
+  key               String  @unique
+  value             String
+  description       String?
+  isPublic          Boolean @default(false)
+  id                String  @id @default(cuid())
+  productId         String
+  configPrice       Float
+  priceIncrease     Float
+  shippingPrice     Float
+  discount          Float
+  quantity          Int
+  lampPriceIncrease Float?
+  totalPrice        Float
+  currency          String  @default("EGP")
+  selectedColorTemp String?
+  selectedColor     String?
+
+  productIp ProductIP?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  orders     Order[]     @relation("ConfigurationToOrder")
+  users      User[]      @relation("ConfigurationToUser")
+  orderItems OrderItem[] @relation("ConfigurationToOrderItem")
+
+  @@map("configurations")
+}
+
+model User {
+  id                String           @id
+  email             String?          @unique
+  phoneNumber       String?
+  preferredLanguage String           @default("ar")
+  preferredCurrency String           @default("EGP")
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  configurationId   String?
+  productId         String?
+  shippingAddressId String?          @unique
+  configuration     Configuration?   @relation("ConfigurationToUser", fields: [configurationId], references: [id])
+  product           Product?         @relation("UserToProduct", fields: [productId], references: [id])
+  shippingAddress   ShippingAddress?
+  cart              Cart?
+  orders            Order[]
+
+  @@index([email])
+  @@map("users")
+}
+
+model Category {
+  id            String                @id @default(cuid())
+  categoryType  CategoryType
+  slug          String                @unique
+  imageUrl      String?
+  order         Int                   @default(0)
+  isActive      Boolean               @default(true)
+  createdAt     DateTime              @default(now())
+  updatedAt     DateTime              @updatedAt
+  translations  CategoryTranslation[]
+  subCategories SubCategory[]
+
+  @@index([categoryType])
+  @@index([slug])
+  @@map("categories")
+}
+
+model CategoryTranslation {
+  id          String   @id @default(cuid())
+  categoryId  String
+  locale      String
+  name        String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, locale])
+  @@index([locale])
+  @@map("category_translations")
+}
+
+model SubCategory {
+  id           String                   @id @default(cuid())
+  categoryId   String
+  slug         String
+  imageUrl     String?
+  order        Int                      @default(0)
+  isActive     Boolean                  @default(true)
+  createdAt    DateTime                 @default(now())
+  updatedAt    DateTime                 @updatedAt
+  products     Product[]
+  category     Category                 @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  translations SubCategoryTranslation[]
+
+  @@unique([categoryId, slug])
+  @@index([categoryId])
+  @@index([slug])
+  @@map("sub_categories")
+}
+
+model SubCategoryTranslation {
+  id            String      @id @default(cuid())
+  subCategoryId String
+  locale        String
+  name          String
+  description   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+
+  @@unique([subCategoryId, locale])
+  @@index([locale])
+  @@map("sub_category_translations")
+}
+
+model Product {
+  id                String               @id @default(cuid())
+  productId         String               @unique
+  subCategoryId     String
+  slug              String               @unique
+  baseProductId     String?
+  variantType       String?
+  variantValue      String?
+  displayOrder      Int                  @default(0)
+  colorImageMap     Json?
+  price             Float
+  inventory         Int                  @default(0)
+  images            String[]
+  voltage           String?
+  maxWattage        Float?
+  brandOfLed        String?
+  luminousFlux      String?
+  mainMaterial      String?
+  cri               String?
+  beamAngle         Int?
+  productDimensions String?
+  lightingType      String?
+  driver            String?
+  holeSize          String?
+  powerFactor       String?
+  colorTemperatures ProductColorTemp[]
+  ipRating          ProductIP?
+  maxIpRating       ProductIP?
+  lifeTime          Int?
+  availableColors   AvailableColors[]
+  isActive          Boolean              @default(true)
+  isFeatured        Boolean              @default(false)
+  order             Int                  @default(0)
+  createdAt         DateTime             @default(now())
+  updatedAt         DateTime             @updatedAt
+  cartItems         CartItem[]
+  orderItems        OrderItem[]
+  translations      ProductTranslation[]
+  subCategory       SubCategory          @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  users             User[]               @relation("UserToProduct")
+
+  @@index([baseProductId])
+  @@index([productId])
+  @@index([subCategoryId])
+  @@index([slug])
+  @@index([isActive, isFeatured])
+  @@map("products")
+}
+
+model ProductTranslation {
+  id              String   @id @default(cuid())
+  productId       String
+  locale          String
+  name            String
+  description     String?
+  metaTitle       String?
+  specifications  Json?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, locale])
+  @@index([locale])
+  @@map("product_translations")
+}
+
+model Cart {
+  id        String     @id @default(cuid())
+  userId    String     @unique
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  items     CartItem[]
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("carts")
+}
+
+model CartItem {
+  id                String   @id @default(cuid())
+  cartId            String
+  productId         String
+  quantity          Int      @default(1)
+  selectedColorTemp String?
+  selectedColor     String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  cart              Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId, selectedColorTemp, selectedColor])
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
+}
+
+model Order {
+  id                String      @id @default(cuid())
+  userId            String
+  orderNumber       String      @unique
+  subtotal          Float
+  shippingCost      Float
+  tax               Float?
+  total             Float
+  idempotencyKey    String      @unique
+  status            OrderStatus @default(awaiting_shipment)
+  shippingOption    OrderOption @default(StandardShipping)
+  paymentMethod     String?
+  paymentStatus     String?
+  paidAt            DateTime?
+  shippingAddressId String?
+  trackingNumber    String?
+  shippedAt         DateTime?
+  deliveredAt       DateTime?
+  customerNotes     String?
+  adminNotes        String?
+  createdAt         DateTime    @default(now())
+  updatedAt         DateTime    @updatedAt
+  configurationId   String?
+
+  items           OrderItem[]
+  shippingAddress ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  configuration   Configuration?   @relation("ConfigurationToOrder", fields: [configurationId], references: [id])
+
+  @@index([userId])
+  @@index([orderNumber])
+  @@index([status])
+  @@index([createdAt])
+  @@map("orders")
+}
+
+model OrderItem {
+  id                String            @id @default(cuid())
+  orderId           String
+  productId         String
+  productName       String
+  productImage      String
+  price             Float
+  quantity          Int
+  selectedColorTemp ProductColorTemp?
+  selectedColor     String?
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  configurationId   String?
+
+  order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product        @relation(fields: [productId], references: [id])
+  configuration Configuration? @relation("ConfigurationToOrderItem", fields: [configurationId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
+}
+
+model ShippingAddress {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  fullName     String
+  phone        String
+  email        String?
+  addressLine1 String
+  addressLine2 String?
+  city         String
+  state        String?
+  postalCode   String
+  country      String   @default("Egypt")
+  isDefault    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  orders       Order[]
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isDefault])
+  @@map("shipping_addresses")
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+enum ProductColorTemp {
+  WARM_3000K
+  COOL_4000K
+  WHITE_6500K
+
+  @@map("product_color_temp")
+}
+
+enum AvailableColors {
+  BLACK
+  GRAY
+  WHITE
+  GOLD
+  WOOD
+
+  @@map("available_colors")
+}
+
+enum ProductIP {
+  IP20
+  IP44
+  IP54
+  IP65
+  IP68
+
+  @@map("product_ip")
+}
+
+enum OrderOption {
+  BasicShipping
+  StandardShipping
+  ExpressShipping
+
+  @@map("order_option")
+}
+
+enum OrderStatus {
+  awaiting_shipment
+  processing
+  shipped
+  delivered
+  fulfilled
+  cancelled
+  refunded
+
+  @@map("order_status")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+
+  @@map("user_role")
+}
+
+enum CategoryType {
+  indoor
+  outdoor
+
+  @@map("category_type")
+}
+
+// Add these models to your existing schema.prisma
+
+model ContactForm {
+  id          String            @id @default(cuid())
+  fullName    String
+  jobPosition String
+  email       String
+  phoneNumber String
+  message     String?
+  status      ContactFormStatus @default(UNREAD)
+  source      String            @default("website") // website, app, other
+  ipAddress   String?
+  userAgent   String?
+  isRead      Boolean           @default(false)
+  readAt      DateTime?
+  readBy      String? // Admin user ID who read it
+  priority    ContactPriority   @default(NORMAL)
+  notes       String? // Admin notes
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+
+  // Relations
+  responses ContactFormResponse[]
+  tags      ContactFormTag[]
+
+  @@index([status, createdAt])
+  @@index([isRead])
+  @@index([email])
+  @@index([createdAt])
+  @@map("contact_forms")
+}
+
+model ContactFormResponse {
+  id            String      @id @default(cuid())
+  contactFormId String
+  adminId       String // Clerk user ID
+  message       String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  contactForm   ContactForm @relation(fields: [contactFormId], references: [id], onDelete: Cascade)
+
+  @@index([contactFormId])
+  @@map("contact_form_responses")
+}
+
+model ContactFormTag {
+  id            String      @id @default(cuid())
+  contactFormId String
+  tag           String
+  createdAt     DateTime    @default(now())
+  contactForm   ContactForm @relation(fields: [contactFormId], references: [id], onDelete: Cascade)
+
+  @@unique([contactFormId, tag])
+  @@map("contact_form_tags")
+}
+
+model Notification {
+  id        String               @id @default(cuid())
+  userId    String 
+  type      NotificationType
+  title     String
+  message   String
+  actionUrl String? 
+  isRead    Boolean              @default(false)
+  readAt    DateTime?
+  priority  NotificationPriority @default(NORMAL)
+  metadata  Json?
+  expiresAt DateTime?
+  createdAt DateTime             @default(now())
+  updatedAt DateTime             @updatedAt
+
+  @@index([userId, isRead])
+  @@index([createdAt])
+  @@index([type])
+  @@map("notifications")
+}
+
+enum ContactFormStatus {
+  UNREAD
+  READ
+  IN_PROGRESS
+  RESPONDED
+  CLOSED
+  SPAM
+
+  @@map("contact_form_status")
+}
+
+enum ContactPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+
+  @@map("contact_priority")
+}
+
+enum NotificationType {
+  NEW_CONTACT_FORM
+  NEW_ORDER
+  ORDER_CANCELLED
+  LOW_INVENTORY
+  SYSTEM_ALERT
+  CUSTOM
+
+  @@map("notification_type")
+}
+
+enum NotificationPriority {
+  LOW
+  NORMAL
+  HIGH
+  URGENT
+
+  @@map("notification_priority")
+}
