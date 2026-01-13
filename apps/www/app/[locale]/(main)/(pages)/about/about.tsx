@@ -1,14 +1,13 @@
 "use client"
 
 import { Container } from "@/components/container"
+import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { ArrowRight, Award, CircleCheck, Eye, Lamp, Lightbulb, Shield, Target, Truck, Zap } from "lucide-react"
+import { useTranslations } from "next-intl"
 import type React from "react"
 import { useEffect, useRef } from "react"
-import { useTranslations } from "next-intl"
-import { Link } from "@/i18n/navigation"
-import Image from "next/image"
 
 gsap.registerPlugin(ScrollTrigger)
 
