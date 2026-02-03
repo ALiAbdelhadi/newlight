@@ -1951,19 +1951,6 @@
       ],
       "stairs-light": [
         {
-          "nl-s-l-1": {
-            "productId": "nl-stairs-light-1",
-            "productName": "nl-stairs-light-1",
-            "productImages": [
-              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (1).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (2).webp",
-              "/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (3).webp"
-            ],
-            "subCategory": "stairs-light",
-            "price": 480,
-            "categoryType": "outdoor",
-            "inventory": 5000
-          },
           "nl-s-l-2-5*5-cm": {
             "productId": "nl-s-l-2-5*5-cm",
             "productName": "nl-s-l-2-5×5-cm",
