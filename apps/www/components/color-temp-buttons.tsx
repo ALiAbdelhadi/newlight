@@ -46,7 +46,7 @@ export default function ProductColorTempButtons({
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
                     <div className="flex items-center gap-2">
-                        <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
+                        <p className="text-[15px] uppercase tracking-widest text-muted-foreground font-light">
                             {locale.startsWith("ar") ? "درجة حرارة اللون" : "Color Temperature"}
                         </p>
                     </div>

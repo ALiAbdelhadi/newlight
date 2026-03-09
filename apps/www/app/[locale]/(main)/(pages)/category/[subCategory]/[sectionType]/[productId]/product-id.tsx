@@ -394,63 +394,63 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
 
     return (
         <main className="min-h-screen">
-            <section className="py-24">
+            <div className="border-b border-border/50 py-24">
                 <Container>
-                    <nav className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap" aria-label="Breadcrumb">
+                    <nav className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap py-5" aria-label="Breadcrumb">
                         <Link
                             href={`/category/${product.subCategory.category.slug}`}
-                            className="hover:text-foreground transition-colors font-light tracking-wide"
+                            className="hover:text-foreground transition-colors font-light tracking-widest uppercase"
                         >
                             {categoryName}
                         </Link>
-                        <ChevronRight className="w-4 h-4 rtl:rotate-180 text-muted-foreground/50" aria-hidden="true" />
+                        <ChevronRight className="w-3 h-3 rtl:rotate-180 text-muted-foreground/40" aria-hidden="true" />
                         <Link
                             href={`/category/${product.subCategory.category.slug}/${product.subCategory.slug}`}
-                            className="hover:text-foreground transition-colors font-light tracking-wide"
+                            className="hover:text-foreground transition-colors font-light tracking-widest uppercase"
                         >
                             {subCategoryName}
                         </Link>
-                        <ChevronRight className="w-4 h-4 rtl:rotate-180 text-muted-foreground/50" aria-hidden="true" />
-                        <span className="text-foreground font-light tracking-wide">{productName}</span>
+                        <ChevronRight className="w-3 h-3 rtl:rotate-180 text-muted-foreground/40" aria-hidden="true" />
+                        <span className="text-foreground font-light tracking-widest uppercase">{productName}</span>
                     </nav>
                 </Container>
-            </section>
-            <section ref={heroRef} className="pb-20 lg:pb-28">
+            </div>
+            <section ref={heroRef} className="py-16 lg:py-24">
                 <Container>
-                    <div className="grid grid-cols-1 sm:grid-cols-5 gap-12 lg:gap-20">
-                        <div className="space-y-4 sm:col-span-2 col-span-3">
-                            <div className="relative aspect-square bg-muted rounded-sm overflow-hidden">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-start">
+                        <div className="space-y-4 lg:sticky lg:top-8">
+                            <div className="relative aspect-square overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
                                         src={product.images[selectedImageIndex] || product.images[0]}
                                         alt={productName}
                                         fill
-                                        className="object-cover"
+                                        className="object-contain p-6 transition-opacity duration-300"
                                         priority
                                         quality={100}
                                     />
                                 ) : (
-                                    <div className="w-full h-full flex items-center justify-center text-muted-foreground font-light">
+                                    <div className="w-full h-full flex items-center justify-center text-muted-foreground font-light text-sm tracking-wide">
                                         {t("noImage")}
                                     </div>
                                 )}
                                 {product.isFeatured && (
-                                    <div className="absolute top-4 left-4 z-10">
-                                        <span className="px-4 py-2 bg-accent text-accent-foreground text-xs uppercase tracking-widest font-light rounded-sm">
+                                    <div className="absolute top-4 ltr:left-4 rtl:right-4 z-10">
+                                        <span className="px-3 py-1 bg-primary text-primary-foreground text-[10px] uppercase tracking-widest font-medium">
                                             {t("featured")}
                                         </span>
                                     </div>
                                 )}
                             </div>
                             {product.images.length > 1 && (
-                                <div className="grid grid-cols-4 gap-3">
+                                <div className="grid grid-cols-5 gap-2">
                                     {product.images.map((image, index) => (
                                         <button
                                             key={index}
                                             onClick={() => setSelectedImageIndex(index)}
-                                            className={`relative aspect-square bg-muted rounded-sm overflow-hidden border-2 transition-all duration-300 ${selectedImageIndex === index
-                                                ? "border-accent"
-                                                : "border-transparent hover:border-border"
+                                            className={`relative aspect-square bg-muted overflow-hidden border transition-all duration-200 ${selectedImageIndex === index
+                                                ? "border-foreground"
+                                                : "border-border/40 hover:border-border"
                                                 }`}
                                             aria-label={`${t("viewImage")} ${index + 1}`}
                                         >
@@ -458,32 +458,30 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                                 src={image || "/placeholder.svg"}
                                                 alt={`${productName} - ${index + 1}`}
                                                 fill
-                                                className="object-cover"
+                                                className="object-contain p-1"
                                             />
                                         </button>
                                     ))}
                                 </div>
                             )}
                         </div>
-                        <div className="space-y-8 lg:pt-4 col-span-3">
-                            <div className="space-y-4">
-                                <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">
+                        <div className="space-y-8">
+                            <div className="space-y-5">
+                                <p className="text-[12px] uppercase tracking-[0.4em] text-primary font-medium">
                                     {subCategoryName}
                                 </p>
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-foreground leading-[1.1]">
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif italic tracking-tight text-foreground leading-[1]">
                                     {productName}
                                 </h1>
-                                <div className="h-px w-16 bg-primary" />
+                                <div className="h-px w-14 bg-border" />
                             </div>
                             {productDescription && (
-                                <div className="prose prose-sm max-w-none">
-                                    <p className="text-muted-foreground font-light leading-relaxed text-base tracking-wide">
-                                        {productDescription}
-                                    </p>
-                                </div>
+                                <p className="text-muted-foreground font-light leading-relaxed text-base tracking-wide">
+                                    {productDescription}
+                                </p>
                             )}
-                            <div className="flex items-baseline gap-2 py-6 border-y border-border">
-                                <span className="text-lg font-light text-muted-foreground">{t("currency")}</span>
+                            <div className="flex items-baseline gap-2 pt-2 pb-6 border-b border-border/60">
+                                <span className="text-sm font-light text-muted-foreground tracking-wider">{t("currency")}</span>
                                 <span className="text-5xl md:text-6xl font-serif font-light tracking-tight text-foreground">
                                     {product.price.toLocaleString()}
                                 </span>
@@ -512,86 +510,90 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
                                     onSurfaceColorChange={setSurfaceColor}
                                 />
                             )}
-                            <div className="space-y-6 pt-4">
+                            <div className="space-y-5 pt-2">
                                 <div className="flex items-center gap-6">
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light">
-                                            {t("quantity")}
+                                    <span className="text-[12px] uppercase tracking-[0.3em] text-muted-foreground font-light">
+                                        {t("quantity")}
+                                    </span>
+                                    <div className="flex items-center border border-border">
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-10 w-10 rounded-none hover:bg-muted"
+                                            onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                                            disabled={isOutOfStock}
+                                            aria-label={t("decreaseQuantity")}
+                                        >
+                                            <Minus className="h-3.5 w-3.5" />
+                                        </Button>
+                                        <span className="w-12 text-center font-light tabular-nums text-sm" aria-label={t("quantity")}>
+                                            {quantity}
                                         </span>
-                                        <div className="flex items-center border border-border rounded-sm">
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="h-10 w-10 rounded-none hover:bg-secondary"
-                                                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                                disabled={isOutOfStock}
-                                                aria-label={t("decreaseQuantity")}
-                                            >
-                                                <Minus className="h-4 w-4" />
-                                            </Button>
-                                            <span className="w-12 text-center font-light tabular-nums" aria-label={t("quantity")}>
-                                                {quantity}
-                                            </span>
-                                            <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                className="h-10 w-10 rounded-none hover:bg-secondary"
-                                                onClick={() => setQuantity(Math.min(product.inventory, quantity + 1))}
-                                                disabled={isOutOfStock}
-                                                aria-label={t("increaseQuantity")}
-                                            >
-                                                <Plus className="h-4 w-4" />
-                                            </Button>
-                                        </div>
+                                        <Button
+                                            variant="ghost"
+                                            size="icon"
+                                            className="h-10 w-10 rounded-none hover:bg-muted"
+                                            onClick={() => setQuantity(Math.min(product.inventory, quantity + 1))}
+                                            disabled={isOutOfStock}
+                                            aria-label={t("increaseQuantity")}
+                                        >
+                                            <Plus className="h-3.5 w-3.5" />
+                                        </Button>
                                     </div>
                                     {isOutOfStock && (
-                                        <span className="text-sm text-destructive font-light">{t("outOfStock")}</span>
+                                        <span className="text-xs text-destructive font-light tracking-wide">{t("outOfStock")}</span>
                                     )}
                                 </div>
-                                <div className="flex flex-col sm:flex-row gap-4">
+                                <div className="flex flex-col sm:flex-row gap-3">
                                     <Button
                                         onClick={handleAddToCart}
                                         disabled={isAddingToCart || isOutOfStock}
-                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm bg-transparent"
+                                        className="flex-1 h-13 text-sm uppercase tracking-[0.25em] font-light rounded-none bg-transparent border border-border hover:bg-muted hover:border-foreground text-foreground transition-all duration-300"
                                         variant="outline"
                                     >
-                                        <ShoppingCart className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
+                                        <ShoppingCart className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" />
                                         {isAddingToCart ? t("addingToCart") : t("addToCart")}
                                     </Button>
                                     <Button
                                         onClick={handleOrderNow}
                                         disabled={isSaving || isOutOfStock}
-                                        className="flex-1 h-14 text-base uppercase tracking-[0.2em] font-light rounded-sm"
+                                        className="flex-1 h-13 text-sm uppercase tracking-[0.25em] font-light rounded-none bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
                                     >
                                         {isSaving ? t("processing") : t("orderNow")}
                                     </Button>
                                 </div>
                             </div>
+                            <p className="text-[11px] text-muted-foreground/50 font-light tracking-widest uppercase border-t border-border/30 pt-4">
+                                SKU: {product.productId}
+                            </p>
                         </div>
                     </div>
                 </Container>
             </section>
             {specifications.length > 0 && (
-                <section ref={specsRef} className="border-t border-border bg-secondary/20 py-24">
+                <section ref={specsRef} className="border-t border-border/50 bg-muted/20 py-24">
                     <Container>
-                        <div className="mb-12">
-                            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light mb-4">
+                        <div className="mb-12 space-y-3">
+                            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-medium">
                                 {t("technicalLabel")}
                             </p>
-                            <h2 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light tracking-tight text-foreground">
+                            <h2 className="text-3xl md:text-4xl font-serif italic tracking-tight text-foreground">
                                 {t("specifications")}
                             </h2>
-                            <div className="h-px w-16 bg-accent mt-4" />
+                            <div className="h-px w-14 bg-border mt-2" />
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="min-w-full border border-border text-sm">
+                            <table className="w-full text-sm border-t border-border/50">
                                 <tbody>
                                     {specifications.map((spec, index) => (
-                                        <tr key={`${spec.originalLabel}-${index}`} className="border-b border-border/70 hover:bg-secondary/40 transition-colors">
-                                            <td className="py-4 px-6 font-light text-muted-foreground uppercase tracking-[0.15em] text-xs w-1/3">
+                                        <tr
+                                            key={`${spec.originalLabel}-${index}`}
+                                            className={`border-b border-border/40 transition-colors ${index % 2 === 0 ? "" : "bg-background/60"}`}
+                                        >
+                                            <td className="py-4 px-5 text-muted-foreground uppercase tracking-[0.2em] text-[11px] w-2/5 lg:w-1/3">
                                                 {spec.label}
                                             </td>
-                                            <td className="py-4 px-6 font-light text-foreground text-base">{spec.value}</td>
+                                            <td className="py-4 px-5 font-light text-foreground text-[15px]">{spec.value}</td>
                                         </tr>
                                     ))}
                                 </tbody>

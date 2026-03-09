@@ -68,73 +68,57 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
         }
     }, [])
 
-    // ✅ التحقق من وجود الصورة
     const hasValidImage = imageUrl && imageUrl.trim() !== ""
 
     return (
-        <div ref={cardRef} className="group cursor-pointer rounded-2xl p-6 transition-all">
+        <div ref={cardRef} className="group cursor-pointer">
             <Link href={href} className="block">
-                <div ref={imageRef} className="relative overflow-hidden aspect-square mb-8 bg-muted">
+                <div ref={imageRef} className="relative overflow-hidden aspect-square bg-muted">
                     {hasValidImage ? (
                         <Image
                             src={imageUrl}
                             alt={title}
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            width={1000}
-                            height={1250}
+                            fill
+                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         />
                     ) : (
-                        // ✅ Placeholder في حالة عدم وجود صورة
-                        <div className="h-full w-full flex items-center justify-center bg-muted">
-                            <div className="text-center space-y-3">
-                                <svg
-                                    className="w-16 h-16 mx-auto text-muted-foreground/40"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={1}
-                                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                    />
-                                </svg>
-                                <p className="text-xs text-muted-foreground/60 font-light tracking-wide">
-                                    No Image Available
-                                </p>
-                            </div>
+                        <div className="absolute inset-0 flex items-center justify-center bg-muted">
+                            <svg
+                                className="w-14 h-14 text-muted-foreground/25"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth={0.8}
+                                    d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                                />
+                            </svg>
                         </div>
                     )}
-                </div>
-                <div ref={contentRef} className="space-y-4">
-                    <div>
-                        <p className="text-xs uppercase tracking-widest text-muted-foreground mb-2 font-light">
-                            {subtitle}
-                        </p>
-                        <h3 className="text-xl md:text-2xl font-light tracking-tight text-foreground mb-3">
-                            {title}
-                        </h3>
+                    <div className="absolute top-4 ltr:left-4 rtl:right-4 z-10">
+                        <span className="inline-flex items-center justify-center w-7 h-7 bg-background/80 backdrop-blur-sm text-foreground/70 text-[10px] font-medium tracking-wider border border-border/50">
+                            {String(index + 1).padStart(2, "0")}
+                        </span>
                     </div>
-                    <div className="flex items-center gap-2 pt-2">
-                        <span className="text-foreground text-sm font-medium tracking-wider uppercase group-hover:text-muted-foreground transition-colors">
+                    <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-500" />
+                </div>
+                <div ref={contentRef} className="pt-5 pb-2 space-y-3">
+                    <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-light">
+                        {subtitle}
+                    </p>
+                    <h3 className="text-lg md:text-xl font-serif italic tracking-tight text-foreground leading-snug group-hover:text-primary transition-colors duration-300">
+                        {title}
+                    </h3>
+                    <div className="flex items-center gap-3 pt-1">
+                        <div className="h-px w-8 bg-border group-hover:w-14 group-hover:bg-primary transition-all duration-500 ease-out" />
+                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground/0 group-hover:text-muted-foreground transition-all duration-300 whitespace-nowrap">
                             {t("text")}
                         </span>
-                        <svg
-                            className="w-5 h-5 text-foreground group-hover:translate-x-1 transition-transform duration-300 rtl:rotate-180"
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth={1.5}
-                                d="M17 8l4 4m0 0l-4 4m4-4H3"
-                            />
-                        </svg>
                     </div>
-                    <div className="h-px w-12 bg-border group-hover:bg-primary" />
                 </div>
             </Link>
         </div>

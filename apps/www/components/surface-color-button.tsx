@@ -87,7 +87,7 @@ export default function ProductSurfaceColorButtons({
         <div className="space-y-4">
             <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                    <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
+                    <p className="text-[15px] uppercase tracking-widest text-muted-foreground font-light">
                         {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
                     </p>
                 </div>

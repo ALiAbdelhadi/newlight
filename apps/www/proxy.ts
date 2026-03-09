@@ -5,16 +5,16 @@ import { routing } from "./i18n/routing";
 // Create intl middleware instance
 const intlMiddleware = createIntlMiddleware(routing);
 
-export default clerkMiddleware((auth, req) => {
+export default clerkMiddleware(async (auth, req) => {
   // Run intl after Clerk has done its checks
   return intlMiddleware(req);
 });
 
 export const config = {
   matcher: [
-    // Pages except static files and manifest.json
-    "/((?!_next|_vercel|manifest\\.json|.*\\..*).*)",
-    // API routes
-    "/(api|trpc)(.*)",
+    // Skip Next.js internals and all static files, unless found in search params
+    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    // Always run for API routes
+    '/(api|trpc)(.*)',
   ],
 };
