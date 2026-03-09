@@ -41,7 +41,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://img.clerk.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; frame-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; worker-src 'self' blob:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://img.clerk.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; frame-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; worker-src 'self' blob:;",
           },
           {
             key: 'Strict-Transport-Security',
@@ -87,6 +87,14 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "images.unsplash.com",
+      },
+      {
+        protocol: "https",
+        hostname: "img.clerk.com",
+      },
+      {
+        protocol: "https",
+        hostname: "api.dicebear.com",
       },
     ],
   },
