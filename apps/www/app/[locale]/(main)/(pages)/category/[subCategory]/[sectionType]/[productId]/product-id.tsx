@@ -393,7 +393,7 @@ export default function ProductIdPage({ product }: ProductIdPageProps) {
     const isOutOfStock = product.inventory <= 0
 
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen">
             <section className="py-24">
                 <Container>
                     <nav className="flex items-center gap-2 text-sm text-muted-foreground flex-wrap" aria-label="Breadcrumb">

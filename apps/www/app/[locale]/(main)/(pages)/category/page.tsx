@@ -1,4 +1,4 @@
-import { getCategoryByType } from "@/lib/db"
+import { CategoryService } from "@/lib/services/category-service"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
 import { getLocale, getTranslations } from "next-intl/server"
@@ -21,8 +21,8 @@ export default async function CategoriesPage() {
     const locale = await getLocale()
 
     const [indoorCategory, outdoorCategory] = await Promise.all([
-        getCategoryByType("indoor", locale),
-        getCategoryByType("outdoor", locale),
+        CategoryService.getCategoryByType("indoor", locale),
+        CategoryService.getCategoryByType("outdoor", locale),
     ])
 
     const categories = [

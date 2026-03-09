@@ -39,6 +39,18 @@ const nextConfig: NextConfig = {
             key: 'Referrer-Policy',
             value: 'strict-origin-when-cross-origin',
           },
+          {
+            key: 'Content-Security-Policy',
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://img.clerk.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; frame-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; worker-src 'self' blob:;",
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=31536000; includeSubDomains; preload',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(), interest-cohort=()',
+          }
         ],
       },
       {
@@ -61,7 +73,7 @@ const nextConfig: NextConfig = {
     ]
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: false
   },
   reactStrictMode: true,
   transpilePackages: ["@repo/database"],

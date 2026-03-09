@@ -10,8 +10,9 @@ import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { MapPin, Menu, X } from "lucide-react"
 import { useLocale, useTranslations } from 'next-intl'
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useRef, useState, useCallback } from "react"
 import { AuthSectionWrapper } from "./auth-section-wrapper"
+import { useDebounce } from "use-debounce"
 
 export function Nav() {
     const t = useTranslations('nav');
@@ -24,11 +25,26 @@ export function Nav() {
     const mobileMenuRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const handleScroll = () => {
-            setIsScrolled(window.scrollY > 20)
+        let lastScrollY = window.scrollY
+        let ticking = false
+
+        const updateScroll = () => {
+            const scrollY = window.scrollY
+            if (Math.abs(scrollY - lastScrollY) > 5) {
+                setIsScrolled(scrollY > 20)
+                lastScrollY = scrollY
+            }
+            ticking = false
         }
 
-        window.addEventListener("scroll", handleScroll)
+        const handleScroll = () => {
+            if (!ticking) {
+                window.requestAnimationFrame(updateScroll)
+                ticking = true
+            }
+        }
+
+        window.addEventListener("scroll", handleScroll, { passive: true })
         return () => window.removeEventListener("scroll", handleScroll)
     }, [])
 

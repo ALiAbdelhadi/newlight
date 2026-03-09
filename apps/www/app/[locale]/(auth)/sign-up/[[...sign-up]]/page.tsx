@@ -30,7 +30,7 @@ export default function SignUpPage() {
   }, [])
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-background text-foreground pt-24 pb-12">
+    <div ref={containerRef} className="min-h-screen text-foreground pt-24 pb-12">
       <Container>
         <div ref={backButtonRef} className="mb-8">
           <Link

@@ -1,4 +1,4 @@
-import { getProductsByIds } from "@/lib/db";
+import { ProductService } from "@/lib/services/product-service";
 import { getLocale } from "next-intl/server";
 import { Products } from "./products";
 
@@ -20,7 +20,7 @@ const FEATURED_PRODUCT_IDS = [
 
 export default async function productsSection() {
     const currentLocale = await getLocale();
-    const allProducts = await getProductsByIds(FEATURED_PRODUCT_IDS, currentLocale);
+    const allProducts = await ProductService.getProductsByIds(FEATURED_PRODUCT_IDS, currentLocale);
     const products = selectRandomProductsFromDifferentSubCategories(allProducts, 8);
     
     return (

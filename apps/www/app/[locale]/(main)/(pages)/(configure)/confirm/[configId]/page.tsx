@@ -131,7 +131,7 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
             configId={configId}
             userId={userId}
             configuration={configuration}
-            product={product}
+            product={product as any}
             productName={productName}
             existingAddress={formattedAddress}
             translations={translations}

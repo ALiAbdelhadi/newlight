@@ -7,7 +7,7 @@ export function cn(...inputs: ClassValue[]) {
 
 export function convertToArabicNumerals(num: number): string {
   const englishNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
-  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٤", "٥", "٢", "٩"]
+  const arabicNumbers = ["٠", "١", "٢", "٣", "٤", "٥", "٦", "٧", "٨", "٩"]
 
   let result = num.toString()
   for (let i = 0; i < englishNumbers.length; i++) {

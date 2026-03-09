@@ -96,26 +96,26 @@ export default function CategorySection() {
                     <div className="mt-24 pt-16 border-t border-border">
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                             <div>
-                                <h3 className="text-sm uppercase tracking-widest mb-3 text-foreground">
+                                <h3 className="text-base uppercase tracking-widest mb-3 text-foreground">
                                     {t('features.consultationTitle')}
                                 </h3>
-                                <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                                <p className="text-base font-light text-muted-foreground leading-relaxed">
                                     {t('features.consultationDescription')}
                                 </p>
                             </div>
                             <div>
-                                <h3 className="text-sm uppercase tracking-widest mb-3 text-foreground">
+                                <h3 className="text-base uppercase tracking-widest mb-3 text-foreground">
                                     {t('features.technicalTitle')}
                                 </h3>
-                                <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                                <p className="text-base font-light text-muted-foreground leading-relaxed">
                                     {t('features.technicalDescription')}
                                 </p>
                             </div>
                             <div>
-                                <h3 className="text-sm uppercase tracking-widest mb-3 text-foreground">
+                                <h3 className="text-base uppercase tracking-widest mb-3 text-foreground">
                                     {t('features.qualityTitle')}
                                 </h3>
-                                <p className="text-sm font-light text-muted-foreground leading-relaxed">
+                                <p className="text-base font-light text-muted-foreground leading-relaxed">
                                     {t('features.qualityDescription')}
                                 </p>
                             </div>

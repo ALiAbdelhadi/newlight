@@ -9,20 +9,27 @@ import { SupportedLanguage } from "@/types";
 import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
-import { Almarai, Roboto } from "next/font/google";
+import { Inter, Playfair_Display, Almarai } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
-const roboto = Roboto({
-  weight: ["400", "500"],
+const inter = Inter({
   subsets: ["latin"],
   display: "swap",
+  variable: "--font-inter",
+});
+
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-serif",
 });
 
 const almarai = Almarai({
-  weight: "400",
+  weight: ["400", "700"],
   subsets: ["arabic"],
   display: "swap",
+  variable: "--font-almarai",
 })
 
 
@@ -77,13 +84,13 @@ export default async function RootLayout({
     <ClerkProvider
       appearance={{
         variables: {
-          fontFamily: roboto.style.fontFamily,
+          fontFamily: inter.style.fontFamily,
           fontSize: "14px",
         },
       }}
     >
-      <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} >
-        <body className={cn(roboto.className, almarai.className, "antialiased overflow-x-hidden scroll-smooth bg-card")} suppressHydrationWarning>
+      <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} className={cn(inter.variable, playfair.variable, almarai.variable)}>
+        <body className="antialiased overflow-x-hidden scroll-smooth bg-background dark:bg-card/60 selection:bg-primary/20" suppressHydrationWarning>
           <script
             suppressHydrationWarning
             dangerouslySetInnerHTML={{

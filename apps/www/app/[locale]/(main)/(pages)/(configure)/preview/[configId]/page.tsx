@@ -41,11 +41,11 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         })
     }
 
-    const productTranslation = product.translations[0]
-    const categoryTranslation = product.subCategory.category.translations[0]
+    const productTranslation = product.translations?.[0]
+    const categoryTranslation = product.subCategory?.category?.translations?.[0]
 
     const productName = productTranslation?.name || product.productId
-    const categoryName = categoryTranslation?.name || product.subCategory.category.categoryType
+    const categoryName = categoryTranslation?.name || product.subCategory?.category?.categoryType || ""
 
     const configDetails = [
         configuration.selectedColorTemp,
@@ -109,7 +109,7 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
     return (
         <PreviewClient
             configId={configId}
-            product={product}
+            product={product as any}
             configuration={configuration}
             translations={translations}
             locale={locale}

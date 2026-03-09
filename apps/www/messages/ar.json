@@ -67,7 +67,9 @@
         "footer": "القاموس الجديد: دليل لحلول الإضاءة السكنية",
         "suggestions": {
             "indoor": "إضاءة داخلية",
-            "outdoor": "إضاءة خارجية"
+            "solutions": "حلول الإضاءة",
+            "outdoor": "إضاءة خارجية",
+            "smart": "إضاءة ذكية"
         }
     },
     "auth-section": {
@@ -313,11 +315,9 @@
         "breadcrumbHome": "الرئيسية",
         "breadcrumbCollections": "المجموعات",
         "featured": "مميزة",
-        "tags": "الوسوم",
         "projectInfo": "معلومات المشروع",
         "category": "الفئة",
         "published": "تاريخ النشر",
-        "specifications": "المواصفات",
         "interestedTitle": "مهتم بهذا المشروع؟",
         "interestedDescription": "دعنا نناقش كيف يمكننا إنشاء شيء مماثل لك",
         "contactButton": "اتصل بنا",
@@ -468,9 +468,14 @@
     "collection-section": {
         "sectionTitle": "المجموعة الجديدة",
         "sectionDescription": "استكشف أحدث ابتكاراتنا في التصميم والتكنولوجيا",
+        "image1Title": "بساطة معاصرة",
+        "image1Category": "سكني",
         "living-tomorrowTitle": "الحياة في المستقبل",
         "living-tomorrowDescription": "اختبر مستقبل الحياة المستدامة من خلال التصميم المبتكر .",
         "living-tomorrowAction": "استكشف",
+        "timeless-eleganceTitle": "أناقة خالدة",
+        "timeless-eleganceDescription": "اكتشف التناغم المثالي بين الضوء والظل، حيث تعتبر كل قطعة دليلاً على التصميم الراقي والحرفية التي لا تضاهى. ارتقِ ببيئتك المعيشية بقطع تحدد الفخامة الحديثة.",
+        "timeless-eleganceAction": "استكشف المجموعة",
         "premium-finishesTitle": "التشطيبات الفاخرة",
         "premium-finishesDescription": "اكتشف مجموعتنا المنتقاة من المواد والملمس التي تحدد الفخامة الحديثة.",
         "premium-finishesAction": "اكتشف",
@@ -633,7 +638,16 @@
         "text": "استكشاف المجموعة"
     },
     "features-section": {
+        "mainHeading": "التميز في كل تفصيل",
         "headerTitle": "لماذا تختارنا",
+        "shippingTitle": "توصيل آمن",
+        "shippingDescription": "لوجستيات عالمية احترافية تضمن وصول تركيباتك الممتازة في حالة مثالية.",
+        "warrantyTitle": "ضمان ممتد",
+        "warrantyDescription": "تغطية شاملة لمدة 5 سنوات على جميع المكونات الهيكلية والإلكترونية.",
+        "packagingTitle": "تغليف صديق للبيئة",
+        "packagingDescription": "مواد مستدامة وعالية الحماية تعكس التزامنا بالبيئة.",
+        "qualityTitle": "حرفية متقنة",
+        "qualityDescription": "يتم اختبار كل قطعة بدقة واعتمادها لتلبية أعلى المعايير الدولية.",
         "footerCta": "جميع المنتجات مدعومة بضمان الجودة ورضا العملاء",
         "features": [
             {

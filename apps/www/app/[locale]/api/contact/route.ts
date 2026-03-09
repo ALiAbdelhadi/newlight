@@ -157,7 +157,7 @@ async function sendPushNotifications(payload: {
 
         if (!adminUser) return
 
-        const subscriptions = await prisma.pushSubscription.findMany({
+        const subscriptions = await (prisma as any).pushSubscription.findMany({
             where: {
                 userId: adminUser.id,
                 isActive: true,
@@ -189,7 +189,7 @@ async function sendPushNotifications(payload: {
         })
 
         await Promise.all(
-            subscriptions.map(async (sub) => {
+            subscriptions.map(async (sub: any) => {
                 try {
                     await webpush.default.sendNotification(
                         {
@@ -198,11 +198,11 @@ async function sendPushNotifications(payload: {
                                 p256dh: sub.p256dh,
                                 auth: sub.auth,
                             },
-                        },
+                        } as any,
                         pushPayload
                     )
 
-                    await prisma.pushSubscription.update({
+                    await (prisma as any).pushSubscription.update({
                         where: { id: sub.id },
                         data: { lastUsedAt: new Date() },
                     })
@@ -210,7 +210,7 @@ async function sendPushNotifications(payload: {
                     console.error("Push notification failed:", error)
 
                     if (error.statusCode === 410) {
-                        await prisma.pushSubscription.update({
+                        await (prisma as any).pushSubscription.update({
                             where: { id: sub.id },
                             data: { isActive: false },
                         })

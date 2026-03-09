@@ -81,7 +81,7 @@ export function OrderDetailsView({
     }
 
     return (
-        <div className="min-h-screen bg-background py-12 md:py-24">
+        <div className="min-h-screen py-12 md:py-24">
             <Container>
                 <div className="max-w-6xl mx-auto">
                     <div className="mb-8">

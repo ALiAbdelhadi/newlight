@@ -74,7 +74,7 @@ export function PreviewClient({
     }
 
     return (
-        <div className="min-h-screen bg-background py-24">
+        <div className="min-h-screen py-24">
             <Container>
                 <div className="max-w-6xl mx-auto">
                     <div className="mb-12">

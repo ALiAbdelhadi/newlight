@@ -1,4 +1,4 @@
-import { searchContent } from "@/lib/db"
+import { SearchService } from "@/lib/services/search-service"
 import { NextRequest, NextResponse } from "next/server"
 
 export const dynamic = "force-dynamic"
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
         }
 
         // Always use English locale for search
-        const results = await searchContent(query, "en", limit)
+        const results = await SearchService.searchContent(query, "en", limit)
 
         return NextResponse.json(results)
     } catch (error) {

@@ -10,67 +10,9 @@ import { ProductService } from "@/lib/services/product-service"
 import { generateIdempotencyKey, isValidIdempotencyKey } from "@/lib/idempotency"
 import { prisma } from "@repo/database"
 
-const idempotencyCache = new Map<string, {
-    result: any
-    timestamp: number
-    expiresAt: number
-}>()
 
-const CACHE_TTL = 5 * 60 * 1000
-const MAX_CACHE_SIZE = 10000
-
-const rateLimitMap = new Map<string, {
-    count: number
-    resetAt: number
-}>()
-
-function checkRateLimit(userId: string, maxRequests: number = 5, windowMs: number = 60000): boolean {
-    const now = Date.now()
-    const userLimit = rateLimitMap.get(userId)
-
-    if (!userLimit || now > userLimit.resetAt) {
-        rateLimitMap.set(userId, {
-            count: 1,
-            resetAt: now + windowMs
-        })
-        return true
-    }
-
-    if (userLimit.count >= maxRequests) {
-        return false
-    }
-
-    userLimit.count++
-    return true
-}
-
-function cleanCache() {
-    const now = Date.now()
-
-    for (const [key, value] of idempotencyCache.entries()) {
-        if (now > value.expiresAt) {
-            idempotencyCache.delete(key)
-        }
-    }
-
-    if (idempotencyCache.size > MAX_CACHE_SIZE) {
-        const sortedEntries = Array.from(idempotencyCache.entries())
-            .sort((a, b) => a[1].timestamp - b[1].timestamp)
-
-        const removeCount = Math.floor(MAX_CACHE_SIZE * 0.2)
-        for (let i = 0; i < removeCount; i++) {
-            idempotencyCache.delete(sortedEntries[i][0])
-        }
-    }
-
-    for (const [key, value] of rateLimitMap.entries()) {
-        if (now > value.resetAt) {
-            rateLimitMap.delete(key)
-        }
-    }
-}
-
-setInterval(cleanCache, 60000)
+// Removed in-memory cache and rate limit maps to ensure compatibility with serverless environments.
+// All idempotency checks now rely on the database 'idempotencyKey' unique constraint.
 
 export async function getConfigurationDetails(configId: string) {
     try {
@@ -149,36 +91,7 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        if (!checkRateLimit(userId, 5, 60000)) {
-            return {
-                success: false,
-                error: "Too many requests. Please try again in a minute.",
-                rateLimited: true
-            }
-        }
-
-        let idempotencyKey: string
-
-        if (clientIdempotencyKey) {
-            if (!isValidIdempotencyKey(clientIdempotencyKey)) {
-                return {
-                    success: false,
-                    error: "Invalid idempotency key format"
-                }
-            }
-            idempotencyKey = clientIdempotencyKey
-        } else {
-            idempotencyKey = generateIdempotencyKey(userId, configId)
-        }
-
-        const cached = idempotencyCache.get(idempotencyKey)
-        if (cached && Date.now() < cached.expiresAt) {
-            return {
-                ...cached.result,
-                fromCache: true,
-                isDuplicate: true
-            }
-        }
+        const idempotencyKey = clientIdempotencyKey || generateIdempotencyKey(userId, configId)
 
         const existingOrder = await prisma.order.findUnique({
             where: { idempotencyKey },
@@ -189,21 +102,13 @@ export async function createOrderFromConfiguration(
         })
 
         if (existingOrder) {
-            const result = {
+            return {
                 success: true,
                 order: { id: existingOrder.id },
                 orderNumber: existingOrder.orderNumber,
                 isDuplicate: true,
                 existingOrderId: existingOrder.id
             }
-
-            idempotencyCache.set(idempotencyKey, {
-                result,
-                timestamp: Date.now(),
-                expiresAt: Date.now() + CACHE_TTL
-            })
-
-            return result
         }
 
         const shippingAddress = await UserService.getShippingAddress(userId)
@@ -260,23 +165,15 @@ export async function createOrderFromConfiguration(
         })
 
         if (result.success) {
-            const successResult = {
-                success: true,
-                order: { id: result.orderId },
-                orderNumber: result.orderNumber,
-                isDuplicate: false,
-            }
-
-            idempotencyCache.set(idempotencyKey, {
-                result: successResult,
-                timestamp: Date.now(),
-                expiresAt: Date.now() + CACHE_TTL
-            })
-
             revalidatePath("/orders")
             revalidatePath(`/orders/${result.orderId}`)
 
-            return successResult
+            return {
+                success: true,
+                order: { id: result.orderId },
+                orderNumber: result.orderNumber,
+                isDuplicate: result.isDuplicate,
+            }
         }
 
         return {
@@ -428,29 +325,9 @@ export async function cancelOrder(orderId: string) {
             }
         }
 
-        if (!checkRateLimit(`cancel-${userId}`, 10, 60000)) {
-            return {
-                success: false,
-                error: "Too many cancellation requests",
-                rateLimited: true
-            }
-        }
-
         const result = await OrderService.cancelOrder(orderId, userId)
 
         if (result.success) {
-            try {
-                const order = await prisma.order.findUnique({
-                    where: { id: orderId },
-                    select: { idempotencyKey: true }
-                })
-
-                if (order?.idempotencyKey) {
-                    idempotencyCache.delete(order.idempotencyKey)
-                }
-            } catch (err) {
-                console.error("Error clearing cache:", err)
-            }
 
             revalidatePath("/orders")
             revalidatePath(`/orders/${orderId}`)
@@ -536,9 +413,6 @@ export async function updateOrderStatus(
             data: updateData,
         })
 
-        if (order.idempotencyKey) {
-            idempotencyCache.delete(order.idempotencyKey)
-        }
 
         revalidatePath("/orders")
         revalidatePath(`/orders/${orderId}`)
@@ -603,8 +477,7 @@ export async function clearIdempotencyCache(key: string) {
             return { success: false, error: "Unauthorized" }
         }
 
-        idempotencyCache.delete(key)
-
+        // In-memory cache is removed, this function is now a no-op but kept for API compatibility.
         return { success: true }
     } catch (error) {
         console.error("Error clearing cache:", error)
@@ -621,8 +494,8 @@ export async function getCacheStats() {
         }
 
         return {
-            idempotencyCacheSize: idempotencyCache.size,
-            rateLimitMapSize: rateLimitMap.size
+            idempotencyCacheSize: 0,
+            rateLimitMapSize: 0
         }
     } catch (error) {
         console.error("Error getting cache stats:", error)

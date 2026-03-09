@@ -4,6 +4,7 @@ import { Link } from "@/i18n/navigation"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from 'next-intl'
+import Image from "next/image"
 import { useEffect, useRef } from "react"
 
 gsap.registerPlugin(ScrollTrigger)
@@ -125,73 +126,86 @@ export function Hero() {
     }, [t])
 
     return (
-        <div className="h-[60%] text-foreground pb-72 md:pb-0">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-0 h-130">
-                <div ref={heroImageRef} className="lg:col-span-7 relative overflow-hidden h-96 md:h-auto">
-                    <div
-                        className="bg-image absolute inset-0 bg-cover bg-center before:absolute before:inset-0 before:bg-linear-to-r before:from-black/40 before:to-transparent before:z-10"
-                        style={{
-                            backgroundImage: "url('/hero/hero.jpg')",
-                        }}
-                    />
-                    <div ref={heroTextRef} className="relative z-20 h-full flex flex-col justify-center px-4 sm:px-6 lg:px-8 text-center">
-                        <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl mb-4 italic text-white">{t('illuminate')}</h1>
-                        <p className="text-xl sm:text-2xl lg:text-3xl font-light tracking-wider uppercase text-white/70">
+        <div className="relative min-h-[80vh] flex flex-col lg:flex-row  border-b border-border/50">
+            {/* Main Visual Side */}
+            <div ref={heroImageRef} className="relative flex-1 lg:flex-7 min-h-[40vh] lg:min-h-0 overflow-hidden group">
+                <div className="absolute inset-0 bg-linear-to-r from-background/60 via-background/20 to-transparent z-10" />
+                
+                <Image
+                    src="/hero/hero.jpg"
+                    alt={t('illuminate')}
+                    fill
+                    priority
+                    className="bg-image object-cover object-center transition-transform duration-1000 ease-out will-change-transform"
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                />
+                
+                <div ref={heroTextRef} className="relative z-20 h-full flex flex-col justify-center px-8 sm:px-12 lg:px-20 py-24">
+                    <div className="space-y-4 max-w-2xl">
+                        <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl italic text-foreground tracking-tight leading-[0.9]">
+                            {t('illuminate')}
+                        </h1>
+                        <p className="text-sm md:text-base font-sans font-medium tracking-[0.3em] uppercase text-muted-foreground">
                             {t('inspirationGlow')}
                         </p>
                     </div>
                 </div>
-                <div className="lg:col-span-5 grid grid-rows-2 gap-0">
+            </div>
+            <div className="flex-1 lg:flex-[5] flex flex-col bg-card">
+                <div
+                    ref={inspirationRef}
+                    className="flex-1 flex items-center justify-center p-12 lg:p-20 border-b border-border/50 group cursor-default"
+                >
+                    <div className="text-center space-y-4">
+                        <h2 className="text-5xl lg:text-7xl font-serif italic text-foreground leading-tight">
+                            {t('inspiration')}
+                        </h2>
+                        <div className="h-px w-12 bg-primary mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
+                    </div>
+                </div>
+
+                <div className="grid grid-cols-2 flex-1">
                     <div
-                        ref={inspirationRef}
-                        className="relative bg-card flex items-center justify-center p-12 border-b border-border"
+                        ref={technicalLinksRef}
+                        className="p-8 lg:p-12 flex flex-col justify-center border-r border-border/50 hover:bg-muted/30 transition-colors duration-500"
                     >
-                        <div className="text-center">
-                            <h2 className="text-5xl lg:text-6xl font-light mb-2 text-card-foreground">{t('inspiration')}</h2>
+                        <div className="space-y-8">
+                            <Link href="/technical-resources" className="block group">
+                                <p className="text-base font-medium tracking-wider mb-2 text-foreground group-hover:text-primary transition-colors">
+                                    {t('technicalResources').split(' ').map((word, index) => (
+                                        <span key={index} className="block">{word}</span>
+                                    ))}
+                                </p>
+                                <div className="h-px w-8 bg-border group-hover:w-full transition-all duration-500" />
+                            </Link>
+                            <Link href="/about" className="block group">
+                                <p className="text-base font-medium tracking-wider text-foreground group-hover:text-primary transition-colors mb-2">
+                                    <span>{t('weAre')}</span>
+                                    <span className="block italic font-serif lowercase">{t('weAreNewLight')}</span>
+                                </p>
+                                <div className="h-px w-8 bg-border group-hover:w-full transition-all duration-500" />
+                            </Link>
                         </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-0">
+
+                    <div
+                        ref={productsRef}
+                        className="relative overflow-hidden group cursor-pointer"
+                    >
                         <div
-                            ref={technicalLinksRef}
-                            className="bg-muted p-8 flex flex-col justify-center border-r border-border"
-                        >
-                            <div>
-                                <Link href="/technical-resources" className="block mb-8">
-                                    <p className="text-lg font-light mb-2 text-foreground">
-                                        {t('technicalResources').split(' ').map((word, index) => (
-                                            <span key={index}>{word} <br /></span>
-                                        ))}
-                                    </p>
-                                    <div className="h-px w-12 bg-black" />
-                                </Link>
-                                <Link href="/about" className="block">
-                                    <p className="text-lg font-light text-foreground mb-2">
-                                        <span>{t('weAre')}</span>
-                                        <br />
-                                        <span>{t('weAreNewLight')}</span>
-                                    </p>
-                                    <div className="h-px w-12 bg-black" />
-                                </Link>
-                            </div>
-                        </div>
-                        <div
-                            ref={productsRef}
-                            className="relative overflow-hidden"
-                        >
-                            <div
-                                className="absolute inset-0 bg-cover bg-center before:absolute before:inset-0 before:bg-linear-to-t before:from-black/60 before:to-transparent before:z-10"
-                                style={{
-                                    backgroundImage: "url('https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2000')",
-                                }}
-                            />
-                            <div className="relative z-20 h-full flex items-end p-8">
-                                <Link
-                                    href="category"
-                                    className="text-3xl md:text-4xl lg:text-5xl font-light text-primary-foreground transition-all duration-300 hover:tracking-wider"
-                                >
-                                    {t('category')}
-                                </Link>
-                            </div>
+                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                            style={{
+                                backgroundImage: "url('https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2000')",
+                            }}
+                        />
+                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
+                        <div className="relative z-20 h-full flex items-end p-8 lg:p-12">
+                            <Link
+                                href="category"
+                                className="text-2xl lg:text-3xl font-serif italic text-white transition-all duration-300 group-hover:translate-x-2"
+                            >
+                                {t('category')}
+                            </Link>
                         </div>
                     </div>
                 </div>

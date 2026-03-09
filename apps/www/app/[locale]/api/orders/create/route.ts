@@ -5,7 +5,7 @@ import { NextResponse } from "next/server"
 
 export async function PATCH(
     request: Request,
-    { params }: { params: Promise<{ orderId: string }> }
+    { params }: { params: Promise<{ locale: string }> }
 ) {
     const { userId } = await auth()
 
@@ -18,7 +18,8 @@ export async function PATCH(
     }
 
     try {
-        const { orderId } = await params
+        const body = await request.json()
+        const { orderId } = body
 
         if (!orderId) {
             logger.warn({ action: 'cancel_order' }, 'Missing orderId')
@@ -72,7 +73,7 @@ export async function PATCH(
 
         return NextResponse.json({
             success: true,
-            message: result.message || "Order cancelled successfully",
+            message: "Order cancelled successfully",
         }, { status: 200 })
 
     } catch (error) {

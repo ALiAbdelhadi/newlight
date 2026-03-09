@@ -157,7 +157,7 @@ export function AboutUsClient() {
                     </div>
                 </Container>
             </section>
-            <section className="py-16 lg:py-24 bg-background">
+            <section className="py-16 lg:py-24">
                 <Container>
                     <div className="mb-16">
                         <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tighter mb-4 text-balance">
@@ -237,7 +237,7 @@ export function AboutUsClient() {
                     </div>
                 </Container>
             </section>
-            <section ref={visionMissionRef} className="py-16 lg:py-24 bg-background">
+            <section ref={visionMissionRef} className="py-16 lg:py-24">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
                         <div className="flex flex-col">

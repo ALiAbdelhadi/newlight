@@ -5,7 +5,13 @@ import { ProductCard } from "@/components/product-card";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from 'next-intl';
 
-interface Product {
+import { Product } from "@/types";
+
+interface ProductsProps {
+    products: Product[];
+}
+
+interface UIProduct {
     id: string;
     image: string;
     title: string;
@@ -17,40 +23,6 @@ interface Product {
     subCategorySlug: string;
 }
 
-type ProductFromDB = {
-    id: string;
-    productId: string;
-    slug: string;
-    price: number;
-    images: string[];
-    isFeatured: boolean;
-    translations: Array<{
-        locale: string;
-        name: string;
-        description: string | null;
-    }>;
-    subCategory: {
-        slug: string;
-        translations: Array<{
-            locale: string;
-            name: string;
-            description: string | null;
-        }>;
-        category: {
-            slug: string;
-            translations: Array<{
-                locale: string;
-                name: string;
-                description: string | null;
-            }>;
-        };
-    };
-}
-
-interface ProductsProps {
-    products: ProductFromDB[];
-}
-
 export function Products({ products }: ProductsProps) {
     const t = useTranslations('products-section');
 
@@ -58,12 +30,12 @@ export function Products({ products }: ProductsProps) {
         console.log(`Clicked product: ${productId}`)
     }
 
-    const mappedProducts: Product[] = products.map(product => {
+    const mappedProducts: UIProduct[] = products.map(product => {
         const productTranslation = product.translations[0]
         const subCategoryTranslation = product.subCategory.translations[0]
         const productName = productTranslation?.name || product.productId
         const categoryName = subCategoryTranslation?.name || product.subCategory.slug
-        const productImage = product.images[0] || "/placeholder.svg"
+        const productImage = product.images[0] || "/lighting-product.jpg"
 
         return {
             id: product.id,

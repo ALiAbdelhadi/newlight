@@ -46,7 +46,7 @@ export function CompletePageView({
     }, [locale])
 
     return (
-        <div className="min-h-screen bg-background py-24">
+        <div className="min-h-screen py-24">
             <Container>
                 <div className="max-w-4xl mx-auto">
                     <OrderSuccessHeader

@@ -452,9 +452,14 @@
     "collection-section": {
         "sectionTitle": "New Collection",
         "sectionDescription": "Explore our latest innovations in design and technology",
+        "image1Title": "Modern Minimalism",
+        "image1Category": "Residential",
         "living-tomorrowTitle": "Living Tomorrow",
         "living-tomorrowDescription": "Experience the future of sustainable living through innovative design.",
         "living-tomorrowAction": "Explore",
+        "timeless-eleganceTitle": "Timeless Elegance",
+        "timeless-eleganceDescription": "Discover the perfect harmony of light and shadow, where each fixture is a testament to sophisticated design and unparalleled craftsmanship. Elevate your living environment with pieces that define modern luxury.",
+        "timeless-eleganceAction": "Explore the Collection",
         "premium-finishesTitle": "Premium Finishes",
         "premium-finishesDescription": "Discover our curated selection of materials and textures that define modern luxury.",
         "premium-finishesAction": "Discover",
@@ -779,7 +784,16 @@
         "text": "Explore Collection"
     },
     "features-section": {
+        "mainHeading": "Excellence in Every Detail",
         "headerTitle": "Why Choose Us",
+        "shippingTitle": "Safe Delivery",
+        "shippingDescription": "Professional global logistics ensuring your premium fixtures arrive in pristine condition.",
+        "warrantyTitle": "Extended Warranty",
+        "warrantyDescription": "Comprehensive 5-year coverage on all structural and electronic components.",
+        "packagingTitle": "Eco-Premium Packaging",
+        "packagingDescription": "Sustainable, high-protection materials that reflect our commitment to the environment.",
+        "qualityTitle": "Master Craftsmanship",
+        "qualityDescription": "Each piece is rigorously tested and certified to meet the highest international standards.",
         "footerCta": "All products backed by quality assurance and customer satisfaction guarantee",
         "features": [
             {

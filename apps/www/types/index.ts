@@ -116,6 +116,7 @@ export type Product = {
         translations: Array<{
             locale: string
             name: string
+            description: string | null
         }>
         category: {
             id: string
@@ -124,6 +125,7 @@ export type Product = {
             translations: Array<{
                 locale: string
                 name: string
+                description: string | null
             }>
         }
     }

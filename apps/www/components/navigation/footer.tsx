@@ -1,15 +1,15 @@
 import { Container } from "@/components/container";
 import { Link } from "@/i18n/navigation";
-import { getFooterSubCategories } from "@/lib/db";
+import { CategoryService } from "@/lib/services/category-service";
 import { convertToArabicNumerals } from "@/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
-import { FaFacebook, FaInstagram } from "react-icons/fa";
+import { Facebook, Instagram } from "lucide-react";
 
 export async function Footer() {
     const t = await getTranslations("footer");
     const locale = await getLocale();
 
-    const subCategories = await getFooterSubCategories(locale as "en" | "ar");
+    const subCategories = await CategoryService.getFooterSubCategories(locale as "en" | "ar");
 
     const indoorSubCategories = subCategories.filter(
         (sub) => sub.categoryType === "indoor"
@@ -131,7 +131,7 @@ export async function Footer() {
                                     className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors duration-300 group"
                                     aria-label="Facebook"
                                 >
-                                    <FaFacebook className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                    <Facebook className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
                                 </Link>
                                 <Link
                                     href={socialLinks.instagram}
@@ -140,7 +140,7 @@ export async function Footer() {
                                     className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors duration-300 group"
                                     aria-label="Instagram"
                                 >
-                                    <FaInstagram className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                    <Instagram className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
                                 </Link>
                             </div>
                         </div>

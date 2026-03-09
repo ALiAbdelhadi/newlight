@@ -106,8 +106,8 @@ class TranslationRegistry {
 
   private static readonly SUBCATEGORY_MAP: TranslationMap = {
     cob: { en: "COB Lighting", ar: "إضاءة COB" },
-    magnetic: { en: "Magnetic Track", ar: "عود مغناطيسي" },
-    "magnetic-accessories": { en: "Magnetic Track Accessories", ar: "ملحقات الاعواد الماجناتيك" },
+    magnetic: { en: "Magnetic Track", ar: "ماجناتيك تراك كشافات" },
+    "magnetic-accessories": { en: "Magnetic Track Accessories", ar: "ملحقات الاعواد الماجناتيك تراك" },
     panel: { en: "Panel Lights", ar: "بانل لايت" },
     strip: { en: "LED Strips", ar: "شرائط LED" },
     track: { en: "Track", ar: "أعواد تراك" },

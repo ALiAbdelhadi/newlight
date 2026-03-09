@@ -256,7 +256,7 @@ export default function TechnicalResources() {
   ]
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <section ref={heroRef} className="relative pt-24 pb-16 lg:pt-32 lg:pb-24 overflow-hidden">
         <Container>
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -319,7 +319,7 @@ export default function TechnicalResources() {
                 ref={(el) => {
                   benefitCardsRef.current[index] = el
                 }}
-                className="bg-background rounded-lg p-8 border border-border hover:border-accent transition-all duration-300 group"
+                className="bg-card rounded-lg p-8 border border-border hover:border-accent transition-all duration-300 group"
               >
                 <div className="mb-4 text-accent group-hover:scale-110 transition-transform duration-300">
                   {benefit.icon}
@@ -423,10 +423,10 @@ export default function TechnicalResources() {
                 ref={(el) => {
                   processStepsRef.current[index] = el
                 }}
-                className="bg-background rounded-lg p-8 border border-border hover:border-accent transition-all duration-300"
+                className="dark:bg-card/80 bg-background rounded-lg p-8 border border-border hover:border-accent transition-all duration-300"
               >
                 <div className="flex items-start gap-6">
-                  <div className="text-6xl font-bold text-accent/20 leading-none">
+                  <div className="text-6xl font-bold text-muted-foreground/40 leading-none">
                     {step.number}
                   </div>
                   <div className="flex-1">

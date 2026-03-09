@@ -92,9 +92,13 @@ export function ProductCard({ id, image, title, category, price, badge, onClick 
     }
 
     return (
-        <div ref={cardRef} onClick={onClick} className="group cursor-pointer rounded-2xl p-6 hover:shadow-md border border-border/30 transition-all">
+        <div 
+            ref={cardRef} 
+            onClick={onClick} 
+            className="group relative cursor-pointer rounded-xl bg-card border border-border/50 transition-all duration-500 hover:shadow-premium hover:-translate-y-1 overflow-hidden"
+        >
             <div
-                className="relative overflow-hidden bg-muted mb-6 aspect-square"
+                className="relative overflow-hidden aspect-square"
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
             >
@@ -104,32 +108,43 @@ export function ProductCard({ id, image, title, category, price, badge, onClick 
                     alt={title}
                     width={500}
                     height={500}
-                    className="object-cover h-full w-full"
+                    className="object-cover h-full w-full transition-transform duration-700 ease-out"
                     priority={false}
                 />
+                
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                        <span className="px-6 py-2.5 bg-background/90 backdrop-blur-md text-foreground text-xs font-medium uppercase tracking-widest rounded-full shadow-lg">
+                            {t("view")}
+                        </span>
+                    </div>
+                </div>
+
                 {badge && (
-                    <div className="absolute top-4 left-4 z-10 bg-primary text-primary-foreground px-3 py-1">
-                        <p className="text-xs font-medium uppercase tracking-wider">{badge}</p>
+                    <div className="absolute top-4 left-4 z-10 bg-primary/90 backdrop-blur-sm text-primary-foreground px-3 py-1 rounded-sm">
+                        <p className="text-[10px] font-bold uppercase tracking-widest">{badge}</p>
                     </div>
                 )}
             </div>
-            <div ref={contentRef} className="space-y-3">
-                <div>
-                    <p className="text-xs uppercase tracking-widest text-muted-foreground font-light mb-1">{category}</p>
-                    <h3 className="text-lg md:text-xl font-light tracking-tight text-foreground group-hover:text-primary transition-colors duration-300">
+            
+            <div ref={contentRef} className="p-6 space-y-4">
+                <div className="space-y-1">
+                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">{category}</p>
+                    <h3 className="lg:text-2xl text-lg font-serif italic tracking-tight text-foreground transition-colors duration-300">
                         {title}
                     </h3>
                 </div>
-                <div className="flex items-end justify-between pt-2 border-t border-border">
-                    <div className="flex items-baseline gap-1 rtl:flex-row-reverse">
-                        <span className="text-2xl font-light text-foreground">{t("currency")}</span>
-                        <span className="text-3xl font-light tracking-tight text-foreground">
+                
+                <div className="flex items-center justify-between pt-4 border-t border-border/50">
+                    <div className="flex items-baseline gap-1.5 rtl:flex-row-reverse">
+                        <span className="text-xl font-light text-foreground">{t("currency")}</span>
+                        <span className="text-2xl font-medium tracking-tight text-foreground">
                             {price !== undefined ? price.toLocaleString() : "0"}
                         </span>
                     </div>
-                    <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                        <span className="text-xs font-medium uppercase tracking-wider text-foreground">{t("view")}</span>
-                        <svg className="w-4 h-4 text-foreground rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    
+                    <div className="w-8 h-8 rounded-full border border-border/50 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-300">
+                        <svg className="w-4 h-4 text-foreground group-hover:text-primary-foreground rtl:rotate-180 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                     </div>

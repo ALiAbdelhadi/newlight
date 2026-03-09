@@ -1,4 +1,4 @@
-import { getAllProducts, getProductByIdWithVariants } from "@/lib/db"
+import { ProductService } from "@/lib/services/product-service"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
 import { Metadata } from "next"
@@ -64,7 +64,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     const locale = await getLocale() as SupportedLanguage
     const t = await getTranslations("metadatas.product-page")
 
-    const product = await getProductByIdWithVariants(productId, locale)
+    const product = await ProductService.getProductByIdWithVariants(productId, locale)
 
     if (!product) {
         notFound()
@@ -120,11 +120,11 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 
 export async function generateStaticParams() {
     try {
-        const products = await getAllProducts("en", 100)
+        const products = await ProductService.getAllProducts("en", 100)
         const locales = ["en", "ar"]
 
         return locales.flatMap((locale) =>
-            products.map((product) => ({
+            products.map((product: any) => ({
                 locale,
                 subCategory: product.subCategory.category.slug,
                 sectionType: product.subCategory.slug,
@@ -140,7 +140,7 @@ export async function generateStaticParams() {
 export default async function ProductPage({ params }: Props) {
     const { productId } = await params
     const currentLocale = await getLocale()
-    const product = await getProductByIdWithVariants(productId, currentLocale)
+    const product = await ProductService.getProductByIdWithVariants(productId, currentLocale)
 
     if (!product) {
         notFound()

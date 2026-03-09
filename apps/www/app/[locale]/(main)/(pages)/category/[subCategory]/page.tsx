@@ -1,4 +1,4 @@
-import { getCategoryByType } from "@/lib/db"
+import { CategoryService } from "@/lib/services/category-service"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
 import { Metadata } from "next"
@@ -26,7 +26,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         notFound()
     }
 
-    const category = await getCategoryByType(categoryType, locale)
+    const category = await CategoryService.getCategoryByType(categoryType, locale)
 
     if (!category) {
         notFound()
@@ -81,7 +81,7 @@ export default async function CategorySubCategoryPage({ params }: Props) {
         notFound()
     }
 
-    const category = await getCategoryByType(categoryType, currentLocale)
+    const category = await CategoryService.getCategoryByType(categoryType, currentLocale)
 
     if (!category) {
         notFound()

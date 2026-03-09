@@ -49,7 +49,7 @@ export default function NewCollection({
     translations: t,
 }: NewCollectionClientProps) {
     return (
-        <main className="min-h-screen bg-background">
+        <main className="min-h-screen">
             <section className="py-20 lg:py-32">
                 <Container>
                     <div className="text-center max-w-4xl mx-auto animate-fadeIn">
@@ -62,8 +62,6 @@ export default function NewCollection({
                     </div>
                 </Container>
             </section>
-
-            {/* عرض الفلاتر النشطة */}
             {(category || tag || search) && (
                 <section className="py-8">
                     <Container>

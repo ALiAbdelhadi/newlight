@@ -152,13 +152,11 @@ export class OrderService {
     }
 
     private static async findOrderByIdempotencyKey(userId: string, idempotencyKey: string) {
-        return await prisma.order.findFirst({
+        return await prisma.order.findUnique({
             where: {
-                userId,
-                customerNotes: { contains: `idempotency:${idempotencyKey}` },
-                createdAt: { gte: new Date(Date.now() - 24 * 60 * 60 * 1000) },
+                idempotencyKey,
             },
-            select: { id: true, orderNumber: true },
+            select: { id: true, orderNumber: true, userId: true },
         })
     }
 

@@ -1,6 +1,4 @@
-import { PrismaClient } from "@repo/database";
-
-const prisma = new PrismaClient();
+import { prisma, Prisma } from "@repo/database";
 
 class VariantDetector {
     static extractVariantInfo(productId: string): {
@@ -141,7 +139,7 @@ async function main() {
                     variantType,
                     variantValue,
                     displayOrder,
-                    colorImageMap: Object.keys(colorImageMap).length > 0 ? colorImageMap : null,
+                    colorImageMap: Object.keys(colorImageMap).length > 0 ? colorImageMap : (Prisma.JsonNull as any),
                 },
             });
 
