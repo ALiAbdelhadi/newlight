@@ -87,7 +87,7 @@ export function Collection() {
                             </p>
                             <div className="pt-4">
                                 <Link
-                                    href="/collection"
+                                    href="/new-collection"
                                     className="inline-flex items-center gap-2 text-foreground text-sm font-medium tracking-[0.2em] uppercase group"
                                 >
                                     {t('timeless-eleganceAction')}
