@@ -1,8 +1,9 @@
+import { serializeMoney } from "@repo/database"
 import { getConfiguration } from "@/actions/configuration"
 import { getProductWithDetails, getUserShippingAddress } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, redirect } from "next/navigation"
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         })
     }
 
-    const productImage = product.images?.[0] || undefined
+    const productImage = product.images[0]?.url
     const productTranslation = product.translations[0]
     const productName = productTranslation?.name || product.productId
 
@@ -55,7 +56,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 }
 
 export default async function ConfirmPage({ params }: ConfirmPageProps) {
-    const { userId } = await auth()
+    const userId = await currentUserId()
     const locale = await getLocale()
     const { configId } = await params
 
@@ -130,8 +131,13 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
         <ConfirmPageView
             configId={configId}
             userId={userId}
-            configuration={configuration}
-            product={product as any}
+            configuration={{
+                quantity: configuration.quantity,
+                totalPrice: serializeMoney(configuration.totalPrice),
+                selectedColorTemp: configuration.selectedColorTemp,
+                selectedColorKey: configuration.selectedColorKey,
+            }}
+            product={product}
             productName={productName}
             existingAddress={formattedAddress}
             translations={translations}

@@ -1,5 +1,6 @@
 "use client"
 
+import { serializeMoney } from "@repo/database"
 import { Container } from "@/components/container"
 import { OrderActions } from "@/components/order-actions"
 import { OrderItemsList } from "@/components/order-items-list"
@@ -91,9 +92,9 @@ export function CompletePageView({
                             />
                         )}
                         <OrderPaymentSummary
-                            subtotal={order.subtotal}
-                            shippingCost={order.shippingCost}
-                            total={order.total}
+                            subtotal={serializeMoney(order.subtotal)}
+                            shippingCost={serializeMoney(order.shippingCost)}
+                            total={serializeMoney(order.total)}
                             translations={{
                                 paymentSummary: t.paymentSummary,
                                 subtotal: t.subtotal,

@@ -1,22 +1,23 @@
 
-import { Cart, CartItem, prisma, Product } from "@repo/database"
+import {
+    Cart,
+    CartItem,
+    type Locale,
+    multiplyMoney,
+    prisma,
+    ProductColorTemp,
+    serializeMoney,
+    sumMoney,
+    type SerializedMoney,
+} from "@repo/database"
 
-export interface CartItemWithProduct extends CartItem {
-    product: Product & {
-        translations: Array<{ name: string; locale: string }>
-        subCategory: {
-            translations: Array<{ name: string; locale: string }>
-            category: {
-                translations: Array<{ name: string; locale: string }>
-                categoryType: string
-            }
-        }
-    }
-}
-
-export interface CartWithItems extends Cart {
-    items: CartItemWithProduct[]
-}
+/**
+ * Hand-written interfaces are gone: they declared `categoryType`, which the schema no longer
+ * has, and the compiler could not tell the caller because every query ended in a cast. These
+ * are DERIVED from the query, so the shape and the type cannot disagree.
+ */
+export type CartWithItems = NonNullable<Awaited<ReturnType<typeof CartService.getCartWithItems>>>
+export type CartItemWithProduct = CartWithItems["items"][number]
 
 export class CartService {
     /**
@@ -41,8 +42,8 @@ export class CartService {
      */
     static async getCartWithItems(
         userId: string,
-        locale: string = "en"
-    ): Promise<CartWithItems | null> {
+        locale: Locale = "ar"
+    ) {
         const cart = await prisma.cart.findUnique({
             where: { userId },
             include: {
@@ -54,6 +55,11 @@ export class CartService {
                                     where: { locale },
                                     take: 1,
                                 },
+                                // The cart renders a thumbnail and the colour swatches, so both
+                                // come from their own tables now rather than from a TEXT[] and
+                                // an enum array on the product row (§5, §8).
+                                images: { orderBy: { order: "asc" as const }, take: 1 },
+                                availableColors: { include: { color: true }, orderBy: { order: "asc" as const } },
                                 subCategory: {
                                     include: {
                                         translations: {
@@ -87,10 +93,10 @@ export class CartService {
         userId: string
         productId: string
         quantity: number
-        selectedColorTemp?: string
-        selectedColor?: string
+        selectedColorTemp?: ProductColorTemp
+        selectedColorKey?: string
     }): Promise<{ success: boolean; cartItem: CartItem }> {
-        const { userId, productId, quantity, selectedColorTemp, selectedColor } = params
+        const { userId, productId, quantity, selectedColorTemp, selectedColorKey } = params
 
         return await prisma.$transaction(async (tx) => {
             // Get product
@@ -118,8 +124,8 @@ export class CartService {
                 where: {
                     cartId: cart.id,
                     productId: product.id,
-                    selectedColorTemp: selectedColorTemp || null,
-                    selectedColor: selectedColor || null,
+                    selectedColorTemp: selectedColorTemp ?? null,
+                    selectedColorKey: selectedColorKey || null,
                 },
             })
 
@@ -138,8 +144,8 @@ export class CartService {
                         cartId: cart.id,
                         productId: product.id,
                         quantity,
-                        selectedColorTemp: selectedColorTemp || null,
-                        selectedColor: selectedColor || null,
+                        selectedColorTemp: selectedColorTemp ?? null,
+                        selectedColorKey: selectedColorKey || null,
                     },
                 })
             }
@@ -252,9 +258,9 @@ export class CartService {
      * Calculate cart total
      */
     static async calculateCartTotal(userId: string): Promise<{
-        subtotal: number
-        discount: number
-        total: number
+        subtotal: SerializedMoney
+        discount: SerializedMoney
+        total: SerializedMoney
     }> {
         const cart = await prisma.cart.findUnique({
             where: { userId },
@@ -268,20 +274,18 @@ export class CartService {
         })
 
         if (!cart) {
-            return { subtotal: 0, discount: 0, total: 0 }
+            return { subtotal: "0.00", discount: "0.00", total: "0.00" }
         }
 
-        const subtotal = cart.items.reduce((sum, item) => {
-            return sum + item.product.price * item.quantity
-        }, 0)
-
-        // Apply any discounts here
-        const discount = 0
+        // `sum + item.product.price * item.quantity` multiplied a Decimal by a number in JS
+        // and accumulated the result in a float — the arithmetic migration 0001 exists to
+        // stop. Rounding happens once, at serialisation (ADR 0001).
+        const subtotal = sumMoney(cart.items.map((item) => multiplyMoney(item.product.price, item.quantity)))
 
         return {
-            subtotal,
-            discount,
-            total: subtotal - discount,
+            subtotal: serializeMoney(subtotal),
+            discount: "0.00",
+            total: serializeMoney(subtotal),
         }
     }
 }

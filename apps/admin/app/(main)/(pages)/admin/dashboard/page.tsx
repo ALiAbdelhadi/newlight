@@ -1,5 +1,5 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
-import { prisma } from "@repo/database";
+import { currentAdmin, currentAdminId, requireCurrentAdmin } from "@/lib/auth"
+import { prisma , addMoney, divideMoney, multiplyMoney, serializeMoney } from "@repo/database";
 import { notFound } from "next/navigation";
 import DashboardClient from "@/components/dashboard";
 
@@ -7,17 +7,9 @@ export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
 export default async function DashboardPage() {
-    const { userId } = await auth();
-    const user = await currentUser();
-
-    if (!userId || !user) {
-        return notFound();
-    }
-
-
-    if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
-        return notFound();
-    }
+  // One guard, replacing the signed-in check plus the ADMIN_EMAIL comparison.
+  const admin = await requireCurrentAdmin();
+  const userId = admin.id;
 
     // Fetch all orders from database (no date filter - all orders)
     const orders = await prisma.order.findMany({
@@ -65,15 +57,16 @@ export default async function DashboardPage() {
             customerAvatar: "",
             productName: item.productName,
             productImage: item.productImage || "/placeholder-product.png",
-            productPrice: item.price,
+            productPrice: serializeMoney(item.price),
             quantity: item.quantity,
-            shippingPrice: order.shippingCost / order.items.length,
-            discountRate: order.configuration?.discount || 0,
-            totalPrice: (item.price * item.quantity) + (order.shippingCost / order.items.length),
-            status: (order.status === "fulfilled" || order.status === "delivered" || order.status === "shipped") ? "fulfilled" as const :
-                (order.status === "cancelled" || order.status === "refunded") ? "cancelled" as const :
-                    order.status === "processing" ? "processing" as const :
-                        "awaiting_shipment" as const,
+            // Shipping apportioned across the lines in Decimal, then serialised once.
+            shippingPrice: serializeMoney(divideMoney(order.shippingCost, order.items.length)),
+            totalPrice: serializeMoney(
+                addMoney(multiplyMoney(item.price, item.quantity), divideMoney(order.shippingCost, order.items.length))
+            ),
+            // The status is the status. v1 mapped delivered and shipped onto `fulfilled`,
+            // a value 0010 removed, which lost the distinction between the two.
+            status: order.status,
             createdAt: order.createdAt.toISOString(),
             user: {
                 id: order.user.id,

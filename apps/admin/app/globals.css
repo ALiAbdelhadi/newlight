@@ -3,123 +3,437 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ===========================================================================
+   NewLight admin — design tokens (P4.5 §3)
+   ===========================================================================
+
+   The panel is an operator console, not a marketing dashboard. Three rules
+   govern everything below, and each of them is enforceable by reading a diff:
+
+     1. A component NEVER hardcodes a colour, and NEVER uses a `dark:` utility.
+        If a value differs between the two themes it becomes a token here.
+        That single rule is the difference between a design system and thirty
+        screens that each solved dark mode locally.
+     2. Borders carry separation; shadows are reserved for things that float
+        above the page (overlays, modals). Cards do not have shadows.
+     3. Every value is here. A component that needs a number it cannot find in
+        this file is a gap in the system, not a licence to invent one.
+
+   Colours are authored in OKLCH, keeping the convention this file already
+   used. The values are Tailwind v4's published slate / blue / green / amber /
+   red entries rather than hand-converted hex, so nothing here is an
+   approximation of a colour that was chosen somewhere else.
+   =========================================================================== */
+
+@theme {
+  /* --- Type scale (§3.1) -------------------------------------------------
+     Base is 13px, not 14. At 13/18 with 6px vertical cell padding a row lands
+     at 31px of content inside a 34px box; 14/20 makes the same construction
+     36px and costs two visible rows per screen at 1080p.
+     These deliberately override Tailwind's defaults — the whole app gets
+     denser, which is the point. */
+  --text-2xs: 11px;               /* audit timestamps, cell metadata          */
+  --text-2xs--line-height: 14px;
+  --text-xs: 12px;                /* column headers, labels, badges, nav      */
+  --text-xs--line-height: 16px;
+  --text-sm: 13px;                /* BASE — cells, inputs, buttons, body      */
+  --text-sm--line-height: 18px;
+  --text-base: 14px;              /* record prose, sheet content              */
+  --text-base--line-height: 20px;
+  --text-lg: 16px;                /* section headings, tab panel titles       */
+  --text-lg--line-height: 22px;
+  --text-xl: 18px;                /* record header entity name                */
+  --text-xl--line-height: 24px;
+  --text-2xl: 22px;               /* page title — the largest type in the app */
+  --text-2xl--line-height: 28px;
+
+  /* Nothing is larger than 22px. An operator scanning 34px rows never needs a
+     30px heading; it only competes with the data. text-3xl and above are
+     removed rather than left available. */
+  --text-3xl: initial;
+  --text-4xl: initial;
+  --text-5xl: initial;
+  --text-6xl: initial;
+  --text-7xl: initial;
+  --text-8xl: initial;
+  --text-9xl: initial;
+
+  /* --- Motion (§3.7) -----------------------------------------------------
+     Sort, filter and density changes are state READS, not events: 0ms. */
+  --ease-out-fast: cubic-bezier(0.2, 0, 0, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* --- Elevation (§3.5) — exactly three levels, and level 0 is "no shadow" */
+  --shadow-overlay: 0 1px 2px oklch(0.208 0.042 265.755 / 0.04),
+                    0 4px 12px oklch(0.208 0.042 265.755 / 0.08);
+  --shadow-modal: 0 8px 32px oklch(0.208 0.042 265.755 / 0.16);
+}
+
 @theme inline {
+  /* --- Fonts (§3.1) ------------------------------------------------------
+     ONE stack, with per-glyph fallback: Roboto covers Latin, Almarai fills the
+     Arabic codepoints Roboto lacks. There is no `:lang()` tagging because the
+     panel cannot know a string's language — it renders whatever the catalogue
+     holds.
+
+     This replaces `--font-geist-sans` / `--font-geist-mono`, which were
+     referenced here and DEFINED NOWHERE, so every `font-sans` utility in the
+     admin resolved to nothing.
+
+     The families are named LITERALLY rather than through next/font's
+     `var(--font-roboto)`, and that is load-bearing.
+
+     `var(--font-roboto)` expands to `"Roboto", "Roboto Fallback"`, where the
+     second face is a metric-adjusted local Arial. Arial HAS Arabic glyphs, so
+     it satisfies every Arabic codepoint before Almarai is ever consulted —
+     measured in the browser at 293px for a string Almarai sets at 406px. Every
+     Arabic product name in the panel was rendering in Arial.
+     `adjustFontFallback: false` does not fix it: Turbopack has its own font
+     implementation and ignores that option.
+
+     Naming `Roboto` and `Almarai` directly skips the injected fallback
+     entirely. Next 16 no longer hashes next/font family names, so these match
+     the generated @font-face rules exactly (verified: Latin 274.18px on both
+     the literal stack and `Roboto` alone; Arabic 405.77px, i.e. Almarai).
+     What is given up is the metric-adjusted fallback's CLS mitigation during
+     load — which is what disabling it was meant to do anyway. */
+  --font-sans: Roboto, Almarai, ui-sans-serif, system-ui, sans-serif;
+
+  /* For content KNOWN to be Arabic — BilingualField's Arabic input, and any
+     field explicitly marked `lang="ar"`. Almarai leads here because the string
+     is Arabic by construction, not by discovery. */
+  --font-arabic: Almarai, ui-sans-serif, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  /* --- Surfaces ---------------------------------------------------------- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar: var(--sidebar);
-  --color-chart-5: var(--chart-5);
-  --color-chart-4: var(--chart-4);
-  --color-chart-3: var(--chart-3);
-  --color-chart-2: var(--chart-2);
-  --color-chart-1: var(--chart-1);
-  --color-ring: var(--ring);
-  --color-input: var(--input);
-  --color-border: var(--border);
-  --color-destructive: var(--destructive);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-secondary: var(--secondary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-primary: var(--primary);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-popover: var(--popover);
-  --color-card-foreground: var(--card-foreground);
+  --color-surface-sunk: var(--surface-sunk);
   --color-card: var(--card);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  /* --- The one accent ----------------------------------------------------
+     shadcn's `--accent` means "subtle hover ground", not a brand colour; the
+     single accent this system allows is `--primary`. */
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-soft: var(--primary-soft);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  /* --- Borders: TWO tokens, not one (§3.4) -------------------------------
+     Because separation is carried by borders rather than shadows, one value
+     cannot do both jobs: `border` is right for a table row rule and too weak
+     for an input outline or a panel frame. */
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* --- Semantic state (§3.4) ---------------------------------------------
+     State only. Never decoration, never a second accent. Each has a
+     foreground, a ground and a border so a badge reads as one object, and
+     colour is never the only signal — StatusBadge always carries a label. */
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-success-border: var(--success-border);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-border: var(--warning-border);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-border: var(--danger-border);
+  --color-info: var(--info);
+  --color-info-bg: var(--info-bg);
+  --color-info-border: var(--info-border);
+  --color-neutral: var(--neutral);
+  --color-neutral-bg: var(--neutral-bg);
+  --color-neutral-border: var(--neutral-border);
+
+  /* Destructive keeps its shadcn name because Button variant="destructive"
+     already depends on it. White on this ground measures 4.90:1. */
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Sequential ramp for reports. Deliberately monochrome: a categorical
+     palette is the dataviz pass's job, reconciled against these tokens. */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* --- Radius (§3.4) -----------------------------------------------------
+     6px, down from 10.4px. A 10px radius on a 30px input reads as a pill;
+     4–6px reads as engineered. */
+  --radius-sm: calc(var(--radius) - 4px);   /*  2px */
+  --radius-md: calc(var(--radius) - 2px);   /*  4px — controls  */
+  --radius-lg: var(--radius);               /*  6px — surfaces  */
+  --radius-xl: calc(var(--radius) + 4px);   /* 10px — modals    */
+
+  /* --- Density-driven table metrics (§3.3) -------------------------------
+     These resolve against [data-density] on the table root, so `h-row` and
+     `py-cell` follow the operator's density choice with no per-component
+     branching. */
+  --height-row: var(--row-height);
+  --height-toolbar: var(--toolbar-height);
+  --height-table-header: var(--table-header-height);
+  --height-topbar: var(--topbar-height);
+  --height-field: var(--field-height);
+  --spacing-cell-x: var(--cell-padding-x);
+  --spacing-cell-y: var(--cell-padding-y);
 }
 
 :root {
-  --radius: 0.65rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
+  --radius: 0.375rem; /* 6px */
+
+  /* ---- Shell ---------------------------------------------------------- */
+  --background: oklch(0.984 0.003 247.858);      /* slate-50  #F8FAFC */
+  --foreground: oklch(0.208 0.042 265.755);      /* slate-900 #0F172A · 17.95:1 */
+  --surface-sunk: oklch(0.968 0.007 247.896);    /* slate-100 #F1F5F9 */
+  --card: oklch(1 0 0);                          /* white — surfaces sit ABOVE the ground */
+  --card-foreground: oklch(0.208 0.042 265.755);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.488 0.243 264.376);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.967 0.001 286.375);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.708 0 0);
+  --popover-foreground: oklch(0.208 0.042 265.755);
+
+  /* ---- The one accent -------------------------------------------------- */
+  --primary: oklch(0.424 0.199 265.638);         /* blue-800 #1E40AF · white on it 8.75:1 */
+  --primary-foreground: oklch(1 0 0);
+  --primary-soft: oklch(0.97 0.014 254.604);     /* blue-50  #EFF6FF */
+
+  --secondary: oklch(0.968 0.007 247.896);
+  --secondary-foreground: oklch(0.208 0.042 265.755);
+  --muted: oklch(0.968 0.007 247.896);
+  --muted-foreground: oklch(0.554 0.046 257.417); /* slate-500 #64748B · 4.78:1 ✓ AA at 13px */
+  --accent: oklch(0.968 0.007 247.896);           /* shadcn "subtle hover ground" */
+  --accent-foreground: oklch(0.208 0.042 265.755);
+
+  /* ---- Borders --------------------------------------------------------- */
+  --border: oklch(0.929 0.013 255.508);          /* slate-200 — row rules, dividers */
+  --border-strong: oklch(0.869 0.022 252.894);   /* slate-300 — frames, inputs      */
+  --input: oklch(0.869 0.022 252.894);
+  --ring: oklch(0.424 0.199 265.638);
+
+  /* ---- Semantic state -------------------------------------------------- */
+  --success: oklch(0.527 0.154 150.069);         /* green-700 #15803D · 5.02:1 ✓ */
+  --success-bg: oklch(0.982 0.018 155.826);
+  --success-border: oklch(0.925 0.084 155.995);
+  --warning: oklch(0.555 0.163 48.998);          /* amber-700 #B45309 · 5.05:1 ✓ */
+  --warning-bg: oklch(0.987 0.022 95.277);
+  --warning-border: oklch(0.924 0.12 95.746);
+  --danger: oklch(0.505 0.213 27.518);           /* red-700   #B91C1C · 6.54:1 ✓ */
+  --danger-bg: oklch(0.971 0.013 17.38);
+  --danger-border: oklch(0.885 0.062 18.334);
+  --info: oklch(0.424 0.199 265.638);            /* blue-800  #1E40AF · 8.75:1 ✓ */
+  --info-bg: oklch(0.97 0.014 254.604);
+  --info-border: oklch(0.882 0.059 254.128);
+  --neutral: oklch(0.446 0.043 257.281);         /* slate-600 #475569 · 7.4:1  ✓ */
+  --neutral-bg: oklch(0.968 0.007 247.896);
+  --neutral-border: oklch(0.929 0.013 255.508);
+
+  --destructive: oklch(0.577 0.245 27.325);      /* red-600 — white on it 4.90:1 ✓ */
+  --destructive-foreground: oklch(1 0 0);
+
+  /* ---- Sidebar --------------------------------------------------------- */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-primary: oklch(0.424 0.199 265.638);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.968 0.007 247.896);
+  --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
+  --sidebar-border: oklch(0.929 0.013 255.508);
+  --sidebar-ring: oklch(0.424 0.199 265.638);
+
+  /* ---- Sequential ramp ------------------------------------------------- */
   --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
+  --chart-2: oklch(0.707 0.165 254.624);
   --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
-  --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.546 0.245 262.881);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.708 0 0);
+  --chart-4: oklch(0.424 0.199 265.638);
+  --chart-5: oklch(0.379 0.146 265.522);
+
+  /* ---- Layout metrics (§3.2) -------------------------------------------
+     Named because they recur across surfaces and must not drift. The numeric
+     spacing scale stays Tailwind's 4px base, so p-1.5 = 6px and p-2.5 = 10px
+     already exist and no custom scale is needed. */
+  --page-padding-x: 16px;
+  --page-padding-top: 12px;
+  --page-padding-bottom: 24px;
+  --prose-width: 720px;          /* record prose / narrow forms; lists are full-bleed */
+  --section-gap: 20px;
+  --surface-padding: 12px;
+  --toolbar-height: 40px;
+  --toolbar-gap: 8px;
+  --table-header-height: 32px;
+  --topbar-height: 44px;
+  --sidebar-width: 224px;
+  --sidebar-rail-width: 48px;
+  --sheet-width: 480px;
+  --sheet-width-wide: 640px;
+  --field-height: 30px;
+  --field-gap: 12px;             /* field to field   */
+  --label-gap: 4px;              /* label to control */
+
+  /* ---- Density (§3.3) ---------------------------------------------------
+     Compact is the default. The three-mode ladder exists because ~34px rows
+     and 30+ rows at 1080p cannot both hold: 738 usable px / 34 = 21 rows
+     (24 once the page header merges into the top bar). 30+ is a 1440p
+     guarantee; Dense is the opt-in that reaches 29 at 1080p. */
+  --row-height: 34px;
+  --cell-padding-x: 10px;
+  --cell-padding-y: 6px;
+  --table-font-size: var(--text-sm);
+
+  /* ---- Motion ----------------------------------------------------------- */
+  --duration-instant: 0ms;   /* sort, filter, density, column visibility, paging */
+  --duration-fast: 120ms;    /* hover, focus ring, popover / dropdown / tooltip  */
+  --duration-base: 180ms;    /* sheet slide, dialog fade + scale                 */
 }
 
+[data-density="comfortable"] {
+  --row-height: 44px;
+  --cell-padding-y: 10px;
+}
+
+[data-density="dense"] {
+  --row-height: 28px;
+  --cell-padding-y: 4px;
+  --table-font-size: var(--text-xs);
+}
+
+/* ===========================================================================
+   Dark theme (§3.8 — YES, and the reasons are in docs/design-system.md)
+   Every token above is redefined here. Nothing else in the app may branch on
+   theme: no `dark:` utilities in components/, no hardcoded colours.
+   Dark semantics LIFT lightness and DROP chroma — a saturated #B91C1C on a
+   near-black ground vibrates; the 400-weight red does not.
+   =========================================================================== */
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.488 0.243 264.376);
-  --primary-foreground: oklch(0.97 0.014 254.604);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.809 0.105 251.813);
-  --chart-2: oklch(0.623 0.214 259.815);
-  --chart-3: oklch(0.546 0.245 262.881);
-  --chart-4: oklch(0.488 0.243 264.376);
+  --background: oklch(0.129 0.042 264.695);      /* slate-950 */
+  --foreground: oklch(0.984 0.003 247.858);      /* slate-50  */
+  --surface-sunk: oklch(0.176 0.042 265.2);
+  --card: oklch(0.208 0.042 265.755);            /* slate-900 — above the ground */
+  --card-foreground: oklch(0.984 0.003 247.858);
+  --popover: oklch(0.208 0.042 265.755);
+  --popover-foreground: oklch(0.984 0.003 247.858);
+
+  --primary: oklch(0.707 0.165 254.624);         /* blue-400 — lifts to survive a dark ground */
+  --primary-foreground: oklch(0.129 0.042 264.695);
+  --primary-soft: oklch(0.282 0.091 267.935);    /* blue-950 */
+
+  --secondary: oklch(0.279 0.041 260.031);
+  --secondary-foreground: oklch(0.984 0.003 247.858);
+  --muted: oklch(0.279 0.041 260.031);
+  --muted-foreground: oklch(0.704 0.04 256.788); /* slate-400 */
+  --accent: oklch(0.279 0.041 260.031);
+  --accent-foreground: oklch(0.984 0.003 247.858);
+
+  --border: oklch(0.279 0.041 260.031);          /* slate-800 */
+  --border-strong: oklch(0.372 0.044 257.287);   /* slate-700 */
+  --input: oklch(0.372 0.044 257.287);
+  --ring: oklch(0.809 0.105 251.813);            /* blue-300 — the ring must beat the surface */
+
+  --success: oklch(0.792 0.209 151.711);         /* green-400 */
+  --success-bg: oklch(0.266 0.065 152.934);
+  --success-border: oklch(0.393 0.095 152.535);
+  --warning: oklch(0.828 0.189 84.429);          /* amber-400 */
+  --warning-bg: oklch(0.279 0.077 45.635);
+  --warning-border: oklch(0.414 0.112 45.904);
+  --danger: oklch(0.704 0.191 22.216);           /* red-400   */
+  --danger-bg: oklch(0.258 0.092 26.042);
+  --danger-border: oklch(0.396 0.141 25.723);
+  --info: oklch(0.707 0.165 254.624);            /* blue-400  */
+  --info-bg: oklch(0.282 0.091 267.935);
+  --info-border: oklch(0.379 0.146 265.522);
+  --neutral: oklch(0.704 0.04 256.788);
+  --neutral-bg: oklch(0.279 0.041 260.031);
+  --neutral-border: oklch(0.372 0.044 257.287);
+
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+
+  --sidebar: oklch(0.208 0.042 265.755);
+  --sidebar-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-primary: oklch(0.707 0.165 254.624);
+  --sidebar-primary-foreground: oklch(0.129 0.042 264.695);
+  --sidebar-accent: oklch(0.279 0.041 260.031);
+  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
+  --sidebar-border: oklch(0.279 0.041 260.031);
+  --sidebar-ring: oklch(0.809 0.105 251.813);
+
+  --chart-1: oklch(0.882 0.059 254.128);
+  --chart-2: oklch(0.809 0.105 251.813);
+  --chart-3: oklch(0.707 0.165 254.624);
+  --chart-4: oklch(0.546 0.245 262.881);
   --chart-5: oklch(0.424 0.199 265.638);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.623 0.214 259.815);
-  --sidebar-primary-foreground: oklch(0.97 0.014 254.604);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.439 0 0);
+
+  --shadow-overlay: 0 1px 2px oklch(0 0 0 / 0.3), 0 4px 12px oklch(0 0 0 / 0.4);
+  --shadow-modal: 0 8px 32px oklch(0 0 0 / 0.5);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
+
+  html {
+    /* The content region scrolls independently of navigation, so the document
+       itself does not scroll. Surfaces opt in. */
+    height: 100%;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    line-height: var(--text-sm--line-height);
+    /* Latin numerals in the admin, always — the panel is English-only even
+       though the data it edits is not. */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* --- Focus (§3.6) -------------------------------------------------------
+     This replaces `outline-ring/50` applied to `*`, which gave every element a
+     half-opacity ring and no element a clear one. A keyboard-first application
+     with weak focus is a failed application, so the rule is explicit, visible,
+     and identical everywhere. `:focus-visible` only: a mouse click on a row
+     must not paint a ring. */
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
+
+  /* Arabic content, wherever it is declared as such. The Arabic input in
+     BilingualField and any cell whose string is known to be Arabic. */
+  [lang="ar"] {
+    font-family: var(--font-arabic);
+  }
+
+  /* Bidi isolation for user-supplied strings (§ RTL strategy).
+     `dir="auto"` on a table cell would flip the CELL, right-aligning Arabic
+     inside a left-aligned column and destroying the edge an operator scans
+     down. `<bdi>` resolves the string's own direction WITHOUT touching the
+     container's alignment, borders or box. This is the default already, and it
+     is restated so a reset cannot quietly remove it. */
+  bdi {
+    unicode-bidi: isolate;
   }
 }
+
 @layer utilities {
   .hide-scrollbar {
     -ms-overflow-style: none;
@@ -128,5 +442,24 @@
 
   .hide-scrollbar::-webkit-scrollbar {
     display: none;
+  }
+
+  /* Money and every numeric column. Sans + tabular figures, not mono: mono at
+     13px is wider and reads as code rather than currency. */
+  .tabular {
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+}
+
+/* Motion is minimal by default and absent when it is unwelcome. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

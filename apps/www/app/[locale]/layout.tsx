@@ -6,7 +6,6 @@ import { routing } from '@/i18n/routing';
 import { constructMetadata } from "@/lib/metadata";
 import { cn } from "@/lib/utils";
 import { SupportedLanguage } from "@/types";
-import { ClerkProvider } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from 'next-intl';
 import { Inter, Playfair_Display, Almarai } from "next/font/google";
@@ -81,14 +80,6 @@ export default async function RootLayout({
     notFound();
   }
   return (
-    <ClerkProvider
-      appearance={{
-        variables: {
-          fontFamily: inter.style.fontFamily,
-          fontSize: "14px",
-        },
-      }}
-    >
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} className={cn(inter.variable, playfair.variable, almarai.variable)}>
         <body className="antialiased overflow-x-hidden scroll-smooth bg-background dark:bg-card/60 selection:bg-primary/20" suppressHydrationWarning>
           <script
@@ -124,6 +115,5 @@ export default async function RootLayout({
           </ThemeProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }

@@ -21,7 +21,7 @@ export const addToCartSchema = z.object({
     productId: z.string().min(1, "Product ID is required"),
     quantity: z.number().int().min(1, "Quantity must be at least 1").default(1),
     selectedColorTemp: z.string().optional(),
-    selectedColor: z.string().optional(),
+    selectedColorKey: z.string().optional(),
 })
 
 export type AddToCartInput = z.infer<typeof addToCartSchema>
@@ -69,7 +69,7 @@ export const saveConfigurationSchema = z.object({
     productId: z.string().min(1, "Product ID is required").max(1000),
     quantity: z.number().int().min(1, "Quantity must be at least 1"),
     selectedColorTemp: z.enum(['WARM_3000K', 'COOL_4000K', 'WHITE_6500K']).optional(),
-    selectedColor: z.enum(['BLACK', 'GRAY', 'WHITE', 'GOLD', 'WOOD']).optional(),
+    selectedColorKey: z.enum(['BLACK', 'GRAY', 'WHITE', 'GOLD', 'WOOD']).optional(),
     configId: z.string().optional(),
 })
 
@@ -89,16 +89,12 @@ export type UpdateConfigurationQuantityInput = z.infer<typeof updateConfiguratio
  * Order Status Update Schema
  */
 export const updateOrderStatusSchema = z.object({
-    status: z.enum([
-        "awaiting_shipment",
-        "processing",
-        "shipped",
-        "delivered",
-        "fulfilled",
-        "cancelled",
-        "refunded",
-    ]),
+    // Four values, not seven: 0010 pruned processing / fulfilled / refunded, which no
+    // production row held and no code assigned. A schema that still accepts them would let a
+    // request reach the state machine only to be refused there — better to refuse at the edge.
+    status: z.enum(["awaiting_shipment", "shipped", "delivered", "cancelled"]),
     trackingNumber: z.string().optional(),
+    reason: z.string().max(500).optional(),
 })
 
 export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>

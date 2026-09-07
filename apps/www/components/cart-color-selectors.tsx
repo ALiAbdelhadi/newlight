@@ -120,14 +120,14 @@ const formatAvailableColor = (color: string, locale: string): string => {
 
 interface CartSurfaceColorSelectorProps {
     availableColors: string[]
-    selectedColor: string | null
+    selectedColorKey: string | null
     onChange: (color: string) => void
     disabled?: boolean
 }
 
 export function CartSurfaceColorSelector({
     availableColors,
-    selectedColor,
+    selectedColorKey,
     onChange,
     disabled = false,
 }: CartSurfaceColorSelectorProps) {
@@ -172,7 +172,7 @@ export function CartSurfaceColorSelector({
         )
     }
 
-    const currentColor = selectedColor || availableColors[0]
+    const currentColor = selectedColorKey || availableColors[0]
     const colorClasses = getColorClasses(currentColor)
 
     return (

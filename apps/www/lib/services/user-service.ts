@@ -1,4 +1,4 @@
-import { prisma, ShippingAddress, User } from "@repo/database"
+import { prisma, serializeMoney, translationsFor, type Locale, ShippingAddress, User } from "@repo/database"
 
 export interface UserWithAddress extends User {
     shippingAddress: ShippingAddress | null
@@ -8,19 +8,11 @@ export class UserService {
     /**
      * Get or create user
      */
-    static async getOrCreateUser(userId: string): Promise<User> {
-        let user = await prisma.user.findUnique({
-            where: { id: userId },
-        })
-
-        if (!user) {
-            user = await prisma.user.create({
-                data: { id: userId },
-            })
-        }
-
-        return user
-    }
+    /**
+     * getOrCreateUser() is DELETED (§7). It upserted a User row from an id it had never seen,
+     * which is how an order could end up attached to a user nobody registered. Better Auth
+     * writes the row at sign-up; a caller that has an id has a row.
+     */
 
     /**
      * Get user with shipping address
@@ -64,9 +56,6 @@ export class UserService {
             country?: string
         }
     ): Promise<{ success: boolean; address: ShippingAddress }> {
-        // Ensure user exists
-        await this.getOrCreateUser(userId)
-
         const existingAddress = await prisma.shippingAddress.findUnique({
             where: { userId },
         })
@@ -131,8 +120,21 @@ export class UserService {
     /**
      * Get user's order history
      */
+    /**
+     * A customer's order history.
+     *
+     * `locale` is required rather than optional. The include below read
+     * `translations: { take: 1 }` with no `where` — §14.4's defect exactly — so PostgreSQL
+     * returned whichever translation row it liked and an English customer could be shown the
+     * Arabic product name. A signature that can be called without a locale is a signature that
+     * will be.
+     *
+     * Money is serialised here too: `total`, `subtotal` and every line price are `Decimal`, and
+     * this feeds a page that renders them (ADR 0001, A82).
+     */
     static async getOrderHistory(
         userId: string,
+        locale: Locale,
         options?: {
             skip?: number
             take?: number
@@ -140,7 +142,7 @@ export class UserService {
     ) {
         const { skip = 0, take = 10 } = options || {}
 
-        const [orders, total] = await Promise.all([
+        const [rows, total] = await Promise.all([
             prisma.order.findMany({
                 where: { userId },
                 include: {
@@ -148,7 +150,8 @@ export class UserService {
                         include: {
                             product: {
                                 include: {
-                                    translations: { take: 1 },
+                                    translations: translationsFor(locale),
+                                    images: { orderBy: { order: "asc" }, take: 1 },
                                 },
                             },
                         },
@@ -163,6 +166,24 @@ export class UserService {
                 where: { userId },
             }),
         ])
+
+        const orders = rows.map((order) => ({
+            ...order,
+            subtotal: serializeMoney(order.subtotal),
+            shippingCost: serializeMoney(order.shippingCost),
+            tax: order.tax === null ? null : serializeMoney(order.tax),
+            total: serializeMoney(order.total),
+            items: order.items.map((item) => ({
+                ...item,
+                price: serializeMoney(item.price),
+                product: {
+                    productId: item.product.productId,
+                    slug: item.product.slug,
+                    name: item.product.translations[0]?.name ?? item.product.productId,
+                    image: item.product.images[0]?.url ?? null,
+                },
+            })),
+        }))
 
         return {
             orders,

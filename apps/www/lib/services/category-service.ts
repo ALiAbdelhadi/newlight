@@ -1,301 +1,196 @@
-import { prisma } from "@repo/database"
-import { getLocaleOrDefault } from "../db"
-import { SubCategory, Category } from "@/types"
+import { prisma, translationsFor, type Locale } from "@repo/database"
+import { liveProduct, liveSubCategory, productCardInclude, toCardView, type ProductCard } from "./selectors"
+import { resolveCategory, resolveSubCategory } from "./taxonomy"
+
+/**
+ * Taxonomy reads for the storefront.
+ *
+ * Rewritten for v2. Three things changed and all three were defects in v1:
+ *
+ *   1. Slugs are per-locale (§9.2), so every lookup takes a locale. `getCategoryByType` is
+ *      gone with the CategoryType enum — a category is an ordinary row addressed by its slug.
+ *   2. Nothing is cast. v1 ended every method with `as unknown as Category`, which meant the
+ *      compiler could not tell the caller that `specifications` had been deleted from the
+ *      schema. The return types are Prisma payloads derived from the queries themselves.
+ *   3. Product cards read ProductImage and the family, not `images[]` and `baseProductId`.
+ */
+
+export type CategoryWithSubCategories = NonNullable<Awaited<ReturnType<typeof CategoryService.getCategoryBySlug>>>
+export type SubCategoryWithProducts = NonNullable<Awaited<ReturnType<typeof CategoryService.getSubCategoryWithProducts>>>
+
+/** Flat projection the footer renders. `categoryType` is gone; the parent slug replaces it. */
+export type FooterSubCategory = {
+    id: string
+    slug: string
+    name: string
+    categorySlug: string
+    categoryName: string
+}
 
 export class CategoryService {
-    private static extractSpecifications(product: any, locale: string): Record<string, string | number | string[]> | null {
-        const translation = product.translations?.find((t: any) => t.locale === locale)
-        const specs = translation?.specifications
-
-        if (!specs || typeof specs !== 'object' || Array.isArray(specs)) {
-            return null
-        }
-
-        const record = specs as Record<string, unknown>
-        const result: Record<string, string | number | string[]> = {}
-        let hasValidEntries = false
-
-        for (const [key, value] of Object.entries(record)) {
-            if (typeof value === 'string' || typeof value === 'number' || Array.isArray(value)) {
-                result[key] = value as string | number | string[]
-                hasValidEntries = true
-            }
-        }
-
-        return hasValidEntries ? result : null
-    }
-
-    private static async sortAlphabetically<T extends {
-        order?: number
-        isFeatured?: boolean
-        translations?: Array<{ locale: string; name: string }>
-    }>(
+    /**
+     * Alphabetical within the ordering the admin chose: featured first, then `order`, then the
+     * name in the reader's own language — `localeCompare` with "ar" sorts Arabic properly,
+     * which a byte comparison does not.
+     */
+    private static sortForLocale<T extends { order?: number; isFeatured?: boolean; translations: Array<{ name: string }> }>(
         items: T[],
-        locale: string
-    ): Promise<T[]> {
+        locale: Locale
+    ): T[] {
         return [...items].sort((a, b) => {
-            if (a.isFeatured !== undefined && b.isFeatured !== undefined) {
-                if (a.isFeatured && !b.isFeatured) return -1
-                if (!a.isFeatured && b.isFeatured) return 1
-            }
-
-            if (a.order !== undefined && b.order !== undefined) {
-                if (a.order !== b.order) {
-                    return a.order - b.order
-                }
-            }
-
-            const nameA = a.translations?.find((t) => t.locale === locale)?.name || ""
-            const nameB = b.translations?.find((t) => t.locale === locale)?.name || ""
-
-            return nameA.localeCompare(nameB, locale === "ar" ? "ar" : "en", {
-                numeric: true,
-                sensitivity: "base",
-            })
+            if (a.isFeatured !== b.isFeatured) return a.isFeatured ? -1 : 1
+            if (a.order !== undefined && b.order !== undefined && a.order !== b.order) return a.order - b.order
+            const nameA = a.translations[0]?.name ?? ""
+            const nameB = b.translations[0]?.name ?? ""
+            return nameA.localeCompare(nameB, locale, { numeric: true, sensitivity: "base" })
         })
     }
 
-    static async getCategoryBySlug(slug: string, locale?: string): Promise<Category | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-        const category = await prisma.category.findUnique({
-            where: { slug },
+    /** Resolves through TaxonomySlugHistory, so a retired slug reports where it moved to. */
+    static async resolveCategory(locale: Locale, slug: string) {
+        return resolveCategory(locale, slug)
+    }
+
+    static async resolveSubCategory(locale: Locale, categorySlug: string, subCategorySlug: string) {
+        return resolveSubCategory(locale, categorySlug, subCategorySlug)
+    }
+
+    static async getCategoryBySlug(locale: Locale, slug: string) {
+        const translation = await prisma.categoryTranslation.findUnique({
+            where: { locale_slug: { locale, slug } },
             include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
-                subCategories: {
-                    where: { isActive: true },
-                    orderBy: { order: "asc" },
+                category: {
                     include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        _count: {
-                            select: { products: { where: { isActive: true } } },
+                        translations: translationsFor(locale),
+                        subCategories: {
+                            where: liveSubCategory,
+                            orderBy: { order: "asc" },
+                            include: {
+                                translations: translationsFor(locale),
+                                _count: { select: { products: { where: liveProduct } } },
+                            },
                         },
                     },
                 },
             },
         })
 
-        if (category?.subCategories) {
-            category.subCategories = await this.sortAlphabetically(category.subCategories, resolvedLocale)
-        }
+        if (!translation || !translation.category.isActive || translation.category.deletedAt) return null
 
-        return category as unknown as Category
+        const category = translation.category
+        return { ...category, subCategories: this.sortForLocale(category.subCategories, locale) }
     }
 
-    static async getAllCategories(locale?: string): Promise<Category[]> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
+    static async getAllCategories(locale: Locale) {
         const categories = await prisma.category.findMany({
-            where: { isActive: true },
-            include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
-                subCategories: {
-                    where: { isActive: true },
-                    orderBy: { order: "asc" },
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        _count: {
-                            select: { products: { where: { isActive: true } } },
-                        },
-                    },
-                },
-            },
+            where: { isActive: true, deletedAt: null },
             orderBy: { order: "asc" },
-        })
-        return await this.sortAlphabetically(categories as any, resolvedLocale) as unknown as Category[]
-    }
-
-    static async getCategoryByType(categoryType: "indoor" | "outdoor", locale?: string): Promise<Category | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-        const category = await prisma.category.findFirst({
-            where: { categoryType, isActive: true },
             include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
+                translations: translationsFor(locale),
                 subCategories: {
-                    where: { isActive: true },
+                    where: liveSubCategory,
                     orderBy: { order: "asc" },
                     include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        _count: {
-                            select: { products: { where: { isActive: true } } },
-                        },
+                        translations: translationsFor(locale),
+                        _count: { select: { products: { where: liveProduct } } },
                     },
                 },
             },
         })
-
-        if (category?.subCategories) {
-            category.subCategories = await this.sortAlphabetically(category.subCategories, resolvedLocale)
-        }
-
-        return category as unknown as Category
-    }
-
-    static async getSubCategoryBySlug(categorySlug: string, subCategorySlug: string, locale?: string): Promise<SubCategory | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-        const subCategory = await prisma.subCategory.findFirst({
-            where: {
-                slug: subCategorySlug,
-                category: { slug: categorySlug },
-                isActive: true,
-            },
-            include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
-                category: {
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                    },
-                },
-                products: {
-                    where: { isActive: true },
-                    orderBy: [{ isFeatured: "desc" }, { order: "asc" }],
-                    include: {
-                        translations: true,
-                    },
-                },
-            },
-        })
-
-        if (subCategory?.products) {
-            subCategory.products = subCategory.products.map(product => ({
-                ...product,
-                specifications: this.extractSpecifications(product, resolvedLocale),
-                translations: product.translations.filter(t => t.locale === resolvedLocale) as any
-            }))
-
-            subCategory.products = await this.sortAlphabetically(subCategory.products as any, resolvedLocale)
-        }
-
-        return subCategory as unknown as SubCategory
-    }
-
-    static async getProductsWithUniqueVariants(
-        categorySlug: string,
-        subCategorySlug: string,
-        locale?: string
-    ): Promise<SubCategory | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-
-        const subCategory = await prisma.subCategory.findFirst({
-            where: {
-                slug: subCategorySlug,
-                category: {
-                    slug: categorySlug,
-                },
-                isActive: true,
-            },
-            include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
-                category: {
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                    },
-                },
-                products: {
-                    where: { isActive: true },
-                    orderBy: [
-                        { isFeatured: "desc" },
-                        { displayOrder: "asc" },
-                        { order: "asc" }
-                    ],
-                    include: {
-                        translations: true,
-                    },
-                },
-            },
-        })
-
-        if (!subCategory) {
-            return null
-        }
-
-        const seenBaseProducts = new Set<string>()
-        const uniqueProducts = subCategory.products.filter(product => {
-            const baseId = product.baseProductId || product.productId
-            if (seenBaseProducts.has(baseId)) {
-                return false
-            }
-            seenBaseProducts.add(baseId)
-            return true
-        })
-
-        const mappedProducts = uniqueProducts.map(product => ({
-            ...product,
-            specifications: this.extractSpecifications(product, resolvedLocale),
-            translations: product.translations.filter(t => t.locale === resolvedLocale),
-            colorImageMap: product.colorImageMap as Record<string, string[]> | null,
+        return categories.map((category) => ({
+            ...category,
+            subCategories: this.sortForLocale(category.subCategories, locale),
         }))
-
-        return {
-            ...subCategory,
-            products: await this.sortAlphabetically(mappedProducts as any, resolvedLocale)
-        } as unknown as SubCategory
     }
 
-    static async getSubCategories(categorySlug: string, locale?: string): Promise<any[]> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
+    static async getSubCategoryWithProducts(locale: Locale, categorySlug: string, subCategorySlug: string) {
+        const resolved = await resolveSubCategory(locale, categorySlug, subCategorySlug)
+        if (resolved.kind !== "found") return null
+
+        const products = await prisma.product.findMany({
+            where: { subCategoryId: resolved.value.id, ...liveProduct },
+            orderBy: [{ isFeatured: "desc" }, { order: "asc" }],
+            include: productCardInclude(locale),
+        })
+
+        return { ...resolved.value, products: this.sortForLocale(products, locale).map(toCardView) }
+    }
+
+    /**
+     * One card per FAMILY, not per SKU.
+     *
+     * A listing that showed every variant rendered `nl-a603-6w` through `nl-a603-30w` as five
+     * separate products of the same fixture. v1 deduplicated by `baseProductId`, a SKU string
+     * with no foreign key behind it; v2 groups by `familyId`, which is a real relation the
+     * transform populated from that same verified data. Products with no family — the 41
+     * singletons — are kept as themselves.
+     */
+    static async getProductsWithUniqueVariants(locale: Locale, categorySlug: string, subCategorySlug: string) {
+        const resolved = await resolveSubCategory(locale, categorySlug, subCategorySlug)
+        if (resolved.kind !== "found") return null
+
+        const products = await prisma.product.findMany({
+            where: { subCategoryId: resolved.value.id, ...liveProduct },
+            orderBy: [{ isFeatured: "desc" }, { displayOrder: "asc" }, { order: "asc" }],
+            include: productCardInclude(locale),
+        })
+
+        const seen = new Set<string>()
+        const representatives: ProductCard[] = []
+        for (const product of products) {
+            const key = product.familyId ?? product.id
+            if (seen.has(key)) continue
+            seen.add(key)
+            representatives.push(product)
+        }
+
+        return { ...resolved.value, products: this.sortForLocale(representatives, locale).map(toCardView) }
+    }
+
+    static async getSubCategories(locale: Locale, categorySlug: string) {
+        const category = await prisma.categoryTranslation.findUnique({
+            where: { locale_slug: { locale, slug: categorySlug } },
+            select: { categoryId: true },
+        })
+        if (!category) return []
+
         const subCategories = await prisma.subCategory.findMany({
-            where: {
-                category: { slug: categorySlug },
-                isActive: true,
-            },
+            where: { categoryId: category.categoryId, ...liveSubCategory },
             orderBy: { order: "asc" },
             include: {
-                translations: {
-                    where: { locale: resolvedLocale },
-                },
-                products: {
-                    where: { isActive: true },
-                    take: 1,
-                },
+                translations: translationsFor(locale),
+                _count: { select: { products: { where: liveProduct } } },
             },
         })
-        return await this.sortAlphabetically(subCategories as any, resolvedLocale)
+        return this.sortForLocale(subCategories, locale)
     }
 
-    static async getFooterSubCategories(locale: string): Promise<any[]> {
-        try {
-            const subCategories = await prisma.subCategory.findMany({
-                where: { isActive: true },
-                include: {
-                    translations: { where: { locale } },
-                    category: {
-                        include: {
-                            translations: { where: { locale } },
-                        },
-                    },
-                },
-                orderBy: { order: "asc" },
-            });
+    static async getFooterSubCategories(locale: Locale): Promise<FooterSubCategory[]> {
+        const subCategories = await prisma.subCategory.findMany({
+            where: liveSubCategory,
+            orderBy: { order: "asc" },
+            include: {
+                translations: translationsFor(locale),
+                category: { include: { translations: translationsFor(locale) } },
+            },
+        })
 
-            return subCategories.map((subCat) => ({
-                id: subCat.id,
-                slug: subCat.slug,
-                name: subCat.translations[0]?.name || subCat.slug,
-                categorySlug: subCat.category?.slug || "",
-                categoryType: subCat.category?.categoryType,
-            }));
-        } catch (error) {
-            console.error("Error fetching footer sub-categories:", error);
-            return [];
-        }
+        return subCategories.flatMap((subCategory) => {
+            const translation = subCategory.translations[0]
+            const categoryTranslation = subCategory.category.translations[0]
+            // A row with no translation in this locale is a data defect, not something to
+            // paper over with the slug as a display name (§14.2). Skip it and say so.
+            if (!translation || !categoryTranslation) {
+                console.warn(`[footer] sub-category ${subCategory.id} has no ${locale} translation; omitted`)
+                return []
+            }
+            return [{
+                id: subCategory.id,
+                slug: translation.slug,
+                name: translation.name,
+                categorySlug: categoryTranslation.slug,
+                categoryName: categoryTranslation.name,
+            }]
+        })
     }
 }

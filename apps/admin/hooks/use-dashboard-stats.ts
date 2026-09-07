@@ -2,15 +2,9 @@
 
 import { getDashboardStats } from "@/app/action/dashboard-actions"
 import { useEffect, useState } from "react"
+import type { DashboardStats } from "@/types"
 
-interface DashboardStats {
-    orders: number
-    shipping: number
-    notifications: number
-    reviews: number
-    products: number
-    customers: number
-}
+
 
 export function useDashboardStats(initialStats: DashboardStats, refreshInterval = 60000) {
     const [stats, setStats] = useState<DashboardStats>(initialStats)

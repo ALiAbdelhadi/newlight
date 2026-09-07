@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/price";
-import { OrderStatus, Prisma } from "@repo/database";
+import { OrderStatus, Prisma , allowedTransitionsFrom , isZeroMoney } from "@repo/database";
 import { format } from "date-fns";
 import { Box, Calendar, MapPin, Truck, XCircle } from "lucide-react";
 import Image from "next/image";
@@ -33,36 +33,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
+import type { OrderWithCustomer } from "@/types";
 
-type OrderWithDetails = Prisma.OrderGetPayload<{
-  include: {
-    shippingAddress: true;
-    user: {
-      select: {
-        id: true;
-        email: true;
-        firstName: true;
-        phoneNumber: true;
-      };
-    };
-    items: {
-      include: {
-        product: {
-          include: {
-            translations: {
-              take: 1;
-            };
-          };
-        };
-        configuration: true;
-      };
-    };
-    configuration: true;
-  };
-}>;
+// OrderWithCustomer is derived from the page's Prisma query in @/types.
 
 interface OrderPageProps {
-  order: OrderWithDetails;
+  order: OrderWithCustomer;
 }
 
 export default function OrderPage({ order }: OrderPageProps) {
@@ -72,10 +48,7 @@ export default function OrderPage({ order }: OrderPageProps) {
   const router = useRouter();
 
   const canCancelOrder = (status: OrderStatus) => {
-    return status !== "cancelled" && 
-           status !== "shipped" && 
-           status !== "delivered" && 
-           status !== "fulfilled";
+    return allowedTransitionsFrom(status, "ADMIN").includes("cancelled");
   };
 
   const handleCancelOrder = async (orderId: string) => {
@@ -207,10 +180,6 @@ export default function OrderPage({ order }: OrderPageProps) {
                           value={item.selectedColorTemp || "N/A"}
                         />
                         <ProductDetail
-                          label="IP Rating"
-                          value={order.configuration?.productIp || "N/A"}
-                        />
-                        <ProductDetail
                           label="Price"
                           value={formatPrice(item.price)}
                         />
@@ -234,7 +203,7 @@ export default function OrderPage({ order }: OrderPageProps) {
                   label="Subtotal"
                   value={formatPrice(order.subtotal)}
                 />
-                {order.tax && order.tax > 0 && (
+                {order.tax && !isZeroMoney(order.tax) && (
                   <PriceDetail label="Tax" value={formatPrice(order.tax)} />
                 )}
                 <PriceDetail
@@ -390,16 +359,12 @@ function ShippingDetail({
 function getOrderProgress(status: OrderStatus): number {
   switch (status) {
     case "awaiting_shipment":
-      return 25;
-    case "processing":
-      return 50;
+      return 33;
     case "shipped":
-      return 75;
+      return 66;
     case "delivered":
-    case "fulfilled":
       return 100;
     case "cancelled":
-    case "refunded":
       return 0;
     default:
       return 0;

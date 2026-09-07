@@ -1,3 +1,4 @@
+import { encodeSlug, resolveLocale } from "@repo/database"
 import { Container } from "@/components/container";
 import { Link } from "@/i18n/navigation";
 import { CategoryService } from "@/lib/services/category-service";
@@ -9,13 +10,20 @@ export async function Footer() {
     const t = await getTranslations("footer");
     const locale = await getLocale();
 
-    const subCategories = await CategoryService.getFooterSubCategories(locale as "en" | "ar");
+    const subCategories = await CategoryService.getFooterSubCategories(resolveLocale(locale));
 
-    const indoorSubCategories = subCategories.filter(
-        (sub) => sub.categoryType === "indoor"
-    );
-    const outdoorSubCategories = subCategories.filter(
-        (sub) => sub.categoryType === "outdoor"
+    const columns = subCategories.reduce<Map<string, { name: string; slug: string; items: typeof subCategories }>>(
+        (groups, subCategory) => {
+            const group = groups.get(subCategory.categorySlug) ?? {
+                name: subCategory.categoryName,
+                slug: subCategory.categorySlug,
+                items: [],
+            };
+            group.items.push(subCategory);
+            groups.set(subCategory.categorySlug, group);
+            return groups;
+        },
+        new Map()
     );
 
     const currentYear = new Date().getFullYear();
@@ -42,52 +50,31 @@ export async function Footer() {
                                 </p>
                             </div>
                         </div>
-                        <div>
-                            <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
-                                {t("sections.products.indoor")}
-                            </h5>
-                            <ul className="space-y-3 text-sm text-muted-foreground">
-                                {indoorSubCategories.length > 0 ? (
-                                    indoorSubCategories.map((subCategory) => (
-                                        <li key={subCategory.id}>
-                                            <Link
-                                                href={`/category/indoor/${subCategory.slug}`}
-                                                className="hover:text-foreground transition-colors"
-                                            >
-                                                {subCategory.name}
-                                            </Link>
+                        {[...columns.values()].map((column) => (
+                            <div key={column.slug}>
+                                <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
+                                    {column.name}
+                                </h5>
+                                <ul className="space-y-3 text-sm text-muted-foreground">
+                                    {column.items.length > 0 ? (
+                                        column.items.map((subCategory) => (
+                                            <li key={subCategory.id}>
+                                                <Link
+                                                    href={`/category/${encodeSlug(column.slug)}/${encodeSlug(subCategory.slug)}`}
+                                                    className="hover:text-foreground transition-colors"
+                                                >
+                                                    {subCategory.name}
+                                                </Link>
+                                            </li>
+                                        ))
+                                    ) : (
+                                        <li className="text-muted-foreground/70">
+                                            {t("sections.products.noSubCategories")}
                                         </li>
-                                    ))
-                                ) : (
-                                    <li className="text-muted-foreground/70">
-                                        {t("sections.products.noSubCategories")}
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
-                        <div>
-                            <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
-                                {t("sections.products.outdoor")}
-                            </h5>
-                            <ul className="space-y-3 text-sm text-muted-foreground">
-                                {outdoorSubCategories.length > 0 ? (
-                                    outdoorSubCategories.map((subCategory) => (
-                                        <li key={subCategory.id}>
-                                            <Link
-                                                href={`/category/outdoor/${subCategory.slug}`}
-                                                className="hover:text-foreground transition-colors"
-                                            >
-                                                {subCategory.name}
-                                            </Link>
-                                        </li>
-                                    ))
-                                ) : (
-                                    <li className="text-muted-foreground/70">
-                                        {t("sections.products.noSubCategories")}
-                                    </li>
-                                )}
-                            </ul>
-                        </div>
+                                    )}
+                                </ul>
+                            </div>
+                        ))}
                         <div>
                             <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
                                 {t("sections.company.title")}

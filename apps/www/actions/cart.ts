@@ -1,8 +1,9 @@
 "use server"
 
+import type { ProductColorTemp } from "@repo/database"
 import { CartService } from "@/lib/services/cart-service"
 import { UserService } from "@/lib/services/user-service"
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 
 /**
@@ -11,12 +12,12 @@ import { revalidatePath } from "next/cache"
 export async function addToCart(
   productId: string,
   quantity = 1,
-  selectedColorTemp?: string,
-  selectedColor?: string
+  selectedColorTemp?: ProductColorTemp,
+  selectedColorKey?: string
 ) {
   try {
     // 1. Authenticate user
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return {
@@ -26,7 +27,6 @@ export async function addToCart(
     }
 
     // 2. Ensure user exists in database
-    await UserService.getOrCreateUser(userId)
 
     // 3. Add to cart using CartService
     const result = await CartService.addToCart({
@@ -34,7 +34,7 @@ export async function addToCart(
       productId,
       quantity,
       selectedColorTemp,
-      selectedColor,
+      selectedColorKey,
     })
 
     // 4. Revalidate cart page
@@ -70,7 +70,7 @@ export async function addToCart(
  */
 export async function updateCartItemQuantity(itemId: string, quantity: number) {
   try {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return {
@@ -124,7 +124,7 @@ export async function updateCartItemQuantity(itemId: string, quantity: number) {
  */
 export async function removeFromCart(itemId: string) {
   try {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return {
@@ -167,7 +167,7 @@ export async function removeFromCart(itemId: string) {
  */
 export async function clearCart() {
   try {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return {
@@ -200,7 +200,7 @@ export async function clearCart() {
  */
 export async function getCartItemCount() {
   try {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return 0
@@ -220,7 +220,7 @@ export async function getCartItemCount() {
  */
 export async function getCartTotal() {
   try {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
       return { subtotal: 0, discount: 0, total: 0 }

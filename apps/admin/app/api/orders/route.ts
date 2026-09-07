@@ -1,3 +1,4 @@
+import { addMoney, divideMoney, multiplyMoney, serializeMoney } from "@repo/database"
 import { NextResponse } from "next/server"
 import { getAllOrders } from "@/lib/db"
 
@@ -25,13 +26,14 @@ export async function GET() {
                 productImage: item.productImage || "/placeholder-product.png",
                 productPrice: item.price,
                 quantity: item.quantity,
-                shippingPrice: order.shippingCost / order.items.length,
+                // Money stays Decimal until it is serialised, and shipping is apportioned
+                // across the lines rather than divided in floating point (ADR 0001).
+                shippingPrice: serializeMoney(divideMoney(order.shippingCost, order.items.length)),
                 discountRate: 0,
-                totalPrice: (item.price * item.quantity) + (order.shippingCost / order.items.length),
-                status: (order.status === "fulfilled" || order.status === "delivered" || order.status === "shipped") ? "fulfilled" as const :
-                    (order.status === "cancelled" || order.status === "refunded") ? "cancelled" as const :
-                        order.status === "processing" ? "processing" as const :
-                            "awaiting_shipment" as const,
+                totalPrice: serializeMoney(
+                    addMoney(multiplyMoney(item.price, item.quantity), divideMoney(order.shippingCost, order.items.length))
+                ),
+                status: order.status,
                 createdAt: order.createdAt.toISOString(),
                 user: {
                     id: order.user.id,

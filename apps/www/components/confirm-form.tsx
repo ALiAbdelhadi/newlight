@@ -64,7 +64,6 @@ export function ConfirmForm({
     const [isSubmitting, setIsSubmitting] = useState(false)
 
     const submitAttemptRef = useRef(0)
-    const lastSubmitTimeRef = useRef<number>(0)
     const abortControllerRef = useRef<AbortController | null>(null)
     const idempotencyKeyRef = useRef<string>(
         generateSessionKey(userId, configId)
@@ -112,21 +111,9 @@ export function ConfirmForm({
     }, [isSubmitting, isArabic])
 
     const onSubmit = async (data: ShippingAddressFormData) => {
-        const now = Date.now()
-        const timeSinceLastSubmit = now - lastSubmitTimeRef.current
-
-        if (timeSinceLastSubmit < 2000) {
-            toast.error(
-                isArabic ? "يرجى الانتظار قبل المحاولة مرة أخرى" : "Please wait before trying again",
-                {
-                    description: isArabic
-                        ? "يمكنك المحاولة بعد ثانيتين"
-                        : "You can try again in a moment"
-                }
-            )
-            return
-        }
-
+        // Double-submit is guarded by `isSubmitting` here and, authoritatively, by the
+        // unique `idempotencyKey` constraint in OrderService. The former wall-clock
+        // throttle read a ref during render and duplicated both.
         if (isSubmitting) {
             toast.warning(
                 isArabic ? "الطلب قيد المعالجة" : "Order is being processed",
@@ -153,7 +140,6 @@ export function ConfirmForm({
             return
         }
 
-        lastSubmitTimeRef.current = now
         setIsSubmitting(true)
         abortControllerRef.current = new AbortController()
 
@@ -282,7 +268,7 @@ export function ConfirmForm({
     const isLoading = isPending || isSubmitting
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="space-y-10 md:space-y-12">
+        <form onSubmit={(event) => void handleSubmit(onSubmit)(event)} className="space-y-10 md:space-y-12">
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

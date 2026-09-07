@@ -1,15 +1,16 @@
 "use server";
 
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentAdmin, currentAdminId, requireCurrentAdmin } from "@/lib/auth"
 import { prisma } from "@repo/database";
 import { redirect } from "next/navigation";
 
 export const DashboardServer = async () => {
-  const user = await currentUser();
-  const { userId } = await auth();
+  // The dashboard is admin-only, so being signed in is not the question — having the role
+  // is. currentAdmin() returns null for a signed-in CUSTOMER too.
+  const admin = await currentAdmin();
 
-  if (!userId || !user) {
-    return redirect("/404");
+  if (!admin) {
+    return redirect("/sign-in");
   }
 
   const orders = await prisma.order.findMany({
@@ -40,7 +41,8 @@ export const DashboardServer = async () => {
   });
 
   const simplifiedOrders = orders.map((order) => {
-    const discountRate = order.configuration?.discount ?? 0;
+    // ProductConfiguration.discount is dropped (A21): 0.00 on every production row.
+    const discountRate = 0;
     const subtotal = order.subtotal;
     const shippingCost = order.shippingCost;
     const total = order.total;
@@ -86,7 +88,9 @@ export const DashboardServer = async () => {
       },
     },
     user: {
-      imageUrl: user.imageUrl,
+      // Better Auth stores the avatar on our own user row, so there is no provider copy to
+      // read. Null until an administrator uploads one; the header falls back to an initial.
+      imageUrl: admin.image ?? null,
     },
   };
 

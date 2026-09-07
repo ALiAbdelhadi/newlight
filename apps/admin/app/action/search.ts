@@ -1,5 +1,6 @@
 "use server"
 
+import { serializeMoney } from "@repo/database"
 import { prisma } from "@repo/database"
 
 export async function searchProducts(searchItem: string) {
@@ -35,6 +36,8 @@ export async function searchProducts(searchItem: string) {
             ],
         },
         include: {
+            // order 0 is the primary image (§5); the column this replaced is gone.
+            images: { orderBy: { order: "asc" as const }, take: 1 },
             translations: {
                 where: { locale: searchLocale },
             },
@@ -66,14 +69,14 @@ export async function searchProducts(searchItem: string) {
             id: product.id,
             productId: product.productId,
             slug: product.slug,
-            price: product.price,
-            images: product.images,
+            price: serializeMoney(product.price),
+            image: product.images[0]?.url ?? null,
             name: translation?.name || "",
             description: translation?.description || null,
             categoryName: categoryTranslation?.name,
-            categorySlug: product.subCategory?.category?.slug,
+            categorySlug: categoryTranslation?.slug,
             subCategoryName: subCategoryTranslation?.name,
-            subCategorySlug: product.subCategory?.slug,
+            subCategorySlug: subCategoryTranslation?.slug,
         }
     })
 }

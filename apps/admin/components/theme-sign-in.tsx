@@ -1,128 +1,95 @@
 "use client"
 
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { SignIn } from "@clerk/nextjs"
-import { dark } from "@clerk/themes"
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
+import { useState, type FormEvent } from "react"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { signIn } from "@/lib/auth-client"
 
+/**
+ * The admin sign-in form.
+ *
+ * English only and deliberately so: the admin app is internal and English-only by design.
+ * There is no "create an account" link, because there is no sign-up route and the API refuses
+ * registration too — the first SUPER_ADMIN is seeded by
+ * `pnpm --filter @repo/database seed:super-admin`.
+ */
 export function ThemedSignIn() {
-  const { theme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+    const router = useRouter()
+    const [error, setError] = useState<string | null>(null)
+    const [pending, setPending] = useState(false)
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setMounted(true);
-  }, []);
+    async function onSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault()
+        setError(null)
+        setPending(true)
 
+        const form = new FormData(event.currentTarget)
+        const result = await signIn.email({
+            email: String(form.get("email") ?? ""),
+            password: String(form.get("password") ?? ""),
+        })
+        setPending(false)
 
-  if (!mounted) return null
+        // One message for every failure. Distinguishing "no such account" from "wrong
+        // password" on an admin login tells an attacker which addresses are worth attacking.
+        if (result.error) return setError("Email or password is incorrect.")
 
-  return (
-    <div className="w-full">
-      <ScrollArea className="max-h-[80vh]">
-        <div className="pr-4">
-          <SignIn
-            appearance={{
-              baseTheme: theme === "dark" ? dark : undefined,
-              elements: {
-                formButtonPrimary: {
-                  backgroundColor: "hsl(var(--primary))",
-                  color: "hsl(var(--primary-foreground))",
-                  fontSize: "14px",
-                  fontWeight: "500",
-                  letterSpacing: "0.05em",
-                  borderRadius: "0px",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    backgroundColor: "hsl(var(--primary) / 0.9)",
-                    transform: "translateY(-2px)",
-                  },
-                  "&:active": {
-                    transform: "translateY(0px)",
-                  },
-                },
-                card: {
-                  backgroundColor: "transparent",
-                  boxShadow: "none",
-                  border: "1px solid hsl(var(--border))",
-                  borderRadius: "0px",
-                },
-                headerTitle: {
-                  fontSize: "24px",
-                  fontWeight: "300",
-                  letterSpacing: "0.05em",
-                  color: "hsl(var(--foreground))",
-                  marginBottom: "8px",
-                },
-                headerSubtitle: {
-                  fontSize: "14px",
-                  fontWeight: "300",
-                  letterSpacing: "0.05em",
-                  color: "hsl(var(--muted-foreground))",
-                  marginBottom: "24px",
-                },
-                socialButtonsBlockButton: {
-                  borderColor: "hsl(var(--border))",
-                  color: "hsl(var(--foreground))",
-                  fontSize: "14px",
-                  fontWeight: "300",
-                  borderRadius: "0px",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    backgroundColor: "hsl(var(--secondary))",
-                    borderColor: "hsl(var(--primary))",
-                  },
-                },
-                formFieldLabel: {
-                  fontSize: "14px",
-                  fontWeight: "400",
-                  letterSpacing: "0.05em",
-                  color: "hsl(var(--foreground))",
-                  textTransform: "capitalize",
-                },
-                formFieldInput: {
-                  backgroundColor: theme === "dark" ? "hsl(var(--primary) / 0.1)" : "hsl(var(--primary) / 0.05)",
-                  borderColor: "hsl(var(--border))",
-                  color: "hsl(var(--foreground))",
-                  fontSize: "14px",
-                  borderRadius: "0px",
-                  transition: "all 0.3s ease",
-                  "&::placeholder": {
-                    color: "hsl(var(--muted-foreground))",
-                    fontWeight: "300",
-                    letterSpacing: "0.02em",
-                  },
-                  "&:focus": {
-                    backgroundColor: theme === "dark" ? "hsl(var(--primary) / 0.2)" : "hsl(var(--primary) / 0.1)",
-                    borderColor: "hsl(var(--primary))",
-                    boxShadow: "none",
-                  },
-                },
-                footerActionLink: {
-                  color: "hsl(var(--primary))",
-                  fontSize: "14px",
-                  fontWeight: "300",
-                  letterSpacing: "0.05em",
-                  transition: "all 0.3s ease",
-                  "&:hover": {
-                    color: "hsl(var(--primary) / 0.8)",
-                  },
-                },
-                dividerLine: {
-                  backgroundColor: "hsl(var(--border))",
-                },
-                dividerText: {
-                  color: "hsl(var(--muted-foreground))",
-                  fontSize: "12px",
-                  fontWeight: "300",
-                  letterSpacing: "0.05em",
-                },
-              },
-            }}
-          />
+        router.push("/admin/dashboard")
+        router.refresh()
+    }
+
+    return (
+        <div className="w-full border border-border p-6 sm:p-8">
+            <h1 className="text-2xl font-light tracking-[0.05em] text-foreground">Sign in</h1>
+            <p className="mt-2 mb-6 text-sm font-light tracking-[0.05em] text-muted-foreground">
+                Newlight admin. Access is granted by an existing administrator.
+            </p>
+
+            <form onSubmit={onSubmit} noValidate>
+                {error ? (
+                    <p role="alert" className="mb-4 border-s-2 border-destructive py-2 ps-3 text-sm text-destructive">
+                        {error}
+                    </p>
+                ) : null}
+
+                <div className="mb-4 space-y-2">
+                    <Label htmlFor="email" className="text-sm font-normal tracking-[0.05em]">
+                        Email address
+                    </Label>
+                    <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        required
+                        className="rounded-none border-border bg-primary/5 transition-all duration-300 focus-visible:border-primary focus-visible:bg-primary/10"
+                    />
+                </div>
+
+                <div className="mb-4 space-y-2">
+                    <Label htmlFor="password" className="text-sm font-normal tracking-[0.05em]">
+                        Password
+                    </Label>
+                    <Input
+                        id="password"
+                        name="password"
+                        type="password"
+                        autoComplete="current-password"
+                        required
+                        className="rounded-none border-border bg-primary/5 transition-all duration-300 focus-visible:border-primary focus-visible:bg-primary/10"
+                    />
+                </div>
+
+                <Button
+                    type="submit"
+                    disabled={pending}
+                    className="w-full rounded-none text-sm font-medium tracking-[0.05em] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:translate-y-0 disabled:opacity-70"
+                >
+                    {pending ? "Please wait…" : "Sign in"}
+                </Button>
+            </form>
         </div>
-      </ScrollArea>
-    </div>
-  )
+    )
 }

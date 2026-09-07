@@ -1,7 +1,7 @@
 import { getOrderDetails } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
 import { SupportedLanguage } from "@/types"
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     const currentLocale = locale as SupportedLanguage
     const tMetadata = await getTranslations("metadatas.orderDetails")
 
-    const { userId } = await auth()
+    const userId = await currentUserId()
     if (!userId) {
         notFound()
     }
@@ -45,7 +45,7 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
 }
 
 export default async function OrderDetailsPage({ params }: OrderDetailsPageProps) {
-    const { userId } = await auth()
+    const userId = await currentUserId()
     const { orderId, locale } = await params
     const currentLocale = await getLocale()
     const t = await getTranslations("orderDetails")

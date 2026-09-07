@@ -1,5 +1,7 @@
 "use client"
 
+import { formatMoney, type SerializedMoney } from "@repo/database"
+import { useLocale } from "next-intl"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from "next-intl"
@@ -13,12 +15,14 @@ interface ProductCardProps {
     image: string
     title: string
     category: string
-    price: number
+    /** Serialised money (ADR 0001). A `number` here is where a Decimal loses precision. */
+    price: SerializedMoney
     badge?: string
     onClick?: () => void
 }
 
 export function ProductCard({ id, image, title, category, price, badge, onClick }: ProductCardProps) {
+    const locale = useLocale()
     const cardRef = useRef<HTMLDivElement>(null)
     const imageRef = useRef<HTMLImageElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
@@ -136,10 +140,12 @@ export function ProductCard({ id, image, title, category, price, badge, onClick 
                 </div>
                 
                 <div className="flex items-center justify-between pt-4 border-t border-border/50">
-                    <div className="flex items-baseline gap-1.5 rtl:flex-row-reverse">
-                        <span className="text-xl font-light text-foreground">{t("currency")}</span>
+                    {/* formatMoney places the currency itself — before the number in English,
+                        after it in Arabic — so the separate {t("currency")} span it used to sit
+                        beside would now render the symbol twice. */}
+                    <div className="flex items-baseline gap-1.5">
                         <span className="text-2xl font-medium tracking-tight text-foreground">
-                            {price !== undefined ? price.toLocaleString() : "0"}
+                            {formatMoney(price ?? "0.00", locale)}
                         </span>
                     </div>
                     

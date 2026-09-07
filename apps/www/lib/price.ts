@@ -1,28 +1,14 @@
+/**
+ * Re-export only. The implementation lives in @repo/database/money (§4), because the admin
+ * app formats the same amounts and had its own `formatPrice` hardcoded to `en-US`.
+ *
+ * The name is kept so the existing call sites do not churn; `amount` widened from `number`
+ * to MoneyInput, which is what lets a Decimal reach a screen without a lossy conversion.
+ */
+import { formatMoney, type MoneyInput } from "@repo/database"
 
-export function formatNumberWithConversion(amount: number, locale: string): string {
-    const currencyConfig = {
-        ar: { currency: "EGP", symbol: "ج.م" },
-        "ar-EG": { currency: "EGP", symbol: "ج.م" },
-        en: { currency: "EGP", symbol: "EGP" },
-        "en-US": { currency: "EGP", symbol: "EGP" },
-    };
-
-    const config = currencyConfig[locale as keyof typeof currencyConfig] || currencyConfig["en"];
-
-    const formatOptions: Intl.NumberFormatOptions = {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2,
-    };
-
-    if (locale.startsWith("ar")) {
-        formatOptions.numberingSystem = "arab";
-    }
-
-    const formattedNumber = new Intl.NumberFormat(locale, formatOptions).format(amount);
-
-    if (locale.startsWith("ar")) {
-        return `${formattedNumber} ${config.symbol}`;
-    } else {
-        return `${config.symbol} ${formattedNumber}`;
-    }
+export function formatNumberWithConversion(amount: MoneyInput, locale: string): string {
+    return formatMoney(amount, locale)
 }
+
+export { formatMoney }

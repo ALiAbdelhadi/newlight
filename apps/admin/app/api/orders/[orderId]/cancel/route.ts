@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server"
+import { requireCurrentAdmin } from "@/lib/auth"
 import { OrderService } from "@/lib/services/order-service"
 
 export async function PATCH(
@@ -17,13 +18,16 @@ export async function PATCH(
 
         console.log(`[API] Attempting to cancel order: ${orderId}`)
 
-        // TODO: Add authentication check
-        // const { userId } = await auth()
-        // const isAdmin = await checkAdminPermission(userId)
-        // For now, passing null as userId (admin cancellation)
+        // This route cancelled orders with NO AUTHENTICATION AT ALL — the check was a TODO
+        // and `null` was passed where an actor belonged, with a comment explaining that null
+        // meant "admin". Anyone who could reach the URL could cancel any order.
+        const admin = await requireCurrentAdmin()
 
-        // Cancel the order
-        const result = await OrderService.cancelOrder(orderId, null)
+        const result = await OrderService.cancelOrder(
+            orderId,
+            { type: "ADMIN", id: admin.id, email: admin.email },
+            "cancelled from the admin panel"
+        )
 
         if (!result.success) {
             console.error(`[API] Failed to cancel order: ${result.error}`)

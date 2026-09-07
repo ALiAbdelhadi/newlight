@@ -1,5 +1,7 @@
 "use client"
 
+import { formatMoney } from "@repo/database"
+import type { ProductVariantView } from "@/lib/services/product-service"
 import { cn } from "@/lib/utils"
 import { Check } from "lucide-react"
 import { useLocale } from "next-intl"
@@ -7,16 +9,12 @@ import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import { Button } from "./ui/button"
 
-interface ProductVariant {
-    id: string
-    productId: string
-    slug: string
-    variantType: string | null
-    variantValue: string | null
-    price: number
-    inventory: number
-    name: string
-}
+/**
+ * Derived from ProductService.getProductVariants, so this cannot drift from what the service
+ * returns. `variantType` moved to the FAMILY in v2 (§6) — every member of a family varies by
+ * the same axis, which is what made it a per-product column that could disagree with itself.
+ */
+type ProductVariant = ProductVariantView
 
 interface ProductVariantsSelectorProps {
     currentProductId: string
@@ -56,15 +54,15 @@ export default function ProductVariantsSelector({
 
         const value = variant.variantValue.toLowerCase()
 
-        if (variant.variantType === "wattage") {
+        if (variant.family?.variantType === "wattage") {
             return variant.variantValue.toUpperCase()
-        } else if (variant.variantType === "length") {
+        } else if (variant.family?.variantType === "length") {
             return variant.variantValue.toUpperCase()
-        } else if (variant.variantType === "voltage") {
+        } else if (variant.family?.variantType === "voltage") {
             return variant.variantValue.toUpperCase()
-        } else if (variant.variantType === "height") {
+        } else if (variant.family?.variantType === "height") {
             return value.replace('cm', ' Cm')
-        } else if (variant.variantType === "dimensions") {
+        } else if (variant.family?.variantType === "dimensions") {
             return value
                 .replace(/\*/g, ' × ')
                 .replace(/-cm/g, ' Cm')
@@ -89,7 +87,7 @@ export default function ProductVariantsSelector({
         return labels[variantType]?.[isArabic ? "ar" : "en"] || variantType
     }
 
-    const variantType = variants[0]?.variantType
+    const variantType = variants[0]?.family?.variantType ?? null
     const typeLabel = getVariantTypeLabel(variantType)
 
     return (
@@ -103,7 +101,8 @@ export default function ProductVariantsSelector({
             <div className="flex flex-wrap gap-3 transition-all">
                 {variants.map((variant) => {
                     const isSelected = selectedVariant === variant.productId
-                    const isOutOfStock = variant.inventory <= 0
+                    // Per-variant stock is a P3b read; the selector no longer claims to know it.
+                    const isOutOfStock = false
                     const label = formatVariantLabel(variant)
                     return (
                         <Button
@@ -139,7 +138,7 @@ export default function ProductVariantsSelector({
                             )}
                             {variant.price !== variants[0].price && (
                                 <div className="absolute -top-2 -right-2 bg-accent text-accent-foreground text-xs px-2 py-1 rounded-sm">
-                                    {variant.price.toLocaleString()}
+                                    {formatMoney(variant.price, locale)}
                                 </div>
                             )}
                         </Button>

@@ -1,11 +1,12 @@
 "use client"
 
+import { encodeSlug, formatMoney, multiplyMoney } from "@repo/database"
 import { Container } from "@/components/container"
 import { LoginModel } from "@/components/login-model"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "@/i18n/navigation"
 import { PreviewClientProps } from "@/types"
-import { useAuth } from "@clerk/nextjs"
+import { useSession } from "@/lib/auth-client"
 import { Loader2, ShoppingCart } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
@@ -20,7 +21,8 @@ export function PreviewClient({
     locale
 }: PreviewClientProps) {
     const router = useRouter()
-    const { isSignedIn } = useAuth()
+    const { data: session } = useSession()
+    const isSignedIn = Boolean(session?.user)
     const [showLoginDialog, setShowLoginDialog] = useState(false)
     const [isProcessing, setIsProcessing] = useState(false)
     const isArabic = locale.startsWith("ar")
@@ -31,10 +33,18 @@ export function PreviewClient({
 
     const productName = productTranslation?.name || product.productId
     const productDescription = productTranslation?.description || undefined
-    const subCategoryName = subCategoryTranslation?.name || product.subCategory.slug
-    const categoryName = categoryTranslation?.name || product.subCategory.category.categoryType
+    const subCategoryName = subCategoryTranslation?.name ?? ""
+    const categoryName = categoryTranslation?.name ?? ""
+    const categorySlug = categoryTranslation?.slug ?? ""
 
-    const specs = productTranslation?.specifications as Record<string, string | number> | null
+    // Specs are rows now, with a label and a unit per locale (§7) — not a JSONB blob keyed by
+    // one language's display labels.
+    const specs = product.specs.flatMap((row) => {
+        const value = isArabic ? row.valueAr : row.valueEn
+        if (!value || value === "-") return []
+        const unit = isArabic ? row.spec.unitAr : row.spec.unitEn
+        return [[isArabic ? row.spec.labelAr : row.spec.labelEn, unit ? `${value} ${unit}` : value] as const]
+    })
 
     const formatColorTemp = (temp: string) => {
         const map: Record<string, string> = {
@@ -83,7 +93,7 @@ export function PreviewClient({
                                 {t.home}
                             </Link>
                             <span>/</span>
-                            <Link href={`/category/${product.subCategory.category.slug}`} className="hover:text-foreground transition-colors">
+                            <Link href={`/category/${encodeSlug(categorySlug)}`} className="hover:text-foreground transition-colors">
                                 {categoryName}
                             </Link>
                             <span>/</span>
@@ -101,7 +111,7 @@ export function PreviewClient({
                             <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
                                 {product.images.length > 0 ? (
                                     <Image
-                                        src={product.images[0]}
+                                        src={product.images[0]!.url}
                                         alt={productName}
                                         fill
                                         className="object-cover"
@@ -127,36 +137,22 @@ export function PreviewClient({
                                         {productDescription}
                                     </p>
                                 )}
-                                {specs && (
+                                {specs.length > 0 && (
                                     <div className="border-t border-border pt-4 space-y-2">
                                         <h3 className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light mb-3">
                                             {t.keySpecs}
                                         </h3>
+                                        {/* Driven by the data, not by four hardcoded keys with
+                                            hand-written Arabic labels beside them. The label
+                                            and the unit come from SpecDefinition, per locale
+                                            (§7), so a new spec appears here on its own. */}
                                         <div className="grid grid-cols-2 gap-3 text-sm">
-                                            {specs.voltage && (
-                                                <div>
-                                                    <span className="text-muted-foreground">{isArabic ? "المدخل:" : "Voltage:"}</span>
-                                                    <span className="ml-2 font-medium">{specs.voltage}</span>
+                                            {specs.slice(0, 4).map(([label, value]) => (
+                                                <div key={label}>
+                                                    <span className="text-muted-foreground">{label}:</span>
+                                                    <span className="ml-2 font-medium">{value}</span>
                                                 </div>
-                                            )}
-                                            {specs.maximum_wattage && (
-                                                <div>
-                                                    <span className="text-muted-foreground">{isArabic ? "القوة:" : "Wattage:"}</span>
-                                                    <span className="ml-2 font-medium">{specs.maximum_wattage}W</span>
-                                                </div>
-                                            )}
-                                            {specs.luminous_flux && (
-                                                <div>
-                                                    <span className="text-muted-foreground">{isArabic ? "اللومن:" : "Lumen:"}</span>
-                                                    <span className="ml-2 font-medium">{specs.luminous_flux}</span>
-                                                </div>
-                                            )}
-                                            {specs.cri && (
-                                                <div>
-                                                    <span className="text-muted-foreground">CRI:</span>
-                                                    <span className="ml-2 font-medium">{specs.cri}</span>
-                                                </div>
-                                            )}
+                                            ))}
                                         </div>
                                     </div>
                                 )}
@@ -178,13 +174,13 @@ export function PreviewClient({
                                             </span>
                                         </div>
                                     )}
-                                    {configuration.selectedColor && (
+                                    {configuration.selectedColorKey && (
                                         <div className="flex justify-between items-center py-3 border-b border-border/50">
                                             <span className="text-sm text-muted-foreground uppercase tracking-wider">
                                                 {t.surfaceColor}
                                             </span>
                                             <span className="font-medium">
-                                                {formatColor(configuration.selectedColor)}
+                                                {formatColor(configuration.selectedColorKey)}
                                             </span>
                                         </div>
                                     )}
@@ -197,18 +193,12 @@ export function PreviewClient({
                                     <div className="space-y-3 pt-4">
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.unitPrice}</span>
-                                            <span>{product.price.toLocaleString()} {t.currency}</span>
+                                            <span>{formatMoney(product.price, locale)}</span>
                                         </div>
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.subtotal}</span>
-                                            <span>{(product.price * configuration.quantity).toLocaleString()} {t.currency}</span>
+                                            <span>{formatMoney(multiplyMoney(product.price, configuration.quantity), locale)}</span>
                                         </div>
-                                        {configuration.discount > 0 && (
-                                            <div className="flex justify-between text-sm text-green-600">
-                                                <span>{t.discount}</span>
-                                                <span>-{configuration.discount.toLocaleString()} {t.currency}</span>
-                                            </div>
-                                        )}
                                         <div className="flex justify-between items-baseline pt-4 border-t border-border">
                                             <span className="text-lg font-light uppercase tracking-wide">
                                                 {t.total}

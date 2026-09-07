@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server"
 
+import { allowedTransitionsFrom, IllegalTransitionError } from "@repo/database"
+import { transitionOrderWithNotification } from "@/lib/services/order-transitions"
+import { resolveLocale, type Locale } from "@repo/database"
 import type { OrderWithDetails } from "@/types"
-import { auth } from "@clerk/nextjs/server"
+import { currentIdentity, currentUserId } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 import { OrderService } from "@/lib/services/order-service"
 import { UserService } from "@/lib/services/user-service"
@@ -16,7 +19,7 @@ import { prisma } from "@repo/database"
 
 export async function getConfigurationDetails(configId: string) {
     try {
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: { users: true },
         })
@@ -27,10 +30,14 @@ export async function getConfigurationDetails(configId: string) {
     }
 }
 
-export async function getProductWithDetails(productId: string, locale: string) {
+/**
+ * The configure flow addresses products by SKU (that is what ProductConfiguration.productSku
+ * stores), so this resolves by SKU and returns the same detail payload the product page uses
+ * — with ProductImage rows and normalised specs rather than the columns 0011 dropped.
+ */
+export async function getProductWithDetails(sku: string, locale: string) {
     try {
-        const product = await ProductService.getProduct(productId, locale)
-        return product
+        return await ProductService.getProductBySku(sku, resolveLocale(locale))
     } catch (error) {
         console.error("Error getting product details:", error)
         return null
@@ -81,7 +88,7 @@ export async function createOrderFromConfiguration(
     clientIdempotencyKey?: string
 ) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return {
@@ -122,7 +129,7 @@ export async function createOrderFromConfiguration(
         }
 
         // First, check if configuration exists (regardless of user association)
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: { users: true }
         })
@@ -139,10 +146,9 @@ export async function createOrderFromConfiguration(
         if (!isUserAssociated) {
             try {
                 // Ensure user exists
-                await UserService.getOrCreateUser(userId)
                 
                 // Associate configuration with user
-                await prisma.configuration.update({
+                await prisma.productConfiguration.update({
                     where: { id: configId },
                     data: {
                         users: {
@@ -190,7 +196,7 @@ export async function createOrderFromConfiguration(
                 error.message.includes('idempotencyKey')) {
 
                 try {
-                    const { userId } = await auth()
+                    const userId = await currentUserId()
                     if (userId) {
                         const idempotencyKey = generateIdempotencyKey(userId, configId)
                         const existingOrder = await prisma.order.findUnique({
@@ -242,7 +248,7 @@ export async function createOrderFromConfiguration(
 
 export async function getOrderDetails(orderId: string): Promise<OrderWithDetails | null> {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return null
@@ -276,9 +282,9 @@ export async function getOrderDetails(orderId: string): Promise<OrderWithDetails
     }
 }
 
-export async function getUserOrders(page: number = 1, limit: number = 10) {
+export async function getUserOrders(locale: Locale, page: number = 1, limit: number = 10) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return {
@@ -288,7 +294,7 @@ export async function getUserOrders(page: number = 1, limit: number = 10) {
             }
         }
 
-        const { orders, pagination } = await UserService.getOrderHistory(userId, {
+        const { orders, pagination } = await UserService.getOrderHistory(userId, locale, {
             skip: (page - 1) * limit,
             take: limit,
         })
@@ -315,7 +321,7 @@ export async function getUserOrders(page: number = 1, limit: number = 10) {
 
 export async function cancelOrder(orderId: string) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return {
@@ -325,15 +331,8 @@ export async function cancelOrder(orderId: string) {
             }
         }
 
-        const result = await OrderService.cancelOrder(orderId, userId)
-
-        if (result.success) {
-
-            revalidatePath("/orders")
-            revalidatePath(`/orders/${orderId}`)
-        }
-
-        return result
+        // One entry point; `cancelOrder` is kept as its name because the UI already calls it.
+        return requestOrderCancellation(orderId)
     } catch (error) {
         console.error("Order cancellation error:", error)
 
@@ -360,79 +359,62 @@ export async function cancelOrder(orderId: string) {
     }
 }
 
-export async function updateOrderStatus(
-    orderId: string,
-    status:
-        | "awaiting_shipment"
-        | "processing"
-        | "shipped"
-        | "delivered"
-        | "fulfilled"
-        | "cancelled"
-        | "refunded",
-    trackingNumber?: string
-) {
+/**
+ * Cancel your own order. This replaces `updateOrderStatus` — BUILD §12.
+ *
+ * THE DEFECT IT REPLACES: `updateOrderStatus(orderId, status)` accepted any of the seven
+ * statuses from any authenticated user who owned the order, and set shippedAt / deliveredAt
+ * to match. Ownership was checked; role was not. A customer could mark their own order
+ * `delivered`, which under COD is the event that settles payment.
+ *
+ * The fix is not a role check bolted onto the old signature. A signature that takes a target
+ * status invites the next caller to pass one, so the customer-facing action no longer takes
+ * one at all: cancellation is the only transition ADR 0005 lets a CUSTOMER cause, so this is
+ * the only customer-facing transition there is. Everything else lives in the admin app and
+ * goes through the same machine with actorType ADMIN.
+ */
+export async function requestOrderCancellation(orderId: string, reason?: string) {
     try {
-        const { userId } = await auth()
-
-        if (!userId) {
-            return {
-                success: false,
-                error: "Authentication required",
-            }
+        const identity = await currentIdentity()
+        if (!identity) {
+            return { success: false, error: "Authentication required", requiresAuth: true }
         }
 
+        // Ownership is this layer's check; the ROLE check is the machine's. Both are needed:
+        // owning an order is not permission to do anything to it, and being a customer is not
+        // permission to touch someone else's.
         const order = await prisma.order.findFirst({
-            where: {
-                id: orderId,
-                userId,
-            },
-            select: { id: true, status: true, idempotencyKey: true },
+            where: { id: orderId, userId: identity.id },
+            select: { id: true },
         })
-
         if (!order) {
-            return {
-                success: false,
-                error: "Order not found",
-            }
+            return { success: false, error: "Order not found" }
         }
 
-        const updateData: any = { status }
-
-        if (status === "shipped" && trackingNumber) {
-            updateData.trackingNumber = trackingNumber
-            updateData.shippedAt = new Date()
-        }
-
-        if (status === "delivered") {
-            updateData.deliveredAt = new Date()
-        }
-
-        const updatedOrder = await prisma.order.update({
-            where: { id: orderId },
-            data: updateData,
+        const result = await transitionOrderWithNotification({
+            orderId,
+            to: "cancelled",
+            actor: { type: "CUSTOMER", id: identity.id, email: identity.email },
+            reason: reason ?? "cancelled by customer",
         })
-
 
         revalidatePath("/orders")
         revalidatePath(`/orders/${orderId}`)
 
-        return {
-            success: true,
-            order: updatedOrder,
-        }
+        return { success: true, alreadyApplied: result.alreadyApplied }
     } catch (error) {
-        console.error("Error updating order status:", error)
-        return {
-            success: false,
-            error: "Failed to update order status",
+        if (error instanceof IllegalTransitionError) {
+            // e.g. a customer trying to cancel an order that has already shipped.
+            return { success: false, error: error.message }
         }
+        console.error("Order cancellation error:", error)
+        return { success: false, error: "Failed to cancel order" }
     }
 }
 
 export async function canCancelOrder(orderId: string): Promise<boolean> {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) return false
 
@@ -446,7 +428,9 @@ export async function canCancelOrder(orderId: string): Promise<boolean> {
 
         if (!order) return false
 
-        return ["awaiting_shipment", "processing"].includes(order.status)
+        // `processing` was pruned from OrderStatus in 0010. The machine is the authority
+        // on what a customer may do, so this asks it rather than repeating the rule.
+        return allowedTransitionsFrom(order.status, "CUSTOMER").includes("cancelled")
     } catch (error) {
         console.error("Error checking order cancellation:", error)
         return false
@@ -455,7 +439,7 @@ export async function canCancelOrder(orderId: string): Promise<boolean> {
 
 export async function getUserOrderStats() {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return null
@@ -471,7 +455,7 @@ export async function getUserOrderStats() {
 
 export async function clearIdempotencyCache(key: string) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return { success: false, error: "Unauthorized" }
@@ -487,7 +471,7 @@ export async function clearIdempotencyCache(key: string) {
 
 export async function getCacheStats() {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (!userId) {
             return null

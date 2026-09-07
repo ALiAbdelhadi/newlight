@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { OrderStatus } from "@repo/database";
+import { OrderStatus , Prisma } from "@repo/database";
 import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
@@ -35,7 +35,9 @@ type UserWithShipping = {
   orders: {
     id: string;
     status: OrderStatus;
-    total: number;
+    // Decimal, like the column (ADR 0001) — `number` here forced a lossy conversion at the
+    // one place the value is rendered.
+    total: Prisma.Decimal;
   }[];
 };
 

@@ -31,8 +31,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatPrice, formatDate } from "@/lib/price";
-import { LABEL_MAP } from "@/lib/utils";
-import { OrderStatus, Prisma } from "@repo/database";
+import { statusLabel } from "@/lib/status";
+import { OrderStatus, Prisma , serializeMoney, type SerializedMoney , allowedTransitionsFrom } from "@repo/database";
 import { SearchIcon, X, Download, FileSpreadsheet, FileText, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -136,10 +136,7 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
   }, [orders.length, filteredOrders.length, searchItem]);
 
   const canCancelOrder = (status: OrderStatus) => {
-    return status !== "cancelled" &&
-      status !== "shipped" &&
-      status !== "delivered" &&
-      status !== "fulfilled";
+    return allowedTransitionsFrom(status, "ADMIN").includes("cancelled");
   };
 
   const handleCancelOrder = async (orderId: string) => {
@@ -185,10 +182,10 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       "Tracking Number": string | null;
       "Customer Notes": string | null;
       "Admin Notes": string | null;
-      "Subtotal": number;
-      "Tax": number | null;
-      "Shipping Cost": number;
-      "Total": number;
+      "Subtotal": SerializedMoney;
+      "Tax": SerializedMoney | null;
+      "Shipping Cost": SerializedMoney;
+      "Total": SerializedMoney;
       "Customer Name": string;
       "Customer Email": string | null;
       "Customer Phone": string | null;
@@ -205,14 +202,11 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       "Product ID": string;
       "Product Name": string;
       "Product Image": string;
-      "Product Price": number;
+      "Product Price": SerializedMoney;
       "Product Quantity": number;
       "Product Color Temp": string | null;
       "Product Color": string | null;
-      "Configuration IP Rating": string | null;
-      "Configuration Price": number | null;
-      "Configuration Price Increase": number | null;
-      "Configuration Discount": number | null;
+      "Configuration Price": SerializedMoney | null;
     }
 
     const exportData: ExportRow[] = [];
@@ -223,17 +217,17 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
           "Order ID": order.id,
           "Order Date": formatDate(order.createdAt instanceof Date ? order.createdAt.toISOString() : order.createdAt),
           "Order Updated": formatDate(order.updatedAt instanceof Date ? order.updatedAt.toISOString() : order.updatedAt),
-          "Order Status": LABEL_MAP[order.status as keyof typeof LABEL_MAP] || order.status,
+          "Order Status": statusLabel("order", order.status),
           "Shipping Option": order.shippingOption || "N/A",
           "Payment Method": order.paymentMethod || null,
           "Payment Status": order.paymentStatus || null,
           "Tracking Number": order.trackingNumber || null,
           "Customer Notes": order.customerNotes || null,
           "Admin Notes": order.adminNotes || null,
-          "Subtotal": order.subtotal,
-          "Tax": order.tax || null,
-          "Shipping Cost": order.shippingCost,
-          "Total": order.total,
+          "Subtotal": serializeMoney(order.subtotal),
+          "Tax": order.tax ? serializeMoney(order.tax) : null,
+          "Shipping Cost": serializeMoney(order.shippingCost),
+          "Total": serializeMoney(order.total),
           "Customer Name": order.shippingAddress?.fullName || "N/A",
           "Customer Email": order.user.email || order.shippingAddress?.email || null,
           "Customer Phone": order.shippingAddress?.phone || order.user.phoneNumber || "N/A",
@@ -250,14 +244,11 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
           "Product ID": item.productId,
           "Product Name": item.productName,
           "Product Image": item.productImage || "N/A",
-          "Product Price": item.price,
+          "Product Price": serializeMoney(item.price),
           "Product Quantity": item.quantity,
           "Product Color Temp": item.selectedColorTemp || null,
-          "Product Color": item.selectedColor || null,
-          "Configuration IP Rating": order.configuration?.productIp || item.configuration?.productIp || null,
-          "Configuration Price": order.configuration?.configPrice || item.configuration?.configPrice || null,
-          "Configuration Price Increase": order.configuration?.priceIncrease || item.configuration?.priceIncrease || null,
-          "Configuration Discount": order.configuration?.discount || item.configuration?.discount || null,
+          "Product Color": item.selectedColorKey || null,
+          "Configuration Price": order.configuration ? serializeMoney(order.configuration.configPrice) : null,
         });
       });
     });
@@ -303,10 +294,10 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       "Tracking Number": string | null;
       "Customer Notes": string | null;
       "Admin Notes": string | null;
-      "Subtotal": number;
-      "Tax": number | null;
-      "Shipping Cost": number;
-      "Total": number;
+      "Subtotal": SerializedMoney;
+      "Tax": SerializedMoney | null;
+      "Shipping Cost": SerializedMoney;
+      "Total": SerializedMoney;
       "Customer Name": string;
       "Customer Email": string | null;
       "Customer Phone": string | null;
@@ -323,14 +314,11 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
       "Product ID": string;
       "Product Name": string;
       "Product Image": string;
-      "Product Price": number;
+      "Product Price": SerializedMoney;
       "Product Quantity": number;
       "Product Color Temp": string | null;
       "Product Color": string | null;
-      "Configuration IP Rating": string | null;
-      "Configuration Price": number | null;
-      "Configuration Price Increase": number | null;
-      "Configuration Discount": number | null;
+      "Configuration Price": SerializedMoney | null;
     }
 
     const exportData: ExportRow[] = [];
@@ -341,17 +329,17 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
           "Order ID": order.id,
           "Order Date": formatDate(order.createdAt instanceof Date ? order.createdAt.toISOString() : order.createdAt),
           "Order Updated": formatDate(order.updatedAt instanceof Date ? order.updatedAt.toISOString() : order.updatedAt),
-          "Order Status": LABEL_MAP[order.status as keyof typeof LABEL_MAP] || order.status,
+          "Order Status": statusLabel("order", order.status),
           "Shipping Option": order.shippingOption || "N/A",
           "Payment Method": order.paymentMethod || null,
           "Payment Status": order.paymentStatus || null,
           "Tracking Number": order.trackingNumber || null,
           "Customer Notes": order.customerNotes || null,
           "Admin Notes": order.adminNotes || null,
-          "Subtotal": order.subtotal,
-          "Tax": order.tax || null,
-          "Shipping Cost": order.shippingCost,
-          "Total": order.total,
+          "Subtotal": serializeMoney(order.subtotal),
+          "Tax": order.tax ? serializeMoney(order.tax) : null,
+          "Shipping Cost": serializeMoney(order.shippingCost),
+          "Total": serializeMoney(order.total),
           "Customer Name": order.shippingAddress?.fullName || "N/A",
           "Customer Email": order.user.email || order.shippingAddress?.email || null,
           "Customer Phone": order.shippingAddress?.phone || order.user.phoneNumber || "N/A",
@@ -368,14 +356,11 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
           "Product ID": item.productId,
           "Product Name": item.productName,
           "Product Image": item.productImage || "N/A",
-          "Product Price": item.price,
+          "Product Price": serializeMoney(item.price),
           "Product Quantity": item.quantity,
           "Product Color Temp": item.selectedColorTemp || null,
-          "Product Color": item.selectedColor || null,
-          "Configuration IP Rating": order.configuration?.productIp || item.configuration?.productIp || null,
-          "Configuration Price": order.configuration?.configPrice || item.configuration?.configPrice || null,
-          "Configuration Price Increase": order.configuration?.priceIncrease || item.configuration?.priceIncrease || null,
-          "Configuration Discount": order.configuration?.discount || item.configuration?.discount || null,
+          "Product Color": item.selectedColorKey || null,
+          "Configuration Price": order.configuration ? serializeMoney(order.configuration.configPrice) : null,
         });
       });
     });
@@ -555,7 +540,6 @@ const OrdersClient: React.FC<OrdersClientProps> = ({ orders }) => {
                         {item.selectedColorTemp || "N/A"}
                       </TableCell>
                       <TableCell className="font-medium">
-                        {order.configuration?.productIp || "N/A"}
                       </TableCell>
                       <TableCell className="px-4 py-2 font-medium">
                         {formatPrice(item.price)}

@@ -1,5 +1,7 @@
 "use client"
 
+import type { SearchResult } from "@/actions/search"
+import { formatMoney } from "@repo/database"
 import { searchProducts } from "@/actions/search"
 import { Input } from "@/components/ui/input"
 import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -36,7 +38,7 @@ export function SearchSheet() {
     const [open, setOpen] = useState(false)
     const [searchQuery, setSearchQuery] = useState("")
     const [debouncedSearchTerm] = useDebounce(searchQuery, 300)
-    const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+    const [filteredProducts, setFilteredProducts] = useState<SearchResult[]>([])
     const [isSearching, setIsSearching] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
 
@@ -170,10 +172,10 @@ export function SearchSheet() {
                                                             className="block group"
                                                         >
                                                             <div className="flex items-start gap-4 px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors">
-                                                                {product.images[0] && (
+                                                                {product.images[0]?.url && (
                                                                     <div className="relative w-20 h-20 rounded-md overflow-hidden bg-muted shrink-0">
                                                                         <Image
-                                                                            src={product.images[0]}
+                                                                            src={product.images[0].url}
                                                                             alt={product.name}
                                                                             fill
                                                                             className="object-cover"
@@ -224,7 +226,7 @@ export function SearchSheet() {
                                                                 </div>
                                                                 <div className="text-right shrink-0">
                                                                     <p className="font-semibold text-foreground whitespace-nowrap">
-                                                                        {t('currency')} {product.price.toFixed(2)}
+                                                                        {formatMoney(product.price, locale)}
                                                                     </p>
                                                                 </div>
                                                             </div>

@@ -1,11 +1,12 @@
 "use server"
 
-import { OrderStatus, prisma } from "@repo/database"
+import { OrderStatus, prisma , countLowStock } from "@repo/database"
 import { unstable_cache } from "next/cache"
+import type { DashboardStats } from "@/types"
 
 
 export const getDashboardStats = unstable_cache(
-    async () => {
+    async (): Promise<DashboardStats> => {
         try {
             // Parallel queries for maximum performance
             const [
@@ -15,12 +16,13 @@ export const getDashboardStats = unstable_cache(
                 pendingReviewsCount,
                 totalProducts,
                 totalCustomers,
+                unreadContactForms,
+                untranslated,
             ] = await Promise.all([
-                // Orders with "processing" status
+                // `processing` was pruned in 0010: no production row held it and nothing
+                // assigned it. Shipped orders are what "in flight" means now.
                 prisma.order.count({
-                    where: {
-                        status: OrderStatus.processing,
-                    },
+                    where: { status: OrderStatus.shipped },
                 }),
 
                 // Orders awaiting shipment
@@ -34,16 +36,10 @@ export const getDashboardStats = unstable_cache(
                 // For now, using recent orders as "notifications"
                 prisma.order.count(),
 
-                // Products with low inventory (< 10 items) as "reviews needed"
-                // Replace with actual review model when you have one
-                prisma.product.count({
-                    where: {
-                        inventory: {
-                            lt: 10,
-                        },
-                        isActive: true,
-                    },
-                }),
+                // Low stock, from the LEDGER's derived level (§13.4). The old query read
+                // Product.inventory — a column 0011 dropped — and it asked about onHand
+                // alone, so a product with 12 on hand and 11 reserved read as healthy.
+                countLowStock(prisma, 10),
 
                 // Total active products
                 prisma.product.count({
@@ -54,6 +50,18 @@ export const getDashboardStats = unstable_cache(
 
                 // Total customers (users)
                 prisma.user.count(),
+
+                // Unread contact-form submissions (drives the sidebar badge)
+                prisma.contactForm.count({
+                    where: { isRead: false },
+                }),
+
+                // Products with no Arabic row at all. The cheap floor of the translation
+                // queue — the queue itself also counts placeholder names and missing fields,
+                // which is a scan rather than a count and does not belong in the sidebar.
+                prisma.product.count({
+                    where: { deletedAt: null, translations: { none: { locale: "ar" } } },
+                }),
             ])
 
             return {
@@ -63,6 +71,8 @@ export const getDashboardStats = unstable_cache(
                 reviews: pendingReviewsCount,
                 products: totalProducts,
                 customers: totalCustomers,
+                contacts: unreadContactForms,
+                untranslated,
             }
         } catch (error) {
             console.error("Error fetching dashboard stats:", error)
@@ -73,6 +83,8 @@ export const getDashboardStats = unstable_cache(
                 reviews: 0,
                 products: 0,
                 customers: 0,
+                contacts: 0,
+                untranslated: 0,
             }
         }
     },
@@ -113,14 +125,7 @@ export const getOrderStats = async () => {
  */
 export const getLowStockCount = async (threshold: number = 10) => {
     try {
-        return await prisma.product.count({
-            where: {
-                inventory: {
-                    lt: threshold,
-                },
-                isActive: true,
-            },
-        })
+        return await countLowStock(prisma, threshold)
     } catch (error) {
         console.error("Error fetching low stock count:", error)
         return 0

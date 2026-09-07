@@ -1,25 +1,32 @@
-import { prisma, Product as PrismaProduct } from "@repo/database"
+import { prisma, Prisma, DEFAULT_LOCATION_ID, serializeMoney, type Locale, type SerializedMoney } from "@repo/database"
+import { liveProduct, productCardInclude, productDetailInclude, productLinkedCardInclude, toCardView } from "./selectors"
 import { getLocaleOrDefault } from "../db"
 import { Product } from "@/types"
+import type { SpecificationSource } from "./shared-types"
 
-export interface ProductWithTranslations extends Omit<PrismaProduct, 'translations'> {
-    translations: Array<{
-        name: string
-        description: string | null
-        locale: string
-    }>
-    subCategory?: {
-        translations: Array<{ name: string; locale: string }>
-        category: {
-            translations: Array<{ name: string; locale: string }>
-            categoryType: string
+/**
+ * The exact row shape returned by getProduct / getProducts / searchProducts.
+ *
+ * Derived from the Prisma query instead of hand-written, so it cannot drift from
+ * what the database actually returns. The previous hand-written interface
+ * under-declared `subCategory` (optional) and omitted `specifications` from the
+ * translation rows, which is why every call site needed an `as any`.
+ */
+export type ProductWithTranslations = Prisma.ProductGetPayload<{
+    include: {
+        translations: true
+        subCategory: {
+            include: {
+                translations: true
+                category: { include: { translations: true } }
+            }
         }
     }
-}
+}>
 
 export class ProductService {
-    private static extractSpecifications(product: any, locale: string): Record<string, string | number | string[]> | null {
-        const translation = product.translations?.find((t: any) => t.locale === locale)
+    private static extractSpecifications(product: SpecificationSource, locale: string): Record<string, string | number | string[]> | null {
+        const translation = product.translations?.find((t) => t.locale === locale)
         const specs = translation?.specifications
 
         if (!specs || typeof specs !== 'object' || Array.isArray(specs)) {
@@ -103,7 +110,7 @@ export class ProductService {
             },
         })
 
-        return product as any
+        return product
     }
 
     /**
@@ -141,7 +148,7 @@ export class ProductService {
             },
         })
 
-        return products as any
+        return products
     }
 
     static async getAllProducts(locale?: string, limit?: number): Promise<Product[]> {
@@ -174,135 +181,79 @@ export class ProductService {
         const mappedProducts = products.map(product => ({
             ...product,
             specifications: this.extractSpecifications(product, resolvedLocale),
-            translations: product.translations.filter(t => t.locale === resolvedLocale) as any
+            translations: product.translations.filter((t) => t.locale === resolvedLocale)
         }))
 
-        const sorted = await this.sortAlphabetically(mappedProducts as any, resolvedLocale)
+        const sorted = await this.sortAlphabetically(mappedProducts, resolvedLocale)
         return sorted as unknown as Product[]
     }
 
-    static async getProductsByIds(productIds: string[], locale?: string): Promise<Product[]> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
+    /**
+     * Featured products for the homepage, in the order the SKUs were given.
+     *
+     * `specifications` is gone from the payload: it was a JSONB blob on the translation row
+     * that 0011 dropped, and it was never rendered on a card anyway. The include now carries
+     * images and both taxonomy levels, because these cards build their own links and slugs
+     * are per-locale (§9.2).
+     */
+    static async getProductsByIds(skus: string[], locale: Locale) {
         const products = await prisma.product.findMany({
-            where: {
-                productId: {
-                    in: productIds,
-                },
-                isActive: true,
-            },
-            include: {
-                translations: true,
-                subCategory: {
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        category: {
-                            include: {
-                                translations: {
-                                    where: { locale: resolvedLocale },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
+            where: { productId: { in: skus }, ...liveProduct },
+            include: productLinkedCardInclude(locale),
         })
 
-        const mappedProducts = products.map(product => ({
-            ...product,
-            specifications: this.extractSpecifications(product, resolvedLocale),
-            translations: product.translations.filter(t => t.locale === resolvedLocale) as any
-        }))
-
-        const orderedProducts = productIds
-            .map(id => mappedProducts.find(p => p.productId === id))
-            .filter((p): p is NonNullable<typeof p> => p !== undefined)
-
-        return orderedProducts as unknown as Product[]
+        const bySku = new Map(products.map((product) => [product.productId, product]))
+        return skus.flatMap((sku) => {
+            const product = bySku.get(sku)
+            return product ? [product] : []
+        })
     }
 
     /**
      * Check product availability
      */
+    /**
+     * Stock a customer could actually buy right now — the ONE availability read (§13.4).
+     *
+     * v1 had three independent inventory-mutation paths; this file held the second, a
+     * check-then-mutate pair (`reserveInventory` / `releaseInventory`) that decremented
+     * `Product.inventory` with no transaction and no isolation level. Both are DELETED
+     * (§8.2, §13.2) rather than ported: mutating stock now goes through
+     * packages/database/inventory.ts, which is the only writer of the ledger, and neither of
+     * them had a single caller anywhere in the app.
+     */
     static async checkAvailability(
         productId: string,
         quantity: number
-    ): Promise<{ available: boolean; inventory?: number }> {
+    ): Promise<{ available: boolean; onHand: number; reserved: number; available_qty: number }> {
         const product = await prisma.product.findUnique({
             where: { productId },
-            select: { inventory: true },
+            select: { id: true },
+        })
+        if (!product) throw new Error("PRODUCT_NOT_FOUND")
+
+        const level = await prisma.stockLevel.findUnique({
+            where: { productId_locationId: { productId: product.id, locationId: DEFAULT_LOCATION_ID } },
+            select: { onHand: true, reserved: true },
         })
 
-        if (!product) {
-            throw new Error("PRODUCT_NOT_FOUND")
-        }
-
-        return {
-            available: product.inventory >= quantity,
-            inventory: product.inventory,
-        }
-    }
-
-    static async reserveInventory(
-        productId: string,
-        quantity: number
-    ): Promise<{ success: boolean }> {
-        const product = await prisma.product.findUnique({
-            where: { productId },
-            select: { id: true, inventory: true },
-        })
-
-        if (!product) {
-            throw new Error("PRODUCT_NOT_FOUND")
-        }
-
-        if (product.inventory < quantity) {
-            throw new Error("INSUFFICIENT_INVENTORY")
-        }
-
-        await prisma.product.update({
-            where: { productId },
-            data: {
-                inventory: {
-                    decrement: quantity,
-                },
-            },
-        })
-
-        return { success: true }
-    }
-
-    static async releaseInventory(
-        productId: string,
-        quantity: number
-    ): Promise<{ success: boolean }> {
-        await prisma.product.update({
-            where: { productId },
-            data: {
-                inventory: {
-                    increment: quantity,
-                },
-            },
-        })
-
-        return { success: true }
+        const onHand = level?.onHand ?? 0
+        const reserved = level?.reserved ?? 0
+        const free = Math.max(0, onHand - reserved)
+        return { available: free >= quantity, onHand, reserved, available_qty: free }
     }
 
     /**
-     * Get product price
+     * The price, as a STRING (ADR 0001). Returning `number` was how a Decimal column got
+     * silently converted back into binary floating point at the first call site.
      */
-    static async getProductPrice(productId: string): Promise<number> {
+    static async getProductPrice(productId: string): Promise<SerializedMoney> {
         const product = await prisma.product.findUnique({
             where: { productId },
             select: { price: true },
         })
-
-        if (!product) {
-            throw new Error("PRODUCT_NOT_FOUND")
-        }
-
-        return product.price
+        if (!product) throw new Error("PRODUCT_NOT_FOUND")
+        return serializeMoney(product.price)
     }
 
     /**
@@ -318,7 +269,7 @@ export class ProductService {
     }): Promise<ProductWithTranslations[]> {
         const { query, categoryId, subCategoryId, locale = "en", skip = 0, take = 20 } = params
 
-        const where: any = {}
+        const where: Prisma.ProductWhereInput = {}
 
         if (query) {
             where.OR = [
@@ -373,133 +324,84 @@ export class ProductService {
             orderBy: { createdAt: "desc" },
         })
 
-        return products as any
+        return products
     }
 
-    static async getProductVariants(
-        productId: string,
-        locale?: string
-    ) {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-
-        const product = await prisma.product.findUnique({
-            where: { productId, isActive: true },
-            select: { baseProductId: true }
+    /**
+     * The other SKUs in this product's family — BUILD §6.
+     *
+     * v1 grouped by `baseProductId`, a SKU-shaped string with no foreign key behind it, and
+     * the storefront re-derived the grouping at runtime with a regex. v2 reads `familyId`,
+     * a real relation the transform populated from that same verified data (§1.5 confirmed
+     * zero inconsistent families across all 89), so there is no derivation and no regex.
+     */
+    static async getProductVariants(slug: string, locale: Locale) {
+        const product = await prisma.product.findFirst({
+            where: { slug, ...liveProduct },
+            select: { familyId: true },
         })
-
-        if (!product || !product.baseProductId) {
-            return []
-        }
+        if (!product?.familyId) return []
 
         const variants = await prisma.product.findMany({
-            where: {
-                baseProductId: product.baseProductId,
-                isActive: true,
-            },
-            orderBy: {
-                displayOrder: 'asc'
-            },
-            include: {
-                translations: {
-                    where: { locale: resolvedLocale }
-                }
-            }
+            where: { familyId: product.familyId, ...liveProduct },
+            orderBy: { displayOrder: "asc" },
+            include: { ...productCardInclude(locale), family: true },
         })
 
-        return variants.map(variant => ({
-            ...variant,
-            name: variant.translations[0]?.name || variant.productId,
-            colorImageMap: variant.colorImageMap as Record<string, string[]> | null,
-        })) as any
+        // Through `toCardView`, so the variant strip cannot be the one place that still ships
+        // `averageCost` to the browser — spreading the row is exactly how it got there.
+        return variants.map((variant) => ({
+            ...toCardView(variant),
+            name: variant.translations[0]?.name ?? variant.productId,
+        }))
     }
 
-    static async getProductByIdWithVariants(
-        productId: string,
-        locale?: string
-    ): Promise<Product | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-
-        const product = await prisma.product.findUnique({
-            where: {
-                productId,
-                isActive: true,
-            },
-            include: {
-                translations: true,
-                subCategory: {
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        category: {
-                            include: {
-                                translations: {
-                                    where: { locale: resolvedLocale },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
+    /**
+     * A product page, by slug (§9.3: one slug shared across locales).
+     *
+     * Returns null for a slug that does not resolve; the caller checks
+     * `taxonomy.resolveProductSlug` first when it needs to tell "gone" from "moved" and issue
+     * a 301 rather than a 404.
+     */
+    static async getProductBySlug(slug: string, locale: Locale) {
+        const product = await prisma.product.findFirst({
+            where: { slug, ...liveProduct },
+            include: productDetailInclude(locale),
         })
+        if (!product) return null
 
-        if (!product) {
-            return null
-        }
-
-        const variants = await this.getProductVariants(productId, resolvedLocale)
+        const [variants, stock] = await Promise.all([
+            this.getProductVariants(slug, locale),
+            prisma.stockLevel.findUnique({
+                where: { productId_locationId: { productId: product.id, locationId: DEFAULT_LOCATION_ID } },
+                select: { onHand: true, reserved: true },
+            }),
+        ])
 
         return {
-            ...product,
-            specifications: this.extractSpecifications(product, resolvedLocale),
-            translations: product.translations.filter(t => t.locale === resolvedLocale),
-            variants: variants,
-            colorImageMap: product.colorImageMap as Record<string, string[]> | null,
-        } as unknown as Product
+            // Drops `averageCost` and serialises `price` — see toCardView. A page that has to
+            // remember is a page that will forget.
+            ...toCardView(product),
+            // `valueNumber` is a Decimal too, and the product page hands specs straight to a
+            // client component — which React rejects outright (A82). Half a boundary is none.
+            specs: product.specs.map((spec) => ({
+                ...spec,
+                valueNumber: spec.valueNumber === null ? null : serializeMoney(spec.valueNumber),
+            })),
+            variants,
+            inStock: Math.max(0, (stock?.onHand ?? 0) - (stock?.reserved ?? 0)) > 0,
+        }
     }
 
-    static async getProductBySlugWithVariants(
-        slug: string,
-        locale?: string
-    ): Promise<Product | null> {
-        const resolvedLocale = await getLocaleOrDefault(locale)
-
-        const product = await prisma.product.findUnique({
-            where: {
-                slug,
-                isActive: true,
-            },
-            include: {
-                translations: true,
-                subCategory: {
-                    include: {
-                        translations: {
-                            where: { locale: resolvedLocale },
-                        },
-                        category: {
-                            include: {
-                                translations: {
-                                    where: { locale: resolvedLocale },
-                                },
-                            },
-                        },
-                    },
-                },
-            },
+    /** By editable SKU rather than slug — the admin links and the configure flow use this. */
+    static async getProductBySku(sku: string, locale: Locale) {
+        const product = await prisma.product.findFirst({
+            where: { productId: sku, ...liveProduct },
+            select: { slug: true },
         })
-
-        if (!product) {
-            return null
-        }
-
-        const variants = await this.getProductVariants(product.productId, resolvedLocale)
-
-        return {
-            ...product,
-            specifications: this.extractSpecifications(product, resolvedLocale),
-            translations: product.translations.filter(t => t.locale === resolvedLocale),
-            variants: variants,
-            colorImageMap: product.colorImageMap as Record<string, string[]> | null,
-        } as unknown as Product
+        return product ? this.getProductBySlug(product.slug, locale) : null
     }
 }
+
+export type ProductDetailView = NonNullable<Awaited<ReturnType<typeof ProductService.getProductBySlug>>>
+export type ProductVariantView = Awaited<ReturnType<typeof ProductService.getProductVariants>>[number]

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { prisma } from "@repo/database"
 import { NextResponse } from "next/server"
 
 export async function PATCH(request: Request) {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
         console.log("User Not authenticated");
@@ -16,7 +16,7 @@ export async function PATCH(request: Request) {
 
 
     try {
-        const { itemId, selectedColorTemp, selectedColor } = await request.json()
+        const { itemId, selectedColorTemp, selectedColorKey } = await request.json()
 
         if (!itemId) {
             return NextResponse.json(
@@ -45,8 +45,8 @@ export async function PATCH(request: Request) {
         if (selectedColorTemp !== undefined) {
             updateData.selectedColorTemp = selectedColorTemp
         }
-        if (selectedColor !== undefined) {
-            updateData.selectedColor = selectedColor
+        if (selectedColorKey !== undefined) {
+            updateData.selectedColorKey = selectedColorKey
         }
 
         const updatedItem = await prisma.cartItem.update({

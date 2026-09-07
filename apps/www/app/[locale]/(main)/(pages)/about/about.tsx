@@ -28,12 +28,12 @@ interface CategoryData {
 }
 
 const featureIcons: React.ReactNode[] = [
-    <Lightbulb className="w-8 h-8 text-accent group-hover:text-primary" key="lightbulb" />,
-    <Award className="w-8 h-8 text-accent group-hover:text-primary" key="award" />,
-    <Truck className="w-8 h-8 text-accent group-hover:text-primary" key="truck" />,
-    <Shield className="w-8 h-8 text-accent group-hover:text-primary" key="shield" />,
-    <CircleCheck className="w-8 h-8 text-accent group-hover:text-primary" key="check" />,
-    <Zap className="w-8 h-8 text-accent group-hover:text-primary" key="zap" />,
+    <Lightbulb className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="lightbulb" />,
+    <Award className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="award" />,
+    <Truck className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="truck" />,
+    <Shield className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="shield" />,
+    <CircleCheck className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="check" />,
+    <Zap className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="zap" />,
 ]
 
 export function AboutUsClient() {
@@ -46,7 +46,7 @@ export function AboutUsClient() {
     const translatedFeaturesData = t.raw("features") as FeatureData[]
     const features: Feature[] = translatedFeaturesData.map((data, index) => ({
         ...data,
-        icon: featureIcons[index] || <Lightbulb className="w-8 h-8 text-accent group-hover:text-primary" />,
+        icon: featureIcons[index] || <Lightbulb className="w-8 h-8 text-muted-foreground group-hover:text-primary" />,
     }))
 
     const categories = t.raw("categories") as CategoryData[]
@@ -153,7 +153,7 @@ export function AboutUsClient() {
                         <p className="hero-subtitle text-lg md:text-xl font-light text-muted-foreground leading-relaxed max-w-2xl mx-auto text-balance">
                             {t("heroSubtitle")}
                         </p>
-                        <div className="mt-8 h-px w-16 bg-accent group-hover:text-primary mx-auto" />
+                        <div className="mt-8 h-px w-16 bg-primary mx-auto" />
                     </div>
                 </Container>
             </section>
@@ -212,21 +212,23 @@ export function AboutUsClient() {
                                                 backgroundImage: `url('${category.image || "/placeholder.svg"}')`,
                                             }}
                                         />
-                                        <div className="absolute inset-0 bg-linear-to-t from-foreground/70 via-foreground/20 to-transparent" />
+                                        {/* Scrim and everything on it sit over a photograph, so they stay
+                                            dark-on-light in both themes rather than following the theme. */}
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/65 via-75% to-black/20" />
                                         <div className="relative z-10 h-full flex flex-col justify-end p-6">
                                             <div className="space-y-2">
-                                                <h3 className="text-3xl md:text-4xl font-serif font-light tracking-wide text-accent">
+                                                <h3 className="text-3xl md:text-4xl font-serif font-light tracking-wide text-white">
                                                     {category.title}
                                                 </h3>
-                                                <div className="h-px w-12 bg-primary-foreground/60 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" />
-                                                <p className="text-accent/70 font-light text-base tracking-wide leading-relaxed max-w-xl">
+                                                <div className="h-px w-12 bg-white/60 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" />
+                                                <p className="text-white/75 font-light text-base tracking-wide leading-relaxed max-w-xl">
                                                     {category.description}
                                                 </p>
                                             </div>
-                                            <div className="mt-6 flex items-center gap-2 text-white/70 dark:text-black opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                                                <div className="flex items-center gap-2 text-sm text-background font-light">
+                                            <div className="mt-6 flex items-center gap-2 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
+                                                <div className="flex items-center gap-2 text-sm text-white font-light">
                                                     <span>{t("exploreCategory")}</span>
-                                                    <ArrowRight className="w-4 h-4 text-background/80 rtl:rotate-180" />
+                                                    <ArrowRight className="w-4 h-4 text-white/80 rtl:rotate-180" />
                                                 </div>
                                             </div>
                                         </div>
@@ -240,21 +242,21 @@ export function AboutUsClient() {
             <section ref={visionMissionRef} className="py-16 lg:py-24">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                        <div className="flex flex-col">
-                            <div className="mb-8 text-accent group-hover:text-primary ">
-                                <Eye className="w-12 h-12 group-hover:text-primary" />
+                        <div className="flex flex-col group">
+                            <div className="mb-8 text-muted-foreground transition-colors duration-300 group-hover:text-primary">
+                                <Eye className="w-12 h-12" />
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-6">{t("visionTitle")}</h2>
                             <p className="text-lg font-light text-muted-foreground leading-relaxed">{t("visionDescription")}</p>
-                            <div className="mt-8 h-px w-16 bg-accent group-hover:text-primary" />
+                            <div className="mt-8 h-px w-16 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
                         </div>
-                        <div className="flex flex-col">
-                            <div className="mb-8 text-accent group-hover:text-primary">
-                                <Target className="w-12 h-12 group-hover:text-primary" />
+                        <div className="flex flex-col group">
+                            <div className="mb-8 text-muted-foreground transition-colors duration-300 group-hover:text-primary">
+                                <Target className="w-12 h-12" />
                             </div>
                             <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-6">{t("missionTitle")}</h2>
                             <p className="text-lg font-light text-muted-foreground leading-relaxed">{t("missionDescription")}</p>
-                            <div className="mt-8 h-px w-16 bg-accent group-hover:text-primary" />
+                            <div className="mt-8 h-px w-16 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
                         </div>
                     </div>
                 </Container>
@@ -276,7 +278,7 @@ export function AboutUsClient() {
                             </Link>
                             <Link
                                 href="/contact"
-                                className="px-8 py-4 border border-border text-foreground font-light tracking-wide transition-all duration-300 hover:bg-secondary hover:border-accent group-hover:text-primary"
+                                className="px-8 py-4 border border-border text-foreground font-light tracking-wide transition-all duration-300 hover:bg-secondary hover:border-primary"
                             >
                                 {t("ctaContact")}
                             </Link>

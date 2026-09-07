@@ -1,16 +1,14 @@
 "use server"
 
-import { auth } from "@clerk/nextjs/server"
-import { prisma } from "@repo/database"
+import { currentUserId } from "@/lib/auth"
+import { multiplyMoney, prisma } from "@repo/database"
 import { revalidatePath } from "next/cache"
-import { ProductService } from "@/lib/services/product-service"
-import { UserService } from "@/lib/services/user-service"
 
 interface SaveConfigurationArgs {
     productId: string
     quantity: number
     selectedColorTemp?: string
-    selectedColor?: string
+    selectedColorKey?: string
     configId?: string
 }
 
@@ -26,9 +24,16 @@ async function safeRevalidatePath(path: string): Promise<boolean> {
 
 export async function saveConfiguration(args: SaveConfigurationArgs) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
-        const product = await ProductService.getProduct(args.productId, "en")
+        // args.productId is the SKU the storefront routes on. A21/Q4 made
+        // ProductConfiguration.productId a REAL foreign key with a denormalised productSku
+        // beside it — in v1 the column was called productId and held a SKU, so the relation
+        // resolved for zero of the 13 production rows.
+        const product = await prisma.product.findFirst({
+            where: { productId: args.productId, isActive: true, deletedAt: null },
+            select: { id: true, productId: true, price: true },
+        })
 
         if (!product) {
             return {
@@ -37,11 +42,12 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
+        const lineTotal = multiplyMoney(product.price, args.quantity)
+
         if (userId) {
-            await UserService.getOrCreateUser(userId)
 
             if (args.configId) {
-                const existingConfig = await prisma.configuration.findFirst({
+                const existingConfig = await prisma.productConfiguration.findFirst({
                     where: {
                         id: args.configId,
                         users: {
@@ -51,16 +57,13 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                 })
 
                 if (existingConfig) {
-                    const updatedConfig = await prisma.configuration.update({
+                    const updatedConfig = await prisma.productConfiguration.update({
                         where: { id: args.configId },
                         data: {
-                            value: JSON.stringify({
-                                productId: args.productId,
-                                selectedColorTemp: args.selectedColorTemp,
-                                selectedColor: args.selectedColor,
-                            }),
                             quantity: args.quantity,
-                            totalPrice: product.price * args.quantity,
+                            totalPrice: lineTotal,
+                            selectedColorTemp: args.selectedColorTemp,
+                            selectedColorKey: args.selectedColorKey,
                         },
                     })
 
@@ -75,24 +78,16 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                 }
             }
 
-            const configuration = await prisma.configuration.create({
+            const configuration = await prisma.productConfiguration.create({
                 data: {
-                    key: `config_${Date.now()}_${Math.random().toString(36).substring(7)}`,
-                    value: JSON.stringify({
-                        productId: args.productId,
-                        selectedColorTemp: args.selectedColorTemp,
-                        selectedColor: args.selectedColor,
-                    }),
-                    productId: args.productId,
+                    productId: product.id,
+                    productSku: product.productId,
                     configPrice: product.price,
-                    priceIncrease: 0,
-                    shippingPrice: 0,
-                    discount: 0,
                     quantity: args.quantity,
-                    totalPrice: product.price * args.quantity,
+                    totalPrice: lineTotal,
                     currency: "EGP",
                     selectedColorTemp: args.selectedColorTemp,
-                    selectedColor: args.selectedColor,
+                    selectedColorKey: args.selectedColorKey,
                     users: {
                         connect: { id: userId },
                     },
@@ -109,24 +104,16 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        const configuration = await prisma.configuration.create({
+        const configuration = await prisma.productConfiguration.create({
             data: {
-                key: `config_${Date.now()}_${Math.random().toString(36).substring(7)}`,
-                value: JSON.stringify({
-                    productId: args.productId,
-                    selectedColorTemp: args.selectedColorTemp,
-                    selectedColor: args.selectedColor,
-                }),
-                productId: args.productId,
+                productId: product.id,
+                productSku: product.productId,
                 configPrice: product.price,
-                priceIncrease: 0,
-                shippingPrice: 0,
-                discount: 0,
                 quantity: args.quantity,
-                totalPrice: product.price * args.quantity,
+                totalPrice: lineTotal,
                 currency: "EGP",
                 selectedColorTemp: args.selectedColorTemp,
-                selectedColor: args.selectedColor,
+                selectedColorKey: args.selectedColorKey,
             },
         })
 
@@ -151,10 +138,10 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
 
 export async function getConfiguration(configId: string) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (userId) {
-            const configuration = await prisma.configuration.findFirst({
+            const configuration = await prisma.productConfiguration.findFirst({
                 where: {
                     id: configId,
                     users: {
@@ -166,24 +153,15 @@ export async function getConfiguration(configId: string) {
                 },
             })
 
+            // The `value` JSON blob is gone (0010). It duplicated selectedColorTemp and
+            // selectedColorKey, which are real columns — and it was read FIRST, so a stale
+            // copy could override the column it was copied from.
             if (configuration) {
-                let configValue
-                try {
-                    configValue = JSON.parse(configuration.value)
-                } catch (e) {
-                    console.error("Failed to parse configuration value:", e)
-                    configValue = {}
-                }
-
-                return {
-                    ...configuration,
-                    selectedColorTemp: configValue.selectedColorTemp || configuration.selectedColorTemp,
-                    selectedColor: configValue.selectedColor || configuration.selectedColor,
-                }
+                return configuration
             }
         }
 
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
                 users: true,
@@ -194,18 +172,7 @@ export async function getConfiguration(configId: string) {
             return null
         }
 
-        let configValue
-        try {
-            configValue = JSON.parse(configuration.value)
-        } catch (e) {
-            configValue = {}
-        }
-
-        return {
-            ...configuration,
-            selectedColorTemp: configValue.selectedColorTemp || configuration.selectedColorTemp,
-            selectedColor: configValue.selectedColor || configuration.selectedColor,
-        }
+        return configuration
 
     } catch (error) {
         console.error("Failed to get configuration:", error)
@@ -221,7 +188,7 @@ export async function updateConfigurationQuantity({
     quantity: number
 }) {
     try {
-        const { userId } = await auth()
+        const userId = await currentUserId()
 
         if (quantity < 1) {
             return {
@@ -231,7 +198,7 @@ export async function updateConfigurationQuantity({
         }
 
         if (userId) {
-            const config = await prisma.configuration.findFirst({
+            const config = await prisma.productConfiguration.findFirst({
                 where: {
                     id: configId,
                     users: {
@@ -244,9 +211,9 @@ export async function updateConfigurationQuantity({
             })
 
             if (config) {
-                const newTotalPrice = config.configPrice * quantity - config.discount
+                const newTotalPrice = multiplyMoney(config.configPrice, quantity)
 
-                const updatedConfig = await prisma.configuration.update({
+                const updatedConfig = await prisma.productConfiguration.update({
                     where: { id: configId },
                     data: {
                         quantity,
@@ -264,7 +231,7 @@ export async function updateConfigurationQuantity({
             }
         }
 
-        const config = await prisma.configuration.findUnique({
+        const config = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
                 users: true,
@@ -278,9 +245,9 @@ export async function updateConfigurationQuantity({
             }
         }
 
-        const newTotalPrice = config.configPrice * quantity - config.discount
+        const newTotalPrice = multiplyMoney(config.configPrice, quantity)
 
-        const updatedConfig = await prisma.configuration.update({
+        const updatedConfig = await prisma.productConfiguration.update({
             where: { id: configId },
             data: {
                 quantity,
@@ -308,7 +275,7 @@ export async function updateConfigurationQuantity({
 
 export async function associateConfigurationWithUser(configId: string, userId: string) {
     try {
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: { users: true },
         })
@@ -327,9 +294,8 @@ export async function associateConfigurationWithUser(configId: string, userId: s
             }
         }
 
-        await UserService.getOrCreateUser(userId)
 
-        await prisma.configuration.update({
+        await prisma.productConfiguration.update({
             where: { id: configId },
             data: {
                 users: {

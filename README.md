@@ -1,135 +1,84 @@
-# Turborepo starter
+# NewLight
 
-This Turborepo starter is maintained by the Turborepo core team.
-
-## Using this example
-
-Run the following command:
-
-```sh
-npx create-turbo@latest
-```
-
-## What's inside?
-
-This Turborepo includes the following packages/apps:
-
-### Apps and Packages
-
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
-
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
-
-### Utilities
-
-This Turborepo has some additional tools already setup for you:
-
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
-
-### Build
-
-To build all apps and packages, run the following command:
+A lighting catalogue and store for the Egyptian market, in Arabic and English, with an internal
+admin panel behind it. Turborepo, pnpm workspaces, Next.js 16, Prisma against Neon Postgres.
 
 ```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
+apps/
+  www      the storefront — public, bilingual (en/ar, RTL), cart, checkout, orders
+  admin    the admin panel — private, English-only by design
+packages/
+  database @repo/database — Prisma schema, the migration chain, and the domain boundaries
+           both apps must agree on (money, locale, translation, slug, inventory)
+  mail     @repo/mail — transactional email through a transactional outbox
+  eslint-config · typescript-config
 ```
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+## Getting it running
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+Requires Node 22+, pnpm 10.31, and a PostgreSQL you can create and drop databases on.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
+```bash
+pnpm install
+pnpm dev                 # www on :3000, admin on :3001
 ```
 
-### Develop
+Each app reads `.env.local`; `packages/database` has its own, because Prisma's CLI only reads
+`.env` and every database command goes through `scripts/with-env.mjs` to load the right one.
 
-To develop all apps and packages, run the following command:
+## The commands that matter
 
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
+```bash
+pnpm check-types         # task-count guard + the ratcheting error budget
+pnpm lint
+TEST_DATABASE_URL=postgresql://$USER@localhost:5432/postgres pnpm test
 ```
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+`pnpm check-types` is not `tsc`. It asserts that the type check actually ran in all four
+packages and that each is within its error ceiling — a ceiling that may only ever decrease. A
+task that runs nowhere exits 0 and verifies nothing, which is the failure this guards against.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+Tests give each test **file** its own disposable database and apply the real migration chain to
+it — not `db push`, which would test a schema no deployment produces.
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+All three run on every push and pull request: `.github/workflows/verify.yml`.
 
-### Remote Caching
+## The database
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
+```bash
+cd packages/database
+pnpm db:generate                # after any schema change
+pnpm db:migrate                 # create a migration
+pnpm db:status
+SHADOW_DATABASE_URL=… pnpm db:verify-chain   # replaying the chain reproduces schema.prisma
 ```
 
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
+`db:verify-chain` is the one to know about: it replays all fourteen migrations into a throwaway
+database, diffs the result against `schema.prisma`, and asserts the four CHECK constraints
+Prisma cannot express and `migrate diff` cannot see. CI runs it.
 
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
+**Production is read-only** until the cutover, and `with-env.mjs` enforces that rather than
+trusting anyone to remember: a write-capable command aimed at the production endpoint refuses
+to run.
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
+## Things that are true here and surprise people
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
+- **Money is never a `number`.** `Decimal` in the database, `packages/database/money.ts` is the
+  only thing that touches one, and it crosses into a Client Component as a **string** — React
+  cannot serialise a Decimal at all.
+- **Slugs are per-locale**, on the translation rows. Products keep one slug across both.
+- **Stock is an append-only ledger.** `StockMovement` is the truth and `StockLevel` is derived;
+  `inventory.ts` is the only writer, including for the migration.
+- **Order status is a state machine** with an explicit table of legal transitions and who may
+  make them. Payment settles in exactly one place.
+- **Translations are never silently filled in.** A missing Arabic name is reported as missing,
+  not quietly replaced with the English.
 
-## Useful Links
+## Where the reasoning is written down
 
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+- `docs/adr/` — the eight decisions that shaped the rest
+- `docs/schema-v2-amendments.md` — every amendment to the plan, numbered, with why
+- `docs/cutover-runbook.md` — the production cutover, step by step, rehearsable with
+  `pnpm --filter @repo/database cutover:rehearse`
+- `docs/gaps-audit.md` — what is still missing
+- `CLAUDE.md` — conventions, in the form the tooling reads

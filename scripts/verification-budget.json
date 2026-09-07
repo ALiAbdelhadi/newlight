@@ -1,0 +1,85 @@
+{
+  "$comment": [
+    "Per-package ceiling on `tsc --noEmit` errors.",
+    "",
+    "The v2 schema lands in P1 but the apps are adapted in P3 (www) and P5 (admin),",
+    "so BUILD §0.2's 'check-types must pass' cannot hold for the apps during P1-P2.",
+    "Rather than disable the gate — the failure P0 existed to fix — each package gets",
+    "a ceiling. A regression fails the build exactly like a red gate; planned, phased",
+    "repair does not.",
+    "",
+    "A ceiling normally only DECREASES. It may rise only when the SCHEMA legitimately",
+    "removes more than it did before, which mechanically increases the number of app call",
+    "sites that no longer compile. Every such rise is recorded in `history` below with its",
+    "cause. A rise with no entry there is the mechanism failing, and should be treated as",
+    "one — the whole point of the ratchet is that moving it backwards is conspicuous."
+  ],
+  "budgets": {
+    "@repo/database": {
+      "max": 0,
+      "note": "green from P1 onward; the schema owner has no excuse"
+    },
+    "www": {
+      "max": 0,
+      "note": "green from P3 exit; the storefront is fully adapted to v2"
+    },
+    "admin": {
+      "max": 0,
+      "note": "green from P5 exit; every package is now at zero"
+    },
+    "@repo/mail": {
+      "max": 0,
+      "note": "new in P2; green from the day it lands"
+    }
+  },
+  "history": [
+    {
+      "date": "2026-09-06",
+      "change": "www 140 -> 138, admin 100",
+      "direction": "set",
+      "why": "Initial ceilings, measured immediately after the v2 schema landed. www fell to 138 when apps/www/lib/surface-color.ts was deleted (§22)."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "www 138 -> 140, admin 100 -> 108",
+      "direction": "RAISED",
+      "why": "Amendment A21. BUILD §3 drops ProductConfiguration.priceIncrease / shippingPrice / discount and renames the model; the first pass dropped only the key/description/isPublic/lampPriceIncrease group and kept the name. Correcting toward the spec removes three more columns and renames a table, so more app call sites stop compiling. Confirmed to be exactly that: every new error is a reference to one of the three dropped columns, to Configuration.productIp, or to an OrderStatus value pruned in 0010. All are P3/P5 adaptation work, none is a regression in code this phase wrote."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "www 140 -> 111",
+      "direction": "lowered",
+      "why": "The §2.2 search rewrite. apps/www/actions/search.ts now filters through ProductSpec instead of the eight dropped Product columns, reads images from ProductImage, and serialises price as a string. 29 errors cleared."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "www 111 -> 112, admin 108 -> 110; @repo/mail added at 0",
+      "direction": "RAISED",
+      "why": "P2. Removing Clerk changed the shape of ~30 call sites, and the two apps now read user identity from their own database rather than from a provider — which surfaces v1-column references those files already had (product.inventory, product.images, OrderItem.selectedColor, ProductConfiguration.discount). Verified file-by-file: every error is a v2-adaptation site owned by P3 or P5, and NO file P2 authored or rewrote has any error."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "www 112 -> 0",
+      "direction": "lowered",
+      "why": "P3 storefront adaptation. Service layer rewritten against v2 (translation slugs, ProductImage, ProductSpec, ProductFamily, the stock ledger), the category route tree restructured onto per-locale slugs, every price routed through the money boundary, and every `as unknown as` cast on a Prisma result removed in favour of a derived payload type. www reaches its §26 P3 exit criterion."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "admin 110 -> 99",
+      "direction": "lowered",
+      "why": "P3's shared work cleared 11 admin errors as a side effect - chiefly folding apps/admin/lib/price.ts into @repo/database/money (BUILD 4), which alone accounts for 12 of them (restoring the old formatter measures 111). A ceiling of 98 was briefly set from a mid-phase measurement taken before the last shared edits and never held; 99 is the settled figure. P5 still owns the rest."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "admin 99 -> 97",
+      "direction": "lowered",
+      "why": "P3b. Replacing the admin's third inventory-mutation path with the shared state machine, and routing its low-stock reads through countLowStock, cleared two more. Caught by the budget script, which fails when a package drops below its ceiling."
+    },
+    {
+      "date": "2026-09-06",
+      "change": "admin 97 -> 0",
+      "direction": "lowered",
+      "why": "P5. The admin app is fully adapted to v2: ProductConfiguration, per-locale slugs, ProductImage, the stock ledger, the pruned OrderStatus, and every money value through the Decimal boundary. Every package is now at zero and `check-types` and `check-types:full` are equivalent, which is what BUILD §0.2 asked for from the start."
+    }
+  ]
+}

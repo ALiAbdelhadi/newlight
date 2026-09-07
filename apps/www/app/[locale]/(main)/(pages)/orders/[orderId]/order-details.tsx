@@ -1,5 +1,6 @@
 "use client"
 
+import { isZeroMoney } from "@repo/database"
 import { Container } from "@/components/container"
 import { OrderItemsList } from "@/components/order-items-list"
 import { OrderShippingInfo } from "@/components/order-shipping-info"
@@ -191,7 +192,7 @@ export function OrderDetailsView({
                                         <span className="text-muted-foreground">{t.subtotal}</span>
                                         <span className="font-medium">{formatNumberWithConversion(order.subtotal, locale)}</span>
                                     </div>
-                                    {order.tax && order.tax > 0 && (
+                                    {order.tax && !isZeroMoney(order.tax) && (
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.tax}</span>
                                             <span className="font-medium">{formatNumberWithConversion(order.tax, locale)}</span>
@@ -200,7 +201,7 @@ export function OrderDetailsView({
                                     <div className="flex justify-between text-sm">
                                         <span className="text-muted-foreground">{t.shipping}</span>
                                         <span className="font-medium">
-                                            {order.shippingCost > 0 ? formatNumberWithConversion(order.shippingCost, locale) : (isArabic ? "مجاني" : "Free")}
+                                            {!isZeroMoney(order.shippingCost) ? formatNumberWithConversion(order.shippingCost, locale) : (isArabic ? "مجاني" : "Free")}
                                         </span>
                                     </div>
                                     <Separator />

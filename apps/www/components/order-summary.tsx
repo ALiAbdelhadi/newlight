@@ -1,5 +1,7 @@
 "use client"
 
+import { formatMoney } from "@repo/database"
+import { useLocale } from "next-intl"
 import { OrderSummaryProps } from "@/types"
 import Image from "next/image"
 
@@ -9,6 +11,7 @@ export function OrderSummary({
     configuration,
     translations: t
 }: OrderSummaryProps) {
+    const locale = useLocale()
     return (
         <div className="bg-secondary/30 rounded-lg p-6 border border-border sticky top-24">
             <h2 className="text-xl font-serif font-light mb-4">
@@ -18,7 +21,7 @@ export function OrderSummary({
                 <div className="relative w-24 h-24 bg-muted rounded-lg overflow-hidden shrink-0">
                     {product.images.length > 0 ? (
                         <Image
-                            src={product.images[0]}
+                            src={product.images[0]!.url}
                             alt={productName}
                             fill
                             className="object-cover"
@@ -36,7 +39,7 @@ export function OrderSummary({
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t.subtotal}</span>
                     <span>
-                        {configuration.totalPrice.toLocaleString()} {t.currency}
+                        {formatMoney(configuration.totalPrice, locale)}
                     </span>
                 </div>
                 <div className="flex justify-between text-sm">

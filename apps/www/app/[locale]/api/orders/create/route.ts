@@ -1,13 +1,14 @@
+import { requestOrderCancellation } from "@/actions/order"
 import { logger } from "@/lib/logger"
 import { OrderService } from "@/lib/services/order-service"
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { NextResponse } from "next/server"
 
 export async function PATCH(
     request: Request,
     { params }: { params: Promise<{ locale: string }> }
 ) {
-    const { userId } = await auth()
+    const userId = await currentUserId()
 
     if (!userId) {
         logger.warn({ action: 'cancel_order' }, 'Unauthenticated attempt')
@@ -31,7 +32,8 @@ export async function PATCH(
 
         logger.info({ action: 'cancel_order' }, 'Cancellation initiated')
 
-        const result = await OrderService.cancelOrder(orderId, userId)
+        // Through the machine, like every other transition (ADR 0005).
+        const result = await requestOrderCancellation(orderId)
 
         if (!result.success) {
             logger.warn({

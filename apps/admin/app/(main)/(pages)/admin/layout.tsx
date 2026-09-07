@@ -1,49 +1,40 @@
-import { SidebarWrapper } from "@/components/sidebar-wrapper";
-import { Skeleton } from "@/components/ui/skeleton";
-import { ReactNode, Suspense } from "react";
+import { ReactNode } from "react";
 
-interface DashboardStats {
-    orders: number
-    shipping: number
-    notifications: number
-    reviews: number
-    products: number
-    customers: number
+import { getDashboardStats } from "@/app/action/dashboard-actions";
+import { getCurrentUserInfo } from "@/app/action/user-actions";
+import { AdminShell } from "@/components/shell/admin-shell";
+
+/**
+ * A layout receives `children` and route params — never a `stats` prop. Declaring one made the
+ * component fail Next's own LayoutProps constraint, which is exactly the class of error
+ * `ignoreBuildErrors: true` was hiding before P0 turned it off.
+ */
+interface AdminLayoutProps {
+    children: ReactNode
 }
 
-interface DashboardClientProps {
-    stats: DashboardStats
-    children: ReactNode,
-}
-function SidebarSkeleton() {
+/**
+ * Deliberately NOT wrapped in Suspense.
+ *
+ * The first version put the shell behind a Suspense boundary whose fallback also rendered
+ * `children`, so `children` appeared in both the fallback tree and the resolved tree. The
+ * page mounted twice: `/admin/products` reported 100 rows for a 50-row page and ran its
+ * database query twice on every load. A fallback that contains the same children it is
+ * falling back for is not a fallback, it is a second copy.
+ *
+ * Awaiting is the right shape here anyway. `getDashboardStats` is wrapped in
+ * `unstable_cache`, so it is a cache read on all but the first request, and the navigation
+ * cannot render meaningfully without the counters it puts in the sidebar.
+ */
+export default async function AdminLayout({ children }: AdminLayoutProps) {
+    const [stats, userInfo] = await Promise.all([getDashboardStats(), getCurrentUserInfo()])
+
     return (
-        <div className="fixed left-0 top-0 z-40 h-screen w-[280px] bg-background/95 backdrop-blur-md border-r border-border/30">
-            <div className="p-6 border-b border-border/30">
-                <div className="flex items-center gap-3">
-                    <Skeleton className="w-9 h-9 rounded-xl" />
-                    <div className="space-y-2">
-                        <Skeleton className="h-4 w-24" />
-                        <Skeleton className="h-3 w-32" />
-                    </div>
-                </div>
-            </div>
-            <div className="p-4 space-y-2">
-                {[...Array(8)].map((_, i) => (
-                    <Skeleton key={i} className="h-10 w-full rounded-xl" />
-                ))}
-            </div>
-        </div>
-    )
-}
-export default function AdminLayout({ children }: DashboardClientProps) {
-    return (
-        <>
-            <Suspense fallback={<SidebarSkeleton />}>
-                <SidebarWrapper />
-            </Suspense>
-            <div>
-                {children}
-            </div>
-        </>
+        <AdminShell
+            stats={stats}
+            user={userInfo ? { name: userInfo.name, email: userInfo.email } : null}
+        >
+            {children}
+        </AdminShell>
     )
 }

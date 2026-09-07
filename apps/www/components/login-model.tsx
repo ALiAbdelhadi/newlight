@@ -9,7 +9,8 @@ import {
     DialogHeader,
     DialogTitle,
 } from "@/components/ui/dialog"
-import { SignInButton, SignUpButton } from "@clerk/nextjs"
+import Link from "next/link"
+import { useLocale } from "next-intl"
 import { LogIn, UserPlus } from "lucide-react"
 
 interface LoginDialogProps {
@@ -25,6 +26,7 @@ interface LoginDialogProps {
 }
 
 export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogProps) {
+    const locale = useLocale()
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
@@ -37,7 +39,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter className="flex-col sm:flex-col gap-3 pt-4">
-                    <SignInButton mode="modal">
+                    <Link href={`/${locale}/sign-in`}>
                         <Button
                             className="w-full h-12 text-base uppercase tracking-[0.2em]"
                             size="lg"
@@ -45,7 +47,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                             <LogIn className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
                             {t.signIn}
                         </Button>
-                    </SignInButton>
+                    </Link>
                     <div className="relative">
                         <div className="absolute inset-0 flex items-center">
                             <span className="w-full border-t border-border" />
@@ -56,7 +58,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                             </span>
                         </div>
                     </div>
-                    <SignUpButton mode="modal">
+                    <Link href={`/${locale}/sign-up`}>
                         <Button
                             variant="outline"
                             className="w-full h-12 text-base uppercase tracking-[0.2em]"
@@ -65,7 +67,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                             <UserPlus className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
                             {t.signUp}
                         </Button>
-                    </SignUpButton>
+                    </Link>
                 </DialogFooter>
             </DialogContent>
         </Dialog>

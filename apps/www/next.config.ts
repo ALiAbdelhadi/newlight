@@ -22,6 +22,25 @@ const withPWA = require("next-pwa")({
 });
 
 const nextConfig: NextConfig = {
+  /**
+   * `/catalog` rendered the single word "Catalog" and was linked from nowhere. `/category` is
+   * the catalogue, under the name the rest of the site uses.
+   *
+   * Done here rather than with `redirect()` in a page, because a page-level redirect rendered
+   * the destination WITHOUT changing the URL — two URLs serving one page, which is the
+   * duplicate content a redirect exists to avoid. A config redirect answers 308 before routing
+   * happens at all.
+   *
+   * `/faqs` was the same kind of stub and is simply gone: there is no equivalent page to send
+   * anyone to, and writing questions and answers on the owner's behalf would be worse than a
+   * 404.
+   */
+  async redirects() {
+    return [
+      { source: '/:locale(en|ar)/catalog', destination: '/:locale/category', permanent: true },
+      { source: '/catalog', destination: '/category', permanent: true },
+    ]
+  },
   async headers() {
     return [
       {
@@ -41,7 +60,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://img.clerk.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; frame-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; worker-src 'self' blob:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'self'; worker-src 'self' blob:;",
           },
           {
             key: 'Strict-Transport-Security',
@@ -86,11 +105,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "res.cloudinary.com",
       },
       {
         protocol: "https",
-        hostname: "img.clerk.com",
+        hostname: "images.unsplash.com",
       },
       {
         protocol: "https",

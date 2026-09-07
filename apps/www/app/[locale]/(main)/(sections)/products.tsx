@@ -1,22 +1,34 @@
 "use client"
 
+import { encodeSlug, type SerializedMoney } from "@repo/database"
 import { Container } from "@/components/container";
 import { ProductCard } from "@/components/product-card";
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from 'next-intl';
 
-import { Product } from "@/types";
-
 interface ProductsProps {
-    products: Product[];
+    products: UIProduct[];
 }
 
-interface UIProduct {
+/**
+ * A view model, built on the SERVER.
+ *
+ * This component used to take raw Prisma rows and call `serializeMoney(product.price)` here,
+ * which is the money boundary enforced on the wrong side of itself: a `Decimal` cannot cross
+ * into a Client Component at all, and React said so 231 times in the console — "Only plain
+ * objects can be passed to Client Components from Server Components. Decimal objects are not
+ * supported". Whatever arrived was no longer a Decimal, so serialising it here was serialising
+ * the wreckage.
+ *
+ * Money is a string by the time it gets here (§4, ADR 0001), because the server made it one.
+ */
+export interface UIProduct {
     id: string;
     image: string;
     title: string;
     category: string;
-    price: number;
+    price: SerializedMoney;
+    slug: string;
     badge?: string;
     productId: string;
     categorySlug: string;
@@ -26,30 +38,7 @@ interface UIProduct {
 export function Products({ products }: ProductsProps) {
     const t = useTranslations('products-section');
 
-    const handleProductClick = (productId: string) => {
-        console.log(`Clicked product: ${productId}`)
-    }
-
-    const mappedProducts: UIProduct[] = products.map(product => {
-        const productTranslation = product.translations[0]
-        const subCategoryTranslation = product.subCategory.translations[0]
-        const productName = productTranslation?.name || product.productId
-        const categoryName = subCategoryTranslation?.name || product.subCategory.slug
-        const productImage = product.images[0] || "/lighting-product.jpg"
-
-        return {
-            id: product.id,
-            image: productImage,
-            title: productName,
-            category: categoryName,
-            price: product.price,
-            badge: product.isFeatured ? "Featured" : undefined,
-            productId: product.productId,
-            categorySlug: product.subCategory.category.slug,
-            subCategorySlug: product.subCategory.slug,
-        }
-    });
-
+    const mappedProducts = products
 
     return (
         <div className="min-h-screen text-foreground">
@@ -79,13 +68,10 @@ export function Products({ products }: ProductsProps) {
                                 {mappedProducts.map((product) => (
                                     <Link
                                         key={product.id}
-                                        href={`/category/${product.categorySlug}/${product.subCategorySlug}/${product.productId}`}
+                                        href={`/category/${encodeSlug(product.categorySlug)}/${encodeSlug(product.subCategorySlug)}/${encodeSlug(product.slug)}`}
                                         className="block"
                                     >
-                                        <ProductCard
-                                            {...product}
-                                            onClick={() => handleProductClick(product.id)}
-                                        />
+                                        <ProductCard {...product} />
                                     </Link>
                                 ))}
                             </div>

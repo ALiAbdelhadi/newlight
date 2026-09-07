@@ -23,10 +23,13 @@ export interface CollectionCard {
     }[];
 }
 
-type TranslationFunction = (key: string, params?: any) => string;
+type TranslationParams = Record<string, string | number | Date>;
+
+type TranslationFunction = (key: string, params?: TranslationParams) => string;
 type TranslationObject = {
-    (key: string, params?: any): string;
-    raw: (key: string) => any;
+    (key: string, params?: TranslationParams): string;
+    /** next-intl's escape hatch for structured message values. */
+    raw: (key: string) => unknown;
 };
 
 export const getCollectionCards = (t: TranslationFunction | TranslationObject): CollectionCard[] => {

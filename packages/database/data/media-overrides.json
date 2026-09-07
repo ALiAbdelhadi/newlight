@@ -1,0 +1,111 @@
+{
+  "$comment": [
+    "Version 3. Supersedes v2, which withdrew two entries on a misreading; the evidence for",
+    "restoring them is recorded per entry below.",
+    "",
+    "TWO STRUCTURAL FINDINGS behind this file:",
+    "",
+    "1. apps/admin/public/products is NOT a stale duplicate of apps/www/public/products.",
+    "   It holds files that exist nowhere else — all five nl-blade images among them — and",
+    "   for nl-w-l-5 it holds the FULL-SIZE originals while www holds two downscaled copies",
+    "   (520x557 and 788x1047 against 1100x1556). So the walker resolves against the UNION",
+    "   of both trees, exact match first, override only as a fallback. This supersedes the",
+    "   BUILD §3 locked decision 'delete the admin duplicates': deleting that tree destroys",
+    "   the only copy of files the catalog references. Deletion may happen only after",
+    "   Cloudinary holds the union, verified per file.",
+    "",
+    "2. Extension metadata is unreliable. 20 files across the two trees have an extension",
+    "   their magic bytes contradict (14 .png that are JPEG, 6 .png that are WebP). Cloudinary",
+    "   public IDs derive from the path; CONTENT TYPE DERIVES FROM SNIFFING THE BYTES.",
+    "",
+    "This is a MANIFEST override, not an edit to a source catalog value, so §0.5 holds.",
+    "scripts/audit-media.ts prints every applied override and every union hit taken from the",
+    "admin tree. Nothing is ever applied silently.",
+    "",
+    "Paths are relative to <tree>/public."
+  ],
+  "version": 3,
+  "resolutionOrder": [
+    "apps/www/public   — exact path match",
+    "apps/admin/public — exact path match",
+    "overrides below   — explicit remap"
+  ],
+  "confidenceLevels": {
+    "mechanical": "Same directory, same basename, same index; the counterpart is unique. No judgement involved.",
+    "needs-review": "Structurally unambiguous but involves assigning photographs to a product. Ali should eyeball it before cutover; it is printed separately in the media report."
+  },
+  "overrides": [
+    {
+      "from": "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).jpg",
+      "to": "/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).png",
+      "product": "nl-t501-20w",
+      "imageIndex": 3,
+      "class": "extension-drift",
+      "confidence": "mechanical",
+      "why": "The DB extension is the honest one: `file` reports the on-disk .png as JPEG data. Present identically in both trees. Cloudinary sniffs content, so only the lookup needs remapping."
+    },
+    {
+      "from": "/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (3).jpg",
+      "to": "/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (3).png",
+      "product": "nl-t501c-20w",
+      "imageIndex": 3,
+      "class": "extension-drift",
+      "confidence": "mechanical",
+      "why": "Identical to nl-t501-20w. This SKU's entire image set is byte-identical to nl-t501-20w's (sha256 verified) — the C variant reuses the same photography."
+    },
+    {
+      "from": "/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (3).png",
+      "to": "/products/indoor/magnetic/nl-t503-9w/nl-t506-9w (3).png",
+      "product": "nl-t503-9w",
+      "imageIndex": 3,
+      "class": "filename-drift",
+      "confidence": "mechanical",
+      "why": "It is the only remaining file in nl-t503-9w/, and it is NOT a stray copy of nl-t506-9w's image: sha256 7d670c7e… against fe73530f… for nl-t506-9w/nl-t506-9w (3).png. So it is t503's own photograph filed under a mistyped name."
+    },
+    {
+      "from": "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (5).webp",
+      "to": "/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (5).png",
+      "product": "nl-w-l-5",
+      "imageIndex": 5,
+      "class": "extension-drift",
+      "confidence": "mechanical",
+      "why": "RESTORED after v2 withdrew it. The withdrawal was right about indices 1-4 and wrong about 5. Indices 1-4 exist as real .webp in the admin tree and MUST win by exact match — remapping them to www's .png would have substituted two downscaled images (520x557 and 788x1047). Index 5 has no .webp anywhere; www's .png is 1100x1556, the exact dimensions of the admin .webp set, so it is the same shoot at the same resolution and the webp conversion simply stopped at four."
+    },
+    {
+      "from": "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (1).png",
+      "to": "/products/outdoor/stairs-light/nl-stairs-light-2/nl-stairs-light (1).png",
+      "product": "nl-s-l-2-5*7-cm",
+      "imageIndex": 1,
+      "class": "directory-drift",
+      "confidence": "needs-review",
+      "why": "RESTORED after v2 withdrew it. The source directory nl-stairs-light/ exists in NEITHER tree. www's nl-stairs-light-2/ holds exactly four files named nl-stairs-light (1).png … (4).png — the only such set anywhere (nl-stairs-light-1/ has 1-3, nl-stairs-light-3/ has 1-2) — matching this product's four references by basename and index, and referenced by no other product. v2 withdrew this fearing the files are 7*7-cm's; they are not. 7*7-cm resolves independently and exactly to admin's nl-stairs-light-2/nl-blade (1-5).webp, so nothing is being taken from it. The two sets do depict the same white louvered fixture, which is expected of two dimension variants of one product, and the www set is visibly wider than tall against the square 7*7 — consistent with 5x7 against 7x7. Ali should confirm the photographs before cutover; the alternative is a blank product page."
+    },
+    {
+      "from": "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (2).png",
+      "to": "/products/outdoor/stairs-light/nl-stairs-light-2/nl-stairs-light (2).png",
+      "product": "nl-s-l-2-5*7-cm",
+      "imageIndex": 2,
+      "class": "directory-drift",
+      "confidence": "needs-review",
+      "why": "Same directory remap as index 1."
+    },
+    {
+      "from": "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (3).png",
+      "to": "/products/outdoor/stairs-light/nl-stairs-light-2/nl-stairs-light (3).png",
+      "product": "nl-s-l-2-5*7-cm",
+      "imageIndex": 3,
+      "class": "directory-drift",
+      "confidence": "needs-review",
+      "why": "Same directory remap as index 1."
+    },
+    {
+      "from": "/products/outdoor/stairs-light/nl-stairs-light/nl-stairs-light (4).png",
+      "to": "/products/outdoor/stairs-light/nl-stairs-light-2/nl-stairs-light (4).png",
+      "product": "nl-s-l-2-5*7-cm",
+      "imageIndex": 4,
+      "class": "directory-drift",
+      "confidence": "needs-review",
+      "why": "Same directory remap as index 1."
+    }
+  ]
+}

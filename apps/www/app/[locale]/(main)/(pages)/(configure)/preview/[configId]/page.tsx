@@ -1,3 +1,4 @@
+import { serializeMoney } from "@repo/database"
 import { getConfiguration } from "@/actions/configuration"
 import { getProductWithDetails } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
@@ -45,15 +46,15 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
     const categoryTranslation = product.subCategory?.category?.translations?.[0]
 
     const productName = productTranslation?.name || product.productId
-    const categoryName = categoryTranslation?.name || product.subCategory?.category?.categoryType || ""
+    const categoryName = categoryTranslation?.name ?? ""
 
     const configDetails = [
         configuration.selectedColorTemp,
-        configuration.selectedColor,
+        configuration.selectedColorKey,
         `${configuration.quantity} ${locale === "ar" ? "قطعة" : "units"}`
     ].filter(Boolean).join(", ")
 
-    const productImage = product.images?.[0] || undefined
+    const productImage = product.images[0]?.url
 
     return constructMetadata({
         title: t("title", {
@@ -109,8 +110,13 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
     return (
         <PreviewClient
             configId={configId}
-            product={product as any}
-            configuration={configuration}
+            product={product}
+            configuration={{
+                quantity: configuration.quantity,
+                totalPrice: serializeMoney(configuration.totalPrice),
+                selectedColorTemp: configuration.selectedColorTemp,
+                selectedColorKey: configuration.selectedColorKey,
+            }}
             translations={translations}
             locale={locale}
         />

@@ -1,8 +1,9 @@
 "use server"
 
 import type { OrderWithDetails } from '@/types'
-import { auth } from "@clerk/nextjs/server"
-import { prisma, ProductColorTemp } from "@repo/database"
+import { currentAdminId } from "@/lib/auth"
+import { prisma, ProductColorTemp , addMoney } from "@repo/database"
+import { createHash } from "crypto"
 import { revalidatePath } from "next/cache"
 import { NextResponse } from "next/server"
 
@@ -10,7 +11,7 @@ import { NextResponse } from "next/server"
 // No authentication required - anyone can view configuration details
 export async function getConfigurationDetails(configId: string) {
     try {
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
                 users: true
@@ -30,6 +31,8 @@ export async function getProductWithDetails(productId: string, locale: string) {
         const product = await prisma.product.findUnique({
             where: { productId },
             include: {
+                // order 0 is the primary image (§5); the column this replaced is gone.
+                images: { orderBy: { order: "asc" as const }, take: 1 },
                 translations: {
                     where: { locale },
                     take: 1,
@@ -125,7 +128,7 @@ export async function createOrderFromConfiguration(
     shippingOption: "BasicShipping" | "StandardShipping" | "ExpressShipping" = "StandardShipping"
 ) {
     try {
-        const { userId } = await auth()
+        const userId = await currentAdminId()
         
         if (!userId) {
             console.log("User not authenticated");
@@ -137,7 +140,7 @@ export async function createOrderFromConfiguration(
         }
 
         // Get configuration with users relation
-        const configuration = await prisma.configuration.findUnique({
+        const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
                 users: true
@@ -148,14 +151,16 @@ export async function createOrderFromConfiguration(
             return { success: false, error: "Configuration not found" }
         }
 
-        // Get product
+        // Get product. `configuration.productId` is a REAL foreign key now (A17) — in v1 it
+        // held a SKU and resolved to zero rows.
         const product = await prisma.product.findUnique({
-            where: { productId: configuration.productId },
+            where: { id: configuration.productId },
             include: {
-                translations: {
-                    take: 1
-                }
-            }
+                // §14.4: `take: 1` with no locale returns whichever language PostgreSQL felt
+                // like. English is deliberate here — the admin app has no i18n.
+                translations: { where: { locale: "en" }, take: 1 },
+                images: { orderBy: { order: "asc" as const }, take: 1 },
+            },
         })
 
         if (!product) {
@@ -201,20 +206,26 @@ export async function createOrderFromConfiguration(
                 orderNumber,
                 subtotal,
                 shippingCost,
-                total: subtotal + shippingCost,
+                total: addMoney(subtotal, shippingCost),
                 status: "awaiting_shipment",
                 shippingOption,
+                // Required and unique on Order. Its absence here meant every
+                // admin-created order failed at runtime; `ignoreBuildErrors`
+                // hid the missing field.
+                idempotencyKey: createHash("sha256")
+                    .update(`${userId}-${configId}-admin-v1`)
+                    .digest("hex"),
                 shippingAddressId: shippingAddress.id,
                 configurationId: configId,
                 items: {
                     create: {
                         productId: product.id,
                         productName: product.translations[0]?.name || product.productId,
-                        productImage: product.images[0] || "",
+                        productImage: product.images[0]?.url ?? "",
                         price: product.price,
                         quantity: configuration.quantity,
                         selectedColorTemp: colorTemp,
-                        selectedColor: configuration.selectedColor,
+                        selectedColorKey: configuration.selectedColorKey,
                         configurationId: configId
                     }
                 }
@@ -229,7 +240,7 @@ export async function createOrderFromConfiguration(
         const hasUsers = configuration.users && configuration.users.length > 0
         
         if (!hasUsers) {
-            await prisma.configuration.update({
+            await prisma.productConfiguration.update({
                 where: { id: configId },
                 data: {
                     users: {
@@ -252,7 +263,7 @@ export async function createOrderFromConfiguration(
 export async function getOrderDetails(
     orderId: string
 ): Promise<OrderWithDetails | null> {
-    const { userId } = await auth()
+    const userId = await currentAdminId()
 
     if (!userId) {
         console.log("User not authenticated")

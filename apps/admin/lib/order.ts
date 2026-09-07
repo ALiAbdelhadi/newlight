@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server"
+import { currentAdminId } from "@/lib/auth"
 import { prisma } from "@repo/database"
 import { revalidatePath } from "next/cache"
 
@@ -12,7 +12,7 @@ export async function updateOrderStatus(
     trackingNumber?: string
 ) {
     try {
-        const { userId } = await auth()
+        const userId = await currentAdminId()
 
         if (!userId) {
             return {

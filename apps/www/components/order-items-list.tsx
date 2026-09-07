@@ -53,8 +53,8 @@ export function OrderItemsList({ items, isArabic, translations: t }: OrderItemsL
                                 {item.selectedColorTemp && (
                                     <p>{t.colorTemp}: {formatColorTemp(item.selectedColorTemp)}</p>
                                 )}
-                                {item.selectedColor && (
-                                    <p>{t.color}: {item.selectedColor}</p>
+                                {item.selectedColorKey && (
+                                    <p>{t.color}: {item.selectedColorKey}</p>
                                 )}
                                 <p>{t.quantity}: {item.quantity}</p>
                             </div>

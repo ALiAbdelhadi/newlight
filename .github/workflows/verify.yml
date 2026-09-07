@@ -1,0 +1,131 @@
+name: verify
+
+# Every gate this repository built — the ratcheting error budget, the task-count guard, the
+# migration-chain proof, 187 tests — ran only when somebody remembered to run it. This is the
+# thing that remembers.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  # A second push to the same branch makes the first run's answer irrelevant.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # Turbo prints progress on every task; CI logs are read after the fact, not watched.
+  TURBO_TELEMETRY_DISABLED: 1
+  DO_NOT_TRACK: 1
+
+jobs:
+  types-and-lint:
+    name: types and lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.31.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # `check-types` is the task-count guard plus the error budget, not `tsc` directly: a
+      # budget that is never asserted is a budget that has already been exceeded. The Prisma
+      # client is committed, so no `db:generate` and no database is needed here.
+      - name: check types against the error budget
+        run: pnpm check-types
+
+      - name: check types everywhere, without the budget
+        run: pnpm check-types:full
+
+      - run: pnpm lint
+
+  tests:
+    name: tests
+    runs-on: ubuntu-latest
+
+    # Each test FILE creates its own disposable database from this server and applies the real
+    # migration chain to it — not `db push`, which would test a schema no deployment produces.
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.31.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: run every suite
+        env:
+          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/postgres
+        run: pnpm test
+
+  migration-chain:
+    name: migration chain reproduces the schema
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.31.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Replaying all 14 migrations must produce `schema.prisma` exactly, and must leave the
+      # four CHECK constraints Prisma cannot express and `migrate diff` cannot see (§4.6).
+      # The shadow database is reset by Prisma, which is why it is a throwaway.
+      - name: replay the chain and diff it against schema.prisma
+        env:
+          SHADOW_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/shadow
+        run: |
+          PGPASSWORD=postgres psql -h localhost -U postgres -d postgres -c 'CREATE DATABASE shadow;'
+          pnpm --filter @repo/database db:verify-chain

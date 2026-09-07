@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { prisma } from "@repo/database"
+import { prisma, resolveLocale, consume, NotificationType, Prisma } from "@repo/database"
 import { NextRequest, NextResponse } from "next/server"
+import { queueMail } from "@repo/mail/outbox"
 import { z } from "zod"
 
 const contactFormSchema = z.object({
@@ -10,31 +10,26 @@ const contactFormSchema = z.object({
     phoneNumber: z.string().min(10).max(20),
     message: z.string().optional(),
 })
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+/**
+ * Three submissions a minute from one address.
+ *
+ * This used to be a module-level `Map`, which is per-instance and reset on every cold start —
+ * so on serverless each new instance started every caller at zero, on the one unauthenticated
+ * write endpoint the storefront has. `consume` counts in a row that every instance can see.
+ */
+const CONTACT_LIMIT = 3
+const CONTACT_WINDOW_SECONDS = 60
 
-function checkRateLimit(ip: string): boolean {
-    const now = Date.now()
-    const limit = rateLimitMap.get(ip)
-
-    if (!limit || now > limit.resetTime) {
-        rateLimitMap.set(ip, { count: 1, resetTime: now + 60000 })
-        return true
-    }
-
-    if (limit.count >= 3) {
-        return false
-    }
-
-    limit.count++
-    return true
-}
-
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ locale: string }> }) {
+    // The route lives under app/[locale], so the acknowledgement goes out in the language the
+    // person was actually reading when they filled the form in.
+    const { locale } = await params
     try {
         const ip = request.headers.get("x-forwarded-for") ||
             request.headers.get("x-real-ip") ||
             "unknown"
-        if (!checkRateLimit(ip)) {
+        const rate = await consume(prisma, `contact:${ip}`, CONTACT_LIMIT, CONTACT_WINDOW_SECONDS)
+        if (!rate.allowed) {
             return NextResponse.json(
                 { error: "Too many requests. Please try again later." },
                 { status: 429 }
@@ -53,20 +48,59 @@ export async function POST(request: NextRequest) {
 
         const data = validation.data
 
-        const contactForm = await prisma.contactForm.create({
-            data: {
-                fullName: data.fullName,
-                jobPosition: data.jobPosition,
-                email: data.email,
-                phoneNumber: data.phoneNumber,
-                message: data.message || "",
-                ipAddress: ip,
-                userAgent: request.headers.get("user-agent") || undefined,
-            },
+        const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? ""
+
+        // The form row and BOTH emails commit together (§16). If the transaction rolls back
+        // there is no orphaned "we received your message" for a message nobody received; if
+        // it commits, the mail is queued and the sweep will deliver it even if the transport
+        // is down right now.
+        const contactForm = await prisma.$transaction(async (tx) => {
+            const created = await tx.contactForm.create({
+                data: {
+                    fullName: data.fullName,
+                    jobPosition: data.jobPosition,
+                    email: data.email,
+                    phoneNumber: data.phoneNumber,
+                    message: data.message || "",
+                    ipAddress: ip,
+                    userAgent: request.headers.get("user-agent") || undefined,
+                },
+            })
+
+            await queueMail(tx, {
+                template: "contact-acknowledgement",
+                to: data.email,
+                locale: resolveLocale(locale),
+                payload: { fullName: data.fullName },
+                dedupeKey: `contact-ack:${created.id}`,
+            })
+
+            const notifyAddress = process.env.EMAIL_REPLY_TO || process.env.EMAIL_FROM
+            if (notifyAddress) {
+                await queueMail(tx, {
+                    template: "contact-admin-notification",
+                    // Admin mail is English-only by design; the admin app has no i18n.
+                    to: notifyAddress,
+                    locale: "en",
+                    payload: {
+                        fullName: data.fullName,
+                        email: data.email,
+                        phoneNumber: data.phoneNumber,
+                        jobPosition: data.jobPosition,
+                        message: data.message || undefined,
+                        adminUrl: `${adminUrl}/admin/contact-forms/${created.id}`,
+                    },
+                    dedupeKey: `contact-admin:${created.id}`,
+                })
+            } else {
+                console.warn("[contact] neither EMAIL_REPLY_TO nor EMAIL_FROM is set; no admin notification queued.")
+            }
+
+            return created
         })
 
         await createAdminNotifications({
-            type: "NEW_CONTACT_FORM",
+            type: NotificationType.NEW_CONTACT_FORM,
             title: "New Contact Form Submission",
             message: `${data.fullName} from ${data.jobPosition} has submitted a contact form`,
             actionUrl: `/admin/contact-forms/${contactForm.id}`,
@@ -74,15 +108,6 @@ export async function POST(request: NextRequest) {
                 contactFormId: contactForm.id,
                 email: data.email,
                 phone: data.phoneNumber,
-            },
-        })
-
-        await sendPushNotifications({
-            title: "New Contact Form",
-            body: `${data.fullName} submitted a contact form`,
-            data: {
-                url: `/admin/contact-forms/${contactForm.id}`,
-                contactFormId: contactForm.id,
             },
         })
 
@@ -104,121 +129,40 @@ export async function POST(request: NextRequest) {
 }
 
 async function createAdminNotifications(notificationData: {
-    type: string
+    type: NotificationType
     title: string
     message: string
     actionUrl: string
-    metadata: Record<string, any>
+    metadata: Prisma.InputJsonValue
 }) {
     try {
-        const adminEmail = process.env.ADMIN_EMAIL
-
-        if (!adminEmail) {
-            console.warn("No admin email configured")
-            return
-        }
-        const adminUser = await prisma.user.findUnique({
-            where: { email: adminEmail },
+        // Every administrator, by ROLE. The previous version looked up one user by
+        // process.env.ADMIN_EMAIL and gave up silently when it did not match a row — so a
+        // second administrator, or a changed address, meant notifications that went nowhere.
+        const admins = await prisma.user.findMany({
+            where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
+            select: { id: true },
         })
 
-        if (!adminUser) {
-            console.warn("Admin user not found in database")
+        if (admins.length === 0) {
+            console.warn("[contact] no ADMIN or SUPER_ADMIN users exist; in-app notification skipped.")
             return
         }
 
-        await prisma.notification.create({
-            data: {
-                userId: adminUser.id,
-                type: notificationData.type as any,
+        await prisma.notification.createMany({
+            data: admins.map((admin) => ({
+                userId: admin.id,
+                type: notificationData.type,
                 title: notificationData.title,
                 message: notificationData.message,
                 actionUrl: notificationData.actionUrl,
                 metadata: notificationData.metadata,
-                priority: "NORMAL",
-            },
+                priority: "NORMAL" as const,
+            })),
         })
     } catch (error) {
+        // An in-app notification failing must not fail the form submission — the email
+        // outbox row is already committed and is the reliable channel.
         console.error("Failed to create admin notifications:", error)
-    }
-}
-
-async function sendPushNotifications(payload: {
-    title: string
-    body: string
-    data?: Record<string, any>
-}) {
-    try {
-        const adminEmail = process.env.ADMIN_EMAIL
-        if (!adminEmail) return
-
-        const adminUser = await prisma.user.findUnique({
-            where: { email: adminEmail },
-        })
-
-        if (!adminUser) return
-
-        const subscriptions = await (prisma as any).pushSubscription.findMany({
-            where: {
-                userId: adminUser.id,
-                isActive: true,
-            },
-        })
-
-        const webpush = await import("web-push")
-        const vapidPublicKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY
-        const vapidPrivateKey = process.env.VAPID_PRIVATE_KEY
-        const vapidEmail = process.env.VAPID_EMAIL || adminEmail
-
-        if (!vapidPublicKey || !vapidPrivateKey) {
-            console.warn("VAPID keys not configured")
-            return
-        }
-
-        webpush.default.setVapidDetails(
-            `mailto:${vapidEmail}`,
-            vapidPublicKey,
-            vapidPrivateKey
-        )
-
-        const pushPayload = JSON.stringify({
-            title: payload.title,
-            body: payload.body,
-            icon: "/icon-192x192.png",
-            badge: "/badge-72x72.png",
-            data: payload.data,
-        })
-
-        await Promise.all(
-            subscriptions.map(async (sub: any) => {
-                try {
-                    await webpush.default.sendNotification(
-                        {
-                            endpoint: sub.endpoint,
-                            keys: {
-                                p256dh: sub.p256dh,
-                                auth: sub.auth,
-                            },
-                        } as any,
-                        pushPayload
-                    )
-
-                    await (prisma as any).pushSubscription.update({
-                        where: { id: sub.id },
-                        data: { lastUsedAt: new Date() },
-                    })
-                } catch (error: any) {
-                    console.error("Push notification failed:", error)
-
-                    if (error.statusCode === 410) {
-                        await (prisma as any).pushSubscription.update({
-                            where: { id: sub.id },
-                            data: { isActive: false },
-                        })
-                    }
-                }
-            })
-        )
-    } catch (error) {
-        console.error("Failed to send push notifications:", error)
     }
 }

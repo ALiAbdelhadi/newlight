@@ -1,139 +1,36 @@
-import { prisma, OrderStatus } from "@repo/database"
+import { prisma, type OrderStatus, type Prisma } from "@repo/database"
 
-export interface OrderWithItems {
-    id: string
-    orderNumber: string
-    userId: string
-    user: {
-        id: string
-        email: string | null
-        phoneNumber: string | null
-    }
-    subtotal: number
-    shippingCost: number
-    tax: number | null
-    total: number
-    status: OrderStatus
-    createdAt: Date
-    items: Array<{
-        id: string
-        productName: string
-        productImage: string
-        price: number
-        quantity: number
-        selectedColorTemp: string | null
-        selectedColor: string | null
-    }>
-    shippingAddress: {
-        fullName: string
-        email: string | null
-        phone: string
-    } | null
-}
+/**
+ * Order reads for the admin panel.
+ *
+ * The hand-written `OrderWithItems` interface is gone, and with it two `as OrderWithItems`
+ * casts. It declared money as `number` — so every consumer got a Decimal at runtime and a
+ * number in the type system — and it declared a `user.email` that the query did not select
+ * while the query selected a `user.phone` that does not exist on the model.
+ *
+ * The payload is derived from the query now, so the shape and the type cannot disagree.
+ */
+
+const orderInclude = {
+    user: { select: { id: true, name: true, email: true, phoneNumber: true } },
+    items: true,
+    shippingAddress: true,
+} satisfies Prisma.OrderInclude
+
+export type OrderWithItems = Prisma.OrderGetPayload<{ include: typeof orderInclude }>
 
 export async function getAllOrders(): Promise<OrderWithItems[]> {
-    const orders = await prisma.order.findMany({
-        orderBy: { createdAt: "desc" },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    phoneNumber: true,
-                },
-            },
-            items: {
-                select: {
-                    id: true,
-                    productName: true,
-                    productImage: true,
-                    price: true,
-                    quantity: true,
-                    selectedColorTemp: true,
-                    selectedColor: true,
-                },
-            },
-            shippingAddress: {
-                select: {
-                    fullName: true,
-                    email: true,
-                    phone: true,
-                },
-            },
-        },
-    })
-
-    return orders as OrderWithItems[]
+    return prisma.order.findMany({ orderBy: { createdAt: "desc" }, include: orderInclude })
 }
 
 export async function getOrdersByStatus(status: OrderStatus): Promise<OrderWithItems[]> {
-    const orders = await prisma.order.findMany({
+    return prisma.order.findMany({
         where: { status },
         orderBy: { createdAt: "desc" },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    phoneNumber: true,
-                },
-            },
-            items: {
-                select: {
-                    id: true,
-                    productName: true,
-                    productImage: true,
-                    price: true,
-                    quantity: true,
-                    selectedColorTemp: true,
-                    selectedColor: true,
-                },
-            },
-            shippingAddress: {
-                select: {
-                    fullName: true,
-                    email: true,
-                    phone: true,
-                },
-            },
-        },
+        include: orderInclude,
     })
-
-    return orders as OrderWithItems[]
 }
 
-export async function getOrderById(orderId: string): Promise<OrderWithItems | null> {
-    const order = await prisma.order.findUnique({
-        where: { id: orderId },
-        include: {
-            user: {
-                select: {
-                    id: true,
-                    email: true,
-                    phoneNumber: true,
-                },
-            },
-            items: {
-                select: {
-                    id: true,
-                    productName: true,
-                    productImage: true,
-                    price: true,
-                    quantity: true,
-                    selectedColorTemp: true,
-                    selectedColor: true,
-                },
-            },
-            shippingAddress: {
-                select: {
-                    fullName: true,
-                    email: true,
-                    phone: true,
-                },
-            },
-        },
-    })
-
-    return order as OrderWithItems | null
+export async function getOrderById(id: string): Promise<OrderWithItems | null> {
+    return prisma.order.findUnique({ where: { id }, include: orderInclude })
 }
-

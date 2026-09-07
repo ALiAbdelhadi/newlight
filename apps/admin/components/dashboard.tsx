@@ -1,8 +1,7 @@
 "use client"
 
-import AuthAvatar from "@/components/auth-avatar"
+import { divideMoney, isZeroMoney, sumMoney, type SerializedMoney } from "@repo/database"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -10,9 +9,11 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useResponsiveOrientation } from "@/hooks/use-responsive-orientation"
 import { formatDate, formatPrice } from "@/lib/price"
-import { cn, getStatusBadgeClassName, LABEL_MAP } from "@/lib/utils"
+import { cn } from "@/lib/utils"
+import { StatusBadge } from "@/components/status-badge"
 import { OrderStatus } from "@repo/database"
 import {
+    Banknote,
     MoreHorizontal,
     Package,
     ShoppingCart,
@@ -21,7 +22,6 @@ import {
 import Image from "next/image"
 import Link from "next/link"
 import { useMemo, useState } from "react"
-import { ThemeToggle } from "./theme-toggle"
 
 interface FlattenedOrder {
     id: string
@@ -31,11 +31,10 @@ interface FlattenedOrder {
     customerAvatar?: string
     productName: string
     productImage: string
-    productPrice: number
+    productPrice: SerializedMoney
     quantity: number
-    shippingPrice: number
-    discountRate: number
-    totalPrice: number
+    shippingPrice: SerializedMoney
+    totalPrice: SerializedMoney
     status: OrderStatus
     createdAt: string
     user: {
@@ -47,34 +46,29 @@ interface FlattenedOrder {
     }
 }
 
-function DashboardHeader() {
-    return (
-        <header className="border-b">
-            <div className="flex h-16 items-center px-4 lg:px-6">
-                <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-2">
-                        <Package className="h-6 w-6 text-blue-600" />
-                        <h1 className="text-xl font-semibold">E-commerce Admin</h1>
-                    </div>
-                </div>
-                <div className="ml-auto flex items-center gap-4">
-                    <AuthAvatar />
-                    <ThemeToggle />
-                </div>
-            </div>
-        </header>
-    )
-}
+/*
+ * The 64px masthead that stood here is gone.
+ *
+ * It carried a blue package icon, the words "E-commerce Admin", an avatar menu and a theme
+ * toggle — a second, competing application header sitting directly beneath the real one, on
+ * the one screen an operator opens first. The name of the product is in the sidebar, the
+ * account menu and theme control are in the top bar, and "E-commerce Admin" told nobody
+ * anything they did not know from having signed into it.
+ *
+ * `text-blue-600` was also the last hardcoded palette colour on this screen: a literal that
+ * no token could reach and that did not change in dark mode.
+ */
 
 function DashboardSummary({ orders }: { orders: FlattenedOrder[] }) {
     const stats = useMemo(() => {
-        const totalSales = orders
-            .filter((order) => order.status !== "cancelled")
-            .reduce((sum, order) => sum + order.totalPrice, 0)
+        // Decimal arithmetic, not `sum + price` over floats — this is revenue (ADR 0001).
+        const totalSales = sumMoney(
+            orders.filter((order) => order.status !== "cancelled").map((order) => order.totalPrice)
+        )
 
         const totalOrders = new Set(orders.map((order) => order.orderNumber)).size
         const totalCustomers = new Set(orders.map((order) => order.customerEmail)).size
-        const avgOrderValue = totalSales / Math.max(totalOrders, 1)
+        const avgOrderValue = divideMoney(totalSales, Math.max(totalOrders, 1))
 
         return {
             totalSales,
@@ -89,7 +83,7 @@ function DashboardSummary({ orders }: { orders: FlattenedOrder[] }) {
             <Card>
                 <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-                    <span className="text-base text-muted-foreground">EGP</span>
+                    <Banknote className="h-4 w-4 text-muted-foreground" />
                 </CardHeader>
                 <CardContent>
                     <div className="text-2xl font-bold">{formatPrice(stats.totalSales)}</div>
@@ -140,13 +134,9 @@ export default function DashboardClient({ initialOrders }: DashboardClientProps)
         return orders.filter((order) => order.status === filter)
     }, [filter, orders])
 
-    const calculateDiscountedPrice = (price: number, discount: number) => {
-        return price * (1 - discount)
-    }
 
     return (
         <div className="min-h-screen">
-            <DashboardHeader />
             <div className="flex flex-col gap-6 p-4 lg:p-6">
                 <div>
                     <h2 className="text-3xl font-bold tracking-tight">Dashboard</h2>
@@ -258,32 +248,17 @@ export default function DashboardClient({ initialOrders }: DashboardClientProps)
                                                         </div>
                                                     </TableCell>
                                                     <TableCell>
-                                                        {order.discountRate > 0 ? (
-                                                            <div className="space-y-1">
-                                                                <div className="line-through text-sm text-muted-foreground">
-                                                                    {formatPrice(order.productPrice)}
-                                                                </div>
-                                                                <div className="font-medium">
-                                                                    {formatPrice(calculateDiscountedPrice(order.productPrice, order.discountRate))}
-                                                                </div>
-                                                            </div>
-                                                        ) : (
-                                                            <div className="font-medium">{formatPrice(order.productPrice)}</div>
-                                                        )}
+                                                        <div className="font-medium">{formatPrice(order.productPrice)}</div>
                                                     </TableCell>
                                                     <TableCell className="text-nowrap">
-                                                        {order.discountRate > 0 ? (
-                                                            <Badge variant="secondary">{Math.round(order.discountRate * 100)}% OFF</Badge>
-                                                        ) : (
-                                                            <span className="text-muted-foreground">No discount</span>
-                                                        )}
+                                                        <span className="text-muted-foreground">—</span>
                                                     </TableCell>
                                                     <TableCell>{order.quantity}</TableCell>
-                                                    <TableCell>{order.shippingPrice > 0 ? formatPrice(order.shippingPrice) : "Free"}</TableCell>
+                                                    <TableCell>{isZeroMoney(order.shippingPrice) ? "Free" : formatPrice(order.shippingPrice)}</TableCell>
                                                     <TableCell className="font-medium">{formatPrice(order.totalPrice)}</TableCell>
                                                     <TableCell className="text-nowrap">{formatDate(order.createdAt)}</TableCell>
                                                     <TableCell className="text-nowrap">
-                                                        <Badge className={getStatusBadgeClassName(order.status)}>{LABEL_MAP[order.status]}</Badge>
+                                                        <StatusBadge kind="order" value={order.status} />
                                                     </TableCell>
                                                     <TableCell>
                                                         <DropdownMenu>

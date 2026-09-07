@@ -1,6 +1,14 @@
-import { Prisma } from "@repo/database";
+import { Prisma, type SerializedMoney } from "@repo/database";
+import type { ProductDetailView } from "@/lib/services/product-service";
 
-export type SupportedLanguage = "en" | "ar"
+/**
+ * §14.1: one Locale type for the whole app. `SupportedLanguage` is kept as an alias so the
+ * existing call sites do not churn, but the definition lives in @repo/database, which is what
+ * next-intl's routing, the seed and every query now share.
+ */
+export type { Locale } from "@repo/database";
+
+export type SupportedLanguage = import("@repo/database").Locale
 
 export interface PagePropsTypes {
     params: Promise<{
@@ -32,7 +40,7 @@ export interface CartItem {
     category: string
     categoryType: string
     selectedColorTemp: string | null
-    selectedColor: string | null
+    selectedColorKey: string | null
     totalPrice: number
     colorTemperatures: string[]
     availableColors: string[]
@@ -147,27 +155,14 @@ export interface CategoryTranslation {
 
 export interface PreviewClientProps {
     configId: string
-    product: {
-        productId: string
-        price: number
-        images: string[]
-        translations: ProductTranslation[]
-        subCategory: {
-            slug: string
-            translations: SubCategoryTranslation[]
-            category: {
-                slug: string
-                categoryType: string
-                translations: CategoryTranslation[]
-            }
-        }
-    }
+    /** Whatever ProductService.getProductBySlug returns — derived, not re-declared. */
+    product: ProductDetailView
     configuration: {
         selectedColorTemp?: string | null
-        selectedColor?: string | null
+        selectedColorKey?: string | null
         quantity: number
-        discount: number
-        totalPrice: number
+        /** Serialised money (ADR 0001). `discount` is gone: 0.00 on every row (A21). */
+        totalPrice: SerializedMoney
     }
     translations: {
         home: string
@@ -210,7 +205,7 @@ export interface OrderItem {
     price: number
     quantity: number
     selectedColorTemp?: string
-    selectedColor?: string
+    selectedColorKey?: string
 }
 
 export interface CompleteTranslations {
@@ -333,32 +328,11 @@ export interface ConfirmPageViewProps {
     userId: string
     configuration: {
         quantity: number
-        totalPrice: number
+        totalPrice: SerializedMoney
         selectedColorTemp?: string | null
-        selectedColor?: string | null
+        selectedColorKey?: string | null
     }
-    product: {
-        productId: string
-        price: number
-        images: string[]
-        translations: Array<{
-            name: string
-            description?: string | null
-        }>
-        subCategory: {
-            slug: string
-            translations: Array<{
-                name: string
-            }>
-            category: {
-                slug: string
-                categoryType: string
-                translations: Array<{
-                    name: string
-                }>
-            }
-        }
-    }
+    product: ProductDetailView
     productName: string
     existingAddress?: ShippingAddress
     translations: {
@@ -441,13 +415,13 @@ export type ShippingOption = "BasicShipping" | "StandardShipping" | "ExpressShip
 export interface OrderSummaryProps {
     product: {
         productId: string
-        price: number
-        images: string[]
+        price: SerializedMoney
+        images: Array<{ url: string }>
     }
     productName: string
     configuration: {
         quantity: number
-        totalPrice: number
+        totalPrice: SerializedMoney
     }
     translations: {
         orderSummary: string

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { auth, currentUser } from "@clerk/nextjs/server"
+import { currentAdmin, currentAdminId, requireCurrentAdmin } from "@/lib/auth"
 import { prisma } from "@repo/database"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -9,16 +9,10 @@ export async function GET(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { userId } = await auth()
-        const user = await currentUser()
-
-        if (!userId || !user) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-        }
-
-        if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-        }
+        // One guard. requireCurrentAdmin() throws on both "not signed in" and
+        // "signed in but not an admin", so a forgotten check fails closed.
+        const admin = await requireCurrentAdmin()
+        const userId = admin.id
 
         const { id } = await params
 
@@ -54,16 +48,10 @@ export async function PATCH(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { userId } = await auth()
-        const user = await currentUser()
-
-        if (!userId || !user) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-        }
-
-        if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-        }
+        // One guard. requireCurrentAdmin() throws on both "not signed in" and
+        // "signed in but not an admin", so a forgotten check fails closed.
+        const admin = await requireCurrentAdmin()
+        const userId = admin.id
 
         const { id } = await params
         const body = await request.json()
@@ -106,16 +94,10 @@ export async function DELETE(
     { params }: { params: Promise<{ id: string }> }
 ) {
     try {
-        const { userId } = await auth()
-        const user = await currentUser()
-
-        if (!userId || !user) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-        }
-
-        if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
-            return NextResponse.json({ error: "Forbidden" }, { status: 403 })
-        }
+        // One guard. requireCurrentAdmin() throws on both "not signed in" and
+        // "signed in but not an admin", so a forgotten check fails closed.
+        const admin = await requireCurrentAdmin()
+        const userId = admin.id
 
         const { id } = await params
 

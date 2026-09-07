@@ -1,22 +1,13 @@
-self.addEventListener('push', function (event) {
-    if (event.data) {
-        const data = event.data.json()
-        const options = {
-            body: data.body,
-            icon: data.icon || '/icon.png',
-            badge: '/badge.png',
-            vibrate: [100, 50, 100],
-            data: {
-                dateOfArrival: Date.now(),
-                primaryKey: '2',
-            },
-        }
-        event.waitUntil(self.registration.showNotification(data.title, options))
-    }
-})
+// Placeholder service worker for local development.
+//
+// In production builds next-pwa (Workbox) overwrites this file with the
+// generated offline-caching worker. Push handlers were removed with the
+// web-push channel; admin notification is handled by transactional email.
 
-self.addEventListener('notificationclick', function (event) {
-    console.log('Notification click received.')
-    event.notification.close()
-    event.waitUntil(clients.openWindow('<https://newlight-eg.com>'))
-})
+self.addEventListener("install", () => {
+    self.skipWaiting();
+});
+
+self.addEventListener("activate", (event) => {
+    event.waitUntil(self.clients.claim());
+});

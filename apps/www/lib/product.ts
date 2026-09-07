@@ -2,6 +2,9 @@
  * Product utility functions for formatting and localization
  */
 
+/** A single specification value as stored in ProductTranslation.specifications. */
+export type SpecValue = string | number | boolean | string[] | null
+
 /**
  * Format available color names with Arabic/English translations
  */
@@ -76,11 +79,17 @@ export const formatNumber = (value: number | string, formatter: Intl.NumberForma
  */
 export const formatValue = (
     label: string,
-    value: string | number | string[],
+    value: SpecValue,
     locale: string,
     formatter: Intl.NumberFormat
 ): string => {
     if (value === null || value === undefined || value === "") return ""
+
+    // Two production SKUs (nl-strip-2835-19w, nl-strip-2835-24w) store `false` for
+    // beam_angle and main_material. That is a source-data defect tracked in the
+    // catalog data-quality queue, not something to repair at render time, so the
+    // value is carried through exactly as before.
+    if (typeof value === "boolean") return value.toString()
 
     const isArabic = locale.startsWith("ar")
     const joiner = isArabic ? " ، " : ", "
@@ -226,7 +235,7 @@ export const sortSpecifications = <T extends { originalLabel: string; label: str
  * Process product specifications for display
  */
 export const processSpecifications = (
-    specifications: Record<string, any>,
+    specifications: Record<string, SpecValue>,
     colorTemperatures: string[],
     locale: string,
     formatter: Intl.NumberFormat

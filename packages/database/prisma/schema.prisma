@@ -1,192 +1,200 @@
+// Newlight schema v2.
+//
+// Amendments to the BUILD spec that this file implements are recorded in
+// docs/schema-v2-amendments.md; where the two disagree, that file wins.
+
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
-model Configuration {
-  key               String  @unique
-  value             String
-  description       String?
-  isPublic          Boolean @default(false)
-  id                String  @id @default(cuid())
-  productId         String
-  configPrice       Float
-  priceIncrease     Float
-  shippingPrice     Float
-  discount          Float
-  quantity          Int
-  lampPriceIncrease Float?
-  totalPrice        Float
-  currency          String  @default("EGP")
-  selectedColorTemp String?
-  selectedColor     String?
-
-  productIp ProductIP?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-
-  orders     Order[]     @relation("ConfigurationToOrder")
-  users      User[]      @relation("ConfigurationToUser")
-  orderItems OrderItem[] @relation("ConfigurationToOrderItem")
-
-  @@map("configurations")
-}
-
-model User {
-  id                String           @id
-  email             String?          @unique
-  phoneNumber       String?
-  preferredLanguage String           @default("ar")
-  preferredCurrency String           @default("EGP")
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
-  configurationId   String?
-  productId         String?
-  shippingAddressId String?          @unique
-  configuration     Configuration?   @relation("ConfigurationToUser", fields: [configurationId], references: [id])
-  product           Product?         @relation("UserToProduct", fields: [productId], references: [id])
-  shippingAddress   ShippingAddress?
-  cart              Cart?
-  orders            Order[]
-  pushSubscriptions PushSubscription[]
-
-  @@index([email])
-  @@map("users")
-}
-
-model PushSubscription {
-  id         String    @id @default(cuid())
-  userId     String
-  endpoint   String    @unique
-  p256dh     String
-  auth       String
-  isActive   Boolean   @default(true)
-  lastUsedAt DateTime?
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime  @updatedAt
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-  @@map("push_subscriptions")
-}
+// ---------------------------------------------------------------------------
+// Taxonomy
+//
+// Exactly two levels: Category -> SubCategory. CategoryType is gone; top-level
+// categories are ordinary rows. Slugs live on the translation rows, unique per
+// (locale, slug), so Arabic and English URLs are independent (§9.2).
+// ---------------------------------------------------------------------------
 
 model Category {
-  id            String                @id @default(cuid())
-  categoryType  CategoryType
-  slug          String                @unique
-  imageUrl      String?
-  order         Int                   @default(0)
-  isActive      Boolean               @default(true)
-  createdAt     DateTime              @default(now())
-  updatedAt     DateTime              @updatedAt
+  id        String    @id @default(cuid())
+  imageUrl  String?
+  order     Int       @default(0)
+  isActive  Boolean   @default(true)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
   translations  CategoryTranslation[]
   subCategories SubCategory[]
 
-  @@index([categoryType])
-  @@index([slug])
+  @@index([isActive, order])
+  @@index([deletedAt])
   @@map("categories")
 }
 
 model CategoryTranslation {
-  id          String   @id @default(cuid())
-  categoryId  String
-  locale      String
-  name        String
-  description String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  id              String   @id @default(cuid())
+  categoryId      String
+  locale          String
+  slug            String
+  name            String
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   @@unique([categoryId, locale])
+  @@unique([locale, slug])
   @@index([locale])
   @@map("category_translations")
 }
 
 model SubCategory {
-  id           String                   @id @default(cuid())
-  categoryId   String
-  slug         String
-  imageUrl     String?
-  order        Int                      @default(0)
-  isActive     Boolean                  @default(true)
-  createdAt    DateTime                 @default(now())
-  updatedAt    DateTime                 @updatedAt
-  products     Product[]
+  id         String    @id @default(cuid())
+  categoryId String
+  imageUrl   String?
+  order      Int       @default(0)
+  isActive   Boolean   @default(true)
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
   category     Category                 @relation(fields: [categoryId], references: [id], onDelete: Cascade)
   translations SubCategoryTranslation[]
+  families     ProductFamily[]
+  products     Product[]
+  specs        SubCategorySpec[]
 
-  @@unique([categoryId, slug])
-  @@index([categoryId])
-  @@index([slug])
+  @@index([categoryId, order])
+  @@index([deletedAt])
   @@map("sub_categories")
 }
 
 model SubCategoryTranslation {
-  id            String      @id @default(cuid())
-  subCategoryId String
-  locale        String
-  name          String
-  description   String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  subCategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  id              String   @id @default(cuid())
+  subCategoryId   String
+  locale          String
+  slug            String
+  name            String
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  subCategory SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
 
   @@unique([subCategoryId, locale])
+  @@unique([locale, slug])
   @@index([locale])
   @@map("sub_category_translations")
 }
 
-model Product {
-  id                String               @id @default(cuid())
-  productId         String               @unique
-  subCategoryId     String
-  slug              String               @unique
-  baseProductId     String?
-  variantType       String?
-  variantValue      String?
-  displayOrder      Int                  @default(0)
-  colorImageMap     Json?
-  price             Float
-  inventory         Int                  @default(0)
-  images            String[]
-  voltage           String?
-  maxWattage        Float?
-  brandOfLed        String?
-  luminousFlux      String?
-  mainMaterial      String?
-  cri               String?
-  beamAngle         Int?
-  productDimensions String?
-  lightingType      String?
-  driver            String?
-  holeSize          String?
-  powerFactor       String?
-  colorTemperatures ProductColorTemp[]
-  ipRating          ProductIP?
-  maxIpRating       ProductIP?
-  lifeTime          Int?
-  availableColors   AvailableColors[]
-  isActive          Boolean              @default(true)
-  isFeatured        Boolean              @default(false)
-  order             Int                  @default(0)
-  createdAt         DateTime             @default(now())
-  updatedAt         DateTime             @updatedAt
-  cartItems         CartItem[]
-  orderItems        OrderItem[]
-  translations      ProductTranslation[]
-  subCategory       SubCategory          @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
-  users             User[]               @relation("UserToProduct")
+// ---------------------------------------------------------------------------
+// Product families (§6)
+//
+// Replaces Product.baseProductId / Product.variantType. Grouping comes from the
+// verified production baseProductId during the transform; no runtime regex.
+// ---------------------------------------------------------------------------
 
-  @@index([baseProductId])
-  @@index([productId])
+model ProductFamily {
+  id            String    @id @default(cuid())
+  subCategoryId String
+  slug          String    @unique
+  variantType   String?
+  order         Int       @default(0)
+  isActive      Boolean   @default(true)
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  subCategory  SubCategory                @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  translations ProductFamilyTranslation[]
+  products     Product[]
+
+  @@index([subCategoryId, order])
+  @@index([deletedAt])
+  @@map("product_families")
+}
+
+model ProductFamilyTranslation {
+  id              String   @id @default(cuid())
+  familyId        String
+  locale          String
+  slug            String
+  name            String
+  description     String?
+  metaTitle       String?
+  metaDescription String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  family ProductFamily @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@unique([familyId, locale])
+  @@unique([locale, slug])
+  @@index([locale])
+  @@map("product_family_translations")
+}
+
+// ---------------------------------------------------------------------------
+// Product
+//
+// Only identity and state remain as columns. Everything descriptive moved to
+// ProductSpec (§2.1); colours moved to the ProductColor lookup (§8); images
+// moved to ProductImage (§5). colorTemperatures stays — it is state, not a spec.
+// ---------------------------------------------------------------------------
+
+model Product {
+  id            String  @id @default(cuid())
+  productId     String  @unique // editable business SKU
+  slug          String  @unique // shared across locales (§9.3)
+  subCategoryId String
+  familyId      String?
+
+  variantValue String?
+  displayOrder Int     @default(0)
+
+  price       Decimal  @db.Decimal(12, 2)
+  averageCost Decimal? @db.Decimal(12, 2) // null until real cost data exists (§13.6)
+
+  colorTemperatures ProductColorTemp[]
+
+  isActive   Boolean   @default(true)
+  isFeatured Boolean   @default(false)
+  order      Int       @default(0)
+  deletedAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  subCategory     SubCategory             @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  family          ProductFamily?          @relation(fields: [familyId], references: [id], onDelete: SetNull)
+  translations    ProductTranslation[]
+  images          ProductImage[]
+  specs           ProductSpec[]
+  availableColors ProductAvailableColor[]
+  slugHistory     ProductSlugHistory[]
+  stockMovements  StockMovement[]
+  stockLevels     StockLevel[]
+  cartItems       CartItem[]
+  orderItems      OrderItem[]
+  configurations  ProductConfiguration[]
+  users           User[]                  @relation("UserToProduct")
+
   @@index([subCategoryId])
-  @@index([slug])
+  @@index([familyId, displayOrder])
   @@index([isActive, isFeatured])
+  @@index([deletedAt])
+  @@index([price])
   @@map("products")
 }
 
@@ -197,15 +205,318 @@ model ProductTranslation {
   name            String
   description     String?
   metaTitle       String?
-  specifications  Json?
   metaDescription String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
-  product         Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   @@unique([productId, locale])
   @@index([locale])
   @@map("product_translations")
+}
+
+// ---------------------------------------------------------------------------
+// Media (§5)
+//
+// order = 0 is the primary image. There is deliberately no isPrimary flag, so
+// nothing can mutate primacy independently of ordering.
+// ---------------------------------------------------------------------------
+
+model ProductImage {
+  id          String   @id @default(cuid())
+  productId   String
+  url         String
+  publicId    String
+  order       Int      @default(0)
+  colorId     String?
+  width       Int?
+  height      Int?
+  blurDataUrl String?
+  altEn       String?
+  altAr       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   ProductColor? @relation(fields: [colorId], references: [id], onDelete: SetNull)
+
+  @@index([productId, order])
+  @@index([colorId])
+  @@map("product_images")
+}
+
+// ---------------------------------------------------------------------------
+// Colours (§8)
+//
+// Replaces the AvailableColors enum. Keys are preserved exactly (BLACK, GRAY,
+// WHITE, GOLD, WOOD) because cart and order snapshots reference them.
+// ---------------------------------------------------------------------------
+
+model ProductColor {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  hex       String
+  nameEn    String
+  nameAr    String
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  products ProductAvailableColor[]
+  images   ProductImage[]
+
+  @@map("product_colors")
+}
+
+model ProductAvailableColor {
+  productId String
+  colorId   String
+  order     Int    @default(0)
+
+  product Product      @relation(fields: [productId], references: [id], onDelete: Cascade)
+  color   ProductColor @relation(fields: [colorId], references: [id], onDelete: Cascade)
+
+  @@id([productId, colorId])
+  @@index([colorId])
+  @@map("product_available_colors")
+}
+
+// ---------------------------------------------------------------------------
+// Normalised specifications (§7)
+//
+// unitEn / unitAr rather than a single unit column: `hours` / `ساعة` cannot
+// share one (amendment A2). Symbol units simply repeat, which is honest.
+// ---------------------------------------------------------------------------
+
+enum SpecValueType {
+  NUMBER
+  TEXT
+  BOOLEAN
+
+  @@map("spec_value_type")
+}
+
+model SpecDefinition {
+  key       String        @id
+  valueType SpecValueType
+  unitEn    String?
+  unitAr    String?
+  labelEn   String
+  labelAr   String
+  order     Int           @default(0)
+
+  subCategories SubCategorySpec[]
+  productSpecs  ProductSpec[]
+
+  @@index([order])
+  @@map("spec_definitions")
+}
+
+model SubCategorySpec {
+  subCategoryId String
+  specKey       String
+  required      Boolean @default(false)
+  order         Int     @default(0)
+
+  subCategory SubCategory    @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  spec        SpecDefinition @relation(fields: [specKey], references: [key], onDelete: Cascade)
+
+  @@id([subCategoryId, specKey])
+  @@index([specKey])
+  @@map("sub_category_specs")
+}
+
+model ProductSpec {
+  id          String   @id @default(cuid())
+  productId   String
+  specKey     String
+  valueNumber Decimal? @db.Decimal(12, 3)
+  valueEn     String?
+  valueAr     String?
+  valueBool   Boolean?
+
+  product Product        @relation(fields: [productId], references: [id], onDelete: Cascade)
+  spec    SpecDefinition @relation(fields: [specKey], references: [key], onDelete: Cascade)
+
+  @@unique([productId, specKey])
+  @@index([specKey, valueNumber])
+  @@index([specKey, valueEn])
+  @@map("product_specs")
+}
+
+// ---------------------------------------------------------------------------
+// Slug history (§10) — old URLs resolve to 301s.
+// ---------------------------------------------------------------------------
+
+model ProductSlugHistory {
+  id        String   @id @default(cuid())
+  productId String
+  slug      String   @unique
+  createdAt DateTime @default(now())
+
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@map("product_slug_history")
+}
+
+enum TaxonomyEntityType {
+  CATEGORY
+  SUB_CATEGORY
+  PRODUCT_FAMILY
+
+  @@map("taxonomy_entity_type")
+}
+
+model TaxonomySlugHistory {
+  id         String             @id @default(cuid())
+  locale     String
+  slug       String
+  entityType TaxonomyEntityType
+  entityId   String
+  createdAt  DateTime           @default(now())
+
+  @@unique([locale, slug])
+  @@index([entityType, entityId])
+  @@map("taxonomy_slug_history")
+}
+
+// ---------------------------------------------------------------------------
+// Audit (§11)
+//
+// Also the order-transition history. actorType (F1) makes every transition
+// attributable to a customer, an admin, the system, or — once Bosta lands — a
+// courier webhook, without backfilling history that was never recorded.
+// ---------------------------------------------------------------------------
+
+enum ActorType {
+  CUSTOMER
+  ADMIN
+  SYSTEM
+  WEBHOOK
+
+  @@map("actor_type")
+}
+
+model AdminAuditLog {
+  id         String     @id @default(cuid())
+  actorType  ActorType?
+  actorId    String?
+  actorEmail String?
+  action     String
+  entity     String
+  entityId   String
+  diff       Json?
+  ip         String?
+  createdAt  DateTime   @default(now())
+
+  @@index([entity, entityId, createdAt])
+  @@index([actorId, createdAt])
+  @@index([createdAt])
+  @@map("admin_audit_log")
+}
+
+// ---------------------------------------------------------------------------
+// Users, cart, orders
+// ---------------------------------------------------------------------------
+
+// Identity is Better Auth's (§7). name / emailVerified / image are its required fields;
+// role is ours, and is what finally makes UserRole a column rather than nine scattered
+// comparisons against an ADMIN_EMAIL environment variable.
+model User {
+  id                String   @id @default(cuid())
+  name              String
+  email             String   @unique
+  emailVerified     Boolean  @default(false)
+  image             String?
+  role              UserRole @default(CUSTOMER)
+  phoneNumber       String?
+  preferredLanguage String   @default("ar")
+  preferredCurrency String   @default("EGP")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  configurationId   String?
+  productId         String?
+  shippingAddressId String?  @unique
+
+  configuration   ProductConfiguration? @relation("ConfigurationToUser", fields: [configurationId], references: [id])
+  product         Product?              @relation("UserToProduct", fields: [productId], references: [id])
+  shippingAddress ShippingAddress?
+  cart            Cart?
+  orders          Order[]
+  sessions        Session[]
+  accounts        Account[]
+
+  @@index([email])
+  @@index([role])
+  @@map("users")
+}
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  SUPER_ADMIN
+
+  @@map("user_role")
+}
+
+// The three tables Better Auth owns. Their shape is dictated by its Prisma adapter — the
+// field names are not ours to choose — but they are declared HERE so there is one schema and
+// one migration history (§7). The Better Auth CLI never generates a migration.
+model Session {
+  id        String   @id @default(cuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+  @@map("sessions")
+}
+
+model Account {
+  id                    String    @id @default(cuid())
+  accountId             String
+  providerId            String
+  userId                String
+  // The password hash for the credential provider. Better Auth owns the hashing.
+  password              String?
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([providerId, accountId])
+  @@index([userId])
+  @@map("accounts")
+}
+
+// Email-verification and password-reset tokens. Short-lived; swept by expiry.
+model Verification {
+  id         String   @id @default(cuid())
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@index([expiresAt])
+  @@map("verifications")
 }
 
 model Cart {
@@ -220,55 +531,56 @@ model Cart {
 }
 
 model CartItem {
-  id                String   @id @default(cuid())
+  id                String            @id @default(cuid())
   cartId            String
   productId         String
-  quantity          Int      @default(1)
-  selectedColorTemp String?
-  selectedColor     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  cart              Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity          Int               @default(1)
+  selectedColorTemp ProductColorTemp?
+  selectedColorKey  String? // stable ProductColor.key, not a foreign key (snapshot semantics)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 
-  @@unique([cartId, productId, selectedColorTemp, selectedColor])
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([cartId, productId, selectedColorTemp, selectedColorKey])
   @@index([cartId])
   @@index([productId])
   @@map("cart_items")
 }
 
 model Order {
-  id                String      @id @default(cuid())
+  id                String        @id @default(cuid())
   userId            String
-  orderNumber       String      @unique
-  subtotal          Float
-  shippingCost      Float
-  tax               Float?
-  total             Float
-  idempotencyKey    String      @unique
-  status            OrderStatus @default(awaiting_shipment)
-  shippingOption    OrderOption @default(StandardShipping)
-  paymentMethod     String?
-  paymentStatus     String?
-  paidAt            DateTime?
+  orderNumber       String        @unique
+  idempotencyKey    String        @unique
+  subtotal          Decimal       @db.Decimal(12, 2)
+  shippingCost      Decimal       @db.Decimal(12, 2)
+  tax               Decimal?      @db.Decimal(12, 2)
+  total             Decimal       @db.Decimal(12, 2)
+  status            OrderStatus   @default(awaiting_shipment)
+  shippingOption    OrderOption   @default(StandardShipping)
+  paymentMethod     PaymentMethod @default(COD)
+  paymentStatus     PaymentStatus @default(PENDING)
+  paidAt            DateTime? // set only by settlePaymentForDelivery (F4)
   shippingAddressId String?
-  trackingNumber    String?
+  trackingNumber    String? // manually entered under COD (F3)
   shippedAt         DateTime?
   deliveredAt       DateTime?
   customerNotes     String?
   adminNotes        String?
-  createdAt         DateTime    @default(now())
-  updatedAt         DateTime    @updatedAt
   configurationId   String?
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
 
   items           OrderItem[]
   shippingAddress ShippingAddress? @relation(fields: [shippingAddressId], references: [id])
   user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  configuration   Configuration?   @relation("ConfigurationToOrder", fields: [configurationId], references: [id])
+  configuration   ProductConfiguration? @relation("ConfigurationToOrder", fields: [configurationId], references: [id])
 
   @@index([userId])
-  @@index([orderNumber])
-  @@index([status])
+  @@index([status, createdAt])
+  @@index([paymentStatus])
   @@index([createdAt])
   @@map("orders")
 }
@@ -279,17 +591,17 @@ model OrderItem {
   productId         String
   productName       String
   productImage      String
-  price             Float
+  price             Decimal           @db.Decimal(12, 2) // immutable snapshot (§24.4)
   quantity          Int
   selectedColorTemp ProductColorTemp?
-  selectedColor     String?
+  selectedColorKey  String?
+  configurationId   String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
-  configurationId   String?
 
   order         Order          @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product       Product        @relation(fields: [productId], references: [id])
-  configuration Configuration? @relation("ConfigurationToOrderItem", fields: [configurationId], references: [id])
+  configuration ProductConfiguration? @relation("ConfigurationToOrderItem", fields: [configurationId], references: [id])
 
   @@index([orderId])
   @@index([productId])
@@ -311,88 +623,118 @@ model ShippingAddress {
   isDefault    Boolean  @default(false)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
-  orders       Order[]
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  orders Order[]
+  user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@index([userId])
-  @@index([isDefault])
   @@map("shipping_addresses")
 }
 
-model SystemSetting {
+// Live session state for the configure flow, so a real foreign key is correct
+// here; productSku is a denormalised copy so a configuration stays readable if
+// the product is later soft-deleted (Q4).
+//
+// priceIncrease / shippingPrice / discount are gone: 0.00 on all 13 production
+// rows and never written with anything else. A money column that is always zero
+// is a promise the checkout does not keep.
+model ProductConfiguration {
+  id                String   @id @default(cuid())
+  productId         String
+  productSku        String
+  configPrice       Decimal  @db.Decimal(12, 2)
+  totalPrice        Decimal  @db.Decimal(12, 2)
+  quantity          Int
+  currency          String   @default("EGP")
+  selectedColorTemp String?
+  selectedColorKey  String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  product    Product     @relation(fields: [productId], references: [id], onDelete: Restrict)
+  orders     Order[]     @relation("ConfigurationToOrder")
+  users      User[]      @relation("ConfigurationToUser")
+  orderItems OrderItem[] @relation("ConfigurationToOrderItem")
+
+  @@index([productId])
+  @@index([createdAt])
+  @@map("product_configurations")
+}
+
+// ---------------------------------------------------------------------------
+// Inventory ledger (§13)
+//
+// Append-only movements plus a derived level. packages/database/inventory.ts is
+// the only writer; movement insert and level update share one transaction.
+// ---------------------------------------------------------------------------
+
+enum MovementType {
+  INITIAL
+  PURCHASE_RECEIPT
+  SALE
+  RETURN
+  ADJUSTMENT
+  TRANSFER_IN
+  TRANSFER_OUT
+  DAMAGE
+
+  @@map("movement_type")
+}
+
+model Location {
   id        String   @id @default(cuid())
-  key       String   @unique
-  value     String
+  name      String
+  isDefault Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@map("system_settings")
+  movements   StockMovement[]
+  stockLevels StockLevel[]
+
+  @@map("locations")
 }
 
-enum ProductColorTemp {
-  WARM_3000K
-  COOL_4000K
-  WHITE_6500K
+model StockMovement {
+  id            String       @id @default(cuid())
+  productId     String
+  locationId    String
+  type          MovementType
+  quantity      Int
+  unitCost      Decimal?     @db.Decimal(12, 2) // null means "cost not recorded", never zero
+  reason        String?
+  referenceType String?
+  referenceId   String?
+  actorType     ActorType?
+  actorId       String?
+  createdAt     DateTime     @default(now())
 
-  @@map("product_color_temp")
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  location Location @relation(fields: [locationId], references: [id], onDelete: Restrict)
+
+  @@index([productId, locationId, createdAt])
+  @@index([referenceType, referenceId])
+  @@index([type, createdAt])
+  @@map("stock_movements")
 }
 
-enum AvailableColors {
-  BLACK
-  GRAY
-  WHITE
-  GOLD
-  WOOD
+model StockLevel {
+  productId  String
+  locationId String
+  onHand     Int      @default(0)
+  reserved   Int      @default(0)
+  updatedAt  DateTime @updatedAt
 
-  @@map("available_colors")
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  location Location @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@id([productId, locationId])
+  @@index([locationId])
+  @@map("stock_levels")
 }
 
-enum ProductIP {
-  IP20
-  IP44
-  IP54
-  IP65
-  IP68
-
-  @@map("product_ip")
-}
-
-enum OrderOption {
-  BasicShipping
-  StandardShipping
-  ExpressShipping
-
-  @@map("order_option")
-}
-
-enum OrderStatus {
-  awaiting_shipment
-  processing
-  shipped
-  delivered
-  fulfilled
-  cancelled
-  refunded
-
-  @@map("order_status")
-}
-
-enum UserRole {
-  CUSTOMER
-  ADMIN
-  SUPER_ADMIN
-
-  @@map("user_role")
-}
-
-enum CategoryType {
-  indoor
-  outdoor
-
-  @@map("category_type")
-}
-
-// Add these models to your existing schema.prisma
+// ---------------------------------------------------------------------------
+// Contact forms, notifications, settings — carried over unchanged.
+// ---------------------------------------------------------------------------
 
 model ContactForm {
   id          String            @id @default(cuid())
@@ -402,18 +744,17 @@ model ContactForm {
   phoneNumber String
   message     String?
   status      ContactFormStatus @default(UNREAD)
-  source      String            @default("website") // website, app, other
+  source      String            @default("website")
   ipAddress   String?
   userAgent   String?
   isRead      Boolean           @default(false)
   readAt      DateTime?
-  readBy      String? // Admin user ID who read it
+  readBy      String?
   priority    ContactPriority   @default(NORMAL)
-  notes       String? // Admin notes
+  notes       String?
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
-  // Relations
   responses ContactFormResponse[]
   tags      ContactFormTag[]
 
@@ -427,7 +768,7 @@ model ContactForm {
 model ContactFormResponse {
   id            String      @id @default(cuid())
   contactFormId String
-  adminId       String // Clerk user ID
+  adminId       String
   message       String
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
@@ -450,11 +791,11 @@ model ContactFormTag {
 
 model Notification {
   id        String               @id @default(cuid())
-  userId    String 
+  userId    String
   type      NotificationType
   title     String
   message   String
-  actionUrl String? 
+  actionUrl String?
   isRead    Boolean              @default(false)
   readAt    DateTime?
   priority  NotificationPriority @default(NORMAL)
@@ -467,6 +808,108 @@ model Notification {
   @@index([createdAt])
   @@index([type])
   @@map("notifications")
+}
+
+// ---------------------------------------------------------------------------
+// Transactional email (§16)
+//
+// The outbox row is written in the SAME TRANSACTION as the business event that
+// causes it, then dispatched afterwards. That is the whole point: an order that
+// commits always has its confirmation queued, and a mail transport that is down
+// can never roll back an order.
+// ---------------------------------------------------------------------------
+
+enum EmailStatus {
+  PENDING
+  SENDING
+  SENT
+  FAILED
+
+  @@map("email_status")
+}
+
+model EmailOutbox {
+  id       String      @id @default(cuid())
+  template String
+  to       String
+  locale   String
+  payload  Json
+  status   EmailStatus @default(PENDING)
+
+  attempts      Int       @default(0)
+  lastError     String?
+  nextAttemptAt DateTime? // set by the sweep when a send fails; NULL means "ready now"
+  sentAt        DateTime?
+
+  // "the confirmation for order X", so a retried business event queues one email
+  // rather than one per attempt. NULL for mail that is legitimately repeatable,
+  // such as a second password-reset request.
+  dedupeKey String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status, nextAttemptAt])
+  @@index([createdAt])
+  @@map("email_outbox")
+}
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("system_settings")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum ProductColorTemp {
+  WARM_3000K
+  COOL_4000K
+  WHITE_6500K
+
+  @@map("product_color_temp")
+}
+
+enum OrderOption {
+  BasicShipping
+  StandardShipping
+  ExpressShipping
+
+  @@map("order_option")
+}
+
+// processing / fulfilled / refunded are gone: no production row ever used them
+// and no live code assigns them (§12).
+enum OrderStatus {
+  awaiting_shipment
+  shipped
+  delivered
+  cancelled
+
+  @@map("order_status")
+}
+
+enum PaymentMethod {
+  COD
+
+  @@map("payment_method")
+}
+
+// PAID means money received by the merchant, nothing weaker. COLLECTED and
+// SETTLED are the additive path when a courier lands (F4).
+enum PaymentStatus {
+  PENDING
+  PAID
+  REFUNDED
+  FAILED
+
+  @@map("payment_status")
 }
 
 enum ContactFormStatus {
@@ -507,4 +950,19 @@ enum NotificationPriority {
   URGENT
 
   @@map("notification_priority")
+}
+
+/// Shared rate-limit counters.
+///
+/// The contact form kept these in a module-level `Map`, which is per-instance and resets on
+/// every cold start — on serverless that is close to no rate limit at all, on the one
+/// unauthenticated write endpoint the storefront exposes. A row is the only state every
+/// instance can agree on.
+model RateLimit {
+  key         String   @id
+  count       Int      @default(0)
+  windowStart DateTime @default(now())
+
+  @@index([windowStart])
+  @@map("rate_limits")
 }

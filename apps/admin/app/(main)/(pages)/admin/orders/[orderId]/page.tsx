@@ -1,4 +1,4 @@
-import { auth, currentUser } from "@clerk/nextjs/server";
+import { currentAdmin, currentAdminId, requireCurrentAdmin } from "@/lib/auth"
 import { prisma } from "@repo/database";
 import { notFound } from "next/navigation";
 import OrderPage from "./order-page";
@@ -8,15 +8,9 @@ const OrderIdPage = async ({
 }: {
   params: Promise<{ orderId: string }>;
 }) => {
-  const { userId } = await auth();
-  const user = await currentUser();
-  if (!userId || !user) {
-    return notFound();
-  }
-
-  if (user.emailAddresses[0].emailAddress !== process.env.ADMIN_EMAIL) {
-    return notFound();
-  }
+  // One guard, replacing the signed-in check plus the ADMIN_EMAIL comparison.
+  const admin = await requireCurrentAdmin();
+  const userId = admin.id;
 
   const resolvedParams = await params;
   const order = await prisma.order.findUnique({

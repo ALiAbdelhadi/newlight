@@ -130,3 +130,14 @@
     display: none;
   }
 }
+
+@layer utilities {
+  /* Display face. Playfair carries no Arabic glyphs, so RTL swaps to Almarai. */
+  .font-display {
+    font-family: var(--font-serif), Georgia, serif;
+  }
+
+  [dir="rtl"] .font-display {
+    font-family: var(--font-almarai), var(--font-serif), Georgia, serif;
+  }
+}

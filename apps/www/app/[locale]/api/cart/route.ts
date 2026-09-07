@@ -1,6 +1,7 @@
+import { multiplyMoney, resolveLocale, serializeMoney } from "@repo/database"
 import { CartService } from "@/lib/services/cart-service"
 import { removeCartItemSchema, updateCartItemSchema } from "@/lib/validation/scehma"
-import { auth } from "@clerk/nextjs/server"
+import { currentUserId } from "@/lib/auth"
 import { getLocale } from "next-intl/server"
 import { NextResponse } from "next/server"
 
@@ -8,7 +9,7 @@ import { NextResponse } from "next/server"
  * GET - Fetch user's cart
  */
 export async function GET() {
-  const { userId } = await auth()
+  const userId = await currentUserId()
   const locale = await getLocale()
 
   if (!userId) {
@@ -17,7 +18,7 @@ export async function GET() {
 
   try {
     // Use CartService instead of direct Prisma
-    const cart = await CartService.getCartWithItems(userId, locale)
+    const cart = await CartService.getCartWithItems(userId, resolveLocale(locale))
 
     if (!cart) {
       return NextResponse.json([])
@@ -33,18 +34,22 @@ export async function GET() {
         id: item.id,
         productId: item.product.productId,
         productName: productTranslation?.name || item.product.productId,
-        productImages: item.product.images,
-        price: item.product.price,
+        // ProductImage rows, primary first — `images[]` on the product is gone (§5).
+        productImages: item.product.images.map((image) => image.url),
+        // Money crosses as a string: a Decimal does not survive the boundary (ADR 0001).
+        price: serializeMoney(item.product.price),
         quantity: item.quantity,
-        discount: 0,
+        discount: "0.00",
         subCategory: subCategoryTranslation?.name || "N/A",
+        // categoryType is gone with the enum (§3); the category's own slug identifies it,
+        // per-locale, which is also what a link needs.
+        categorySlug: categoryTranslation?.slug ?? "",
         category: categoryTranslation?.name || "N/A",
-        categoryType: item.product.subCategory.category.categoryType,
         selectedColorTemp: item.selectedColorTemp,
-        selectedColor: item.selectedColor,
+        selectedColorKey: item.selectedColorKey,
         colorTemperatures: item.product.colorTemperatures || [],
-        availableColors: item.product.availableColors,
-        totalPrice: item.product.price * item.quantity,
+        availableColors: item.product.availableColors.map((link) => link.color.key),
+        totalPrice: serializeMoney(multiplyMoney(item.product.price, item.quantity)),
       }
     })
 
@@ -59,7 +64,7 @@ export async function GET() {
  * PATCH - Update cart item quantity
  */
 export async function PATCH(request: Request) {
-  const { userId } = await auth()
+  const userId = await currentUserId()
   const locale = await getLocale()
 
   if (!userId) {
@@ -88,7 +93,7 @@ export async function PATCH(request: Request) {
     })
 
     // Get updated item with full details
-    const cart = await CartService.getCartWithItems(userId, locale)
+    const cart = await CartService.getCartWithItems(userId, resolveLocale(locale))
     const updatedItem = cart?.items.find((item) => item.id === itemId)
 
     if (!updatedItem) {
@@ -104,16 +109,16 @@ export async function PATCH(request: Request) {
       id: updatedItem.id,
       productId: updatedItem.product.productId,
       productName: productTranslation?.name || updatedItem.product.productId,
-      productImages: updatedItem.product.images,
-      price: updatedItem.product.price,
+      productImages: updatedItem.product.images.map((image) => image.url),
+      price: serializeMoney(updatedItem.product.price),
       quantity: updatedItem.quantity,
-      discount: 0,
+      discount: "0.00",
       subCategory: subCategoryTranslation?.name || "N/A",
       category: categoryTranslation?.name || "N/A",
-      categoryType: updatedItem.product.subCategory.category.categoryType,
+      categorySlug: categoryTranslation?.slug ?? "",
       selectedColorTemp: updatedItem.selectedColorTemp,
-      selectedColor: updatedItem.selectedColor,
-      totalPrice: updatedItem.product.price * updatedItem.quantity,
+      selectedColorKey: updatedItem.selectedColorKey,
+      totalPrice: serializeMoney(multiplyMoney(updatedItem.product.price, updatedItem.quantity)),
     }
 
     return NextResponse.json(formattedItem)
@@ -140,7 +145,7 @@ export async function PATCH(request: Request) {
  * DELETE - Remove item from cart
  */
 export async function DELETE(request: Request) {
-  const { userId } = await auth()
+  const userId = await currentUserId()
 
   if (!userId) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 })

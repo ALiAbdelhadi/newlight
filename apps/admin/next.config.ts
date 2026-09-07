@@ -20,7 +20,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https://images.unsplash.com https://img.clerk.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; frame-src 'self' https://clerk.newlight-eg.com https://*.clerk.accounts.dev; worker-src 'self' blob:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'self'; worker-src 'self' blob:;",
           },
           {
             key: 'Strict-Transport-Security',
@@ -52,7 +52,7 @@ const nextConfig: NextConfig = {
     ]
   },
   typescript: {
-    ignoreBuildErrors: true
+    ignoreBuildErrors: false
   },
   reactStrictMode: true,
   transpilePackages: ["@repo/database"],
@@ -65,11 +65,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "images.unsplash.com",
+        hostname: "res.cloudinary.com",
       },
       {
         protocol: "https",
-        hostname: "img.clerk.com",
+        hostname: "images.unsplash.com",
       },
       {
         protocol: "https",

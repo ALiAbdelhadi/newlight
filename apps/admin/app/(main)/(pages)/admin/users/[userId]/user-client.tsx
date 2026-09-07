@@ -103,26 +103,14 @@ const UserPageClient = ({ user }: UserPageClientProps) => {
               {firstItem?.selectedColorTemp || "—"}
             </TableCell>
             <TableCell className="font-medium">
-              {firstItem?.product?.ipRating || "—"}
-            </TableCell>
-            <TableCell className="font-medium">
-              {firstItem?.selectedColor || "—"}
+              {firstItem?.selectedColorKey || "—"}
             </TableCell>
             <TableCell className="font-medium">
               {formatPrice(firstItem?.price || 0)}
             </TableCell>
-            <TableCell className="font-medium">
-              {order.configuration && order.configuration.discount > 0
-                ? `${(order.configuration.discount * 100).toFixed(0)}%`
-                : "—"}
-            </TableCell>
-            <TableCell className="font-medium">
-              {order.configuration && order.configuration.discount > 0
-                ? formatPrice(
-                  (firstItem?.price || 0) * (1 - order.configuration.discount)
-                )
-                : "—"}
-            </TableCell>
+            {/* The IP-rating and discount columns are gone with the columns behind them
+                (A21): ProductConfiguration.productIp was NULL and .discount was 0.00 on every
+                production row, so both rendered an em dash for every order ever placed. */}
             <TableCell className="text-center font-medium">
               {totalItems}
             </TableCell>

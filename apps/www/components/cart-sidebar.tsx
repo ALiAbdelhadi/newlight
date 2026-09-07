@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { CartItem } from "@/types"
-import { useAuth } from "@clerk/nextjs"
+import { useSession } from "@/lib/auth-client"
 import { Loader2, ShoppingBag, ShoppingBagIcon, ShoppingCart, Trash2 } from "lucide-react"
 import { useTranslations } from "next-intl"
 import Image from "next/image"
@@ -14,7 +14,9 @@ import { toast } from "sonner"
 import { ScrollArea } from "./ui/scroll-area"
 
 export function CartSidebar() {
-    const { isSignedIn, userId } = useAuth()
+    const { data: session } = useSession()
+    const isSignedIn = Boolean(session?.user)
+    const userId = session?.user?.id ?? null
     const t = useTranslations("cart")
     const [isOpen, setIsOpen] = useState(false)
     const [cartItems, setCartItems] = useState<CartItem[]>([])
@@ -123,7 +125,7 @@ export function CartSidebar() {
         const previousItems = [...cartItems]
         setCartItems((prevItems) =>
             prevItems.map((item) =>
-                item.id === itemId ? { ...item, selectedColor: newColor } : item
+                item.id === itemId ? { ...item, selectedColorKey: newColor } : item
             )
         )
 
@@ -132,7 +134,7 @@ export function CartSidebar() {
             const response = await fetch("/api/cart/update-options", {
                 method: "PATCH",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ itemId, selectedColor: newColor }),
+                body: JSON.stringify({ itemId, selectedColorKey: newColor }),
             })
 
             if (response.ok) {
@@ -392,7 +394,7 @@ function CartItemCard({
                                 {hasColors && (
                                     <CartSurfaceColorSelector
                                         availableColors={item.availableColors}
-                                        selectedColor={item.selectedColor || item.availableColors[0]}
+                                        selectedColorKey={item.selectedColorKey || item.availableColors[0]}
                                         onChange={(color) => onUpdateSurfaceColor(item.id, color)}
                                         disabled={isUpdating}
                                     />

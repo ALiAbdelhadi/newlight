@@ -1,11 +1,14 @@
 "use client"
 
+import { formatMoney, type SerializedMoney } from "@repo/database"
+import { useLocale } from "next-intl"
 import { CreditCard } from "lucide-react"
 
 interface OrderPaymentSummaryProps {
-    subtotal: number
-    shippingCost: number
-    total: number
+    // Serialised money (ADR 0001) — a Decimal cannot cross the server/client boundary.
+    subtotal: SerializedMoney
+    shippingCost: SerializedMoney
+    total: SerializedMoney
     translations: {
         paymentSummary: string
         subtotal: string
@@ -21,6 +24,7 @@ export function OrderPaymentSummary({
     total,
     translations: t
 }: OrderPaymentSummaryProps) {
+    const locale = useLocale()
     return (
         <div className="bg-secondary/30 rounded-lg p-6 border border-border">
             <div className="flex items-center gap-2 mb-6">
@@ -30,16 +34,16 @@ export function OrderPaymentSummary({
             <div className="space-y-3">
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t.subtotal}</span>
-                    <span>{subtotal.toLocaleString()} {t.currency}</span>
+                    <span>{formatMoney(subtotal, locale)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">{t.shipping}</span>
-                    <span>{shippingCost.toLocaleString()} {t.currency}</span>
+                    <span>{formatMoney(shippingCost, locale)}</span>
                 </div>
                 <div className="flex justify-between items-baseline pt-4 border-t border-border">
                     <span className="text-lg font-light uppercase tracking-wide">{t.total}</span>
                     <span className="text-3xl font-serif font-light">
-                        {total.toLocaleString()} {t.currency}
+                        {formatMoney(total, locale)}
                     </span>
                 </div>
             </div>

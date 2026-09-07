@@ -31,7 +31,7 @@ export default function ProductSurfaceColorButtons({
     onSurfaceColorChange,
 }: ProductSurfaceColorButtonsProps) {
     const locale = useLocale()
-    const [selectedColor, setSelectedColor] = useState<string>(
+    const [selectedColorKey, setSelectedColor] = useState<string>(
         initialColor || availableColors[0] || ""
     )
 
@@ -95,7 +95,7 @@ export default function ProductSurfaceColorButtons({
 
             <div className="flex flex-wrap gap-3">
                 {availableColors.map((color) => {
-                    const isSelected = selectedColor === color
+                    const isSelected = selectedColorKey === color
                     const colorClasses = getColorClasses(color)
 
                     return (
