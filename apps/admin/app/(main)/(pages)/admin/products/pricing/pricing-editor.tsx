@@ -1,25 +1,35 @@
 "use client"
 
+import Link from "next/link"
 import { useState, useTransition } from "react"
 import { toast } from "sonner"
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import {
-    AlertDialog,
-    AlertDialogAction,
-    AlertDialogCancel,
-    AlertDialogContent,
-    AlertDialogDescription,
-    AlertDialogFooter,
-    AlertDialogHeader,
-    AlertDialogTitle,
-    AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+import { Money } from "@/components/money"
+import { EmptyState } from "@/components/states"
+import { Workflow, WorkflowResult } from "@/components/workflow/workflow"
+import { CellText } from "@/components/data-table/cell-text"
 import type { PricingFormula, PricingPreview, PricingScope } from "@/lib/services/pricing-service"
 import { applyPricing, previewPricing } from "@/app/action/pricing-actions"
+
+/**
+ * Reference screen 3 (P4.5 §23) — bulk repricing as a Workflow.
+ *
+ * The logic underneath is unchanged and was already right: `PricingService.preview()` mints a
+ * token from the scope, the formula and the resulting rows, and `apply()` re-previews and
+ * compares tokens, so a catalogue that moved between looking and committing is refused by the
+ * service rather than by a UI convention.
+ *
+ * What changes is that the operation now LOOKS like what it is. The previous screen put scope,
+ * formula, preview and commit on one page as four panels, so "preview" was a button among
+ * buttons and it was possible to read the numbers, change the percentage, and press Apply
+ * while looking at a table describing the previous formula. The token caught that — but only
+ * after the person had already decided. Four steps make the order the screen's shape.
+ */
 
 interface Option {
     id: string
@@ -42,9 +52,16 @@ const FORMULA_LABELS: Record<FormulaKind, string> = {
     linear: "× multiplier + amount",
 }
 
+const SCOPE_LABELS = {
+    category: "Category",
+    subCategory: "Sub-category",
+    family: "Family",
+    products: "Specific SKUs",
+} as const
+
 export function PricingEditor({ categories, subCategories, families }: Props) {
     const [scopeKind, setScopeKind] = useState<PricingScope["kind"]>("subCategory")
-    const [scopeId, setScopeId] = useState<string>("")
+    const [scopeId, setScopeId] = useState("")
     const [formulaKind, setFormulaKind] = useState<FormulaKind>("percent")
     const [percent, setPercent] = useState("10")
     const [amount, setAmount] = useState("")
@@ -52,6 +69,7 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
     const [addend, setAddend] = useState("55.3")
 
     const [preview, setPreview] = useState<PricingPreview | null>(null)
+    const [committed, setCommitted] = useState<{ count: number; message: string } | null>(null)
     const [pending, start] = useTransition()
 
     function buildScope(): PricingScope | null {
@@ -64,7 +82,10 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
             case "family":
                 return { kind: "family", familyId: scopeId }
             case "products":
-                return { kind: "products", productIds: scopeId.split(",").map((s) => s.trim()).filter(Boolean) }
+                return {
+                    kind: "products",
+                    productIds: scopeId.split(",").map((s) => s.trim()).filter(Boolean),
+                }
         }
     }
 
@@ -81,12 +102,13 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
         }
     }
 
-    const options: Option[] =
-        scopeKind === "category" ? categories : scopeKind === "subCategory" ? subCategories : families
-
-    // Any edit invalidates the preview. Leaving a stale table on screen next to changed inputs
-    // is how someone applies a formula they are no longer looking at — the token would refuse
-    // it, but only after they had already decided.
+    /*
+     * Any edit to the scope or the formula throws the preview away.
+     *
+     * The service would refuse a stale commit anyway — the token would not match — but a
+     * refusal arrives after the decision. Clearing the table means the numbers on screen
+     * always describe the inputs on screen, so the decision is made against the truth.
+     */
     function invalidate<T>(setter: (value: T) => void) {
         return (value: T) => {
             setPreview(null)
@@ -94,253 +116,370 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
         }
     }
 
-    const runPreview = () => {
+    const options: Option[] =
+        scopeKind === "category" ? categories : scopeKind === "subCategory" ? subCategories : families
+
+    function runPreview() {
         const scope = buildScope()
-        if (!scope) return toast.error("Choose what to reprice first.")
+        if (!scope) return
         start(async () => {
             const result = await previewPricing(scope, buildFormula())
-            if (result.ok) {
-                setPreview(result.preview)
-                if (result.preview.count === 0) toast.info("Nothing matches that scope.")
-            } else {
+            if (result.ok) setPreview(result.preview)
+            else {
                 setPreview(null)
                 toast.error(result.error)
             }
         })
     }
 
-    const commit = () => {
+    function commit() {
         const scope = buildScope()
         if (!scope || !preview) return
         start(async () => {
             const result = await applyPricing(scope, buildFormula(), preview.token)
             if (result.ok) {
-                toast.success(result.message)
+                setCommitted({ count: preview.count, message: result.message })
                 setPreview(null)
             } else {
+                // A token mismatch lands here: the catalogue changed while this was open.
                 toast.error(result.error)
+                setPreview(null)
             }
         })
     }
 
-    return (
-        <div className="space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
-                    <h2 className="font-semibold">1. What to reprice</h2>
-                    <div className="flex flex-wrap gap-2">
-                        {(["category", "subCategory", "family", "products"] as const).map((kind) => (
-                            <Button
-                                key={kind}
-                                type="button"
-                                size="sm"
-                                variant={scopeKind === kind ? "default" : "secondary"}
-                                onClick={() => {
-                                    setPreview(null)
-                                    setScopeKind(kind)
-                                    setScopeId("")
-                                }}
-                            >
-                                {kind === "subCategory" ? "Sub-category" : kind === "products" ? "Specific SKUs" : kind}
-                            </Button>
-                        ))}
-                    </div>
-
-                    {scopeKind === "products" ? (
-                        <div className="space-y-1.5">
-                            <Label htmlFor="skus">Product ids, comma separated</Label>
-                            <Input id="skus" value={scopeId} onChange={(e) => invalidate(setScopeId)(e.target.value)} />
-                        </div>
-                    ) : (
-                        <div className="space-y-1.5">
-                            <Label htmlFor="scope">Choose one</Label>
-                            <select
-                                id="scope"
-                                value={scopeId}
-                                onChange={(e) => invalidate(setScopeId)(e.target.value)}
-                                className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs focus-visible:ring-[3px] focus-visible:ring-ring/50 outline-none"
-                            >
-                                <option value="">—</option>
-                                {options.map((option) => (
-                                    <option key={option.id} value={option.id}>
-                                        {option.name}
-                                        {option.productCount !== undefined ? ` (${option.productCount})` : ""}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                    )}
-                </section>
-
-                <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
-                    <h2 className="font-semibold">2. How to change it</h2>
-                    <div className="flex flex-wrap gap-2">
-                        {(Object.keys(FORMULA_LABELS) as FormulaKind[]).map((kind) => (
-                            <Button
-                                key={kind}
-                                type="button"
-                                size="sm"
-                                variant={formulaKind === kind ? "default" : "secondary"}
-                                onClick={() => {
-                                    setPreview(null)
-                                    setFormulaKind(kind)
-                                }}
-                            >
-                                {FORMULA_LABELS[kind]}
-                            </Button>
-                        ))}
-                    </div>
-
-                    {formulaKind === "percent" && (
-                        <div className="space-y-1.5">
-                            <Label htmlFor="percent">Percent</Label>
-                            <Input
-                                id="percent"
-                                value={percent}
-                                onChange={(e) => invalidate(setPercent)(e.target.value)}
-                                inputMode="decimal"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                <span className="font-mono">10</span> raises by 10%,{" "}
-                                <span className="font-mono">-5</span> cuts by 5%.
-                            </p>
-                        </div>
-                    )}
-
-                    {(formulaKind === "fixed" || formulaKind === "set") && (
-                        <div className="space-y-1.5">
-                            <Label htmlFor="amount">Amount (EGP)</Label>
-                            <Input
-                                id="amount"
-                                value={amount}
-                                onChange={(e) => invalidate(setAmount)(e.target.value)}
-                                inputMode="decimal"
-                            />
-                            <p className="text-xs text-muted-foreground">
-                                {formulaKind === "fixed"
-                                    ? "Added to every price. Use a negative number to take it off."
-                                    : "Every matched product becomes exactly this price."}
-                            </p>
-                        </div>
-                    )}
-
-                    {formulaKind === "linear" && (
-                        <div className="grid grid-cols-2 gap-3">
-                            <div className="space-y-1.5">
-                                <Label htmlFor="multiplier">Multiplier</Label>
-                                <Input
-                                    id="multiplier"
-                                    value={multiplier}
-                                    onChange={(e) => invalidate(setMultiplier)(e.target.value)}
-                                    inputMode="decimal"
-                                />
-                            </div>
-                            <div className="space-y-1.5">
-                                <Label htmlFor="addend">Then add</Label>
-                                <Input
-                                    id="addend"
-                                    value={addend}
-                                    onChange={(e) => invalidate(setAddend)(e.target.value)}
-                                    inputMode="decimal"
-                                />
-                            </div>
-                            {/* Pre-filled with the real tier C numbers, because this shape exists
-                                because tier C needed it. */}
-                            <p className="text-xs text-muted-foreground col-span-2">
-                                price × multiplier + amount, rounded to 2 decimals.
-                            </p>
-                        </div>
-                    )}
-                </section>
-            </div>
-
-            <div className="flex items-center gap-3">
-                <Button onClick={runPreview} disabled={pending}>
-                    {pending && !preview ? "Working…" : "Preview"}
-                </Button>
-                {preview && (
-                    <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                            <Button variant="destructive" disabled={pending || preview.count === 0 || preview.invalid.length > 0}>
-                                Apply to {preview.count} product{preview.count === 1 ? "" : "s"}
-                            </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                            <AlertDialogHeader>
-                                <AlertDialogTitle>Change {preview.count} prices?</AlertDialogTitle>
-                                <AlertDialogDescription>
-                                    The catalog total goes from {preview.oldTotal} to {preview.newTotal}. Orders already
-                                    placed keep the price they were charged. This is recorded in the audit log and can
-                                    be read back as price history.
-                                </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                                <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                <AlertDialogAction onClick={commit}>Apply</AlertDialogAction>
-                            </AlertDialogFooter>
-                        </AlertDialogContent>
-                    </AlertDialog>
-                )}
-                {preview && preview.invalid.length > 0 && (
-                    <p className="text-sm text-destructive">
-                        {preview.invalid.length} product(s) would end up at or below zero. Nothing can be applied until
-                        the formula changes.
+    if (committed) {
+        return (
+            <div className="p-4">
+                <WorkflowResult title={committed.message}>
+                    <p>
+                        {committed.count} price{committed.count === 1 ? "" : "s"} changed. Each one is in the
+                        audit trail with your name and the previous value.
                     </p>
-                )}
+                    <div className="mt-3 flex gap-2">
+                        <Button asChild size="sm" variant="outline" className="h-7 text-xs">
+                            <Link href="/admin/audit?entity=Product">View the audit entries</Link>
+                        </Button>
+                        <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => setCommitted(null)}
+                            className="h-7 text-xs"
+                        >
+                            Reprice something else
+                        </Button>
+                    </div>
+                </WorkflowResult>
             </div>
+        )
+    }
 
-            {preview && (
-                <section>
-                    <div className="flex flex-wrap items-center gap-3 mb-3">
-                        <h2 className="font-semibold text-lg">Preview</h2>
-                        <Badge variant="outline">{preview.count} products</Badge>
-                        <span className="text-sm text-muted-foreground tabular-nums">
-                            {preview.oldTotal} → {preview.newTotal}
-                        </span>
-                    </div>
-                    <div className="overflow-x-auto border rounded-lg shadow max-h-[32rem]">
-                        <Table>
-                            <TableHeader>
-                                <TableRow>
-                                    <TableHead>SKU</TableHead>
-                                    <TableHead className="text-right">Now</TableHead>
-                                    <TableHead className="text-right">Becomes</TableHead>
-                                    <TableHead className="text-right">Change</TableHead>
-                                </TableRow>
-                            </TableHeader>
-                            <TableBody>
-                                {preview.rows.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                                            Nothing matches that scope.
-                                        </TableCell>
-                                    </TableRow>
+    return (
+        <div className="p-4">
+            <Workflow
+                busy={pending}
+                steps={[
+                    {
+                        id: "scope",
+                        title: "Define scope",
+                        validate: () => (scopeId ? true : "Choose what to reprice first."),
+                        content: (
+                            <div className="space-y-3">
+                                <div className="space-y-1.5">
+                                    <Label className="text-xs">Reprice by</Label>
+                                    <ToggleGroup
+                                        type="single"
+                                        value={scopeKind}
+                                        onValueChange={(value) => {
+                                            if (!value) return
+                                            setPreview(null)
+                                            setScopeKind(value as PricingScope["kind"])
+                                            setScopeId("")
+                                        }}
+                                    >
+                                        {(Object.keys(SCOPE_LABELS) as Array<keyof typeof SCOPE_LABELS>).map(
+                                            (kind) => (
+                                                <ToggleGroupItem key={kind} value={kind}>
+                                                    {SCOPE_LABELS[kind]}
+                                                </ToggleGroupItem>
+                                            )
+                                        )}
+                                    </ToggleGroup>
+                                </div>
+
+                                {scopeKind === "products" ? (
+                                    <div className="space-y-1 max-w-[520px]">
+                                        <Label htmlFor="skus" className="text-xs">
+                                            Product ids, comma separated
+                                        </Label>
+                                        <Input
+                                            id="skus"
+                                            value={scopeId}
+                                            onChange={(event) => invalidate(setScopeId)(event.target.value)}
+                                            className="h-[30px] font-mono text-sm"
+                                        />
+                                    </div>
                                 ) : (
-                                    preview.rows.map((row) => {
-                                        const invalid = preview.invalid.some((r) => r.productId === row.productId)
-                                        return (
-                                            <TableRow key={row.productId} className={invalid ? "bg-destructive/5" : undefined}>
-                                                <TableCell className="font-mono">{row.sku}</TableCell>
-                                                <TableCell className="text-right tabular-nums text-muted-foreground">
-                                                    {row.oldPrice}
-                                                </TableCell>
-                                                <TableCell className={`text-right tabular-nums font-medium ${invalid ? "text-destructive" : ""}`}>
-                                                    {row.newPrice}
-                                                </TableCell>
-                                                <TableCell
-                                                    className={`text-right tabular-nums ${row.delta.startsWith("-") ? "text-red-600" : "text-green-600"}`}
-                                                >
-                                                    {row.delta.startsWith("-") ? row.delta : `+${row.delta}`}
-                                                </TableCell>
-                                            </TableRow>
-                                        )
-                                    })
+                                    <div className="space-y-1 max-w-[380px]">
+                                        <Label htmlFor="scope" className="text-xs">
+                                            Choose one
+                                        </Label>
+                                        <Select value={scopeId} onValueChange={invalidate(setScopeId)}>
+                                            <SelectTrigger id="scope" size="sm" className="h-[30px] w-full text-sm">
+                                                <SelectValue placeholder="—" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {options.map((option) => (
+                                                    <SelectItem
+                                                        key={option.id}
+                                                        value={option.id}
+                                                        className="text-xs"
+                                                    >
+                                                        {option.name}
+                                                        {option.productCount !== undefined
+                                                            ? ` (${option.productCount})`
+                                                            : ""}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
                                 )}
-                            </TableBody>
-                        </Table>
-                    </div>
-                </section>
+                            </div>
+                        ),
+                    },
+                    {
+                        id: "formula",
+                        title: "Configure formula",
+                        content: (
+                            <div className="space-y-3">
+                                <ToggleGroup
+                                    type="single"
+                                    value={formulaKind}
+                                    onValueChange={(value) => {
+                                        if (!value) return
+                                        setPreview(null)
+                                        setFormulaKind(value as FormulaKind)
+                                    }}
+                                >
+                                    {(Object.keys(FORMULA_LABELS) as FormulaKind[]).map((kind) => (
+                                        <ToggleGroupItem key={kind} value={kind}>
+                                            {FORMULA_LABELS[kind]}
+                                        </ToggleGroupItem>
+                                    ))}
+                                </ToggleGroup>
+
+                                <div className="flex flex-wrap gap-3">
+                                    {formulaKind === "percent" && (
+                                        <Field
+                                            id="percent"
+                                            label="Percent"
+                                            hint="Negative reduces. −10 takes a tenth off."
+                                            value={percent}
+                                            onChange={invalidate(setPercent)}
+                                        />
+                                    )}
+                                    {(formulaKind === "fixed" || formulaKind === "set") && (
+                                        <Field
+                                            id="amount"
+                                            label={formulaKind === "set" ? "New price" : "Amount"}
+                                            value={amount}
+                                            onChange={invalidate(setAmount)}
+                                        />
+                                    )}
+                                    {formulaKind === "linear" && (
+                                        <>
+                                            <Field
+                                                id="multiplier"
+                                                label="Multiplier"
+                                                value={multiplier}
+                                                onChange={invalidate(setMultiplier)}
+                                            />
+                                            <Field
+                                                id="addend"
+                                                label="Then add"
+                                                value={addend}
+                                                onChange={invalidate(setAddend)}
+                                            />
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        ),
+                    },
+                    {
+                        id: "preview",
+                        title: "Preview old → new",
+                        validate: () =>
+                            preview && preview.count > 0
+                                ? true
+                                : "Generate a preview before continuing.",
+                        content: (
+                            <div className="space-y-3">
+                                <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={runPreview}
+                                    disabled={pending}
+                                    className="h-7 text-xs"
+                                >
+                                    {pending ? "Calculating…" : preview ? "Recalculate" : "Generate preview"}
+                                </Button>
+
+                                {!preview ? (
+                                    <EmptyState
+                                        variant="no-data"
+                                        title="Nothing previewed yet"
+                                        description="Generate a preview to see exactly which prices change and by how much."
+                                    />
+                                ) : preview.count === 0 ? (
+                                    <EmptyState
+                                        variant="no-results"
+                                        title="That selection contains no products"
+                                        description="Go back and widen the scope."
+                                    />
+                                ) : (
+                                    <PreviewTable preview={preview} />
+                                )}
+                            </div>
+                        ),
+                    },
+                ]}
+                commitSummary={{
+                    title: `Change ${preview?.count ?? 0} price${preview?.count === 1 ? "" : "s"}?`,
+                    description:
+                        "The storefront updates immediately. Orders already placed keep the price they recorded.",
+                    confirmLabel: "Commit price change",
+                    impact: {
+                        affectedCount: preview?.count ?? 0,
+                        financialImpact: preview?.newTotal,
+                        sideEffects: [
+                            preview
+                                ? `Catalogue total moves from ${preview.oldTotal} to ${preview.newTotal}`
+                                : "",
+                            "Every changed product gets an audit entry with its previous price",
+                            "Orders already placed are never rewritten",
+                        ].filter(Boolean),
+                    },
+                }}
+                onCommit={commit}
+            />
+        </div>
+    )
+}
+
+function Field({
+    id,
+    label,
+    hint,
+    value,
+    onChange,
+}: {
+    id: string
+    label: string
+    hint?: string
+    value: string
+    onChange: (value: string) => void
+}) {
+    return (
+        <div className="space-y-1">
+            <Label htmlFor={id} className="text-xs">
+                {label}
+            </Label>
+            <Input
+                id={id}
+                inputMode="decimal"
+                value={value}
+                onChange={(event) => onChange(event.target.value)}
+                className="h-[30px] w-32 tabular-nums text-sm"
+            />
+            {hint && <p className="text-2xs text-muted-foreground">{hint}</p>}
+        </div>
+    )
+}
+
+function PreviewTable({ preview }: { preview: PricingPreview }) {
+    return (
+        <div className="space-y-2">
+            <dl className="flex flex-wrap gap-x-6 gap-y-1 rounded-md border border-border-strong bg-surface-sunk px-3 py-2 text-xs">
+                <div className="flex items-baseline gap-1.5">
+                    <dt className="text-muted-foreground">Products</dt>
+                    <dd className="font-medium tabular-nums">{preview.count}</dd>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                    <dt className="text-muted-foreground">Total now</dt>
+                    <dd>
+                        <Money value={preview.oldTotal} />
+                    </dd>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                    <dt className="text-muted-foreground">Total after</dt>
+                    <dd className="font-medium">
+                        <Money value={preview.newTotal} />
+                    </dd>
+                </div>
+            </dl>
+
+            {preview.invalid.length > 0 && (
+                /*
+                 * The database's `products_price_positive` constraint would reject these on
+                 * commit anyway. Catching them here means the operator sees WHICH rows are
+                 * the problem instead of a failed transaction naming none of them.
+                 */
+                <p role="alert" className="rounded-md border border-danger-border bg-danger-bg px-3 py-2 text-xs text-danger">
+                    {preview.invalid.length} product{preview.invalid.length === 1 ? "" : "s"} would be priced at
+                    or below zero and the commit will be refused:{" "}
+                    <span className="font-mono">
+                        {preview.invalid.slice(0, 5).map((row) => row.sku).join(", ")}
+                    </span>
+                </p>
             )}
+
+            <div className="max-h-[420px] overflow-auto rounded-md border border-border-strong">
+                <table className="w-full border-collapse text-left">
+                    <caption className="sr-only">
+                        Prices before and after, {preview.count} products
+                    </caption>
+                    <thead className="sticky top-0 bg-surface-sunk">
+                        <tr className="h-8 border-b border-border-strong">
+                            <th scope="col" className="px-2.5 text-xs font-medium text-muted-foreground">
+                                SKU
+                            </th>
+                            <th scope="col" className="px-2.5 text-xs font-medium text-muted-foreground">
+                                Product
+                            </th>
+                            <th scope="col" className="px-2.5 text-right text-xs font-medium text-muted-foreground">
+                                Now
+                            </th>
+                            <th scope="col" className="px-2.5 text-right text-xs font-medium text-muted-foreground">
+                                After
+                            </th>
+                            <th scope="col" className="px-2.5 text-right text-xs font-medium text-muted-foreground">
+                                Change
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {preview.rows.map((row) => (
+                            <tr key={row.productId} className="h-[34px] border-b">
+                                <td className="px-2.5 font-mono text-xs">{row.sku}</td>
+                                <td className="max-w-[280px] px-2.5 text-sm">
+                                    <CellText>{row.name}</CellText>
+                                </td>
+                                <td className="px-2.5 text-right text-sm text-muted-foreground">
+                                    <Money value={row.oldPrice} />
+                                </td>
+                                <td className="px-2.5 text-right text-sm font-medium">
+                                    <Money value={row.newPrice} />
+                                </td>
+                                <td className="px-2.5 text-right text-sm">
+                                    <Money value={row.delta} />
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     )
 }
