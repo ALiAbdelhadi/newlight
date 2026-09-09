@@ -2,7 +2,9 @@ import { execFileSync } from "node:child_process"
 import { randomBytes } from "node:crypto"
 import { readdirSync, readFileSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
+
+import type { PrismaClient } from "../generated/prisma/client"
 import { PACKAGE_ROOT } from "../media"
 
 const MIGRATIONS = join(PACKAGE_ROOT, "prisma", "migrations")
@@ -27,7 +29,7 @@ function baseUrl(): string {
 }
 
 function adminClient(): PrismaClient {
-    return new PrismaClient({ datasources: { db: { url: baseUrl() } } })
+    return createPrismaClient(baseUrl())
 }
 
 function withDatabase(url: string, name: string): string {
@@ -47,8 +49,13 @@ async function applyMigrations(url: string): Promise<string[]> {
         const sql = readFileSync(join(MIGRATIONS, name, "migration.sql"), "utf8")
         execFileSync(
             join(PACKAGE_ROOT, "node_modules", ".bin", "prisma"),
-            ["db", "execute", "--url", url, "--stdin"],
-            { input: sql, stdio: ["pipe", "ignore", "pipe"], cwd: PACKAGE_ROOT }
+            ["db", "execute", "--stdin"],
+            {
+                input: sql,
+                stdio: ["pipe", "ignore", "pipe"],
+                cwd: PACKAGE_ROOT,
+                env: { ...process.env, PRISMA_DATASOURCE_URL: url },
+            }
         )
         applied.push(name)
     }
@@ -67,7 +74,7 @@ export async function createTestDatabase(): Promise<TestDatabase> {
     const url = withDatabase(baseUrl(), name)
     await applyMigrations(url)
 
-    const prisma = new PrismaClient({ datasources: { db: { url } } })
+    const prisma = createPrismaClient(url)
     return {
         url,
         name,

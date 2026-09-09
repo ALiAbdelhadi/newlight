@@ -1,4 +1,4 @@
-import type { OrderStatus, PaymentStatus } from "@prisma/client"
+import type { OrderStatus, PaymentStatus } from "./generated/prisma/client"
 
 import type { Locale } from "./locale"
 

@@ -1,7 +1,7 @@
 import { execFileSync } from "node:child_process"
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT, REPO_ROOT } from "../media"
 
 type Status = "ok" | "fail" | "manual"
@@ -27,7 +27,7 @@ function ageInHours(path: string): number {
 }
 
 async function main() {
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
 
     const exportPath = join(PACKAGE_ROOT, "data", "catalog-export.json")
     if (!existsSync(exportPath)) {

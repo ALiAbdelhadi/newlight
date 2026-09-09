@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient } from "@prisma/client"
+import { Prisma } from "../generated/prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
 import { BY_AR_KEY, BY_EN_KEY, coerceSpecValue, ROD_THICKNESS_SKUS, SPEC_MAP } from "../spec-map"
@@ -7,7 +8,7 @@ import { collectReferences, loadOverrides, loadTrees, PACKAGE_ROOT, resolve } fr
 import { requireSlug } from "../slug"
 import { LOCALES, type Locale } from "../locale"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 const allowLocalMedia = process.argv.includes("--allow-local-media")
 
 const warnings: string[] = []

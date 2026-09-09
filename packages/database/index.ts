@@ -1,14 +1,30 @@
-import { PrismaClient } from '@prisma/client'
+import { createPrismaClient } from "./prisma-client"
+
+import type { PrismaClient } from "./generated/prisma/client"
 
 declare global {
   var __prisma: PrismaClient | undefined
 }
 
-export const prisma = globalThis.__prisma || new PrismaClient()
+let client: PrismaClient | undefined
 
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.__prisma = prisma
+function resolveClient(): PrismaClient {
+  if (client) return client
+  client = globalThis.__prisma ?? createPrismaClient()
+  if (process.env.NODE_ENV !== 'production') globalThis.__prisma = client
+  return client
 }
+
+export const prisma: PrismaClient = new Proxy({} as PrismaClient, {
+  get(_target, property) {
+    const resolved = resolveClient()
+    const value = Reflect.get(resolved, property) as unknown
+    return typeof value === 'function' ? (value as (...args: unknown[]) => unknown).bind(resolved) : value
+  },
+  has(_target, property) {
+    return Reflect.has(resolveClient(), property)
+  },
+})
 
 export type {
   PrismaClient,
@@ -51,7 +67,7 @@ export type {
   Session,
   Account,
   Verification,
-} from "@prisma/client"
+} from "./generated/prisma/client"
 
 export {
   Prisma,
@@ -72,7 +88,7 @@ export {
   UserRole,
   DiscountKind,
   DiscountScopeType,
-} from "@prisma/client"
+} from "./generated/prisma/client"
 export * from "./money"
 export * from "./locale"
 export * from "./translation"
@@ -92,3 +108,4 @@ export * from "./reporting"
 export * from "./shipping"
 
 export * from "./rate-limit"
+export * from "./prisma-client"

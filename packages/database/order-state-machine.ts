@@ -1,4 +1,4 @@
-import type { ActorType, OrderStatus, Prisma, PrismaClient } from "@prisma/client"
+import type { ActorType, OrderStatus, Prisma, PrismaClient } from "./generated/prisma/client"
 import { DEFAULT_LOCATION_ID, recordMovement, release } from "./inventory"
 
 export interface Transition {

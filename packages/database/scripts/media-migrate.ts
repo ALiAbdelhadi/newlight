@@ -1,7 +1,7 @@
 import { createHash } from "node:crypto"
 import { existsSync, readFileSync, renameSync, writeFileSync } from "node:fs"
 import { join, relative } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import {
     loadOverrides,
     loadTrees,
@@ -53,7 +53,7 @@ function writeManifest(manifest: Manifest): void {
 }
 
 async function scan(): Promise<void> {
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
     const trees = loadTrees()
     const references = await collectReferences(prisma)
     await prisma.$disconnect()
@@ -236,7 +236,7 @@ async function verify(): Promise<void> {
         process.exit(1)
     }
 
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
 
     let missing: string[] = []
     let referenceCount = 0

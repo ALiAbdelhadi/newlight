@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { mkdirSync, writeFileSync } from "node:fs"
 import { join } from "node:path"
 
@@ -55,7 +55,7 @@ export function familyName(sectionName: string, slug: string): string {
 }
 
 async function main() {
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
     const stamp = new Date().toISOString().replace(/[:.]/g, "-")
 
     const families = await prisma.productFamily.findMany({

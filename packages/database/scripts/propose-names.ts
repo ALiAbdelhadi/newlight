@@ -1,9 +1,9 @@
 import { writeFileSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT } from "../media"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 
 function singular(name: string): string {
     if (/ies$/.test(name)) return name.replace(/ies$/, "y")

@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT } from "../media"
 
 interface Proposal {
@@ -18,7 +18,7 @@ async function main() {
     const ready = proposals.filter((p) => !p.needsReview && p.proposedEn.trim() && p.proposedAr.trim())
     const held = proposals.length - ready.length
 
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
     let written = 0
     let unchanged = 0
     const missing: string[] = []

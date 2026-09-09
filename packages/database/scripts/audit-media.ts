@@ -1,10 +1,10 @@
 import { createHash } from "node:crypto"
 import { existsSync, readFileSync, statSync } from "node:fs"
 import { join, relative } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { collectReferences, loadOverrides, loadTrees, PACKAGE_ROOT, readDimensions, REPO_ROOT, resolve, sniff } from "../media"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 
 async function auditV2(): Promise<never> {
     const manifestFile = join(PACKAGE_ROOT, "data", "media-manifest.json")

@@ -1,4 +1,4 @@
-import type { SpecValueType } from "@prisma/client"
+import type { SpecValueType } from "./generated/prisma/client"
 
 export const EXCLUDED_KEYS: Record<string, string> = {
     surface_color: "ProductAvailableColor — colours are a lookup table (§8), not descriptive text",

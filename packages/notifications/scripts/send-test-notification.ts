@@ -26,7 +26,7 @@ async function main() {
         return
     }
 
-    await prisma.$transaction((tx) =>
+    await prisma.$transaction((tx: Parameters<Parameters<typeof prisma.$transaction>[0]>[0]) =>
         notifyRecipients(tx, recipients, {
             type: "SYSTEM_ALERT",
             title: TITLE,

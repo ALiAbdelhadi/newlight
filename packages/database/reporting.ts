@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@prisma/client"
+import type { PrismaClient } from "./generated/prisma/client"
 import { DEFAULT_LOCATION_ID, OPENING_COUNT_PENDING_KEY } from "./inventory"
 import { money, serializeMoney, type SerializedMoney } from "./money"
 

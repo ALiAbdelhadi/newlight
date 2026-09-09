@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT } from "../media"
 
 interface Manifest {
@@ -12,7 +12,7 @@ async function main() {
         readFileSync(join(PACKAGE_ROOT, "data", "media-manifest.json"), "utf8")
     ) as Manifest
 
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
     const items = await prisma.orderItem.findMany({
         select: { id: true, orderId: true, productId: true, productImage: true },
         orderBy: { createdAt: "asc" },

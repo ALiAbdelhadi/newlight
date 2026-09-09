@@ -1,9 +1,9 @@
 import { randomBytes } from "node:crypto"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 
 function arg(name: string): string | undefined {
     const index = process.argv.indexOf(`--${name}`)

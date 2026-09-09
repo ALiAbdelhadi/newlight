@@ -1,4 +1,4 @@
-import type { DiscountKind, DiscountScopeType, Prisma, PrismaClient } from "@prisma/client"
+import type { DiscountKind, DiscountScopeType, Prisma, PrismaClient } from "./generated/prisma/client"
 import {
     compareMoney,
     money,

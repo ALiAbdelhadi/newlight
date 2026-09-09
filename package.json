@@ -12,13 +12,14 @@
     "test": "node scripts/assert-turbo-tasks.mjs test 4 && turbo run test"
   },
   "devDependencies": {
+    "@typescript/native": "npm:typescript@7.0.2",
     "prettier": "^3.6.2",
-    "turbo": "^2.7.3",
-    "typescript": "5.9.3"
+    "turbo": "^2.10.12",
+    "typescript": "npm:@typescript/typescript6@6.0.2"
   },
   "packageManager": "pnpm@10.31.0",
   "engines": {
-    "node": ">=18"
+    "node": ">=20.19"
   },
   "dependencies": {
     "next-pwa": "^5.6.0"

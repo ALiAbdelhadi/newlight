@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@prisma/client"
+import type { PrismaClient } from "../generated/prisma/client"
 import { recordMovement } from "../inventory"
 
 export const LOCATION_ID = "location_main"

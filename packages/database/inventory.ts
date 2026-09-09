@@ -1,4 +1,4 @@
-import { Prisma, type ActorType, type MovementType, type PrismaClient } from "@prisma/client"
+import { Prisma, type ActorType, type MovementType, type PrismaClient } from "./generated/prisma/client"
 
 export const DEFAULT_LOCATION_ID = "location_main"
 

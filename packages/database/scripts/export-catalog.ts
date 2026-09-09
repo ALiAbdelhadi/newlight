@@ -1,10 +1,10 @@
 import { writeFileSync, readFileSync, existsSync, renameSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT } from "../media"
 import { serializeMoney, serializeMoneyOrNull, sumMoney } from "../money"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 const EXPORT_VERSION = 1
 
 async function collect() {

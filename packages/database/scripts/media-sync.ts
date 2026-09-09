@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { PACKAGE_ROOT } from "../media"
 
 interface Entry {
@@ -41,7 +41,7 @@ async function main() {
         process.exit(1)
     }
 
-    const prisma = new PrismaClient()
+    const prisma = createPrismaClient()
     const images = await prisma.productImage.findMany({
         select: { id: true, publicId: true, url: true, blurDataUrl: true, width: true, height: true },
     })

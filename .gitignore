@@ -37,3 +37,6 @@ yarn-error.log*
 .DS_Store
 *.pem
 .env*
+
+# Prisma 7 generated client
+packages/database/generated

@@ -1,5 +1,5 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest"
-import type { ActorType, OrderStatus } from "@prisma/client"
+import type { ActorType, OrderStatus } from "../generated/prisma/client"
 import { createTestDatabase, type TestDatabase } from "./harness"
 import { seedFixture, seedStock, LOCATION_ID, type Fixture } from "./fixtures"
 import { reserve } from "../inventory"

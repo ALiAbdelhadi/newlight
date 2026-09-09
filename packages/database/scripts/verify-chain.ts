@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { describe, loadEnv, PACKAGE_ROOT } from "./env.mjs"
 
-const REQUIRED_CHECKS = [
+const REQUIRED_CHECKS: [string, string][] = [
     ["products", "products_price_positive"],
     ["stock_levels", "stock_levels_on_hand_non_negative"],
     ["stock_levels", "stock_levels_reserved_non_negative"],
@@ -39,8 +39,7 @@ const diff = execFileSync(
     [
         "migrate", "diff",
         "--from-migrations", "./prisma/migrations",
-        "--to-schema-datamodel", "./prisma/schema.prisma",
-        "--shadow-database-url", shadow,
+        "--to-schema", "./prisma/schema.prisma",
         "--script",
     ],
     { cwd: PACKAGE_ROOT, encoding: "utf8", env: process.env }
@@ -54,21 +53,25 @@ if (!/This is an empty migration/.test(diff)) {
 }
 console.log("[chain] OK: replaying every migration from empty reproduces schema.prisma exactly.")
 
-const prisma = new PrismaClient({ datasources: { db: { url: shadow } } })
-try {
-    const rows = await prisma.$queryRaw`
-        SELECT conrelid::regclass::text AS "table", conname AS "name"
-          FROM pg_constraint
-         WHERE contype = 'c' AND connamespace = 'public'::regnamespace`
-    const found = new Set(rows.map((row) => `${row.table}.${row.name}`))
-    const missing = REQUIRED_CHECKS.filter(([table, name]) => !found.has(`${table}.${name}`))
+async function main() {
+    const prisma = createPrismaClient(shadow)
+    try {
+        const rows = await prisma.$queryRaw<{ table: string; name: string }[]>`
+            SELECT conrelid::regclass::text AS "table", conname AS "name"
+              FROM pg_constraint
+             WHERE contype = 'c' AND connamespace = 'public'::regnamespace`
+        const found = new Set(rows.map((row) => `${row.table}.${row.name}`))
+        const missing = REQUIRED_CHECKS.filter(([table, name]) => !found.has(`${table}.${name}`))
 
-    if (missing.length) {
-        console.error("[chain] FAIL: §4.6 check constraints are missing from the replayed chain:")
-        for (const [table, name] of missing) console.error(`           ${table}.${name}`)
-        process.exit(1)
+        if (missing.length) {
+            console.error("[chain] FAIL: §4.6 check constraints are missing from the replayed chain:")
+            for (const [table, name] of missing) console.error(`           ${table}.${name}`)
+            process.exit(1)
+        }
+        console.log(`[chain] OK: all ${REQUIRED_CHECKS.length} §4.6 check constraints present.`)
+    } finally {
+        await prisma.$disconnect()
     }
-    console.log(`[chain] OK: all ${REQUIRED_CHECKS.length} §4.6 check constraints present.`)
-} finally {
-    await prisma.$disconnect()
 }
+
+void main()

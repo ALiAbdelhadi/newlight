@@ -19,7 +19,7 @@ export type {
     ContactFormResponse,
     ContactFormTag,
     Notification,
-} from "@prisma/client"
+} from "./generated/prisma/client"
 
 export type {
     ProductColorTemp,
@@ -33,4 +33,4 @@ export type {
     ContactPriority,
     NotificationType,
     NotificationPriority,
-} from "@prisma/client"
+} from "./generated/prisma/client"

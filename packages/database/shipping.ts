@@ -1,4 +1,4 @@
-import type { PrismaClient, Prisma } from "@prisma/client"
+import type { PrismaClient, Prisma } from "./generated/prisma/client"
 import { money, type Money, type SerializedMoney } from "./money"
 
 export const SHIPPING_OPTIONS = ["BasicShipping", "StandardShipping", "ExpressShipping"] as const

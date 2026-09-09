@@ -1,100 +1,105 @@
 {
-  "name": "@repo/database",
-  "version": "1.0.0",
-  "description": "Database package with Prisma client",
-  "main": "./index.ts",
-  "types": "./index.ts",
-  "exports": {
-    ".": {
-      "types": "./index.ts",
-      "default": "./index.ts"
+    "name": "@repo/database",
+    "version": "1.0.0",
+    "description": "Database package with Prisma client",
+    "main": "./index.ts",
+    "types": "./index.ts",
+    "exports": {
+        ".": {
+            "types": "./index.ts",
+            "default": "./index.ts"
+        },
+        "./status": {
+            "types": "./status.ts",
+            "default": "./status.ts"
+        },
+        "./locale": {
+            "types": "./locale.ts",
+            "default": "./locale.ts"
+        },
+        "./money": {
+            "types": "./money.ts",
+            "default": "./money.ts"
+        },
+        "./client": {
+            "types": "./generated/prisma/client.ts",
+            "default": "./generated/prisma/client.ts"
+        },
+        "./test-harness": {
+            "types": "./test/harness.ts",
+            "default": "./test/harness.ts"
+        },
+        "./test-fixtures": {
+            "types": "./test/fixtures.ts",
+            "default": "./test/fixtures.ts"
+        }
     },
-    "./status": {
-      "types": "./status.ts",
-      "default": "./status.ts"
+    "scripts": {
+        "db:generate": "node scripts/with-env.mjs --read-only prisma generate",
+        "db:push": "node scripts/with-env.mjs prisma db push",
+        "db:migrate": "node scripts/with-env.mjs prisma migrate dev",
+        "db:studio": "node scripts/with-env.mjs prisma studio",
+        "clean": "rm -rf .turbo node_modules dist prisma/client .prisma",
+        "postinstall": "node scripts/with-env.mjs --read-only prisma generate",
+        "verify": "node scripts/with-env.mjs --read-only prisma validate && node scripts/with-env.mjs --read-only prisma format",
+        "check-types": "tsc --noEmit",
+        "lint": "eslint .",
+        "db:deploy": "node scripts/with-env.mjs prisma migrate deploy",
+        "db:status": "node scripts/with-env.mjs --read-only prisma migrate status",
+        "db:migrate:to": "node scripts/migrate-to.mjs",
+        "db:verify-chain": "node scripts/with-env.mjs --read-only tsx scripts/verify-chain.ts",
+        "audit:catalog": "node scripts/with-env.mjs --read-only tsx scripts/audit-catalog.ts",
+        "media:audit": "node scripts/with-env.mjs --read-only tsx scripts/audit-media.ts",
+        "media:audit:orders": "node scripts/with-env.mjs --read-only tsx scripts/audit-order-media.ts",
+        "media:scan": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts scan",
+        "media:upload": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts upload",
+        "media:verify": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts verify",
+        "transform": "node scripts/with-env.mjs tsx scripts/transform-v1-to-v2.ts",
+        "catalog:export": "node scripts/with-env.mjs --read-only tsx scripts/export-catalog.ts export",
+        "catalog:restore": "node scripts/with-env.mjs tsx scripts/export-catalog.ts restore",
+        "seed:super-admin": "node scripts/with-env.mjs tsx scripts/seed-super-admin.ts",
+        "admin:reset-password": "node scripts/with-env.mjs tsx scripts/reset-admin-password.ts",
+        "test": "vitest run",
+        "media:sync": "node scripts/with-env.mjs tsx scripts/media-sync.ts",
+        "media:sync:dry": "node scripts/with-env.mjs --read-only tsx scripts/media-sync.ts --dry",
+        "cutover:preflight": "node scripts/with-env.mjs --read-only tsx scripts/cutover-preflight.ts",
+        "cutover:rehearse": "node scripts/cutover-rehearse.mjs",
+        "names:propose": "node scripts/with-env.mjs --read-only tsx scripts/propose-names.ts",
+        "names:apply": "node scripts/with-env.mjs tsx scripts/apply-names.ts",
+        "names:apply:dry": "node scripts/with-env.mjs --read-only tsx scripts/apply-names.ts --dry",
+        "clean:text": "node scripts/with-env.mjs tsx scripts/clean-catalogue-text.ts"
     },
-    "./locale": {
-      "types": "./locale.ts",
-      "default": "./locale.ts"
+    "keywords": [
+        "prisma",
+        "database",
+        "postgres"
+    ],
+    "author": "Alphabyte",
+    "license": "ISC",
+    "dependencies": {
+        "@prisma/adapter-pg": "7.10.0",
+        "@prisma/client": "^7.10.0",
+        "@prisma/extension-optimize": "^2.0.1",
+        "@prisma/instrumentation": "^7.10.0",
+        "better-auth": "^1.7.3",
+        "dotenv": "^17.2.3",
+        "dotenv-flow": "^4.1.0"
     },
-    "./money": {
-      "types": "./money.ts",
-      "default": "./money.ts"
+    "devDependencies": {
+        "@eslint/js": "^9.39.4",
+        "@repo/typescript-config": "workspace:*",
+        "@types/node": "^24.10.2",
+        "@typescript/native": "npm:typescript@7.0.2",
+        "eslint": "^9.39.4",
+        "globals": "^16.5.0",
+        "prisma": "^7.10.0",
+        "tsx": "^4.21.0",
+        "typescript": "npm:@typescript/typescript6@6.0.2",
+        "typescript-eslint": "^8.70.0",
+        "vitest": "^5.0.0"
     },
-    "./client": {
-      "types": "./prisma/client/index.d.ts",
-      "default": "./prisma/client/index.js"
-    },
-    "./test-harness": {
-      "types": "./test/harness.ts",
-      "default": "./test/harness.ts"
-    },
-    "./test-fixtures": {
-      "types": "./test/fixtures.ts",
-      "default": "./test/fixtures.ts"
+    "browser": {
+        "./prisma-client.ts": "./prisma-client.browser.ts",
+        "./generated/prisma/client.ts": "./generated/prisma/browser.ts"
     }
-  },
-  "scripts": {
-    "db:generate": "node scripts/with-env.mjs --read-only prisma generate && node ./scripts/fix-prisma-imports.js",
-    "db:push": "node scripts/with-env.mjs prisma db push",
-    "db:migrate": "node scripts/with-env.mjs prisma migrate dev",
-    "db:studio": "node scripts/with-env.mjs prisma studio",
-    "clean": "rm -rf .turbo node_modules dist prisma/client .prisma",
-    "postinstall": "node scripts/with-env.mjs --read-only prisma generate",
-    "verify": "node scripts/with-env.mjs --read-only prisma validate && node scripts/with-env.mjs --read-only prisma format",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint .",
-    "db:deploy": "node scripts/with-env.mjs prisma migrate deploy",
-    "db:status": "node scripts/with-env.mjs --read-only prisma migrate status",
-    "db:migrate:to": "node scripts/migrate-to.mjs",
-    "db:verify-chain": "node scripts/verify-chain.mjs",
-    "audit:catalog": "node scripts/with-env.mjs --read-only tsx scripts/audit-catalog.ts",
-    "media:audit": "node scripts/with-env.mjs --read-only tsx scripts/audit-media.ts",
-    "media:audit:orders": "node scripts/with-env.mjs --read-only tsx scripts/audit-order-media.ts",
-    "media:scan": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts scan",
-    "media:upload": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts upload",
-    "media:verify": "node scripts/with-env.mjs --read-only tsx scripts/media-migrate.ts verify",
-    "transform": "node scripts/with-env.mjs tsx scripts/transform-v1-to-v2.ts",
-    "catalog:export": "node scripts/with-env.mjs --read-only tsx scripts/export-catalog.ts export",
-    "catalog:restore": "node scripts/with-env.mjs tsx scripts/export-catalog.ts restore",
-    "seed:super-admin": "node scripts/with-env.mjs tsx scripts/seed-super-admin.ts",
-    "admin:reset-password": "node scripts/with-env.mjs tsx scripts/reset-admin-password.ts",
-    "test": "vitest run",
-    "media:sync": "node scripts/with-env.mjs tsx scripts/media-sync.ts",
-    "media:sync:dry": "node scripts/with-env.mjs --read-only tsx scripts/media-sync.ts --dry",
-    "cutover:preflight": "node scripts/with-env.mjs --read-only tsx scripts/cutover-preflight.ts",
-    "cutover:rehearse": "node scripts/cutover-rehearse.mjs",
-    "names:propose": "node scripts/with-env.mjs --read-only tsx scripts/propose-names.ts",
-    "names:apply": "node scripts/with-env.mjs tsx scripts/apply-names.ts",
-    "names:apply:dry": "node scripts/with-env.mjs --read-only tsx scripts/apply-names.ts --dry",
-    "clean:text": "node scripts/with-env.mjs tsx scripts/clean-catalogue-text.ts"
-  },
-  "keywords": [
-    "prisma",
-    "database",
-    "postgres"
-  ],
-  "author": "Alphabyte",
-  "license": "ISC",
-  "dependencies": {
-    "@prisma/adapter-neon": "^6.19.0",
-    "@prisma/client": "^6.19.0",
-    "@prisma/extension-optimize": "^2.0.1",
-    "@prisma/instrumentation": "^6.19.1",
-    "better-auth": "^1.7.3",
-    "dotenv": "^17.2.3",
-    "dotenv-flow": "^4.1.0"
-  },
-  "devDependencies": {
-    "@eslint/js": "^9.39.4",
-    "@repo/typescript-config": "workspace:*",
-    "@types/node": "^24.10.2",
-    "eslint": "^9.39.4",
-    "globals": "^16.5.0",
-    "prisma": "^6.19.0",
-    "tsx": "^4.21.0",
-    "typescript": "5.9.2",
-    "typescript-eslint": "^8.56.1",
-    "vitest": "^5.0.0"
-  }
 }

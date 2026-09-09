@@ -1,7 +1,7 @@
-import { PrismaClient } from "@prisma/client"
+import { createPrismaClient } from "../prisma-client"
 import { SPEC_MAP, EXCLUDED_KEYS, ROD_THICKNESS_SKUS } from "../spec-map"
 
-const prisma = new PrismaClient()
+const prisma = createPrismaClient()
 
 let failures = 0
 function check(label: string, actual: unknown, expected: unknown) {

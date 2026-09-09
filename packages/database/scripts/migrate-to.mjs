@@ -66,7 +66,7 @@ function execute(file) {
     const dir = mkdtempSync(join(tmpdir(), "nl-migrate-"))
     const wrapped = join(dir, "migration.sql")
     writeFileSync(wrapped, `BEGIN;\n${readFileSync(file, "utf8")}\nCOMMIT;\n`)
-    run(prisma, ["db", "execute", "--url", url, "--file", wrapped])
+    run(prisma, ["db", "execute", "--file", wrapped], { PRISMA_DATASOURCE_URL: url })
 }
 
 function listPending() {
@@ -88,6 +88,6 @@ function listPending() {
     return [...all]
 }
 
-function run(bin, args) {
-    execFileSync(bin, args, { cwd: PACKAGE_ROOT, stdio: "inherit", env: process.env })
+function run(bin, args, extraEnv = {}) {
+    execFileSync(bin, args, { cwd: PACKAGE_ROOT, stdio: "inherit", env: { ...process.env, ...extraEnv } })
 }
