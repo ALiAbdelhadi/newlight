@@ -4,12 +4,13 @@ import Image from "@/components/app-image"
 import { DirectionalArrow } from "@/components/directional-arrow"
 import { DiscountBadge, PriceTag } from "@/components/price-tag"
 import { Reveal } from "@/components/reveal"
+import { StockChip } from "@/components/stock-status"
+import type { StockStatus } from "@/lib/stock"
 import { cn } from "@/lib/utils"
 import { type SerializedMoney } from "@repo/database"
 import { useTranslations } from "next-intl"
 
 interface ProductCardProps {
-    id: string
     image: string
     title: string
     category: string
@@ -22,13 +23,17 @@ interface ProductCardProps {
      * shows a photo, a name and a price makes a customer open it to learn its wattage.
      */
     specs?: Array<{ label: string; value: string }>
+    /**
+     * Availability, rendered as a chip over the image. `StockChip` draws nothing for `"in"`, so a
+     * grid of stocked products stays quiet and only the low and sold-out tiles speak up.
+     */
+    stock?: StockStatus
     /** A compare checkbox, rendered over the image. Listings pass one; strips do not. */
     action?: React.ReactNode
     onClick?: () => void
 }
 
 export function ProductCard({
-    id,
     image,
     title,
     category,
@@ -37,6 +42,7 @@ export function ProductCard({
     discountPercent = 0,
     badge,
     specs,
+    stock,
     action,
     onClick,
 }: ProductCardProps) {
@@ -85,6 +91,7 @@ export function ProductCard({
                 {action && (
                     <div className={cn("absolute inset-e-4 z-20", discountPercent > 0 ? "top-16" : "top-4")}>{action}</div>
                 )}
+                {stock && <StockChip status={stock} className="absolute bottom-4 inset-s-4 z-10" />}
             </div>
             <div className="space-y-2 p-4">
                 <div className="space-y-1">
