@@ -54,8 +54,8 @@ const started = Date.now()
 sh(join(PACKAGE_ROOT, "node_modules", ".bin", "tsx"), ["scripts/transform-v1-to-v2.ts"], env)
 const seconds = ((Date.now() - started) / 1000).toFixed(1)
 
-console.log("\n[rehearse] migrate 0011 -> 0013")
-sh("node", ["scripts/migrate-to.mjs", "0013_better_auth"], env)
+console.log("\n[rehearse] migrate 0011 -> 0016")
+sh("node", ["scripts/migrate-to.mjs", "0016_push_notifications"], env)
 
 console.log("\n[rehearse] schema check")
 let drift = "none"

@@ -55,7 +55,7 @@ before the transform. This is why cutover is a branch promotion (ADR 0006).
 pnpm --filter @repo/database db:migrate:to --baseline 0000_baseline_production
 pnpm --filter @repo/database db:migrate:to 0010_order_lifecycle_and_configuration
 pnpm --filter @repo/database transform
-pnpm --filter @repo/database db:migrate:to 0013_better_auth
+pnpm --filter @repo/database db:migrate:to 0016_push_notifications
 ```
 
 The **first line is not optional**, and an earlier version of this runbook was missing it. The
@@ -123,7 +123,7 @@ pnpm --filter @repo/database cutover:rehearse
 ```
 
 Dumps production **read-only**, restores into a throwaway database on localhost, and runs the
-sequence above end to end — baseline, `0001`–`0010`, transform, `0011`–`0013` — then checks
+sequence above end to end — baseline, `0001`–`0010`, transform, `0011`–`0016` — then checks
 that the result reproduces `schema.prisma` exactly. It refuses any target that is not on
 localhost, and never names the branch.
 
