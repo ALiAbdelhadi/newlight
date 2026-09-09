@@ -1,37 +1,9 @@
-import { createHash } from "node:crypto"
 import { prisma } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
+import { assertValidImage, destroyCloudinaryAsset, uploadImageToCloudinary, MediaError } from "@/lib/cloudinary"
 
-export class MediaError extends Error {
-    constructor(message: string) {
-        super(message)
-        this.name = "MediaError"
-    }
-}
-
-const MAX_BYTES = 10 * 1024 * 1024
-const ACCEPTED = new Set(["image/jpeg", "image/png", "image/webp", "image/avif"])
-
-function credentials() {
-    const cloudName = process.env.CLOUDINARY_CLOUD_NAME
-    const apiKey = process.env.CLOUDINARY_API_KEY
-    const apiSecret = process.env.CLOUDINARY_API_SECRET
-    if (!cloudName || !apiKey || !apiSecret) {
-        throw new MediaError(
-            "Cloudinary is not configured. Set CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY and CLOUDINARY_API_SECRET."
-        )
-    }
-    return { cloudName, apiKey, apiSecret }
-}
-
-function sign(params: Record<string, string>, apiSecret: string): string {
-    const canonical = Object.keys(params)
-        .sort()
-        .map((key) => `${key}=${params[key]}`)
-        .join("&")
-    return createHash("sha1").update(`${canonical}${apiSecret}`).digest("hex")
-}
+export { MediaError }
 
 function publicIdFor(parts: { categorySlug: string; subCategorySlug: string; sku: string; index: number }): string {
     const clean = (value: string) => value.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-|-$/g, "")
@@ -55,12 +27,7 @@ export class MediaService {
     static async upload(productId: string, file: File, colorId: string | null) {
         const admin = await requireCurrentAdmin()
 
-        if (!ACCEPTED.has(file.type)) {
-            throw new MediaError(`${file.type || "that file"} is not an image. Use JPEG, PNG, WebP or AVIF.`)
-        }
-        if (file.size > MAX_BYTES) {
-            throw new MediaError(`That file is ${(file.size / 1048576).toFixed(1)} MB. The limit is 10 MB.`)
-        }
+        assertValidImage(file)
 
         const product = await prisma.product.findUniqueOrThrow({
             where: { id: productId },
@@ -84,30 +51,7 @@ export class MediaService {
             index: nextOrder,
         })
 
-        const { cloudName, apiKey, apiSecret } = credentials()
-        const timestamp = String(Math.floor(Date.now() / 1000))
-        const params = { public_id: publicId, timestamp, overwrite: "true", invalidate: "true" }
-
-        const form = new FormData()
-        form.append("file", file)
-        for (const [key, value] of Object.entries(params)) form.append(key, value)
-        form.append("api_key", apiKey)
-        form.append("signature", sign(params, apiSecret))
-
-        const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-            method: "POST",
-            body: form,
-        })
-        if (!response.ok) {
-            throw new MediaError(`Cloudinary refused the upload (${response.status}): ${await response.text()}`)
-        }
-
-        const result = (await response.json()) as {
-            secure_url: string
-            public_id: string
-            width?: number
-            height?: number
-        }
+        const result = await uploadImageToCloudinary(file, publicId)
 
         const image = await prisma.$transaction(async (tx) => {
             const created = await tx.productImage.create({
@@ -248,14 +192,7 @@ export class MediaService {
 
         if (siblings === 0) {
             try {
-                const { cloudName, apiKey, apiSecret } = credentials()
-                const timestamp = String(Math.floor(Date.now() / 1000))
-                const params = { public_id: image.publicId, timestamp, invalidate: "true" }
-                const form = new FormData()
-                for (const [key, value] of Object.entries(params)) form.append(key, value)
-                form.append("api_key", apiKey)
-                form.append("signature", sign(params, apiSecret))
-                await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/destroy`, { method: "POST", body: form })
+                await destroyCloudinaryAsset(image.publicId)
             } catch (error) {
                 console.error(`[media] the row is gone but Cloudinary still holds ${image.publicId}:`, error)
             }

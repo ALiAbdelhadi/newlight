@@ -65,7 +65,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
                       }),
                   }
                 : undefined,
-        image: view.imageUrl ?? undefined,
+        image: (view.imageUrl ?? (await CategoryService.firstProductImageForSubCategory(view.id))) ?? undefined,
     })
 }
 
@@ -86,12 +86,10 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Props) {
     const { view, locale, categorySlug, offer, siblings } = await load(params)
 
-    const alsoIn = siblings
-        .filter((sibling) => sibling.id !== view.id)
-        .flatMap((sibling) => {
-            const translation = sibling.translations[0]
-            return translation ? [{ id: sibling.id, name: translation.name, slug: translation.slug }] : []
-        })
+    const alsoIn = siblings.flatMap((sibling) => {
+        const translation = sibling.translations[0]
+        return translation ? [{ id: sibling.id, name: translation.name, slug: translation.slug }] : []
+    })
 
     const sectionName = view.translations[0]?.name ?? ""
     const categoryPath = `/${locale}/category/${encodeSlug(categorySlug)}`

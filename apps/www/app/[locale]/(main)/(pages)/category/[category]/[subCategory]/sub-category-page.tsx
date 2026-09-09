@@ -18,6 +18,7 @@ import {
     quickSpecs,
     type ListingFilters,
 } from "@/lib/services/product-facets"
+import { cn } from "@/lib/utils"
 import { encodeSlug, resolveLocale } from "@repo/database"
 import { useLocale, useTranslations } from "next-intl"
 import { useSearchParams } from "next/navigation"
@@ -88,16 +89,25 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
                                 {tm("alsoIn", { category: categoryName })}
                             </p>
                             <ul className="flex flex-wrap gap-2">
-                                {siblings.map((sibling) => (
-                                    <li key={sibling.id}>
-                                        <Link
-                                            href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(sibling.slug)}`}
-                                            className="inline-flex h-9 items-center rounded-full border bg-card px-4 text-sm transition-colors duration-(--duration-fast) hover:border-border-strong hover:bg-accent"
-                                        >
-                                            <bdi dir="auto">{sibling.name}</bdi>
-                                        </Link>
-                                    </li>
-                                ))}
+                                {siblings.map((sibling) => {
+                                    const isActive = sibling.id === subCategory.id
+                                    return (
+                                        <li key={sibling.id}>
+                                            <Link
+                                                href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(sibling.slug)}`}
+                                                aria-current={isActive ? "page" : undefined}
+                                                className={cn(
+                                                    "inline-flex h-9 items-center rounded-full border px-4 text-sm transition-colors duration-(--duration-fast)",
+                                                    isActive
+                                                        ? "border-primary bg-primary text-primary-foreground"
+                                                        : "bg-card hover:border-border-strong hover:bg-accent"
+                                                )}
+                                            >
+                                                <bdi dir="auto">{sibling.name}</bdi>
+                                            </Link>
+                                        </li>
+                                    )
+                                })}
                             </ul>
                         </nav>
                     )}

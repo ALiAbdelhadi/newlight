@@ -30,8 +30,13 @@ async function load(params: Props["params"]) {
     const category = await CategoryService.getCategoryBySlug(locale, resolution.value.translations[0]!.slug)
     if (!category) notFound()
 
+    // The tiles on this page, and this page's own OG image (via subCategories[0] below), fall
+    // back to a product photo when an admin left a sub-category's own image blank.
+    const subCategories = await CategoryService.withSubCategoryImageFallback(category.subCategories)
+    const enriched = { ...category, subCategories }
+
     const offer = await offersForSection({ categoryId: category.id })
-    return { category, locale, offer }
+    return { category: enriched, locale, offer }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -50,7 +55,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         alternateUrls: otherCategorySlug
             ? { [otherLocale]: createCategoryCanonicalUrl({ locale: otherLocale, categorySlug: otherCategorySlug }) }
             : undefined,
-        image: category.imageUrl ?? category.subCategories[0]?.imageUrl ?? undefined,
+        image: (await CategoryService.resolveCategoryImage(category)) ?? undefined,
         keywords: category.subCategories
             .slice(0, 8)
             .map((sub) => sub.translations[0]?.name)

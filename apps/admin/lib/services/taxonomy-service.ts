@@ -7,6 +7,7 @@ import {
 } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
+import { assertValidImage, destroyCloudinaryAsset, uploadImageToCloudinary } from "@/lib/cloudinary"
 
 export class TaxonomyError extends Error {
     constructor(message: string) {
@@ -76,6 +77,13 @@ async function assertSlugFree(
             `The ${locale} URL "${slug}" used to belong to something else and still redirects there. Choose another.`
         )
     }
+}
+
+// A category or sub-category holds exactly one photo (imageUrl is a bare column, not a
+// gallery table like ProductImage), so a fixed, id-derived public_id can just be overwritten
+// on every re-upload — there is never a previous asset at a different id to track or clean up.
+function taxonomyImagePublicId(kind: "category" | "subCategory", id: string): string {
+    return `taxonomy/${kind === "category" ? "categories" : "sub-categories"}/${id}`
 }
 
 export class TaxonomyService {
@@ -380,6 +388,66 @@ export class TaxonomyService {
                 },
             })
         })
+        await revalidateStorefront({ kind: "all" })
+    }
+
+    static async uploadImage(kind: "category" | "subCategory", id: string, file: File): Promise<string> {
+        const admin = await requireCurrentAdmin()
+        assertValidImage(file)
+
+        const publicId = taxonomyImagePublicId(kind, id)
+        const result = await uploadImageToCloudinary(file, publicId)
+
+        await prisma.$transaction(async (tx) => {
+            if (kind === "category") await tx.category.update({ where: { id }, data: { imageUrl: result.secure_url } })
+            else await tx.subCategory.update({ where: { id }, data: { imageUrl: result.secure_url } })
+
+            await tx.adminAuditLog.create({
+                data: {
+                    actorType: "ADMIN",
+                    actorId: admin.id,
+                    actorEmail: admin.email,
+                    action: `${kind}.image_upload`,
+                    entity: kind === "category" ? "Category" : "SubCategory",
+                    entityId: id,
+                    diff: { publicId: result.public_id },
+                },
+            })
+        })
+
+        await revalidateStorefront({ kind: "all" })
+        return result.secure_url
+    }
+
+    static async removeImage(kind: "category" | "subCategory", id: string): Promise<void> {
+        const admin = await requireCurrentAdmin()
+
+        await prisma.$transaction(async (tx) => {
+            if (kind === "category") await tx.category.update({ where: { id }, data: { imageUrl: null } })
+            else await tx.subCategory.update({ where: { id }, data: { imageUrl: null } })
+
+            await tx.adminAuditLog.create({
+                data: {
+                    actorType: "ADMIN",
+                    actorId: admin.id,
+                    actorEmail: admin.email,
+                    action: `${kind}.image_remove`,
+                    entity: kind === "category" ? "Category" : "SubCategory",
+                    entityId: id,
+                    diff: {},
+                },
+            })
+        })
+
+        // Best-effort: the field is already cleared, so a customer never sees a broken image
+        // even if Cloudinary is briefly unreachable here. A manually-pasted URL (never
+        // uploaded through this form) has no asset at this id, and destroying it is a no-op.
+        try {
+            await destroyCloudinaryAsset(taxonomyImagePublicId(kind, id))
+        } catch (error) {
+            console.error(`[taxonomy] cleared the image but Cloudinary may still hold ${kind}/${id}:`, error)
+        }
+
         await revalidateStorefront({ kind: "all" })
     }
 }

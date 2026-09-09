@@ -47,6 +47,58 @@ export class CategoryService {
         return resolveCategory(locale, slug)
     }
 
+    // An admin can leave a category or sub-category's own photo unset; rather than a bare
+    // placeholder, the storefront borrows the photo of the first live product underneath it —
+    // the one thing that is never blank for long. Falls back to null (a plain placeholder)
+    // only when there truly is no product image anywhere in scope yet.
+    static async firstProductImageForSubCategory(subCategoryId: string): Promise<string | null> {
+        const product = await prisma.product.findFirst({
+            where: { ...liveProduct, subCategoryId },
+            orderBy: [{ isFeatured: "desc" }, { displayOrder: "asc" }, { order: "asc" }],
+            select: { images: { orderBy: { order: "asc" }, take: 1, select: { url: true } } },
+        })
+        return product?.images[0]?.url ?? null
+    }
+
+    static async firstProductImageForCategory(categoryId: string): Promise<string | null> {
+        const product = await prisma.product.findFirst({
+            where: { ...liveProduct, subCategory: { categoryId } },
+            orderBy: [{ isFeatured: "desc" }, { displayOrder: "asc" }, { order: "asc" }],
+            select: { images: { orderBy: { order: "asc" }, take: 1, select: { url: true } } },
+        })
+        return product?.images[0]?.url ?? null
+    }
+
+    /** Fills in each sub-category's `imageUrl` from its own first product when the admin left it blank. */
+    static async withSubCategoryImageFallback<T extends { id: string; imageUrl: string | null }>(
+        subCategories: T[]
+    ): Promise<T[]> {
+        return Promise.all(
+            subCategories.map(async (sub) => {
+                if (sub.imageUrl) return sub
+                const fallback = await this.firstProductImageForSubCategory(sub.id)
+                return fallback ? { ...sub, imageUrl: fallback } : sub
+            })
+        )
+    }
+
+    /**
+     * The effective image for a category tile: its own photo, then its first sub-category's
+     * (which may itself already be a product-image fallback if `subCategories` was resolved
+     * through `withSubCategoryImageFallback`), then a fresh lookup across every product in the
+     * category.
+     */
+    static async resolveCategoryImage(category: {
+        id: string
+        imageUrl: string | null
+        subCategories?: Array<{ imageUrl: string | null }>
+    }): Promise<string | null> {
+        if (category.imageUrl) return category.imageUrl
+        const fromSubCategory = category.subCategories?.find((sub) => sub.imageUrl)?.imageUrl
+        if (fromSubCategory) return fromSubCategory
+        return this.firstProductImageForCategory(category.id)
+    }
+
     static async resolveSubCategory(locale: Locale, categorySlug: string, subCategorySlug: string) {
         return resolveSubCategory(locale, categorySlug, subCategorySlug)
     }

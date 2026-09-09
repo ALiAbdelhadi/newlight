@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useTransition } from "react"
+import { useRef, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import Image from "@/components/app-image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,8 +11,12 @@ import type { TaxonomyInput } from "@/lib/services/taxonomy-service"
 import {
     createCategory,
     createSubCategory,
+    removeCategoryImage,
+    removeSubCategoryImage,
     updateCategory,
     updateSubCategory,
+    uploadCategoryImage,
+    uploadSubCategoryImage,
 } from "@/app/action/taxonomy-actions"
 import { NativeSelect } from "@/components/ui/native-select"
 
@@ -74,6 +79,37 @@ export function TaxonomyForm({
     const [order, setOrder] = useState(String(existing?.order ?? 0))
     const [isActive, setIsActive] = useState(existing?.isActive ?? true)
     const [parent, setParent] = useState(categoryId ?? "")
+    const fileInput = useRef<HTMLInputElement>(null)
+
+    const uploadImage = (file: File) =>
+        start(async () => {
+            if (!existing) return
+            const formData = new FormData()
+            formData.set("file", file)
+            const result =
+                kind === "category"
+                    ? await uploadCategoryImage(existing.id, formData)
+                    : await uploadSubCategoryImage(existing.id, formData)
+            if (result.ok) {
+                toast.success(result.message ?? "Uploaded.")
+                if (result.url) setImageUrl(result.url)
+                if (fileInput.current) fileInput.current.value = ""
+            } else {
+                toast.error(result.error)
+            }
+        })
+
+    const removeImage = () =>
+        start(async () => {
+            if (!existing) return
+            const result = kind === "category" ? await removeCategoryImage(existing.id) : await removeSubCategoryImage(existing.id)
+            if (result.ok) {
+                toast.success(result.message ?? "Removed.")
+                setImageUrl("")
+            } else {
+                toast.error(result.error)
+            }
+        })
 
     const set = (locale: "en" | "ar", field: FieldKey, value: string) =>
         setValues((v) => ({ ...v, [locale]: { ...v[locale], [field]: value } }))
@@ -190,26 +226,65 @@ export function TaxonomyForm({
                 </div>
             ))}
 
-            <section className="rounded-lg border bg-card p-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <section className="rounded-lg border bg-card p-3 grid grid-cols-1 gap-4">
                 <div className="space-y-1.5">
-                    <Label htmlFor="image">Image URL</Label>
+                    <Label>Photo</Label>
+                    {existing ? (
+                        <div className="flex flex-wrap items-end gap-3">
+                            <div className="flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-md border bg-surface-sunk">
+                                {imageUrl ? (
+                                    <Image src={imageUrl} alt="" width={80} height={80} className="size-full object-cover" />
+                                ) : (
+                                    <span className="text-2xs text-muted-foreground">None</span>
+                                )}
+                            </div>
+                            <div className="space-y-1.5">
+                                <Input
+                                    ref={fileInput}
+                                    type="file"
+                                    accept="image/jpeg,image/png,image/webp,image/avif"
+                                    disabled={pending}
+                                    onChange={(e) => {
+                                        const file = e.target.files?.[0]
+                                        if (file) uploadImage(file)
+                                    }}
+                                    className="max-w-xs"
+                                />
+                                <p className="text-2xs text-muted-foreground">JPEG, PNG, WebP or AVIF, up to 10 MB.</p>
+                            </div>
+                            {imageUrl && (
+                                <Button type="button" variant="ghost" size="sm" disabled={pending} onClick={removeImage}>
+                                    Remove
+                                </Button>
+                            )}
+                        </div>
+                    ) : (
+                        <p className="text-xs text-muted-foreground">
+                            Create it first, then upload a photo from its own page.
+                        </p>
+                    )}
+                    <Label htmlFor="image" className="text-2xs text-muted-foreground">
+                        Or paste an image URL directly
+                    </Label>
                     <Input id="image" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />
                 </div>
-                <div className="space-y-1.5">
-                    <Label htmlFor="order">Order</Label>
-                    <Input id="order" inputMode="numeric" value={order} onChange={(e) => setOrder(e.target.value)} className="tabular-nums" />
-                </div>
-                <div className="space-y-1.5">
-                    <Label htmlFor="active">Visible on the storefront</Label>
-                    <Button
-                        id="active"
-                        type="button"
-                        variant={isActive ? "default" : "secondary"}
-                        onClick={() => setIsActive((v) => !v)}
-                        className="w-full"
-                    >
-                        {isActive ? "Visible" : "Hidden"}
-                    </Button>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                        <Label htmlFor="order">Order</Label>
+                        <Input id="order" inputMode="numeric" value={order} onChange={(e) => setOrder(e.target.value)} className="tabular-nums" />
+                    </div>
+                    <div className="space-y-1.5">
+                        <Label htmlFor="active">Visible on the storefront</Label>
+                        <Button
+                            id="active"
+                            type="button"
+                            variant={isActive ? "default" : "secondary"}
+                            onClick={() => setIsActive((v) => !v)}
+                            className="w-full"
+                        >
+                            {isActive ? "Visible" : "Hidden"}
+                        </Button>
+                    </div>
                 </div>
             </section>
 
