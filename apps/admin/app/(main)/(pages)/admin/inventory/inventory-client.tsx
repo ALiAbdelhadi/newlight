@@ -30,12 +30,6 @@ interface Draft {
     unitCost: string
 }
 
-/**
- * §8.4. Pasting from a supplier invoice is the actual workflow, so the form is a filterable
- * list of every product with two boxes each — not a modal you reopen 40 times.
- *
- * Only rows with a quantity are submitted. An empty grid submits nothing.
- */
 export function BulkReceipt({ products }: { products: ProductRow[] }) {
     const [filter, setFilter] = useState("")
     const [drafts, setDrafts] = useState<Record<string, Draft>>({})
@@ -137,10 +131,6 @@ export function BulkReceipt({ products }: { products: ProductRow[] }) {
     )
 }
 
-/**
- * N1. Its own decision, behind a confirmation, because closing the opening count is what makes
- * every valuation number afterwards mean something — and it cannot be undone from this screen.
- */
 export function OpeningStocktake() {
     const [pending, start] = useTransition()
 

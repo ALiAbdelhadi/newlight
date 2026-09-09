@@ -1,9 +1,3 @@
-/**
- * The SMTP transport's two jobs that are not "call nodemailer": reading configuration out of
- * the environment, and classifying a failure as retryable or not. The outbox's backoff is
- * built on that classification, so getting it wrong turns permanent rejections into six
- * retries and transient deferrals into a FAILED row.
- */
 import { afterEach, describe, expect, it, vi } from "vitest"
 import { MailConfigurationError, MailTransportError } from "../types"
 import { smtpConfigFromEnv, smtpTransport } from "../transport/smtp"

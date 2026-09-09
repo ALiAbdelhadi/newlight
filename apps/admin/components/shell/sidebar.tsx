@@ -9,51 +9,8 @@ import { NavList } from "@/components/shell/nav-list"
 import type { DashboardStats } from "@/types"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
-/**
- * The navigation rail (P4.5 §7.1).
- *
- * What this replaces was not a styling problem, it was an availability one. The old sidebar
- * defaulted to CLOSED and collapsed to `width: 0; display: none`, so an operator landed on
- * the panel with no navigation at all and had to find a chevron before they could go
- * anywhere. On top of that it was a glass panel — `bg-white/10 backdrop-blur-md shadow-xl`,
- * a gradient logo tile, `rounded-xl` on every row, 48px rows animated by framer-motion —
- * which is the vocabulary of a marketing dashboard, not a tool somebody works inside for
- * six hours.
- *
- * The rules here are the opposite ones:
- *
- *   NAVIGATION IS NEVER ABSENT. Collapsed means a 48px icon rail, not zero. Every
- *   destination stays one click away, and the icons keep accessible names through tooltips.
- *   Below `md` the rail is replaced by `MobileNav`'s drawer rather than removed — see the
- *   `hidden md:flex` below, which is the whole of the responsive story on this side.
- *
- *   THE ACTIVE SURFACE IS OBVIOUS WITHOUT COLOUR. A 2px bar on the leading edge, a filled
- *   row, AND `aria-current="page"`. Colour alone fails the operator with a bad monitor and
- *   the one using a screen reader, and those are the same failure.
- *
- *   DENSITY. 30px rows and 12.5px labels put fourteen surfaces and six domain headings on
- *   screen without scrolling. The old sidebar needed a scroll area for thirteen flat items.
- *
- * The rows themselves live in `NavList`, shared with the mobile drawer.
- *
- * Motion is one property: width, 160ms. That is the only width animation in the application.
- */
-
 const RAIL_STORAGE_KEY = "admin.sidebar.collapsed"
 
-/**
- * The collapsed preference as an external store, rather than state seeded from an effect.
- *
- * It has to be read from localStorage, which does not exist on the server, so the naive
- * shapes are both wrong: a lazy `useState` initialiser runs during render on both sides and
- * hydrates mismatched, while `setState` inside an effect triggers the cascading re-render
- * the compiler lint rule exists to catch. `useSyncExternalStore` is the shape React provides
- * for exactly this — a server snapshot that is always "expanded", and a client snapshot read
- * from storage.
- *
- * Module scope, so every mount of the sidebar agrees and a second tab picks up the change
- * through the `storage` event.
- */
 let collapsedCache: boolean | null = null
 const collapsedListeners = new Set<() => void>()
 
@@ -62,7 +19,7 @@ function readCollapsed(): boolean {
         try {
             collapsedCache = window.localStorage.getItem(RAIL_STORAGE_KEY) === "1"
         } catch {
-            collapsedCache = false // private mode, blocked storage — expanded is the safe default
+            collapsedCache = false
         }
     }
     return collapsedCache
@@ -87,7 +44,6 @@ function setCollapsed(next: boolean) {
     try {
         window.localStorage.setItem(RAIL_STORAGE_KEY, next ? "1" : "0")
     } catch {
-        /* the preference simply does not persist */
     }
     for (const listener of collapsedListeners) listener()
 }
@@ -114,7 +70,6 @@ export function Sidebar({ stats, user }: SidebarProps) {
                     collapsed ? "w-12" : "w-56"
                 )}
             >
-                {/* Brand row — same 44px as the top bar, so the two align across the seam. */}
                 <div
                     className={cn(
                         "flex h-11 shrink-0 items-center border-b",
@@ -149,12 +104,6 @@ export function Sidebar({ stats, user }: SidebarProps) {
                 </nav>
 
                 {user && !collapsed && (
-                    /*
-                     * pb-8 clears Next's development indicator, which is pinned to the
-                     * bottom-left corner and sat directly on top of the collapse control
-                     * when it lived down here — an unclickable button in dev is a bug even
-                     * though the badge is absent in production.
-                     */
                     <div className="shrink-0 border-t px-3 pt-2 pb-8">
                         <div className="truncate text-xs font-medium">{user.name}</div>
                         <div className="truncate text-2xs text-muted-foreground">{user.email}</div>

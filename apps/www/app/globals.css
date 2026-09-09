@@ -3,119 +3,46 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ===========================================================================
-   NewLight storefront — design tokens
-   ===========================================================================
-
-   ONE SYSTEM, TWO EXPRESSIONS.
-
-   Every colour, border, radius, state and motion value below is the same value
-   the admin panel uses (apps/admin/app/globals.css). They are not "similar" and
-   they are not coincidentally close: they are the same OKLCH numbers, so a blue
-   in an order status here is the identical blue in the order status there, and
-   a change to the brand is one change rather than two.
-
-   What differs is SCALE, not vocabulary. The admin is an operator console: 13px
-   base, 34px rows, nothing larger than 22px. This is a shop: 16px base and a
-   display scale that goes up to 76px, because a storefront's job is hierarchy
-   and atmosphere and an operator console's job is density. Same grammar,
-   different register.
-
-   What this replaces was stock shadcn: zinc neutrals, a violet-leaning primary,
-   10.4px radius, no semantic state colours at all — and `--font-sans` mapped to
-   `--font-geist-sans`, a variable DEFINED NOWHERE in the repository. Inter was
-   downloaded on every page load and never applied to anything; the whole site
-   rendered in the browser's default UI face.
-
-   Three rules, the same three the admin enforces:
-
-     1. A component NEVER hardcodes a colour and NEVER uses a `dark:` utility.
-        A value that differs between themes becomes a token here.
-     2. Borders carry separation. Shadows are for things that float above the
-        page — overlays, the sticky header once it detaches, dialogs.
-     3. Every value is here. A component that needs a number it cannot find is a
-        gap in the system, not a licence to invent one.
-   =========================================================================== */
-
 @theme {
-  /* --- Type scale ---------------------------------------------------------
-     Base is 16px: this is body copy somebody reads standing in a showroom on a
-     phone, not a table cell. The ladder is a rounded major-third, and it stops
-     at 76px — the old hero set `text-8xl` (96px) beside a `text-9xl` (128px)
-     call to action, which is not a hierarchy, it is two competing shouts. */
-  --text-2xs: 11px;               /* legal, image credits                     */
+  --text-2xs: 11px;
   --text-2xs--line-height: 16px;
-  --text-xs: 12px;                /* eyebrows, badges, metadata               */
+  --text-xs: 12px;
   --text-xs--line-height: 16px;
-  --text-sm: 14px;                /* secondary copy, captions, labels         */
+  --text-sm: 14px;
   --text-sm--line-height: 20px;
-  --text-base: 16px;              /* BASE — body                              */
+  --text-base: 16px;
   --text-base--line-height: 26px;
-  --text-lg: 18px;                /* lead paragraphs                          */
+  --text-lg: 18px;
   --text-lg--line-height: 28px;
-  --text-xl: 20px;                /* card titles                              */
+  --text-xl: 20px;
   --text-xl--line-height: 28px;
-  --text-2xl: 24px;               /* h3                                       */
+  --text-2xl: 24px;
   --text-2xl--line-height: 32px;
-  --text-3xl: 30px;               /* h2 on small screens                      */
+  --text-3xl: 30px;
   --text-3xl--line-height: 38px;
-  --text-4xl: 38px;               /* h2                                       */
+  --text-4xl: 38px;
   --text-4xl--line-height: 44px;
-  --text-5xl: 48px;               /* h1                                       */
+  --text-5xl: 48px;
   --text-5xl--line-height: 52px;
-  --text-6xl: 60px;               /* hero, from md up                         */
+  --text-6xl: 60px;
   --text-6xl--line-height: 62px;
-  --text-7xl: 76px;               /* hero, from lg up — the ceiling           */
+  --text-7xl: 76px;
   --text-7xl--line-height: 76px;
 
-  /* Above 76px there is nothing. `text-8xl` and `text-9xl` are removed rather
-     than left available, the same way the admin removes everything over 22px:
-     an available utility is one somebody eventually uses. */
   --text-8xl: initial;
   --text-9xl: initial;
 
-  /* --- Tracking ----------------------------------------------------------
-     Uppercase type needs letter-spacing to stay readable, and every component
-     that needed some picked its own: 0.02, 0.05, 0.12, 0.14, 0.18, 0.2, 0.22,
-     0.25, 0.28, 0.3, 0.4em, plus `widest` and `wider`. Thirteen values for one
-     idea, and the two shared layout primitives were already agreed on 0.18.
+  --tracking-label: 0.18em;
+  --tracking-wordmark: 0.2em;
+  --tracking-hero: 0.28em;
 
-     Three named values, and the two that are not the label exist because they
-     are DIFFERENT THINGS, not different opinions about the same thing. */
-  --tracking-label: 0.18em;      /* every uppercase micro-label, badge, eyebrow */
-  --tracking-wordmark: 0.2em;    /* the NEW LIGHT lockup, and only that         */
-  --tracking-hero: 0.28em;       /* the hero's single line, set wider on purpose */
-
-  /* --- Motion ------------------------------------------------------------
-     The same two curves and the same three durations as the admin. A
-     storefront may animate more THINGS than a console; it does not get to
-     animate them at different speeds. */
   --ease-out-fast: cubic-bezier(0.2, 0, 0, 1);
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* --- Swatches: the product, not the theme -------------------------------
-     A finish swatch and a colour-temperature swatch are PHOTOGRAPHS OF A
-     THING, drawn in CSS. A black lamp is black in dark mode, and 3000K is the
-     same amber on both themes, so these are the one family of colour in the
-     app that is defined ONCE and never redefined under `.dark`. That is also
-     why they are not `--primary`-style semantic tokens: they answer "what
-     colour is the metal", not "what does this state mean".
-
-     They replace three components that each kept their own copy of the same
-     Tailwind palette classes — `bg-black border-gray-900 text-white`,
-     `from-gray-400 to-gray-600`, `from-yellow-300 to-yellow-400` — which is
-     both the palette leaking into components and the same vocabulary written
-     out three times with small differences.
-
-     ONE EDGE FOR EVERY SAMPLE. Each swatch used to carry a bespoke border a
-     step darker than itself; a single hairline at 35% grey reads on a white
-     disc AND on a dark ground, which is what a border on this thing is for. */
   --color-swatch-edge: oklch(0.5 0 0 / 0.35);
-  --color-swatch-ink-light: oklch(1 0 0);          /* the check on a dark sample */
-  --color-swatch-ink-dark: oklch(0.21 0.034 264.665); /* the check on a pale one */
+  --color-swatch-ink-light: oklch(1 0 0);
+  --color-swatch-ink-dark: oklch(0.21 0.034 264.665);
 
-  /* Finishes. `-shade` is the second gradient stop, always the darker one, so
-     every sample is lit from the same corner. */
   --color-swatch-black: oklch(0.21 0.034 264.665);
   --color-swatch-black-shade: oklch(0.07 0.02 264.665);
   --color-swatch-gray: oklch(0.707 0.022 261.325);
@@ -129,7 +56,6 @@
   --color-swatch-unknown: oklch(0.928 0.006 264.531);
   --color-swatch-unknown-shade: oklch(0.872 0.01 258.338);
 
-  /* Colour temperature, warm to daylight. */
   --color-swatch-warm: oklch(0.905 0.182 98.111);
   --color-swatch-warm-shade: oklch(0.852 0.199 91.936);
   --color-swatch-cool: oklch(0.973 0.071 103.193);
@@ -137,42 +63,22 @@
   --color-swatch-daylight: oklch(1 0 0);
   --color-swatch-daylight-shade: oklch(0.985 0.002 247.839);
 
-  /* --- Type set ON a photograph ------------------------------------------
-     Not `--foreground`, and not `--background` inverted: over an image both of
-     those follow the theme, so a caption laid on a photograph turns near-black
-     in dark mode and disappears into it. The image does not have a theme, so
-     neither does the type on top of it. */
   --color-on-media: oklch(1 0 0);
   --color-on-media-muted: oklch(1 0 0 / 0.78);
 
-  /* --- Elevation — three levels, and level 0 is "no shadow" --------------- */
   --shadow-overlay: 0 1px 2px oklch(0.208 0.042 265.755 / 0.04),
                     0 4px 12px oklch(0.208 0.042 265.755 / 0.08);
   --shadow-modal: 0 8px 32px oklch(0.208 0.042 265.755 / 0.16);
 }
 
 @theme inline {
-  /* --- Fonts -------------------------------------------------------------
-     Named LITERALLY rather than through next/font's `var(--font-inter)`, for
-     the reason the admin documents at length: that variable expands to
-     `"Inter", "Inter Fallback"`, and the injected fallback is a metric-adjusted
-     local Arial which HAS Arabic glyphs — so it satisfies every Arabic
-     codepoint before Almarai is ever consulted, and the entire Arabic
-     storefront silently renders in Arial.
 
-     Naming the families directly skips the injected fallback. Next 16 no longer
-     hashes next/font family names, so these match the generated @font-face
-     rules exactly. */
   --font-sans: Inter, Almarai, ui-sans-serif, system-ui, sans-serif;
 
-  /* The display face. Playfair carries NO Arabic glyphs, so Almarai follows it
-     and picks up every Arabic codepoint — which is why the RTL override that
-     used to live in a utility class is unnecessary: the stack handles it. */
   --font-display: "Playfair Display", Almarai, Georgia, serif;
   --font-arabic: Almarai, ui-sans-serif, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 
-  /* --- Surfaces ---------------------------------------------------------- */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-surface-sunk: var(--surface-sunk);
@@ -181,7 +87,6 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 
-  /* --- The one accent ---------------------------------------------------- */
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-primary-soft: var(--primary-soft);
@@ -192,17 +97,11 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
 
-  /* --- Borders: two tokens, not one -------------------------------------- */
   --color-border: var(--border);
   --color-border-strong: var(--border-strong);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
-  /* --- Semantic state ----------------------------------------------------
-     State only, never decoration, never a second accent. These are what an
-     order status, a stock warning and a form error are drawn from — and they
-     are the admin's values, so "shipped" is the same blue on both sides of the
-     product. */
   --color-success: var(--success);
   --color-success-bg: var(--success-bg);
   --color-success-border: var(--success-border);
@@ -222,58 +121,43 @@
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
 
-  /* --- Radius ------------------------------------------------------------
-     Identical to the admin's, so `rounded-lg` means 6px in both applications.
-     The storefront was on 10.4px, which on a 44px button reads as a pill. */
-  --radius-sm: calc(var(--radius) - 4px);   /*  2px */
-  --radius-md: calc(var(--radius) - 2px);   /*  4px — controls  */
-  --radius-lg: var(--radius);               /*  6px — surfaces  */
-  --radius-xl: calc(var(--radius) + 4px);   /* 10px — modals, media */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
 
-  /* --- Layout metrics ----------------------------------------------------- */
   --height-header: var(--header-height);
   --height-field: var(--field-height);
   --spacing-gutter: var(--gutter);
 }
 
 :root {
-  --radius: 0.375rem; /* 6px — the admin's value */
+  --radius: 0.375rem;
 
-  /* ---- Shell ------------------------------------------------------------
-     The storefront's ground is WHITE where the admin's is slate-50. That is
-     the one deliberate divergence in the palette and it is a product decision:
-     product photography of light fixtures is shot on white, and a tinted page
-     behind a white cut-out reads as a mistake. Everything else matches. */
-  --background: oklch(1 0 0);                    /* white            */
-  --foreground: oklch(0.208 0.042 265.755);      /* slate-900 · 17.4:1 on white */
-  --surface-sunk: oklch(0.984 0.003 247.858);    /* slate-50 — bands, wells     */
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.208 0.042 265.755);
+  --surface-sunk: oklch(0.984 0.003 247.858);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.208 0.042 265.755);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.208 0.042 265.755);
 
-  /* ---- The one accent -------------------------------------------------- */
-  --primary: oklch(0.424 0.199 265.638);         /* blue-800 — the admin's primary */
+  --primary: oklch(0.424 0.199 265.638);
   --primary-foreground: oklch(1 0 0);
-  --primary-soft: oklch(0.97 0.014 254.604);     /* blue-50  */
+  --primary-soft: oklch(0.97 0.014 254.604);
 
   --secondary: oklch(0.968 0.007 247.896);
   --secondary-foreground: oklch(0.208 0.042 265.755);
   --muted: oklch(0.968 0.007 247.896);
-  --muted-foreground: oklch(0.446 0.043 257.281); /* slate-600 · 7.4:1 — a shop's
-                                                     secondary copy is read, not
-                                                     scanned, so it is darker than
-                                                     the console's slate-500 */
+  --muted-foreground: oklch(0.446 0.043 257.281);
   --accent: oklch(0.968 0.007 247.896);
   --accent-foreground: oklch(0.208 0.042 265.755);
 
-  /* ---- Borders --------------------------------------------------------- */
-  --border: oklch(0.929 0.013 255.508);          /* slate-200 */
-  --border-strong: oklch(0.869 0.022 252.894);   /* slate-300 */
+  --border: oklch(0.929 0.013 255.508);
+  --border-strong: oklch(0.869 0.022 252.894);
   --input: oklch(0.869 0.022 252.894);
   --ring: oklch(0.424 0.199 265.638);
 
-  /* ---- Semantic state -------------------------------------------------- */
   --success: oklch(0.527 0.154 150.069);
   --success-bg: oklch(0.982 0.018 155.826);
   --success-border: oklch(0.925 0.084 155.995);
@@ -293,44 +177,28 @@
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
 
-  /* ---- Layout -----------------------------------------------------------
-     One container width and one gutter, so a section cannot invent its own.
-     Every page was choosing between max-w-7xl, max-w-6xl, max-w-4xl and
-     px-4 / px-6 / px-8 independently. */
   --container: 1280px;
-  --container-prose: 68ch;       /* running text — about 75 characters at 16px */
-  --gutter: 20px;                /* mobile side padding                        */
-  --gutter-lg: 40px;             /* from lg up                                 */
-  --section-gap: 96px;           /* between marketing sections                 */
+  --container-prose: 68ch;
+  --gutter: 20px;
+  --gutter-lg: 40px;
+  --section-gap: 96px;
   --section-gap-lg: 128px;
   --header-height: 64px;
-  --field-height: 44px;          /* a touch target, not the console's 30px     */
+  --field-height: 44px;
 
-  /* The announcement strip above the header. ZERO by default and set to a real
-     height by the layout ONLY while something is actually discounted, so the
-     header sits at 64px the rest of the time and nothing has to remember to put
-     it back. The nav's `top` and main's padding both read this, which is why the
-     strip can appear and disappear without a second measurement anywhere. */
   --announcement-height: 0px;
 
-  /* ---- Motion ------------------------------------------------------------
-     The admin's durations, one longer step added for the editorial reveals
-     that only exist here. */
   --duration-instant: 0ms;
-  --duration-fast: 120ms;    /* hover, focus ring, dropdowns          */
-  --duration-base: 180ms;    /* sheet slide, dialog fade + scale      */
-  --duration-slow: 400ms;    /* section reveal, image cross-fade      */
-  --duration-hero: 950ms;         /* the homepage hero's one entrance, on load     */
-  --duration-hero-media: 1500ms;  /* its photograph, settling behind the type      */
-  --duration-hero-drift: 24s;     /* the same photograph, breathing, forever       */
+  --duration-fast: 120ms;
+  --duration-base: 180ms;
+  --duration-slow: 400ms;
+  --duration-hero: 950ms;
+  --duration-hero-media: 1500ms;
+  --duration-hero-drift: 24s;
 }
 
-/* ===========================================================================
-   Dark theme — every token above redefined. Nothing else in the app may branch
-   on theme: no `dark:` utilities in components, no hardcoded colours.
-   =========================================================================== */
 .dark {
-  --background: oklch(0.129 0.042 264.695);      /* slate-950 */
+  --background: oklch(0.129 0.042 264.695);
   --foreground: oklch(0.984 0.003 247.858);
   --surface-sunk: oklch(0.176 0.042 265.2);
   --card: oklch(0.208 0.042 265.755);
@@ -338,7 +206,7 @@
   --popover: oklch(0.208 0.042 265.755);
   --popover-foreground: oklch(0.984 0.003 247.858);
 
-  --primary: oklch(0.707 0.165 254.624);         /* blue-400 */
+  --primary: oklch(0.707 0.165 254.624);
   --primary-foreground: oklch(0.129 0.042 264.695);
   --primary-soft: oklch(0.282 0.091 267.935);
 
@@ -390,36 +258,25 @@
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Headings inherit the display face by default, so a section does not have to
-     remember a utility to be set in the brand's voice. Body copy is unaffected. */
   h1, h2, h3 {
     font-family: var(--font-display);
     font-weight: 400;
     letter-spacing: -0.02em;
   }
 
-  /* Focus, stated once, visible everywhere, identical to the admin's rule.
-     What this replaces was `outline-ring/50` applied to `*` — a half-opacity
-     ring on every element and a clear one on none. `:focus-visible` only, so a
-     mouse click on a product card does not paint a ring. */
   :focus-visible {
     outline: 2px solid var(--ring);
     outline-offset: 2px;
   }
 
-  /* Arabic content wherever it is declared as such. */
   [lang="ar"] {
     font-family: var(--font-arabic);
   }
 
-  /* Bidi isolation for catalogue strings. `dir="auto"` on a container would flip
-     the CONTAINER; `<bdi>` resolves the string's own direction without touching
-     the box around it. Restated so a reset cannot quietly remove it. */
   bdi {
     unicode-bidi: isolate;
   }
 
-  /* The header is fixed. Anchor navigation must not land under it. */
   html {
     scroll-padding-top: calc(var(--header-height) + 16px);
   }
@@ -435,39 +292,14 @@
     display: none;
   }
 
-  /* The display face, for the places that opt in explicitly — a hero line, a
-     pull quote. `font-serif` was being used for this and never worked: that is
-     Tailwind's generic serif utility, so the whole site's display type was the
-     browser's default serif rather than Playfair. */
   .font-display {
     font-family: var(--font-display);
   }
 
-  /* Prices, quantities and any figure read against another figure. */
   .tabular {
     font-variant-numeric: tabular-nums;
   }
 
-  /* The scroll-reveal, declared here rather than as inline styles in React.
-     The resting state is VISIBLE — `components/reveal.tsx` explains at length why that
-     inversion matters — and `[data-reveal]` only exists once its effect has run.
-
-     A KEYFRAME ANIMATION, NOT A TRANSITION, and that is not a style preference — a transition
-     here breaks every hover on the element it reveals, in two separate ways:
-
-       1. `transition:` is the shorthand, so it resets `transition-property` to `opacity,
-          transform`. This class lives in `@layer utilities` BELOW Tailwind's own utilities, so
-          at equal specificity it wins the cascade — and `transition-[box-shadow,translate,scale]`
-          on the product tile became `opacity, transform`. Hovering a card jumped: no lift, no
-          shadow fade, nothing eased.
-       2. `reveal.tsx` staggers a grid by writing `style.transitionDelay`, which is inline and
-          therefore permanent. The sixth card in a row carried a 360ms delay on EVERY later
-          transition, so its hover appeared to ignore the pointer for a third of a second.
-
-     An animation touches neither `transition-property` nor `transition-delay`, and `backwards`
-     fill releases the element the moment it finishes — so the tile's own hover owns `translate`
-     and `scale` again. `both`/`forwards` would NOT do: they pin the final keyframe forever and
-     re-break the lift. */
   .reveal[data-reveal="hidden"] {
     opacity: 0;
     translate: 0 1rem;
@@ -484,57 +316,14 @@
     }
   }
 
-  /*
-     The product tile's entrance settled from grey into colour — `gsap.set(image,
-     { filter: "grayscale(60%)" })` animating to 0 as the card came into view. That was a genuine
-     brand detail and it went out with the broken ScrollTrigger that drove it.
-
-     THIS RULE SETS A VALUE, NEVER A TRANSITION, and that is the whole point of the shape it is
-     in. The first version declared `transition: filter …` here — the shorthand — which resets
-     `transition-property` to `filter` alone. At (0,2,0) it outranked the tile's own
-     `transition-[scale,filter]` utility at (0,1,0), so the computed property list on every
-     product image became just `filter` and the hover zoom stopped animating: it snapped. The
-     element owns its transition list; this only says what the hidden state looks like.
-  */
   .reveal[data-reveal="hidden"] [data-reveal-media] {
     filter: grayscale(0.6);
   }
 
-  /* THE HERO'S ENTRANCE — keyframes on markup the server already sent, not a GSAP timeline.
-
-     The timeline this restores the FEELING of is the one `hero.tsx` describes: the photograph
-     settling out of a 1.05 scale while the type rises into place. What it does not restore is
-     how that timeline worked. Three differences, and each is the reason the original was removed:
-
-       1. NO JAVASCRIPT. `gsap.set([...], { opacity: 0 })` made "invisible" the resting state of
-          the first thing anybody came to read, and only a downloaded, parsed, executed bundle
-          undid it. Here the resting state is the server's own markup and the animation is a
-          style on it, so a blocked or broken bundle costs a fade, never the content.
-       2. NO HORIZONTAL TRAVEL. The old panels slid in from `x: -60`, which is the wrong way
-          round in Arabic and would need a second, mirrored timeline to fix. A vertical rise
-          reads identically in both directions and needs no branch on `dir`.
-       3. IT ENDS. `backwards` fill releases each element the instant it finishes, so the CTA's
-          own `transition-colors` and the tile's `group-hover:scale` own their properties again
-          afterwards — the same reason `.reveal` above is an animation and not a transition.
-
-     The delay is a custom property rather than a class per step, so a section staggers itself in
-     markup (`[--hero-delay:160ms]`) instead of adding a rule here for every position. */
   .hero-in {
     animation: hero-rise var(--duration-hero) var(--ease-out-fast) var(--hero-delay, 0ms) backwards;
   }
 
-  /* THE PHOTOGRAPH: settles once, then breathes forever.
-
-     Two animations on one element rather than one wrapper each, and the handover between them is
-     what makes that safe. Both write `scale`, so whichever is CURRENTLY applying owns it:
-     `hero-settle` fills `backwards` and then releases; `hero-drift` has no fill and does not
-     start until 1.5s, by which time the settle is done. Neither ever computes over the other.
-
-     24 seconds for a 4% zoom is roughly 0.6px of movement per second on a 1200px-wide image —
-     below the threshold where the eye tracks it as motion, which is the point. It reads as the
-     room being lit rather than as a slideshow effect. `alternate` rather than a loop back to the
-     start: a restart would snap 4% every 24 seconds, and a snap is the one thing an infinite
-     background animation must never do. */
   .hero-media {
     animation:
       hero-settle var(--duration-hero-media) var(--ease-out-fast) var(--hero-delay, 0ms) backwards,
@@ -563,8 +352,6 @@
   }
 }
 
-/* Motion is meaningful by default and absent when it is unwelcome.
-   This block did not exist here at all. */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -575,9 +362,6 @@
     scroll-behavior: auto !important;
   }
 
-  /* The rule above only shortens durations. The hero's entrance is also DELAYED, and a delay
-     with `backwards` fill holds the headline invisible for its whole length — 240ms of blank
-     page for the visitor who asked for less motion, not more. Remove the animation outright. */
   .hero-in,
   .hero-media {
     animation: none !important;

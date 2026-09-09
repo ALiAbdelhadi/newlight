@@ -28,7 +28,6 @@ type SubCategoryView = NonNullable<Awaited<ReturnType<typeof CategoryService.get
 interface SubCategoryPageProps {
     subCategory: SubCategoryView
     categorySlug: string
-    /** The category's other sections, for the "also in" row. Already excludes this one. */
     siblings?: Array<{ id: string; name: string; slug: string }>
 }
 
@@ -46,8 +45,6 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
     const categoryName = categoryTranslation?.name ?? ""
     const subCategorySlug = subCategoryTranslation?.slug ?? ""
 
-    // Parsed and serialised by `product-facets`, so the listing and the search results page
-    // cannot drift on what `sale=1` means.
     const filters: ListingFilters = useMemo(
         () => filtersFromParams(new URLSearchParams(searchParams.toString())),
         [searchParams]
@@ -64,8 +61,6 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
         <div className="min-h-screen">
             <section className="py-10 lg:py-20">
                 <Container>
-                    {/* Where you ARE, not where you came from. The back link this replaces
-                        answered a question the browser's own back button already answers. */}
                     <Breadcrumbs
                         className="mb-6 lg:mb-8"
                         items={[
@@ -162,9 +157,6 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
                                                 basePrice={product.basePrice}
                                                 discountPercent={product.discountPercent}
                                                 badge={product.isFeatured ? "Featured" : undefined}
-                                                /* The specs this section is configured to care
-                                                   about, in the operator's order — the same rows
-                                                   the filter panel is built from. */
                                                 specs={quickSpecs(product, subCategory.definitions, locale)}
                                                 action={<CompareToggle sku={product.productId} />}
                                             />
@@ -177,7 +169,6 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
                 </Container>
             </section>
 
-            {/* Only present once something is ticked. */}
             <CompareTray />
         </div>
     )

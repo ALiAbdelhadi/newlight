@@ -22,19 +22,6 @@ const withPWA = require("next-pwa")({
 });
 
 const nextConfig: NextConfig = {
-  /**
-   * `/catalog` rendered the single word "Catalog" and was linked from nowhere. `/category` is
-   * the catalogue, under the name the rest of the site uses.
-   *
-   * Done here rather than with `redirect()` in a page, because a page-level redirect rendered
-   * the destination WITHOUT changing the URL — two URLs serving one page, which is the
-   * duplicate content a redirect exists to avoid. A config redirect answers 308 before routing
-   * happens at all.
-   *
-   * `/faqs` was the same kind of stub and is simply gone: there is no equivalent page to send
-   * anyone to, and writing questions and answers on the owner's behalf would be worse than a
-   * 404.
-   */
   async redirects() {
     return [
       { source: '/:locale(en|ar)/catalog', destination: '/:locale/category', permanent: true },
@@ -102,9 +89,6 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
-    // ADR 0002 — the Cloudinary loader is applied per source in components/app-image.tsx,
-    // not here: `loader: "custom"` is global and disables /_next/image, which every asset
-    // in /public still needs.
     remotePatterns: [
       {
         protocol: "https",

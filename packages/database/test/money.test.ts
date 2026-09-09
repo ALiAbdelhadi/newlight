@@ -16,19 +16,11 @@ import {
     sumMoney,
 } from "../money"
 
-/**
- * §25: "Money: Decimal arithmetic through the boundary, string serialization, locale
- * formatting."
- *
- * The first test is the whole reason migration 0001 exists — if it passes with `number` in
- * place of Decimal, the migration bought nothing.
- */
 describe("money", () => {
     it("adds ten tenths to exactly one, which floating point does not", () => {
         const tenths = Array.from({ length: 10 }, () => money("0.10"))
         expect(serializeMoney(sumMoney(tenths))).toBe("1.00")
 
-        // The behaviour being replaced, stated so the test says what it is protecting against.
         const asFloat = tenths.reduce((sum) => sum + 0.1, 0)
         expect(asFloat).not.toBe(1)
     })
@@ -40,7 +32,6 @@ describe("money", () => {
     })
 
     it("rounds once, at the boundary, not between multiplications", () => {
-        // 0.125 * 3 = 0.375. Rounding each factor first gives 0.13 * 3 = 0.39.
         const unrounded = multiplyMoney(money("0.125"), 3)
         expect(serializeMoney(unrounded)).toBe("0.38")
         expect(serializeMoney(multiplyMoney(roundMoney(money("0.125")), 3))).toBe("0.39")
@@ -74,7 +65,6 @@ describe("money", () => {
         it("puts it after, in Arabic-Indic digits, in Arabic", () => {
             const formatted = formatMoney("165.00", "ar")
             expect(formatted.endsWith("ج.م")).toBe(true)
-            // ١٦٥ — the digits themselves must be Arabic-Indic, not Latin with an Arabic label.
             expect(formatted).toMatch(/[٠-٩]/)
             expect(formatted).not.toMatch(/[0-9]/)
         })
@@ -85,12 +75,6 @@ describe("money", () => {
     })
 
     describe("fixed-digit formatting, for table columns", () => {
-        /**
-         * The defect these cover: a price column that renders "EGP 1,200" next to
-         * "EGP 1,234.56" puts its decimal points in two different places, so tabular
-         * figures buy nothing and an operator scanning the column for an anomaly is
-         * reading each number instead of the column's shape.
-         */
         it("keeps trailing zeros so a column aligns", () => {
             expect(formatMoney("1200.00", "en", "EGP", { digits: "fixed" })).toBe("EGP 1,200.00")
             expect(formatMoney("1234.56", "en", "EGP", { digits: "fixed" })).toBe("EGP 1,234.56")
@@ -105,16 +89,11 @@ describe("money", () => {
         })
 
         it("leaves the storefront's default alone", () => {
-            // Nine call sites in apps/www depend on this, and a shelf price reads "EGP 165".
             expect(formatMoney("165.00", "en")).toBe("EGP 165")
             expect(formatMoney("165.00", "en", "EGP", { digits: "auto" })).toBe("EGP 165")
         })
 
         it("shows both cents or neither — never one", () => {
-            /*
-             * `minimumFractionDigits: 0` alone renders 359.20 as "359.2". Nobody writes a
-             * price that way, and discounts make the case ordinary: 449 less 20% is 359.20.
-             */
             expect(formatMoney("359.20", "en")).toBe("EGP 359.20")
             expect(formatMoney("359.25", "en")).toBe("EGP 359.25")
             expect(formatMoney("360.00", "en")).toBe("EGP 360")

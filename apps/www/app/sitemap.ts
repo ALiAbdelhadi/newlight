@@ -3,13 +3,6 @@ import { prisma, LOCALES, type Locale } from "@repo/database"
 import { liveProduct } from "@/lib/services/selectors"
 import { allTaxonomyPaths } from "@/lib/services/taxonomy"
 
-/**
- * The sitemap. There was none.
- *
- * Both locales, with `alternates.languages` on every entry, because a bilingual site that
- * lists only one language is telling search engines the other does not exist. The Arabic
- * slugs are percent-encoded by `URL`, which is the boundary §14.6 asks them to be encoded at.
- */
 export const revalidate = 86400
 
 function url(base: string, locale: Locale, path: string): string {
@@ -20,12 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const base = process.env.NEXT_PUBLIC_APP_URL ?? "https://newlight-eg.com"
     const entries: MetadataRoute.Sitemap = []
 
-    // Every one of these is fetched and answers 200. `/about-us` was listed here and does not
-    // exist — the route is `/about` — so the sitemap submitted a 404 to every crawler that
-    // read it. A sitemap is a promise about what resolves, and nothing was checking it.
-    //
-    // `/catalog` and `/faqs` are deliberately absent: they are placeholder routes that render
-    // one word each, and listing an empty page is worse than not listing it.
     const staticPaths = ["", "/category", "/about", "/contact", "/privacy", "/technical-resources", "/new-collection"]
     for (const path of staticPaths) {
         entries.push({
@@ -38,8 +25,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         })
     }
 
-    // Taxonomy, per locale — the slugs differ between languages, so this cannot be one list
-    // with a locale prefix bolted on.
     const byLocale = await Promise.all(
         LOCALES.map(async (locale) => ({ locale, ...(await allTaxonomyPaths(locale)) }))
     )
@@ -65,8 +50,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         }
     }
 
-    // Products keep ONE slug across locales (§9.3), so each product is listed once per locale
-    // under the taxonomy path for that locale, and the two are alternates of each other.
     const products = await prisma.product.findMany({
         where: liveProduct,
         select: {

@@ -2,14 +2,6 @@ import { MapPin } from "lucide-react"
 import type { ShippingAddress } from "@repo/database"
 import type { Locale } from "@repo/database/locale"
 
-/**
- * Where the order is going.
- *
- * A server component — it had a client boundary and nothing to do with it. The bilingual
- * shipping-option map that lived inside it is gone: `OrderOption` is a domain enum, and naming
- * its values was the fourth place in this application that named an enum privately.
- */
-
 const SHIPPING_OPTION_LABEL: Record<string, Record<Locale, string>> = {
     BasicShipping: { en: "Basic shipping", ar: "الشحن الأساسي" },
     StandardShipping: { en: "Standard shipping", ar: "الشحن القياسي" },

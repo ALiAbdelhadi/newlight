@@ -19,46 +19,18 @@ import { Money } from "@/components/money"
 import { cn } from "@/lib/utils"
 import type { SerializedMoney } from "@repo/database"
 
-/**
- * THE confirmation (P4.5 §18).
- *
- * Three severities, and the difference between them is enforced by the TYPES, not by whoever
- * writes the call site remembering to be careful:
- *
- *   reversible    — one sentence, one button. Archiving, hiding, unpublishing.
- *   consequential — MUST pass `impact`. The compiler refuses the call without it.
- *   destructive   — MUST pass `typeToConfirm`. The compiler refuses that one too.
- *
- * That is the whole point of the component. "Are you sure?" is not a safety mechanism; it is
- * a thing people click. What actually prevents a mistake is stating the count, the money and
- * the side effects, and a discriminated union is the only way to make stating them
- * unavoidable.
- *
- * Delivery confirmation is `consequential`, not `reversible` — it settles payment and moves
- * stock, and neither of those comes back on its own.
- */
-
 interface BaseProps {
     title: string
     description: string
     confirmLabel?: string
     onConfirm: () => void | Promise<void>
     children: React.ReactNode
-    /**
-     * Why the action cannot proceed, with the counts that explain it. When present the
-     * confirm button is disabled and the dialog explains rather than refusing silently —
-     * which is what the services already do (`taxonomy-service` names how many products sit
-     * inside a sub-category before it refuses to archive it).
-     */
     blockedBy?: { reason: string; counts?: { label: string; count: number }[] }
 }
 
 export interface ActionImpact {
-    /** How many rows change. Required, because "this will affect some products" is not a fact. */
     affectedCount: number
-    /** The money that moves, where money moves. */
     financialImpact?: SerializedMoney
-    /** Everything else that happens and would surprise someone. */
     sideEffects: string[]
 }
 
@@ -181,11 +153,6 @@ export function ConfirmAction({
                 )}
 
                 <AlertDialogFooter>
-                    {/*
-                     * Cancel comes first in the DOM, so it takes initial focus in a
-                     * destructive dialog. Someone dismissing a dialog with the keyboard
-                     * should not have the delete button under the space bar.
-                     */}
                     <AlertDialogCancel className="h-8 text-xs">Cancel</AlertDialogCancel>
                     <AlertDialogAction
                         disabled={!canConfirm}

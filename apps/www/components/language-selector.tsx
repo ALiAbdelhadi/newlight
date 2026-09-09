@@ -94,8 +94,6 @@ export function LanguageSelector() {
                 side="top"
                 className="p-0 w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
-                {/* Radix logs an accessibility error for a dialog with no title, and a screen
-                    reader announces "dialog" and nothing else. */}
                 <SheetTitle className="sr-only">{t('title')}</SheetTitle>
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
@@ -132,13 +130,6 @@ export function LanguageSelector() {
                                                     : 'text-muted-foreground hover:text-foreground'
                                                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                                             >
-                                                {/*
-                                                  * Two literal "→" characters lived here — a
-                                                  * glyph from whatever font happened to resolve,
-                                                  * at whatever weight, rotated by hand for RTL.
-                                                  * The canonical arrow instead: one shape, one
-                                                  * stroke, mirrored by the primitive.
-                                                  */}
                                                 <DirectionalArrow
                                                     className={
                                                         language.code === currentLanguage.code

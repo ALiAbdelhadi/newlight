@@ -23,8 +23,6 @@ async function run(fn: () => Promise<string>): Promise<ActionResult> {
     }
 }
 
-// --- families ---------------------------------------------------------------------------
-
 export async function createFamily(input: {
     subCategoryId: string
     slug: string
@@ -71,8 +69,6 @@ export async function setProductFamily(
     })
 }
 
-// --- colours ----------------------------------------------------------------------------
-
 export async function createColor(input: {
     key: string
     hex: string
@@ -110,8 +106,6 @@ export async function setProductColors(productId: string, colorIds: string[]): P
         return `${colorIds.length} colour(s) offered.`
     })
 }
-
-// --- locations --------------------------------------------------------------------------
 
 export async function createLocation(name: string): Promise<ActionResult> {
     return run(async () => {

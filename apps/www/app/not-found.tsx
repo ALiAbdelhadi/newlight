@@ -1,17 +1,5 @@
 import Link from "next/link"
 
-/**
- * The 404 for a URL that matches no route at all.
- *
- * The app HAS a designed not-found page — `[locale]/not-found.tsx`, animated, translated — but
- * it only fires for an explicit `notFound()` inside a matched route. A mistyped URL never
- * reaches the `[locale]` segment, so it fell through to Next's own page: "404 · This page could
- * not be found", unstyled, in English, on an Arabic site.
- *
- * This one cannot use next-intl either — there is no locale to read, which is the whole reason
- * it is being rendered — so it says it in both languages and links to both, and lets the
- * visitor pick. That is more useful than guessing and being wrong half the time.
- */
 export default function RootNotFound() {
     return (
         <html lang="en">

@@ -7,10 +7,8 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { notFound } from "next/navigation"
 import { CompletePageView } from "./complete"
 
-
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
-
 
 interface CompletePageProps {
     searchParams: Promise<{ orderId?: string }>

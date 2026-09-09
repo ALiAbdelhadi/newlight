@@ -10,11 +10,6 @@ import {
     reserve,
 } from "../inventory"
 
-/**
- * §25: "Inventory invariant: sum(StockMovement.quantity) == StockLevel.onHand for every
- * product+location after an ARBITRARY SEQUENCE of operations. This is the invariant the
- * subsystem rests on."
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -37,8 +32,6 @@ describe("the ledger invariant", () => {
         const product = fixture.products.small
         await seedStock(db.prisma, product, 100)
 
-        // A deliberately unlovely sequence: receipts, sales, a return, damage, corrections in
-        // both directions, and reservations interleaved with all of it.
         const operations: Array<{ type: Parameters<typeof recordMovement>[1]["type"]; quantity: number }> = [
             { type: "PURCHASE_RECEIPT", quantity: 50 },
             { type: "SALE", quantity: -20 },
@@ -80,8 +73,6 @@ describe("the ledger invariant", () => {
         const product = fixture.products.large
         await seedStock(db.prisma, product, 40)
 
-        // The one thing inventory.ts exists to prevent, done on purpose so the detector is
-        // shown to detect it.
         await db.prisma.stockLevel.update({
             where: { productId_locationId: { productId: product, locationId: LOCATION_ID } },
             data: { onHand: 999 },
@@ -165,7 +156,6 @@ describe("idempotency (F5)", () => {
         await db.prisma.$transaction((tx) =>
             recordMovement(tx, { productId: product, type: "RETURN", quantity: 4, referenceType: "order", referenceId: "retry-me" })
         )
-        // Same reference, different type: a legitimately different event.
         expect((await level(product)).onHand).toBe(before.onHand + 4)
     })
 })
@@ -192,7 +182,6 @@ describe("reservations", () => {
         const product = fixture.products.small
         await db.prisma.$transaction((tx) => reserve(tx, product, 3))
         await db.prisma.$transaction((tx) => release(tx, product, 3))
-        // A retried cancellation must not drive `reserved` below zero.
         await db.prisma.$transaction((tx) => release(tx, product, 3))
         expect((await level(product)).reserved).toBe(0)
     })
@@ -205,8 +194,6 @@ describe("reservations", () => {
 
 describe("the database's own guarantees", () => {
     it("refuses negative stock at the constraint, not just in code", async () => {
-        // §4.6's CHECK constraints. This is the one that caught the upsert bug in P3b, so it
-        // is worth a test that fails if someone drops it as "redundant with the code".
         await expect(
             db.prisma.$executeRawUnsafe(
                 `UPDATE stock_levels SET "onHand" = -1 WHERE "productId" = '${fixture.products.small}'`

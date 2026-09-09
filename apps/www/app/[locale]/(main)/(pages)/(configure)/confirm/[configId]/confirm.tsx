@@ -153,12 +153,6 @@ export function ConfirmPageView({
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="mt-12"
                     >
-                        {/* The success tone, from the tokens that own it. What this replaces was
-                            eight green literals and six `dark:` overrides — a two-stop gradient,
-                            a border, a disc, an icon, a heading, a paragraph and three list rows,
-                            each picking its own step off the Tailwind palette. The panel is the
-                            tone; the copy inside it is ordinary text, because tinting body type
-                            green is what made five shades of green necessary in the first place. */}
                         <div className="rounded-xl border border-success-border bg-success-bg p-6">
                             <div className="flex items-start gap-4">
                                 <div className="grid size-12 shrink-0 place-items-center rounded-full bg-background text-success">

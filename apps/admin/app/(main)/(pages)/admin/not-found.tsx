@@ -4,13 +4,6 @@ import { Button } from "@/components/ui/button"
 import { PageBody, PageHeader } from "@/components/page"
 import { EmptyState } from "@/components/states"
 
-/**
- * A record that is not there (P4.5 §19).
- *
- * Reached by `notFound()` from a record page — an order id that has been deleted, a product
- * from a stale bookmark. Inside the shell, so the operator keeps their navigation, and it says
- * which of the two things happened rather than "404".
- */
 export default function AdminNotFound() {
     return (
         <>

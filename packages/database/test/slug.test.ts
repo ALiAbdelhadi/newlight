@@ -1,12 +1,6 @@
 import { describe, expect, it } from "vitest"
 import { decodeSlug, encodeSlug, normalizeArabic, requireSlug, slugify, uniqueSlug } from "../slug"
 
-/**
- * §25: "Slugs: Arabic taxonomy slugs round-trip through percent-encoding."
- *
- * The first block is amendment A6, the rule the owner approved, pinned so a future change to
- * the generator that alters a live URL fails here rather than in search results.
- */
 describe("the A6 normalisation rule", () => {
     it("reduces a hamza-bearing letter to its carrier", () => {
         expect(normalizeArabic("أإآٱ")).toBe("اااا")
@@ -17,7 +11,6 @@ describe("the A6 normalisation rule", () => {
     })
 
     it("leaves a bare ء intact, because it has no carrier", () => {
-        // Mapping it to ا turns إضاءة into اضااه and contradicts the approved reference output.
         expect(normalizeArabic("ء")).toBe("ء")
         expect(slugify("إضاءة")).toBe("اضاءه")
     })
@@ -70,8 +63,6 @@ describe("percent-encoding round trip (§14.6)", () => {
 
 describe("refusing to invent a slug", () => {
     it("throws rather than storing an empty string", () => {
-        // (locale, slug) is UNIQUE, so an empty slug takes the one slot every other
-        // unsluggable name also wants.
         expect(() => requireSlug("!!!", "test")).toThrow()
         expect(() => requireSlug("", "test")).toThrow()
     })

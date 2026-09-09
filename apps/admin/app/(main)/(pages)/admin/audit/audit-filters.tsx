@@ -12,20 +12,6 @@ interface Facet {
     count: number
 }
 
-/**
- * Filters, built from the data (P4.5 §11).
- *
- * The action list is not hard-coded because actions are formed by template in places —
- * `order.shipped->delivered`, `${kind}.restore` — so any list written by hand would be wrong
- * the first time someone adds a transition. Every option here is a value that actually exists
- * in the log, with how many rows carry it.
- *
- * The SHAPE is the DataTable's toolbar, not a form: one 40px line of controls above the
- * table, not a four-column card of stacked label-and-field pairs. That matters more than it
- * sounds — a filter set that looks like a form reads as something you fill in and submit, and
- * this one applies on change. Two filtering languages in one panel is exactly the drift §11
- * exists to stop, and the audit log was the only surface still speaking the second one.
- */
 export function AuditFilters({
     facets,
     current,
@@ -63,12 +49,6 @@ export function AuditFilters({
                     defaultValue={current.q ?? ""}
                     aria-label="Search the audit log"
                     placeholder="An action, an id, an email"
-                    /*
-                     * Enter, not debounce. Every other search in the panel narrows a list the
-                     * operator is already looking at; this one re-queries a log of every change
-                     * ever made, and firing that per keystroke is a query per letter against a
-                     * table that only grows.
-                     */
                     onKeyDown={(e) => {
                         if (e.key === "Enter") go({ q: (e.target as HTMLInputElement).value, page: "" })
                     }}

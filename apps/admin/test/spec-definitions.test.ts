@@ -2,13 +2,6 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
 
-/**
- * The specification dictionary.
- *
- * `ProductSpec.specKey` references `SpecDefinition.key` with ON DELETE CASCADE, so deleting a
- * definition takes every product's value for it — silently, with no complaint from the
- * database. Most of what follows is about that one fact.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -85,7 +78,6 @@ describe("creating a specification", () => {
 describe("deleting a specification cannot take product data with it", () => {
     it("refuses while any product has a value, and says how many", async () => {
         const SpecDefinitionService = await service()
-        // The fixture gives two products an ip_rating.
         await expect(SpecDefinitionService.remove("ip_rating")).rejects.toThrow(/2 product\(s\) have a value/)
 
         expect(await db.prisma.specDefinition.count({ where: { key: "ip_rating" } })).toBe(1)
@@ -116,7 +108,6 @@ describe("deleting a specification cannot take product data with it", () => {
 describe("changing a specification's type", () => {
     it("refuses TEXT to NUMBER when existing values are not numeric", async () => {
         const SpecDefinitionService = await service()
-        // ip_rating holds "IP20" and "IP65" — text by nature.
         await expect(
             SpecDefinitionService.update("ip_rating", {
                 valueType: "NUMBER",
@@ -156,7 +147,6 @@ describe("what a sub-category asks for", () => {
         ])
         expect(await db.prisma.subCategorySpec.count({ where: { subCategoryId: fixture.subCategoryId } })).toBe(2)
 
-        // Stop asking for ip_rating.
         await SpecDefinitionService.setForSubCategory(fixture.subCategoryId, [
             { specKey: "maximum_wattage", required: true, order: 0 },
         ])
@@ -164,7 +154,6 @@ describe("what a sub-category asks for", () => {
         const assigned = await db.prisma.subCategorySpec.findMany({ where: { subCategoryId: fixture.subCategoryId } })
         expect(assigned.map((a) => a.specKey)).toEqual(["maximum_wattage"])
 
-        // Unasking a question does not destroy the answers already given.
         expect(await db.prisma.productSpec.count({ where: { specKey: "ip_rating" } })).toBe(2)
     })
 

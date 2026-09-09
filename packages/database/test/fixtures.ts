@@ -1,32 +1,18 @@
 import type { PrismaClient } from "@prisma/client"
 import { recordMovement } from "../inventory"
 
-/**
- * The smallest catalog that exercises every v2 relationship.
- *
- * Small on purpose. A fixture that mirrors production is a second copy of production to keep
- * in sync, and tests that depend on 189 specific products fail for reasons that have nothing
- * to do with the code under test. This has one family with two variants, one singleton, both
- * locales throughout, and one product with a deliberate data defect — the `false` boolean that
- * N4 says to carry across rather than repair.
- */
-
 export const LOCATION_ID = "location_main"
 
 export interface Fixture {
     categoryId: string
     subCategoryId: string
     familyId: string
-    /** Two variants of one family, plus a singleton. */
     products: { small: string; large: string; single: string }
     skus: { small: string; large: string; single: string }
     userId: string
 }
 
 export async function seedFixture(prisma: PrismaClient): Promise<Fixture> {
-    // Colours, spec definitions and the default location arrive with the migrations (0005,
-    // 0006, 0009) — they are reference data, not fixture data, and seeding them again here
-    // would let a test pass against values the migration does not actually produce.
 
     const category = await prisma.category.create({
         data: {
@@ -99,7 +85,6 @@ export async function seedFixture(prisma: PrismaClient): Promise<Fixture> {
     const large = await product("nl-test-10w", "199.50", family.id, "10w")
     const single = await product("nl-single", "1000.00", null, null)
 
-    // Specs, including the N4 defect: a boolean where TEXT belongs, carried verbatim.
     await prisma.productSpec.createMany({
         data: [
             { productId: small.id, specKey: "maximum_wattage", valueEn: "5", valueAr: "٥", valueNumber: "5" },
@@ -112,7 +97,6 @@ export async function seedFixture(prisma: PrismaClient): Promise<Fixture> {
         ],
     })
 
-    // A retired slug, so the 301 path has something to resolve.
     await prisma.productSlugHistory.create({ data: { productId: small.id, slug: "nl-test-5w-old" } })
     await prisma.taxonomySlugHistory.create({
         data: { locale: "en", slug: "panel-old", entityType: "SUB_CATEGORY", entityId: subCategory.id },
@@ -132,7 +116,6 @@ export async function seedFixture(prisma: PrismaClient): Promise<Fixture> {
     }
 }
 
-/** Opening stock, through the ledger — never by writing stock_levels directly. */
 export async function seedStock(prisma: PrismaClient, productId: string, quantity: number) {
     return prisma.$transaction((tx) =>
         recordMovement(tx, {

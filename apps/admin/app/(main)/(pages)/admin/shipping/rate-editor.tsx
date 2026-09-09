@@ -52,8 +52,6 @@ export function RateEditor({ rates }: { rates: Rate[] }) {
                                 <h3 className="font-semibold">{rate.option.replace("Shipping", " shipping")}</h3>
                                 <p className="text-xs text-muted-foreground mt-1">{DESCRIPTIONS[rate.option]}</p>
                             </div>
-                            {/* "never set" and "set to the same number" are the same amount and
-                                different facts — the second survives a change to the defaults. */}
                             {rate.isDefault && <Badge variant="outline">default</Badge>}
                         </div>
 

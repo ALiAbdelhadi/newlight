@@ -7,48 +7,24 @@ import { Button } from "@/components/ui/button"
 import { ConfirmAction, type ActionImpact } from "@/components/confirm-action"
 import { cn } from "@/lib/utils"
 
-/**
- * THE workflow primitive (P4.5 §13).
- *
- * A guided, stateful, consequential operation: bulk repricing, stocktake, purchase receipt,
- * delivery confirmation, stock adjustment.
- *
- * THE PREVIEW STEP IS NOT OPTIONAL, and that is enforced by the types rather than by
- * convention. `commitSummary.affectedCount` is required, so a workflow physically cannot
- * reach its commit without having counted the rows it is about to change — which means it
- * cannot reach it without having run the query that produces that count. "Preview before
- * commit" stops being a UI habit somebody might skip and becomes a thing the compiler asks
- * for.
- *
- * This mirrors what `PricingService` already enforces on the server: `apply()` re-previews
- * internally and compares a token, so a stale preview is refused by the database layer even
- * if the UI were bypassed entirely. The workflow is the explanation of that rule, not the
- * rule itself — which is the right way round.
- */
-
 export interface WorkflowStep {
     id: string
     title: string
-    /** Blocks Next with a reason. Returning a string shows it; `true` means the step is done. */
     validate?: () => true | string
     content: React.ReactNode
 }
 
 interface WorkflowProps {
     steps: WorkflowStep[]
-    /** What the commit will do. Required — see the header comment. */
     commitSummary: {
         title: string
         description: string
         impact: ActionImpact
         confirmLabel?: string
-        /** Destructive commits demand the phrase; consequential ones state the impact. */
         typeToConfirm?: string
     }
     onCommit: () => void | Promise<void>
-    /** Rendered instead of the steps once the operation has run. */
     result?: React.ReactNode
-    /** Disables Next and the commit while the server is working. */
     busy?: boolean
 }
 
@@ -78,11 +54,6 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
 
     return (
         <div className="max-w-[860px] space-y-4">
-            {/*
-             * An ordered list, not a row of divs. The steps ARE a sequence, `aria-current`
-             * says which one is live, and a screen reader announces "step 3 of 5" from the
-             * markup rather than from a label somebody remembered to write.
-             */}
             <ol className="flex flex-wrap items-center gap-x-1 gap-y-2">
                 {steps.map((entry, position) => {
                     const done = position < index
@@ -91,8 +62,6 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
                         <li key={entry.id} className="flex items-center gap-1">
                             <button
                                 type="button"
-                                // Only backwards: skipping ahead would land on a step whose
-                                // inputs the earlier ones have not produced yet.
                                 disabled={position > index}
                                 onClick={() => position < index && setIndex(position)}
                                 aria-current={current ? "step" : undefined}
@@ -151,16 +120,6 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
                 </Button>
 
                 {isLast ? (
-                    /*
-                     * Two explicit branches rather than a computed `severity` with a spread.
-                     *
-                     * ConfirmAction's props are a discriminated union, so TypeScript cannot
-                     * check `typeToConfirm` against a severity it has to evaluate at runtime —
-                     * it rejected the spread outright. That refusal is the union working: the
-                     * whole reason for it is that "destructive" and "typed confirmation" must
-                     * travel together, and a conditional spread is exactly how they come
-                     * apart. Writing both branches costs six lines and keeps the guarantee.
-                     */
                     commitSummary.typeToConfirm ? (
                         <ConfirmAction
                             severity="destructive"
@@ -204,13 +163,6 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
     )
 }
 
-/**
- * The result of a committed workflow.
- *
- * `aria-live="assertive"` because this is the outcome of a consequential operation the
- * operator triggered and is waiting on — polite would queue it behind whatever else the
- * page is announcing, and "did the 40 prices change or not" is not a question to leave open.
- */
 export function WorkflowResult({
     title,
     children,

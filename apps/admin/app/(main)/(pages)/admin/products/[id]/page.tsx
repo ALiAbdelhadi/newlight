@@ -10,14 +10,6 @@ import { PricingService } from "@/lib/services/pricing-service"
 import { AuditService } from "@/lib/services/audit-service"
 import { ProductWorkbench } from "./product-workbench"
 
-/**
- * §13.2 item 8: this route did not exist, while the products table linked to it — every
- * "View Product" was a 404.
- *
- * It is a workbench rather than a record view. The three things the owner was doing in psql
- * — repricing, correcting stock, and writing Arabic — are the three panels, under one header
- * that says what the product currently IS.
- */
 export const dynamic = "force-dynamic"
 
 const TABS = ["translations", "images", "inventory", "price", "specs", "settings"] as const
@@ -33,7 +25,6 @@ export default async function ProductDetail({
     await requireCurrentAdmin()
     const { id } = await params
     const { tab } = await searchParams
-    // An unrecognised ?tab= falls back rather than rendering an empty panel.
     const initialTab: Tab = TABS.includes(tab as Tab) ? (tab as Tab) : "translations"
 
     const product = await prisma.product.findUnique({
@@ -61,12 +52,8 @@ export default async function ProductDetail({
         CatalogService.deletionBlockers(product.id),
         InventoryService.history(product.id, 50),
         PricingService.priceHistory(product.id),
-        // From the DEFINITIONS, not from the rows that happen to exist — a product missing a
-        // required spec must still show it, or it can never be filled in.
         SpecService.forProduct(product.id),
         MediaService.forProduct(product.id),
-        // The rail is part of the record architecture (§12), not a later phase. The index
-        // @@index([entity, entityId, createdAt]) exists for exactly this read.
         AuditService.forEntity("Product", product.id, 12),
     ])
 

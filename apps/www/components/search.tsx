@@ -116,18 +116,9 @@ export function SearchSheet() {
                 side="top"
                 className="w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
-                {/*
-                  * Radix requires a title on every dialog and logs an accessibility error
-                  * without one — the console carried four of them on every page load, because
-                  * this sheet, the cart and the search all opened untitled. A screen reader
-                  * announced "dialog" and nothing else. It is visually hidden here because the
-                  * sheet is already unmistakably a search box on screen.
-                  */}
                 <SheetTitle className="sr-only">{t('button')}</SheetTitle>
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
-                        {/* Not an `h1`: the page underneath already has one, and this is an
-                            overlay's chrome rather than a document heading. */}
                         <div className="flex items-baseline gap-1">
                             <span className="text-xl font-extrabold tracking-tight uppercase">
                                 {tLogo('logoNew')}
@@ -145,12 +136,6 @@ export function SearchSheet() {
                     </div>
                     <div className="flex-1 overflow-y-auto hide-scrollbar">
                         <div className="container mx-auto max-w-3xl px-8 py-12">
-                            {/*
-                              * A real form, so Enter goes to /search?q= — the sheet is a
-                              * preview of the top matches, not the only way to see them. It had
-                              * no submit at all: a customer who typed a term and pressed Enter
-                              * got nothing, and there was no URL the results could live at.
-                              */}
                             <form
                                 role="search"
                                 onSubmit={(event) => {
@@ -269,8 +254,6 @@ export function SearchSheet() {
                                                                     </div>
                                                                 </div>
                                                                 <div className="shrink-0 text-end">
-                                                                    {/* `price` is already the discounted number (§13.2);
-                                                                        PriceTag renders the struck original beside it. */}
                                                                     <PriceTag
                                                                         price={product.price}
                                                                         basePrice={product.basePrice}

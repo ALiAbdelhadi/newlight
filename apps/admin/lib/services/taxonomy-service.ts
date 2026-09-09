@@ -8,25 +8,6 @@ import {
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Categories and sub-categories — the half of "define a catalogue" the panel could not do.
- *
- * Everything here is per-locale, because the taxonomy has no base name or slug: a category IS
- * its two translation rows (§10). That shapes the whole service — there is no "rename the
- * category", only "rename it in Arabic", and both have to be present for the storefront to
- * render in both languages.
- *
- * Two rules that are not obvious:
- *
- *   A SLUG CHANGE WRITES HISTORY, in the same transaction. `TaxonomySlugHistory` is what turns
- *   an old URL into a 301 instead of a 404, and a rename that forgets it silently breaks every
- *   inbound link the moment it succeeds.
- *
- *   DELETION IS REFUSED WHILE ANYTHING LIVES INSIDE. A sub-category holding products, or a
- *   category holding sub-categories, is soft-deleted at best — and the refusal names the count,
- *   because "cannot delete" without a number is a dead end.
- */
-
 export class TaxonomyError extends Error {
     constructor(message: string) {
         super(message)
@@ -55,8 +36,6 @@ function validate(input: TaxonomyInput, label: string) {
         if (!t?.name?.trim()) {
             throw new TaxonomyError(`${label} needs a name in ${locale === "ar" ? "Arabic" : "English"}.`)
         }
-        // `requireSlug` throws on anything it cannot make a slug of, rather than quietly
-        // producing something else. A taxonomy URL is permanent enough to be worth an error.
         requireSlug(t.slug?.trim() || t.name, `${label} (${locale})`)
     }
 }
@@ -73,10 +52,6 @@ function normalise(input: TaxonomyInput, locale: Locale) {
     }
 }
 
-/**
- * A slug is unique per locale across BOTH the live rows and the history — the history is what
- * makes a retired slug redirect, so reusing one would make it ambiguous.
- */
 async function assertSlugFree(
     tx: Prisma.TransactionClient,
     locale: Locale,
@@ -104,7 +79,6 @@ async function assertSlugFree(
 }
 
 export class TaxonomyService {
-    /** The whole tree, with the counts that decide whether a thing can be deleted. */
     static async tree() {
         await requireCurrentAdmin()
         const categories = await prisma.category.findMany({
@@ -190,8 +164,6 @@ export class TaxonomyService {
 
                 if (current && current.slug !== next.slug) {
                     await assertSlugFree(tx, locale, next.slug, { categoryId: id })
-                    // In the SAME transaction as the rename — this is what makes the old URL a
-                    // 301 instead of a 404.
                     await tx.taxonomySlugHistory.create({
                         data: { locale, slug: current.slug, entityType: "CATEGORY", entityId: id },
                     })
@@ -326,12 +298,6 @@ export class TaxonomyService {
         return { renamed: changes }
     }
 
-    /**
-     * Archive rather than delete, and refuse while anything lives inside.
-     *
-     * A sub-category holding products is not a mistake to clean up; it is a shelf with things
-     * on it. The refusal names the count so the next step is obvious.
-     */
     static async archiveSubCategory(id: string) {
         const admin = await requireCurrentAdmin()
         const products = await prisma.product.count({ where: { subCategoryId: id, deletedAt: null } })

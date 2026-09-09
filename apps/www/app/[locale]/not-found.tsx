@@ -3,18 +3,6 @@ import { useTranslations } from "next-intl"
 import { DirectionalArrow } from "@/components/directional-arrow"
 import { Link } from "@/i18n/navigation"
 
-/**
- * 404.
- *
- * A server component. What it replaced set the number, the text and the buttons to
- * `opacity: 0` on mount and revealed them from a GSAP timeline — so a customer who landed on a
- * dead link with JavaScript still loading saw a blank screen instead of the one page whose
- * entire job is to explain that something is missing. It also floated the "404" up and down
- * forever on an infinite yoyo, through a `prefers-reduced-motion` setting it could not see.
- *
- * The entrance is gone rather than reimplemented. This page is a dead end; the useful thing is
- * the two ways out, immediately.
- */
 export default function NotFound() {
     const t = useTranslations("notFound")
 

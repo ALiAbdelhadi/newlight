@@ -1,12 +1,4 @@
 #!/usr/bin/env node
-/**
- * Runs a command with this package's env loaded and the §0.4 target guard applied.
- *
- *   node scripts/with-env.mjs [--read-only] <command> [args...]
- *
- * Without --read-only the command is treated as write-capable and DATABASE_URL /
- * DIRECT_DATABASE_URL must both resolve to the branch endpoint.
- */
 import { spawn } from "node:child_process"
 import { join } from "node:path"
 import { assertWritable, describe, loadEnv, PACKAGE_ROOT } from "./env.mjs"

@@ -13,14 +13,6 @@ import { activeDiscounts } from "@/lib/discounts"
 import { Product } from "@/types"
 import type { SpecificationSource } from "./shared-types"
 
-/**
- * The exact row shape returned by getProduct / getProducts / searchProducts.
- *
- * Derived from the Prisma query instead of hand-written, so it cannot drift from
- * what the database actually returns. The previous hand-written interface
- * under-declared `subCategory` (optional) and omitted `specifications` from the
- * translation rows, which is why every call site needed an `as any`.
- */
 export type ProductWithTranslations = Prisma.ProductGetPayload<{
     include: {
         translations: true
@@ -86,9 +78,6 @@ export class ProductService {
         })
     }
 
-    /**
-     * Get product by ID with translations
-     */
     static async getProduct(
         productId: string,
         locale: string = "en"
@@ -122,9 +111,6 @@ export class ProductService {
         return product
     }
 
-    /**
-     * Get multiple products by IDs
-     */
     static async getProducts(
         productIds: string[],
         locale: string = "en"
@@ -197,14 +183,6 @@ export class ProductService {
         return sorted as unknown as Product[]
     }
 
-    /**
-     * Featured products for the homepage, in the order the SKUs were given.
-     *
-     * `specifications` is gone from the payload: it was a JSONB blob on the translation row
-     * that 0011 dropped, and it was never rendered on a card anyway. The include now carries
-     * images and both taxonomy levels, because these cards build their own links and slugs
-     * are per-locale (§9.2).
-     */
     static async getProductsByIds(skus: string[], locale: Locale) {
         const products = await prisma.product.findMany({
             where: { productId: { in: skus }, ...liveProduct },
@@ -218,19 +196,6 @@ export class ProductService {
         })
     }
 
-    /**
-     * Check product availability
-     */
-    /**
-     * Stock a customer could actually buy right now — the ONE availability read (§13.4).
-     *
-     * v1 had three independent inventory-mutation paths; this file held the second, a
-     * check-then-mutate pair (`reserveInventory` / `releaseInventory`) that decremented
-     * `Product.inventory` with no transaction and no isolation level. Both are DELETED
-     * (§8.2, §13.2) rather than ported: mutating stock now goes through
-     * packages/database/inventory.ts, which is the only writer of the ledger, and neither of
-     * them had a single caller anywhere in the app.
-     */
     static async checkAvailability(
         productId: string,
         quantity: number
@@ -252,24 +217,15 @@ export class ProductService {
         return { available: free >= quantity, onHand, reserved, available_qty: free }
     }
 
-    /**
-     * The price, as a STRING (ADR 0001). Returning `number` was how a Decimal column got
-     * silently converted back into binary floating point at the first call site.
-     */
     static async getProductPrice(productId: string): Promise<SerializedMoney> {
         const product = await prisma.product.findUnique({
             where: { productId },
             select: { id: true, price: true, familyId: true, subCategoryId: true },
         })
         if (!product) throw new Error("PRODUCT_NOT_FOUND")
-        // The EFFECTIVE price, not the column. A helper called "getProductPrice" that returns
-        // the pre-discount number is a trap for whoever calls it next (§13.2).
         return resolveEffectivePrice(product.price, product, await activeDiscounts()).effective
     }
 
-    /**
-     * Search products
-     */
     static async searchProducts(params: {
         query?: string
         categoryId?: string
@@ -338,14 +294,6 @@ export class ProductService {
         return products
     }
 
-    /**
-     * The other SKUs in this product's family — BUILD §6.
-     *
-     * v1 grouped by `baseProductId`, a SKU-shaped string with no foreign key behind it, and
-     * the storefront re-derived the grouping at runtime with a regex. v2 reads `familyId`,
-     * a real relation the transform populated from that same verified data (§1.5 confirmed
-     * zero inconsistent families across all 89), so there is no derivation and no regex.
-     */
     static async getProductVariants(slug: string, locale: Locale) {
         const product = await prisma.product.findFirst({
             where: { slug, ...liveProduct },
@@ -359,8 +307,6 @@ export class ProductService {
             include: { ...productCardInclude(locale), family: true },
         })
 
-        // Through `toCardView`, so the variant strip cannot be the one place that still ships
-        // `averageCost` to the browser — spreading the row is exactly how it got there.
         const discounts = await activeDiscounts()
         return variants.map((variant) => ({
             ...toCardView(variant, discounts),
@@ -368,13 +314,6 @@ export class ProductService {
         }))
     }
 
-    /**
-     * A product page, by slug (§9.3: one slug shared across locales).
-     *
-     * Returns null for a slug that does not resolve; the caller checks
-     * `taxonomy.resolveProductSlug` first when it needs to tell "gone" from "moved" and issue
-     * a 301 rather than a 404.
-     */
     static async getProductBySlug(slug: string, locale: Locale) {
         const product = await prisma.product.findFirst({
             where: { slug, ...liveProduct },
@@ -392,11 +331,7 @@ export class ProductService {
         ])
 
         return {
-            // Drops `averageCost`, serialises `price`, and applies whatever discount is live —
-            // see toCardView. A page that has to remember is a page that will forget.
             ...toCardView(product, discounts),
-            // `valueNumber` is a Decimal too, and the product page hands specs straight to a
-            // client component — which React rejects outright (A82). Half a boundary is none.
             specs: product.specs.map((spec) => ({
                 ...spec,
                 valueNumber: spec.valueNumber === null ? null : serializeMoney(spec.valueNumber),
@@ -406,7 +341,6 @@ export class ProductService {
         }
     }
 
-    /** By editable SKU rather than slug — the admin links and the configure flow use this. */
     static async getProductBySku(sku: string, locale: Locale) {
         const product = await prisma.product.findFirst({
             where: { productId: sku, ...liveProduct },

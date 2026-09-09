@@ -7,13 +7,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { setTrackingNumber } from "@/app/action/action"
 
-/**
- * Entering a tracking number after the parcel has gone.
- *
- * It belongs here because this is where its absence is reported: the page counts "shipped,
- * untracked" and used to leave you with nowhere to act on the number. Under COD the number
- * arriving late is the normal case (F3), not an exception.
- */
 export function TrackingInput({ orderId, current }: { orderId: string; current: string | null }) {
     const [value, setValue] = useState(current ?? "")
     const [pending, start] = useTransition()

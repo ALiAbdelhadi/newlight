@@ -5,18 +5,7 @@ export interface UserWithAddress extends User {
 }
 
 export class UserService {
-    /**
-     * Get or create user
-     */
-    /**
-     * getOrCreateUser() is DELETED (§7). It upserted a User row from an id it had never seen,
-     * which is how an order could end up attached to a user nobody registered. Better Auth
-     * writes the row at sign-up; a caller that has an id has a row.
-     */
 
-    /**
-     * Get user with shipping address
-     */
     static async getUserWithAddress(userId: string): Promise<UserWithAddress | null> {
         const user = await prisma.user.findUnique({
             where: { id: userId },
@@ -28,9 +17,6 @@ export class UserService {
         return user
     }
 
-    /**
-     * Get user's shipping address
-     */
     static async getShippingAddress(userId: string): Promise<ShippingAddress | null> {
         const address = await prisma.shippingAddress.findUnique({
             where: { userId },
@@ -39,9 +25,6 @@ export class UserService {
         return address
     }
 
-    /**
-     * Create or update shipping address
-     */
     static async saveShippingAddress(
         userId: string,
         data: {
@@ -63,7 +46,6 @@ export class UserService {
         let address: ShippingAddress
 
         if (existingAddress) {
-            // Update existing address
             address = await prisma.shippingAddress.update({
                 where: { userId },
                 data: {
@@ -72,7 +54,6 @@ export class UserService {
                 },
             })
         } else {
-            // Create new address
             address = await prisma.shippingAddress.create({
                 data: {
                     userId,
@@ -86,9 +67,6 @@ export class UserService {
         return { success: true, address }
     }
 
-    /**
-     * Delete shipping address
-     */
     static async deleteShippingAddress(userId: string): Promise<{ success: boolean }> {
         const address = await prisma.shippingAddress.findUnique({
             where: { userId },
@@ -105,9 +83,6 @@ export class UserService {
         return { success: true }
     }
 
-    /**
-     * Check if user has shipping address
-     */
     static async hasShippingAddress(userId: string): Promise<boolean> {
         const address = await prisma.shippingAddress.findUnique({
             where: { userId },
@@ -117,21 +92,6 @@ export class UserService {
         return !!address
     }
 
-    /**
-     * Get user's order history
-     */
-    /**
-     * A customer's order history.
-     *
-     * `locale` is required rather than optional. The include below read
-     * `translations: { take: 1 }` with no `where` — §14.4's defect exactly — so PostgreSQL
-     * returned whichever translation row it liked and an English customer could be shown the
-     * Arabic product name. A signature that can be called without a locale is a signature that
-     * will be.
-     *
-     * Money is serialised here too: `total`, `subtotal` and every line price are `Decimal`, and
-     * this feeds a page that renders them (ADR 0001, A82).
-     */
     static async getOrderHistory(
         userId: string,
         locale: Locale,
@@ -196,9 +156,6 @@ export class UserService {
         }
     }
 
-    /**
-     * Get user statistics
-     */
     static async getUserStats(userId: string) {
         const [orderCount, totalSpent, orders] = await Promise.all([
             prisma.order.count({

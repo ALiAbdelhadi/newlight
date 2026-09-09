@@ -22,7 +22,6 @@ const baseContactSchema = {
         .regex(/^[+]?[\d\s-()]+$/)
 };
 
-
 export const contactSchema = z.object({
     fullName: baseContactSchema.fullName
         .min(2, { message: "الاسم يجب أن يكون حرفين على الأقل" })
@@ -40,7 +39,6 @@ export const contactSchema = z.object({
         .max(15, { message: "رقم الهاتف طويل جداً" })
         .regex(/^[+]?[\d\s-()]+$/, { message: "رقم هاتف غير صحيح" })
 });
-
 
 export const contactSchemaEN = z.object({
     fullName: baseContactSchema.fullName
@@ -67,6 +65,5 @@ export function getContactSchema(locale?: string) {
 
     return locale.startsWith("ar") ? contactSchema : contactSchemaEN;
 }
-
 
 export type ContactFormData = z.infer<typeof contactSchema>;

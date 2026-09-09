@@ -3,7 +3,6 @@
 import { useEffect } from "react"
 import { reportError } from "@/lib/report-error"
 
-/** An error in the admin's root layout. No providers, no theme, no component library. */
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {
         reportError(error, { boundary: "admin-global" })

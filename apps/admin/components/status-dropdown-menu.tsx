@@ -29,33 +29,6 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { changeOrderStatus } from "../app/action/action";
 
-/*
- * The private LABEL_MAP that lived here is gone. It was the SECOND copy of the order
- * labels — lib/utils.ts had the other — and the two had already diverged: this one said
- * "Awaiting Shipment", so the same order read differently here than on the dashboard.
- * One vocabulary now, in lib/status.ts.
- */
-
-/**
- * Moving an order through the state machine.
- *
- * Three things were wrong with this, and they compounded:
- *
- *   IT OFFERED EVERY STATUS. `Object.values(OrderStatus)` put "Delivered" in front of an order
- *   that had not shipped and "Awaiting Shipment" in front of one already delivered. The machine
- *   refused them correctly — so the menu offered eleven choices of which most were errors.
- *
- *   THE REFUSAL WAS SILENT. `mutate` had no `onError`, and until A101 the app had no Toaster
- *   either, so choosing an illegal status did nothing at all. Nothing moved, nothing said why.
- *
- *   THERE WAS NOWHERE TO PUT A TRACKING NUMBER. `shipOrder(id, actor, trackingNumber?)` takes
- *   one, `changeOrderStatus` passes one through, and no caller ever supplied it — which is why
- *   `/admin/shipping` counts "shipped, untracked" as a number.
- *
- * `allowedTransitionsFrom` is the same table the machine enforces, so the menu cannot drift
- * from it. Shipping asks for the number, and lets you skip: under COD it usually arrives later,
- * and refusing to ship without one would just teach people to type a placeholder.
- */
 const StatusDropdown = ({
   id,
   orderStatus,
@@ -63,11 +36,6 @@ const StatusDropdown = ({
 }: {
   id: string;
   orderStatus: OrderStatus;
-  /**
-   * A 30px, content-width trigger for a table cell. The default 208px control is right on a
-   * record header, where the status is one of three things on the screen, and wrong in a
-   * 34px row where it would set the width of the whole column.
-   */
   compact?: boolean;
 }) => {
   const router = useRouter();
@@ -78,7 +46,6 @@ const StatusDropdown = ({
     mutationKey: ["change-order-status"],
     mutationFn: changeOrderStatus,
     onSuccess: (result) => {
-      // The action returns a result rather than throwing, so a refusal arrives here as data.
       if (result && typeof result === "object" && "success" in result && !result.success) {
         toast.error(("error" in result && String(result.error)) || "That change was refused.");
         return;
@@ -117,7 +84,6 @@ const StatusDropdown = ({
 
           {allowed.length === 0 ? (
             <DropdownMenuItem disabled className="p-2.5 text-sm text-muted-foreground">
-              {/* delivered and cancelled are terminal — saying so beats an empty menu. */}
               Nothing follows this
             </DropdownMenuItem>
           ) : (

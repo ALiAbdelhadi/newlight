@@ -13,16 +13,12 @@ interface SaveConfigurationArgs {
 }
 
 export async function saveConfiguration(args: SaveConfigurationArgs) {
-    // Get userId but don't require it for saveConfiguration
     const userId = await currentAdminId()
 
     try {
-        // Get product details
         const product = await prisma.product.findUnique({
             where: { productId: args.productId },
             include: {
-                // English by design, not by accident: the admin app has no i18n (§14).
-                // Every other `take: 1` in this app was an unscoped read and is fixed.
                 translations: { where: { locale: "en" }, take: 1 },
             },
         })
@@ -31,9 +27,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             throw new Error("Product not found")
         }
 
-        // If user is logged in, try to update existing config
         if (userId) {
-            // The lazy-create is gone (§7): a caller with an authenticated userId has a row.
 
             if (args.configId) {
                 const existingConfig = await prisma.productConfiguration.findFirst({
@@ -64,7 +58,6 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                 }
             }
 
-            // Create new configuration with user connection
             const configuration = await prisma.productConfiguration.create({
                 data: {
                     productId: product.id,
@@ -90,7 +83,6 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        // Create new configuration WITHOUT user (for guests)
         const configuration = await prisma.productConfiguration.create({
             data: {
                 productId: product.id,
@@ -120,9 +112,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
 export async function getConfiguration(configId: string) {
     const userId = await currentAdminId()
 
-    // Allow getting configuration without authentication
     try {
-        // If user is logged in, check if config belongs to them
         if (userId) {
             const configuration = await prisma.productConfiguration.findFirst({
                 where: {
@@ -137,7 +127,6 @@ export async function getConfiguration(configId: string) {
             })
 
             if (configuration) {
-                // Parse the stored value safely
 
                 return {
                     ...configuration,
@@ -147,7 +136,6 @@ export async function getConfiguration(configId: string) {
             }
         }
 
-        // For guests or if not found with user, try to get config without user check
         const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
@@ -158,8 +146,6 @@ export async function getConfiguration(configId: string) {
         if (!configuration) {
             return null
         }
-
-        // Parse the stored value
 
         return {
             ...configuration,
@@ -186,7 +172,6 @@ export async function updateConfigurationQuantity({
     }
 
     try {
-        // If user is logged in, verify ownership
         if (userId) {
             const config = await prisma.productConfiguration.findFirst({
                 where: {
@@ -201,7 +186,6 @@ export async function updateConfigurationQuantity({
             })
 
             if (config) {
-                // `discount` is dropped (A21): 0.00 on all 13 production rows, never written otherwise.
                 const newTotalPrice = multiplyMoney(config.configPrice, quantity)
 
                 const updatedConfig = await prisma.productConfiguration.update({
@@ -221,7 +205,6 @@ export async function updateConfigurationQuantity({
             }
         }
 
-        // For guests, just update the configuration
         const config = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
@@ -233,7 +216,6 @@ export async function updateConfigurationQuantity({
             throw new Error("Configuration not found")
         }
 
-        // `discount` is dropped (A21): 0.00 on all 13 production rows, never written otherwise.
                 const newTotalPrice = multiplyMoney(config.configPrice, quantity)
 
         const updatedConfig = await prisma.productConfiguration.update({
@@ -256,7 +238,6 @@ export async function updateConfigurationQuantity({
     }
 }
 
-// Helper function to associate a configuration with a user (when they sign in)
 export async function associateConfigurationWithUser(configId: string, userId: string) {
     try {
         const configuration = await prisma.productConfiguration.findUnique({
@@ -268,14 +249,10 @@ export async function associateConfigurationWithUser(configId: string, userId: s
             throw new Error("Configuration not found")
         }
 
-        // If configuration already has users, don't override
         if (configuration.users.length > 0) {
             return { success: false, message: "Configuration already has an owner" }
         }
 
-            // The lazy-create is gone (§7): a caller with an authenticated userId has a row.
-
-        // Associate configuration with user
         await prisma.productConfiguration.update({
             where: { id: configId },
             data: {

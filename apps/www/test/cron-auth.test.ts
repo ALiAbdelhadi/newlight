@@ -3,13 +3,6 @@ import { afterEach, describe, expect, it } from "vitest"
 
 import { authorizeCron } from "@/lib/cron-auth"
 
-/**
- * The property every cron endpoint depends on: an unauthenticated caller never reaches the
- * sweep. These endpoints send email, sign push payloads and release stock, so the interesting
- * case is not the happy path — it is that a missing secret refuses rather than defaults open,
- * which is exactly what a `provided === undefined` comparison against an unset variable would
- * have done if the guard had been written the obvious way.
- */
 const SECRET_NAME = "TEST_CRON_SECRET"
 
 function get(url: string, headers: Record<string, string> = {}): NextRequest {
@@ -65,7 +58,6 @@ describe("authorizeCron", () => {
     })
 
     it("ignores the query form once an Authorization header is present", async () => {
-        // Otherwise a caller could downgrade to the weaker channel by sending both.
         process.env[SECRET_NAME] = "right"
         const denied = authorizeCron(
             get("https://newlight-eg.com/api/cron/sweep?secret=right", { authorization: "Bearer wrong" }),

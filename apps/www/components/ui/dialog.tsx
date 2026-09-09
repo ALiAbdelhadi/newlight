@@ -8,7 +8,6 @@ import { useLocale } from "next-intl"
 import * as React from "react"
 import { createContext, ReactNode, useContext } from "react"
 
-
 type LocaleType = "ar" | "en" | string
 
 const DialogLocaleContext = createContext<LocaleType>("en")

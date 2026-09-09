@@ -1,35 +1,15 @@
 #!/usr/bin/env node
-/**
- * Proves that replaying prisma/migrations from empty produces EXACTLY schema.prisma.
- *
- *   SHADOW_DATABASE_URL=postgresql://user@localhost:5432/newlight_shadow \
- *     node scripts/verify-chain.mjs
- *
- * Without this, "the schema" and "the migrations" are two independent descriptions of the
- * database that are assumed to agree. They drift the first time someone edits one of them.
- *
- * SHADOW_DATABASE_URL must be a THROWAWAY database: Prisma resets it. It is required
- * explicitly, with no default, because a default here is one typo away from resetting a
- * database that matters. The §0.4 guard refuses production and the branch outright.
- */
 import { execFileSync } from "node:child_process"
 import { join } from "node:path"
 import { PrismaClient } from "@prisma/client"
 import { describe, loadEnv, PACKAGE_ROOT } from "./env.mjs"
 
-/**
- * CHECK constraints Prisma cannot express and `migrate diff` cannot see (BUILD §4.6).
- * Because the diff is blind to them, nothing else would notice one going missing — so
- * they are asserted by name here, against the replayed chain.
- */
 const REQUIRED_CHECKS = [
     ["products", "products_price_positive"],
     ["stock_levels", "stock_levels_on_hand_non_negative"],
     ["stock_levels", "stock_levels_reserved_non_negative"],
     ["stock_levels", "stock_levels_reserved_within_stock"],
     ["rate_limits", "rate_limits_count_non_negative"],
-    // 0015. The last one is the important one: without it a discount row can name a scope and
-    // a target that disagree, and the resolver decides what a customer pays by guessing.
     ["discounts", "discounts_value_positive"],
     ["discounts", "discounts_percent_bounded"],
     ["discounts", "discounts_window_ordered"],
@@ -74,8 +54,6 @@ if (!/This is an empty migration/.test(diff)) {
 }
 console.log("[chain] OK: replaying every migration from empty reproduces schema.prisma exactly.")
 
-// `migrate diff` leaves the replayed chain in the shadow database, so it can be inspected
-// for the objects the diff itself ignores.
 const prisma = new PrismaClient({ datasources: { db: { url: shadow } } })
 try {
     const rows = await prisma.$queryRaw`

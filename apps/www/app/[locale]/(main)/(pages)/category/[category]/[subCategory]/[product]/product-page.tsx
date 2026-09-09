@@ -22,11 +22,8 @@ import Image from "@/components/app-image"
 import { startTransition, useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
-
 interface ProductPageProps {
-    /** Delivery / warranty / payment facts, rendered by the server under the buy buttons. */
     assurance?: React.ReactNode
-    /** Derived from ProductService.getProductBySlug, so the page and the query cannot drift. */
     product: ProductDetailView
 }
 
@@ -45,7 +42,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
     const [quantity, setQuantity] = useState(1)
     const [isAddingToCart, setIsAddingToCart] = useState(false)
 
-
     const productTranslation = product.translations[0]
     const subCategoryTranslation = product.subCategory.translations[0]
     const categoryTranslation = product.subCategory.category.translations[0]
@@ -54,8 +50,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
     const productDescription = productTranslation?.description
     const subCategoryName = subCategoryTranslation?.name ?? ""
     const categoryName = categoryTranslation?.name ?? ""
-    // Per-locale slugs (§9.2): every link on this page is built from the translation rows the
-    // page is already rendering, never from the entity, which no longer carries one.
     const subCategorySlug = subCategoryTranslation?.slug ?? ""
     const categorySlug = categoryTranslation?.slug ?? ""
 
@@ -134,19 +128,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
             }
         })
     }, [isSignedIn, isAddingToCart, quantity, product.productId, selectedColorTemp, surfaceColor, productName, t])
-
-    /*
-     * The two GSAP entrances that stood here are gone.
-     *
-     * They were `gsap.from` — so the resting state was visible, unlike the ones on the listing
-     * pages — but both cleanups ran `ScrollTrigger.getAll().forEach(t => t.kill())`, which kills
-     * every trigger on the page rather than the two this component created. Navigating away
-     * from a product silently disabled the reveals on whatever rendered next.
-     *
-     * The hero does not animate at all now: it is the product, above the fold, and the reason
-     * the page was opened. The specification block reveals through `Reveal`, the same one
-     * everything else uses.
-     */
 
     const formatAvailableColor = (color: string, isArabic: boolean): string => {
         const map: Record<string, string> = {
@@ -356,15 +337,12 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
         return a.label.localeCompare(b.label, isArabic ? "ar" : "en")
     })
 
-    // Availability is onHand - reserved from the ledger, resolved by the service (§13.4).
     const isOutOfStock = !product.inStock
 
     return (
         <main className="min-h-screen">
             <div className="border-b border-border py-24">
                 <Container>
-                    {/* The same component the catalogue and the listing use — this page had
-                        the only trail on the site, hand-written, at its own tracking and size. */}
                     <Breadcrumbs
                         className="py-5"
                         items={[
@@ -385,8 +363,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                         src={product.images[selectedImageIndex]?.url ?? product.images[0]!.url}
                                         alt={productName}
                                         fill
-                                        // Half of a 1280px container from lg up. Without this a
-                                        // 600px slot asks Cloudinary for 3840px.
                                         sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 50vw, 600px"
                                         className="object-contain p-6 transition-opacity duration-300"
                                         priority
@@ -420,7 +396,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                                 src={image.url}
                                                 alt={`${productName} - ${index + 1}`}
                                                 fill
-                                                // One of five thumbnails across the gallery column.
                                                 sizes="(max-width: 1024px) 20vw, (max-width: 1280px) 10vw, 120px"
                                                 className="object-contain p-1"
                                             />
@@ -444,10 +419,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                     {productDescription}
                                 </p>
                             )}
-                            {/* PriceTag owns currency placement — "EGP 165.00" in English,
-                                "١٦٥.٠٠ ج.م" in Arabic — and the struck "was" price while a
-                                discount is running (§13.2). `product.price` is already the
-                                discounted number; the badge says by how much. */}
                             <div className="flex flex-wrap items-baseline gap-3 pt-2 pb-6 border-b border-border">
                                 <PriceTag price={product.price} basePrice={product.basePrice} size="xl" />
                                 {product.discountPercent > 0 && (
@@ -506,9 +477,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                             <Plus className="h-3.5 w-3.5" />
                                         </Button>
                                     </div>
-                                    {/* Availability, both ways. The page only ever said "out of
-                                        stock"; a customer about to pay wants to hear the other
-                                        answer too, and it comes from the same ledger read. */}
                                     {isOutOfStock ? (
                                         <span className="text-xs text-danger font-medium">{t("outOfStock")}</span>
                                     ) : (
@@ -537,8 +505,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                     </Button>
                                 </div>
                             </div>
-                            {/* The quantity in the stepper travels with the enquiry, so a
-                                contractor who dialled it up to 200 does not retype it. */}
                             <BulkOrderDialog sku={product.productId} productName={productName} quantity={quantity} />
 
                             {assurance}

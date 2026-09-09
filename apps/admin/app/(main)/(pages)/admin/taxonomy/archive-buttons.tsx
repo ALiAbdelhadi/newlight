@@ -6,14 +6,6 @@ import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { archiveCategory, archiveSubCategory, restoreTaxonomy } from "@/app/action/taxonomy-actions"
 
-/**
- * Archive and restore.
- *
- * No confirmation dialog, deliberately: archiving is reversible from this same row, and the
- * service refuses outright while anything still lives inside — so the destructive case cannot
- * be reached by clicking, and a dialog in front of a reversible action just trains people to
- * dismiss dialogs.
- */
 export function ArchiveButtons({
     kind,
     id,

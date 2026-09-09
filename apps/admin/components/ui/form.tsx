@@ -15,21 +15,6 @@ import {
 import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
 
-/**
- * react-hook-form bound to accessible markup.
- *
- * The value here is not the styling — it is that `FormControl` wires
- * `id`, `aria-describedby` and `aria-invalid` from the field's own state, so a
- * validation error is announced rather than merely coloured. Twenty-odd forms
- * hand-wiring those three attributes is twenty chances to forget one, and a
- * forgotten `aria-describedby` is invisible to everyone who can see the screen.
- *
- * Written by hand rather than pulled from the registry: the CLI blocks on an
- * interactive overwrite prompt for `button.tsx` and `label.tsx`, and
- * overwriting either to get past it would replace components the app already
- * depends on.
- */
-
 const Form = FormProvider
 
 type FormFieldContextValue<
@@ -82,7 +67,6 @@ function FormItem({ className, ...props }: React.ComponentProps<"div">) {
 
     return (
         <FormItemContext.Provider value={{ id }}>
-            {/* gap-1 is the label-to-control step (4px), not shadcn's default 8px. */}
             <div data-slot="form-item" className={cn("grid gap-1", className)} {...props} />
         </FormItemContext.Provider>
     )
@@ -129,11 +113,6 @@ function FormDescription({ className, ...props }: React.ComponentProps<"p">) {
     )
 }
 
-/**
- * The message renders nothing when there is nothing to say, but the element
- * keeps its id so `aria-describedby` stays valid across the transition from
- * valid to invalid.
- */
 function FormMessage({ className, ...props }: React.ComponentProps<"p">) {
     const { error, formMessageId } = useFormField()
     const body = error ? String(error?.message ?? "") : props.children

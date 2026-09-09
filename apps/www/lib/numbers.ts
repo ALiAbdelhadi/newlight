@@ -9,10 +9,6 @@ export function convertToArabicNumerals(num: number): string {
     return result
 }
 
-
-
-
-
 export const createNumberFormatter = (locale: string) => {
     const formatter = new Intl.NumberFormat(locale, {
         maximumFractionDigits: 2,

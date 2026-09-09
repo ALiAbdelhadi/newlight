@@ -1,17 +1,3 @@
-/**
- * Raise one real notification and push it, so a person can confirm the last link in the chain:
- * an OS banner actually appearing on a machine that has enabled notifications.
- *
- *   cd packages/database
- *   node scripts/with-env.mjs tsx ../notifications/scripts/send-test-notification.ts
- *
- * Run from packages/database because that is where `with-env.mjs` lives — it is the only thing
- * that loads .env.local for a CLI and refuses to point a write at the production endpoint.
- *
- * Everything it writes is deleted before it exits, so this leaves no row in the bell. The push
- * has already been delivered by then: the banner is on the screen and the notification it came
- * from is gone, which is the correct trade for a probe.
- */
 import { prisma } from "@repo/database"
 
 import { adminRecipients, dispatchPush, isPushConfigured, notifyRecipients } from "../index"

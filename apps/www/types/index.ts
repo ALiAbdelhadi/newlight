@@ -1,11 +1,6 @@
 import { Prisma, type SerializedMoney } from "@repo/database";
 import type { ProductDetailView } from "@/lib/services/product-service";
 
-/**
- * §14.1: one Locale type for the whole app. `SupportedLanguage` is kept as an alias so the
- * existing call sites do not churn, but the definition lives in @repo/database, which is what
- * next-intl's routing, the seed and every query now share.
- */
 export type { Locale } from "@repo/database";
 
 export type SupportedLanguage = import("@repo/database").Locale
@@ -28,26 +23,12 @@ export interface LanguageSwitcherProps {
     currentLocale: string
 }
 
-/**
- * A cart row as `/api/cart` sends it.
- *
- * The money fields are STRINGS. They always were on the wire — the API serialises Decimals
- * (ADR 0001) — but this interface declared them `number`, so the sidebar was doing
- * `item.price * quantity` on a string and getting away with it through JavaScript's coercion.
- * Declaring what is actually sent is what lets the arithmetic go through the money helpers.
- *
- * `discount` (a percentage) is gone with it: a discount is resolved server-side now (§13.2),
- * so the client is told the price and the price before it, not a rule for computing one from
- * the other.
- */
 export interface CartItem {
     id: string
     productId: string
     productName: string
     productImages: string[]
-    /** What the customer pays per unit — discounted where a discount is live. */
     price: SerializedMoney
-    /** The undiscounted unit price. Equal to `price` when nothing is on offer. */
     basePrice: SerializedMoney
     discountPercent: number
     quantity: number
@@ -56,7 +37,6 @@ export interface CartItem {
     categorySlug: string
     selectedColorTemp: string | null
     selectedColorKey: string | null
-    /** `price × quantity`, computed on the server. */
     totalPrice: SerializedMoney
     colorTemperatures: string[]
     availableColors: string[]
@@ -72,7 +52,6 @@ export interface Language {
     nativeName: string
     region: string
 }
-
 
 export enum ProductColorTemp {
     warm = "warm",
@@ -171,13 +150,11 @@ export interface CategoryTranslation {
 
 export interface PreviewClientProps {
     configId: string
-    /** Whatever ProductService.getProductBySlug returns — derived, not re-declared. */
     product: ProductDetailView
     configuration: {
         selectedColorTemp?: string | null
         selectedColorKey?: string | null
         quantity: number
-        /** Serialised money (ADR 0001). `discount` is gone: 0.00 on every row (A21). */
         totalPrice: SerializedMoney
     }
     translations: {
@@ -224,16 +201,6 @@ export interface OrderItem {
     selectedColorKey?: string
 }
 
-/**
- * The order-confirmation page's copy.
- *
- * `orderPlaced`, `processing` and `estimatedDelivery` are gone with the fake two-step timeline
- * they fed — the real one takes its labels from `@repo/database/status`. `each` and `currency`
- * went with the hand-rolled money rendering in OrderItemsList.
- *
- * This interface was DECLARED TWICE in this file, and TypeScript merged the two declarations
- * silently, so removing a field from one had no effect at all.
- */
 export interface CompleteTranslations {
     orderConfirmed: string
     thankYou: string
@@ -308,7 +275,6 @@ export type OrderWithDetails = Prisma.OrderGetPayload<{
     }
 }>
 
-
 export type OrderItemWithRelations = Prisma.OrderItemGetPayload<{
     include: {
         product: {
@@ -323,11 +289,6 @@ export type OrderItemWithRelations = Prisma.OrderItemGetPayload<{
 export interface ConfirmPageViewProps {
     configId: string
     userId: string
-    /**
-     * What each shipping option costs, read from the `shipping.rate.*` settings the panel
-     * writes. Passed in rather than looked up here: the price a customer is SHOWN and the
-     * price the order is CHARGED must come from one source (see `shipping-service.ts`).
-     */
     shippingRates: Record<ShippingOption, SerializedMoney>
     configuration: {
         quantity: number
@@ -377,11 +338,6 @@ export interface ConfirmPageViewProps {
 export interface ConfirmFormProps {
     configId: string
     userId: string
-    /**
-     * What each shipping option costs, read from the `shipping.rate.*` settings the panel
-     * writes. Passed in rather than looked up here: the price a customer is SHOWN and the
-     * price the order is CHARGED must come from one source (see `shipping-service.ts`).
-     */
     shippingRates: Record<ShippingOption, SerializedMoney>
     existingAddress?: {
         fullName: string

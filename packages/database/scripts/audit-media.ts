@@ -1,16 +1,3 @@
-/**
- * Media resolution audit — the BUILD §15.2 gate.
- *
- * Every path in Product.images and Product.colorImageMap must resolve to a file on disk
- * before anything is uploaded to Cloudinary, and long before apps/admin/public/products is
- * deleted. This script is that gate: it resolves, reports and exits non-zero if anything is
- * unresolved. It never edits a catalog value (§0.5).
- *
- * The resolver itself lives in ../media.ts, shared with media-migrate.ts, so the audit and
- * the migration cannot disagree about what a path means.
- *
- *   pnpm --filter @repo/database media:audit
- */
 import { createHash } from "node:crypto"
 import { existsSync, readFileSync, statSync } from "node:fs"
 import { join, relative } from "node:path"
@@ -19,12 +6,6 @@ import { collectReferences, loadOverrides, loadTrees, PACKAGE_ROOT, readDimensio
 
 const prisma = new PrismaClient()
 
-/**
- * After 0011 the v1 columns are gone, so the gate changes shape: instead of "does every
- * catalog path resolve to a file", the question becomes "does every ProductImage still point
- * at something the manifest knows about". Both are the same guarantee at different points in
- * the migration, so both live here rather than in two scripts that could disagree.
- */
 async function auditV2(): Promise<never> {
     const manifestFile = join(PACKAGE_ROOT, "data", "media-manifest.json")
     if (!existsSync(manifestFile)) {
@@ -121,8 +102,6 @@ async function main() {
         for (const r of unresolved) console.log(`          ${r.product.padEnd(18)} ${r.path}`)
     }
 
-    // Extension against content. Cloudinary sniffs bytes so this never breaks an upload, but
-    // a public_id derived from a lying extension is a lie that outlives the migration.
     const lying = new Map<string, number>()
     let unreadable = 0
     const referenced = new Set(resolutions.filter((r) => r.file).map((r) => r.file!))
@@ -142,8 +121,6 @@ async function main() {
     for (const [shape, count] of lying) console.log(`          ${String(count).padStart(3)} × ${shape}`)
     console.log(`[media] Content type comes from sniffing, never from the path.`)
 
-    // Dimensions, read from headers. Nullable in the schema on purpose, so a file whose
-    // header cannot be parsed is reported rather than fatal.
     let noDimensions = 0
     let bytes = 0
     const hashes = new Map<string, number>()

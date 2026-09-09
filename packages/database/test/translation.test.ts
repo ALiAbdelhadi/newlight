@@ -2,13 +2,6 @@ import { describe, expect, it } from "vitest"
 import { isLocale, localeDirection, otherLocale, requireLocale, resolveLocale } from "../locale"
 import { pickTranslation, requireTranslation, translationFallback, translationsFor } from "../translation"
 
-/**
- * §25: "i18n: no silent `en` for a missing `ar`."
- *
- * The v1 helper was `translations.find(t => t.locale === locale) || translations[0]`, so a
- * missing Arabic name rendered the English one indistinguishably and forever. These tests are
- * about the DISTINGUISHABILITY, not about whether a fallback happens.
- */
 const rows = [
     { locale: "en", name: "Panel Lights" },
     { locale: "ar", name: "بانل لايت" },
@@ -23,7 +16,6 @@ describe("translation selection", () => {
     it("falls back, and SAYS SO", () => {
         const englishOnly = [{ locale: "en", name: "Panel Lights" }]
         expect(pickTranslation(englishOnly, "ar")?.name).toBe("Panel Lights")
-        // The whole point: a page can mark the element lang="en" instead of pretending.
         expect(translationFallback(englishOnly, "ar")).toEqual({ locale: "en", isFallback: true })
         expect(translationFallback(rows, "ar")).toEqual({ locale: "ar", isFallback: false })
     })
@@ -40,7 +32,6 @@ describe("translation selection", () => {
     })
 
     it("builds an include that cannot forget the locale (§14.4)", () => {
-        // The eight `take: 1` sites with no where clause are unwritable through this.
         expect(translationsFor("ar")).toEqual({ where: { locale: "ar" }, take: 1 })
     })
 })
@@ -56,7 +47,6 @@ describe("locale", () => {
     it("resolves region-tagged and unknown input without throwing", () => {
         expect(resolveLocale("ar-EG")).toBe("ar")
         expect(resolveLocale("en_US")).toBe("en")
-        // Arabic is the default: the market is Egyptian.
         expect(resolveLocale("fr")).toBe("ar")
         expect(resolveLocale(undefined)).toBe("ar")
     })

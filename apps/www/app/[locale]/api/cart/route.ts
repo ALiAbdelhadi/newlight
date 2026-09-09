@@ -8,9 +8,6 @@ import { currentUserId } from "@/lib/auth"
 import { getLocale } from "next-intl/server"
 import { NextResponse } from "next/server"
 
-/**
- * GET - Fetch user's cart
- */
 export async function GET() {
   const userId = await currentUserId()
   const locale = await getLocale()
@@ -20,14 +17,12 @@ export async function GET() {
   }
 
   try {
-    // Use CartService instead of direct Prisma
     const cart = await CartService.getCartWithItems(userId, resolveLocale(locale))
 
     if (!cart) {
       return NextResponse.json([])
     }
 
-    // Format items for frontend
     const discounts = await activeDiscounts()
     const cartItems: CartItem[] = cart.items.map((item) => formatCartItem(item, discounts))
 
@@ -38,9 +33,6 @@ export async function GET() {
   }
 }
 
-/**
- * PATCH - Update cart item quantity
- */
 export async function PATCH(request: Request) {
   const userId = await currentUserId()
   const locale = await getLocale()
@@ -52,7 +44,6 @@ export async function PATCH(request: Request) {
   try {
     const body = await request.json()
 
-    // Validate input
     const validation = updateCartItemSchema.safeParse(body)
     if (!validation.success) {
       return NextResponse.json(
@@ -63,14 +54,12 @@ export async function PATCH(request: Request) {
 
     const { itemId, quantity } = validation.data
 
-    // Use CartService
     const result = await CartService.updateItemQuantity({
       userId,
       itemId,
       quantity,
     })
 
-    // Get updated item with full details
     const cart = await CartService.getCartWithItems(userId, resolveLocale(locale))
     const updatedItem = cart?.items.find((item) => item.id === itemId)
 
@@ -78,8 +67,6 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Item not found" }, { status: 404 })
     }
 
-    // The same formatter as GET: a row that comes back from a quantity change must be the
-    // same shape as the row it replaces, discount included.
     const formattedItem = formatCartItem(updatedItem, await activeDiscounts())
 
     return NextResponse.json(formattedItem)
@@ -102,9 +89,6 @@ export async function PATCH(request: Request) {
   }
 }
 
-/**
- * DELETE - Remove item from cart
- */
 export async function DELETE(request: Request) {
   const userId = await currentUserId()
 
@@ -115,7 +99,6 @@ export async function DELETE(request: Request) {
   try {
     const body = await request.json()
 
-    // Validate input
     const validation = removeCartItemSchema.safeParse(body)
     if (!validation.success) {
       return NextResponse.json(
@@ -126,7 +109,6 @@ export async function DELETE(request: Request) {
 
     const { itemId } = validation.data
 
-    // Use CartService
     await CartService.removeItem({
       userId,
       itemId,

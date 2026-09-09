@@ -63,22 +63,11 @@ export function ProductCarousel({ products }: { products: CarouselCard[] }) {
 
     return (
         <div className="relative">
-            {/* The controls sit at the top end-corner, tucked up into the section header's
-                bottom margin, so they read as part of the heading row rather than as a
-                footer under the cards. `justify-end` is logical: right in English, left in
-                Arabic, which is where the "next" card comes from in RTL.
 
-                Shown on touch too. Swiping still works and is what most people will do, but a
-                pair of buttons is the only thing on a phone that SAYS the row continues past
-                the edge of the screen — and on a narrow viewport `pageDelta` falls back to one
-                card per press, which is the right step for a thumb. */}
             <div className="-mt-4 mb-5 flex items-center justify-end gap-2 lg:-mt-8">
                 <PageButton label={t("previous")} onClick={() => page(-1)} direction="previous" />
                 <PageButton label={t("next")} onClick={() => page(1)} direction="next" />
             </div>
-            {/* The scrollbar is hidden, not removed: the track still scrolls by wheel, touch,
-                and keyboard. `pb-2` is the breathing room for a card's focus ring, which the
-                old `pb-4` was reserving for the scrollbar itself. */}
             <ul
                 ref={track}
                 className="hide-scrollbar scroll-smooth snap-x snap-mandatory -mx-5 flex gap-5 overflow-x-auto px-5 pb-2 lg:-mx-10 lg:px-10"
@@ -108,7 +97,6 @@ export function ProductCarousel({ products }: { products: CarouselCard[] }) {
     )
 }
 
-/** The offers section's original names — the same component, the same shape. */
 export type OfferCard = CarouselCard
 export const OffersCarousel = ProductCarousel
 

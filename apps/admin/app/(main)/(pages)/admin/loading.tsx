@@ -1,22 +1,6 @@
 import { PageBody } from "@/components/page"
 import { Skeleton } from "@/components/ui/skeleton"
 
-/**
- * The route-level loading state (P4.5 §19).
- *
- * There was none. Every admin route is `force-dynamic`, so navigating between two of them left
- * the previous screen on display, fully interactive, until the new one's queries returned —
- * an operator could click a row on a page they had already navigated away from.
- *
- * It sits under `/admin`, so it covers every surface that does not supply its own. The shape
- * is deliberately generic and LAYOUT-PRESERVING: a header band the height of a real
- * `PageHeader`, a toolbar band, and rows at the compact density. A spinner would say "wait";
- * this says "the thing you asked for is this shape", which is the difference between a loading
- * state and a stall.
- *
- * No pulse on the row block: twelve pulsing bars at 34px is a strobe. The header and toolbar
- * animate because they are two small elements; the rows are static and simply grey.
- */
 export default function AdminLoading() {
     return (
         <>
@@ -51,8 +35,6 @@ export default function AdminLoading() {
                 </div>
             </PageBody>
 
-            {/* The one thing a screen reader needs from this. The visual skeleton is decoration
-                to it, and announcing twelve grey bars would be worse than announcing nothing. */}
             <span role="status" aria-live="polite" className="sr-only">
                 Loading…
             </span>

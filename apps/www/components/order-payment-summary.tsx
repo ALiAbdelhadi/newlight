@@ -5,7 +5,6 @@ import { useLocale } from "next-intl"
 import { CreditCard } from "lucide-react"
 
 interface OrderPaymentSummaryProps {
-    // Serialised money (ADR 0001) — a Decimal cannot cross the server/client boundary.
     subtotal: SerializedMoney
     shippingCost: SerializedMoney
     total: SerializedMoney

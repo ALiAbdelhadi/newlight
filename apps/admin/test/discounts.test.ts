@@ -4,13 +4,6 @@ import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
 
 import type { DiscountInput } from "@/lib/services/discount-service"
 
-/**
- * §13.2 — discounts.
- *
- * The properties under test are the ones that separate a discount from a repricing: it has a
- * window, it never touches `products.price`, it is previewed before it exists, and it can be
- * stopped but not erased once somebody may have bought under it.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -72,7 +65,6 @@ describe("preview", () => {
         const DiscountService = await service()
         const preview = await DiscountService.preview(input())
 
-        // The family holds two of the three fixture products.
         expect(preview.count).toBe(2)
         expect(preview.rows.map((row) => [row.sku, row.basePrice, row.newPrice])).toEqual([
             ["nl-test-10w", "199.50", "169.58"],
@@ -101,7 +93,6 @@ describe("preview", () => {
             input({ kind: "AMOUNT", value: "500", scope: { type: "ALL" } })
         )
 
-        // 150.00 and 199.50 cannot give 500 back; 1000.00 can.
         expect(preview.clamped.map((row) => row.sku).sort()).toEqual(["nl-test-10w", "nl-test-5w"])
         await expect(
             DiscountService.create(input({ kind: "AMOUNT", value: "500", scope: { type: "ALL" } }))
@@ -112,7 +103,6 @@ describe("preview", () => {
         const DiscountService = await service()
         await DiscountService.create(input({ name: "Already running", value: "30", startsAt: new Date(Date.now() - HOUR) }))
 
-        // Discounts do not stack, so a weaker one over the same products changes nothing.
         const preview = await DiscountService.preview(input({ name: "Weaker", value: "10" }))
         expect(preview.overlapping).toHaveLength(2)
         expect(preview.overlapping[0]!.supersededBy).toBe("Already running")
@@ -213,7 +203,6 @@ describe("ending", () => {
         await DiscountService.stop(id)
 
         const stopped = await db.prisma.discount.findUniqueOrThrow({ where: { id } })
-        // The row survives, so an order placed while it ran is still explained by it.
         expect(stopped.isActive).toBe(false)
         expect(await db.prisma.adminAuditLog.count({ where: { action: "discount.stop" } })).toBe(1)
     })
@@ -257,7 +246,6 @@ describe("rescheduling", () => {
             DiscountService.reschedule(id, new Date(Date.now() + HOUR), new Date(Date.now() + 48 * HOUR))
         ).rejects.toThrow(/only its end date can move/)
 
-        // Extending it is fine — that is the common case, and it rewrites nothing.
         await DiscountService.reschedule(id, startedAt, new Date(Date.now() + 96 * HOUR))
         const extended = await db.prisma.discount.findUniqueOrThrow({ where: { id } })
         expect(extended.endsAt.getTime()).toBeGreaterThan(Date.now() + 90 * HOUR)

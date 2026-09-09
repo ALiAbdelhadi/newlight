@@ -3,16 +3,6 @@ import { createTestDatabase, type TestDatabase } from "@repo/database/test-harne
 import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
 import { decodeSlug, encodeSlug } from "@repo/database"
 
-/**
- * §25: "Search: every filter rewritten onto ProductSpec returns the same results as the
- * column-based implementation on the same data" and "Slugs: Arabic taxonomy slugs round-trip
- * through percent-encoding; renamed slugs 301 from history in the right locale."
- *
- * An honest note on the first: the column-based implementation NO LONGER EXISTS — 0011 dropped
- * the eight columns it filtered on, so there is nothing left to run a differential against.
- * What is testable, and what these do, is that each rewritten filter returns the RIGHT rows,
- * and that the three documented deltas (A27) behave as documented rather than by accident.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -34,8 +24,6 @@ describe("free-text search over specs", () => {
     })
 
     it("searches valueEn only, so the equivalence proof holds (A27)", async () => {
-        // The Arabic value exists and is deliberately NOT searched. Searching both would
-        // return a strict superset — an improvement, but one smuggled into a migration.
         const arabicValue = await db.prisma.productSpec.findFirstOrThrow({
             where: { productId: fixture.products.small, specKey: "maximum_wattage" },
         })
@@ -68,8 +56,6 @@ describe("the advanced filters", () => {
     })
 
     it("filters ipRating, which was declared and inert in v1 (A27 delta)", async () => {
-        // v1 destructured `ipRating` and never used it in the where clause, so passing it
-        // changed nothing. Preserving "current semantics" literally would mean keeping it dead.
         const found = await db.prisma.product.findMany({
             where: { ...live, specs: { some: { specKey: "ip_rating", valueEn: { in: ["IP20"] } } } },
             select: { productId: true },
@@ -95,8 +81,6 @@ describe("the advanced filters", () => {
         })
         expect(byEnglish).toHaveLength(3)
 
-        // The English slug is not the Arabic one, so an unscoped filter would silently
-        // return nothing for half the audience.
         const englishSlugInArabic = await db.prisma.product.findMany({
             where: { ...live, subCategory: { translations: { some: { locale: "ar", slug: "panel" } } } },
         })
@@ -141,8 +125,6 @@ describe("slug history, and the 301 it enables (§10)", () => {
         expect(history?.entityType).toBe("SUB_CATEGORY")
         expect(history?.entityId).toBe(fixture.subCategoryId)
 
-        // Same string, other locale: not a match. Taxonomy history is per-locale because
-        // taxonomy slugs are.
         const wrongLocale = await db.prisma.taxonomySlugHistory.findUnique({
             where: { locale_slug: { locale: "ar", slug: "panel-old" } },
         })
@@ -150,8 +132,6 @@ describe("slug history, and the 301 it enables (§10)", () => {
     })
 
     it("refuses to reuse a retired product slug for a different product", async () => {
-        // ProductSlugHistory.slug is UNIQUE, so a rename cannot silently steal a URL that
-        // still 301s somewhere else.
         await expect(
             db.prisma.productSlugHistory.create({
                 data: { productId: fixture.products.large, slug: "nl-test-5w-old" },
@@ -167,7 +147,6 @@ describe("slug history, and the 301 it enables (§10)", () => {
         expect(encoded).not.toBe(translation.slug)
         expect(decodeSlug(encoded)).toBe(translation.slug)
 
-        // And the decoded value is what the database is keyed on.
         const resolved = await db.prisma.subCategoryTranslation.findUnique({
             where: { locale_slug: { locale: "ar", slug: decodeSlug(encoded) } },
         })
@@ -190,7 +169,6 @@ describe("i18n data rules (§14.3)", () => {
     it("does NOT require meta fields, which are empty on 378/378 production rows (N3)", async () => {
         const translations = await db.prisma.productTranslation.findMany()
         expect(translations.every((t) => t.metaTitle === null)).toBe(true)
-        // An activation rule that required them would refuse to activate the entire catalog.
     })
 
     it("keeps a taxonomy slug for every active row in every locale", async () => {

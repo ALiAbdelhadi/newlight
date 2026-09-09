@@ -1,8 +1,3 @@
-// Newlight schema v2.
-//
-// Amendments to the BUILD spec that this file implements are recorded in
-// docs/schema-v2-amendments.md; where the two disagree, that file wins.
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -12,14 +7,6 @@ datasource db {
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_DATABASE_URL")
 }
-
-// ---------------------------------------------------------------------------
-// Taxonomy
-//
-// Exactly two levels: Category -> SubCategory. CategoryType is gone; top-level
-// categories are ordinary rows. Slugs live on the translation rows, unique per
-// (locale, slug), so Arabic and English URLs are independent (§9.2).
-// ---------------------------------------------------------------------------
 
 model Category {
   id        String    @id @default(cuid())
@@ -101,13 +88,6 @@ model SubCategoryTranslation {
   @@map("sub_category_translations")
 }
 
-// ---------------------------------------------------------------------------
-// Product families (§6)
-//
-// Replaces Product.baseProductId / Product.variantType. Grouping comes from the
-// verified production baseProductId during the transform; no runtime regex.
-// ---------------------------------------------------------------------------
-
 model ProductFamily {
   id            String    @id @default(cuid())
   subCategoryId String
@@ -149,18 +129,10 @@ model ProductFamilyTranslation {
   @@map("product_family_translations")
 }
 
-// ---------------------------------------------------------------------------
-// Product
-//
-// Only identity and state remain as columns. Everything descriptive moved to
-// ProductSpec (§2.1); colours moved to the ProductColor lookup (§8); images
-// moved to ProductImage (§5). colorTemperatures stays — it is state, not a spec.
-// ---------------------------------------------------------------------------
-
 model Product {
   id            String  @id @default(cuid())
-  productId     String  @unique // editable business SKU
-  slug          String  @unique // shared across locales (§9.3)
+  productId     String  @unique
+  slug          String  @unique
   subCategoryId String
   familyId      String?
 
@@ -168,7 +140,7 @@ model Product {
   displayOrder Int     @default(0)
 
   price       Decimal  @db.Decimal(12, 2)
-  averageCost Decimal? @db.Decimal(12, 2) // null until real cost data exists (§13.6)
+  averageCost Decimal? @db.Decimal(12, 2)
 
   colorTemperatures ProductColorTemp[]
 
@@ -220,13 +192,6 @@ model ProductTranslation {
   @@map("product_translations")
 }
 
-// ---------------------------------------------------------------------------
-// Media (§5)
-//
-// order = 0 is the primary image. There is deliberately no isPrimary flag, so
-// nothing can mutate primacy independently of ordering.
-// ---------------------------------------------------------------------------
-
 model ProductImage {
   id          String   @id @default(cuid())
   productId   String
@@ -249,13 +214,6 @@ model ProductImage {
   @@index([colorId])
   @@map("product_images")
 }
-
-// ---------------------------------------------------------------------------
-// Colours (§8)
-//
-// Replaces the AvailableColors enum. Keys are preserved exactly (BLACK, GRAY,
-// WHITE, GOLD, WOOD) because cart and order snapshots reference them.
-// ---------------------------------------------------------------------------
 
 model ProductColor {
   id        String   @id @default(cuid())
@@ -286,13 +244,6 @@ model ProductAvailableColor {
   @@index([colorId])
   @@map("product_available_colors")
 }
-
-// ---------------------------------------------------------------------------
-// Normalised specifications (§7)
-//
-// unitEn / unitAr rather than a single unit column: `hours` / `ساعة` cannot
-// share one (amendment A2). Symbol units simply repeat, which is honest.
-// ---------------------------------------------------------------------------
 
 enum SpecValueType {
   NUMBER
@@ -350,10 +301,6 @@ model ProductSpec {
   @@map("product_specs")
 }
 
-// ---------------------------------------------------------------------------
-// Slug history (§10) — old URLs resolve to 301s.
-// ---------------------------------------------------------------------------
-
 model ProductSlugHistory {
   id        String   @id @default(cuid())
   productId String
@@ -387,14 +334,6 @@ model TaxonomySlugHistory {
   @@map("taxonomy_slug_history")
 }
 
-// ---------------------------------------------------------------------------
-// Audit (§11)
-//
-// Also the order-transition history. actorType (F1) makes every transition
-// attributable to a customer, an admin, the system, or — once Bosta lands — a
-// courier webhook, without backfilling history that was never recorded.
-// ---------------------------------------------------------------------------
-
 enum ActorType {
   CUSTOMER
   ADMIN
@@ -422,13 +361,6 @@ model AdminAuditLog {
   @@map("admin_audit_log")
 }
 
-// ---------------------------------------------------------------------------
-// Users, cart, orders
-// ---------------------------------------------------------------------------
-
-// Identity is Better Auth's (§7). name / emailVerified / image are its required fields;
-// role is ours, and is what finally makes UserRole a column rather than nine scattered
-// comparisons against an ADMIN_EMAIL environment variable.
 model User {
   id                String   @id @default(cuid())
   name              String
@@ -453,8 +385,6 @@ model User {
   sessions        Session[]
   accounts        Account[]
 
-  // Browser push endpoints. Cascade, because a deleted user's endpoints are dead mail:
-  // pushing to them can only ever produce a 410 from the push service.
   pushSubscriptions PushSubscription[]
 
   @@index([email])
@@ -470,9 +400,6 @@ enum UserRole {
   @@map("user_role")
 }
 
-// The three tables Better Auth owns. Their shape is dictated by its Prisma adapter — the
-// field names are not ours to choose — but they are declared HERE so there is one schema and
-// one migration history (§7). The Better Auth CLI never generates a migration.
 model Session {
   id        String   @id @default(cuid())
   token     String   @unique
@@ -495,7 +422,6 @@ model Account {
   accountId             String
   providerId            String
   userId                String
-  // The password hash for the credential provider. Better Auth owns the hashing.
   password              String?
   accessToken           String?
   refreshToken          String?
@@ -513,7 +439,6 @@ model Account {
   @@map("accounts")
 }
 
-// Email-verification and password-reset tokens. Short-lived; swept by expiry.
 model Verification {
   id         String   @id @default(cuid())
   identifier String
@@ -544,7 +469,7 @@ model CartItem {
   productId         String
   quantity          Int               @default(1)
   selectedColorTemp ProductColorTemp?
-  selectedColorKey  String? // stable ProductColor.key, not a foreign key (snapshot semantics)
+  selectedColorKey  String?
   createdAt         DateTime          @default(now())
   updatedAt         DateTime          @updatedAt
 
@@ -570,9 +495,9 @@ model Order {
   shippingOption    OrderOption   @default(StandardShipping)
   paymentMethod     PaymentMethod @default(COD)
   paymentStatus     PaymentStatus @default(PENDING)
-  paidAt            DateTime? // set only by settlePaymentForDelivery (F4)
+  paidAt            DateTime?
   shippingAddressId String?
-  trackingNumber    String? // manually entered under COD (F3)
+  trackingNumber    String?
   shippedAt         DateTime?
   deliveredAt       DateTime?
   customerNotes     String?
@@ -599,7 +524,7 @@ model OrderItem {
   productId         String
   productName       String
   productImage      String
-  price             Decimal           @db.Decimal(12, 2) // immutable snapshot (§24.4)
+  price             Decimal           @db.Decimal(12, 2)
   quantity          Int
   selectedColorTemp ProductColorTemp?
   selectedColorKey  String?
@@ -639,13 +564,6 @@ model ShippingAddress {
   @@map("shipping_addresses")
 }
 
-// Live session state for the configure flow, so a real foreign key is correct
-// here; productSku is a denormalised copy so a configuration stays readable if
-// the product is later soft-deleted (Q4).
-//
-// priceIncrease / shippingPrice / discount are gone: 0.00 on all 13 production
-// rows and never written with anything else. A money column that is always zero
-// is a promise the checkout does not keep.
 model ProductConfiguration {
   id                String   @id @default(cuid())
   productId         String
@@ -668,13 +586,6 @@ model ProductConfiguration {
   @@index([createdAt])
   @@map("product_configurations")
 }
-
-// ---------------------------------------------------------------------------
-// Inventory ledger (§13)
-//
-// Append-only movements plus a derived level. packages/database/inventory.ts is
-// the only writer; movement insert and level update share one transaction.
-// ---------------------------------------------------------------------------
 
 enum MovementType {
   INITIAL
@@ -708,7 +619,7 @@ model StockMovement {
   locationId    String
   type          MovementType
   quantity      Int
-  unitCost      Decimal?     @db.Decimal(12, 2) // null means "cost not recorded", never zero
+  unitCost      Decimal?     @db.Decimal(12, 2)
   reason        String?
   referenceType String?
   referenceId   String?
@@ -739,10 +650,6 @@ model StockLevel {
   @@index([locationId])
   @@map("stock_levels")
 }
-
-// ---------------------------------------------------------------------------
-// Contact forms, notifications, settings — carried over unchanged.
-// ---------------------------------------------------------------------------
 
 model ContactForm {
   id          String            @id @default(cuid())
@@ -826,7 +733,6 @@ model Notification {
   @@index([userId, isRead])
   @@index([createdAt])
   @@index([type])
-  // The sweep's claim predicate: unpushed rows, oldest first.
   @@index([pushedAt, createdAt])
   @@map("notifications")
 }
@@ -870,15 +776,6 @@ model PushSubscription {
   @@map("push_subscriptions")
 }
 
-// ---------------------------------------------------------------------------
-// Transactional email (§16)
-//
-// The outbox row is written in the SAME TRANSACTION as the business event that
-// causes it, then dispatched afterwards. That is the whole point: an order that
-// commits always has its confirmation queued, and a mail transport that is down
-// can never roll back an order.
-// ---------------------------------------------------------------------------
-
 enum EmailStatus {
   PENDING
   SENDING
@@ -898,12 +795,9 @@ model EmailOutbox {
 
   attempts      Int       @default(0)
   lastError     String?
-  nextAttemptAt DateTime? // set by the sweep when a send fails; NULL means "ready now"
+  nextAttemptAt DateTime?
   sentAt        DateTime?
 
-  // "the confirmation for order X", so a retried business event queues one email
-  // rather than one per attempt. NULL for mail that is legitimately repeatable,
-  // such as a second password-reset request.
   dedupeKey String? @unique
 
   createdAt DateTime @default(now())
@@ -924,10 +818,6 @@ model SystemSetting {
   @@map("system_settings")
 }
 
-// ---------------------------------------------------------------------------
-// Enums
-// ---------------------------------------------------------------------------
-
 enum ProductColorTemp {
   WARM_3000K
   COOL_4000K
@@ -944,8 +834,6 @@ enum OrderOption {
   @@map("order_option")
 }
 
-// processing / fulfilled / refunded are gone: no production row ever used them
-// and no live code assigns them (§12).
 enum OrderStatus {
   awaiting_shipment
   shipped
@@ -961,8 +849,6 @@ enum PaymentMethod {
   @@map("payment_method")
 }
 
-// PAID means money received by the merchant, nothing weaker. COLLECTED and
-// SETTLED are the additive path when a courier lands (F4).
 enum PaymentStatus {
   PENDING
   PAID
@@ -1026,28 +912,6 @@ model RateLimit {
   @@index([windowStart])
   @@map("rate_limits")
 }
-
-// ---------------------------------------------------------------------------
-// Discounts (§13.2, amendment A21 follow-up)
-//
-// A21 dropped `ProductConfiguration.discount` because three always-zero money columns
-// advertised a capability the checkout never had, and said that when discounts arrived they
-// should be DESIGNED rather than inherited. This is that design.
-//
-// A discount is an OVERLAY, never a write to `products.price`:
-//
-//   - the base price is what the product costs; a discount is a period during which it costs
-//     less. Writing the sale price into the column destroys the "was" half of "was 1000, now
-//     850", and there is then nothing to restore when the period ends;
-//   - the end of a discount is a fact about time, not a job that has to run. Nothing has to
-//     fire at midnight for a discount to expire, so nothing can fail to fire; and
-//   - bulk repricing stays what it is — a permanent price change, audited as one. A seasonal
-//     sale run through it would put fifteen days of noise in every product's price history.
-//
-// packages/database/pricing.ts is the ONLY resolver. Both apps read effective prices through
-// it, because a storefront showing 850 while the checkout charges 1000 is the defect this
-// table would otherwise introduce.
-// ---------------------------------------------------------------------------
 
 enum DiscountKind {
   /// `value` is a percentage of the base price: 15 means 15% off.

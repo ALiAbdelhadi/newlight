@@ -7,22 +7,6 @@ import { CustomerRecord } from "./customer-record"
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-/**
- * A customer record (P4.5 §12).
- *
- * What this replaces logged the route params, the whole Prisma result and a summary of it to
- * the server console on every request — including the customer's email and address — then
- * rendered a page whose order table declared fourteen column headers over eleven cells, so
- * every value below "Price" sat under the wrong heading. Its tab strip had five tabs and one
- * `TabsContent`: choosing any tab except "All Orders" rendered an empty panel. Its order links
- * pointed at `/admin/dashboard/orders/<id>`, which is not a route.
- *
- * It is rebuilt on `RecordLayout`, the same shape as a product, so the status, the identifiers
- * and the audit trail are where an operator has already learned to look.
- *
- * The unbounded `include` is gone as well: the orders are selected with the four fields the
- * table shows plus a line count, rather than every line item with its full product row.
- */
 export default async function CustomerPage({ params }: { params: Promise<{ userId: string }> }) {
     await requireCurrentAdmin()
     const { userId } = await params

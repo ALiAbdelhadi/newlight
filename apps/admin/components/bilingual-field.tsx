@@ -6,26 +6,6 @@ import { StatusBadge } from "@/components/status-badge"
 import { cn } from "@/lib/utils"
 import type { TranslationState } from "@/lib/status"
 
-/**
- * THE bilingual editor (P4.5 §16).
- *
- * One pair of fields, English above Arabic, with each language carrying its own completeness
- * state.
- *
- * THE RULE THIS COMPONENT EXISTS TO ENFORCE: Arabic never falls back to English. There is no
- * copy-across button, the Arabic placeholder is `العربية` and never the English value, and an
- * empty Arabic field renders a warning rather than quietly showing the English text greyed
- * out. That is not a UI preference — it mirrors the data layer, where `translationFallback`
- * is a deliberate storefront affordance and the admin's job is to show what is actually
- * stored. A panel that displays English in the Arabic slot makes a missing translation
- * invisible, and the translation queue then reports a gap nobody can find.
- *
- * The Arabic input carries `dir="rtl"`, `lang="ar"` and `font-arabic`, which resolves to
- * Almarai. Without the explicit font the field inherits the Latin-first stack and Arabic
- * renders in a fallback face — the failure measured during the token work, where an Arabic
- * string set 110px narrower in Arial than in Almarai.
- */
-
 export interface LanguageValue {
     value: string
     onChange: (value: string) => void
@@ -37,7 +17,6 @@ interface BilingualFieldProps {
     en: LanguageValue
     ar: LanguageValue
     multiline?: boolean
-    /** `both` marks the pair incomplete unless each side has a value. */
     required?: "both" | "en" | "none"
     description?: string
     disabled?: boolean
@@ -67,11 +46,6 @@ export function BilingualField({
     const showState = required !== "none" && state !== "complete"
 
     return (
-        /*
-         * A fieldset, not two loose inputs. The pair IS one field conceptually, and a screen
-         * reader that announces "English" and "Arabic" without the legend gives no clue which
-         * property is being edited.
-         */
         <fieldset disabled={disabled} className="min-w-0 space-y-1.5">
             <legend className="flex items-center gap-2 pb-1 text-xs font-medium">
                 {label}
@@ -98,7 +72,6 @@ export function BilingualField({
                 field={ar}
                 multiline={multiline}
                 rows={rows}
-                // Placeholder is the language's own name — never the English value.
                 placeholder="العربية"
                 className="font-arabic"
             />

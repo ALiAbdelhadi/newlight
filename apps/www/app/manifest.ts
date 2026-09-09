@@ -60,4 +60,3 @@ export default function manifest(): MetadataRoute.Manifest {
         "categories": ["shopping", "business"]
     }
 }
-

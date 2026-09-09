@@ -2,13 +2,6 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
 
-/**
- * Defining a catalogue, not just changing one.
- *
- * The taxonomy has no base name or slug — a category IS its two translation rows (§10) — so
- * every property here is about keeping those two rows honest, and about the slug history that
- * turns a rename into a 301 rather than a 404.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -87,7 +80,6 @@ describe("renaming writes the redirect in the same transaction", () => {
         expect(result.renamed).toHaveLength(2)
 
         const history = await db.prisma.taxonomySlugHistory.findMany({ orderBy: { slug: "asc" } })
-        // The fixture seeds one retired slug already; these are the two just retired.
         expect(history.map((h) => h.slug)).toContain("panel")
         expect(history.map((h) => h.slug)).toContain("بانل-لايت")
         expect(history.every((h) => h.entityType === "SUB_CATEGORY")).toBe(true)
@@ -95,7 +87,6 @@ describe("renaming writes the redirect in the same transaction", () => {
 
     it("refuses a slug that still redirects somewhere else", async () => {
         const TaxonomyService = await service()
-        // The fixture retired "panel-old" for this sub-category; claim it for a new one.
         await expect(TaxonomyService.createCategory(input("panel-old", "قديم"))).rejects.toThrow(/still redirects/)
     })
 

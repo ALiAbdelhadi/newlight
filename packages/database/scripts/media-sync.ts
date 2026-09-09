@@ -1,23 +1,3 @@
-/**
- * Point the catalog at Cloudinary — BUILD §15, the step after `media:upload`.
- *
- *   pnpm --filter @repo/database media:sync [--dry]
- *
- * The transform writes `ProductImage.url = entry.url ?? path`, so a catalog transformed while
- * the manifest was still local holds LOCAL paths and the correct `publicId`. That publicId is
- * derived from the file, not from Cloudinary, which is what makes this possible at all: the
- * rows can be matched to manifest entries after the fact, and the URLs filled in, without
- * re-running the transform — which is impossible on a database that has already had `0011`
- * applied, because the v1 columns the transform reads are gone.
- *
- * Idempotent: a row whose url already matches is left alone and counted separately, so a
- * second run reports `0 updated` rather than looking like it did the work twice.
- *
- * `ProductImage` is not the only column holding a media path. `Category.imageUrl` and
- * `SubCategory.imageUrl` are plain strings the transform never touched, and they name files
- * in the same trees. They are matched by PATH rather than by publicId, because that is all
- * they carry — the manifest is keyed by catalog path, so the lookup is direct.
- */
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 import { PrismaClient } from "@prisma/client"
@@ -42,14 +22,11 @@ async function main() {
         readFileSync(join(PACKAGE_ROOT, "data", "media-manifest.json"), "utf8")
     ) as Manifest
 
-    // Keyed by publicId, because that is what the catalog rows carry. Several catalog paths
-    // can share one file, and they share its publicId too.
     const byPublicId = new Map<string, Entry>()
     for (const entry of Object.values(manifest.entries)) {
         if (entry.url) byPublicId.set(entry.publicId, entry)
     }
 
-    // Taxonomy rows carry a path, not a publicId, so they need the manifest keyed the other way.
     const byPath = new Map<string, Entry>()
     for (const [path, entry] of Object.entries(manifest.entries)) {
         if (entry.url) byPath.set(path, entry)
@@ -76,8 +53,6 @@ async function main() {
     for (const image of images) {
         const entry = image.publicId ? byPublicId.get(image.publicId) : undefined
         if (!entry) {
-            // Either the file has not been uploaded yet, or the row's publicId is not one the
-            // manifest knows. Reported, never guessed at.
             unmatched.push(`${image.publicId ?? "(no publicId)"} — ${image.url}`)
             continue
         }
@@ -91,8 +66,6 @@ async function main() {
                 data: {
                     url: entry.url!,
                     blurDataUrl: entry.blurDataUrl,
-                    // Dimensions come from the local file and are already right; filled only
-                    // when the row has none, so a re-scan never silently rewrites them.
                     width: image.width ?? entry.width,
                     height: image.height ?? entry.height,
                 },
@@ -101,7 +74,6 @@ async function main() {
         updated++
     }
 
-    // Category and SubCategory thumbnails. Same manifest, same rule: never guessed at.
     let taxonomyUpdated = 0
     let taxonomyCorrect = 0
     const taxonomyUnmatched: string[] = []
@@ -114,7 +86,6 @@ async function main() {
     ]
 
     for (const row of taxonomy) {
-        // A null thumbnail is a valid state, and a row already on Cloudinary is done.
         if (!row.imageUrl || !row.imageUrl.startsWith("/")) {
             if (row.imageUrl) taxonomyCorrect++
             continue
@@ -149,8 +120,6 @@ async function main() {
     console.log(`[sync]   ${taxonomyUnmatched.length} with no uploaded manifest entry`)
     for (const line of taxonomyUnmatched.slice(0, 10)) console.log(`[sync]     ${line}`)
 
-    // A catalog that is only partly on Cloudinary is a catalog that breaks the moment the
-    // local files stop being served, so it is a non-zero exit rather than a note.
     if (unmatched.length > 0 || taxonomyUnmatched.length > 0) process.exitCode = 1
 
     await prisma.$disconnect()

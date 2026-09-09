@@ -1,20 +1,3 @@
-/**
- * Create the first administrator — BUILD §7.
- *
- *   pnpm --filter @repo/database seed:super-admin -- --email you@example.com --name "Your Name"
- *
- * The admin app has no sign-up route and its auth instance sets `disableSignUp`, so there is
- * deliberately no in-app way to make an administrator. That leaves exactly one bootstrap
- * problem — the first one — and this is it. Every administrator after that is created by an
- * existing SUPER_ADMIN through the panel.
- *
- * The password is GENERATED and printed, never taken as an argument: a password passed on the
- * command line lands in shell history and in the process list, where it outlives the session
- * that created it. Change it after the first sign-in.
- *
- * Hashing goes through Better Auth's own context so the stored hash is whatever Better Auth
- * expects to verify. Reimplementing scrypt here would work until it silently did not.
- */
 import { randomBytes } from "node:crypto"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
@@ -27,7 +10,6 @@ function arg(name: string): string | undefined {
     return index === -1 ? undefined : process.argv[index + 1]
 }
 
-/** Not a memorable password; it is meant to be pasted once and replaced. */
 function generatePassword(): string {
     return randomBytes(18).toString("base64url")
 }
@@ -48,8 +30,6 @@ async function main() {
 
     const existing = await prisma.user.findUnique({ where: { email }, select: { id: true, role: true } })
     if (existing) {
-        // Promoting is safe and idempotent; overwriting a password is not something a seed
-        // script should do silently.
         if (existing.role === role) {
             console.log(`[seed] ${email} already exists with role ${role}. Nothing to do.`)
             return

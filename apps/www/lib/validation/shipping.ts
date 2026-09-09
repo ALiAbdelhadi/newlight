@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-// Base schema for shared validations
 const baseShippingSchema = {
     fullName: z
         .string()
@@ -51,7 +50,6 @@ const baseShippingSchema = {
         .regex(/^[0-9]+$/),
 }
 
-// Arabic schema with error messages
 export const shippingAddressSchema = z.object({
     fullName: baseShippingSchema.fullName
         .min(3, { message: "الاسم يجب أن يكون 3 أحرف على الأقل" })
@@ -105,7 +103,6 @@ export const shippingAddressSchema = z.object({
         })
 })
 
-// English schema with error messages
 export const shippingAddressSchemaEN = z.object({
     fullName: baseShippingSchema.fullName
         .min(3, { message: "Name must be at least 3 characters" })
@@ -159,7 +156,6 @@ export const shippingAddressSchemaEN = z.object({
         })
 })
 
-// Helper function to get the right schema based on locale
 export function getShippingSchema(locale?: string) {
     if (!locale) {
         return shippingAddressSchemaEN
@@ -168,5 +164,4 @@ export function getShippingSchema(locale?: string) {
     return locale.startsWith("ar") ? shippingAddressSchema : shippingAddressSchemaEN
 }
 
-// Type inference from schema
 export type ShippingAddressFormData = z.infer<typeof shippingAddressSchema>

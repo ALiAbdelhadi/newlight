@@ -7,17 +7,6 @@ import { TranslationService, type TranslationFields } from "@/lib/services/trans
 import { InventoryService } from "@/lib/services/inventory-service"
 import { ForbiddenError, UnauthenticatedError } from "@/lib/auth"
 
-/**
- * Server actions for the product workbench.
- *
- * Every one returns `{ ok }` rather than throwing, because these are called from form
- * submissions and a thrown server action reaches the user as a generic digest with the actual
- * reason stripped out — which is the opposite of what a refusal like "12 order items refer to
- * this product" is for. Authorisation failures are the exception in spirit but not in shape:
- * the services already throw them, and they are converted here into a message the admin can
- * act on.
- */
-
 export type ActionResult = { ok: true; message?: string } | { ok: false; error: string }
 
 async function run(fn: () => Promise<string | void>): Promise<ActionResult> {
@@ -72,8 +61,6 @@ export async function restoreProduct(productId: string): Promise<ActionResult> {
 
 export async function setProductActive(productId: string, isActive: boolean): Promise<ActionResult> {
     return run(async () => {
-        // Deliberately not in CatalogService: this is a visibility toggle, not a lifecycle
-        // event, and giving it an audit action would make `product.soft_delete` ambiguous.
         const { prisma } = await import("@repo/database")
         const { requireCurrentAdmin } = await import("@/lib/auth")
         await requireCurrentAdmin()
@@ -121,7 +108,6 @@ export async function receiveStock(
         await InventoryService.receivePurchase({
             productId,
             quantity,
-            // An empty box means "not recorded", which is a different claim from zero.
             unitCost: unitCost && unitCost.trim() !== "" ? unitCost.trim() : null,
             reason: reason.trim() || "purchase receipt",
         })
@@ -130,11 +116,6 @@ export async function receiveStock(
     })
 }
 
-/**
- * §8.4 bulk cost entry. One transaction per product rather than one for the batch: a typo in
- * row 40 must not roll back the 39 receipts that were right, and every row is its own ledger
- * movement anyway.
- */
 export async function bulkReceiveStock(
     rows: Array<{ productId: string; quantity: number; unitCost: string | null }>
 ): Promise<ActionResult> {
@@ -157,7 +138,6 @@ export async function bulkReceiveStock(
         }
 
         if (failures.length > 0) {
-            // Partial success reported as partial, not as success.
             throw new Error(`${received} received, ${failures.length} failed — ${failures.slice(0, 3).join("; ")}`)
         }
         return `${received} receipt(s) recorded.`
@@ -172,7 +152,6 @@ export async function completeOpeningStocktake(): Promise<ActionResult> {
     })
 }
 
-/** Edit one product's price. Routed through PricingService so it lands in the price history. */
 export async function setProductPrice(productId: string, amount: string): Promise<ActionResult> {
     return run(async () => {
         const { PricingService } = await import("@/lib/services/pricing-service")
@@ -183,7 +162,6 @@ export async function setProductPrice(productId: string, amount: string): Promis
     })
 }
 
-/** Edit a product's specifications. */
 export async function saveProductSpecs(
     productId: string,
     specs: Array<{ key: string; valueEn: string | null; valueAr: string | null }>
@@ -196,10 +174,6 @@ export async function saveProductSpecs(
     })
 }
 
-/**
- * Create a product. Returns its id so the caller can go straight to the workbench — the next
- * thing it needs is a photograph, and that is where photographs live.
- */
 export async function createProductAction(
     input: import("@/lib/services/catalog-service").NewProductInput
 ): Promise<ActionResult & { productId?: string }> {

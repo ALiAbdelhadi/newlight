@@ -21,16 +21,6 @@ import {
 import type { CompareView } from "@/lib/services/compare-service"
 import { cn } from "@/lib/utils"
 
-/**
- * The comparison itself.
- *
- * The SELECTION is client state, because it is a per-browser scratchpad. Everything IN the
- * table is fetched from the server on every render of it, so a price here is the price the buy
- * button will charge and a spec is whatever the panel says today.
- *
- * `only differences` is the control that makes a table of twenty spec rows usable: on a family
- * of one fixture most rows are identical, and the two that are not are the entire question.
- */
 export function CompareTable() {
     const t = useTranslations("compare")
     const serialised = useSyncExternalStore(subscribeCompare, compareSnapshot, compareServerSnapshot)
@@ -50,10 +40,6 @@ export function CompareTable() {
         }
     }, [key])
 
-    /*
-     * Three states, decided during render rather than by writing state from the effect:
-     * nothing picked, picked but the server has not answered, and a table.
-     */
     const empty = !key || (view !== null && view.products.length === 0)
 
     if (empty) {
@@ -91,7 +77,6 @@ export function CompareTable() {
                     {differing.length > 0 && ` · ${t("differenceCount", { count: differing.length })}`}
                 </p>
                 <div className="flex items-center gap-2">
-                    {/* Only offered when it would change anything. */}
                     {differing.length > 0 && differing.length < view.rows.length && (
                         <label className="inline-flex cursor-pointer items-center gap-2 text-sm">
                             <input
@@ -109,10 +94,6 @@ export function CompareTable() {
                 </div>
             </div>
 
-            {/*
-             * The table scrolls inside its own box rather than the page scrolling sideways, and
-             * the first column is sticky so a spec label stays readable while the columns move.
-             */}
             <div className="overflow-x-auto rounded-lg border">
                 <table className="w-full min-w-[40rem] border-collapse text-sm">
                     <caption className="sr-only">{t("title")}</caption>
@@ -187,8 +168,6 @@ export function CompareTable() {
                                         key={`${row.key}-${view.products[index]?.id ?? index}`}
                                         className={cn(
                                             "border-s p-4 align-top tabular-nums",
-                                            // A row where everything agrees is context, not an
-                                            // answer; the eye should skip it.
                                             row.identical && "text-muted-foreground"
                                         )}
                                     >

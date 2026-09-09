@@ -50,8 +50,6 @@ export function constructMetadata({
         ? `${baseUrl}${canonicalUrl.startsWith('/') ? '' : '/'}${canonicalUrl}`
         : `${baseUrl}/${locale}/`
 
-    // Image is stored in /brand/{locale}/logo-white.png in public folder
-    // But with next-intl routing, we need to add locale prefix: /{locale}/brand/{locale}/logo-white.png
     const defaultImagePath = `/brand/${locale}/logo-white.png`
 
     let resolvedImage: string
@@ -71,12 +69,10 @@ export function constructMetadata({
             if (hasLocale) {
                 resolvedImage = `${baseUrl}${image}`
             } else {
-                // Add locale prefix for next-intl routing
                 resolvedImage = `${baseUrl}/${locale}${image.startsWith('/') ? '' : '/'}${image}`
             }
         }
     } else {
-        // Add locale prefix for next-intl routing: /{locale}/brand/{locale}/logo-white.png
         resolvedImage = `${baseUrl}/${locale}${defaultImagePath}`
     }
 

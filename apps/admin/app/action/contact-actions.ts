@@ -6,22 +6,6 @@ import { ContactFormStatus, ContactPriority, prisma } from "@repo/database"
 import { ForbiddenError, requireCurrentAdmin, UnauthenticatedError } from "@/lib/auth"
 import type { ActionResult } from "@/app/action/catalog-actions"
 
-/**
- * Contact enquiry actions (P4.5 §18, §21).
- *
- * These replace three route handlers the admin called with `fetch` from a client component.
- * Server actions rather than API routes, per the repository's own convention: the operation is
- * app-internal, and the route handler bought nothing except a JSON round trip and a second
- * place for the authorization check to be forgotten.
- *
- * Every one of them writes an audit row. The route handlers wrote none — so a deleted enquiry
- * left no record that it had ever existed, let alone of who removed it.
- *
- * `status` and `isRead` are moved TOGETHER. They are two representations of the same fact and
- * the old PATCH could set either alone, which is how a submission ended up UNREAD with
- * `isRead: true` — invisible to the sidebar badge and present in the unread filter.
- */
-
 function describe(error: unknown): string {
     if (error instanceof UnauthenticatedError) return "You are signed out. Sign in again."
     if (error instanceof ForbiddenError) return "Your role does not allow this."
@@ -33,13 +17,6 @@ async function run(fn: () => Promise<string>): Promise<ActionResult> {
     try {
         const message = await fn()
         revalidatePath("/admin/contact")
-        /*
-         * The sidebar's unread badge comes from `getDashboardStats`, which is an
-         * `unstable_cache` with a 60-second window — so the badge trails a mark-as-read by up
-         * to a minute and then corrects itself. `revalidateTag` is deliberately not called:
-         * in Next 16 it requires a cache profile, and reaching for one here would put a
-         * second, versioned caching API in an action that does not need it.
-         */
         return { ok: true, message }
     } catch (error) {
         return { ok: false, error: describe(error) }
@@ -62,11 +39,6 @@ export async function setContactRead(id: string, read: boolean): Promise<ActionR
                     isRead: read,
                     readAt: read ? new Date() : null,
                     readBy: read ? admin.id : null,
-                    /*
-                     * Only the two automatic states move. An enquiry somebody has put
-                     * IN_PROGRESS or RESPONDED must not be dragged back to READ by opening it,
-                     * which is what a blind `status: read ? "READ" : "UNREAD"` would do.
-                     */
                     status:
                         before.status === ContactFormStatus.UNREAD || before.status === ContactFormStatus.READ
                             ? read
@@ -107,7 +79,6 @@ export async function setContactStatus(id: string, status: ContactFormStatus): P
                 where: { id },
                 data: {
                     status,
-                    // Anything beyond UNREAD implies somebody has looked at it.
                     ...(status === ContactFormStatus.UNREAD
                         ? { isRead: false, readAt: null, readBy: null }
                         : { isRead: true, readAt: new Date(), readBy: admin.id }),
@@ -158,16 +129,6 @@ export async function setContactPriority(id: string, priority: ContactPriority):
     })
 }
 
-/**
- * Permanent removal.
- *
- * The enquiry and its replies go, and nothing keeps a copy — `ContactFormResponse` and
- * `ContactFormTag` both cascade. The audit row is written BEFORE the delete and records the
- * name and email, so the trail survives the record: an audit entry pointing at an id that no
- * longer resolves tells you a deletion happened and nothing about what was deleted.
- *
- * Marking an enquiry SPAM is the reversible alternative and is what the UI offers first.
- */
 export async function deleteContact(id: string): Promise<ActionResult> {
     return run(async () => {
         const admin = await requireCurrentAdmin()

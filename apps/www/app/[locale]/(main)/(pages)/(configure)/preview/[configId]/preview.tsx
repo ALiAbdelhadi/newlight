@@ -13,7 +13,6 @@ import Image from "@/components/app-image"
 import Link from "next/link"
 import { useState } from "react"
 
-
 export function PreviewClient({
     configId,
     product,
@@ -38,8 +37,6 @@ export function PreviewClient({
     const categoryName = categoryTranslation?.name ?? ""
     const categorySlug = categoryTranslation?.slug ?? ""
 
-    // Specs are rows now, with a label and a unit per locale (§7) — not a JSONB blob keyed by
-    // one language's display labels.
     const specs = product.specs.flatMap((row) => {
         const value = isArabic ? row.valueAr : row.valueEn
         if (!value || value === "-") return []
@@ -68,7 +65,6 @@ export function PreviewClient({
     }
 
     const handleProceedToCheckout = async () => {
-        // Check if user is signed in
         if (!isSignedIn) {
             setShowLoginDialog(true)
             return
@@ -115,7 +111,6 @@ export function PreviewClient({
                                         src={product.images[0]!.url}
                                         alt={productName}
                                         fill
-                                        // Two of five columns from lg up, inside a 1280px container.
                                         sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 40vw, 480px"
                                         className="object-cover"
                                         priority
@@ -145,10 +140,6 @@ export function PreviewClient({
                                         <h3 className="text-sm uppercase tracking-label text-muted-foreground font-light mb-3">
                                             {t.keySpecs}
                                         </h3>
-                                        {/* Driven by the data, not by four hardcoded keys with
-                                            hand-written Arabic labels beside them. The label
-                                            and the unit come from SpecDefinition, per locale
-                                            (§7), so a new spec appears here on its own. */}
                                         <div className="grid grid-cols-2 gap-3 text-sm">
                                             {specs.slice(0, 4).map(([label, value]) => (
                                                 <div key={label}>
@@ -194,14 +185,6 @@ export function PreviewClient({
                                         <span className="font-medium">{configuration.quantity}</span>
                                     </div>
                                     <div className="space-y-3 pt-4">
-                                        {/*
-                                          * `product.price` is the price the catalogue is
-                                          * charging right now — discounted while a discount is
-                                          * running (§13.2) — and the configuration is re-priced
-                                          * on every read, so the unit price, the subtotal and
-                                          * the total here cannot disagree with each other or
-                                          * with the order that follows.
-                                          */}
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.unitPrice}</span>
                                             <PriceTag price={product.price} basePrice={product.basePrice} size="sm" />
@@ -229,9 +212,6 @@ export function PreviewClient({
                                                 {t.total}
                                             </span>
                                             <span className="text-3xl font-display font-light">
-                                                {/* formatMoney carries the currency itself; the
-                                                    `{t.currency}` that sat here printed it twice
-                                                    in English and on the wrong side in Arabic. */}
                                                 {formatMoney(configuration.totalPrice, locale)}
                                             </span>
                                         </div>

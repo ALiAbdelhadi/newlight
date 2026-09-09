@@ -23,19 +23,6 @@ interface ProductColorTempButtonsProps {
     onColorTempChange?: (newTemp: string) => void
 }
 
-/**
- * The colour-temperature picker on a product page.
- *
- * The sample is `components/swatch.tsx` now. Two things the local copy got wrong:
- *
- *   THE SELECTED STATE WAS ALMOST INVISIBLE. `border-accent bg-accent/10` — and `--accent` in
- *   this system is slate-100, the hover wash, not a colour that means anything. A tenth of it
- *   over white is white. Selection is the brand: `border-primary` over `--primary-soft`, which
- *   is the token that exists for a chosen row.
- *
- *   THE CHECK WAS DRAWN IN `text-muted` — slate-100 — on a pale yellow disc. It was there and
- *   nobody could see it. The swatch owns which ink can be read on which sample now.
- */
 export default function ProductColorTempButtons({
     availableTemps,
     initialTemp,

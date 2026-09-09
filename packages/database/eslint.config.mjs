@@ -22,13 +22,11 @@ export default tseslint.config(
         },
     },
     {
-        // CommonJS build shim run by `db:generate`, not application code.
         files: ["scripts/fix-prisma-imports.js"],
         languageOptions: { globals: globals.node, sourceType: "commonjs" },
         rules: { "@typescript-eslint/no-require-imports": "off" },
     },
     {
-        // Node CLI entry points: process/console are legitimately global here.
         files: ["scripts/**/*.mjs"],
         languageOptions: { globals: globals.node, sourceType: "module" },
     }

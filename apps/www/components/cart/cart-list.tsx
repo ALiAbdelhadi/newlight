@@ -19,17 +19,6 @@ const MAX_QUANTITY = 99
 
 type OptimisticAction = { type: "quantity"; id: string; quantity: number } | { type: "remove"; id: string }
 
-/**
- * The cart's rows.
- *
- * The rows arrive from the server already priced; this component only edits them. Each change
- * is applied OPTIMISTICALLY and then handed to the server action, which revalidates `/cart` —
- * the page re-renders from the database and the optimistic copy is discarded. A failure toasts
- * and the discarded copy is the rollback; there is no second list to keep in sync.
- *
- * The line total is recomputed through the money helpers, not `price * quantity` on strings
- * (ADR 0001) — the same arithmetic the drawer does.
- */
 export function CartList({ items }: { items: CartItem[] }) {
     const t = useTranslations("cart-page")
     const locale = useLocale()
@@ -105,8 +94,6 @@ export function CartList({ items }: { items: CartItem[] }) {
 
                         <div className="mt-auto flex flex-wrap items-center justify-between gap-3">
                             <div className="flex items-center gap-3">
-                                {/* A stepper, not a free text field: the schema only accepts a
-                                    positive integer, and a stepper cannot produce anything else. */}
                                 <div
                                     role="group"
                                     aria-label={t("quantity")}

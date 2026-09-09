@@ -11,20 +11,6 @@ import { Money } from "@/components/money"
 import type { CustomerListResult, CustomerRow } from "@/lib/services/customer-list-service"
 import type { TableState } from "@/lib/table-params"
 
-/**
- * Customers, on the list archetype (P4.5 §11).
- *
- * The screen this replaces was a `Card` wrapping a `Card` wrapping a table, under a masthead
- * that said "Customers", above a heading that said "All Customers", above a card title that
- * said "Customers". Three labels, one list. It also had a search box that filtered an array
- * in the browser and a "Loading…" row that could never be seen, because the filter it was
- * waiting for was synchronous.
- *
- * The columns are chosen for the question this surface actually answers — who is worth
- * calling back. Lifetime spend and last order are that; a truncated cuid and a full postal
- * address were not, and the address is now one line (city) with the rest on the record.
- */
-
 interface Props extends CustomerListResult {
     state: TableState
 }
@@ -54,8 +40,6 @@ export function CustomersTable({ rows, total, state }: Props) {
                     row.original.city ? (
                         <CellText>{row.original.city}</CellText>
                     ) : (
-                        /* No address is an operational fact, not a blank: this customer cannot
-                           be shipped to until one is captured. */
                         <span className="text-2xs text-muted-foreground">No address</span>
                     ),
             },
@@ -136,11 +120,6 @@ export function CustomersTable({ rows, total, state }: Props) {
             rowCount={total}
             state={state}
             getRowId={(row) => row.email}
-            /*
-             * `spend` is absent on purpose: it is summed after paging, so a header that
-             * offered to sort by it would be offering to sort fifty rows and call the result
-             * an answer about every customer.
-             */
             sortableColumns={["name", "orders", "createdAt"]}
             onRowOpen={(row) => router.push(`/admin/users/${row.id}`)}
             filtered={Object.keys(state.filters).length > 0}

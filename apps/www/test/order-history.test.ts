@@ -2,18 +2,6 @@ import { afterAll, beforeAll, describe, expect, it, vi } from "vitest"
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
 
-/**
- * The customer's order list — the page that did not exist while the header linked to it.
- *
- * Two properties matter here and neither is visible from the page:
- *
- *   The product names must follow the CUSTOMER's locale. The include read
- *   `translations: { take: 1 }` with no `where`, so PostgreSQL returned whichever row it liked
- *   and an English customer could be shown Arabic (§14.4).
- *
- *   Money must be a STRING by the time it leaves the service. `total` and every line price are
- *   `Decimal`, and a Decimal cannot cross into a Client Component at all (ADR 0001, A82).
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -33,7 +21,6 @@ beforeAll(async () => {
     holder.client = db.prisma
     fixture = await seedFixture(db.prisma)
 
-    // Two orders, so pagination has something to page.
     for (const [index, sku] of [fixture.products.small, fixture.products.large].entries()) {
         await db.prisma.order.create({
             data: {
@@ -72,7 +59,6 @@ describe("order history", () => {
         expect(order!.subtotal).toBe("300.00")
         expect(order!.shippingCost).toBe("100.00")
         expect(order!.items[0]!.price).toBe("150.00")
-        // The point of the assertion: not a Decimal, not an object, a string.
         expect(typeof order!.total).toBe("string")
     })
 

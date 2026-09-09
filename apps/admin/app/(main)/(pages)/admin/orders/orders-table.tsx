@@ -18,24 +18,6 @@ import { statusLabel } from "@/lib/status"
 import type { OrderListResult, OrderRow } from "@/lib/services/order-list-service"
 import type { TableState } from "@/lib/table-params"
 
-/**
- * Orders, on the list archetype (P4.5 §11).
- *
- * ONE ROW PER ORDER. The list this replaces rendered one row per line item and bridged the
- * order-level columns with `rowSpan`, so a four-line order was four rows and the reader had to
- * reassemble it. The lines belong on the record.
- *
- * Cancelling is a `ConfirmAction`, not a bespoke AlertDialog. It is `consequential` rather
- * than merely reversible because it is not reversible: the state machine has no transition out
- * of `cancelled`, stock is released and the customer is notified. The dialog therefore has to
- * state the money.
- *
- * The Excel export is gone. It pulled `xlsx` into the client bundle for this one screen — the
- * abandoned npm build, carrying two unfixed CVEs, which `products-table` already documents as
- * deliberately unused. CSV of the selected rows replaces it, in the same shape Products uses,
- * with a BOM so Excel reads the Arabic.
- */
-
 interface Props extends OrderListResult {
     state: TableState
 }
@@ -89,7 +71,6 @@ export function OrdersTable({ rows, total, counts, state }: Props) {
                 row.original.city ? (
                     <CellText>{row.original.city}</CellText>
                 ) : (
-                    /* No shipping address on the order: it cannot be dispatched at all. */
                     <span className="text-2xs text-danger">No address</span>
                 ),
         },
@@ -146,7 +127,6 @@ export function OrdersTable({ rows, total, counts, state }: Props) {
             id: "status",
             header: "Status",
             cell: ({ row }) => (
-                // Stops the row-open handler: choosing a status is not opening the order.
                 <div onClick={(event) => event.stopPropagation()}>
                     <StatusDropdown id={row.original.id} orderStatus={row.original.status} compact />
                 </div>
@@ -275,13 +255,6 @@ export function OrdersTable({ rows, total, counts, state }: Props) {
     )
 }
 
-/**
- * CSV of the selected rows — one line per ORDER, matching what the table shows.
- *
- * The line-item export the old screen produced belongs to the record page, where the lines
- * are: an export whose row count does not match the row count on screen is one nobody can
- * reconcile.
- */
 function exportCsv(rows: OrderRow[]) {
     const headers = [
         "Order",
@@ -320,7 +293,6 @@ function exportCsv(rows: OrderRow[]) {
             .join(",")
     )
 
-    // The BOM is not decoration: without it Excel reads the Arabic columns as mojibake.
     const csv = `﻿${[headers.map(escape).join(","), ...body].join("\r\n")}`
     const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }))
     const link = document.createElement("a")

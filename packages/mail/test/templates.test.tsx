@@ -3,20 +3,6 @@ import { renderTemplate } from "../templates/index"
 import type { MailLocale, MailTemplate } from "../types"
 import type { PayloadByTemplate } from "../templates/payloads"
 
-/**
- * §25: "Mail: templates render in both locales."
- *
- * These exist because the type checker could not see the bug that actually shipped: JSX with
- * no React in scope threw `ReferenceError: React is not defined` at RUNTIME under one of the
- * two transpilers this package is built by (A35). `tsc --noEmit` was clean throughout. A test
- * that renders is the only kind that would have caught it.
- */
-
-/**
- * Typed per template rather than `as const`: `as const` makes the arrays readonly, which the
- * mutable payload types reject — and widening the payload types to accept readonly arrays to
- * please a test would be the test dictating the production shape.
- */
 const PAYLOADS: { [K in MailTemplate]: PayloadByTemplate[K] } = {
     "email-verification": { name: "Ali", verifyUrl: "https://x.invalid/v?t=1", expiresInMinutes: 60 },
     "password-reset": { name: "Ali", resetUrl: "https://x.invalid/r?t=1", expiresInMinutes: 60 },
@@ -49,8 +35,6 @@ describe("every template, in both languages", () => {
 
                 expect(mail.subject.length).toBeGreaterThan(0)
                 expect(mail.html).toContain("<table")
-                // A mail with no text part scores as spam with several filters, and screen
-                // readers handle text better than a table-based layout.
                 expect(mail.text.trim().length).toBeGreaterThan(20)
             })
         }
@@ -66,7 +50,6 @@ describe("Arabic is Arabic, not English with an Arabic string in it", () => {
     })
 
     it("translates the SUBJECT too, not just the body", async () => {
-        // A body in Arabic under an English subject is the failure this guards.
         const ar = await renderTemplate("order-confirmation", "ar", PAYLOADS["order-confirmation"])
         const en = await renderTemplate("order-confirmation", "en", PAYLOADS["order-confirmation"])
         expect(ar.subject).not.toBe(en.subject)
@@ -103,11 +86,6 @@ describe("content", () => {
     })
 })
 
-/**
- * §17 widened the order line from "a name, a quantity and a price" to the whole product. The
- * fields are optional in the type for a reason that only a test can hold onto: outbox rows
- * queued before the widening are rendered by the code after it.
- */
 describe("the order line carries the product, and survives without it", () => {
     const enriched: PayloadByTemplate["order-confirmation"] = {
         ...PAYLOADS["order-confirmation"],
@@ -136,7 +114,6 @@ describe("the order line carries the product, and survives without it", () => {
         expect(mail.html).toContain("nl-a603-6w")
         expect(mail.html).toContain("IP65")
         expect(mail.html).toContain("Warm white (3000K)")
-        // Unit price, quantity and line total all present, so the customer can check the sum.
         expect(mail.text).toContain("300.00")
         expect(mail.text).toContain("150.00")
         expect(mail.text).toContain("2 ×")
@@ -152,8 +129,6 @@ describe("the order line carries the product, and survives without it", () => {
     })
 
     it("renders a line queued before any of those fields existed", async () => {
-        // The exact shape a row written by the previous deploy holds. This is the guarantee
-        // that makes the fields optional rather than merely convenient.
         const mail = await renderTemplate("order-confirmation", "en", {
             ...PAYLOADS["order-confirmation"],
             items: [{ name: "nl-a603-6w", quantity: 2, price: "150.00" }],
@@ -162,7 +137,6 @@ describe("the order line carries the product, and survives without it", () => {
         expect(mail.html).not.toContain("undefined")
         expect(mail.text).not.toContain("undefined")
         expect(mail.html).not.toContain("<img")
-        // With no lineTotal to show, the unit price is what stands in — never a blank.
         expect(mail.text).toContain("150.00")
     })
 })

@@ -1,14 +1,3 @@
-/**
- * Cross-app cache invalidation — BUILD §23, §13.2 item 5.
- *
- * The admin and the storefront are separate deployments, so an admin editing a product has no
- * way to clear the storefront's cache. Without this, a price change waits out
- * `revalidate = 3600` and the person who made it assumes it did not save.
- *
- * It NEVER throws into a mutation. A cache that is briefly stale is a smaller problem than an
- * edit that appears to have failed because the notification after it did — so a failure is
- * logged and returned, not raised.
- */
 export type RevalidationTarget =
     | { kind: "product"; slug: string; categorySlug?: string; subCategorySlug?: string }
     | { kind: "category" }

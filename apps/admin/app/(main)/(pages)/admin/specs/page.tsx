@@ -3,12 +3,6 @@ import { SpecDefinitionService } from "@/lib/services/spec-definition-service"
 import { SpecsManager } from "./specs-manager"
 import { PageBody, PageHeader } from "@/components/page"
 
-/**
- * The specification dictionary — which measurements exist at all.
- *
- * Seeded by migration `0006` and read-only ever since, so a new kind of fixture with a
- * measurement nobody had thought of could not be described without writing a migration.
- */
 export const dynamic = "force-dynamic"
 
 export default async function SpecsPage() {

@@ -12,14 +12,6 @@ import {
 import { DENSITIES, PAGE_SIZES, pageWindow, type TableState } from "@/lib/table-params"
 import { cn } from "@/lib/utils"
 
-/**
- * The table's footer: position, page size, density, and the two page controls.
- *
- * "1–50 of 189" rather than "Page 1 of 4". An operator working a queue needs to know how
- * much is left, and a page number does not answer that without arithmetic. The total is the
- * SERVER's count, not `data.length` — that distinction is the whole difference between a
- * real total and the size of the current page.
- */
 export function DataTablePagination({
     state,
     total,
@@ -32,9 +24,6 @@ export function DataTablePagination({
     const window = pageWindow(state, total)
 
     return (
-        // min-h, not h: below about 640px the controls wrap to a second line, and a fixed
-        // height made them overflow the bar and sit on top of the last table row — the same
-        // defect the toolbar had.
         <div className="flex min-h-10 shrink-0 flex-wrap items-center gap-x-4 gap-y-1 px-3 py-1.5 text-xs">
             <span className="tabular-nums text-muted-foreground">
                 {total === 0 ? (
@@ -51,8 +40,6 @@ export function DataTablePagination({
 
             <div className="ml-auto flex items-center gap-3">
                 <label className="flex items-center gap-1.5 text-muted-foreground">
-                    {/* The word goes on a phone; the control does not. Both selects still carry
-                        an accessible name through the label element that wraps them. */}
                     <span className="hidden sm:inline">Density</span>
                     <Select value={state.density} onValueChange={(value) => onChange({ density: value })}>
                         <SelectTrigger size="sm" aria-label="Row density" className="h-6 w-28 text-xs">

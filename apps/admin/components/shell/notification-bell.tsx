@@ -23,19 +23,6 @@ import { currentPushStatus, disablePush, enablePush, type PushState } from "@/li
 import { cn } from "@/lib/utils"
 import type { NotificationType } from "@/types"
 
-/**
- * The notification bell (§17), in the top bar's trailing slot beside the account menu.
- *
- * It reads the same rows the §17 sweep pushes, which is the point: push and this list cannot
- * disagree, because the push is a nudge toward a row and this is the row. An administrator who
- * declined the browser prompt loses the nudge and keeps everything else.
- *
- * Two switches at the foot, and both are honest about what they control. "Browser
- * notifications" is the OS-level channel and works with the panel closed; "Sound" is the chime
- * this tab plays and only applies while it is open. Collapsing them into one toggle would mean
- * a person who wanted a quiet tab silently loses the alert that reaches them at lunch.
- */
-
 const ICONS: Record<NotificationType, typeof Bell> = {
     NEW_ORDER: ShoppingCart,
     ORDER_CANCELLED: XCircle,
@@ -45,20 +32,9 @@ const ICONS: Record<NotificationType, typeof Bell> = {
     CUSTOM: Bell,
 }
 
-/**
- * The accent is chosen by TYPE, never by priority.
- *
- * Priority is how LOUD a notification is — it decides whether the OS banner stays on screen
- * until acknowledged. It is not what a notification MEANS. Tinting by it put a new order, the
- * most valuable event this system produces, in the same destructive red as a cancellation,
- * because both are HIGH. Red is the colour of something going wrong in this panel, and the
- * badge on the bell already uses it for exactly that.
- */
 const ACCENT: Record<NotificationType, string> = {
-    // An order is money in, so it reads as success rather than as an emergency.
     NEW_ORDER: "border-success-border bg-success-bg text-success",
     ORDER_CANCELLED: "border-danger-border bg-danger-bg text-danger",
-    // Attention, not failure. Nothing is broken; something needs doing.
     LOW_INVENTORY: "border-warning-border bg-warning-bg text-warning",
     SYSTEM_ALERT: "border-warning-border bg-warning-bg text-warning",
     NEW_CONTACT_FORM: "border-info-border bg-info-bg text-info",
@@ -74,11 +50,6 @@ export function NotificationBell() {
             <PopoverTrigger asChild>
                 <button
                     type="button"
-                    /*
-                     * The count is IN the accessible name, not only in a coloured dot. A badge
-                     * a screen reader cannot read is decoration, and "Notifications" alone
-                     * gives no reason to open the menu.
-                     */
                     aria-label={
                         unreadCount > 0
                             ? `Notifications, ${unreadCount} unread`
@@ -120,12 +91,6 @@ export function NotificationBell() {
                     )}
                 </header>
 
-                {/*
-                  * A plain overflow container, not the ScrollArea component. Radix's viewport
-                  * is `height: 100%` of a Root that has only a max-height here, so the height
-                  * resolves to auto and the scrollbar never engages — the list would be
-                  * clipped with no way to reach the rest of it.
-                  */}
                 <div className="max-h-80 overflow-y-auto overscroll-contain">
                     {isLoading ? (
                         <p className="px-3 py-6 text-center text-xs text-muted-foreground">Loading…</p>
@@ -182,8 +147,6 @@ function NotificationRow({ notification, onOpen }: { notification: AdminNotifica
                 <span className="mt-0.5 block text-2xs leading-4 text-muted-foreground">{notification.message}</span>
             </span>
 
-            {/* Unread is carried by weight AND by this marker. Weight alone is invisible to
-                anyone reading one row rather than comparing two. */}
             {!notification.isRead && (
                 <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-primary" />
             )}
@@ -216,8 +179,6 @@ function ChannelControls() {
     const [busy, setBusy] = useState(false)
     const [sound, setSound] = useState(false)
 
-    // Read on mount rather than during render: both answers live in the browser, and reading
-    // them while rendering is a hydration mismatch waiting for its first server pass.
     useEffect(() => {
         setSound(soundEnabled())
         void currentPushStatus().then(setPush)
@@ -238,12 +199,6 @@ function ChannelControls() {
                         setBusy(false)
                     }
                 }}
-                /*
-                 * An unavailable channel is NOT greyed out. The reason it is unavailable is
-                 * written underneath it in words, which tells a person more than a dimmed
-                 * label does — and dimming the label while leaving the explanation at full
-                 * strength made the subtitle read louder than the thing it describes.
-                 */
                 className={cn(
                     "flex w-full items-center gap-2 rounded-md px-1.5 py-1 text-2xs transition-colors duration-(--duration-fast)",
                     unavailable ? "cursor-not-allowed" : "hover:bg-accent"
@@ -268,9 +223,6 @@ function ChannelControls() {
                     const next = !sound
                     setSoundEnabled(next)
                     setSound(next)
-                    // Play it when switching ON, so "sound" is a thing that was demonstrated
-                    // rather than a claim. This is also the user gesture that unlocks the
-                    // AudioContext, so the first real notification is audible.
                     if (next) playChime()
                 }}
                 className="flex w-full items-center gap-2 rounded-md px-1.5 py-1 text-2xs transition-colors duration-(--duration-fast) hover:bg-accent"
@@ -294,8 +246,6 @@ function ChannelControls() {
 function relativeTime(iso: string): string {
     const date = new Date(iso)
     if (Number.isNaN(date.getTime())) return ""
-    // "3m", "2h", "4d" — the bar is 44px tall and "about 3 minutes ago" does not fit beside a
-    // title that matters more than it does.
     return formatDistanceToNowStrict(date)
         .replace(/ seconds?/, "s")
         .replace(/ minutes?/, "m")

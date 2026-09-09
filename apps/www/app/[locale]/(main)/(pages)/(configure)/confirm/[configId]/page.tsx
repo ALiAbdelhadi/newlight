@@ -70,8 +70,6 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
     const [configuration, existingAddress, rates] = await Promise.all([
         getConfiguration(configId),
         getUserShippingAddress(userId),
-        // The rates the panel stores, so the three prices on this page are the three prices
-        // `createOrderFromConfiguration` will charge (see lib/services/shipping-service.ts).
         shippingRates(),
     ])
 

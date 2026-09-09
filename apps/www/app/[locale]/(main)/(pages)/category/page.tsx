@@ -12,14 +12,6 @@ export async function generateMetadata() {
     return constructMetadata({ title: t("title"), description: t("description"), locale })
 }
 
-/**
- * Every category, from the data.
- *
- * v1 asked for "indoor" and "outdoor" by name, because CategoryType was an enum with those two
- * values. It is gone (§3): categories are ordinary rows, so this lists whatever exists and a
- * third one needs no code change. The slug comes off the TRANSLATION row, which is what makes
- * the Arabic listing link to Arabic URLs.
- */
 export default async function CategoriesPage() {
     const locale = resolveLocale(await getLocale())
     const all = await CategoryService.getAllCategories(locale)

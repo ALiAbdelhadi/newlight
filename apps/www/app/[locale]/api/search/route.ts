@@ -6,9 +6,6 @@ export const dynamic = "force-dynamic"
 
 export async function GET(request: NextRequest, { params }: { params: Promise<{ locale: string }> }) {
     try {
-        // The route lives under app/[locale]. v1 ignored that and passed "en" with the comment
-        // "Always use English locale for search", so an Arabic reader searching Arabic terms
-        // matched nothing at all.
         const { locale } = await params
         const searchParams = request.nextUrl.searchParams
         const query = searchParams.get("q") || ""

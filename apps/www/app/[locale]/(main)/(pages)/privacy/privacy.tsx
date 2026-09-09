@@ -3,18 +3,6 @@ import { Reveal } from "@/components/reveal"
 import { Link } from "@/i18n/navigation"
 import { useTranslations } from "next-intl"
 
-/**
- * The privacy policy.
- *
- * A server component. Its GSAP was the gentler kind — `gsap.from`, so the resting state was
- * visible and a failed script left the text readable — but it still pulled GSAP and
- * ScrollTrigger onto a page that is eight headings and some prose, and it scrubbed each section
- * against scroll position, so a section already behind the viewport on load could sit at a
- * fraction of its animation.
- *
- * `Reveal` does the same fade with no library, and stops entirely for
- * `prefers-reduced-motion`.
- */
 export function PrivacyClient() {
     const t = useTranslations("privacy-page")
 

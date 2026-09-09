@@ -216,7 +216,6 @@ export function SpecsManager({ definitions }: { definitions: SpecRow[] }) {
                                 </TableCell>
                                 <TableCell className="text-right tabular-nums">{row.order}</TableCell>
                                 <TableCell className="text-right tabular-nums">
-                                    {/* What would be destroyed by a delete — the reason deletion is refused. */}
                                     {row.usedByProducts} product{row.usedByProducts === 1 ? "" : "s"}
                                     <div className="text-xs text-muted-foreground">
                                         {row.askedByCategories} sub-categor{row.askedByCategories === 1 ? "y" : "ies"}

@@ -18,18 +18,6 @@ interface Location {
     onHand: number
 }
 
-/**
- * Where stock physically is.
- *
- * The ledger has been keyed by location since `0009`, and there has only ever been one — so
- * this is the piece that was ready in the data model and missing from the panel. It matters the
- * day there is a second warehouse.
- *
- * A location with movements cannot be deleted, and that is enforced by the database itself:
- * `StockMovement.locationId` is ON DELETE RESTRICT. Those movements are the record of stock
- * that physically moved; the service checks first only so the message is a sentence rather than
- * a foreign-key error.
- */
 export function LocationsPanel({ locations }: { locations: Location[] }) {
     const router = useRouter()
     const [pending, start] = useTransition()
@@ -109,8 +97,6 @@ export function LocationsPanel({ locations }: { locations: Location[] }) {
                                             Make default
                                         </Button>
                                     )}
-                                    {/* Drawn only when it can actually be deleted; the service refuses
-                                        the rest, and the database refuses it after that. */}
                                     {!location.isDefault && location.movements === 0 && (
                                         <Button size="sm" variant="ghost" className="ml-2 text-destructive hover:text-destructive"
                                             disabled={pending} onClick={() => call(() => deleteLocation(location.id))}>

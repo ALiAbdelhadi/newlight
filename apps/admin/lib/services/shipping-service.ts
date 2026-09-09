@@ -12,14 +12,6 @@ import {
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * §13.2: the sidebar's Shipping link pointed at a route that did not exist, and the three
- * delivery prices it would have edited were a literal inside the storefront's checkout.
- *
- * So this screen is two things the owner otherwise cannot do: change what delivery costs, and
- * see what is waiting to go out.
- */
-
 export class ShippingError extends Error {
     constructor(message: string) {
         super(message)
@@ -34,8 +26,6 @@ export class ShippingService {
         return SHIPPING_OPTIONS.map((option) => ({
             option,
             amount: serializeMoney(rates[option]),
-            // Surfaced because "50.00" from a default and "50.00" someone typed are the same
-            // number and different facts — the second survives a change to the defaults.
             isDefault: serializeMoney(rates[option]) === DEFAULT_SHIPPING_RATES[option],
         }))
     }
@@ -49,7 +39,6 @@ export class ShippingService {
         } catch {
             throw new ShippingError(`"${amount}" is not an amount.`)
         }
-        // Zero is legitimate — free delivery is a real offer. Negative is not.
         if (parsed.isNegative()) throw new ShippingError("A shipping rate cannot be negative.")
 
         const value = serializeMoney(parsed)
@@ -71,22 +60,17 @@ export class ShippingService {
             })
         })
 
-        // Checkout reads this on every order, but the storefront caches the pages that quote it.
         await revalidateStorefront({ kind: "all" })
         return value
     }
 
-    /**
-     * What is actually waiting to move. Orders only — a shipping screen that showed addresses
-     * without orders would be a mailing list.
-     */
     static async fulfilmentQueue(limit = 50) {
         await requireCurrentAdmin()
 
         const [awaiting, inTransit, counts] = await Promise.all([
             prisma.order.findMany({
                 where: { status: "awaiting_shipment" },
-                orderBy: { createdAt: "asc" }, // oldest first: this is a queue, not a feed.
+                orderBy: { createdAt: "asc" },
                 take: limit,
                 select: {
                     id: true,
@@ -119,7 +103,6 @@ export class ShippingService {
                 createdAt: o.createdAt.toISOString(),
                 shippingCost: serializeMoney(o.shippingCost),
                 total: serializeMoney(o.total),
-                // Oldest-first means the top row is the one that has waited longest; say how long.
                 waitingDays: Math.floor((Date.now() - o.createdAt.getTime()) / 86_400_000),
             })),
             inTransit: inTransit.map((o) => ({
@@ -130,7 +113,6 @@ export class ShippingService {
         }
     }
 
-    /** Where orders actually go — the input to any future per-city rate. */
     static async destinations(limit = 15) {
         await requireCurrentAdmin()
         return prisma.$queryRaw<Array<{ city: string; orders: bigint }>>`
@@ -143,10 +125,6 @@ export class ShippingService {
              LIMIT ${limit}`
     }
 
-    /**
-     * §13.2: orders shipped under COD with no tracking number entered (F3). Not an error —
-     * tracking is manual — but it is the list of parcels nobody can answer a question about.
-     */
     static async shippedWithoutTracking() {
         await requireCurrentAdmin()
         return prisma.order.findMany({

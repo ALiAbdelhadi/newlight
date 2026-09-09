@@ -56,12 +56,6 @@ export function CompletePageView({
                             orderNumber: t.orderNumber
                         }}
                     />
-                    {/*
-                      * The real ladder, driven by the order's own status. What stood here drew
-                      * "Order placed → Processing" for every order forever — `processing` being
-                      * a status migration 0010 removed from the enum, and "Estimated delivery"
-                      * being a promise nothing in the system computes.
-                      */}
                     <OrderProgress
                         status={order.status}
                         createdAt={order.createdAt}

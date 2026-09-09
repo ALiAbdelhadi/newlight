@@ -16,17 +16,6 @@ export const revalidate = 3600
 
 type Props = { params: Promise<{ category: string; subCategory: string; product: string; locale: string }> }
 
-/**
- * A product page, addressed by SLUG.
- *
- * §9.3 moves this route from `[productId]` to the slug — a behaviour change, not a rename.
- * Seven products' URLs change as a result (their slug differs from their SKU, mostly because
- * the SKU contains `*` or `.`), and `resolveProductSlug` 301s the old ones through
- * ProductSlugHistory rather than 404ing them.
- *
- * A product slug is shared across locales (§9.3), unlike taxonomy slugs — so this resolver
- * takes no locale.
- */
 async function load(params: Props["params"]) {
     const { category, subCategory, product } = await params
     const locale = resolveLocale(await getLocale())
@@ -57,8 +46,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         .join(", ")
 
     return constructMetadata({
-        // N3: metaTitle is empty on all 378 rows, so the stored field is the source WHEN SET
-        // and a generated title is the fallback — one mechanism with a default, not two.
         title: translation?.metaTitle || t("title", { name, category: categoryName }),
         description:
             translation?.metaDescription || translation?.description || t("description", { name, category: categoryName, specs }),
@@ -81,11 +68,6 @@ export default async function Page({ params }: Props) {
     const sectionPath = `${categoryPath}/${encodeSlug(section?.slug ?? "")}`
     const productPath = `${sectionPath}/${encodeSlug(view.slug)}`
 
-    /*
-     * The spec rows a crawler gets are the spec rows the table shows: the same
-     * `valueEn`/`valueAr` and the same unit, with the PLACEHOLDER "-" dropped the same way.
-     * Two assemblies of one list is how a page ends up claiming a wattage it does not print.
-     */
     const specs = view.specs.flatMap((row) => {
         const value = locale === "ar" ? row.valueAr : row.valueEn
         if (!value || value === "-") return []
@@ -96,18 +78,8 @@ export default async function Page({ params }: Props) {
         }]
     })
 
-    /*
-     * The buy column and the specification table are the client component; everything a
-     * shopper looks at AFTER deciding — the rest of the section, what they looked at before —
-     * is composed here on the server, through the same strip every other page uses.
-     */
     return (
         <>
-            {/*
-             * Price, availability and the trail, for the reader that never renders the page.
-             * `price` is `view.price`, which IS the discounted price the buy button charges —
-             * a schema that quotes the undiscounted one is a page Google will flag.
-             */}
             <JsonLd
                 data={[
                     productSchema(

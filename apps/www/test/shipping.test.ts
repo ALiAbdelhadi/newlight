@@ -9,14 +9,6 @@ import {
 } from "@repo/database"
 import { cheapestShippingRate, type ShippingRates } from "@/lib/services/shipping-service"
 
-/**
- * The storefront quotes shipping from the same rows the order is charged from.
- *
- * This exists because it did not. `components/confirm-form.tsx` held its own
- * `{ BasicShipping: { price: 50 }, ... }` while `order-service.ts` priced the order from
- * `getShippingRates`, and the two agreed only until somebody used the panel's rate editor.
- * Nothing failed when they diverged, which is why the divergence shipped.
- */
 let db: TestDatabase
 beforeAll(async () => {
     db = await createTestDatabase()
@@ -39,7 +31,6 @@ describe("shipping rates", () => {
     })
 
     it("quotes what the panel stored, not a constant in the form", async () => {
-        // Exactly what the rate editor writes.
         await db.prisma.systemSetting.upsert({
             where: { key: shippingRateKey("StandardShipping") },
             create: { key: shippingRateKey("StandardShipping"), value: "137.50" },
@@ -48,7 +39,6 @@ describe("shipping rates", () => {
 
         const quoted = await rates()
         expect(quoted.StandardShipping).toBe("137.50")
-        // The number the checkout used to print. If this ever comes back, the bug is back.
         expect(quoted.StandardShipping).not.toBe("100.00")
     })
 

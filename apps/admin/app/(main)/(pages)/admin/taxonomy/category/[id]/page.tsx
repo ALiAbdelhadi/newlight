@@ -10,11 +10,6 @@ export default async function EditCategoryPage({ params }: { params: Promise<{ i
     const { id } = await params
     const category = await TaxonomyService.category(id)
 
-    /*
-     * The record is named by its English translation, not by the word "Category". A screen
-     * titled with its own type tells an operator nothing they did not know from clicking the
-     * link, and two of these open in two tabs are then indistinguishable.
-     */
     const name = category.translations.find((t) => t.locale === "en")?.name.trim()
 
     return (

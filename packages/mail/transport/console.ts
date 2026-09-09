@@ -1,10 +1,3 @@
-/**
- * The development transport.
- *
- * Without it, a developer with no SMTP_HOST and no RESEND_API_KEY gets a configuration error on every sign-up
- * — so the natural fix is to comment out the send, and the codebase acquires a second path
- * that only exists locally. This logs instead, and says clearly that nothing was delivered.
- */
 import type { MailInput, MailResult, MailTransport } from "../types"
 
 export function consoleTransport(): MailTransport {

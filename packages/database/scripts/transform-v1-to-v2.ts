@@ -1,26 +1,3 @@
-/**
- * The v1 -> v2 catalog transform — BUILD §18.
- *
- *   pnpm --filter @repo/database transform [--allow-local-media]
- *
- * IN PLACE, on the branch. The branch holds a restored production snapshot migrated to
- * 0010, so v1 columns and v2 tables coexist and this moves the data between them. That is
- * what 0011_drop_v1_catalog_columns then makes irreversible, and it is why 0011 refuses to
- * run until this has.
- *
- * Idempotent by construction: every id is derived from its source, so a second run upserts
- * onto the same rows rather than duplicating. Re-running against a freshly restored branch
- * produces an identical result.
- *
- * Loud, never lenient (§18.2). The old seed defaulted a missing colour temperature to
- * WARM_3000K and a missing IP to IP20, which turned data problems into plausible-looking
- * rows. Nothing here invents a value: it reports and, where the spec says so, stops.
- *
- * v1 columns are read with $queryRaw because the generated client only knows v2. The
- * taxonomy slug columns are written with $executeRaw for the mirror-image reason: they are
- * NOT NULL in the schema and still nullable in the database until 0011, so the typed client
- * refuses to read them (P2032).
- */
 import { Prisma, PrismaClient } from "@prisma/client"
 import { existsSync, readFileSync } from "node:fs"
 import { join } from "node:path"
@@ -64,12 +41,9 @@ function loadManifest(): { provider: string; entries: Record<string, ManifestEnt
     return manifest
 }
 
-/** A stable id derived from its source, so a re-run upserts rather than duplicates. */
 function id(prefix: string, ...parts: string[]): string {
     return `${prefix}_${parts.join("_")}`.replace(/[^A-Za-z0-9_*.-]/g, "-").slice(0, 190)
 }
-
-// ---------------------------------------------------------------------------
 
 interface V1Product {
     id: string
@@ -115,11 +89,6 @@ async function main() {
     await reconcile(products)
 }
 
-// --- 1. taxonomy slugs (§9.2, A6) -------------------------------------------
-//
-// English keeps the slug it already has: those URLs are live and indexed. Arabic is
-// GENERATED from the Arabic name by the A6 rule, because no Arabic slug has ever existed.
-
 async function taxonomySlugs() {
     const rows = await prisma.$queryRaw<
         Array<{ table: string; id: string; locale: string; name: string; entitySlug: string }>
@@ -148,14 +117,6 @@ async function taxonomySlugs() {
     }
     console.log(`[1/9] taxonomy slugs      ${String(written).padStart(4)} written, 0 collisions`)
 }
-
-// --- 2. families (§6) -------------------------------------------------------
-//
-// Grouping comes from the VERIFIED production baseProductId (§1.5: 89 families, zero
-// inconsistent variantType), never from a regex over SKUs.
-//
-// The family NAME is the SKU stem, because there is nothing better: every one of the 378
-// ProductTranslation.name values is the product's own SKU. That is reported, not repaired.
 
 async function families(products: V1Product[]) {
     const groups = new Map<string, V1Product[]>()
@@ -219,21 +180,6 @@ async function productFamilies(products: V1Product[], familyByBase: Map<string, 
     console.log(`[3/9] product.familyId    ${String(products.length).padStart(4)} set`)
 }
 
-/**
- * Send a pile of writes as batches instead of one round trip each.
- *
- * The transform made roughly 3,400 individual calls, which took ~15 minutes against Neon and
- * **1.5 seconds against a local Postgres with the same data**. So the cost was never the work;
- * it was the round trip. `prisma.$transaction([...])` pipelines an array of operations into a
- * single request, which is the whole fix.
- *
- * Every statement is the SAME upsert it was before — this changes when they are sent, not what
- * they say. A chunk is one transaction, so a chunk is all-or-nothing where each row used to be;
- * that is stronger than what it replaced, not weaker.
- *
- * The chunk size is a bound on memory and on how much a single failure rolls back, not a
- * tuning knob: at 500 the round-trip count is already down by three orders of magnitude.
- */
 const BATCH = 500
 
 async function flush(operations: Prisma.PrismaPromise<unknown>[]): Promise<void> {
@@ -241,12 +187,6 @@ async function flush(operations: Prisma.PrismaPromise<unknown>[]): Promise<void>
         await prisma.$transaction(operations.slice(i, i + BATCH))
     }
 }
-
-// --- 3. specs (§7, §18.4) ---------------------------------------------------
-//
-// Sourced from ProductTranslation.specifications — the blob customers actually see — not
-// from the typed columns, and not from the retired JSON files. The two locales use disjoint
-// key spaces, so spec-map.ts holds a two-sided dictionary.
 
 async function specs(products: V1Product[]) {
     const translations = await prisma.$queryRaw<Array<{ productId: string; locale: string; specifications: unknown }>>`
@@ -305,7 +245,6 @@ async function specs(products: V1Product[]) {
             written++
         }
 
-        // A key present in production that spec-map does not know is a silent data loss.
         for (const key of Object.keys(blobs.en)) {
             if (!BY_EN_KEY.has(key) && !["surface_color", "color_Temperature"].includes(key)) {
                 throw new Error(`unmapped English spec key ${JSON.stringify(key)} on ${product.productId}`)
@@ -321,11 +260,6 @@ async function specs(products: V1Product[]) {
     await flush(writes)
     console.log(`[4/9] product specs       ${String(written).padStart(4)} rows; ${emptyProducts} products have no specification data at all`)
 }
-
-// --- 4. sub-category specs --------------------------------------------------
-//
-// Derived from what each sub-category's products actually carry (§18.7). `required` means
-// EVERY product in that sub-category has it — an observation, not an aspiration.
 
 async function subCategorySpecs() {
     const rows = await prisma.$queryRaw<Array<{ subCategoryId: string; specKey: string; withSpec: bigint; total: bigint }>>`
@@ -351,12 +285,6 @@ async function subCategorySpecs() {
     const required = rows.filter((r) => r.withSpec === r.total).length
     console.log(`[5/9] sub-category specs  ${String(rows.length).padStart(4)} rows (${required} required)`)
 }
-
-// --- 5. images (§5, §15) ----------------------------------------------------
-//
-// order = 0 is the primary image; there is no isPrimary column to disagree with it.
-// colorId is set when a colour claims that exact path, and left null — "applies to all
-// colours" — otherwise.
 
 async function images(products: V1Product[], manifest: { entries: Record<string, ManifestEntry> }) {
     const trees = loadTrees()
@@ -417,8 +345,6 @@ async function images(products: V1Product[], manifest: { entries: Record<string,
     console.log(`[6/9] product images      ${String(written).padStart(4)} rows (${usedOverrides.size} via override, ${fromAdmin.size} from the admin tree)`)
 }
 
-// --- 6. colours (§8) --------------------------------------------------------
-
 async function colors(products: V1Product[]) {
     const colorIdByKey = new Map((await prisma.productColor.findMany()).map((c) => [c.key, c.id]))
     let written = 0
@@ -445,20 +371,8 @@ async function colors(products: V1Product[]) {
     console.log(`[7/9] available colours   ${String(written).padStart(4)} rows; ${none} products with none`)
 }
 
-// --- 7. inventory (§13, N1) -------------------------------------------------
-//
-// Written through packages/database/inventory.ts, the ONLY writer of the ledger — including
-// here. A transform that bypassed it to go faster would be the first thing to violate the
-// invariant the ledger exists to hold.
-
 async function inventory(products: V1Product[]) {
     let written = 0
-    // The ledger cannot be batched the way the rest can: `recordMovement` is an interactive
-    // transaction by design (it reads a level, then writes a movement and the level together),
-    // and bypassing it to go faster would be the first thing to break the invariant it exists
-    // to hold. What CAN go is 189 separate BEGIN/COMMIT pairs — one transaction around the
-    // whole opening balance is both fewer round trips and a truer description of what it is:
-    // one opening stocktake, not 189 unrelated ones.
     await prisma.$transaction(async (tx) => {
     for (const product of products) {
         const result = await recordMovement(tx, {
@@ -485,11 +399,6 @@ async function inventory(products: V1Product[]) {
     console.log(`[8/9] inventory           ${String(written).padStart(4)} INITIAL movements; ${OPENING_COUNT_PENDING_KEY}=true`)
 }
 
-// --- 8. slug history (§10) --------------------------------------------------
-//
-// The product route moves from [productId] to [slug] (§9.3). For the 7 products whose slug
-// differs from their SKU that changes the URL, so the old one needs somewhere to 301 from.
-
 async function slugHistory(products: V1Product[]) {
     let written = 0
     const writes: Prisma.PrismaPromise<unknown>[] = []
@@ -507,8 +416,6 @@ async function slugHistory(products: V1Product[]) {
     await flush(writes)
     console.log(`[9/9] slug history        ${String(written).padStart(4)} rows for SKU -> slug divergences`)
 }
-
-// --- reconciliation (§18.3) -------------------------------------------------
 
 async function reconcile(products: V1Product[]) {
     console.log(`\n${"═".repeat(72)}\nRECONCILIATION\n${"═".repeat(72)}`)

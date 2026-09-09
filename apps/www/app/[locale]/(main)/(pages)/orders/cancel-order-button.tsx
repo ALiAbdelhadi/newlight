@@ -28,18 +28,6 @@ interface Labels {
     failed: string
 }
 
-/**
- * A customer cancelling their own order.
- *
- * `requestOrderCancellation` has existed since P3b and nothing called it: the machinery to let
- * a customer cancel was complete, and there was no button. It goes through the order state
- * machine with `actor: CUSTOMER`, so the same rules that stop an admin from cancelling a
- * shipped order stop this too — the button being drawn is a hint, not the check.
- *
- * The strings are passed in because this is a client component inside a server-rendered list;
- * `useTranslations` here would ship the whole message catalogue to do what the parent already
- * did on the server.
- */
 export function CancelOrderButton({
     orderId,
     labels,
@@ -60,8 +48,6 @@ export function CancelOrderButton({
                 setOpen(false)
                 router.refresh()
             } else {
-                // The reason comes from the state machine — "cannot go from shipped to
-                // cancelled" is more use than a generic failure.
                 toast.error(result.error ?? labels.failed)
             }
         })

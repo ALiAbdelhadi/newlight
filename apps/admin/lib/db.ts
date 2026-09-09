@@ -1,16 +1,5 @@
 import { prisma, type OrderStatus, type Prisma } from "@repo/database"
 
-/**
- * Order reads for the admin panel.
- *
- * The hand-written `OrderWithItems` interface is gone, and with it two `as OrderWithItems`
- * casts. It declared money as `number` — so every consumer got a Decimal at runtime and a
- * number in the type system — and it declared a `user.email` that the query did not select
- * while the query selected a `user.phone` that does not exist on the model.
- *
- * The payload is derived from the query now, so the shape and the type cannot disagree.
- */
-
 const orderInclude = {
     user: { select: { id: true, name: true, email: true, phoneNumber: true } },
     items: true,

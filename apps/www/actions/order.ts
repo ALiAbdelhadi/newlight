@@ -13,10 +13,6 @@ import { ProductService } from "@/lib/services/product-service"
 import { generateIdempotencyKey, isValidIdempotencyKey } from "@/lib/idempotency"
 import { prisma } from "@repo/database"
 
-
-// Removed in-memory cache and rate limit maps to ensure compatibility with serverless environments.
-// All idempotency checks now rely on the database 'idempotencyKey' unique constraint.
-
 export async function getConfigurationDetails(configId: string) {
     try {
         const configuration = await prisma.productConfiguration.findUnique({
@@ -30,11 +26,6 @@ export async function getConfigurationDetails(configId: string) {
     }
 }
 
-/**
- * The configure flow addresses products by SKU (that is what ProductConfiguration.productSku
- * stores), so this resolves by SKU and returns the same detail payload the product page uses
- * — with ProductImage rows and normalised specs rather than the columns 0011 dropped.
- */
 export async function getProductWithDetails(sku: string, locale: string) {
     try {
         return await ProductService.getProductBySku(sku, resolveLocale(locale))
@@ -128,7 +119,6 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // First, check if configuration exists (regardless of user association)
         const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: { users: true }
@@ -141,13 +131,10 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // If configuration exists but is not associated with the user, associate it
         const isUserAssociated = configuration.users.some(user => user.id === userId)
         if (!isUserAssociated) {
             try {
-                // Ensure user exists
                 
-                // Associate configuration with user
                 await prisma.productConfiguration.update({
                     where: { id: configId },
                     data: {
@@ -158,7 +145,6 @@ export async function createOrderFromConfiguration(
                 })
             } catch (error) {
                 console.error("Error associating configuration with user:", error)
-                // Continue anyway - the configuration exists and we can proceed
             }
         }
 
@@ -331,7 +317,6 @@ export async function cancelOrder(orderId: string) {
             }
         }
 
-        // One entry point; `cancelOrder` is kept as its name because the UI already calls it.
         return requestOrderCancellation(orderId)
     } catch (error) {
         console.error("Order cancellation error:", error)
@@ -359,20 +344,6 @@ export async function cancelOrder(orderId: string) {
     }
 }
 
-/**
- * Cancel your own order. This replaces `updateOrderStatus` — BUILD §12.
- *
- * THE DEFECT IT REPLACES: `updateOrderStatus(orderId, status)` accepted any of the seven
- * statuses from any authenticated user who owned the order, and set shippedAt / deliveredAt
- * to match. Ownership was checked; role was not. A customer could mark their own order
- * `delivered`, which under COD is the event that settles payment.
- *
- * The fix is not a role check bolted onto the old signature. A signature that takes a target
- * status invites the next caller to pass one, so the customer-facing action no longer takes
- * one at all: cancellation is the only transition ADR 0005 lets a CUSTOMER cause, so this is
- * the only customer-facing transition there is. Everything else lives in the admin app and
- * goes through the same machine with actorType ADMIN.
- */
 export async function requestOrderCancellation(orderId: string, reason?: string) {
     try {
         const identity = await currentIdentity()
@@ -380,9 +351,6 @@ export async function requestOrderCancellation(orderId: string, reason?: string)
             return { success: false, error: "Authentication required", requiresAuth: true }
         }
 
-        // Ownership is this layer's check; the ROLE check is the machine's. Both are needed:
-        // owning an order is not permission to do anything to it, and being a customer is not
-        // permission to touch someone else's.
         const order = await prisma.order.findFirst({
             where: { id: orderId, userId: identity.id },
             select: { id: true },
@@ -404,7 +372,6 @@ export async function requestOrderCancellation(orderId: string, reason?: string)
         return { success: true, alreadyApplied: result.alreadyApplied }
     } catch (error) {
         if (error instanceof IllegalTransitionError) {
-            // e.g. a customer trying to cancel an order that has already shipped.
             return { success: false, error: error.message }
         }
         console.error("Order cancellation error:", error)
@@ -428,8 +395,6 @@ export async function canCancelOrder(orderId: string): Promise<boolean> {
 
         if (!order) return false
 
-        // `processing` was pruned from OrderStatus in 0010. The machine is the authority
-        // on what a customer may do, so this asks it rather than repeating the rule.
         return allowedTransitionsFrom(order.status, "CUSTOMER").includes("cancelled")
     } catch (error) {
         console.error("Error checking order cancellation:", error)
@@ -461,7 +426,6 @@ export async function clearIdempotencyCache(key: string) {
             return { success: false, error: "Unauthorized" }
         }
 
-        // In-memory cache is removed, this function is now a no-op but kept for API compatibility.
         return { success: true }
     } catch (error) {
         console.error("Error clearing cache:", error)

@@ -24,21 +24,6 @@ interface ProductSurfaceColorButtonsProps {
     onSurfaceColorChange?: (newColor: string) => void
 }
 
-/**
- * The finish picker on a product page.
- *
- * The sample itself is `components/swatch.tsx` now — this owns the choosing, not the drawing.
- * Two things went out with the local copy of the palette:
- *
- *   SIX SELECTION RINGS, one per finish (`ring-gray-700`, `ring-yellow-500`, `ring-amber-600`, …).
- *   Selection is a state, and this application has exactly one colour for it: `--ring`. A gold
- *   lamp being selected does not mean something different from a black one being selected.
- *
- *   AN UNLABELLED CHOICE. The finish's name only appeared on hover, so on a touch screen — where
- *   there is no hover — the control was five coloured dots and no way to learn what any of them
- *   was without picking it. The selected finish is named in text now, always, and the per-swatch
- *   label stays as the pointer's affordance.
- */
 export default function ProductSurfaceColorButtons({
     availableColors,
     initialColor,

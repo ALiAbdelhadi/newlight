@@ -6,16 +6,6 @@ import { OrderRecord } from "./order-record"
 
 export const dynamic = "force-dynamic"
 
-/**
- * One order (P4.5 §12).
- *
- * Everything the record needs, selected explicitly and serialized here. The query this
- * replaces `include`d each line's whole product row and that product's translations to render
- * a name the ORDER already stores (`OrderItem.productName`, captured at checkout so a later
- * rename cannot rewrite history), and handed the resulting Decimals straight to a client
- * component — the defect ADR 0001 exists to prevent, and the source of the console errors on
- * this route.
- */
 export default async function OrderPage({ params }: { params: Promise<{ orderId: string }> }) {
     await requireCurrentAdmin()
     const { orderId } = await params

@@ -1,10 +1,3 @@
-/**
- * Every string in every email, in both languages.
- *
- * They live here rather than in apps/www/messages/*.json because mail is rendered by a cron
- * sweep and by the admin app, neither of which loads next-intl. One home per string, and the
- * Arabic is written as Arabic rather than translated from the English shape.
- */
 import type { MailLocale } from "../types"
 
 type Copy = Record<MailLocale, string>
@@ -92,7 +85,6 @@ export const strings = {
     contactButton: { en: "Open in admin", ar: "فتح في لوحة التحكم" } as Copy,
 } satisfies Record<string, Copy>
 
-/** `t(strings.verifyExpiry, "ar", { minutes: 30 })`. Missing keys are left visible, not blanked. */
 export function t(copy: Copy, locale: MailLocale, values: Record<string, string | number> = {}): string {
     return Object.entries(values).reduce(
         (text, [key, value]) => text.replaceAll(`{${key}}`, String(value)),

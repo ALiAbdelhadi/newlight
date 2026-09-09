@@ -1,8 +1,5 @@
 import { z } from "zod"
 
-/**
- * Order Creation Schema
- */
 export const createOrderSchema = z.object({
     configurationId: z.string().min(1, "Configuration ID is required"),
     shippingAddressId: z.string().min(1, "Shipping address ID is required"),
@@ -14,9 +11,6 @@ export const createOrderSchema = z.object({
 
 export type CreateOrderInput = z.infer<typeof createOrderSchema>
 
-/**
- * Cart Item Schema
- */
 export const addToCartSchema = z.object({
     productId: z.string().min(1, "Product ID is required"),
     quantity: z.number().int().min(1, "Quantity must be at least 1").default(1),
@@ -26,9 +20,6 @@ export const addToCartSchema = z.object({
 
 export type AddToCartInput = z.infer<typeof addToCartSchema>
 
-/**
- * Update Cart Item Schema
- */
 export const updateCartItemSchema = z.object({
     itemId: z.string().min(1, "Item ID is required"),
     quantity: z.number().int().min(1, "Quantity must be at least 1"),
@@ -36,18 +27,12 @@ export const updateCartItemSchema = z.object({
 
 export type UpdateCartItemInput = z.infer<typeof updateCartItemSchema>
 
-/**
- * Remove Cart Item Schema
- */
 export const removeCartItemSchema = z.object({
     itemId: z.string().min(1, "Item ID is required"),
 })
 
 export type RemoveCartItemInput = z.infer<typeof removeCartItemSchema>
 
-/**
- * Shipping Address Schema
- */
 export const shippingAddressSchema = z.object({
     fullName: z.string().regex(/^[\u0621-\u064Aa-zA-Z\s]+$/).min(2, "Full name must be at least 2 characters"),
     phone: z.string().regex(/^[\+]?[0-9]{10,15}$/).min(10, "Phone number must be at least 10 characters"),
@@ -62,9 +47,6 @@ export const shippingAddressSchema = z.object({
 
 export type ShippingAddressInput = z.infer<typeof shippingAddressSchema>
 
-/**
- * Configuration Schema
- */
 export const saveConfigurationSchema = z.object({
     productId: z.string().min(1, "Product ID is required").max(1000),
     quantity: z.number().int().min(1, "Quantity must be at least 1"),
@@ -75,9 +57,6 @@ export const saveConfigurationSchema = z.object({
 
 export type SaveConfigurationInput = z.infer<typeof saveConfigurationSchema>
 
-/**
- * Update Configuration Quantity Schema
- */
 export const updateConfigurationQuantitySchema = z.object({
     configId: z.string().min(1, "Configuration ID is required"),
     quantity: z.number().int().min(1, "Quantity must be at least 1"),
@@ -85,13 +64,7 @@ export const updateConfigurationQuantitySchema = z.object({
 
 export type UpdateConfigurationQuantityInput = z.infer<typeof updateConfigurationQuantitySchema>
 
-/**
- * Order Status Update Schema
- */
 export const updateOrderStatusSchema = z.object({
-    // Four values, not seven: 0010 pruned processing / fulfilled / refunded, which no
-    // production row held and no code assigned. A schema that still accepts them would let a
-    // request reach the state machine only to be refused there — better to refuse at the edge.
     status: z.enum(["awaiting_shipment", "shipped", "delivered", "cancelled"]),
     trackingNumber: z.string().optional(),
     reason: z.string().max(500).optional(),
@@ -99,18 +72,9 @@ export const updateOrderStatusSchema = z.object({
 
 export type UpdateOrderStatusInput = z.infer<typeof updateOrderStatusSchema>
 
-/**
- * Order Query Schema
- */
 export const orderQuerySchema = z.object({
     page: z.number().int().min(1).default(1),
     limit: z.number().int().min(1).max(100).default(10),
-    /*
-     * The same four values as `updateOrderStatusSchema` above, and for the same reason — this
-     * one still listed all seven, so the file both documented that 0010 pruned three statuses
-     * and went on accepting them twenty lines later. A query for `?status=fulfilled` validated
-     * and then matched nothing, forever.
-     */
     status: z.enum(["awaiting_shipment", "shipped", "delivered", "cancelled"]).optional(),
 })
 

@@ -6,7 +6,6 @@ function Textarea({ className, ...props }: React.ComponentProps<"textarea">) {
     <textarea
       data-slot="textarea"
       className={cn(
-        // Same token alignment as Input: 13px type, no shadow, no `dark:` branch.
         "flex field-sizing-content min-h-16 w-full rounded-md border border-input bg-transparent px-2.5 py-1.5 text-sm",
         "transition-[color,box-shadow] outline-none placeholder:text-muted-foreground",
         "focus-visible:border-ring disabled:cursor-not-allowed disabled:opacity-50",

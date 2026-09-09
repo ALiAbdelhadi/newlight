@@ -16,23 +16,12 @@ export const revalidate = 7200
 
 type Props = { params: Promise<{ category: string; locale: string }> }
 
-/**
- * The param is `[category]` now, not `[subCategory]`.
- *
- * v1's segment names were actively misleading: `[subCategory]` held the CATEGORY slug and
- * `[sectionType]` held the sub-category. Anyone reading a page here had to know that, and the
- * files are being rewritten for per-locale slugs anyway (§9.2), so the names are corrected
- * with them.
- */
 async function load(params: Props["params"]) {
     const { category: slug } = await params
     const locale = resolveLocale(await getLocale())
     const resolution = await CategoryService.resolveCategory(locale, decodeURIComponent(slug))
 
     if (resolution.kind === "moved") {
-        // A retired slug answers with a 301 rather than a 404 (§10). Without
-        // TaxonomySlugHistory, renaming a category in the admin panel silently broke every
-        // inbound link and every indexed page.
         permanentRedirect(`/${locale}/category/${encodeSlug(resolution.to)}`)
     }
     if (resolution.kind === "missing") notFound()
@@ -40,7 +29,6 @@ async function load(params: Props["params"]) {
     const category = await CategoryService.getCategoryBySlug(locale, resolution.value.translations[0]!.slug)
     if (!category) notFound()
 
-    // Anything discounted anywhere under this category (§13.2). Null the rest of the time.
     const offer = await offersForSection({ categoryId: category.id })
     return { category, locale, offer }
 }
@@ -65,8 +53,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-    // Generated from the data rather than from a hardcoded ["indoor", "outdoor"], which was
-    // wrong in Arabic the moment slugs became per-locale.
     const locales: Locale[] = ["en", "ar"]
     const params = await Promise.all(
         locales.map(async (locale) => {
@@ -90,11 +76,6 @@ export default async function Page({ params }: Props) {
         offer ? categoryOffers(locale, slug) : Promise.resolve(null),
     ])
 
-    /*
-     * A category landing that is only a list of its sections makes the customer choose before
-     * showing them anything. Under the grid: what is on offer here (while something is), then
-     * the category's featured and newest products — both derived, both absent when empty.
-     */
     const categoryPath = `/${locale}/category/${encodeSlug(slug)}`
 
     return (

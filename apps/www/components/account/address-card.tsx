@@ -16,15 +16,6 @@ import { getShippingSchema, type ShippingAddressFormData } from "@/lib/validatio
 
 type Field = keyof ShippingAddressFormData
 
-/**
- * The saved shipping address: shown as text, edited in place.
- *
- * One address per customer — that is the schema (`ShippingAddress.userId` is unique), so this
- * is a card with an Edit button and not an address book with an "Add" button. The form is the
- * checkout's, field for field, validated by the same locale-aware schema on both sides: the
- * resolver gives inline messages as the customer types, and the action re-runs the schema on
- * the server, because the client's pass is a convenience, not a guarantee.
- */
 export function AddressCard({ address, email }: { address: ShippingAddress | null; email: string }) {
     const t = useTranslations("account.address")
     const [editing, setEditing] = useState(address === null)
@@ -196,7 +187,6 @@ function AddressForm({
     )
 }
 
-/** Browser autofill hints — the reason the form is worth typing into once. */
 const AUTOCOMPLETE: Record<Field, string> = {
     fullName: "name",
     phone: "tel",

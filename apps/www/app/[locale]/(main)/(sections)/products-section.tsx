@@ -4,7 +4,6 @@ import { ProductService } from "@/lib/services/product-service";
 import { getLocale } from "next-intl/server";
 import { Products, type UIProduct } from "./products";
 
-
 const FEATURED_PRODUCT_IDS = [
     "nl-r-ds-5w",
     "nl-a603-6w",
@@ -25,10 +24,6 @@ export default async function productsSection() {
     const allProducts = await ProductService.getProductsByIds(FEATURED_PRODUCT_IDS, currentLocale);
     const products = selectProductsFromDifferentSubCategories(allProducts, 8);
 
-    // Mapped HERE, on the server, because `price` is a Decimal and a Decimal cannot cross into
-    // a Client Component (§4, ADR 0001). It used to be handed over raw and serialised on the
-    // far side, which React rejected 231 times per page load.
-    // One load for the whole strip, and the same resolver the checkout uses (§13.2).
     const discounts = await activeDiscounts();
 
     const cards: UIProduct[] = products.map((product) => {
@@ -44,7 +39,6 @@ export default async function productsSection() {
         badge: product.isFeatured ? "Featured" : undefined,
         productId: product.productId,
         slug: product.slug,
-        // Per-locale slugs off the translation rows (§9.2) — the entity has none.
         categorySlug: product.subCategory.category.translations[0]?.slug ?? "",
         subCategorySlug: product.subCategory.translations[0]?.slug ?? "",
       }
@@ -53,15 +47,6 @@ export default async function productsSection() {
     return <Products products={cards} />
 }
 
-
-/**
- * One product per sub-category, up to `count`, and DETERMINISTIC.
- *
- * This picked at random with `Math.random()` — inside a server component. Two renders of the
- * same request could therefore choose different products, which is both a hydration mismatch
- * and a home page that reshuffles when nothing changed. The order the SKUs are listed in above
- * is a real editorial decision; using it is better than re-deciding on every request.
- */
 function selectProductsFromDifferentSubCategories<T extends { id: string; subCategoryId: string }>(
     products: T[],
     count: number
@@ -82,7 +67,6 @@ function selectProductsFromDifferentSubCategories<T extends { id: string; subCat
     const selected: T[] = [];
     const selectedIds = new Set<string>();
 
-    // First pass: the first product of each sub-category, in the order the SKUs were listed.
     for (const categoryProducts of productsBySubCategory.values()) {
         if (selected.length >= count) break;
         const first = categoryProducts[0];
@@ -92,7 +76,6 @@ function selectProductsFromDifferentSubCategories<T extends { id: string; subCat
         }
     }
 
-    // Second pass: fill any remaining slots, still in listed order.
     for (const product of products) {
         if (selected.length >= count) break;
         if (selectedIds.has(product.id)) continue;

@@ -7,15 +7,6 @@ import { Button } from "@/components/ui/button"
 import { PageBody, PageHeader, InlineAlert } from "@/components/page"
 import { reportError } from "@/lib/report-error"
 
-/**
- * The error boundary INSIDE the shell (P4.5 §19).
- *
- * `app/(main)/error.tsx` already existed and still does, but it sits outside
- * `(pages)/admin/layout.tsx` — so a query failing on `/admin/inventory` unmounted the entire
- * application shell and left a centred apology with no navigation, no breadcrumb and no way
- * anywhere except a single link. Nesting the boundary here keeps the sidebar, the top bar and
- * the command palette alive: the operator loses one screen instead of the tool.
- */
 export default function AdminSurfaceError({
     error,
     reset,

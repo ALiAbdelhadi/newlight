@@ -4,11 +4,6 @@ import type { SupportedLanguage } from '@/types';
 import { getLocale, getTranslations } from 'next-intl/server';
 import NewCollectionClient from './new-collection';
 
-/**
- * Without this the page inherited the site-wide title, so a crawler saw "New Light Company -
- * Professional Lighting Solutions" for it and for the home page both — one of three pages in
- * that state. It is in the sitemap now, which makes the title something people actually see.
- */
 export async function generateMetadata() {
   const t = await getTranslations('metadatas.new-collection');
   const locale = (await getLocale()) as SupportedLanguage;

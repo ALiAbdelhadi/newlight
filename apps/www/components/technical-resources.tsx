@@ -9,7 +9,6 @@ import type React from "react"
 import { DirectionalArrow } from "@/components/directional-arrow"
 import { RevealScope } from "@/components/reveal-scope"
 
-
 const benefits: { icon: React.ReactNode; titleKey: string; descKey: string }[] = [
   {
     icon: <Lightbulb className="w-8 h-8" strokeWidth={1.25} />,
@@ -44,7 +43,6 @@ export default function TechnicalResources() {
   const t = useTranslations("technical-resources")
   return (
     <RevealScope>
-      {/* Hero */}
       <section className="bg-card text-card-foreground pt-24 pb-16 lg:pt-32 lg:pb-24">
         <Container>
           <div className="max-w-4xl">
@@ -87,7 +85,6 @@ export default function TechnicalResources() {
         </div>
       </section>
 
-      {/* Intro — editorial two-column: heading holds the left rail, prose the right */}
       <section className="py-20 lg:py-32">
         <Container>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -109,7 +106,6 @@ export default function TechnicalResources() {
         </Container>
       </section>
 
-      {/* Benefits */}
       <section className="py-20 lg:py-32 bg-card border-y border-border">
         <Container>
           <div data-reveal className="mb-16 lg:mb-20">
@@ -146,7 +142,6 @@ export default function TechnicalResources() {
         </Container>
       </section>
 
-      {/* Comparison */}
       <section className="py-20 lg:py-32">
         <Container>
           <div data-reveal className="mb-16 lg:mb-20 max-w-3xl">
@@ -190,7 +185,6 @@ export default function TechnicalResources() {
                     sizes="(max-width: 1024px) 100vw, 640px"
                     className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-105"
                   />
-                  {/* Scrim sits over a photograph, so it stays dark in both themes. */}
                   <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
                     <div className="flex items-center gap-3 mb-3">
@@ -226,7 +220,6 @@ export default function TechnicalResources() {
         </Container>
       </section>
 
-      {/* Process — numbered list on a hairline spine, not cards */}
       <section className="py-20 lg:py-32 bg-card border-y border-border">
         <Container>
           <div data-reveal className="mb-16 lg:mb-20">
@@ -265,7 +258,6 @@ export default function TechnicalResources() {
         </Container>
       </section>
 
-      {/* CTA */}
       <section className="py-20 lg:py-32">
         <Container>
           <div data-reveal-group className="max-w-3xl mx-auto text-center">

@@ -7,13 +7,6 @@ import { ColorsPanel } from "./colors-panel"
 import { LocationsPanel } from "./locations-panel"
 import { PageBody, PageHeader, pageTabsListClass, pageTabsTriggerClass } from "@/components/page"
 
-/**
- * The reference data everything else is built out of.
- *
- * Families, colours and locations were all seeded by migration and editable nowhere. They share
- * a page because they share a shape — small, rarely changed, and referenced by everything —
- * and one sidebar entry is proportionate to how often anyone opens them.
- */
 export const dynamic = "force-dynamic"
 
 export default async function ReferencePage() {

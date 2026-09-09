@@ -15,27 +15,6 @@ import { formatNumberWithConversion } from "@/lib/price"
 import { cn } from "@/lib/utils"
 import type { OrderWithDetails } from "@/types"
 
-/**
- * One order, as the customer sees it.
- *
- * A SERVER COMPONENT. It was `"use client"` and had no state, no handlers and no effects — a
- * client boundary around a read-only page, which shipped the whole subtree to the browser and,
- * worse, pushed raw `Prisma.Decimal` values across the serialization boundary (ADR 0001). The
- * one interactive thing on the page, cancelling, is already its own client component.
- *
- * Three product defects went with it:
- *
- *   ITS STATUS VOCABULARY WAS ITS OWN. A private map naming seven statuses, three of which
- *   (`processing`, `fulfilled`, `refunded`) migration 0010 removed from the enum, and a colour
- *   switch of hardcoded `bg-green-100 dark:bg-green-900/20` literals no token could reach. It
- *   now reads `@repo/database/status`, the same record the admin panel reads.
- *
- *   "BACK TO ORDERS" WENT HOME. The button was labelled `backToOrders` and linked to `/`.
- *
- *   PAYMENT WAS INVISIBLE. Under cash on delivery the single most useful fact on this page is
- *   "you pay the courier when it arrives", and the page never said it.
- */
-
 interface OrderDetailsViewProps {
     order: OrderWithDetails
     locale: Locale
@@ -104,7 +83,6 @@ export function OrderDetailsView({ order, locale, translations: t }: OrderDetail
                 </header>
 
                 <div className="mt-8 space-y-8">
-                    {/* What is happening, in one sentence, before any of the detail. */}
                     <Notice tone={statusCopy.tone === "danger" ? "danger" : "info"} title={statusCopy.label[locale]}>
                         {statusCopy.description[locale]}{" "}
                         {order.paymentStatus === "PENDING" && paymentCopy.description[locale]}

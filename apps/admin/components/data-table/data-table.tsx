@@ -20,51 +20,24 @@ import { useTableKeyboard } from "@/components/data-table/use-table-keyboard"
 import { ariaSortFor, buildTableQuery, nextSort, type TableState } from "@/lib/table-params"
 import { cn } from "@/lib/utils"
 
-/**
- * THE table (P4.5 §11).
- *
- * Every list surface consumes this. A surface that builds its own is a design-system
- * violation, because the cost of two tables is not two implementations — it is two answers
- * to "how do I sort this", two row heights, two empty states, and two sets of keyboard
- * shortcuts that disagree.
- *
- * SERVER-DRIVEN, ALWAYS. `manualPagination`, `manualSorting` and `manualFiltering` are all
- * true and not configurable. TanStack's defaults would happily sort and filter the fifty
- * rows it was handed and report that as the answer — which is exactly the defect that was
- * live on the old products page, where the "Sold" tab filtered one page and then printed a
- * catalogue-wide total from it. With manual mode on, the library cannot lie: it has no row
- * model to filter.
- *
- * WHAT TANSTACK IS ACTUALLY FOR HERE. Not sorting or filtering — the database does those.
- * It is the column model: definitions, visibility, ordering, and row selection with
- * indeterminate parent state. That is the part which is tedious and easy to get subtly
- * wrong, and it is about 900 lines we do not maintain.
- */
-
 export interface BulkAction<T> {
     id: string
     label: string
-    /** Destructive actions are rendered apart and are expected to confirm. */
     tone?: "default" | "danger"
     run: (rows: T[]) => void
 }
 
 export interface DataTableProps<T> {
     columns: ColumnDef<T, unknown>[]
-    /** ONE server page. Never the whole collection. */
     data: T[]
-    /** The server's total, which is what pagination and "N selected" are counted against. */
     rowCount: number
     state: TableState
     getRowId: (row: T) => string
-    /** Columns the operator may sort by. A column not listed here renders an inert header. */
     sortableColumns?: string[]
     onRowOpen?: (row: T) => void
     selection?: { bulkActions: BulkAction<T>[] }
     emptyState: { noData: EmptyStateProps; noResults: EmptyStateProps }
-    /** Rendered above the table — filters, search, actions. */
     toolbar?: React.ReactNode
-    /** True when filters are active, so the empty state can tell the two cases apart. */
     filtered?: boolean
     loading?: boolean
     caption: string
@@ -126,8 +99,6 @@ export function DataTable<T>({
                     <Checkbox
                         checked={row.getIsSelected()}
                         onCheckedChange={(value) => row.toggleSelected(!!value)}
-                        /* Named by the row's own identity, so a screen reader announces
-                           "Select nl-601c-10w" rather than fifty identical checkboxes. */
                         aria-label={`Select ${getRowId(row.original)}`}
                         onClick={(event) => event.stopPropagation()}
                         className="size-3.5"
@@ -143,7 +114,6 @@ export function DataTable<T>({
         columns: selectableColumns,
         getRowId: (row) => getRowId(row),
         getCoreRowModel: getCoreRowModel(),
-        // Not configurable. See the header comment.
         manualPagination: true,
         manualSorting: true,
         manualFiltering: true,
@@ -275,8 +245,6 @@ export function DataTable<T>({
                                         "border-b transition-colors duration-(--duration-fast)",
                                         "hover:bg-accent/50",
                                         row.getIsSelected() && "bg-primary-soft",
-                                        /* The j/k cursor is a ring, not a tint — a tint would
-                                           be indistinguishable from hover and from selected. */
                                         cursor === index && "outline-2 -outline-offset-2 outline-ring",
                                         onRowOpen && "cursor-pointer"
                                     )}
@@ -319,8 +287,6 @@ function BulkBar<T>({
 }) {
     return (
         <div
-            /* Bulk results are announced (§24). An operator who archives forty products with
-               the keyboard gets no visual confirmation they can rely on otherwise. */
             aria-live="polite"
             className="flex h-10 items-center gap-2 border-t bg-primary-soft px-3 text-xs"
         >

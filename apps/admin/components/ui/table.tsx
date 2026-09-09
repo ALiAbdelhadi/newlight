@@ -4,21 +4,6 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
-/**
- * The STATIC table (P4.5 §11).
- *
- * `components/data-table` is the answer for any list an operator sorts, filters or pages.
- * This one is for readouts whose whole result set is the point — the low-stock list, the
- * fulfilment queue, an order's line items — and its only job is to look identical to the
- * other one while doing less.
- *
- * That is what these defaults are for. shadcn ships 40px headers in foreground weight and
- * 8px cell padding, so a static table beside a DataTable read as a different component in a
- * different application: taller rows, darker headers, no sunk header ground. The numbers here
- * are §3.3's compact density — 32px header, 34px rows, 10px/6px cells — so the two agree
- * without every caller passing className overrides to make them.
- */
-
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div

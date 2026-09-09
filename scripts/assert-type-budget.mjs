@@ -1,11 +1,4 @@
 #!/usr/bin/env node
-/**
- * Enforces scripts/verification-budget.json.
- *
- * Runs `tsc --noEmit` per package and fails if any package exceeds its ceiling,
- * or if a package is now BELOW its ceiling (which means the budget should be
- * tightened — a stale budget is a gate that has quietly stopped biting).
- */
 import { execFileSync } from "node:child_process"
 import { readFileSync, existsSync } from "node:fs"
 import { dirname, join } from "node:path"

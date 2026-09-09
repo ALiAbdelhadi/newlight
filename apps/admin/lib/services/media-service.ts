@@ -3,19 +3,6 @@ import { prisma } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Product images — upload, order, colour, delete.
- *
- * The catalog's images live on Cloudinary after the §15 migration, and `ProductImage.publicId`
- * is the identity that ties a row to the file. So everything here works in those terms: an
- * upload mints a public_id, a delete removes the row and can remove the asset, and nothing
- * ever stores a bare local path again.
- *
- * No Cloudinary SDK. The upload API is a signed multipart POST and the destroy API is a signed
- * form POST; adding a dependency to make two HTTP calls would hide the only part of this worth
- * reading — the signature.
- */
-
 export class MediaError extends Error {
     constructor(message: string) {
         super(message)
@@ -38,7 +25,6 @@ function credentials() {
     return { cloudName, apiKey, apiSecret }
 }
 
-/** Cloudinary signs the sorted, ampersand-joined parameters with the API secret appended. */
 function sign(params: Record<string, string>, apiSecret: string): string {
     const canonical = Object.keys(params)
         .sort()
@@ -47,13 +33,6 @@ function sign(params: Record<string, string>, apiSecret: string): string {
     return createHash("sha1").update(`${canonical}${apiSecret}`).digest("hex")
 }
 
-/**
- * The public_id an uploaded file gets.
- *
- * Same shape the migration produced — `products/<category>/<sub-category>/<sku>-<n>` — so a
- * migrated image and an admin-uploaded one are indistinguishable afterwards, which is what
- * keeps `media:verify` meaningful.
- */
 function publicIdFor(parts: { categorySlug: string; subCategorySlug: string; sku: string; index: number }): string {
     const clean = (value: string) => value.toLowerCase().replace(/[^a-z0-9-]+/g, "-").replace(/^-|-$/g, "")
     return `products/${clean(parts.categorySlug)}/${clean(parts.subCategorySlug)}/${clean(parts.sku)}-${parts.index}`
@@ -73,12 +52,6 @@ export class MediaService {
         return { images, colors }
     }
 
-    /**
-     * Upload one file and attach it to the product.
-     *
-     * The row is written only after Cloudinary has accepted the file: a `ProductImage` whose
-     * URL 404s is worse than no image at all, because the storefront renders the broken one.
-     */
     static async upload(productId: string, file: File, colorId: string | null) {
         const admin = await requireCurrentAdmin()
 
@@ -166,17 +139,6 @@ export class MediaService {
         return image
     }
 
-    /**
-     * Set the order of every image in one transaction.
-     *
-     * Order 0 is the image the storefront shows in listings and as the first of the gallery, so
-     * "make this the main photo" is this call with that id first — not a separate flag that
-     * could disagree with the ordering.
-     *
-     * The two-pass shuffle exists because `@@index([productId, order])` is not unique but the
-     * intermediate states of a reorder would otherwise collide in a way that is confusing to
-     * read back mid-transaction; negative offsets keep every step distinct.
-     */
     static async reorder(productId: string, orderedIds: string[]) {
         const admin = await requireCurrentAdmin()
 
@@ -212,7 +174,6 @@ export class MediaService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /** Which colour a photo shows, or none. Drives the storefront's colour-linked gallery. */
     static async setColor(imageId: string, colorId: string | null) {
         const admin = await requireCurrentAdmin()
         const image = await prisma.$transaction(async (tx) => {
@@ -238,7 +199,6 @@ export class MediaService {
         return image
     }
 
-    /** Alt text, per locale. Empty means "not written yet", never an empty string. */
     static async setAlt(imageId: string, altEn: string | null, altAr: string | null) {
         await requireCurrentAdmin()
         await prisma.productImage.update({
@@ -251,15 +211,6 @@ export class MediaService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /**
-     * Remove an image.
-     *
-     * The Cloudinary asset is destroyed too, but ONLY if no other row still points at that
-     * public_id — the migration deliberately let several catalog paths share one file, and
-     * destroying the asset out from under a sibling row would break a product nobody touched.
-     * If the destroy fails the row is still gone; an orphaned asset costs storage, an orphaned
-     * row costs a broken page.
-     */
     static async remove(imageId: string) {
         const admin = await requireCurrentAdmin()
 
@@ -274,7 +225,6 @@ export class MediaService {
 
         await prisma.$transaction(async (tx) => {
             await tx.productImage.delete({ where: { id: imageId } })
-            // Close the gap, so orders stay 0..n-1 and "first" keeps meaning first.
             const rest = await tx.productImage.findMany({
                 where: { productId: image.productId },
                 orderBy: { order: "asc" },
@@ -300,11 +250,6 @@ export class MediaService {
             try {
                 const { cloudName, apiKey, apiSecret } = credentials()
                 const timestamp = String(Math.floor(Date.now() / 1000))
-                // `invalidate` purges the CDN too. Without it Cloudinary deletes the asset and
-                // the edge keeps serving it — a removed photo stays visible for as long as the
-                // cache lives, which is exactly the window in which someone checks whether the
-                // removal worked. Verified: destroy returns ok, and the URL is still 200 from
-                // cache without this flag.
                 const params = { public_id: image.publicId, timestamp, invalidate: "true" }
                 const form = new FormData()
                 for (const [key, value] of Object.entries(params)) form.append(key, value)

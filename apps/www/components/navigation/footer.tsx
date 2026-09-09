@@ -41,9 +41,6 @@ export async function Footer() {
                 <div className="py-12">
                     <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-[1.2fr_repeat(auto-fit,minmax(9rem,1fr))]">
                         <div className="flex flex-col items-center md:items-start space-y-4">
-                            {/* Not an `h1`. The footer's logo was one, on every page — so a
-                                product page had two `h1`s and its heading outline ended with the
-                                company name. */}
                             <div className="flex items-baseline gap-1">
                                 <span className="text-xl font-extrabold tracking-tight uppercase">
                                     {t("logo.part1")}
@@ -71,11 +68,6 @@ export async function Footer() {
                                             </li>
                                         ))
                                     ) : (
-                                        /* `t("sections.products.noSubCategories")` was rendered
-                                           here and the key does not exist in either message
-                                           file, so next-intl printed the key path itself. A
-                                           category with nothing live under it simply shows
-                                           nothing. */
                                         null
                                     )}
                                 </ul>
@@ -125,8 +117,6 @@ export async function Footer() {
                                 {t("sections.account.title")}
                             </h2>
                             <ul className="space-y-3 text-sm text-muted-foreground">
-                                {/* The proxy sends a signed-out visitor to sign-in and back, so
-                                    these are safe to show in both session states. */}
                                 <li>
                                     <Link href="/account" className="transition-colors hover:text-foreground">
                                         {t("sections.account.account")}

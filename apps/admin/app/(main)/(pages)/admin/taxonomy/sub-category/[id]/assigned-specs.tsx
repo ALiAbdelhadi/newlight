@@ -19,17 +19,6 @@ interface Assignment {
     required: boolean
 }
 
-/**
- * Which specifications this sub-category asks for.
- *
- * `SpecService.forProduct` reads THIS to decide what the product editor shows — a spec that is
- * declared here appears on every product in the sub-category whether or not it has a value,
- * which is what makes a missing measurement fillable rather than invisible.
- *
- * Removing one here does not delete any product's value. `ProductSpec` is a different table;
- * the values keep existing and the product page marks them "not declared here". Unasking a
- * question is not the same as destroying the answers.
- */
 export function AssignedSpecs({
     subCategoryId,
     definitions,

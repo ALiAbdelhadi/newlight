@@ -2,11 +2,6 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, seedStock, type Fixture } from "@repo/database/test-fixtures"
 
-/**
- * §13.2 items 4, 6 and 7 — the three guarantees that are only guarantees if something checks
- * them: soft delete is the default, money snapshots never move, and no translation silently
- * falls back to English.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -55,7 +50,6 @@ async function translations() {
     return (await import("@/lib/services/translation-service")).TranslationService
 }
 
-/** One order line referring to `productId` at a price it will keep forever. */
 async function placeOrder(productId: string, price: string, quantity = 2) {
     return db.prisma.order.create({
         data: {
@@ -83,7 +77,6 @@ describe("soft delete is the default", () => {
             select: { deletedAt: true, isActive: true },
         })
         expect(deleted.deletedAt).not.toBeNull()
-        // Deactivated too, so no storefront query has to remember to check both.
         expect(deleted.isActive).toBe(false)
 
         await CatalogService.restore(fixture.products.small)
@@ -105,7 +98,6 @@ describe("hard delete refuses while anything still refers to the product", () =>
 
         await expect(CatalogService.hardDelete(fixture.products.small)).rejects.toThrow(/1 order item/)
 
-        // Still there — the refusal is not a partial delete.
         expect(await db.prisma.product.count({ where: { id: fixture.products.small } })).toBe(1)
     })
 
@@ -149,7 +141,6 @@ describe("renaming keeps the old URL alive", () => {
             where: { productId: fixture.products.small },
             select: { slug: true },
         })
-        // The fixture's retired slug plus the one we just retired.
         expect(history.map((h) => h.slug).sort()).toEqual(["nl-test-5w", "nl-test-5w-old"])
     })
 
@@ -172,18 +163,15 @@ describe("money snapshots are immutable (§13.2 item 4)", () => {
         const preview = await PricingService.preview(scope, formula)
         await PricingService.apply(scope, formula, preview.token)
 
-        // The live price doubled...
         const product = await db.prisma.product.findUniqueOrThrow({
             where: { id: fixture.products.small },
             select: { price: true },
         })
         expect(product.price.toFixed(2)).toBe("300.00")
 
-        // ...and the sold price did not.
         const item = await db.prisma.orderItem.findFirstOrThrow({ where: { productId: fixture.products.small } })
         expect(item.price.toFixed(2)).toBe("150.00")
 
-        // No order's recorded subtotal drifted from its own lines.
         expect(await CatalogService.assertSnapshotsIntact()).toEqual([])
     })
 })
@@ -198,7 +186,6 @@ describe("translations never silently fall back", () => {
         const paired = await TranslationService.forProduct(fixture.products.single)
         expect(paired.locales.ar.exists).toBe(false)
         expect(paired.locales.ar.name).toBeNull()
-        // The English text is right there and is NOT copied across.
         expect(paired.locales.en.description).toBe("nl-single description")
         expect(paired.completeness.ar.missing).toEqual(["name", "description", "metaTitle", "metaDescription"])
     })
@@ -208,7 +195,6 @@ describe("translations never silently fall back", () => {
         const paired = await TranslationService.forProduct(fixture.products.small)
 
         expect(paired.locales.en.name).toBe(fixture.skus.small)
-        // Present in the database, but not a translation of anything.
         expect(paired.completeness.en.missing).toContain("name")
         expect(paired.completeness.en.filled).toBe(1)
     })
@@ -246,7 +232,6 @@ describe("translations never silently fall back", () => {
         const queue = await TranslationService.queue()
         expect(queue.rows[0].reference).toBe(fixture.skus.large)
         expect(queue.rows[0].absentLocales).toEqual(["ar"])
-        // The nearly-finished one sinks to the bottom.
         expect(queue.rows.at(-1)?.reference).toBe(fixture.skus.small)
     })
 })
@@ -265,7 +250,6 @@ describe("editing one product's price and details", () => {
         })
         expect(product.price.toFixed(2)).toBe("175.50")
 
-        // The point of routing a single edit through PricingService: it reads back as history.
         const history = await PricingService.priceHistory(fixture.products.small)
         expect(history).toHaveLength(1)
         expect(history[0]).toMatchObject({ from: "150.00", to: "175.50" })
@@ -285,7 +269,6 @@ describe("editing one product's price and details", () => {
     it("shows every spec the sub-category declares, including ones with no value yet", async () => {
         const { SpecService } = await import("@/lib/services/spec-service")
 
-        // Declare two specs for the fixture's sub-category; the product only has one of them.
         await db.prisma.subCategorySpec.createMany({
             data: [
                 { subCategoryId: fixture.subCategoryId, specKey: "maximum_wattage", required: true, order: 1 },
@@ -297,9 +280,7 @@ describe("editing one product's price and details", () => {
         const byKey = new Map(rows.map((r) => [r.key, r]))
 
         expect(byKey.get("maximum_wattage")).toMatchObject({ valueEn: "5", declared: true, required: true })
-        // Declared, empty, and therefore fillable — the whole reason this reads definitions.
         expect(byKey.get("beam_angle")).toMatchObject({ valueEn: null, declared: true })
-        // Carried by the product but not declared here: visible, and marked.
         expect(byKey.get("ip_rating")).toMatchObject({ declared: false })
     })
 
@@ -317,13 +298,11 @@ describe("editing one product's price and details", () => {
         })
 
         const ip = specs.find((s) => s.specKey === "ip_rating")!
-        // 342 values were normalised this way by the transform; the editor must not undo it.
         expect(ip.valueEn).toBe("IP65")
         expect(ip.valueAr).toBe("IP65")
 
         const wattage = specs.find((s) => s.specKey === "maximum_wattage")!
         expect(wattage.valueEn).toBe("7.5")
-        // The numeric column is what range filters read.
         expect(wattage.valueNumber?.toString()).toBe("7.5")
     })
 
@@ -345,7 +324,6 @@ describe("editing one product's price and details", () => {
     it("keeps a non-numeric value as text instead of rejecting it", async () => {
         const { SpecService } = await import("@/lib/services/spec-service")
 
-        // "220-240" is a real datasheet answer for input voltage.
         await SpecService.save(fixture.products.small, [{ key: "maximum_wattage", valueEn: "12-15", valueAr: "١٢-١٥" }])
 
         const spec = await db.prisma.productSpec.findUniqueOrThrow({
@@ -384,8 +362,6 @@ describe("creating a product", () => {
             include: { translations: { orderBy: { locale: "asc" } } },
         })
 
-        // Hidden until it has a photograph — a lighting product with no photo is worse than
-        // one that is not there.
         expect(product.isActive).toBe(false)
         expect(product.price.toFixed(2)).toBe("450.00")
         expect(product.translations.map((t) => `${t.locale}:${t.name}`)).toEqual([
@@ -441,7 +417,6 @@ describe("creating a product", () => {
         expect(movements).toHaveLength(1)
         expect(movements[0]).toMatchObject({ type: "INITIAL", quantity: 40, actorType: "ADMIN" })
 
-        // And the derived level agrees with the ledger, which is the invariant.
         const level = await db.prisma.stockLevel.findFirstOrThrow({ where: { productId: result.id } })
         expect(level.onHand).toBe(40)
     })

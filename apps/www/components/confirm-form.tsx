@@ -32,17 +32,6 @@ import { useEffect, useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-/**
- * How each option is PRESENTED. What it costs is not here.
- *
- * This block used to carry `price: 50 / 100 / 200`, and those numbers were the ones the
- * customer read while `order-service.ts` charged whatever the panel's rate editor had stored.
- * Prices now arrive as a prop from the server, out of the same `shipping.rate.*` settings the
- * order is priced from.
- *
- * The day ranges stay because they are a claim we make in copy, not a value anything stores —
- * there is no column for them, and inventing one to hold a sentence would be worse.
- */
 const SHIPPING_PRESENTATION = {
     BasicShipping: { daysMin: 7, daysMax: 10, icon: Package },
     StandardShipping: { daysMin: 3, daysMax: 5, icon: Truck },
@@ -112,14 +101,10 @@ export function ConfirmForm({
         }
     }, [isSubmitting, isArabic])
 
-    // Derived during render from the field itself — no effect, no second copy of the value.
     const governorate = watch("state") ?? ""
     const covered = isCoveredGovernorate(governorate)
 
     const onSubmit = async (data: ShippingAddressFormData) => {
-        // Double-submit is guarded by `isSubmitting` here and, authoritatively, by the
-        // unique `idempotencyKey` constraint in OrderService. The former wall-clock
-        // throttle read a ref during render and duplicated both.
         if (isSubmitting) {
             toast.warning(
                 isArabic ? "الطلب قيد المعالجة" : "Order is being processed",
@@ -325,7 +310,6 @@ export function ConfirmForm({
                         </AnimatePresence>
                     </div>
 
-                    {/* Phone */}
                     <div className="space-y-3">
                         <Label
                             htmlFor="phone"
@@ -357,7 +341,6 @@ export function ConfirmForm({
                         </AnimatePresence>
                     </div>
 
-                    {/* Email */}
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="email"
@@ -376,7 +359,6 @@ export function ConfirmForm({
                         />
                     </div>
 
-                    {/* Address Line 1 */}
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="addressLine1"
@@ -395,7 +377,6 @@ export function ConfirmForm({
                         />
                     </div>
 
-                    {/* Address Line 2 */}
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="addressLine2"
@@ -443,7 +424,6 @@ export function ConfirmForm({
                         </AnimatePresence>
                     </div>
 
-                    {/* State/Governorate */}
                     <div className="space-y-3">
                         <Label
                             htmlFor="state"
@@ -461,7 +441,6 @@ export function ConfirmForm({
                         />
                     </div>
 
-                    {/* Postal Code */}
                     <div className="space-y-3">
                         <Label
                             htmlFor="postalCode"
@@ -481,7 +460,6 @@ export function ConfirmForm({
                 </div>
             </motion.div>
 
-            {/* Shipping Box */}
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -530,10 +508,6 @@ export function ConfirmForm({
                                         {t[option.charAt(0).toLowerCase() + option.slice(1) as keyof typeof t]}
                                     </div>
                                     <div className="font-display italic text-xl text-foreground">
-                                        {/* The stored rate, formatted by the locale's own money
-                                            rules — Arabic-Indic digits and the symbol after the
-                                            amount, rather than a bare number and a hand-picked
-                                            currency word. */}
                                         {formatMoney(shippingRates[option], locale)}
                                     </div>
                                     <p className="text-2xs text-muted-foreground uppercase tracking-label">
@@ -559,15 +533,6 @@ export function ConfirmForm({
                     })}
                 </RadioGroup>
 
-                {/*
-                 * The condition on every one of those three numbers. It is stated NEXT TO them
-                 * rather than on a policy page, because the moment a customer weighs 50 against
-                 * 200 is the moment the sentence changes their decision.
-                 *
-                 * When the governorate they typed is outside the covered pair, the same note
-                 * becomes a warning that names their governorate — the rate is not wrong, it is
-                 * not final, and they hear that before they submit rather than on a phone call.
-                 */}
                 {covered ? (
                     <Notice tone="info" title={ts("coverageTitle")}>
                         <p className="text-pretty">{ts("coverageBody")}</p>

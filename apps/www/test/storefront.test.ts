@@ -4,16 +4,6 @@ import { seedFixture, seedStock, type Fixture } from "@repo/database/test-fixtur
 import { serializeMoney } from "@repo/database"
 import { productCardInclude, productDetailInclude } from "@/lib/services/selectors"
 
-/**
- * §25: "Storefront reads: spec assembly from ProductSpec + SpecDefinition in both locales
- * (numeric + unit, correct locale text, ordering), family grouping, category tree, image
- * ordering, availability."
- *
- * These exercise the QUERY SHAPES the services compose, against a real database. The services
- * themselves import `prisma` from the singleton, which points at whatever DATABASE_URL says —
- * so the includes are tested here directly rather than by pointing the singleton at a test
- * database and hoping nothing else in the import graph noticed.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -45,7 +35,6 @@ describe("spec assembly (§7)", () => {
         const lifetime = await db.prisma.specDefinition.findUniqueOrThrow({ where: { key: "life_time" } })
         expect(lifetime.unitEn).toBe("hours")
         expect(lifetime.unitAr).toBe("ساعة")
-        // One `unit` column could not hold both, which is the entire amendment.
         expect(lifetime.unitEn).not.toBe(lifetime.unitAr)
     })
 
@@ -112,7 +101,6 @@ describe("family grouping (§6)", () => {
             seen.add(key)
             return true
         })
-        // Three products, two of them one family: two cards.
         expect(products).toHaveLength(3)
         expect(cards).toHaveLength(2)
     })
@@ -152,7 +140,6 @@ describe("image ordering (§5)", () => {
             orderBy: { order: "asc" },
         })
         expect(images[0]!.width).toBe(800)
-        // Nullable on purpose, so rendering never blocks on a missing measurement.
         expect(images[1]!.width).toBeNull()
     })
 })
@@ -163,7 +150,6 @@ describe("the category tree", () => {
         const ar = await db.prisma.categoryTranslation.findUnique({ where: { locale_slug: { locale: "ar", slug: "اضاءه-داخليه" } } })
         expect(en?.categoryId).toBe(fixture.categoryId)
         expect(ar?.categoryId).toBe(fixture.categoryId)
-        // Same entity, different URLs — the point of moving slugs onto the translation row.
         expect(en!.slug).not.toBe(ar!.slug)
     })
 

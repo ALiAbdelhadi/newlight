@@ -4,18 +4,7 @@ import { prismaAdapter } from "better-auth/adapters/prisma"
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { ADMIN_ROLES, isAdminRole } from "@repo/database"
 
-/**
- * §25: "Auth: unauthenticated access to a protected route and to a server action; admin role
- * enforcement."
- *
- * The app's own `lib/auth.ts` builds its Better Auth instance at module load against
- * `DATABASE_URL`, so importing it here would point the tests at whatever that env var says.
- * These construct an equivalent instance against the disposable database instead — same
- * adapter, same options — and test the RULES rather than the module's import side effects.
- */
 let db: TestDatabase
-// Inferred from the calls below rather than declared: betterAuth's return type is
-// parameterised by the exact options object, so a widened annotation does not fit.
 let auth: Awaited<ReturnType<typeof makeAuth>>
 let adminAuth: Awaited<ReturnType<typeof makeAdminAuth>>
 
@@ -81,8 +70,6 @@ describe("registration", () => {
         await register(email)
         await auth.api.signUpEmail({ body: { email, password: PASSWORD, name: "Again" }, asResponse: true })
 
-        // The status code is Better Auth's business and it has changed between versions; the
-        // guarantee that matters is the row count, and it is the DATABASE that enforces it.
         expect(await db.prisma.user.count({ where: { email } })).toBe(1)
 
         await expect(
@@ -93,7 +80,6 @@ describe("registration", () => {
     it("does NOT let a sign-up request nominate its own role", async () => {
         const email = `r${Date.now()}@x.invalid`
         await auth.api.signUpEmail({
-            // `role` is declared with input: false, so this is ignored rather than obeyed.
             body: { email, password: PASSWORD, name: "Sneaky", role: "SUPER_ADMIN" } as never,
             asResponse: true,
         })
@@ -150,8 +136,6 @@ describe("admin role enforcement (§7)", () => {
         const email = `p${Date.now()}@x.invalid`
         await register(email)
         const user = await db.prisma.user.findUniqueOrThrow({ where: { email } })
-        // getIdentity() in apps/admin returns null for exactly this case: being signed in is
-        // not being an admin.
         expect((ADMIN_ROLES as readonly string[]).includes(user.role)).toBe(false)
     })
 

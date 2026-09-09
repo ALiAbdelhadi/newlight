@@ -17,60 +17,13 @@ import {
     type SortKey,
 } from "@/lib/services/product-facets"
 
-/**
- * Filtering and sorting a product listing.
- *
- * FILTERS RUN IN THE BROWSER, and that is a deliberate choice rather than a shortcut. The
- * sub-category page is statically generated with `revalidate = 7200` and loads every product in
- * the sub-category — the largest is well under a hundred — so the set in the browser IS the
- * population. Filtering it locally keeps the page static, makes every chip instant, and gives
- * exact counts. Reading `searchParams` on the server would have turned an ISR page into a
- * dynamic one and bought a network round trip per checkbox.
- *
- * THE STATE STILL LIVES IN THE URL. A filtered listing is a thing people send each other, and
- * `router.replace` with `scroll: false` keeps it addressable without re-fetching or jumping the
- * page. Reading it back is what makes the back button work through a filtering session.
- *
- * EVERY CONTROL IS BACKED BY A COLUMN. The facets are computed from the products on the page
- * (`lib/services/product-facets.ts`), so a chip only exists when something on this listing
- * carries the value, and its count is exact. There is no "0 results" chip and no filter for an
- * attribute the database does not have.
- *
- * TWO LAYOUTS, NOT ONE SHRUNK.
- *
- * On a phone the controls are a sticky bar of two equal halves — Filter and Sort — and the
- * facets open in a bottom sheet over the grid. That is the pattern every shop uses on mobile
- * for a reason: the panel is reachable with a thumb, it does not push the products you are
- * comparing off the screen, and the bar stays put while you scroll a hundred tiles.
- *
- * On a desktop the same facets are an inline panel that expands in place, because there is
- * room for it beside the grid and a modal over a wide screen is a worse trade.
- *
- * The first version of this had one layout: a `justify-between` row with a fixed `w-48` select,
- * which at 375px pushed the count onto its own line and at 320px overflowed the viewport, and
- * an inline panel that shoved the grid down past the fold the moment it opened.
- */
-
 interface ProductFilterBarProps {
     facets: ProductFacets
     filters: ListingFilters
-    /** How many products survive the current filters — computed by the caller, which owns the set. */
     resultCount: number
     onChange: (next: ListingFilters) => void
 }
 
-/**
- * Which of the two layouts is live.
- *
- * This has to be a real media query rather than `hidden lg:block` on both, because the mobile
- * panel is a Radix `Sheet` — a dialog. Rendering both and hiding one with CSS would, on a
- * desktop, mount a focus-trapping modal that nobody can see: `display: none` hides it from the
- * screen and not from the focus trap.
- *
- * `useSyncExternalStore` rather than state seeded in an effect: the server has no viewport, so
- * the server snapshot is `false` (mobile-first, and the sheet is the layout that degrades
- * better), and the subscription is the media query itself.
- */
 function useIsDesktop(): boolean {
     return useSyncExternalStore(
         (onChange) => {
@@ -136,7 +89,6 @@ export function ProductFilterBar({ facets, filters, resultCount, onChange }: Pro
                 />
             )}
 
-            {/* The specs the data justified — see `buildSpecFacets`. */}
             {facets.specs.map((spec) => (
                 <FacetGroup
                     key={spec.key}
@@ -162,7 +114,6 @@ export function ProductFilterBar({ facets, filters, resultCount, onChange }: Pro
                                 {t("inStock")}
                             </Chip>
                         )}
-                        {/* Only when something on this listing is actually discounted. */}
                         {facets.onSale > 0 && (
                             <Chip
                                 selected={filters.onSaleOnly}
@@ -181,12 +132,6 @@ export function ProductFilterBar({ facets, filters, resultCount, onChange }: Pro
     const sortSelect = (
         <label className="flex min-w-0 flex-1 items-center lg:flex-none">
             <span className="sr-only">{t("sortBy")}</span>
-            {/*
-             * A native select. The storefront has no Radix Select — importing the admin's would
-             * be a second dropdown system in this app — and for a short fixed list of four this
-             * is the better control anyway: one element, no JavaScript, and on a phone it opens
-             * the platform's own picker.
-             */}
             <select
                 value={filters.sort}
                 onChange={(event) => onChange({ ...filters, sort: event.target.value as SortKey })}
@@ -222,11 +167,6 @@ export function ProductFilterBar({ facets, filters, resultCount, onChange }: Pro
 
     return (
         <div className="border-b pb-5">
-            {/*
-             * Sticky under the 64px header, so the controls stay reachable through a long grid.
-             * The negative margin lets the sticky bar's background span the container's gutter
-             * rather than leaving a 20px strip of scrolling content down each side.
-             */}
             <div className="sticky top-16 z-30 -mx-5 bg-background/95 px-5 py-3 backdrop-blur-sm lg:static lg:mx-0 lg:bg-transparent lg:px-0 lg:py-0 lg:backdrop-blur-none">
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                     <p className="text-sm text-muted-foreground" aria-live="polite">
@@ -243,14 +183,12 @@ export function ProductFilterBar({ facets, filters, resultCount, onChange }: Pro
                 </div>
             </div>
 
-            {/* Desktop: the panel expands in place. */}
             {isDesktop && open && hasFacets && (
                 <div id="product-filters" className="mt-6">
                     {panel}
                 </div>
             )}
 
-            {/* Mobile: the same facets, in a sheet over the grid. */}
             <Sheet open={!isDesktop && open && hasFacets} onOpenChange={setOpen}>
                 <SheetContent side="bottom" className="flex max-h-[85svh] flex-col gap-0 p-0">
                     <SheetHeader className="flex-row items-center justify-between border-b p-5">
@@ -353,13 +291,6 @@ function FacetGroup({
     )
 }
 
-/**
- * A real checkbox, styled as a chip.
- *
- * `aria-pressed` on a button would announce "pressed" and leave a screen-reader user to infer
- * that it is a multi-select. A checkbox announces "checked" and belongs to the fieldset's
- * legend, which is what the grouping actually is.
- */
 function Chip({
     selected,
     count,

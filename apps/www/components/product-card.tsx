@@ -17,13 +17,7 @@ interface ProductCardProps {
     basePrice?: SerializedMoney
     discountPercent?: number
     badge?: string
-    /**
-     * Two or three specs, already collapsed by `quickSpecs`. A lighting tile that shows a photo,
-     * a name and a price makes a customer open it to learn its wattage. The card prints the
-     * values only, as one line of description — the labels stay on the product page.
-     */
     specs?: Array<{ label: string; value: string }>
-    /** A compare checkbox, rendered over the image. Listings pass one; strips do not. */
     action?: React.ReactNode
 }
 
@@ -44,41 +38,27 @@ export function ProductCard({
         <Reveal
             className={cn(
                 "group relative overflow-hidden rounded-lg border bg-card",
-                // Tailwind v4 compiles `-translate-y-*` to the `translate` property and `scale-*` to
-                // `scale` — neither is folded into `transform` any more, so a list naming
-                // `transform` transitioned nothing this card changes and the hover jumped.
                 "transition-[box-shadow,translate,scale] duration-(--duration-base) ease-out-fast",
                 "hover:-translate-y-0.5 hover:shadow-overlay",
-                // A press, not a lift: on touch the finger is already on the card, and lifting
-                // it away from the point of contact reads as the tap having missed.
                 "active:scale-[0.99] active:duration-(--duration-fast)"
             )}
         >
             <div className="relative aspect-square overflow-hidden">
                 <Image
                     src={image || "/placeholder.svg"}
-                    /* Empty, deliberately: the `h3` below prints this product's name inside the
-                       same link, and a screen reader should not read it twice per tile. */
                     alt=""
                     width={500}
                     height={500}
                     data-reveal-media
                     className={cn(
                         "size-full object-cover",
-                        // `scale` carries the zoom, `filter` the grayscale entrance.
                         "transition-[scale,filter] duration-(--duration-slow) ease-out-fast",
                         "group-hover:scale-105",
                         "group-active:scale-[1.02] group-active:duration-(--duration-fast)"
                     )}
                     priority={false}
                 />
-                {/* One gesture, one duration. `backdrop-blur` is gone from the pill: a backdrop
-                    filter re-blurs its whole backdrop every frame, and this one did it while
-                    the image behind it was scaling. */}
                 <div
-                    /* Decorative. The word is a hover affordance for a pointer, and the tile is
-                       already a link — without this the accessible name of every product link
-                       began "View" before it reached the product. */
                     aria-hidden
                     className="absolute inset-0 flex items-center justify-center bg-foreground/5 opacity-0 transition-opacity duration-(--duration-slow) ease-out-fast group-hover:opacity-100"
                 >
@@ -110,19 +90,8 @@ export function ProductCard({
                     </h3>
                 </div>
                 {specs && specs.length > 0 && (
-                    /* One quiet line, not a spec sheet. The labelled pairs read as a table wedged
-                       under the title, and their bold values competed with it for the eye; the
-                       units already say which spec each value is ("6-30 W", "AC 220V"), so the
-                       labels were paying for themselves in weight and earning nothing. One line,
-                       one weight, clipped rather than wrapped, so every tile stays the same height. */
                     <p className="truncate text-xs text-muted-foreground">
                         {specs.map((spec, index) => (
-                            /* Each value is its own bidi isolate. Joined as one plain string, an
-                               Arabic tile tore "١٥ W" in half — the digits are Arabic numbers and
-                               the unit is Latin, so the RTL paragraph reordered them around the
-                               separators and printed "W · Bridge lux ١٥ · تيار متردد". A `bdi`
-                               resolves each value on its own, so the units stay on their numbers
-                               and the specs stay in order, right to left. */
                             <Fragment key={spec.label}>
                                 {index > 0 && " · "}
                                 <bdi>{spec.value}</bdi>

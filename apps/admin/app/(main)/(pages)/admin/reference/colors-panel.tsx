@@ -22,17 +22,6 @@ interface Color {
     images: number
 }
 
-/**
- * The colours a product can be offered in.
- *
- * The KEY is not editable, and that is not tidiness: `CartItem.selectedColorKey` and
- * `OrderItem.selectedColorKey` store it as a SNAPSHOT, deliberately without a foreign key, so
- * the colour a customer chose survives the colour being changed. Renaming the key would orphan
- * every one of those past choices.
- *
- * Deleting is refused while any product offers it — `ProductAvailableColor` cascades, so the
- * database would remove it from all of them silently. Deactivating is the reversible answer.
- */
 export function ColorsPanel({ colors }: { colors: Color[] }) {
     const router = useRouter()
     const [pending, start] = useTransition()

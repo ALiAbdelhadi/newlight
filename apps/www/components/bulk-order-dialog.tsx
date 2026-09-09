@@ -16,19 +16,6 @@ import { type ContactFormData, getContactSchema } from "@/lib/validation/contact
 
 type Field = keyof ContactFormData
 
-/**
- * Ask about a quantity the shop cannot price on a tile.
- *
- * `product-page.bulkOrderTitle`, `bulkOrderDescription` and `contactSalesTeam` have been in
- * both message catalogues, translated, with NO component reading them — a feature that was
- * specified, translated and never built. A contractor pricing 200 downlights had the same two
- * buttons as somebody buying one.
- *
- * It is not a new backend. It posts to the contact endpoint that already exists, with the same
- * schema and the same validation the contact page uses, and the SKU and quantity go in the
- * `message` column `ContactForm` already has and no form was filling. The enquiry lands in the
- * panel's contact inbox next to every other one.
- */
 export function BulkOrderDialog({ sku, productName, quantity }: { sku: string; productName: string; quantity: number }) {
     const t = useTranslations("product-page")
     const tb = useTranslations("bulkOrder")
@@ -52,8 +39,6 @@ export function BulkOrderDialog({ sku, productName, quantity }: { sku: string; p
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
                     ...data,
-                    // What the enquiry is ABOUT. Without it the sales team receives a name and
-                    // a phone number and has to ring back to find out which product.
                     message: tb("message", { product: productName, sku, quantity }),
                 }),
             })

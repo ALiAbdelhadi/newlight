@@ -3,12 +3,6 @@ import { requireCurrentAdmin } from "@/lib/auth"
 import { PricingEditor } from "./pricing-editor"
 import { PageBody, PageHeader } from "@/components/page"
 
-/**
- * §13.2 item 1 — the bulk price editor.
- *
- * It exists because its absence is what put the owner in psql repricing 189 products by hand,
- * with no preview and no record of what changed.
- */
 export const dynamic = "force-dynamic"
 
 export default async function PricingPage() {

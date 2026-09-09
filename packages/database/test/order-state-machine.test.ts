@@ -5,15 +5,6 @@ import { seedFixture, seedStock, LOCATION_ID, type Fixture } from "./fixtures"
 import { reserve } from "../inventory"
 import { canTransition, IllegalTransitionError, transitionOrder, TRANSITIONS } from "../order-state-machine"
 
-/**
- * §25: "Order state machine: every illegal transition rejected; a customer cannot set any
- * status but cancel-own." And the lifecycle: "reservation on create, SALE on ship, RETURN on
- * refusal, release on cancel, oversell rejection, double delivery-confirmation applies nothing
- * twice."
- *
- * Because the machine is a TABLE plus one function, "every illegal transition" is a loop over
- * the product of statuses and actors rather than a hand-written matrix that drifts.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -75,10 +66,7 @@ describe("the transition table (F2)", () => {
                 }
             }
         }
-        // 4 x 4 x 4 — the whole space, not a sample.
         expect(checked).toHaveLength(64)
-        // 11 legal (from, to, actor) triples out of 64 possible. Asserting the count means
-        // widening the machine's permissions can never be an accident.
         expect(declared.size).toBe(11)
     })
 
@@ -121,7 +109,6 @@ describe("the lifecycle (§8.3)", () => {
         const row = await db.prisma.order.findUniqueOrThrow({ where: { id: order.id } })
         expect(row.shippedAt).not.toBeNull()
         expect(row.trackingNumber).toBe("TRK")
-        // Shipping is not payment (F4).
         expect(row.paymentStatus).toBe("PENDING")
     })
 
@@ -186,7 +173,6 @@ describe("the lifecycle (§8.3)", () => {
 
         const row = await db.prisma.order.findUniqueOrThrow({ where: { id: order.id } })
         expect(row.paymentStatus).toBe("REFUNDED")
-        // A compensating movement, not a deletion of the SALE.
         const movements = await db.prisma.stockMovement.findMany({ where: { referenceId: order.id }, select: { type: true } })
         expect(movements.map((m) => m.type).sort()).toEqual(["RETURN", "SALE"])
         expect(result.movements).toBe(1)

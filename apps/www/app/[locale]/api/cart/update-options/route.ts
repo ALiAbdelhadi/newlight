@@ -14,7 +14,6 @@ export async function PATCH(request: Request) {
         );
     }
 
-
     try {
         const { itemId, selectedColorTemp, selectedColorKey } = await request.json()
 
@@ -25,7 +24,6 @@ export async function PATCH(request: Request) {
             )
         }
 
-        // Verify the item belongs to the user's cart
         const cartItem = await prisma.cartItem.findFirst({
             where: {
                 id: itemId,
@@ -40,7 +38,6 @@ export async function PATCH(request: Request) {
             )
         }
 
-        // Update only the fields that were provided
         const updateData: any = {}
         if (selectedColorTemp !== undefined) {
             updateData.selectedColorTemp = selectedColorTemp

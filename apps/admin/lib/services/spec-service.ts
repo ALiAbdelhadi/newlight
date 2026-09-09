@@ -2,29 +2,6 @@ import { prisma, type SpecValueType } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Editing product specifications — the other half of "product details", alongside the
- * translation editor.
- *
- * Specs are normalised (§4): a value belongs to a `SpecDefinition` that declares its type and
- * carries both labels and both units, and a sub-category declares which specs its products
- * are supposed to have. So this service works from the DEFINITIONS, not from whatever rows
- * happen to exist — otherwise a product missing a required spec would show an editor with
- * nothing in it and no way to add anything.
- *
- * The typed columns follow the definition, and follow the same rules the transform used
- * (`coerceSpecValue`), because a spec typed one way by the migration and another way by the
- * admin panel is two schemas:
- *
- *   NUMBER   valueEn/valueAr as text, plus valueNumber when it parses. A non-numeric value is
- *            kept as text rather than rejected — "12-15" is a real answer.
- *   TEXT     valueEn/valueAr only.
- *   BOOLEAN  valueBool, with the text columns carrying the same answer in words.
- *
- * `ip_rating` and `max_ip_rating` normalise to `IP<digits>` in both languages, which is what
- * the transform did to 342 values and what the storefront filter matches on.
- */
-
 export interface SpecRow {
     key: string
     labelEn: string
@@ -33,14 +10,12 @@ export interface SpecRow {
     unitAr: string | null
     valueType: SpecValueType
     order: number
-    /** Declared by the product's sub-category as expected. */
     declared: boolean
     required: boolean
     valueEn: string | null
     valueAr: string | null
     valueNumber: string | null
     valueBool: boolean | null
-    /** N4: stored as a boolean where the definition says otherwise. Reported, not repaired. */
     typeMismatch: boolean
 }
 
@@ -65,7 +40,6 @@ function coerce(valueType: SpecValueType, key: string, valueEn: string | null, v
         const digits = out.valueEn?.match(/\d+/)?.[0] ?? out.valueAr?.match(/\d+/)?.[0]
         if (digits) {
             const formatted = `IP${digits}`
-            // The IP standard is written in Latin on Arabic datasheets too.
             out.valueEn = formatted
             out.valueAr = formatted
         }
@@ -83,8 +57,6 @@ function coerce(valueType: SpecValueType, key: string, valueEn: string | null, v
 
     if (valueType === "NUMBER" && out.valueEn && out.valueEn !== PLACEHOLDER) {
         const parsed = Number(out.valueEn)
-        // Not an error. "12-15" and "220-240" are real datasheet answers; they simply have no
-        // numeric form, and the numeric column is what range filters use.
         if (Number.isFinite(parsed)) out.valueNumber = String(parsed)
     }
 
@@ -92,11 +64,6 @@ function coerce(valueType: SpecValueType, key: string, valueEn: string | null, v
 }
 
 export class SpecService {
-    /**
-     * Every spec this product could have, whether or not it has one — declared specs first in
-     * their declared order, then anything the product carries that its sub-category does not
-     * declare (which is itself worth seeing).
-     */
     static async forProduct(productId: string): Promise<SpecRow[]> {
         await requireCurrentAdmin()
 
@@ -104,8 +71,6 @@ export class SpecService {
             where: { id: productId },
             select: {
                 subCategoryId: true,
-                // Ordered because the undeclared ones are rendered in this order at the end of
-                // the table; an unordered read makes the row order change between renders.
                 specs: { include: { spec: true }, orderBy: { specKey: "asc" } },
             },
         })
@@ -151,8 +116,6 @@ export class SpecService {
                 unitAr: value.spec.unitAr,
                 valueType: value.spec.valueType,
                 order: value.spec.order,
-                // Present on the product, not declared by the sub-category. Left visible and
-                // editable rather than hidden, because hiding it is how it survives forever.
                 declared: false,
                 required: false,
                 valueEn: value.valueEn,
@@ -166,13 +129,6 @@ export class SpecService {
         return rows
     }
 
-    /**
-     * Save every spec in one transaction, and write ONE audit row for the change.
-     *
-     * A spec whose value is cleared is deleted rather than stored as an empty string — an
-     * empty spec renders as a labelled blank on the product page, which reads as missing data
-     * with extra steps.
-     */
     static async save(productId: string, inputs: SpecInput[]) {
         const admin = await requireCurrentAdmin()
 

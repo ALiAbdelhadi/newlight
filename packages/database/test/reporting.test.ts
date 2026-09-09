@@ -4,12 +4,6 @@ import { seedFixture, seedStock, LOCATION_ID, type Fixture } from "./fixtures"
 import { OPENING_COUNT_PENDING_KEY, recordMovement } from "../inventory"
 import { codRefusalRate, deadStock, grossMargin, isOpeningCountPending, sellThrough, stocktakeVariance, stockValuation } from "../reporting"
 
-/**
- * §13's reports, and the one rule that runs through all of them: a report will not invent a
- * number it does not have. N1's opening balances are a seeded placeholder with no cost, so a
- * valuation computed from them is fiction — and a fiction with a currency symbol on it is
- * worse than a blank.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -33,8 +27,6 @@ describe("refusing to invent a number (N1, §13.6)", () => {
     it("still refuses once the flag clears, if any stock has no recorded cost", async () => {
         await db.prisma.systemSetting.update({ where: { key: OPENING_COUNT_PENDING_KEY }, data: { value: "false" } })
 
-        // averageCost is null on the fixture: a null cost is NOT zero, and reporting revenue
-        // as pure margin is the exact lie the nullable column exists to prevent.
         expect(await stockValuation(db.prisma)).toEqual({ available: false, reason: "cost-not-recorded" })
     })
 
@@ -42,7 +34,6 @@ describe("refusing to invent a number (N1, §13.6)", () => {
         await db.prisma.product.update({ where: { id: fixture.products.small }, data: { averageCost: "10.00" } })
         await db.prisma.product.update({ where: { id: fixture.products.large }, data: { averageCost: "4.00" } })
 
-        // 100 x 10.00 + 50 x 4.00
         expect(await stockValuation(db.prisma)).toEqual({ available: true, value: "1200.00" })
     })
 })
@@ -77,8 +68,6 @@ describe("the reports themselves", () => {
     })
 
     it("lists dead stock, ignoring the INITIAL movement that seeded it", async () => {
-        // The large product has stock and no movement other than INITIAL, which is exactly
-        // what "has not moved" means for a migrated opening balance.
         const dead = await deadStock(db.prisma, new Date(Date.now() - 60_000))
         expect(dead.map((d) => d.sku)).toContain("nl-test-10w")
         expect(dead.map((d) => d.sku)).not.toContain("nl-test-5w")
@@ -87,7 +76,6 @@ describe("the reports themselves", () => {
     it("computes a COD refusal rate, which was not measurable before the RETURN movement", async () => {
         const rate = await codRefusalRate(db.prisma, new Date(0))
         expect(rate).toMatchObject({ delivered: 0, refused: 0, rate: 0 })
-        // Zero over zero is 0, not NaN — a dashboard should not render NaN%.
         expect(Number.isNaN(rate.rate)).toBe(false)
     })
 })

@@ -1,9 +1,5 @@
 import crypto from "crypto"
 
-/**
- * Generate deterministic idempotency key
- * This ensures the same inputs always generate the same key
- */
 export function generateIdempotencyKey(
     userId: string,
     configurationId: string,
@@ -17,9 +13,6 @@ export function generateIdempotencyKey(
         .digest('hex')
 }
 
-/**
- * Generate unique session-based key (for frontend)
- */
 export function generateSessionKey(
     userId: string,
     configurationId: string
@@ -34,10 +27,6 @@ export function generateSessionKey(
         .digest('hex')
 }
 
-/**
- * Validate idempotency key format
- */
 export function isValidIdempotencyKey(key: string): boolean {
-    // SHA-256 hex is 64 characters
     return /^[a-f0-9]{64}$/i.test(key)
 }

@@ -63,7 +63,6 @@ interface Props {
     colors: ColorOption[]
     offeredColorIds: string[]
 
-    /** Record-header and rail data (P4.5 §12). */
     categoryPath: string
     variantValue: string | null
     orderLineCount: number
@@ -72,12 +71,6 @@ interface Props {
     audit: AuditEntry[]
 }
 
-/**
- * Every submit routes through here so the three states the database asked for — loading,
- * success, error — exist once instead of per button (ui-ux-pro-max Forms/Submit Feedback,
- * severity HIGH). A server action that returns `{ ok: false }` shows the REASON, which is the
- * whole reason the actions return instead of throwing.
- */
 function useAction() {
     const [pending, start] = useTransition()
     const call = (fn: () => Promise<ActionResult>) =>
@@ -89,7 +82,6 @@ function useAction() {
     return { pending, call }
 }
 
-/** A tab whose panel needs attention. One dot, one meaning — not a decorative marker. */
 function AttentionDot({ label }: { label: string }) {
     return <span role="img" aria-label={label} className="size-1.5 rounded-full bg-warning" />
 }
@@ -105,11 +97,6 @@ export function ProductWorkbench(props: Props) {
 
     return (
         <RecordLayout
-            /*
-             * The SKU is the heading, not the name, because for all 378 translation rows the
-             * "name" IS the SKU (A26). A heading that repeats the line under it is worse than
-             * one that admits what it knows.
-             */
             title={props.sku}
             subtitle={props.categoryPath}
             identifiers={[
@@ -224,8 +211,6 @@ export function ProductWorkbench(props: Props) {
     )
 }
 
-/* ---------------------------------------------------------------------------------------- */
-
 const FIELDS = [
     { key: "name", label: "Name", required: true },
     { key: "description", label: "Description", required: true },
@@ -233,15 +218,6 @@ const FIELDS = [
     { key: "metaDescription", label: "Meta description", required: false },
 ] as const
 
-/**
- * §13.2 item 7. English and Arabic side by side in one form, saved together.
- *
- * The Arabic column is `dir="rtl"` on the inputs themselves, not on a wrapper — the LABEL
- * stays left-to-right English because the admin chrome is English by design (CLAUDE.md), and
- * flipping the whole column would put an English label on the wrong side of its own field.
- *
- * Nothing here pre-fills Arabic from English. A missing field shows as missing.
- */
 function TranslationEditor({
     productId,
     pair,
@@ -269,16 +245,6 @@ function TranslationEditor({
             }}
             className="max-w-[720px] space-y-4"
         >
-            {/*
-             * BilingualField per property, English stacked above Arabic — not two columns.
-             *
-             * The side-by-side grid this replaces put "Name EN" beside "Name AR", then
-             * "Description EN" beside "Description AR", so reading down the left-hand column
-             * gave you the whole English record and the Arabic was a parallel document. That
-             * is right for translating and wrong for EDITING, where the question is always
-             * "do these two agree for THIS property" — a comparison the eye makes vertically
-             * over 30px, not horizontally across a 600px gap.
-             */}
             {FIELDS.map((field) => (
                 <BilingualField
                     key={field.key}
@@ -297,12 +263,6 @@ function TranslationEditor({
                     ar={{
                         value: values.ar[field.key] ?? "",
                         onChange: (value) => set("ar", field.key, value),
-                        /*
-                         * Named as its own consequence, not as a generic "missing". A product
-                         * with no Arabic name renders as a gap on the Arabic storefront —
-                         * saying so is the difference between a warning someone acts on and
-                         * one they dismiss.
-                         */
                         error:
                             field.required && !(values.ar[field.key] ?? "").trim()
                                 ? "Required in Arabic. This renders as a gap on the Arabic storefront."
@@ -318,15 +278,6 @@ function TranslationEditor({
     )
 }
 
-/* ---------------------------------------------------------------------------------------- */
-
-/**
- * §13.2 item 3: stock is NEVER an editable number here.
- *
- * There is no "set on hand to 42" field, because the ledger is append-only and a field like
- * that would have to invent a movement to explain itself. You say what happened — found,
- * damaged, received — and the level follows.
- */
 function InventoryPanel({
     productId,
     onHand,
@@ -380,7 +331,6 @@ function InventoryPanel({
                         placeholder="+3"
                         inputMode="numeric"
                     />
-                    {/* Required by the service signature, so required by the form. */}
                     <Input
                         aria-label="Adjustment reason"
                         value={adjustReason}
@@ -504,8 +454,6 @@ function InventoryPanel({
     )
 }
 
-/* ---------------------------------------------------------------------------------------- */
-
 function PricePanel({
     productId,
     sku,
@@ -530,8 +478,6 @@ function PricePanel({
                     value={averageCost}
                     unavailable={averageCost ? undefined : "not recorded"}
                 />
-                {/* Not "0%". A margin with no recorded cost is unknown, and a zero here would be
-                    read as a fact about the product rather than about the data. */}
                 <Stat
                     label="Gross margin"
                     value={margin ? `${margin}%` : undefined}
@@ -559,12 +505,6 @@ function PricePanel({
                         onChange={(e) => setNext(e.target.value)}
                         className="tabular-nums"
                     />
-                    {/*
-                     * `consequential`, not `reversible`: this is money. §18 classifies by what
-                     * an action DOES, not by how hard it is to undo — and the type then forces
-                     * the dialog to state the count and the side effects rather than asking
-                     * "are you sure?", which is a thing people click.
-                     */}
                     <ConfirmAction
                         severity="consequential"
                         title={`Change ${sku} from ${price} to ${next}?`}
@@ -639,19 +579,6 @@ function PricePanel({
     )
 }
 
-/* ---------------------------------------------------------------------------------------- */
-
-/**
- * Editing specifications — the other half of "product details".
- *
- * Every spec the sub-category DECLARES appears, whether or not the product has a value, so a
- * missing one can be filled in rather than being invisible. A spec the product carries that
- * its sub-category does not declare appears too, marked, because hiding it is how it survives
- * forever.
- *
- * Clearing both boxes deletes the spec. An empty spec renders on the product page as a
- * labelled blank, which reads as missing data with extra steps.
- */
 function SpecsPanel({
     productId,
     specs,
@@ -736,7 +663,6 @@ function SpecsPanel({
                                     <div className="flex flex-wrap gap-1 mt-1.5">
                                         {spec.required && <Badge variant="secondary">required</Badge>}
                                         {!spec.declared && <Badge variant="outline">not declared here</Badge>}
-                                        {/* N4, carried across from v1 and shown rather than repaired. */}
                                         {spec.typeMismatch && (
                                             <Badge variant="destructive">stored as a boolean</Badge>
                                         )}
@@ -766,8 +692,6 @@ function SpecsPanel({
         </form>
     )
 }
-
-/* ---------------------------------------------------------------------------------------- */
 
 function SettingsPanel({
     productId,
@@ -857,19 +781,6 @@ function SettingsPanel({
                     <p className="text-sm text-muted-foreground">
                         Permanent deletion removes the row. It is only possible while nothing refers to it.
                     </p>
-                    {/*
-                     * One confirmation primitive, and the severity carries the difference.
-                     *
-                     * This was a plain button behind a two-line dialog with no typed
-                     * confirmation — one mis-aimed click from destroying a product row, its
-                     * translations, images and specs. `severity="destructive"` makes
-                     * `typeToConfirm` a COMPILE-TIME requirement, so the guard cannot be
-                     * forgotten here or on the next destructive action anybody writes.
-                     *
-                     * The blockers moved inside the dialog as well. They were a paragraph
-                     * beside a button that simply was not rendered, which answered "why can I
-                     * not delete this" only for someone who already knew to look for it.
-                     */}
                     <ConfirmAction
                         severity="destructive"
                         title={`Delete ${slug} permanently?`}

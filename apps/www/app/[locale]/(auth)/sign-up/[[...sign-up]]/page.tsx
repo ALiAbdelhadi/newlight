@@ -7,13 +7,6 @@ import { Container } from "@/components/layout/section"
 import { ThemedSignUp } from "@/components/themed-sign-up"
 import { Link } from "@/i18n/navigation"
 
-/**
- * Create an account.
- *
- * The same rewrite as sign-in, for the same two reasons: a GSAP timeline that hid the form
- * until JavaScript had run, and four hardcoded English strings on a page that is also served at
- * `/ar`. See that file for the longer note.
- */
 export default async function SignUpPage() {
     const t = await getTranslations("auth")
 

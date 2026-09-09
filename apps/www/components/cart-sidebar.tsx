@@ -63,10 +63,6 @@ export function CartSidebar() {
                     ? {
                         ...item,
                         quantity: newQuantity,
-                        // `item.price * newQuantity` multiplied a money STRING by a number and
-                        // relied on JavaScript coercing it back — the arithmetic ADR 0001
-                        // forbids. `price` is already the discounted unit price, so the line
-                        // total is one multiplication through the money helpers.
                         totalPrice: serializeMoney(multiplyMoney(item.price, newQuantity)),
                     }
                     : item,
@@ -241,8 +237,6 @@ export function CartSidebar() {
                                     onUpdateSurfaceColor={updateSurfaceColor}
                                     onRemoveItem={removeItem}
                                 />
-                                {/* The drawer is for a glance; comparing, editing several lines and
-                                    sharing happen on the page, which has an address. */}
                                 <div className="border-t px-4 py-4">
                                     <Button asChild variant="outline" className="w-full" onClick={() => setIsOpen(false)}>
                                         <Link href={`/${locale}/cart`}>{t("viewFull")}</Link>
@@ -364,8 +358,6 @@ function CartItemCard({
                         </div>
                     )}
                     {item.discountPercent > 0 && (
-                        // Logical inset, so the badge sits at the image's outer corner in
-                        // Arabic as well as in English.
                         <DiscountBadge percent={item.discountPercent} className="absolute -top-2 -end-2 px-1.5 py-0.5" />
                     )}
                 </Link>
@@ -420,11 +412,6 @@ function CartItemCard({
                     </div>
                     <div className="space-y-2 pt-2">
                         <div className="flex items-center justify-between gap-2">
-                            {/*
-                              * The line total, and the line total before the discount. Both are
-                              * computed through the money helpers rather than by multiplying a
-                              * string, and PriceTag decides which one is announced as the price.
-                              */}
                             <PriceTag
                                 price={item.totalPrice}
                                 basePrice={serializeMoney(multiplyMoney(item.basePrice, item.quantity))}

@@ -16,34 +16,6 @@ import {
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Discounts — §13.2, the design amendment A21 deferred.
- *
- * The screen this serves answers one question the bulk repricer cannot: "take 15% off this
- * family, from Thursday to the end of the month." Repricing writes the new number into
- * `products.price` and forgets the old one; a discount is an overlay with a window, resolved
- * at read time by `@repo/database/pricing`, which is why nothing has to run at midnight for a
- * sale to end.
- *
- * This service does three things the resolver deliberately does not:
- *
- *   1. It PREVIEWS. Every price the discount would change, before the discount exists, with
- *      the same old→new table the repricer shows — because "−20% on Indoor" is a claim about
- *      189 products that an operator cannot check in their head.
- *
- *   2. It VALIDATES against the catalogue, not just against the column constraints. A window
- *      that has already ended, a scope containing no products, a fixed amount larger than the
- *      cheapest product in scope: all rejected here, with the SKUs named.
- *
- *   3. It AUDITS. Creating, stopping and rescheduling each write an AdminAuditLog row with the
- *      actor and the full scope, so "why did this order go out at 850" has an answer after the
- *      discount has expired.
- *
- * Discounts are stopped, never deleted, once they have started: an order placed under one has
- * to stay explicable. A discount that never started has explained nothing yet, and deleting a
- * mistyped one before it runs is the correct affordance — so that, and only that, is allowed.
- */
-
 export type DiscountStatus = "scheduled" | "live" | "ended" | "stopped"
 
 export interface DiscountScopeInput {
@@ -57,7 +29,6 @@ export interface DiscountScopeInput {
 export interface DiscountInput {
     name: string
     kind: DiscountKind
-    /** Percent, or an amount off. A string all the way down (ADR 0001). */
     value: string
     scope: DiscountScopeInput
     startsAt: Date
@@ -71,7 +42,6 @@ export interface DiscountPreviewRow {
     basePrice: SerializedMoney
     newPrice: SerializedMoney
     saving: SerializedMoney
-    /** A discount already live on this product that beats or ties the proposed one. */
     supersededBy: string | null
 }
 
@@ -81,9 +51,7 @@ export interface DiscountPreview {
     baseTotal: SerializedMoney
     newTotal: SerializedMoney
     totalSaving: SerializedMoney
-    /** Rows the amount would push to the floor. Refused: see `clamped` in the resolver. */
     clamped: DiscountPreviewRow[]
-    /** Rows where a discount that is already live gives the customer as much or more. */
     overlapping: DiscountPreviewRow[]
 }
 
@@ -109,7 +77,6 @@ export class DiscountError extends Error {
     }
 }
 
-/** The longest a discount may run. A "sale" with no end is a price change (§13.2). */
 export const MAX_DISCOUNT_DAYS = 400
 
 function statusOf(row: { isActive: boolean; startsAt: Date; endsAt: Date }, now: Date): DiscountStatus {
@@ -119,12 +86,6 @@ function statusOf(row: { isActive: boolean; startsAt: Date; endsAt: Date }, now:
     return "live"
 }
 
-/**
- * The scope, as the Prisma where-clause for the products it covers.
- *
- * The same shape as `PricingService.whereFor` on purpose: an operator who previews "-10% on
- * Indoor" and then reprices Indoor must see the same set of products both times.
- */
 function whereForScope(scope: DiscountScopeInput) {
     const live = { deletedAt: null, isActive: true } as const
     switch (scope.type) {
@@ -143,7 +104,6 @@ function whereForScope(scope: DiscountScopeInput) {
     }
 }
 
-/** Validates the input against itself. Catalogue checks happen in `preview`. */
 function assertValid(input: DiscountInput, now: Date) {
     const name = input.name.trim()
     if (name.length === 0) throw new DiscountError("give the discount a name — it is how you find it later.")
@@ -192,7 +152,6 @@ function assertValid(input: DiscountInput, now: Date) {
     }
 }
 
-/** The proposed discount, in the shape the resolver matches with. Never persisted. */
 function asCandidate(input: DiscountInput, productIds: readonly string[]): ActiveDiscount {
     return {
         id: "candidate",
@@ -202,8 +161,6 @@ function asCandidate(input: DiscountInput, productIds: readonly string[]): Activ
         scopeType: "PRODUCTS",
         subCategoryIds: [],
         familyId: null,
-        // Resolved to the exact set the scope matched, so the preview and the storefront run
-        // the same code on the same products rather than two implementations of one rule.
         productIds,
         startsAt: input.startsAt,
         endsAt: input.endsAt,
@@ -211,7 +168,6 @@ function asCandidate(input: DiscountInput, productIds: readonly string[]): Activ
 }
 
 export class DiscountService {
-    /** Every discount, newest first, with the status an operator sorts by. */
     static async list(): Promise<DiscountRow[]> {
         await requireCurrentAdmin()
         const now = new Date()
@@ -251,13 +207,6 @@ export class DiscountService {
         }))
     }
 
-    /**
-     * What this discount would do, before it exists.
-     *
-     * `overlapping` is the part that is easy to leave out and expensive to leave out: discounts
-     * do not stack, so a new 10% on a family already covered by a live 20% changes nothing for
-     * a customer, and an operator who is not told that will assume the screen is broken.
-     */
     static async preview(input: DiscountInput): Promise<DiscountPreview> {
         await requireCurrentAdmin()
         const now = new Date()
@@ -282,9 +231,6 @@ export class DiscountService {
             input,
             products.map((product) => product.id)
         )
-        // What is ALREADY live over the same window, so the preview can say when the proposed
-        // discount would change nothing. Loaded at the discount's start, not at now: a sale
-        // that begins on Thursday competes with what is live on Thursday.
         const existing = await loadActiveDiscounts(prisma, input.startsAt)
 
         const rows: DiscountPreviewRow[] = products.map((product) => {
@@ -305,10 +251,6 @@ export class DiscountService {
             }
         })
 
-        // The resolver CLAMPS rather than inverting a price (MIN_EFFECTIVE_PRICE), so a fixed
-        // amount bigger than the product is not an error there — it is here, before the row
-        // exists, where the operator can still see WHICH products it would flatten. Only an
-        // AMOUNT can do it: a percentage below 100 cannot reach zero, and 100 is refused.
         const clamped =
             input.kind === "AMOUNT"
                 ? rows.filter(
@@ -383,8 +325,6 @@ export class DiscountService {
                         scope: { ...scope, productIds: scope.productIds ? [...scope.productIds] : undefined },
                         startsAt: created.startsAt.toISOString(),
                         endsAt: created.endsAt.toISOString(),
-                        // The set as it stood when the discount was made. A product added to
-                        // the family tomorrow is covered too — this records what was known.
                         affected: preview.count,
                         baseTotal: preview.baseTotal,
                         newTotal: preview.newTotal,
@@ -399,12 +339,6 @@ export class DiscountService {
         return { id: discount.id, count: preview.count, totalSaving: preview.totalSaving }
     }
 
-    /**
-     * End a discount now.
-     *
-     * `isActive = false` rather than a row change or a delete: the window stays on the record,
-     * so an order placed inside it is still explained by a discount that says it was live then.
-     */
     static async stop(id: string) {
         const admin = await requireCurrentAdmin()
         const existing = await prisma.discount.findUnique({ where: { id } })
@@ -434,13 +368,6 @@ export class DiscountService {
         return { name: existing.name }
     }
 
-    /**
-     * Move the window.
-     *
-     * A live discount can only have its END moved — moving the start of a sale that has already
-     * run rewrites history the orders placed under it disagree with. A scheduled one can have
-     * both, because it has not happened yet.
-     */
     static async reschedule(id: string, startsAt: Date, endsAt: Date) {
         const admin = await requireCurrentAdmin()
         const now = new Date()
@@ -479,7 +406,6 @@ export class DiscountService {
         return { name: existing.name }
     }
 
-    /** Only a discount that never ran. Anything that has been live is stopped, not erased. */
     static async remove(id: string) {
         const admin = await requireCurrentAdmin()
         const existing = await prisma.discount.findUnique({ where: { id } })

@@ -6,17 +6,6 @@ import { Link } from "@/i18n/navigation"
 import { Button } from "@/components/ui/button"
 import { reportError } from "@/lib/report-error"
 
-/**
- * What a customer sees when a page throws.
- *
- * Neither app had one of these, so any exception rendered Next's default error page: an
- * unbranded "something went wrong", in English, on an Arabic site, with no way back and no
- * record that it happened.
- *
- * `digest` is the id Next assigns to the server-side error. Showing it is the difference
- * between a customer saying "the site is broken" and a customer saying "the site is broken,
- * reference a1b2c3" — the second one is findable in the logs.
- */
 export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     const t = useTranslations("error-page")
 

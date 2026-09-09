@@ -5,23 +5,9 @@ import { cn } from "@/lib/utils"
 
 export interface Crumb {
     name: string
-    /** Omitted on the last entry — the page you are on is not a link to itself. */
     href?: string
 }
 
-/**
- * The trail, once.
- *
- * The product page drew one by hand; the catalogue and the listing had a "← Indoor Lighting"
- * back link instead, which answers a different question. A back link says where you came from,
- * a breadcrumb says where you ARE — and on a catalogue three levels deep, arriving from a
- * search result with no history, the second is the one a customer needs.
- *
- * Plain markup with no client hooks, so a client page can render it as readily as a server one.
- * The machine-readable half is `breadcrumbSchema` in `lib/structured-data.tsx`, emitted by the
- * same pages: Google draws this trail under a result in place of the raw URL, and a page that
- * shows one to people and not to crawlers is doing the work without the benefit.
- */
 export function Breadcrumbs({ items, className }: { items: Crumb[]; className?: string }) {
     if (items.length === 0) return null
 

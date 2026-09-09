@@ -2,29 +2,12 @@ import { prisma, requireSlug, LOCALES, DEFAULT_LOCATION_ID } from "@repo/databas
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * The reference data the catalogue is built out of: product families, colours and stock
- * locations. All three were seeded by migration and editable nowhere.
- *
- * Each one deletes differently, and the difference is the whole design:
- *
- *   FAMILY      Product.familyId   ON DELETE SET NULL   products survive, as standalone
- *   COLOUR      ProductAvailableColor  ON DELETE CASCADE   the colour vanishes from products
- *   LOCATION    StockMovement.locationId  ON DELETE RESTRICT   the database itself refuses
- *
- * So a family reports what it will scatter, a colour is refused while any product wears it, and
- * a location is refused while any stock has ever moved through it. Only the third is enforced
- * by the database; the other two would happen silently.
- */
-
 export class ReferenceError_ extends Error {
     constructor(message: string) {
         super(message)
         this.name = "ReferenceError"
     }
 }
-
-// --- families ---------------------------------------------------------------------------
 
 export class FamilyService {
     static async list() {
@@ -69,8 +52,6 @@ export class FamilyService {
                     translations: {
                         create: LOCALES.map((locale) => ({
                             locale,
-                            // Per-locale slug, unique per locale (§10). The English one is the
-                            // family slug; Arabic gets its own so both URLs can exist.
                             slug: locale === "en" ? slug : `${slug}-${locale}`,
                             name: locale === "en" ? input.nameEn.trim() : input.nameAr.trim(),
                         })),
@@ -128,13 +109,6 @@ export class FamilyService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /**
-     * Archiving a family SCATTERS its products rather than removing them.
-     *
-     * `Product.familyId` is SET NULL, so every member becomes a standalone product and the
-     * storefront stops showing them as one card. That is not destruction, but it is not nothing
-     * either — the count is reported so it is a decision rather than a surprise.
-     */
     static async archive(id: string) {
         const admin = await requireCurrentAdmin()
         const family = await prisma.productFamily.findUniqueOrThrow({
@@ -162,7 +136,6 @@ export class FamilyService {
         return { scattered: family._count.products }
     }
 
-    /** Move a product into a family, out of one, or between two. */
     static async setProductFamily(productId: string, familyId: string | null, variantValue: string | null) {
         const admin = await requireCurrentAdmin()
         const product = await prisma.product.findUniqueOrThrow({
@@ -175,8 +148,6 @@ export class FamilyService {
                 where: { id: familyId },
                 select: { subCategoryId: true, slug: true },
             })
-            // A family belongs to one sub-category; a product in a different one would appear
-            // under a heading it does not live beneath.
             if (family.subCategoryId !== product.subCategoryId) {
                 throw new ReferenceError_(
                     `"${family.slug}" belongs to a different sub-category. Move the product first, or pick a family from its own.`
@@ -204,8 +175,6 @@ export class FamilyService {
         await revalidateStorefront({ kind: "all" })
     }
 }
-
-// --- colours ----------------------------------------------------------------------------
 
 export class ColorService {
     static async list() {
@@ -264,9 +233,6 @@ export class ColorService {
             throw new ReferenceError_("A colour needs a name in both English and Arabic.")
         }
 
-        // The KEY is not editable: it is stored on cart and order rows as a snapshot
-        // (`selectedColorKey`), deliberately without a foreign key, so renaming it would
-        // orphan the colour recorded on every past order.
         await prisma.$transaction(async (tx) => {
             await tx.productColor.update({
                 where: { id },
@@ -293,14 +259,6 @@ export class ColorService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /**
-     * Refused while any product offers it.
-     *
-     * `ProductAvailableColor.colorId` CASCADES: the database would remove the colour from every
-     * product that offers it without a word, and `ProductImage.colorId` would go to NULL,
-     * un-linking photographs from the colour they show. Deactivating is the reversible answer
-     * and the UI offers it instead.
-     */
     static async remove(id: string) {
         const admin = await requireCurrentAdmin()
         const color = await prisma.productColor.findUniqueOrThrow({
@@ -332,7 +290,6 @@ export class ColorService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /** Which colours a product is offered in. */
     static async setForProduct(productId: string, colorIds: string[]) {
         const admin = await requireCurrentAdmin()
 
@@ -363,8 +320,6 @@ export class ColorService {
     }
 }
 
-// --- locations --------------------------------------------------------------------------
-
 export class LocationService {
     static async list() {
         await requireCurrentAdmin()
@@ -372,7 +327,6 @@ export class LocationService {
             orderBy: [{ isDefault: "desc" }, { name: "asc" }],
             include: { _count: { select: { movements: true, stockLevels: true } } },
         })
-        // What is actually sitting in each one — the number that decides whether it can go.
         const totals = await prisma.stockLevel.groupBy({ by: ["locationId"], _sum: { onHand: true } })
         const byLocation = new Map(totals.map((t) => [t.locationId, t._sum.onHand ?? 0]))
         return locations.map((location) => ({ ...location, onHand: byLocation.get(location.id) ?? 0 }))
@@ -421,13 +375,6 @@ export class LocationService {
         })
     }
 
-    /**
-     * Exactly one default, always.
-     *
-     * `DEFAULT_LOCATION_ID` is what every adjustment, receipt and sale uses when no location is
-     * given — which is all of them today. Two defaults would make that ambiguous and none would
-     * make it fail, so the switch is a single transaction that clears the old one.
-     */
     static async setDefault(id: string) {
         const admin = await requireCurrentAdmin()
         await prisma.$transaction(async (tx) => {
@@ -447,14 +394,6 @@ export class LocationService {
         })
     }
 
-    /**
-     * Refused while any stock has ever moved through it.
-     *
-     * `StockMovement.locationId` is ON DELETE RESTRICT, so the database refuses this on its
-     * own — which is exactly right, because those movements ARE the history of stock that
-     * physically moved. This checks first only so the message is a sentence instead of a
-     * foreign-key error.
-     */
     static async remove(id: string) {
         const admin = await requireCurrentAdmin()
         const location = await prisma.location.findUniqueOrThrow({

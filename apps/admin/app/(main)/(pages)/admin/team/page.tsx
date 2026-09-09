@@ -5,13 +5,6 @@ import { TeamManager } from "./team-manager"
 import { PageBody, PageHeader } from "@/components/page"
 import { StatusBadge } from "@/components/status-badge"
 
-/**
- * Administrators.
- *
- * `seed-super-admin.ts` says the administrators after the first are created "through the
- * panel". They were not, because this page did not exist — the only way in was a script with a
- * database URL, and there was no way at all to remove someone who left.
- */
 export const dynamic = "force-dynamic"
 
 export default async function TeamPage() {
@@ -25,11 +18,6 @@ export default async function TeamPage() {
             <PageHeader
                 title="Administrators"
                 description="Who can sign into this panel, and what each of them is allowed to do. Only a SUPER_ADMIN can promote, demote or remove an administrator."
-                /*
-                 * Your own role, in the header rather than as one chip among three counts.
-                 * Whether you may promote somebody is the first thing this screen has to
-                 * answer, and it governs every control below it.
-                 */
                 status={<StatusBadge kind="role" value={me.role} />}
                 actions={
                     <p className="text-xs tabular-nums text-muted-foreground">

@@ -22,18 +22,6 @@ const SOCIAL = {
 
 type Field = keyof ContactFormData
 
-/**
- * Contact.
- *
- * The last page on the storefront still styling itself with `text-gray-900 dark:text-white`,
- * `bg-emerald-100 dark:bg-emerald-900/50` and a green success banner — colours from no token,
- * a `dark:` branch in a component, and a second copy of a message the toast already shows.
- * It also set its own `max-w-7xl mx-auto p-4 lg:p-8` inside a `rounded-2xl` wrapper, so its
- * content was narrower than every other page's and inset by a different gutter.
- *
- * Same page, on the shared skeleton: `PageHeader`, one `Section`, the `Container` width, and
- * the token palette. The form's copy, validation and endpoint are untouched.
- */
 export default function ContactPage() {
     const t = useTranslations("contact")
     const locale = useLocale()
@@ -50,8 +38,6 @@ export default function ContactPage() {
 
     const onSubmit = async (data: ContactFormData) => {
         try {
-            // The route is app/[locale]/api/contact — it reads the locale from the segment to
-            // pick the language of the acknowledgement email. A bare /api/contact is a 404.
             const response = await fetch(`/${locale}/api/contact`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -84,7 +70,6 @@ export default function ContactPage() {
             <Section spacing="tight">
                 <Container>
                     <div className="grid grid-cols-1 gap-6 lg:grid-cols-5 lg:gap-8">
-                        {/* -------------------------------------------------- how to reach us */}
                         <div className="space-y-6 lg:col-span-2">
                             <section aria-labelledby="contact-address" className="rounded-lg border bg-card p-6">
                                 <h2 id="contact-address" className="flex items-center gap-3 font-semibold">
@@ -167,7 +152,6 @@ export default function ContactPage() {
                             </section>
                         </div>
 
-                        {/* ------------------------------------------------------------ form */}
                         <section aria-labelledby="contact-form" className="rounded-lg border bg-card p-6 lg:col-span-3 lg:p-8">
                             <h2 id="contact-form" className="text-2xl font-semibold tracking-tight">
                                 {t("form.title")}
@@ -207,7 +191,6 @@ export default function ContactPage() {
                         </section>
                     </div>
 
-                    {/* --------------------------------------------------------------- map */}
                     <div className="mt-6 overflow-hidden rounded-lg border bg-surface-sunk lg:mt-8">
                         <iframe
                             className="block h-[26rem] w-full"

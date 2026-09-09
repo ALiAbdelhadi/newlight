@@ -12,21 +12,11 @@ import {
 import { ForbiddenError, UnauthenticatedError } from "@/lib/auth"
 import type { DiscountKind } from "@repo/database"
 
-/**
- * §13.2 — the discount screen's server boundary.
- *
- * Dates cross as ISO strings rather than as `Date`s. A `<input type="datetime-local">` produces
- * a local wall-clock string with no zone, and the conversion to an instant has to happen in
- * exactly one place or "the sale ends on the 15th" means two different moments in the browser
- * and in the database. The client sends `toISOString()`; this parses it and nothing else does.
- */
-
 export interface DiscountFormInput {
     name: string
     kind: DiscountKind
     value: string
     scope: DiscountScopeInput
-    /** ISO 8601, UTC. */
     startsAt: string
     endsAt: string
 }

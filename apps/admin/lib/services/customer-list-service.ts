@@ -2,29 +2,6 @@ import { OrderStatus, Prisma, prisma, serializeMoney, type SerializedMoney } fro
 
 import { toPrismaPage, type TableState } from "@/lib/table-params"
 
-/**
- * The Customers list query (P4.5 §11, §25).
- *
- * The same contract as `product-list-service`, for the same reasons — and this surface needed
- * it more urgently than Products did. What it replaces:
- *
- *   AN UNBOUNDED QUERY. `prisma.user.findMany({ include: { shippingAddress: true, orders: …
- *   } })` — every customer, with every order each of them has ever placed, on every render.
- *   No `take`, no `skip`, no `where`. At a thousand customers that is a thousand rows and
- *   their whole order history serialised into the client bundle so that a column could print
- *   `orders.length`.
- *
- *   SEARCH THAT ONLY SAW ONE PAGE. The filter ran in the browser over whatever had been
- *   fetched. It felt instant and it was answering a different question from the one asked:
- *   "no customers found" meant "not in this array", never "not in the database".
- *
- *   DECIMALS ACROSS THE BOUNDARY. `total: Prisma.Decimal` was handed to a client component,
- *   which is the defect ADR 0001 exists to stop. Money is serialized here, once.
- *
- * Lifetime value counts everything except cancelled orders — a cancelled order is not revenue,
- * and summing it would make the most cancelled customer look like the best one.
- */
-
 export const CUSTOMER_SORT_COLUMNS = ["name", "orders", "spend", "createdAt"] as const
 export type CustomerSortColumn = (typeof CUSTOMER_SORT_COLUMNS)[number]
 
@@ -36,7 +13,6 @@ export interface CustomerRow {
     city: string | null
     address: string | null
     orders: number
-    /** Excludes cancelled orders. */
     spend: SerializedMoney
     lastOrderAt: string | null
     createdAt: string
@@ -66,7 +42,6 @@ function buildWhere(state: TableState): Prisma.UserWhereInput {
         })
     }
 
-    // "Has ordered" is a real operational split: a customer who has never ordered is a lead.
     if (filters.orders === "with") and.push({ orders: { some: {} } })
     if (filters.orders === "without") and.push({ orders: { none: {} } })
 
@@ -86,13 +61,6 @@ function buildOrderBy(state: TableState): Prisma.UserOrderByWithRelationInput[] 
             return [{ createdAt: state.dir }]
         case "spend":
         default:
-            /*
-             * Spend cannot be ordered by in SQL here — it is a filtered sum over a relation,
-             * which Prisma has no `orderBy` for. Falling back to newest-first is honest;
-             * ordering the page by a value computed after paging would sort fifty rows and
-             * present it as an answer about every customer, which is exactly the defect the
-             * old Products "Sold" tab shipped.
-             */
             return [{ createdAt: "desc" }]
     }
 }
@@ -121,12 +89,6 @@ export async function listCustomers(state: TableState): Promise<CustomerListResu
         },
     })
 
-    /*
-     * Spend and last-order date come from ONE aggregate over the page's user ids, not from
-     * including every customer's order history in the row query. Fifty customers with forty
-     * orders each is two thousand rows fetched to produce fifty sums, and every one of them
-     * carried a Decimal that then had to cross into the client.
-     */
     const ids = users.map((user) => user.id)
     const aggregates = ids.length
         ? await prisma.order.groupBy({
@@ -143,8 +105,6 @@ export async function listCustomers(state: TableState): Promise<CustomerListResu
         const aggregate = byUser.get(user.id)
         return {
             id: user.id,
-            // The account's own name first: the shipping name is whoever the parcel is
-            // addressed to, which is often somebody else in the same household.
             name: user.name || user.shippingAddress?.fullName || user.email.split("@")[0]!,
             email: user.email,
             phone: user.phoneNumber ?? user.shippingAddress?.phone ?? null,

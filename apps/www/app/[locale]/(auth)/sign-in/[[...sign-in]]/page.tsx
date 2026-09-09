@@ -7,19 +7,6 @@ import { Container } from "@/components/layout/section"
 import { ThemedSignIn } from "@/components/theme-sign-in"
 import { Link } from "@/i18n/navigation"
 
-/**
- * Sign in.
- *
- * A SERVER COMPONENT. The GSAP timeline it replaces set the photograph, the form and the back
- * link to `opacity: 0` on mount — so on a slow connection the sign-in page had no sign-in form
- * on it — and it ran regardless of `prefers-reduced-motion`, because GSAP writes inline styles
- * a media query cannot reach.
- *
- * THE COPY WAS HARDCODED ENGLISH. "Back to Home", "Welcome back", "Sign in to continue shopping
- * and managing your orders" and "Loading..." were literals on a page served at `/ar` as well,
- * so an Arabic customer signing in read four English sentences. They come from the message
- * catalogue now, like the rest of the storefront.
- */
 export default async function SignInPage() {
     const t = await getTranslations("auth")
 
@@ -30,8 +17,6 @@ export default async function SignInPage() {
                     href="/"
                     className="mb-8 inline-flex items-center gap-2 text-sm font-light tracking-wide transition-colors duration-(--duration-fast) hover:text-primary"
                 >
-                    {/* Back navigation keeps a back arrow — a different meaning from the
-                        catalogue's forward arrow, and one of the documented exceptions. */}
                     <ArrowLeft aria-hidden className="size-4 rtl:rotate-180" />
                     {t("backHome")}
                 </Link>

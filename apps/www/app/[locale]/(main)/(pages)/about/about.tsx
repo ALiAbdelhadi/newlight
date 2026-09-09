@@ -23,19 +23,6 @@ interface CategoryData {
 
 const FEATURE_ICONS: LucideIcon[] = [Lightbulb, Award, Truck, Shield, CircleCheck, Zap]
 
-/**
- * About.
- *
- * This page had a type scale of its own: the display face in `font-light` at 72px for the
- * title, 60px for every section heading and 36px for each feature's `h3` — four sizes, none of
- * them used by any other page, all of them larger than the homepage's. Its bands alternated
- * `bg-card` with the page ground, which on the light theme is the same colour, so the rhythm
- * it was going for did not render.
- *
- * It is a content page, so it leads with `PageHeader` like the others; its sections are
- * `Section`/`SectionHeader`; its feature grid is the homepage's feature grid; and its closing
- * band is the same sunk display-face CTA the homepage and the catalogue end on.
- */
 export function AboutUsClient() {
     const t = useTranslations("about-us-page")
 
@@ -81,8 +68,6 @@ export function AboutUsClient() {
                                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                                         className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-[1.03]"
                                     />
-                                    {/* The scrim and caption sit over a photograph, so they stay
-                                        light-on-dark in both themes rather than following the theme. */}
                                     <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
                                     <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-background">
                                         <span className="min-w-0">

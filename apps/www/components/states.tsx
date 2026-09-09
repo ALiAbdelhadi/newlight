@@ -3,25 +3,6 @@ import { AlertCircle, Info, PackageOpen, SearchX } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 
-/**
- * The storefront's state system.
- *
- * The admin has had one since P4.5 (`apps/admin/components/states`); the storefront had none,
- * and it showed. Its empty states were sentences typed inline at the point of failure —
- * "No orders found", "No products", a bare `<p>` centred in a grid — and its error path was
- * whatever Next renders when a page throws.
- *
- * The distinction that matters most, and the one the admin's version exists to protect, is
- * EMPTY versus NO RESULTS. "You have not ordered anything yet" and "no orders match this
- * filter" call for opposite actions — go and shop, or clear the filter — and a surface that
- * shows the first when it means the second sends a returning customer to the catalogue to buy
- * something they already bought. `variant` therefore has no default; the caller must say which
- * one it means.
- *
- * The storefront's version is bigger and warmer than the panel's: this is somebody who has hit
- * a dead end while trying to spend money, not an operator reading a filtered table.
- */
-
 interface ShellProps {
     icon: LucideIcon
     title: string
@@ -60,15 +41,9 @@ function StateShell({ icon: Icon, title, description, action, tone = "neutral", 
 }
 
 export interface EmptyStateProps {
-    /**
-     * `no-data`    — this collection is genuinely empty for this person.
-     * `no-results` — there is data, but the current filter or search excludes all of it.
-     * No default: choosing between them is the caller's job.
-     */
     variant: "no-data" | "no-results"
     title: string
     description?: React.ReactNode
-    /** The next step, and there should almost always be one. */
     action?: React.ReactNode
     className?: string
 }
@@ -85,14 +60,6 @@ export function EmptyState({ variant, title, description, action, className }: E
     )
 }
 
-/**
- * Something failed.
- *
- * It says what the customer can do and nothing about why it broke. §31: no stack traces, no
- * table names, no internal ids. The diagnostics go to the logger, where a developer can read
- * them; a `reference` is accepted so a support conversation has something to quote, because a
- * digest is the one internal string that is useful to a customer.
- */
 export function ErrorState({
     title,
     description,
@@ -127,14 +94,6 @@ export function ErrorState({
     )
 }
 
-/**
- * A persistent condition stated in place — an order that can no longer be cancelled, a product
- * that is out of stock, a delivery estimate that has moved.
- *
- * A toast cannot do this job: it is gone in four seconds and it is gone on reload, and a
- * customer who refreshes the page must still be told. Same reasoning as the panel's
- * `InlineAlert`, same four tones, same tokens.
- */
 export function Notice({
     tone = "info",
     title,
@@ -159,9 +118,6 @@ export function Notice({
 
     return (
         <div
-            /* `alert` interrupts a screen reader. Interrupting somebody to tell them a thing
-               succeeded is worse manners than saying nothing, so only the two tones that mean
-               something is wrong take it. */
             role={tone === "danger" || tone === "warning" ? "alert" : "status"}
             className={cn("flex gap-3 rounded-lg border p-4", TONE.surface, className)}
         >

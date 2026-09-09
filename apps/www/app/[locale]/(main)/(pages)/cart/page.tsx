@@ -17,26 +17,6 @@ import { CartService } from "@/lib/services/cart-service"
 import { cartTotals, formatCartItem } from "@/lib/services/cart-view"
 import { cheapestShippingRate, shippingRates } from "@/lib/services/shipping-service"
 
-/**
- * The cart, as a page.
- *
- * `actions/cart.ts` has called `revalidatePath("/cart")` after every mutation since it was
- * written, for a route that did not exist. The only cart the storefront had was the drawer in
- * the header: fine for glancing at three lines, wrong for comparing six, and impossible to
- * link to, share, or come back to after signing in.
- *
- * A SERVER COMPONENT reading the cart straight from `CartService` — no client fetch on mount,
- * no spinner, no "Loading cart…" flash — through the same `formatCartItem` the drawer's API
- * uses, so the two never disagree about a price. Quantity changes and removals go through the
- * existing server actions, which revalidate this path and hand the page back fresh.
- *
- * WHAT IT DOES NOT HAVE, deliberately: a "Checkout" button. An order in this system is created
- * from ONE product's configuration (`createOrderFromConfiguration`); there is no order-from-
- * cart path in the backend, and a button that gathered six lines into a form that could only
- * submit one would be the fake feature the capability rule forbids. Each line keeps the
- * drawer's "Order now", which is the path that exists. Cart-wide checkout stays DEFERRED until
- * the order model supports it.
- */
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -47,7 +27,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function CartPage() {
     const userId = await currentUserId()
-    // The proxy redirects a request with no session cookie, but a stale cookie reaches here.
     if (!userId) redirect("/sign-in")
 
     const locale = resolveLocale(await getLocale())
@@ -72,8 +51,6 @@ export default async function CartPage() {
 
             <Container className="py-10 lg:py-14">
                 {items.length === 0 ? (
-                    /* `no-data`: nothing is filtered, the cart is genuinely empty, and the
-                       next action is the catalogue. */
                     <EmptyState
                         variant="no-data"
                         title={t("emptyTitle")}
@@ -92,8 +69,6 @@ export default async function CartPage() {
                     <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_20rem] lg:items-start xl:grid-cols-[1fr_22rem]">
                         <CartList items={items} />
 
-                        {/* Sticky under the header on wide screens; a plain block after the
-                            list on narrow ones, where a sticky panel would eat the viewport. */}
                         <aside
                             aria-labelledby="cart-summary"
                             className="rounded-lg border bg-card p-6 lg:sticky lg:top-[calc(var(--header-height)+var(--announcement-height)+1.5rem)]"
@@ -114,12 +89,6 @@ export default async function CartPage() {
                                 )}
                                 <div className="flex items-center justify-between gap-4">
                                     <dt className="text-muted-foreground">{t("shipping")}</dt>
-                                    {/*
-                                     * A FLOOR, not a guess. The option is chosen at checkout, so
-                                     * the cart cannot name the price — but "calculated at
-                                     * checkout" tells a customer to find out by starting an
-                                     * order. The cheapest stored rate is true whatever they pick.
-                                     */}
                                     <dd className="text-end tabular-nums text-muted-foreground">
                                         {t("shippingFrom", { amount: formatMoney(cheapestShippingRate(rates), locale) })}
                                     </dd>
@@ -137,8 +106,6 @@ export default async function CartPage() {
                                 </div>
                             </dl>
 
-                            {/* The "from" above is a Cairo/Giza price. Saying so here keeps the
-                                condition with the number rather than on a policy page. */}
                             <p className="mt-4 text-xs text-pretty text-muted-foreground">{ts("cartNote")}</p>
 
                             <p className="mt-5 text-sm text-pretty text-muted-foreground">{t("howToOrder")}</p>

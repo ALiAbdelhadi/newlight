@@ -11,23 +11,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import type { StatusKind, StatusValue } from "@/lib/status"
 
-/**
- * THE record layout (P4.5 §12).
- *
- * Header, tabs, right rail. One shape for Product, Order, Customer and Settings, so an
- * operator who has learned where the status sits on one screen has learned it on all of them.
- *
- * THE RAIL IS NOT OPTIONAL. §1.4 asks six questions the operator must always be able to
- * answer, and three of them — who changed it, when, and can it be undone — have no home
- * anywhere except an audit trail. `AdminAuditLog` already records every change and
- * `@@index([entity, entityId, createdAt])` exists for exactly this read, so the trail was
- * already being written and simply had nowhere to be seen. Deferring the rail would mean
- * shipping a record screen that cannot answer half of §1.4.
- *
- * The active tab lives in the URL, so a link to a product's Inventory panel is a link to
- * that panel and the back button steps between tabs rather than leaving the record.
- */
-
 export interface RecordIdentifier {
     label: string
     value: string
@@ -37,7 +20,6 @@ export interface RecordIdentifier {
 export interface RecordTab {
     id: string
     label: string
-    /** A count or a warning marker. Absent means no badge. */
     badge?: React.ReactNode
     content: React.ReactNode
 }
@@ -52,11 +34,9 @@ export interface AuditEntry {
 
 interface RecordLayoutProps {
     title: string
-    /** Rendered under the title — the sub-category path, the customer's email. */
     subtitle?: string
     identifiers?: RecordIdentifier[]
     status?: { kind: StatusKind; value: string }
-    /** Secondary marks: Hidden, Featured, Archived. */
     marks?: React.ReactNode
     actions?: React.ReactNode
     tabs: RecordTab[]
@@ -65,11 +45,9 @@ interface RecordLayoutProps {
         createdAt: string
         updatedAt: string
         audit: AuditEntry[]
-        /** Where the full, filterable log lives for this entity. */
         auditHref?: string
         extra?: React.ReactNode
     }
-    /** Set when the record changed underneath the operator (§19). */
     stale?: boolean
     onReload?: () => void
 }
@@ -143,7 +121,6 @@ export function RecordLayout({
                             <TabsTrigger
                                 key={tab.id}
                                 value={tab.id}
-                                // The underline vocabulary is shared with page-level tabs.
                                 className={pageTabsTriggerClass}
                             >
                                 {tab.label}
@@ -204,11 +181,6 @@ function RecordRail({
                 </div>
 
                 {audit.length === 0 ? (
-                    /*
-                     * "No changes recorded" and not an empty box: for a product migrated in
-                     * bulk this is the truth, and an empty area reads like something failed
-                     * to load.
-                     */
                     <p className="mt-2 text-2xs text-muted-foreground">
                         No changes recorded since this record was created.
                     </p>
@@ -244,14 +216,6 @@ function RailRow({ label, value }: { label: string; value: React.ReactNode }) {
     )
 }
 
-/**
- * Relative time, with the exact timestamp on hover.
- *
- * "3 days ago" is what someone scanning a trail actually wants; the absolute time is what
- * they want once something looks wrong. `suppressHydrationWarning` because the server and
- * the client compute "ago" at different instants, and that difference is not a bug worth a
- * console error on every record page.
- */
 function Timestamp({ value, className }: { value: string; className?: string }) {
     const date = new Date(value)
     return (

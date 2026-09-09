@@ -3,20 +3,6 @@
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 
-/**
- * Rendering a diff whose shape changes per action.
- *
- * `diff` is arbitrary JSON — every service writes whatever describes its own change. Rather
- * than a switch over twenty-odd action names that would go stale the first time someone adds
- * one, this recognises three SHAPES that recur and falls back to showing the JSON:
- *
- *   { from, to }            a single value moved            150.00 → 175.50
- *   { field: [from, to] }   several values moved            labelEn: "IP Rating" → "Ingress"
- *   { changes: [...] }      a bulk edit, one entry per row  collapsed behind a count
- *
- * The fallback is deliberately the raw JSON and not a friendly summary. A summary that guesses
- * wrong about an unfamiliar shape is worse than the data, because the data is the point.
- */
 export function AuditDiff({ diff }: { diff: unknown }) {
     const [open, setOpen] = useState(false)
 
@@ -25,7 +11,6 @@ export function AuditDiff({ diff }: { diff: unknown }) {
 
     const record = diff as Record<string, unknown>
 
-    // A bulk change: show the count, and the rows on demand.
     if (Array.isArray(record.changes)) {
         const changes = record.changes as Array<Record<string, unknown>>
         return (
@@ -62,7 +47,6 @@ export function AuditDiff({ diff }: { diff: unknown }) {
     const rows: Array<{ label: string; from?: string; to?: string; value?: string }> = []
 
     for (const [key, value] of Object.entries(record)) {
-        // { field: [from, to] }
         if (Array.isArray(value) && value.length === 2 && value.every((v) => typeof v !== "object")) {
             rows.push({ label: key, from: String(value[0]), to: String(value[1]) })
             continue
@@ -79,7 +63,6 @@ export function AuditDiff({ diff }: { diff: unknown }) {
         })
     }
 
-    // { from, to } at the top level.
     if ("from" in record || "to" in record) {
         rows.unshift({ label: "value", from: String(record.from ?? "—"), to: String(record.to ?? "—") })
     }

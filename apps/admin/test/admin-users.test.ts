@@ -1,13 +1,6 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vitest"
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 
-/**
- * Administrators.
- *
- * The features here are ordinary; the guards are not. Both of them exist to stop this panel
- * from becoming unreachable, and neither can be tested by using the panel — you would have to
- * lock yourself out to find out.
- */
 let db: TestDatabase
 
 const holder = vi.hoisted(() => ({ client: null as unknown }))
@@ -28,7 +21,6 @@ beforeEach(async () => {
     await db.prisma.account.deleteMany()
     await db.prisma.user.deleteMany()
 
-    // The signed-in actor, matching test/setup.ts.
     await db.prisma.user.create({
         data: { id: "test-admin", email: "admin@newlight.invalid", name: "Test Admin", role: "SUPER_ADMIN", emailVerified: true },
     })
@@ -48,7 +40,6 @@ describe("creating an administrator", () => {
         })
 
         expect(result.password).toHaveLength(24)
-        // Lower-cased, so the same person cannot end up with two accounts.
         expect(result.email).toBe("new.admin@example.com")
 
         const account = await db.prisma.account.findFirstOrThrow({ where: { userId: result.id } })
@@ -92,19 +83,14 @@ describe("the two guards that stop the panel becoming unreachable", () => {
             data: { email: "second@example.com", name: "Second", role: "SUPER_ADMIN", emailVerified: true },
         })
 
-        // Two exist, so demoting one is allowed.
         await AdminUserService.setRole(other.id, "ADMIN")
         expect((await db.prisma.user.findUniqueOrThrow({ where: { id: other.id } })).role).toBe("ADMIN")
 
-        // Now only the actor is left — and the actor cannot demote themselves either, so the
-        // panel keeps at least one way in no matter which order the clicks happen.
         await expect(AdminUserService.setRole("test-admin", "ADMIN")).rejects.toThrow(/your own role/)
     })
 
     it("refuses when the target is the only SUPER_ADMIN and the actor is not one of them", async () => {
         const AdminUserService = await service()
-        // Make the actor an ADMIN in the database while the mocked session still says SUPER_ADMIN;
-        // the only remaining SUPER_ADMIN is then someone else, and demoting them is refused.
         await db.prisma.user.update({ where: { id: "test-admin" }, data: { role: "ADMIN" } })
         const only = await db.prisma.user.create({
             data: { email: "only@example.com", name: "Only", role: "SUPER_ADMIN", emailVerified: true },
@@ -147,7 +133,6 @@ describe("removing access", () => {
 
         const result = await AdminUserService.setRole(rising.id, "SUPER_ADMIN")
         expect(result.demoted).toBe(false)
-        // Being given MORE access should not sign you out of the thing you were already doing.
         expect(await db.prisma.session.count({ where: { userId: rising.id } })).toBe(1)
     })
 

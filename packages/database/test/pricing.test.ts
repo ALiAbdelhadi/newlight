@@ -11,14 +11,6 @@ import {
 import { createTestDatabase, type TestDatabase } from "./harness"
 import { seedFixture, type Fixture } from "./fixtures"
 
-/**
- * The discount resolver (migration 0015, §13.2).
- *
- * These are the rules the storefront, the cart and the order all depend on being the same
- * rules. The pure ones are tested without a database because they are pure; the window and the
- * category expansion need one, because "which discounts are live" is a question about rows.
- */
-
 const BASE: Omit<ActiveDiscount, "id" | "scopeType"> = {
     name: "test",
     kind: "PERCENT",
@@ -39,7 +31,6 @@ function discount(over: Partial<ActiveDiscount> & Pick<ActiveDiscount, "scopeTyp
 describe("applying one discount to one price", () => {
     it("takes a percentage off, rounded once", () => {
         expect(applyDiscount("1000.00", { kind: "PERCENT", value: "15" }).toFixed(2)).toBe("850.00")
-        // 199.50 − 15% = 169.575, which is 169.58 half-up and not 169.57.
         expect(applyDiscount("199.50", { kind: "PERCENT", value: "15" }).toFixed(2)).toBe("169.58")
     })
 
@@ -48,8 +39,6 @@ describe("applying one discount to one price", () => {
     })
 
     it("never produces a price of zero or less", () => {
-        // The floor, not a negative price and not a free product: an amount larger than the
-        // price is a mistake the admin refuses to create, and the resolver refuses to charge.
         expect(applyDiscount("40.00", { kind: "AMOUNT", value: "500" }).toFixed(2)).toBe(MIN_EFFECTIVE_PRICE)
     })
 })
@@ -62,7 +51,6 @@ describe("scope matching", () => {
     it("a family discount covers only its own family", () => {
         expect(discountApplies(discount({ scopeType: "FAMILY", familyId: "f1" }), PRODUCT)).toBe(true)
         expect(discountApplies(discount({ scopeType: "FAMILY", familyId: "other" }), PRODUCT)).toBe(false)
-        // A product with no family is not covered by any family discount.
         expect(
             discountApplies(discount({ scopeType: "FAMILY", familyId: "f1" }), { ...PRODUCT, familyId: null })
         ).toBe(false)
@@ -91,7 +79,6 @@ describe("resolving a price against the whole live set", () => {
             discount({ id: "a", scopeType: "ALL", value: "20.00" }),
             discount({ id: "b", scopeType: "FAMILY", familyId: "f1", value: "30.00" }),
         ])
-        // 30% off, not 20% and then 30% off the remainder (which would be 44%).
         expect(resolved.effective).toBe("700.00")
         expect(resolved.discount?.id).toBe("b")
         expect(resolved.percentOff).toBe(30)
@@ -114,8 +101,6 @@ describe("resolving a price against the whole live set", () => {
     })
 
     it("ignores a discount that saves nothing", () => {
-        // An AMOUNT of 0.004 rounds away entirely; a price that did not move is not a sale, and
-        // rendering a struck-through price identical to the price is worse than rendering none.
         const resolved = resolveEffectivePrice("1000.00", PRODUCT, [
             discount({ scopeType: "ALL", kind: "AMOUNT", value: "0.001" }),
         ])
@@ -179,8 +164,6 @@ describe("the window, against a real database", () => {
         const live = await loadActiveDiscounts(db.prisma, AT)
         const ids = live.map((row) => row.id)
 
-        // The instant a discount starts it applies; the instant it ends it does not. Both at
-        // once is what would let two discounts overlap for one tick.
         expect(ids).toContain(starting.id)
         expect(ids).not.toContain(ending.id)
     })
@@ -273,8 +256,6 @@ describe("the database refuses a discount the resolver could not explain", () =>
                     name: "mismatched",
                     kind: "PERCENT",
                     value: "10",
-                    // Says the whole catalogue, points at one category: the resolver would have
-                    // to guess which the operator meant, and a guess decides what people pay.
                     scopeType: "ALL",
                     categoryId: category.id,
                     ...window,

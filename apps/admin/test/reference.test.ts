@@ -2,13 +2,6 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it, vi } from "vites
 import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, seedStock, type Fixture } from "@repo/database/test-fixtures"
 
-/**
- * Families, colours and locations.
- *
- * Each deletes differently, and the tests are mostly about that difference: a family SCATTERS
- * its products (SET NULL), a colour would VANISH from them (CASCADE), and a location is refused
- * by the database itself (RESTRICT). Only the third protects itself.
- */
 let db: TestDatabase
 let fixture: Fixture
 
@@ -55,7 +48,6 @@ describe("families scatter rather than destroy", () => {
             where: { id: { in: [fixture.products.small, fixture.products.large] } },
             select: { familyId: true },
         })
-        // Still there — SET NULL, not cascade.
         expect(orphans.map((o) => o.familyId)).toEqual([null, null])
 
         const audit = await db.prisma.adminAuditLog.findFirstOrThrow({ where: { action: "family.archive" } })
@@ -104,7 +96,6 @@ describe("a colour cannot be deleted out from under the products wearing it", ()
 
         await expect(ColorService.remove(black.id)).rejects.toThrow(/Deactivate it instead/)
         expect(await db.prisma.productColor.count({ where: { id: black.id } })).toBe(1)
-        // And nothing was taken from the products that offer it.
         expect(await db.prisma.productAvailableColor.count({ where: { colorId: black.id } })).toBe(3)
     })
 
@@ -161,7 +152,6 @@ describe("a location cannot be deleted once stock has moved through it", () => {
         const second = await LocationService.create("Overflow shelf")
         await LocationService.setDefault(second.id)
 
-        // location_main now has movements and is no longer the default.
         await expect(LocationService.remove("location_main")).rejects.toThrow(/stock movement/)
     })
 

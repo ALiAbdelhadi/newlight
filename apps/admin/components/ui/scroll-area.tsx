@@ -16,17 +16,7 @@ function ScrollArea({
       className={cn("relative", className)}
       {...props}
     >
-      {/*
-        Radix renders this viewport with `overflow-x:hidden;overflow-y:hidden` on the server and
-        replaces it with `overflow: hidden scroll` once it has measured the content in the
-        browser. The style attribute therefore always differs, and since the sidebar uses a
-        ScrollArea, EVERY page in the admin panel threw "Hydration failed because the server
-        rendered HTML didn't match the client".
 
-        The difference is correct — the client knows something the server cannot — so it is
-        suppressed here rather than worked around. Suppression is one level deep, which is
-        exactly the scope of the problem: this element's own attributes.
-      */}
       <ScrollAreaPrimitive.Viewport
         data-slot="scroll-area-viewport"
         suppressHydrationWarning

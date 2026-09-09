@@ -2,31 +2,6 @@ import { prisma, LOCALES, type Locale } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Translation editing — BUILD §13.2 item 7.
- *
- * The contract has four parts, and the third is the one that shapes this file:
- *
- *   PAIRED. Both locales are loaded and returned together, always, so the editor can put them
- *   side by side. Editing one language while the other is off-screen is how the two drift.
- *
- *   COMPLETE OR NOT — per entity, visibly. `completeness()` counts filled fields, and counts a
- *   PLACEHOLDER as unfilled (see below).
- *
- *   NO SILENT FALLBACK. Nothing in here substitutes English when Arabic is missing. A missing
- *   Arabic name comes back as `null` and the UI must show it as missing. A fallback is a
- *   translation that looks finished and never gets finished.
- *
- *   ARABIC IS RTL. That is the editor's job (`dir="rtl"` on the ar column), but this service
- *   marks which locale it applies to so the UI doesn't hard-code a language check.
- */
-
-/**
- * A26. Every one of the 378 production `ProductTranslation.name` values is the SKU — the
- * catalog has no human-readable names in EITHER language. A row whose name is its own SKU is
- * a placeholder, not a translation, and counting it as filled would report a catalog that is
- * 100% translated and 0% usable.
- */
 function isPlaceholderName(name: string | null | undefined, sku: string): boolean {
     if (!name) return true
     const n = name.trim()
@@ -49,7 +24,6 @@ export interface TranslationPair {
     entity: "product" | "category" | "subCategory"
     entityId: string
     reference: string
-    /** Keyed by locale; a locale with no row at all is present with every field null. */
     locales: Record<Locale, TranslationFields & { exists: boolean; dir: "ltr" | "rtl" }>
     completeness: Record<Locale, { filled: number; total: number; missing: string[] }>
 }
@@ -111,11 +85,6 @@ export class TranslationService {
         return pair("product", product.id, product.productId, product.translations, product.productId)
     }
 
-    /**
-     * Taxonomy has NO base slug — the slug is per-locale and lives on the translation row
-     * (§10). So the human reference for a category is its English slug, and a category with no
-     * English row has nothing but its id to be called by; that is itself the finding.
-     */
     static async forSubCategory(subCategoryId: string): Promise<TranslationPair> {
         await requireCurrentAdmin()
         const row = await prisma.subCategory.findUniqueOrThrow({
@@ -136,13 +105,6 @@ export class TranslationService {
         return pair("category", row.id, reference, row.translations, null)
     }
 
-    /**
-     * Save BOTH locales in one transaction.
-     *
-     * Deliberately not "save the Arabic tab" — a half-save is exactly the drift the paired
-     * editor exists to prevent, and a failure part-way through would leave one language ahead
-     * of the other with no record of which.
-     */
     static async saveProduct(productId: string, input: Record<Locale, TranslationFields>) {
         const admin = await requireCurrentAdmin()
 
@@ -189,20 +151,12 @@ export class TranslationService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /**
-     * The missing-translations queue (§13.2 item 7).
-     *
-     * Ordered worst-first so the queue is a work list rather than a catalog dump: an entity
-     * with no Arabic row at all outranks one that merely lacks a meta description.
-     */
     static async queue(limit = 100) {
         await requireCurrentAdmin()
 
         const products = await prisma.product.findMany({
             where: { deletedAt: null },
             select: { id: true, productId: true, translations: true },
-            // The sort below has a full tiebreak, but the SLICE at the end does not — an
-            // unordered query makes "the first 100" a different hundred each time.
             orderBy: { productId: "asc" },
         })
 
@@ -224,7 +178,6 @@ export class TranslationService {
         return { total: rows.length, rows: rows.slice(0, limit) }
     }
 
-    /** Headline numbers for the dashboard: how much of the catalog is actually translated. */
     static async coverage() {
         await requireCurrentAdmin()
         const products = await prisma.product.findMany({

@@ -11,21 +11,12 @@ interface ProductsProps {
     products: UIProduct[]
 }
 
-/**
- * A view model, built on the SERVER.
- *
- * Money is a string by the time it gets here (§4, ADR 0001), because the server made it one —
- * this component used to take raw Prisma rows and serialise them on the wrong side of the
- * boundary, which React rejected 231 times per page load.
- */
 export interface UIProduct {
     id: string
     image: string
     title: string
     category: string
-    /** What the customer pays — discounted where a discount is live (§13.2). */
     price: SerializedMoney
-    /** The undiscounted price. Equal to `price` when nothing is on offer. */
     basePrice: SerializedMoney
     discountPercent: number
     slug: string
@@ -35,19 +26,6 @@ export interface UIProduct {
     subCategorySlug: string
 }
 
-/**
- * The featured strip on the homepage.
- *
- * A server component now — nothing here needed the client. It was the one section on the
- * homepage that did not use `Section`/`SectionHeader`: it wrapped itself in `min-h-screen`
- * (a full viewport of height whether it had eight products or none), set its own 60px
- * `font-light` heading, its own `mb-16` and its own `gap-12`, and so sat visibly apart from the
- * offers band above it and the collection below. It also had no way to the catalogue: eight
- * products and no "see everything".
- *
- * The grid is the PLP's grid, gap for gap, so a card is the same size here as on the page the
- * "Browse" link leads to.
- */
 export async function Products({ products }: ProductsProps) {
     const t = await getTranslations("products-section")
 

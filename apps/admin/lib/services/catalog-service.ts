@@ -10,24 +10,6 @@ import {
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Catalog lifecycle — BUILD §13.2 items 4, 5 and 6.
- *
- * Three rules, each of which is a guarantee rather than a habit:
- *
- *   SOFT DELETE IS THE DEFAULT. `deletedAt` is set; the row stays. A product with orders
- *   behind it is a product an invoice still refers to, and deleting it would make that
- *   invoice unreadable. Hard delete exists but refuses while ANY reference remains.
- *
- *   MONEY SNAPSHOTS ARE IMMUTABLE (item 4). `OrderItem.price` and
- *   `ProductConfiguration.configPrice` are copies taken at the time of sale, and nothing here
- *   touches them. Repricing a product NEVER rewrites what a customer was charged — see
- *   `assertSnapshotsIntact`, which is the assertion, not the intention.
- *
- *   EVERY MUTATION REVALIDATES THE STOREFRONT (item 5), because it is a separate deployment
- *   and cannot see this one.
- */
-
 export interface DeletionBlockers {
     orderItems: number
     cartItems: number
@@ -42,7 +24,6 @@ export class CatalogError extends Error {
 }
 
 export class CatalogService {
-    /** What is standing between this product and a hard delete. */
     static async deletionBlockers(productId: string): Promise<DeletionBlockers> {
         await requireCurrentAdmin()
         const [orderItems, cartItems, configurations] = await Promise.all([
@@ -53,10 +34,6 @@ export class CatalogService {
         return { orderItems, cartItems, configurations }
     }
 
-    /**
-     * The normal way to remove a product. Reversible, and it keeps every order that mentions
-     * it readable.
-     */
     static async softDelete(productId: string) {
         const admin = await requireCurrentAdmin()
 
@@ -109,13 +86,6 @@ export class CatalogService {
         return product
     }
 
-    /**
-     * Hard delete, and only when nothing refers to the product (§13.2 item 6).
-     *
-     * The refusal is not politeness. `OrderItem.productId` is `ON DELETE RESTRICT` and
-     * `StockMovement.productId` likewise, so the database would refuse anyway — this refuses
-     * FIRST, with a list of what is in the way, instead of surfacing a foreign-key error.
-     */
     static async hardDelete(productId: string) {
         const admin = await requireCurrentAdmin()
         const blockers = await this.deletionBlockers(productId)
@@ -151,7 +121,6 @@ export class CatalogService {
                     action: "product.hard_delete",
                     entity: "Product",
                     entityId: productId,
-                    // Irreversible, so the audit row carries what it was.
                     diff: { sku: target.productId, slug: target.slug, irreversible: true },
                 },
             })
@@ -162,12 +131,6 @@ export class CatalogService {
         return product
     }
 
-    /**
-     * Rename a product's slug, keeping the old URL alive (§10).
-     *
-     * The history row is written in the SAME transaction as the rename, which is what stops a
-     * rename from breaking every inbound link the moment it succeeds.
-     */
     static async rename(productId: string, nextSlug: string) {
         const admin = await requireCurrentAdmin()
         const slug = requireSlug(nextSlug, `product ${productId}`)
@@ -199,13 +162,6 @@ export class CatalogService {
         return result
     }
 
-    /**
-     * §13.2 item 4, as an assertion.
-     *
-     * Every OrderItem holds the price the customer was charged. This proves no order's line
-     * total has drifted from what its order recorded — which is the observable consequence of
-     * a repricing ever having rewritten a snapshot.
-     */
     static async assertSnapshotsIntact(): Promise<Array<{ orderNumber: string; recorded: string; fromItems: string }>> {
         await requireCurrentAdmin()
         return prisma.$queryRaw<Array<{ orderNumber: string; recorded: string; fromItems: string }>>`
@@ -218,24 +174,9 @@ export class CatalogService {
             HAVING o.subtotal <> SUM(i.price * i.quantity)`
     }
 
-    /**
-     * §13.2 item 8 / N5: the data-quality queue.
-     *
-     * Reported, never repaired. A migration that quietly improves data is a migration whose
-     * output cannot be verified against its input, and the same holds for an admin panel.
-     */
     static async dataQualityQueue(locale: Locale = "en") {
         await requireCurrentAdmin()
 
-        // Every one of these is ORDERED, and not for tidiness.
-        //
-        // PostgreSQL returns unordered rows in whatever order it likes, and it need not be the
-        // same order twice. The page prints the first three of each list, so two renders of
-        // the same request could disagree — which is what "Hydration failed because the server
-        // rendered HTML didn't match the client" was, on this page, for real data.
-        //
-        // A query whose result is rendered needs a total order. `productId` is unique, so this
-        // is one.
         const [missingTranslations, placeholderSpecs, booleanSpecs, noImages, noColors] = await Promise.all([
             prisma.product.findMany({
                 where: { deletedAt: null, translations: { none: { locale } } },
@@ -260,11 +201,6 @@ export class CatalogService {
             }),
         ])
 
-        // The taxonomy's own Arabic names. Four carry a trailing space, and seven contain Latin
-        // script — some legitimately (COB, LED, and the 2×120 Cm size are written in Latin on
-        // Arabic datasheets, like IP ratings), others not (Linear, Cylinder, Downlight, Wall
-        // Washer are ordinary English words sitting in an Arabic name). Which is which is a
-        // naming decision, so both are reported and neither is repaired.
         const arabicTaxonomy = await prisma.subCategoryTranslation.findMany({
             where: { locale: "ar" },
             select: { subCategoryId: true, name: true, slug: true },
@@ -284,17 +220,14 @@ export class CatalogService {
             missingTranslations,
             taxonomyDefects,
             placeholderSpecs,
-            // N4: the `false` booleans on nl-strip-2835-19w / -24w.
             booleanSpecs,
             noImages,
-            // N2-adjacent: 16 production products carry no colour at all.
             noColors,
         }
     }
 }
 
 export interface NewProductInput {
-    /** The business SKU. Editable later, unique now. */
     sku: string
     slug: string
     subCategoryId: string
@@ -306,35 +239,9 @@ export interface NewProductInput {
     nameAr: string
     descriptionEn: string | null
     descriptionAr: string | null
-    /** Opening stock. Goes through the ledger like every other movement, or is omitted. */
     openingStock: number | null
 }
 
-/**
- * Creating a product — the thing the admin panel could not do.
- *
- * P5 built the whole editing surface for 189 products and no way to add the 190th, which meant
- * a new fixture still arrived through a migration or by hand in psql. Everything else in this
- * file exists to change a product; this is where one starts.
- *
- * Four decisions worth stating:
- *
- *   BOTH LOCALES ARE REQUIRED. A product created in English only is a product that renders as
- *   a gap on the Arabic storefront, and the translation queue would report it the next day.
- *   Refusing at creation is cheaper than reporting it forever.
- *
- *   OPENING STOCK GOES THROUGH THE LEDGER. `recordMovement`, an `INITIAL` movement, the same
- *   path the migration used — never a direct write to `stock_levels`. A product whose first
- *   stock has no movement behind it is a hole in the audit trail on day one.
- *
- *   IT IS CREATED INACTIVE. It has no photograph yet, and a product with no photograph on a
- *   lighting storefront is worse than a product that is not there. Activating it is a separate,
- *   deliberate click on a page that shows what is still missing.
- *
- *   THE SLUG IS CHECKED, NOT COERCED. `requireSlug` rejects what it cannot make a slug of
- *   rather than silently producing something else — the URL is permanent enough to be worth an
- *   error message.
- */
 export class CatalogCreationError extends Error {
     constructor(message: string) {
         super(message)
@@ -361,8 +268,6 @@ export async function createProduct(input: NewProductInput) {
     }
     if (Number(price) <= 0) throw new CatalogCreationError("A price must be greater than zero.")
 
-    // Checked before the transaction so the message names the conflict rather than surfacing a
-    // unique-constraint violation.
     const [bySku, bySlug] = await Promise.all([
         prisma.product.findUnique({ where: { productId: sku }, select: { id: true, deletedAt: true } }),
         prisma.product.findUnique({ where: { slug }, select: { id: true } }),
@@ -386,7 +291,6 @@ export async function createProduct(input: NewProductInput) {
                 variantValue: input.variantValue?.trim() || null,
                 price,
                 colorTemperatures: input.colorTemperatures as never,
-                // Inactive until it has a photograph — see above.
                 isActive: false,
                 translations: {
                     create: [

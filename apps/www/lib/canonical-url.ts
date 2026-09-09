@@ -24,7 +24,6 @@ export function createProductCanonicalUrl(params: {
     })
 }
 
-
 export function createSubCategoryCanonicalUrl(params: {
     locale: string
     categorySlug: string

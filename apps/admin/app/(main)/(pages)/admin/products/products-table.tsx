@@ -16,14 +16,6 @@ import { deriveStockState } from "@/lib/status"
 import type { ProductListResult, ProductRow } from "@/lib/services/product-list-service"
 import type { TableState } from "@/lib/table-params"
 
-/**
- * Reference screen 1 (P4.5 §23).
- *
- * Not a mockup: real primitives, the branch database, 189 products. It exists to prove the
- * DataTable contract under the conditions that break tables — Arabic names, missing cost,
- * zero stock, 200-row pages — before nineteen other surfaces are built on it.
- */
-
 interface Props extends ProductListResult {
     state: TableState
 }
@@ -48,8 +40,6 @@ export function ProductsTable({ rows, total, openingCountPending, facets, state 
                                 className="size-5 shrink-0 rounded-sm border bg-card object-contain"
                             />
                         ) : (
-                            /* A missing photograph is information on a lighting catalogue —
-                               the product cannot be published — so the slot stays, marked. */
                             <span
                                 title="No photograph"
                                 className="grid size-5 shrink-0 place-items-center rounded-sm border border-dashed text-2xs text-muted-foreground"
@@ -73,19 +63,12 @@ export function ProductsTable({ rows, total, openingCountPending, facets, state 
                             {row.original.nameAr}
                         </CellText>
                     ) : (
-                        /* Not blank, and not the English name. §16: missing Arabic is missing. */
                         <StatusBadge kind="translation" value="en_only" />
                     ),
             },
             {
                 id: "subCategory",
                 header: "Category",
-                /*
-                 * One line, not two. Stacking the sub-category over its parent category
-                 * added 14px to every row for a value that is already a filter above the
-                 * table — and the parent is the same for long runs of rows, so it repeats
-                 * itself down the column while costing four visible rows a screen.
-                 */
                 cell: ({ row }) => (
                     <CellText title={[row.original.category, row.original.subCategory].filter(Boolean).join(" › ")}>
                         {row.original.subCategory ?? "—"}
@@ -260,9 +243,6 @@ export function ProductsTable({ rows, total, openingCountPending, facets, state 
                             <Button asChild variant="outline" className="text-xs">
                                 <Link href="/admin/products/pricing">Bulk pricing</Link>
                             </Button>
-                            {/* Beside repricing, because the question "can I put this on
-                                offer?" is asked from this screen and the answer used to be
-                                "reprice it and remember to reprice it back". */}
                             <Button asChild variant="outline" className="text-xs">
                                 <Link href="/admin/products/discounts">Discounts</Link>
                             </Button>
@@ -289,13 +269,6 @@ export function ProductsTable({ rows, total, openingCountPending, facets, state 
     )
 }
 
-/**
- * CSV of the selected rows. No dependency: a Blob and a string.
- *
- * `xlsx` is already installed and is deliberately not used — the version in the tree is the
- * abandoned npm build carrying two unfixed CVEs. The BOM is not decoration: without it Excel
- * reads the Arabic column as mojibake.
- */
 function exportCsv(rows: ProductRow[]) {
     const headers = ["SKU", "Name (EN)", "Name (AR)", "Category", "Price", "Cost", "On hand", "Reserved", "Active"]
     const escape = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`

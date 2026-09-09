@@ -6,8 +6,6 @@ import { prisma, ProductColorTemp , addMoney } from "@repo/database"
 import { createHash } from "crypto"
 import { revalidatePath } from "next/cache"
 
-
-// No authentication required - anyone can view configuration details
 export async function getConfigurationDetails(configId: string) {
     try {
         const configuration = await prisma.productConfiguration.findUnique({
@@ -24,13 +22,11 @@ export async function getConfigurationDetails(configId: string) {
     }
 }
 
-// No authentication required - anyone can get product details
 export async function getProductWithDetails(productId: string, locale: string) {
     try {
         const product = await prisma.product.findUnique({
             where: { productId },
             include: {
-                // order 0 is the primary image (§5); the column this replaced is gone.
                 images: { orderBy: { order: "asc" as const }, take: 1 },
                 translations: {
                     where: { locale },
@@ -62,7 +58,6 @@ export async function getProductWithDetails(productId: string, locale: string) {
     }
 }
 
-// Authentication required for shipping address
 export async function getUserShippingAddress(userId: string) {
     try {
         const user = await prisma.user.findUnique({
@@ -78,7 +73,6 @@ export async function getUserShippingAddress(userId: string) {
     }
 }
 
-// Authentication required for saving shipping address
 export async function saveShippingAddress(userId: string, data: {
     fullName: string
     phone: string
@@ -121,7 +115,6 @@ export async function saveShippingAddress(userId: string, data: {
     }
 }
 
-// Authentication required for creating orders
 export async function createOrderFromConfiguration(
     configId: string,
     shippingOption: "BasicShipping" | "StandardShipping" | "ExpressShipping" = "StandardShipping"
@@ -138,7 +131,6 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // Get configuration with users relation
         const configuration = await prisma.productConfiguration.findUnique({
             where: { id: configId },
             include: {
@@ -150,13 +142,9 @@ export async function createOrderFromConfiguration(
             return { success: false, error: "Configuration not found" }
         }
 
-        // Get product. `configuration.productId` is a REAL foreign key now (A17) — in v1 it
-        // held a SKU and resolved to zero rows.
         const product = await prisma.product.findUnique({
             where: { id: configuration.productId },
             include: {
-                // §14.4: `take: 1` with no locale returns whichever language PostgreSQL felt
-                // like. English is deliberate here — the admin app has no i18n.
                 translations: { where: { locale: "en" }, take: 1 },
                 images: { orderBy: { order: "asc" as const }, take: 1 },
             },
@@ -166,7 +154,6 @@ export async function createOrderFromConfiguration(
             return { success: false, error: "Product not found" }
         }
 
-        // Get shipping address
         const shippingAddress = await prisma.shippingAddress.findUnique({
             where: { userId }
         })
@@ -179,7 +166,6 @@ export async function createOrderFromConfiguration(
             }
         }
 
-        // Calculate shipping cost based on option
         const shippingCosts = {
             BasicShipping: 50,
             StandardShipping: 100,
@@ -189,16 +175,13 @@ export async function createOrderFromConfiguration(
 
         const subtotal = configuration.totalPrice
 
-        // Generate order number
         const orderNumber = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 9).toUpperCase()}`
 
-        // Convert selectedColorTemp to ProductColorTemp enum if it exists
         let colorTemp: ProductColorTemp | null = null
         if (configuration.selectedColorTemp) {
             colorTemp = configuration.selectedColorTemp as ProductColorTemp
         }
 
-        // Create order
         const order = await prisma.order.create({
             data: {
                 userId,
@@ -208,9 +191,6 @@ export async function createOrderFromConfiguration(
                 total: addMoney(subtotal, shippingCost),
                 status: "awaiting_shipment",
                 shippingOption,
-                // Required and unique on Order. Its absence here meant every
-                // admin-created order failed at runtime; `ignoreBuildErrors`
-                // hid the missing field.
                 idempotencyKey: createHash("sha256")
                     .update(`${userId}-${configId}-admin-v1`)
                     .digest("hex"),
@@ -235,7 +215,6 @@ export async function createOrderFromConfiguration(
             }
         })
 
-        // Associate configuration with user if not already associated
         const hasUsers = configuration.users && configuration.users.length > 0
         
         if (!hasUsers) {
@@ -258,7 +237,6 @@ export async function createOrderFromConfiguration(
     }
 }
 
-// Authentication required for getting order details
 export async function getOrderDetails(
     orderId: string
 ): Promise<OrderWithDetails | null> {

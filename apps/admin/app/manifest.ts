@@ -58,4 +58,3 @@ export default function manifest(): MetadataRoute.Manifest {
         "display": "standalone"
     }
 }
-

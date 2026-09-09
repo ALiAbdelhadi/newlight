@@ -52,17 +52,6 @@ function initial(existing: Existing | null, locale: string): LocaleValues {
     }
 }
 
-/**
- * One form for both levels of the taxonomy, and for creating as well as editing.
- *
- * The two languages are side by side and saved together, for the same reason the product
- * translation editor is: a category that exists in English only renders as a gap on the Arabic
- * storefront, and the service refuses it anyway.
- *
- * The URL field is deliberately not derived from the name as you type. A slug that follows the
- * name looks helpful and quietly rewrites a live URL the moment someone fixes a typo in a
- * heading — every rename here costs a redirect, so it should be a decision.
- */
 export function TaxonomyForm({
     kind,
     existing,
@@ -71,7 +60,6 @@ export function TaxonomyForm({
 }: {
     kind: "category" | "subCategory"
     existing: Existing | null
-    /** Only for a sub-category: which category it hangs from. */
     categories?: Array<{ id: string; name: string }>
     categoryId?: string
 }) {

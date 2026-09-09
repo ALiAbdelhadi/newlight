@@ -10,30 +10,6 @@ import { EmptyState } from "@/components/states"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
 
-/**
- * The Overview (P4.5 §9).
- *
- * A REPLACEMENT, not a restyle. What stood here was a generic analytics dashboard: four cards
- * — Total Revenue, Total Orders, Customers, Average Order Value — over a 30px "Dashboard"
- * heading and the words "Welcome back! Here's what's happening with your store today", above a
- * client-side tab strip filtering an in-memory array.
- *
- * It was wrong in three ways at once, and only one of them was visual:
- *
- *   THE QUERY. `prisma.order.findMany` with every order, every line item, every line's product
- *   and every product's translations, flattened to one row per line, on every load — to compute
- *   four numbers and show ten rows.
- *
- *   THE NUMBERS. Lifetime revenue and average order value do not change between two visits and
- *   cannot be acted on. They are a report, and a report belongs somewhere you go deliberately.
- *
- *   THE TABS. "All / Awaiting / Processing / Fulfilled / Cancelled" filtered the array in the
- *   browser, so they were a second, worse orders list on top of the real one.
- *
- * What replaces them answers the questions §9 actually asks. Needs attention is first because
- * it is the only part that is ever urgent, and it renders NOTHING when nothing is outstanding —
- * which is the most valuable state this screen has.
- */
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 

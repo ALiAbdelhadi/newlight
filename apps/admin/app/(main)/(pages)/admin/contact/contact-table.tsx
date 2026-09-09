@@ -21,18 +21,6 @@ import type { ContactListResult, ContactRow } from "@/lib/services/contact-servi
 import type { TableState } from "@/lib/table-params"
 import { deleteContact, setContactPriority, setContactRead, setContactStatus } from "@/app/action/contact-actions"
 
-/**
- * Contact enquiries, on the list archetype (P4.5 §11).
- *
- * What this replaces was the least system-conformant screen in the panel: a stack of cards
- * with a 48px circular blue avatar per enquiry, a 30px page title under a top bar that already
- * named the surface, `bg-gray-50 dark:bg-gray-900`, `text-blue-600`, a full-screen spinner, and
- * `window.confirm()` in front of a permanent delete. Twelve enquiries filled three screens.
- *
- * A queue is a list. The message — the one thing a card was arguably carrying — is a click
- * away in a Sheet, alongside the actions that resolve the enquiry.
- */
-
 interface Props extends ContactListResult {
     state: TableState
 }
@@ -59,11 +47,6 @@ export function ContactTable({ rows, total, state }: Props) {
             header: "From",
             cell: ({ row }) => (
                 <div className="flex min-w-0 items-center gap-2">
-                    {/*
-                     * Unread is a dot, not a coloured card border. It is the one thing being
-                     * scanned for down this column, and it needs 6px rather than a 4px rule
-                     * along the whole row.
-                     */}
                     <span
                         aria-hidden
                         className={
@@ -167,11 +150,6 @@ export function ContactTable({ rows, total, state }: Props) {
                 state={state}
                 getRowId={(row) => row.id}
                 sortableColumns={["fullName", "status", "priority", "createdAt"]}
-                /*
-                 * Opening an enquiry marks it read — that is what opening it means, and a
-                 * separate "mark as read" button next to a message you are looking at is a
-                 * chore, not a feature. It stays available in the Sheet for putting one back.
-                 */
                 onRowOpen={(row) => {
                     setOpen(row)
                     if (!row.isRead) act(() => setContactRead(row.id, true))
@@ -214,8 +192,6 @@ export function ContactTable({ rows, total, state }: Props) {
 
                             <div className="flex-1 overflow-y-auto p-4">
                                 <div className="flex flex-wrap gap-1.5">
-                                    {/* Contacting the person is the point of the screen, so the
-                                        two ways of doing it are the first controls in it. */}
                                     <Button size="sm" variant="outline" asChild className="h-7 text-xs">
                                         <a href={`mailto:${open.email}`}>
                                             <Mail aria-hidden className="mr-1.5 size-3" />
@@ -322,11 +298,6 @@ export function ContactTable({ rows, total, state }: Props) {
                                     {open.isRead ? "Mark unread" : "Mark read"}
                                 </Button>
 
-                                {/*
-                                 * Spam before delete, and deliberately in that order: marking an
-                                 * enquiry spam is reversible and removes it from the queue, which
-                                 * is what "get rid of this" usually means.
-                                 */}
                                 {open.status !== ContactFormStatus.SPAM && (
                                     <Button
                                         size="sm"

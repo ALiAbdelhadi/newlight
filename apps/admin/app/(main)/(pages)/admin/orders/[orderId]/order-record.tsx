@@ -24,20 +24,6 @@ import StatusDropdown from "@/components/status-dropdown-menu"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
-/**
- * One order, on the record archetype (P4.5 §12).
- *
- * The screen this replaces was five nested `Card`s, one of them with a solid blue masthead
- * carrying a 30px order number, and a progress bar labelled "Ordered · Processing · Fulfilled"
- * — three words of which two name statuses migration 0010 removed from the enum, so the middle
- * label described a state no order could be in and the last one described a state that no
- * longer exists. The real ladder is awaiting shipment → shipped → delivered, with cancelled off
- * to the side, and it is now rendered from the enum rather than from a hand-written switch
- * returning 33 / 66 / 100.
- *
- * Its "View Customer" link pointed at `/admin/dashboard/users/<id>`, which is not a route.
- */
-
 export interface OrderRecordItem {
     id: string
     productId: string
@@ -82,7 +68,6 @@ export interface OrderRecordData {
     items: OrderRecordItem[]
 }
 
-/** The fulfilment ladder, from the enum. `cancelled` is not a step on it — it leaves it. */
 const LADDER: { status: OrderStatus; label: string }[] = [
     { status: OrderStatus.awaiting_shipment, label: "Placed" },
     { status: OrderStatus.shipped, label: "Shipped" },
@@ -420,14 +405,6 @@ export function OrderRecord({ order, audit }: { order: OrderRecordData; audit: A
     )
 }
 
-/**
- * The fulfilment ladder as a list of steps, not a percentage bar.
- *
- * A bar has to answer "how far along, out of what", and for a cancelled order there is no
- * honest number — the old one returned 0, which reads as "not started". Three labelled steps
- * with a reached/not-reached mark say what actually happened, and cancellation is stated rather
- * than encoded as an empty bar.
- */
 function Ladder({ order }: { order: OrderRecordData }) {
     if (order.status === OrderStatus.cancelled) {
         return (

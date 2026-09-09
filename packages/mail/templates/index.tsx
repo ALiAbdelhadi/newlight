@@ -1,18 +1,3 @@
-/**
- * Render one template into a subject, an HTML body and a plain-text body.
- *
- * The subject lives here, not at the call site: a subject is copy, it needs translating, and
- * having it next to the body is what stops an Arabic email arriving with an English subject.
- *
- * Every email gets a real text part. A mail with only an HTML body scores as spam with
- * several filters, and screen readers handle text better than a table-based layout.
- */
-// `import * as React` is deliberate even though tsconfig sets jsx: "react-jsx".
-// This package is consumed by two different transpilers: Next's SWC, which uses the
-// automatic runtime, and plain tsx/node in the cron sweep and in scripts, which emits
-// React.createElement. Under the second, JSX with no React in scope throws
-// "ReferenceError: React is not defined" AT RUNTIME — the type checker cannot see it,
-// and it was found by rendering a template rather than by compiling one.
 import * as React from "react"
 import { render } from "@react-email/render"
 import type { MailLocale, MailTemplate } from "../types"
@@ -45,8 +30,6 @@ export async function renderTemplate<T extends MailTemplate>(
     locale: MailLocale,
     payload: PayloadByTemplate[T]
 ): Promise<RenderedMail> {
-    // The switch is exhaustive over MailTemplate, so adding a template without rendering it
-    // is a compile error rather than a runtime one.
     switch (template) {
         case "email-verification": {
             const p = payload as PayloadByTemplate["email-verification"]

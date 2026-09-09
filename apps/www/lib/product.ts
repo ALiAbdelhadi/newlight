@@ -1,13 +1,5 @@
-/**
- * Product utility functions for formatting and localization
- */
-
-/** A single specification value as stored in ProductTranslation.specifications. */
 export type SpecValue = string | number | boolean | string[] | null
 
-/**
- * Format available color names with Arabic/English translations
- */
 export const formatAvailableColor = (color: string, isArabic: boolean): string => {
     const map: Record<string, string> = {
         BLACK: isArabic ? "أسود" : "Black",
@@ -19,9 +11,6 @@ export const formatAvailableColor = (color: string, isArabic: boolean): string =
     return map[color] || color.replace(/_/g, " ")
 }
 
-/**
- * Format specification labels with proper capitalization
- */
 export const formatLabel = (label: string, isArabic: boolean): string => {
     if (isArabic) {
         return label
@@ -42,9 +31,6 @@ export const formatLabel = (label: string, isArabic: boolean): string => {
         .trim()
 }
 
-/**
- * Format color temperatures with translations
- */
 export const formatColorTemps = (temps: string[], isArabic: boolean): string => {
     const map: Record<string, string> = {
         WARM_3000K: isArabic ? "دافئ 3000K" : "Warm 3000K",
@@ -55,9 +41,6 @@ export const formatColorTemps = (temps: string[], isArabic: boolean): string => 
     return temps.map((temp) => map[temp] || temp.replace(/_/g, " ").toLowerCase()).join(joiner)
 }
 
-/**
- * Create number formatter based on locale
- */
 export const createNumberFormatter = (locale: string) => {
     return new Intl.NumberFormat(locale, {
         maximumFractionDigits: 2,
@@ -65,18 +48,12 @@ export const createNumberFormatter = (locale: string) => {
     })
 }
 
-/**
- * Format number with locale support
- */
 export const formatNumber = (value: number | string, formatter: Intl.NumberFormat): string => {
     const num = typeof value === "number" ? value : Number(value)
     if (Number.isFinite(num)) return formatter.format(num)
     return value.toString()
 }
 
-/**
- * Format specification values with units and translations
- */
 export const formatValue = (
     label: string,
     value: SpecValue,
@@ -85,10 +62,6 @@ export const formatValue = (
 ): string => {
     if (value === null || value === undefined || value === "") return ""
 
-    // Two production SKUs (nl-strip-2835-19w, nl-strip-2835-24w) store `false` for
-    // beam_angle and main_material. That is a source-data defect tracked in the
-    // catalog data-quality queue, not something to repair at render time, so the
-    // value is carried through exactly as before.
     if (typeof value === "boolean") return value.toString()
 
     const isArabic = locale.startsWith("ar")
@@ -151,9 +124,6 @@ export const formatValue = (
     return value.toString()
 }
 
-/**
- * Preferred order for specifications display
- */
 export const PREFERRED_SPEC_ORDER = [
     "input",
     "المدخل",
@@ -202,16 +172,10 @@ export const PREFERRED_SPEC_ORDER = [
     "الالوان المتوفرة",
 ] as const
 
-/**
- * Normalize key for comparison
- */
 export const normalizeKey = (key: string): string => {
     return key.toLowerCase().replace(/\s+/g, "_")
 }
 
-/**
- * Sort specifications by preferred order
- */
 export const sortSpecifications = <T extends { originalLabel: string; label: string }>(
     specs: T[],
     isArabic: boolean
@@ -231,9 +195,6 @@ export const sortSpecifications = <T extends { originalLabel: string; label: str
     })
 }
 
-/**
- * Process product specifications for display
- */
 export const processSpecifications = (
     specifications: Record<string, SpecValue>,
     colorTemperatures: string[],

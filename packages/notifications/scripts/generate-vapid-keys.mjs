@@ -1,16 +1,3 @@
-/**
- * Print a fresh VAPID key pair.
- *
- *   pnpm --filter @repo/notifications vapid
- *
- * The pair identifies THIS deployment to the browser vendors' push services, and the public
- * half is baked into every subscription a browser issues. So rotating it invalidates every
- * existing subscription: every administrator has to enable notifications again, and until they
- * do the sweep gets 403s that it correctly refuses to treat as "the endpoint is gone". Generate
- * once per environment and keep it.
- *
- * The private key is a credential. It goes in the environment, never in the repository.
- */
 import webpush from "web-push"
 
 const { publicKey, privateKey } = webpush.generateVAPIDKeys()

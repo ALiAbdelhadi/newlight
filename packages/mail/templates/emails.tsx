@@ -1,15 +1,3 @@
-/**
- * The six templates §16 requires, each in both languages.
- *
- * One file because they share a shell and differ by a dozen lines each; splitting them into
- * six would mean six copies of the same imports and no more clarity.
- */
-// `import * as React` is deliberate even though tsconfig sets jsx: "react-jsx".
-// This package is consumed by two different transpilers: Next's SWC, which uses the
-// automatic runtime, and plain tsx/node in the cron sweep and in scripts, which emits
-// React.createElement. Under the second, JSX with no React in scope throws
-// "ReferenceError: React is not defined" AT RUNTIME — the type checker cannot see it,
-// and it was found by rendering a template rather than by compiling one.
 import * as React from "react"
 import { Hr, Img, Link, Section, Text } from "@react-email/components"
 import type { MailLocale } from "../types"
@@ -53,18 +41,6 @@ export function PasswordReset({ locale, payload }: { locale: MailLocale; payload
     )
 }
 
-/**
- * One line of the order, with everything the customer needs to recognise what is coming:
- * the picture, the code they would quote on the phone, the configured colour and colour
- * temperature, the specifications, and the arithmetic — unit price, quantity, line total.
- *
- * A table rather than flexbox, and inline styles rather than classes, because this is email:
- * Outlook renders through Word, which has no flexbox and no external stylesheet.
- *
- * Every field except the name, the quantity and the unit price is optional and is DROPPED
- * when absent rather than rendered empty. A confirmation queued before those fields existed
- * has to render, and a row that reads "Code: —" is worse than no row.
- */
 function OrderItem({
     locale,
     item,
@@ -91,12 +67,6 @@ function OrderItem({
                                 valign="top"
                                 style={{ padding: rtl ? "10px 0 10px 12px" : "10px 12px 10px 0", width: 72 }}
                             >
-                                {/*
-                                 * A fixed box with an explicit width and height. Most clients
-                                 * do not load images at all until the reader allows it, and
-                                 * one without dimensions collapses the row to nothing and
-                                 * reflows the whole line when it finally arrives.
-                                 */}
                                 <Img
                                     src={item.imageUrl}
                                     alt={item.name}

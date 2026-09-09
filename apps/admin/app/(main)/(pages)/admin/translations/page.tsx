@@ -9,12 +9,6 @@ import { PageBody, PageHeader, PageStack, Section, Stat, StatGrid, TableFrame } 
 import { StatusBadge } from "@/components/status-badge"
 import { EmptyState } from "@/components/states"
 
-/**
- * §13.2 item 7: the missing-translations queue, and the N5 data-quality queue beside it.
- *
- * Neither list repairs anything. They report, and every row links to the one screen that can
- * fix it — a queue that fixes things itself is a queue whose output nobody reviewed.
- */
 export const dynamic = "force-dynamic"
 
 export default async function TranslationsPage() {
@@ -102,12 +96,6 @@ export default async function TranslationsPage() {
                                                     const c = row.completeness[locale]
                                                     return (
                                                         <TableCell key={locale}>
-                                                            {/*
-                                                              * The translation vocabulary already names these three
-                                                              * states. Rendering them through StatusBadge is what
-                                                              * stops this screen inventing its own green — which is
-                                                              * what `bg-green-100 text-green-800 dark:…` was.
-                                                              */}
                                                             {!row.locales[locale].exists ? (
                                                                 <StatusBadge kind="translation" value="missing" />
                                                             ) : c.missing.length === 0 ? (

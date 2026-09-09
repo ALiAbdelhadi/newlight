@@ -1,13 +1,4 @@
 #!/usr/bin/env node
-/**
- * Guards the §0.2 verification gate.
- *
- * `turbo run <task>` exits 0 when no package defines the script, which made
- * `pnpm check-types` pass while executing nothing. This asserts that at least
- * `minimum` packages actually have the script before the real run starts.
- *
- * Usage: node scripts/assert-turbo-tasks.mjs <task> <minimum>
- */
 import { execFileSync } from "node:child_process"
 import { existsSync } from "node:fs"
 import { dirname, join } from "node:path"

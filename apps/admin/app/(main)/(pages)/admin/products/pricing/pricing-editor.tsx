@@ -16,21 +16,6 @@ import { CellText } from "@/components/data-table/cell-text"
 import type { PricingFormula, PricingPreview, PricingScope } from "@/lib/services/pricing-service"
 import { applyPricing, previewPricing } from "@/app/action/pricing-actions"
 
-/**
- * Reference screen 3 (P4.5 §23) — bulk repricing as a Workflow.
- *
- * The logic underneath is unchanged and was already right: `PricingService.preview()` mints a
- * token from the scope, the formula and the resulting rows, and `apply()` re-previews and
- * compares tokens, so a catalogue that moved between looking and committing is refused by the
- * service rather than by a UI convention.
- *
- * What changes is that the operation now LOOKS like what it is. The previous screen put scope,
- * formula, preview and commit on one page as four panels, so "preview" was a button among
- * buttons and it was possible to read the numbers, change the percentage, and press Apply
- * while looking at a table describing the previous formula. The token caught that — but only
- * after the person had already decided. Four steps make the order the screen's shape.
- */
-
 interface Option {
     id: string
     name: string
@@ -102,13 +87,6 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
         }
     }
 
-    /*
-     * Any edit to the scope or the formula throws the preview away.
-     *
-     * The service would refuse a stale commit anyway — the token would not match — but a
-     * refusal arrives after the decision. Clearing the table means the numbers on screen
-     * always describe the inputs on screen, so the decision is made against the truth.
-     */
     function invalidate<T>(setter: (value: T) => void) {
         return (value: T) => {
             setPreview(null)
@@ -141,7 +119,6 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
                 setCommitted({ count: preview.count, message: result.message })
                 setPreview(null)
             } else {
-                // A token mismatch lands here: the catalogue changed while this was open.
                 toast.error(result.error)
                 setPreview(null)
             }
@@ -421,11 +398,6 @@ function PreviewTable({ preview }: { preview: PricingPreview }) {
             </dl>
 
             {preview.invalid.length > 0 && (
-                /*
-                 * The database's `products_price_positive` constraint would reject these on
-                 * commit anyway. Catching them here means the operator sees WHICH rows are
-                 * the problem instead of a failed transaction naming none of them.
-                 */
                 <p role="alert" className="rounded-md border border-danger-border bg-danger-bg px-3 py-2 text-xs text-danger">
                     {preview.invalid.length} product{preview.invalid.length === 1 ? "" : "s"} would be priced at
                     or below zero and the commit will be refused:{" "}

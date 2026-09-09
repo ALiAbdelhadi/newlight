@@ -7,16 +7,6 @@ import { TrackingInput } from "./tracking-input"
 import { InlineAlert, PageBody, PageHeader, PageStack, Section, Stat, StatGrid, TableFrame } from "@/components/page"
 import { EmptyState } from "@/components/states"
 
-/**
- * §13.2 item 8: the sidebar linked here and there was nothing to link to.
- *
- * Two jobs, in the order they matter: what delivery costs (previously a literal in the
- * storefront's checkout, changeable only by deploying), and what is waiting to go out.
- *
- * The order of the sections is the order of the operator's day — the queue that has waited
- * longest is above the reference data that rarely changes. Rates used to be first because they
- * were built first.
- */
 export const dynamic = "force-dynamic"
 
 export default async function ShippingPage() {
@@ -123,8 +113,6 @@ export default async function ShippingPage() {
                                                             </span>
                                                         </>
                                                     ) : (
-                                                        /* A real state: the address is optional on the order, and an
-                                                           order with none cannot be dispatched at all. */
                                                         <span className="text-danger">No address</span>
                                                     )}
                                                 </TableCell>
@@ -184,8 +172,6 @@ export default async function ShippingPage() {
                                                             : "—"}
                                                     </TableCell>
                                                     <TableCell>
-                                                        {/* The input lives where the gap is reported, rather than
-                                                            three clicks away on the order. */}
                                                         <TrackingInput
                                                             orderId={order.id}
                                                             current={order.trackingNumber}
@@ -227,7 +213,6 @@ export default async function ShippingPage() {
                                                     <TableCell className="font-medium">
                                                         <bdi dir="auto">{row.city}</bdi>
                                                     </TableCell>
-                                                    {/* count(*) comes back as bigint and JSON cannot carry one. */}
                                                     <TableCell className="text-right tabular-nums">
                                                         {Number(row.orders)}
                                                     </TableCell>

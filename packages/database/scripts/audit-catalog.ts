@@ -1,16 +1,3 @@
-/**
- * Catalog data-quality audit — BUILD §10.3 / §19, as a repeatable script.
- *
- *   pnpm --filter @repo/database audit:catalog                 # the branch
- *   NODE_ENV=production pnpm --filter @repo/database audit:catalog   # production (read-only)
- *
- * Read-only, and every query goes through $queryRaw so it runs against a v1-shaped database
- * as well as a partially-migrated one. The point is not to produce prose: it ASSERTS the
- * facts the transform depends on and exits non-zero when one moves. A number that changed
- * between the audit and the transform is the failure mode this exists to catch.
- *
- * Nothing here repairs anything. Defects are carried across verbatim and queued for P5 (N4).
- */
 import { PrismaClient } from "@prisma/client"
 import { SPEC_MAP, EXCLUDED_KEYS, ROD_THICKNESS_SKUS } from "../spec-map"
 
@@ -29,21 +16,12 @@ function section(title: string) {
     console.log(`\n── ${title} ${"─".repeat(Math.max(0, 62 - title.length))}`)
 }
 
-/**
- * Run a single-value query and return it as a string. Everything is compared as a string
- * because these come back as bigint, Decimal and text depending on the aggregate, and
- * "did this number change" should not depend on which.
- *
- * No caller interpolates anything: every query below is a literal. Parameterised lookups
- * use $queryRaw with real bindings instead.
- */
 async function one(sql: TemplateStringsArray): Promise<string> {
     const rows = await prisma.$queryRawUnsafe<Array<Record<string, unknown>>>(sql.join(""))
     const value = rows[0] ? Object.values(rows[0])[0] : null
     return value === null || value === undefined ? "" : String(value)
 }
 
-/** How many translation rows in `locale` carry `key` in their specifications blob. */
 async function keyCount(locale: string, key: string): Promise<number> {
     const rows = await prisma.$queryRaw<Array<{ n: bigint }>>`
         SELECT count(*) AS n FROM product_translations
@@ -52,7 +30,6 @@ async function keyCount(locale: string, key: string): Promise<number> {
 }
 
 async function main() {
-    // This audit reads v1 columns, so it only means anything BEFORE 0011 has run.
     const v1 = await one`select count(*) from information_schema.columns
                           where table_schema='public' and table_name='products' and column_name='images'`
     if (v1 === "0") {

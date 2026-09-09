@@ -9,19 +9,6 @@ import {
 
 import { toPrismaPage, type TableState } from "@/lib/table-params"
 
-/**
- * The Orders list query (P4.5 §11, §25).
- *
- * The list this replaces fetched EVERY order with every line item, every product on every
- * line, every product's translations and every configuration — unbounded, on each render —
- * and then filtered the result in the browser. It also rendered one table row PER LINE ITEM
- * with `rowSpan` bridging the order-level columns, so a four-line order occupied four rows
- * and the eye had to reconstruct which cells belonged to which order.
- *
- * A row here is an ORDER. The lines are what the record page is for; the list answers "which
- * orders need me", and that question is about status, age and money.
- */
-
 export const ORDER_SORT_COLUMNS = ["orderNumber", "total", "status", "createdAt"] as const
 export type OrderSortColumn = (typeof ORDER_SORT_COLUMNS)[number]
 
@@ -75,7 +62,6 @@ function buildWhere(state: TableState): Prisma.OrderWhereInput {
         and.push({ paymentStatus: filters.payment as PaymentStatus })
     }
 
-    // "Shipped but nobody can tell the customer where it is" — the gap /admin/shipping counts.
     if (filters.tracking === "missing") {
         and.push({ status: OrderStatus.shipped, OR: [{ trackingNumber: null }, { trackingNumber: "" }] })
     }
@@ -91,8 +77,6 @@ function buildOrderBy(state: TableState): Prisma.OrderOrderByWithRelationInput[]
         case "total":
             return [{ total: state.dir }]
         case "status":
-            // Ties inside a status band go oldest-first: within "awaiting shipment", the one
-            // that has waited longest is the one to act on.
             return [{ status: state.dir }, { createdAt: "asc" }]
         case "createdAt":
         default:
@@ -112,8 +96,6 @@ export async function listOrders(state: TableState): Promise<OrderListResult> {
 
     const [total, grouped] = await Promise.all([
         prisma.order.count({ where }),
-        // Counts are over the WHOLE table, not the filtered set: they are what the status
-        // filter is chosen from, so filtering by one must not zero the others.
         prisma.order.groupBy({ by: ["status"], _count: { _all: true } }),
     ])
 
@@ -135,8 +117,6 @@ export async function listOrders(state: TableState): Promise<OrderListResult> {
             createdAt: true,
             user: { select: { id: true, name: true, email: true, phoneNumber: true } },
             shippingAddress: { select: { fullName: true, phone: true, city: true } },
-            // The lines are summarised, not fetched: a count and a sum of quantities is what
-            // the list needs, and the record page is where the lines themselves belong.
             items: { select: { quantity: true } },
         },
     })

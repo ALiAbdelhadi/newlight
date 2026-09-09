@@ -16,27 +16,6 @@ import {
 import { NAVIGATION, OVERVIEW } from "@/lib/navigation"
 import { searchAdmin, type SearchResults } from "@/app/action/search"
 
-/**
- * ⌘K / Ctrl+K (P4.5 §10).
- *
- * The Navigate group is built from `lib/navigation.ts`, the same array the sidebar renders, so
- * a surface cannot exist in one and be missing from the other — which is the failure mode of
- * every hand-maintained palette.
- *
- * RECORDS ARE SEARCHED ON THE SERVER, not filtered on the client. cmdk's own matching is over
- * the items already in the list, and the panel's records are in Postgres. Postgres has already
- * decided which rows match, so each record item's cmdk value carries the typed term verbatim —
- * it therefore always scores, and cmdk cannot hide a row the database found. That matters most
- * for the matches whose evidence is not on screen: an Arabic product name behind an English
- * label, or an order found by the recipient's phone number.
- *
- * The Navigate groups keep cmdk's filtering, because those items ARE the whole set.
- *
- * The search fires after 200ms of quiet and only from two characters. `useTransition` keeps the
- * previous results on screen while the next ones load rather than blanking the list, which is
- * the difference between a palette that feels instant and one that flickers on every keystroke.
- */
-
 interface CommandPaletteProps {
     open: boolean
     onOpenChange: (open: boolean) => void
@@ -53,11 +32,6 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
     useEffect(() => {
         function onKeyDown(event: KeyboardEvent) {
             if (event.key !== "k" || !(event.metaKey || event.ctrlKey)) return
-            /*
-             * Claim the shortcut before the browser does — Ctrl+K focuses the address bar in
-             * Chrome, and an operator who hits it expecting the palette should not land in the
-             * URL bar. Meta+K is unclaimed on macOS, but the handling is the same.
-             */
             event.preventDefault()
             onOpenChange(!open)
         }
@@ -67,10 +41,6 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
 
     useEffect(() => {
         const term = query.trim()
-        // Below the floor there is nothing to ask for. The stale results are hidden at render
-        // by `searchable` rather than cleared here — clearing state inside an effect is the
-        // cascading render the compiler lint rule rejects, and this way the list does not blink
-        // empty between two keystrokes either.
         if (term.length < 2) return
         const timer = setTimeout(() => {
             startSearch(async () => {
@@ -155,11 +125,6 @@ export function CommandPalette({ open, onOpenChange }: CommandPaletteProps) {
                         {domain.surfaces.map((surface) => (
                             <CommandItem
                                 key={surface.href}
-                                /*
-                                 * The domain is part of the search value so typing "inventory"
-                                 * finds "Stock levels" — an operator looks for the area before
-                                 * they remember the screen's name.
-                                 */
                                 value={`${domain.label} ${surface.label}`}
                                 onSelect={() => go(surface.href)}
                                 className="text-xs"
@@ -186,7 +151,6 @@ function RecordGroup({
     heading: string
     icon: React.ElementType
     hits: { id: string; label: string; detail: string; href: string; keywords: string }[]
-    /** The typed query, folded into each value so cmdk cannot filter out a server match. */
     term: string
     onSelect: (href: string) => void
 }) {
@@ -197,8 +161,6 @@ function RecordGroup({
             {hits.map((hit) => (
                 <CommandItem
                     key={hit.id}
-                    // The term is part of the value: the database already decided this row
-                    // matches, and cmdk must not second-guess it with its own fuzzy score.
                     value={`${term} ${hit.label} ${hit.detail} ${hit.keywords}`}
                     onSelect={() => onSelect(hit.href)}
                     className="text-xs"

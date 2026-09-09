@@ -7,20 +7,6 @@ import { SearchIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 
-/**
- * The command palette's substrate.
- *
- * cmdk owns the filtering, the roving `aria-activedescendant` and the listbox
- * semantics; this file only dresses it in the token system. `shouldFilter` is
- * left at its default here — the palette itself turns it OFF for the product
- * search group, because that group's results come from the server and
- * re-filtering them on the client would hide rows the query deliberately
- * returned.
- *
- * Written by hand rather than pulled from the registry: the CLI blocks on an
- * interactive overwrite prompt for `button.tsx`.
- */
-
 function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
     return (
         <CommandPrimitive
@@ -51,15 +37,6 @@ function CommandDialog({
                 className={cn("overflow-hidden p-0 sm:max-w-[560px]", className)}
                 showCloseButton={false}
             >
-                {/*
-                 * INSIDE DialogContent, not beside it. Radix renders Dialog.Root's children
-                 * in place and only DialogContent through the portal — so a header placed as
-                 * a sibling renders into the page body permanently, visible to assistive
-                 * technology even while the palette is closed, and it cannot label a dialog
-                 * it is not inside. Screen-reader-only here, because the palette shows an
-                 * input and results, and a dialog with no accessible name is announced as
-                 * "dialog" and nothing more.
-                 */}
                 <DialogHeader className="sr-only">
                     <DialogTitle>{title}</DialogTitle>
                     <DialogDescription>{description}</DialogDescription>

@@ -32,7 +32,6 @@ export async function PATCH(
 
         logger.info({ action: 'cancel_order' }, 'Cancellation initiated')
 
-        // Through the machine, like every other transition (ADR 0005).
         const result = await requestOrderCancellation(orderId)
 
         if (!result.success) {

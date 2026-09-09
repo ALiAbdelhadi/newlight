@@ -9,17 +9,8 @@ import { PageBody, PageHeader, PageStack, Stat, StatGrid, TableFrame } from "@/c
 import { StatusBadge } from "@/components/status-badge"
 import { EmptyState } from "@/components/states"
 
-/**
- * The audit log, finally readable.
- *
- * Every change this panel makes has been recorded with an actor and a timestamp since P5, and
- * the only way to see any of it was a database client. A log nobody can read proves things
- * after an incident, to whoever has database access — which is not the same as answering
- * "who changed this price".
- */
 export const dynamic = "force-dynamic"
 
-/** The entities whose ids lead somewhere. The rest are shown as ids, because they are ids. */
 function linkFor(entity: string, entityId: string): string | null {
     switch (entity) {
         case "Product":
@@ -100,8 +91,6 @@ export default async function AuditPage({
                                 {rows.length === 0 ? (
                                     <TableRow className="hover:bg-transparent">
                                         <TableCell colSpan={5} className="p-0">
-                                            {/* No-results, not no-data: the log is append-only and never
-                                                genuinely empty once anybody has used the panel. */}
                                             <EmptyState
                                                 variant="no-results"
                                                 title="Nothing matches that filter"

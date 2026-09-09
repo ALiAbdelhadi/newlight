@@ -12,7 +12,6 @@ import { ChevronDown } from 'lucide-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTransition } from 'react'
 
-
 const languages = [
     {
         code: 'ar',

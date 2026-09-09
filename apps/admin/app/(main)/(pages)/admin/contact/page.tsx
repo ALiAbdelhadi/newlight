@@ -7,19 +7,6 @@ import { ContactTable } from "./contact-table"
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-/**
- * Contact enquiries (P4.5 §11, §19).
- *
- * A server component. The screen this replaces was a client component that fetched
- * `/api/contact-forms` on mount behind a full-screen spinner, then filtered and counted the
- * result in the browser — so "Unread (3)" described the fifty rows that had been fetched
- * rather than the table, and disagreed with the sidebar badge on the same screen.
- *
- * The summary above the list is deliberately short and every figure in it is actionable: how
- * many are unread, how many have been sitting unopened for more than three days, how many are
- * marked urgent. A count of "total enquiries ever received" would be a number nobody can do
- * anything about, which is what §9 means by a decorative KPI.
- */
 export default async function ContactPage({
     searchParams,
 }: {

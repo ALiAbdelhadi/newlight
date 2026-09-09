@@ -9,26 +9,9 @@ import {
 
 import { requireCurrentAdmin } from "@/lib/auth"
 
-/**
- * The Overview's data (P4.5 §9).
- *
- * The dashboard's job is operational awareness, not analytics: is anything stuck, what changed,
- * what needs somebody today. Every figure this service returns therefore has an ACTION behind
- * it — a queue to open, a gap to fill — and anything that would only be interesting is absent.
- *
- * That is a deliberate reversal. The screen this feeds showed Total Revenue, Total Orders,
- * Customers and Average Order Value in four cards, computed in the browser from EVERY order in
- * the database flattened to one row per line item. Nobody can act on an average order value,
- * and the query behind those four numbers was the most expensive in the application.
- *
- * `attention` is ordered by urgency, not by domain, and each entry carries the href of the
- * surface that resolves it. A count with nowhere to go is a worry, not a task.
- */
-
 export interface AttentionItem {
     id: string
     label: string
-    /** What the number means and what doing something about it looks like. */
     detail: string
     count: number
     href: string
@@ -42,7 +25,6 @@ export interface RecentOrder {
     total: SerializedMoney
     status: OrderStatus
     createdAt: string
-    /** Whole days since it was placed. Drives the "waiting" readout. */
     ageDays: number
 }
 
@@ -66,7 +48,6 @@ export interface Overview {
         orders: number
         revenue: SerializedMoney
     }
-    /** Orders placed but not yet shipped, and how long the oldest has waited. */
     fulfilment: {
         awaiting: number
         oldestWaitDays: number | null
@@ -173,12 +154,6 @@ export async function getOverview(): Promise<Overview> {
 
     const oldestWaitDays = oldestAwaiting ? daysBetween(oldestAwaiting.createdAt, now) : null
 
-    /*
-     * Built as a list and then filtered to the non-zero entries. A dashboard that renders
-     * "Low stock: 0" in the same slot as "Low stock: 14" trains people to read the whole panel
-     * every time; one that shows only what is actually outstanding is read in a glance, and an
-     * empty panel is itself the answer.
-     */
     const attention: AttentionItem[] = ([
         {
             id: "no-address",

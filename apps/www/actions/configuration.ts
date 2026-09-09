@@ -27,10 +27,6 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
     try {
         const userId = await currentUserId()
 
-        // args.productId is the SKU the storefront routes on. A21/Q4 made
-        // ProductConfiguration.productId a REAL foreign key with a denormalised productSku
-        // beside it — in v1 the column was called productId and held a SKU, so the relation
-        // resolved for zero of the 13 production rows.
         const product = await prisma.product.findFirst({
             where: { productId: args.productId, isActive: true, deletedAt: null },
             select: { id: true, productId: true, price: true, familyId: true, subCategoryId: true },
@@ -43,13 +39,6 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        /*
-         * `configPrice` is the price the customer is being shown, which is the DISCOUNTED one
-         * while a discount is running (§13.2). Storing the base price here and discounting
-         * later would put the sale in one place and the charge in another; storing the
-         * discounted price and never revisiting it would honour an expired sale forever, which
-         * is why `getConfiguration` re-prices on every read.
-         */
         const unitPrice = resolveEffectivePrice(product.price, product, await activeDiscounts()).effective
         const lineTotal = multiplyMoney(unitPrice, args.quantity)
 
@@ -145,19 +134,6 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
     }
 }
 
-
-/**
- * Re-price a configuration against the discounts that are live NOW.
- *
- * A configuration is this storefront's cart: it is created when a customer picks a quantity
- * and read again on the preview, the confirmation and the order. Between those reads a
- * discount can start or end, and a stored price is a promise about a moment that has passed —
- * so it is refreshed here, on read, rather than trusted.
- *
- * That the refresh happens in ONE place is the point. Preview, confirm and checkout all go
- * through `getConfiguration`, so they cannot disagree about what this costs; a page that
- * priced itself would be the second implementation §13.2 exists to prevent.
- */
 async function repriceConfiguration<
     T extends { id: string; productId: string; quantity: number; configPrice: MoneyInput },
 >(
@@ -197,9 +173,6 @@ export async function getConfiguration(configId: string) {
                 },
             })
 
-            // The `value` JSON blob is gone (0010). It duplicated selectedColorTemp and
-            // selectedColorKey, which are real columns — and it was read FIRST, so a stale
-            // copy could override the column it was copied from.
             if (configuration) {
                 return repriceConfiguration(configuration)
             }
@@ -337,7 +310,6 @@ export async function associateConfigurationWithUser(configId: string, userId: s
                 error: "Configuration already has an owner",
             }
         }
-
 
         await prisma.productConfiguration.update({
             where: { id: configId },

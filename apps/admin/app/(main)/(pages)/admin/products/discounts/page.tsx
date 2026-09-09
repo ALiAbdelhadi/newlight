@@ -5,19 +5,6 @@ import { DiscountService } from "@/lib/services/discount-service"
 import { PageBody, PageHeader } from "@/components/page"
 import { DiscountsClient } from "./discounts-client"
 
-/**
- * §13.2 — discounts.
- *
- * The sibling of bulk repricing, and deliberately a separate surface rather than a fifth
- * formula on it. Repricing answers "this product now costs more"; a discount answers "this
- * family costs less until the 15th". Folding the second into the first would put a fortnight
- * of temporary numbers into every product's permanent price history, and leave nothing to
- * restore when the fortnight ended.
- *
- * The taxonomy is loaded whole because the scope picker offers all four levels and the
- * catalogue is 189 products — one query beats four round trips as the operator changes their
- * mind about what they are discounting.
- */
 export const dynamic = "force-dynamic"
 
 export default async function DiscountsPage() {
@@ -45,13 +32,6 @@ export default async function DiscountsPage() {
             select: { id: true, slug: true, subCategoryId: true, _count: { select: { products: true } } },
             orderBy: { slug: "asc" },
         }),
-        /*
-         * Every live product, for the picker. The repricer asks for "product ids, comma
-         * separated", which is a field nobody can fill in without a database — an operator
-         * knows the SKU on the box, not a cuid. 189 rows of {id, sku, name} is a few
-         * kilobytes, and it is the difference between "discount this product" being usable
-         * and being theoretical.
-         */
         prisma.product.findMany({
             where: { deletedAt: null, isActive: true },
             select: {

@@ -29,21 +29,6 @@ import {
 } from "@/app/action/discount-actions"
 import type { DiscountKind, DiscountScopeType } from "@repo/database"
 
-/**
- * The discount surface (§13.2).
- *
- * Two things on one screen, in the order an operator needs them: what is running right now,
- * and the four steps that start a new one. The list is first because the question people
- * arrive with is almost always "is something on sale that should not be" — and the answer to
- * that has to be readable without opening anything.
- *
- * Creation reuses the Workflow primitive rather than a form, for the reason the primitive
- * exists: `commitSummary.affectedCount` is required by the types, so the screen cannot reach
- * its confirm button without having previewed the products it is about to reprice for a
- * fortnight. A percentage typed into a box and saved is how "-15% on Indoor" quietly becomes
- * "-15% on 189 products".
- */
-
 interface Option {
     id: string
     name: string
@@ -72,7 +57,6 @@ const SCOPE_LABELS: Record<DiscountScopeType, string> = {
     ALL: "Whole catalogue",
 }
 
-/** Narrowest first: the two an operator reaches for most are the two the user asked for. */
 const SCOPE_ORDER: DiscountScopeType[] = ["PRODUCTS", "FAMILY", "SUB_CATEGORY", "CATEGORY", "ALL"]
 
 const KIND_LABELS: Record<DiscountKind, string> = {
@@ -80,22 +64,12 @@ const KIND_LABELS: Record<DiscountKind, string> = {
     AMOUNT: "Amount off",
 }
 
-/* ------------------------------------------------------------------- dates */
-
-/**
- * `datetime-local` <-> instant, in one place.
- *
- * The input speaks local wall-clock with no zone; the database stores UTC. Converting at every
- * call site is how "the sale ends at midnight" becomes two different moments — so the two
- * functions below are the only conversion in this file.
- */
 function toLocalInput(date: Date): string {
     const local = new Date(date.getTime() - date.getTimezoneOffset() * 60_000)
     return local.toISOString().slice(0, 16)
 }
 
 function fromLocalInput(value: string): Date {
-    // `new Date("2026-09-07T18:00")` is parsed as local time, which is what the operator typed.
     return new Date(value)
 }
 
@@ -116,8 +90,6 @@ function defaultWindow(): { startsAt: string; endsAt: string } {
     end.setDate(end.getDate() + 7)
     return { startsAt: toLocalInput(start), endsAt: toLocalInput(end) }
 }
-
-/* -------------------------------------------------------------------- page */
 
 export function DiscountsClient({ discounts, categories, subCategories, families, products }: Props) {
     const [creating, setCreating] = useState(false)
@@ -163,8 +135,6 @@ export function DiscountsClient({ discounts, categories, subCategories, families
         </Section>
     )
 }
-
-/* -------------------------------------------------------------------- list */
 
 function DiscountTable({ discounts }: { discounts: DiscountRow[] }) {
     return (
@@ -255,11 +225,6 @@ function DiscountTableRow({ discount }: { discount: DiscountRow }) {
                     )}
 
                     {discount.status === "live" && (
-                        /*
-                         * Consequential, not destructive: stopping a sale changes what every
-                         * customer looking at those products pays, right now, and the count is
-                         * the part of that an operator cannot hold in their head.
-                         */
                         <ConfirmAction
                             severity="consequential"
                             title={`Stop "${discount.name}"?`}
@@ -282,7 +247,6 @@ function DiscountTableRow({ discount }: { discount: DiscountRow }) {
                     )}
 
                     {discount.status === "scheduled" && (
-                        // A discount that never started explained nothing, so it can go.
                         <ConfirmAction
                             severity="destructive"
                             typeToConfirm={discount.name}
@@ -313,7 +277,6 @@ function DiscountTableRow({ discount }: { discount: DiscountRow }) {
     )
 }
 
-/** "15.00" is a percentage nobody writes. Money keeps its cents; a percentage drops them. */
 function trimZeros(value: string): string {
     return value.replace(/\.00$/, "")
 }
@@ -391,8 +354,6 @@ function RescheduleDialog({
     )
 }
 
-/* ------------------------------------------------------------------ create */
-
 function CreateDiscount({
     categories,
     subCategories,
@@ -416,11 +377,6 @@ function CreateDiscount({
     const [committed, setCommitted] = useState<string | null>(null)
     const [pending, start] = useTransition()
 
-    /*
-     * Any edit to any input throws the preview away — the same rule the repricer follows, for
-     * the same reason. A table describing a 15% discount, still on screen while the field now
-     * reads 40, is a decision made against numbers that are no longer true.
-     */
     function invalidate<T>(setter: (value: T) => void) {
         return (next: T) => {
             setPreview(null)
@@ -757,8 +713,6 @@ function CreateDiscount({
     )
 }
 
-/* ---------------------------------------------------------- product picker */
-
 function ProductPicker({
     products,
     total,
@@ -829,8 +783,6 @@ function ProductPicker({
     )
 }
 
-/* ------------------------------------------------------------ preview table */
-
 function PreviewTable({ preview }: { preview: DiscountPreview }) {
     return (
         <div className="space-y-2">
@@ -868,11 +820,6 @@ function PreviewTable({ preview }: { preview: DiscountPreview }) {
             )}
 
             {preview.overlapping.length > 0 && (
-                /*
-                 * Discounts do not stack: the customer gets the best single one. Saying so here
-                 * is the difference between an operator understanding why a price did not move
-                 * and an operator concluding the screen is broken.
-                 */
                 <InlineAlert tone="info" title="Some of these already have a better discount">
                     {preview.overlapping.length} product
                     {preview.overlapping.length === 1 ? " is" : "s are"} already covered by a discount that takes

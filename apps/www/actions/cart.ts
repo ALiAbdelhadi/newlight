@@ -6,9 +6,6 @@ import { UserService } from "@/lib/services/user-service"
 import { currentUserId } from "@/lib/auth"
 import { revalidatePath } from "next/cache"
 
-/**
- * Add product to cart
- */
 export async function addToCart(
   productId: string,
   quantity = 1,
@@ -16,7 +13,6 @@ export async function addToCart(
   selectedColorKey?: string
 ) {
   try {
-    // 1. Authenticate user
     const userId = await currentUserId()
 
     if (!userId) {
@@ -26,9 +22,6 @@ export async function addToCart(
       }
     }
 
-    // 2. Ensure user exists in database
-
-    // 3. Add to cart using CartService
     const result = await CartService.addToCart({
       userId,
       productId,
@@ -37,7 +30,6 @@ export async function addToCart(
       selectedColorKey,
     })
 
-    // 4. Revalidate cart page
     revalidatePath("/cart")
 
     return {
@@ -65,9 +57,6 @@ export async function addToCart(
   }
 }
 
-/**
- * Update cart item quantity
- */
 export async function updateCartItemQuantity(itemId: string, quantity: number) {
   try {
     const userId = await currentUserId()
@@ -119,9 +108,6 @@ export async function updateCartItemQuantity(itemId: string, quantity: number) {
   }
 }
 
-/**
- * Remove item from cart
- */
 export async function removeFromCart(itemId: string) {
   try {
     const userId = await currentUserId()
@@ -162,9 +148,6 @@ export async function removeFromCart(itemId: string) {
   }
 }
 
-/**
- * Clear entire cart
- */
 export async function clearCart() {
   try {
     const userId = await currentUserId()
@@ -195,9 +178,6 @@ export async function clearCart() {
   }
 }
 
-/**
- * Get cart item count
- */
 export async function getCartItemCount() {
   try {
     const userId = await currentUserId()
@@ -215,9 +195,6 @@ export async function getCartItemCount() {
   }
 }
 
-/**
- * Get cart total
- */
 export async function getCartTotal() {
   try {
     const userId = await currentUserId()

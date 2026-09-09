@@ -14,16 +14,6 @@ import { StatusBadge } from "@/components/status-badge"
 import type { SupportedLanguage } from "@/types"
 import { CancelOrderButton } from "./cancel-order-button"
 
-/**
- * The customer's order list.
- *
- * The header has linked to `/orders` all along and the route did not exist, so a customer
- * could reach an order only by keeping its URL. `getUserOrders` was written, paginated, and
- * called by nothing.
- *
- * Money arrives already serialised — `getOrderHistory` does it at the service boundary, which
- * is also where the unscoped `take: 1` on translations was fixed (§14.4).
- */
 export const dynamic = "force-dynamic"
 
 const PAGE_SIZE = 10
@@ -36,7 +26,6 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function OrdersPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {
     const userId = await currentUserId()
-    // The proxy redirects a request with no session cookie, but a stale cookie reaches here.
     if (!userId) redirect("/sign-in")
 
     const locale = resolveLocale(await getLocale())
@@ -56,11 +45,6 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
 
             <Container className="py-10 lg:py-14">
                 {orders.length === 0 ? (
-                    /*
-                     * `no-data`, not `no-results`: this list has no filters, so an empty one
-                     * means this customer has never ordered — and the next action is the
-                     * catalogue, not "clear the filter".
-                     */
                     <EmptyState
                         variant="no-data"
                         title={t("empty")}
@@ -80,10 +64,6 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                                     <div className="min-w-0">
                                         <div className="flex flex-wrap items-center gap-3">
                                             <span className="font-mono font-medium">{order.orderNumber}</span>
-                                            {/* The label comes from @repo/database/status, in this
-                                                locale — not from a `status.*` block in the
-                                                message catalogue, which was a fifth copy of a
-                                                vocabulary the domain layer already owns. */}
                                             <StatusBadge kind="order" value={order.status} locale={locale} />
                                         </div>
                                         <p className="text-sm text-muted-foreground mt-1">
@@ -102,8 +82,6 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                                     </div>
                                 </div>
 
-                                {/* The photographs are what a customer recognises an order by — the
-                                    order number is what WE call it. */}
                                 <div className="flex flex-wrap gap-2 mt-4">
                                     {order.items.slice(0, 5).map((item) =>
                                         item.product.image ? (
@@ -128,8 +106,6 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                                     <Button variant="outline" asChild>
                                         <Link href={`/orders/${order.id}`}>{t("view")}</Link>
                                     </Button>
-                                    {/* Only before it ships. The server decides that too — this is
-                                        which button to draw, not whether the rule holds. */}
                                     {order.status === "awaiting_shipment" && (
                                         <CancelOrderButton
                                             orderId={order.id}

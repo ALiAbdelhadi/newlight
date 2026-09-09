@@ -7,23 +7,13 @@ import { Link } from "@/i18n/navigation"
 import type { CategoryWithSubCategories } from "@/lib/services/category-service"
 import { useTranslations } from "next-intl"
 
-/**
- * One category, listing its sub-categories.
- *
- * A server component. Both GSAP blocks are gone: the hero's `gsap.from` and a per-card
- * ScrollTrigger that duplicated the reveal `CategoryCard` now does for itself — so every tile
- * was being animated twice, once by its own component and once by this page's wrapper div.
- */
 interface CategoryPageProps {
-    /** Derived from the query that produced it, so the shape and the type cannot disagree. */
     category: CategoryWithSubCategories
 }
 
 export default function CategoryPage({ category }: CategoryPageProps) {
     const t = useTranslations("sub-category-page")
     const categoryTranslation = category.translations[0]
-    // categoryType is gone with the enum (§3). A row with no translation in this locale is
-    // a data defect, not something to substitute a slug for (§14.2).
     const categoryName = categoryTranslation?.name ?? ""
     const categorySlug = categoryTranslation?.slug ?? ""
 
@@ -31,8 +21,6 @@ export default function CategoryPage({ category }: CategoryPageProps) {
         <div className="min-h-screen">
             <section className="py-12 lg:py-20">
                 <Container>
-                    {/* The trail, in place of a back link whose label was the English word
-                        "Categories" interpolated into a translated sentence on both locales. */}
                     <Breadcrumbs
                         className="mb-8"
                         items={[{ name: t("catalogue"), href: "/category" }, { name: categoryName }]}

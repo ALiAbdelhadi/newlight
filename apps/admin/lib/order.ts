@@ -2,10 +2,6 @@ import { currentAdminId } from "@/lib/auth"
 import { prisma } from "@repo/database"
 import { revalidatePath } from "next/cache"
 
-/**
- * Update order status
- * Typically called by admin or payment webhook
- */
 export async function updateOrderStatus(
     orderId: string,
     status: "awaiting_shipment" | "processing" | "shipped" | "delivered" | "fulfilled" | "cancelled" | "refunded",
@@ -21,7 +17,6 @@ export async function updateOrderStatus(
             }
         }
 
-        // Verify order ownership
         const order = await prisma.order.findFirst({
             where: {
                 id: orderId,
@@ -37,7 +32,6 @@ export async function updateOrderStatus(
             }
         }
 
-        // Update order
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const updateData: any = { status }
 

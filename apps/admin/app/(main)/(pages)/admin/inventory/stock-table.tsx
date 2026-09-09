@@ -14,29 +14,9 @@ import { deriveStockState } from "@/lib/status"
 import type { StockRow } from "@/lib/services/inventory-service"
 import type { TableState } from "@/lib/table-params"
 
-/**
- * The stock list — every product, not just the ones running out.
- *
- * This screen used to hold a single hard-coded `lowStock(10)` table, which meant the only
- * question it could answer was "what is nearly gone". An operator doing a stocktake, costing
- * a catalogue, or looking up one SKU had no list to look at: the products that are FINE were
- * unreachable from the page named Inventory.
- *
- * "Low stock" is now one option in a filter, not the whole table, and the default view is
- * every product sorted by available ascending — so the low-stock readout the page had before
- * is still the first thing on screen, with the rest of the catalogue underneath it instead of
- * missing.
- *
- * Built on DataTable rather than on a second hand-rolled table (§11): filters, sort, page and
- * density live in the URL, so "the out-of-stock SKUs" is a link somebody can paste into a
- * message, and the count under the table is the database's count over the same predicate —
- * never the length of the page.
- */
-
 interface Props {
     rows: StockRow[]
     total: number
-    /** Installation-wide (N1). While set, every level is an unverified opening balance. */
     openingCountPending: boolean
     state: TableState
 }
@@ -55,11 +35,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
                 id: "state",
                 header: "State",
                 cell: ({ row }) => (
-                    /*
-                     * The badge derives its state from the same `onHand - reserved` the SQL
-                     * filter compares, through `deriveStockState` — so filtering to "Low"
-                     * cannot return a row the badge calls something else.
-                     */
                     <StatusBadge
                         kind="stock"
                         value={deriveStockState({
@@ -91,11 +66,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
                 id: "available",
                 header: "Available",
                 meta: { numeric: true },
-                /*
-                 * The number a buyer can actually have, and the only one worth acting on.
-                 * A negative available is a ledger fault rather than a low level, so it is
-                 * carried by the badge column's "Out" plus this figure, not by red text.
-                 */
                 cell: ({ row }) => (
                     <span className={row.original.available <= 0 ? "text-muted-foreground" : "font-medium"}>
                         {row.original.available}
@@ -109,12 +79,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
                     row.original.hasCost ? (
                         <span className="text-xs text-muted-foreground">recorded</span>
                     ) : (
-                        /*
-                         * Not zero, and worded exactly as the bulk-cost form below words it
-                         * — the same fact should not be "none" in one half of the page and
-                         * something else in the other. A missing cost is why valuation and
-                         * margin refuse a number at the top of this page, so it is listed.
-                         */
                         <Badge variant="secondary">none</Badge>
                     ),
             },
@@ -125,8 +89,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
                     row.original.isActive ? (
                         <span className="text-xs text-muted-foreground">Visible</span>
                     ) : (
-                        /* A hidden product still occupies shelf space and still has to be
-                           counted, so it is listed — and marked, not silently mixed in. */
                         <span className="inline-flex w-fit items-center rounded-md border border-neutral-border bg-neutral-bg px-1.5 py-0.5 text-2xs font-medium text-neutral">
                             Hidden
                         </span>
@@ -181,8 +143,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
             state={state}
             getRowId={(row) => row.sku}
             sortableColumns={["name", "onHand", "reserved", "available"]}
-            /* Straight to the product's ledger: the only place stock can legally be changed
-               is a movement with a reason, and that is what the inventory tab holds. */
             onRowOpen={(row) => router.push(`/admin/products/${row.productId}?tab=inventory`)}
             filtered={Object.keys(state.filters).length > 0}
             selection={{
@@ -215,12 +175,6 @@ export function StockTable({ rows, total, openingCountPending, state }: Props) {
     )
 }
 
-/**
- * A count sheet for the selected rows. No dependency: a Blob and a string.
- *
- * The BOM is not decoration — without it Excel reads an Arabic product name as mojibake, and
- * a stocktake sheet nobody can read the names on is not a stocktake sheet.
- */
 function exportCsv(rows: StockRow[]) {
     const headers = ["SKU", "Name", "On hand", "Reserved", "Available", "Unit cost", "Storefront", "Counted"]
     const escape = (value: unknown) => `"${String(value ?? "").replace(/"/g, '""')}"`
@@ -234,7 +188,6 @@ function exportCsv(rows: StockRow[]) {
             row.available,
             row.hasCost ? "Recorded" : "Not recorded",
             row.isActive ? "Visible" : "Hidden",
-            // Deliberately empty: the sheet is printed and written on.
             "",
         ]
             .map(escape)

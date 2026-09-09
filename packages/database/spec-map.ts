@@ -1,22 +1,5 @@
-/**
- * The v1 -> v2 specification dictionary.
- *
- * v1 stored specifications twice, in two key spaces that share nothing:
- *
- *   en: { "IP": 20, "maximum_wattage": 2, "brand_of_led": "Bridge lux", ... }
- *   ar: { "درجة الحماية": 20, "أقصى قوة كهربائية (w)": 2, "علامة الليد التجارية": "Bridge lux", ... }
- *
- * English keys are snake_case identifiers; ARABIC KEYS ARE DISPLAY LABELS. So the transform
- * needs a two-sided dictionary, not a pass-through, and this is it. It is deliberately data
- * rather than logic: every mapping below is checkable against production by eye.
- *
- * Counts are from the production snapshot (189 products) and are asserted by
- * scripts/audit-catalog.ts, so a key appearing or disappearing is caught rather than
- * silently absorbed.
- */
 import type { SpecValueType } from "@prisma/client"
 
-/** Keys that are NOT specifications, and where each one goes instead. */
 export const EXCLUDED_KEYS: Record<string, string> = {
     surface_color: "ProductAvailableColor — colours are a lookup table (§8), not descriptive text",
     "الالوان المتوفره الي المنتج": "ProductAvailableColor",
@@ -25,13 +8,10 @@ export const EXCLUDED_KEYS: Record<string, string> = {
 }
 
 export interface SpecMapping {
-    /** The canonical v2 SpecDefinition.key. */
     key: string
     valueType: SpecValueType
-    /** Production JSON key in each locale. Arabic may have more than one source key. */
     en: string
     ar: string[]
-    /** Rows carrying this key in production, per locale. A drift here is a real change. */
     expectedCount: number
 }
 
@@ -49,14 +29,10 @@ export const SPEC_MAP: readonly SpecMapping[] = [
     { key: "ip_rating", valueType: "TEXT", en: "IP", ar: ["درجة الحماية"], expectedCount: 167 },
     { key: "max_ip_rating", valueType: "TEXT", en: "maxIP", ar: ["درجة الحماية القصوي"], expectedCount: 167 },
     { key: "life_time", valueType: "NUMBER", en: "life_time", ar: ["العمر الافتراضي"], expectedCount: 167 },
-    // سمك العود ("rod thickness", 8 track SKUs) merges here: it is the same fact as the
-    // English product_dimensions on those rows. The 8 SKUs are listed in the transform
-    // report so the loss of the more specific Arabic label is visible, not silent.
     { key: "product_dimensions", valueType: "TEXT", en: "product_dimensions", ar: ["ابعاد المنتج", "سمك العود"], expectedCount: 175 },
     { key: "hole_size", valueType: "TEXT", en: "hole_size", ar: ["حجم الفتحة"], expectedCount: 167 },
 ]
 
-/** The 8 SKUs whose Arabic label is lost to the product_dimensions merge. */
 export const ROD_THICKNESS_SKUS = [
     "nl-l1001-2000mm", "nl-l1001-3000mm", "nl-l1003-2000mm", "nl-l1003-3000mm",
     "nl-l1005-2000mm", "nl-l1005-3000mm", "nl-l1007-2000mm", "nl-l1007-3000mm",
@@ -65,7 +41,6 @@ export const ROD_THICKNESS_SKUS = [
 export const BY_EN_KEY = new Map(SPEC_MAP.map((m) => [m.en, m]))
 export const BY_AR_KEY = new Map(SPEC_MAP.flatMap((m) => m.ar.map((key) => [key, m] as const)))
 
-/** A value the catalog uses to mean "not recorded". Preserved verbatim (§19/N4). */
 export const PLACEHOLDER = "-"
 
 export interface CoercedValue {
@@ -73,25 +48,10 @@ export interface CoercedValue {
     valueAr: string | null
     valueNumber: string | null
     valueBool: boolean | null
-    /** Set when the stored value had to be reshaped; every one is printed in the report. */
     coercion?: string
-    /** Set when the stored value is a known defect. Carried across verbatim (N4). */
     defect?: string
 }
 
-/**
- * Turn one v1 JSON value into a ProductSpec row.
- *
- * Three rules that are easy to get wrong:
- *
- *   1. IP is TEXT, not a number. Production stores `IP: 20`; the row must read "IP20", not
- *      "IP Rating: 20", because the prefix is part of the value. The coercion is recorded.
- *   2. valueNumber comes from the ENGLISH side only. Arabic values use Arabic-Indic digits
- *      ("≥ ٠.٥", "٢٠٠٠ مللي") and parsing them as numbers would invent data.
- *   3. Defects are NOT repaired (N4). The two `false` booleans and the whitespace-padded
- *      materials carry across exactly as stored, flagged so P5's data-quality queue can see
- *      them. A migration that quietly improves data cannot be verified against its input.
- */
 export function coerceSpecValue(
     mapping: SpecMapping,
     rawEn: unknown,
@@ -116,7 +76,6 @@ export function coerceSpecValue(
             const formatted = `IP${digits}`
             if (out.valueEn !== formatted) out.coercion = `${out.valueEn} -> ${formatted}`
             out.valueEn = formatted
-            // The IP standard is written in Latin on Arabic datasheets too.
             out.valueAr = formatted
         }
         return out

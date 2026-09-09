@@ -2,20 +2,6 @@ import { NextResponse, type NextRequest } from "next/server"
 import { revalidatePath, revalidateTag } from "next/cache"
 import { LOCALES } from "@repo/database"
 
-/**
- * Cross-app cache invalidation — BUILD §23.
- *
- * The admin panel and the storefront are separate deployments, so an admin editing a product
- * has no way to clear the storefront's cache. Without this, a price change waits out
- * `revalidate = 3600` and the person who made it assumes it did not save.
- *
- * BOTH LOCALES, always. Revalidating only the path the admin happened to be looking at is how
- * you get an English page that updates and an Arabic one that does not — the exact class of
- * bug per-locale slugs otherwise invite.
- *
- * Authorised by a shared secret. An open revalidation endpoint is a free cache-eviction
- * denial-of-service against your own origin.
- */
 export const dynamic = "force-dynamic"
 
 type Target =
@@ -48,8 +34,6 @@ export async function POST(request: NextRequest) {
 
     switch (target.kind) {
         case "product": {
-            // Tags first: they catch every page that read this product, including listings
-            // that embed its card, which a path list would miss.
             revalidateTag(`product:${target.slug}`, "max")
             revalidated.push(`tag product:${target.slug}`)
             for (const locale of LOCALES) {

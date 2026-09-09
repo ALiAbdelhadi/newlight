@@ -6,14 +6,6 @@ import { OrdersTable } from "./orders-table"
 export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-/**
- * Orders (P4.5 §11).
- *
- * Server component, URL-driven, one row per order. What it replaces fetched every order in
- * the database with every line item, every line's product, every product's translations and
- * every configuration — unbounded — on each render, and then searched the result in the
- * browser.
- */
 export default async function OrdersPage({
     searchParams,
 }: {

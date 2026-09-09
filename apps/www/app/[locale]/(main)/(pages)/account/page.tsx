@@ -15,22 +15,6 @@ import { formatDate } from "@/lib/date"
 import { constructMetadata } from "@/lib/metadata"
 import { UserService } from "@/lib/services/user-service"
 
-/**
- * The customer's account.
- *
- * The header's account menu had one entry, "My orders", because the order list was the only
- * account surface that existed. The shipping address — which `UserService` could read, save
- * and delete since P2 — was editable in exactly one place: the middle of a checkout, where
- * changing it meant starting an order to get to the form.
- *
- * This page is the hub those three things were missing: who you are, where we deliver, and
- * what you have ordered. Each card is one service call, and nothing on it is invented:
- *
- *   PROFILE is read-only. Better Auth owns the name and email and the storefront exposes no
- *   mutation for either, so there is no "Edit" button here pretending otherwise.
- *   ADDRESS is the full read/save/delete the service supports, through session-scoped actions.
- *   ORDERS is the real count and spend, plus the three most recent, linking to the list.
- */
 export const dynamic = "force-dynamic"
 
 const RECENT_ORDERS = 3
@@ -55,8 +39,6 @@ export default async function AccountPage() {
     ])
     if (!user) redirect("/sign-in")
 
-    // `_sum.total` is a Decimal (or 0 with no orders); it is formatted here and never crosses
-    // into a client component (ADR 0001).
     const totalSpent = formatMoney(serializeMoney(stats.totalSpent), locale)
     const displayName = user.name?.trim() || user.email
 
@@ -70,7 +52,6 @@ export default async function AccountPage() {
 
             <Container className="py-10 lg:py-14">
                 <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
-                    {/* ---------------------------------------------------------- profile */}
                     <section aria-labelledby="account-profile" className="rounded-lg border bg-card p-6">
                         <h2 id="account-profile" className="text-xs font-medium tracking-label text-muted-foreground uppercase">
                             {t("profile.title")}
@@ -98,10 +79,8 @@ export default async function AccountPage() {
                         <p className="mt-6 text-sm text-pretty text-muted-foreground">{t("profile.readOnly")}</p>
                     </section>
 
-                    {/* ---------------------------------------------------------- address */}
                     <AddressCard address={user.shippingAddress} email={user.email} />
 
-                    {/* ----------------------------------------------------------- orders */}
                     <section aria-labelledby="account-orders" className="rounded-lg border bg-card p-6">
                         <div className="flex items-start justify-between gap-4">
                             <h2 id="account-orders" className="text-xs font-medium tracking-label text-muted-foreground uppercase">

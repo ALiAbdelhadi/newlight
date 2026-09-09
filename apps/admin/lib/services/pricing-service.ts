@@ -14,29 +14,6 @@ import {
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Bulk repricing — BUILD §13.2 item 1.
- *
- * This tool is the point of the whole phase. The owner repriced all 189 products by running
- * SQL directly, in three deterministic tiers, because the admin panel offered no way to do it:
- *
- *     tier A   db = static × 1.1000          76 SKUs
- *     tier B   db ≈ static × 1.3967          36 SKUs
- *     tier C   db = static × 1.5736 + 55.3   77 SKUs
- *
- * Tier C is why `linear` exists: a real repricing needs a multiplier AND a fixed component
- * together, and a tool offering only "+10%" would have sent them back to psql.
- *
- * THE PREVIEW IS NOT ADVISORY. `apply()` will not run without a token minted by `preview()`,
- * and the token is a hash of the exact rows and their exact current prices. So:
- *
- *   - you cannot commit a repricing you have not seen; and
- *   - if anything in that set changed between looking and clicking, the token stops matching
- *     and the apply is refused rather than silently pricing against stale numbers.
- *
- * Every apply is one transaction and one audit row carrying actor, scope, formula and count.
- */
-
 export type PricingScope =
     | { kind: "category"; categoryId: string }
     | { kind: "subCategory"; subCategoryId: string }
@@ -44,12 +21,9 @@ export type PricingScope =
     | { kind: "products"; productIds: readonly string[] }
 
 export type PricingFormula =
-    /** `+10` raises by 10%, `-5` cuts by 5%. */
     | { kind: "percent"; percent: string }
-    /** `+55` adds 55 EGP, `-20` takes it off. */
     | { kind: "fixed"; amount: string }
     | { kind: "set"; amount: string }
-    /** price × multiplier + addend — the shape tier C actually needed. */
     | { kind: "linear"; multiplier: string; addend: string }
 
 export interface PreviewRow {
@@ -66,9 +40,7 @@ export interface PricingPreview {
     count: number
     oldTotal: SerializedMoney
     newTotal: SerializedMoney
-    /** Rows the formula would push to zero or below. A preview with any of these cannot apply. */
     invalid: PreviewRow[]
-    /** Mint of (scope, formula, rows, current prices). `apply()` requires it back. */
     token: string
 }
 
@@ -93,7 +65,6 @@ function whereFor(scope: PricingScope) {
     }
 }
 
-/** Rounded here, once, because this is the number that gets stored (ADR 0001). */
 function applyFormula(price: Money, formula: PricingFormula): Money {
     switch (formula.kind) {
         case "percent": {
@@ -109,7 +80,6 @@ function applyFormula(price: Money, formula: PricingFormula): Money {
     }
 }
 
-/** multiplyMoney takes an integer quantity by design; a price multiplier is not one. */
 function multiplyMoneyByDecimal(price: Money, multiplier: string): Money {
     return price.times(money(multiplier))
 }
@@ -120,7 +90,6 @@ function mintToken(scope: PricingScope, formula: PricingFormula, rows: PreviewRo
             JSON.stringify({
                 scope,
                 formula,
-                // Ids AND current prices: a change to either invalidates the preview.
                 rows: rows.map((row) => [row.productId, row.oldPrice]),
             })
         )
@@ -157,8 +126,6 @@ export class PricingService {
             }
         })
 
-        // `products_price_positive` would reject these at the database anyway; catching them
-        // in the preview means the admin sees WHICH rows are the problem, not a failed commit.
         const invalid = rows.filter((row) => compareMoney(row.newPrice, "0") <= 0)
 
         return {
@@ -171,13 +138,6 @@ export class PricingService {
         }
     }
 
-    /**
-     * Commit a previewed repricing.
-     *
-     * Re-previews internally and compares tokens: that is what makes "you must look before you
-     * commit" enforceable rather than a UI convention, and what makes a concurrent edit a
-     * refusal rather than a silent overwrite.
-     */
     static async apply(scope: PricingScope, formula: PricingFormula, token: string) {
         const admin = await requireCurrentAdmin()
         const preview = await this.preview(scope, formula)
@@ -201,8 +161,6 @@ export class PricingService {
                 await tx.product.update({ where: { id: row.productId }, data: { price: row.newPrice } })
             }
 
-            // §13.2: actor, scope, formula, row count. This row is also what §3's price
-            // history is derived from — there is no separate table.
             await tx.adminAuditLog.create({
                 data: {
                     actorType: "ADMIN",
@@ -217,7 +175,6 @@ export class PricingService {
                         count: preview.count,
                         oldTotal: preview.oldTotal,
                         newTotal: preview.newTotal,
-                        // Every row, so a repricing can be read back and reversed by hand.
                         changes: preview.rows.map((row) => ({ sku: row.sku, from: row.oldPrice, to: row.newPrice })),
                     },
                 },
@@ -229,21 +186,6 @@ export class PricingService {
         return { count: preview.count, oldTotal: preview.oldTotal, newTotal: preview.newTotal }
     }
 
-    /**
-     * §3: price history is DERIVED from the audit log rather than kept in its own table.
-     * Nothing has to remember to write it, because nothing can reprice without writing one.
-     */
-    /**
-     * One product, one new price.
-     *
-     * It goes through `preview` and `apply` rather than writing `product.price` directly, so a
-     * single edit lands in the audit log in exactly the shape `priceHistory` reads back. A
-     * second write path to the same column is how a price change becomes untraceable — and
-     * "who changed this and when" is the question the bulk editor exists to answer.
-     *
-     * The token round-trip is internal here: a one-row change is its own preview, and there is
-     * nothing for a human to review that the confirmation dialog does not already show.
-     */
     static async setPrice(productId: string, amount: string) {
         const scope: PricingScope = { kind: "products", productIds: [productId] }
         const formula: PricingFormula = { kind: "set", amount }

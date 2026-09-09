@@ -17,17 +17,6 @@ import {
 import { StatusBadge } from "@/components/status-badge"
 import { signOut, useSession } from "@/lib/auth-client"
 
-/**
- * Identity and session, in the top bar's trailing slot.
- *
- * Folds in the theme control, which used to be a free-floating icon button in the root
- * layout with no owner and no surrounding chrome. Theme is a per-person preference, so it
- * belongs with the person, not beside the content.
- *
- * The role is rendered through StatusBadge rather than as plain text: SUPER_ADMIN can create
- * and demote other administrators, and knowing which of the two you are signed in as before
- * you act is exactly the "what state is it in" question of §1.4.
- */
 export function AccountMenu() {
     const router = useRouter()
     const { data: session } = useSession()
@@ -38,7 +27,6 @@ export function AccountMenu() {
     const initial = label.trim().charAt(0).toUpperCase() || "?"
 
     if (!session?.user) {
-        // A fixed-size placeholder, so the bar does not reflow when the session resolves.
         return <div aria-hidden className="size-7 shrink-0 rounded-md border bg-muted" />
     }
 
@@ -69,12 +57,6 @@ export function AccountMenu() {
                 <DropdownMenuLabel className="text-2xs font-semibold tracking-label text-muted-foreground uppercase">
                     Appearance
                 </DropdownMenuLabel>
-                {/*
-                  * No `mounted` guard, and no effect to set one. Radix does not render menu
-                  * content until the menu is opened, which is always after hydration — so
-                  * `theme` is already resolved by the time this exists in the DOM, and the
-                  * mismatch the guard defends against cannot occur here.
-                  */}
                 <DropdownMenuRadioGroup value={theme} onValueChange={(next) => setTheme(next)}>
                     <DropdownMenuRadioItem value="light" className="text-xs">
                         <Sun aria-hidden className="mr-2 size-3.5" />

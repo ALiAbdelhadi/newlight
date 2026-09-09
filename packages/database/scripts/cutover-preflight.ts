@@ -1,20 +1,3 @@
-/**
- * Cutover preflight — BUILD §13 / §20, ADR 0006.
- *
- *   pnpm --filter @repo/database cutover:preflight
- *
- * Read-only. It answers one question: is everything that CAN be verified from here, verified?
- *
- * Two kinds of check, kept visibly apart:
- *
- *   AUTOMATIC  — read from the database, the manifest or the filesystem. A red one is a fact.
- *   MANUAL     — cannot be read from this environment (Neon console, Resend dashboard). These
- *                are printed as OPEN and never inferred. A preflight that guessed at PITR
- *                retention would be a preflight that certifies a rollback nobody has.
- *
- * It never writes, never promotes, and never touches production. Promotion is a Neon console
- * action taken by a person who has read this output.
- */
 import { execFileSync } from "node:child_process"
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs"
 import { join } from "node:path"
@@ -30,8 +13,6 @@ interface Check {
     detail: string
 }
 
-/** Read from disk rather than hard-coded: the chain grows, and a stale constant here would
- * report a correct database as broken — or worse, a short chain as complete. */
 const EXPECTED_MIGRATIONS = readdirSync(join(PACKAGE_ROOT, "prisma", "migrations")).filter((name) =>
     existsSync(join(PACKAGE_ROOT, "prisma", "migrations", name, "migration.sql"))
 ).length
@@ -48,7 +29,6 @@ function ageInHours(path: string): number {
 async function main() {
     const prisma = new PrismaClient()
 
-    // --- §20 condition 2: a catalog export exists -----------------------------------------
     const exportPath = join(PACKAGE_ROOT, "data", "catalog-export.json")
     if (!existsSync(exportPath)) {
         record("20.2", "catalog export exists", "fail", "packages/database/data/catalog-export.json is missing")
@@ -56,8 +36,6 @@ async function main() {
         const hours = ageInHours(exportPath)
         const parsed = JSON.parse(readFileSync(exportPath, "utf8")) as { products?: unknown[] }
         const count = Array.isArray(parsed.products) ? parsed.products.length : 0
-        // Age matters: the export is the thing a restore restores. A stale one restores a
-        // stale catalog and reports success while doing it.
         record(
             "20.2",
             "catalog export exists",
@@ -66,7 +44,6 @@ async function main() {
         )
     }
 
-    // --- §15: media is on Cloudinary ------------------------------------------------------
     const manifestPath = join(PACKAGE_ROOT, "data", "media-manifest.json")
     const manifest = JSON.parse(readFileSync(manifestPath, "utf8")) as {
         provider: string
@@ -81,7 +58,6 @@ async function main() {
         `${uploaded.size}/${files.size} distinct files uploaded, provider "${manifest.provider}"`
     )
 
-    // --- §15: and the catalog actually points at it ---------------------------------------
     const [imageTotal, imageLocal] = await Promise.all([
         prisma.productImage.count(),
         prisma.productImage.count({ where: { url: { startsWith: "/" } } }),
@@ -93,7 +69,6 @@ async function main() {
         `${imageTotal - imageLocal}/${imageTotal} remote; ${imageLocal} still local (run \`pnpm media:sync\`)`
     )
 
-    // --- §13: the branch is fully migrated ------------------------------------------------
     const applied = await prisma.$queryRaw<Array<{ count: bigint }>>`
         SELECT count(*) FROM _prisma_migrations WHERE finished_at IS NOT NULL AND rolled_back_at IS NULL`
     const appliedCount = Number(applied[0]?.count ?? 0)
@@ -104,7 +79,6 @@ async function main() {
         `${appliedCount}/${EXPECTED_MIGRATIONS} migrations applied`
     )
 
-    // --- §13: the v2 catalog reconciles ---------------------------------------------------
     const [products, specs, translations, images, priceSum] = await Promise.all([
         prisma.product.count(),
         prisma.productSpec.count(),
@@ -112,7 +86,6 @@ async function main() {
         prisma.productImage.count(),
         prisma.$queryRaw<Array<{ sum: string | null }>>`SELECT sum(price)::text AS sum FROM products`,
     ])
-    // The numbers P1 reconciled against production. They are the transform's contract.
     const expected = { products: 189, specs: 2051, translations: 378, priceSum: "232454.00" }
     const reconciled =
         products === expected.products &&
@@ -128,11 +101,9 @@ async function main() {
             `images ${images}`
     )
 
-    // --- §7: someone can actually sign in after cutover -----------------------------------
     const admins = await prisma.user.count({ where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } } })
     record("7.1", "an administrator exists", admins > 0 ? "ok" : "fail", `${admins} admin account(s)`)
 
-    // --- N1: the opening count is an explicit state, not a silence ------------------------
     const opening = await prisma.systemSetting.findUnique({
         where: { key: "inventory.opening_count_pending" },
         select: { value: true },
@@ -146,12 +117,6 @@ async function main() {
             : "closed"
     )
 
-    // --- §20: is the legacy JSON still load-bearing? --------------------------------------
-    //
-    // The files stay in the repository until all seven conditions close (A13) — this checks
-    // the one that is a fact about the code rather than about a backup: whether anything
-    // still reads them. A file nothing imports is dead weight; a file something imports is a
-    // second source of truth, which is the thing §20 exists to end.
     const legacyDir = join(REPO_ROOT, "apps", "www", "data")
     const legacyFiles = existsSync(legacyDir) ? readdirSync(legacyDir).filter((f) => f.endsWith(".json")) : []
     let referencing = ""
@@ -159,14 +124,12 @@ async function main() {
         try {
             referencing = execFileSync(
                 "grep",
-                // This file names the legacy files in order to look for them, so it excludes itself.
                 ["-rIl", "--exclude-dir=node_modules", "--exclude-dir=.next", "--exclude-dir=data",
                  "--exclude=cutover-preflight.ts",
                  "products-details", join(REPO_ROOT, "apps"), join(REPO_ROOT, "packages")],
                 { encoding: "utf8" }
             ).trim()
         } catch {
-            // grep exits 1 when it matches nothing, which is the answer we want.
             referencing = ""
         }
     }
@@ -179,7 +142,6 @@ async function main() {
             : `${legacyFiles.length} file(s) still present${referencing ? `, referenced by: ${referencing.split("\n").join(", ")}` : ", referenced by nothing"}`
     )
 
-    // --- The ones this environment cannot see ---------------------------------------------
     record(
         "20.5",
         "Neon PITR retention confirmed",
@@ -202,7 +164,6 @@ async function main() {
 
     await prisma.$disconnect()
 
-    // --- Report ---------------------------------------------------------------------------
     const symbol = { ok: "ok  ", fail: "FAIL", manual: "OPEN" } as const
     console.log("")
     console.log("  Cutover preflight — ADR 0006, Option A (promote the transformed branch)")
@@ -224,8 +185,6 @@ async function main() {
         console.log("")
         process.exitCode = 1
     } else {
-        // Deliberately not "READY". Every manual check is a thing a person has to have done,
-        // and a script that declares readiness on their behalf is how they get skipped.
         console.log("  Every automatic check passes. The OPEN items above are not optional —")
         console.log("  confirm each one yourself before promoting the branch.")
         console.log("")

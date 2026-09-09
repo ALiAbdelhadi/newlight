@@ -5,21 +5,6 @@ import { join } from "node:path"
 import { PrismaClient } from "@prisma/client"
 import { PACKAGE_ROOT } from "../media"
 
-/**
- * A disposable PostgreSQL database, per test run — BUILD §11.
- *
- * The contract is deliberately "give me a Postgres I may create databases on", not
- * "testcontainers". Testcontainers needs a running Docker daemon and pulls an image; a Neon
- * branch per run needs an API key nobody has here. A base URL covers all three: a local
- * server, a CI service container, or a testcontainer someone else started — and the tests do
- * not have to know which.
- *
- *   TEST_DATABASE_URL=postgresql://user@localhost:5432/postgres pnpm test
- *
- * Each run creates `newlight_test_<random>`, applies the REAL migration chain to it — not
- * `db push`, which would test a schema no deployment ever produces — and drops it afterwards.
- */
-
 const MIGRATIONS = join(PACKAGE_ROOT, "prisma", "migrations")
 
 export interface TestDatabase {
@@ -51,11 +36,6 @@ function withDatabase(url: string, name: string): string {
     return parsed.toString()
 }
 
-/**
- * Applies the chain with `psql`-free execution: each migration is one multi-statement script,
- * sent through the Prisma client on the new database. `0011` is included — the guard inside it
- * short-circuits on an empty products table, which is exactly the case here.
- */
 async function applyMigrations(url: string): Promise<string[]> {
     const applied: string[] = []
     const names = readdirSync(MIGRATIONS, { withFileTypes: true })
@@ -96,8 +76,6 @@ export async function createTestDatabase(): Promise<TestDatabase> {
             await prisma.$disconnect()
             const cleanup = adminClient()
             try {
-                // Terminate anything still attached, or DROP DATABASE blocks forever and the
-                // suite hangs instead of failing.
                 await cleanup.$executeRawUnsafe(
                     `SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = '${name}' AND pid <> pg_backend_pid()`
                 )

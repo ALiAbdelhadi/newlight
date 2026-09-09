@@ -4,13 +4,6 @@ import { __setTransportForTesting, MailTransportError, type MailInput, type Mail
 import { dispatchOutbox, queueMail, sendOrQueue, MAX_ATTEMPTS } from "../outbox"
 import type { OrderConfirmationPayload } from "../templates/payloads"
 
-/**
- * §25: "Mail: outbox row written in the same transaction; a failing transport does not fail
- * order creation."
- *
- * The second of those is the property §16 is built around, and it is tested by making the
- * transport fail on purpose and then checking that the business row survived.
- */
 let db: TestDatabase
 
 function recordingTransport(behaviour: "ok" | "retryable" | "permanent") {
@@ -45,8 +38,6 @@ describe("queueing inside the business transaction", () => {
             data: { email: `a${Date.now()}@x.invalid`, name: "A" },
         })
 
-        // The failure case first: if the business event rolls back, no orphaned "we received
-        // your message" is left behind for a message nobody received.
         await expect(
             db.prisma.$transaction(async (tx) => {
                 await queueMail(tx, { template: "contact-acknowledgement", to: user.email, locale: "ar", payload: { fullName: "A" } })
@@ -74,7 +65,6 @@ describe("queueing inside the business transaction", () => {
     })
 
     it("does not deduplicate mail that is legitimately repeatable", async () => {
-        // A second password-reset request is a new email, not a duplicate of the first.
         for (let i = 0; i < 2; i++) {
             await db.prisma.$transaction((tx) =>
                 queueMail(tx, {
@@ -99,7 +89,6 @@ describe("dispatch", () => {
         const first = await dispatchOutbox(db.prisma)
         expect(first).toMatchObject({ claimed: 1, sent: 1, failed: 0 })
         expect(sent).toHaveLength(1)
-        // The Arabic locale must reach the transport, not just the database.
         expect(sent[0]!.subject).toMatch(/[؀-ۿ]/)
 
         const row = await db.prisma.emailOutbox.findFirstOrThrow()
@@ -125,7 +114,6 @@ describe("dispatch", () => {
         expect(row.nextAttemptAt!.getTime()).toBeGreaterThan(Date.now())
         expect(row.lastError).toContain("503")
 
-        // And it is genuinely not due yet, so a sweep two seconds later leaves it alone.
         expect(await dispatchOutbox(db.prisma)).toMatchObject({ claimed: 0 })
     })
 
@@ -207,7 +195,6 @@ describe("a failing transport never fails the business event (§16)", () => {
             return created
         })
 
-        // The transport is down; the order exists anyway, and the email is queued for later.
         await dispatchOutbox(db.prisma)
         expect(await db.prisma.order.count({ where: { id: order.id } })).toBe(1)
         expect(await db.prisma.emailOutbox.count({ where: { status: "PENDING" } })).toBe(1)

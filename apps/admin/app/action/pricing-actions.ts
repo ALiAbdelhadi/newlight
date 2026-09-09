@@ -10,12 +10,6 @@ import {
 } from "@/lib/services/pricing-service"
 import { ForbiddenError, UnauthenticatedError } from "@/lib/auth"
 
-/**
- * §13.2 item 1. Two actions on purpose: the preview mints a token over the exact prices it
- * showed you, and the apply hands it back. A single "reprice" action would be a bulk write
- * nobody had seen the effect of, which is the tool the owner already has — psql.
- */
-
 export type PreviewResult = { ok: true; preview: PricingPreview } | { ok: false; error: string }
 export type ApplyResult = { ok: true; message: string } | { ok: false; error: string }
 

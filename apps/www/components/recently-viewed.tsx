@@ -8,19 +8,6 @@ import { Container, Section, SectionHeader } from "@/components/layout/section"
 import { ProductCarousel } from "@/components/offers-carousel"
 import type { StripCard } from "@/lib/services/merchandising-service"
 
-/**
- * Recently viewed, the honest way.
- *
- * The browser remembers WHICH products (SKUs, in `localStorage`, newest first, twelve at most)
- * and nothing else. The cards — name, image, and above all price — are fetched fresh through a
- * server action on every render of the strip, so a discount that ended since the visit is
- * gone and a product that was retired is simply absent. A version that cached the card would
- * be a version that showed yesterday's price.
- *
- * It is per-browser by design. There is no account-level history in the schema and this does
- * not pretend there is; a customer who signs in on another device starts empty.
- */
-
 const KEY = "newlight:recently-viewed"
 const MAX = 12
 const EVENT = "newlight:recently-viewed"
@@ -40,11 +27,9 @@ function write(skus: string[]) {
         window.localStorage.setItem(KEY, JSON.stringify(skus.slice(0, MAX)))
         window.dispatchEvent(new Event(EVENT))
     } catch {
-        // Private mode, quota, or storage disabled: the feature degrades to "nothing".
     }
 }
 
-/** A stable snapshot: the serialised list, so `useSyncExternalStore` compares by value. */
 function subscribe(callback: () => void) {
     window.addEventListener("storage", callback)
     window.addEventListener(EVENT, callback)
@@ -62,7 +47,6 @@ const getSnapshot = () => {
 }
 const getServerSnapshot = () => "[]"
 
-/** Mounted on a product page: records the visit. Renders nothing. */
 export function RecordView({ sku }: { sku: string }) {
     useEffect(() => {
         write([sku, ...read().filter((entry) => entry !== sku)])
@@ -89,9 +73,6 @@ export function RecentlyViewed({ exclude, tone = "default" }: { exclude?: string
         }
     }, [key])
 
-    // Nothing stored, or the server has not answered yet: no section. The strip appears once
-    // there is something to show, and never as an empty band with a heading. An empty key is
-    // decided during render rather than by writing state from the effect.
     const visible = key ? cards : null
     if (!visible || visible.length === 0) return null
 

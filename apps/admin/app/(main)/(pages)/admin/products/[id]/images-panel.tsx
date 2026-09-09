@@ -47,16 +47,6 @@ export interface ColorOption {
     hex: string | null
 }
 
-/**
- * Product photographs.
- *
- * Order is the model, not a "main image" flag: position 0 is what listings show and what the
- * gallery opens on. Two sources of truth for "which one is the main photo" is one more than
- * can be kept in agreement.
- *
- * Reordering is by explicit move rather than drag: a drag target is invisible to a keyboard
- * and to anyone who cannot hold a pointer steady, and the buttons say what they will do.
- */
 export function ImagesPanel({
     productId,
     sku,
@@ -256,7 +246,6 @@ export function ImagesPanel({
     )
 }
 
-/** Alt text is the image's translation, so it is paired the same way the words are (§13.2). */
 function AltEditor({
     productId,
     image,
@@ -301,17 +290,6 @@ function AltEditor({
     )
 }
 
-/**
- * Which colours the product is offered in.
- *
- * `ProductAvailableColor` drives the swatches a customer picks from, and it was readable on the
- * product header and editable nowhere — so a fixture that started coming in brass stayed
- * black-only until someone wrote SQL. Sixteen products currently offer no colour at all, which
- * the data-quality queue reports and this is the place to answer.
- *
- * It sits above the photographs because a photograph can be linked to a colour, and linking one
- * to a colour the product is not offered in is a question with no answer.
- */
 function OfferedColors({
     productId,
     colors,

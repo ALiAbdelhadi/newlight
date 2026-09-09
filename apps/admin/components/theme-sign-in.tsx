@@ -7,14 +7,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { signIn } from "@/lib/auth-client"
 
-/**
- * The admin sign-in form.
- *
- * English only and deliberately so: the admin app is internal and English-only by design.
- * There is no "create an account" link, because there is no sign-up route and the API refuses
- * registration too — the first SUPER_ADMIN is seeded by
- * `pnpm --filter @repo/database seed:super-admin`.
- */
 export function ThemedSignIn() {
     const router = useRouter()
     const [error, setError] = useState<string | null>(null)
@@ -32,8 +24,6 @@ export function ThemedSignIn() {
         })
         setPending(false)
 
-        // One message for every failure. Distinguishing "no such account" from "wrong
-        // password" on an admin login tells an attacker which addresses are worth attacking.
         if (result.error) return setError("Email or password is incorrect.")
 
         router.push("/admin/dashboard")
@@ -41,12 +31,6 @@ export function ThemedSignIn() {
     }
 
     return (
-        /*
-         * The panel is the system's surface — 6px radius, one border, no shadow (§3.4, §3.5).
-         * It used square corners, 300ms transitions, letter-spaced light type and a button that
-         * lifted 2px on hover: the storefront's vocabulary, on the one screen where an operator
-         * wants to type two fields and get to work.
-         */
         <div className="w-full rounded-lg border bg-card p-6">
             <h1 className="text-lg font-semibold tracking-tight">Sign in</h1>
             <p className="mt-1 mb-5 text-xs text-muted-foreground">

@@ -6,22 +6,8 @@ import { allOffers } from "./offers-service"
 import { ProductService } from "./product-service"
 import { liveProduct, productLinkedCardInclude, toCardView, type CardView, type ProductLinkedCard } from "./selectors"
 
-/**
- * The merchandising strips: which products to show WHERE, and why.
- *
- * Every strip on the storefront reads through this file and comes out as the same card, so a
- * "new arrivals" tile on the homepage and a "you may also like" tile on a product page are the
- * same tile — the same link, the same price resolution, the same one-per-family rule.
- *
- * Nothing here is curated or flagged. Each list is DERIVED from something the shop already
- * records — when a product was added, what has actually shipped, which section it sits in —
- * so no one has to remember to update a list, and a list that has nothing to say (a shop with
- * no orders yet) returns empty and its section renders nothing rather than a placeholder.
- */
-
 export interface StripCard {
     id: string
-    /** The SKU. What "recently viewed" stores, because it is the id a customer can see. */
     sku: string
     slug: string
     name: string
@@ -36,7 +22,6 @@ export interface StripCard {
 
 const FALLBACK_IMAGE = "/lighting-product.jpg"
 
-/** A row that has already been through `toCardView` — the offers service hands these over. */
 type PricedLinkedRow = CardView<ProductLinkedCard>
 
 function fromPricedRow(row: PricedLinkedRow): StripCard {
@@ -59,10 +44,6 @@ function toStripCard(row: ProductLinkedCard, discounts: readonly ActiveDiscount[
     return fromPricedRow(toCardView(row, discounts))
 }
 
-/**
- * One card per family, in the order given (§6). Five wattages of one fixture are one product
- * to a reader; a strip that showed all five would be one product wearing five hats.
- */
 function onePerFamily<T extends { id: string; familyId: string | null }>(rows: readonly T[]): T[] {
     const seen = new Set<string>()
     const out: T[] = []
@@ -75,10 +56,7 @@ function onePerFamily<T extends { id: string; familyId: string | null }>(rows: r
     return out
 }
 
-/** Over-fetch, so that collapsing families still leaves `limit` cards. */
 const FAMILY_HEADROOM = 3
-
-/* -------------------------------------------------------------- new arrivals */
 
 export async function newestProducts(locale: Locale, limit = 12): Promise<StripCard[]> {
     const [rows, discounts] = await Promise.all([
@@ -95,13 +73,6 @@ export async function newestProducts(locale: Locale, limit = 12): Promise<StripC
         .map((row) => toStripCard(row, discounts))
 }
 
-/* -------------------------------------------------------------- best sellers */
-
-/**
- * Ranked by units on orders that were not cancelled — what has ACTUALLY been bought, not a
- * `isBestSeller` flag someone would have to keep honest. Empty until the shop has orders,
- * which is the right answer for a new shop and the reason the section can disappear.
- */
 export async function bestSellers(locale: Locale, limit = 12): Promise<StripCard[]> {
     const ranked = await prisma.orderItem.groupBy({
         by: ["productId"],
@@ -127,12 +98,6 @@ export async function bestSellers(locale: Locale, limit = 12): Promise<StripCard
         .map((row) => toStripCard(row, discounts))
 }
 
-/* ------------------------------------------------------------------ related */
-
-/**
- * Other products in the same section, excluding the one being viewed and its own family —
- * the family is already on the page as the variant selector.
- */
 export async function relatedProducts(
     product: { id: string; familyId: string | null; subCategoryId: string },
     locale: Locale,
@@ -157,9 +122,6 @@ export async function relatedProducts(
         .map((row) => toStripCard(row, discounts))
 }
 
-/* --------------------------------------------------------- category highlights */
-
-/** Featured products of a category first, then its newest — for the category landing. */
 export async function categoryHighlights(categoryId: string, locale: Locale, limit = 12): Promise<StripCard[]> {
     const [rows, discounts] = await Promise.all([
         prisma.product.findMany({
@@ -175,10 +137,6 @@ export async function categoryHighlights(categoryId: string, locale: Locale, lim
         .map((row) => toStripCard(row, discounts))
 }
 
-/**
- * What is on offer inside one category, round-robin across its sections so one large sale
- * does not fill every slot — the same rule the homepage offers strip uses.
- */
 export async function categoryOffers(
     locale: Locale,
     categorySlug: string,
@@ -204,8 +162,6 @@ export async function categoryOffers(
     const percentOff = Math.max(...groups.map((group) => group.summary.percentOff))
     return cards.length > 0 ? { percentOff, cards } : null
 }
-
-/* ---------------------------------------------------------- shop by category */
 
 export interface SubCategoryTile {
     id: string
@@ -238,15 +194,6 @@ export async function subCategoryTiles(locale: Locale): Promise<SubCategoryTile[
     })
 }
 
-/* ---------------------------------------------------------- recently viewed */
-
-/**
- * Cards for a list of SKUs, in that order, priced NOW.
- *
- * "Recently viewed" stores SKUs in the browser and nothing else, then asks for the cards here
- * — so a discount that ended since the visit is not shown as still running, and a product that
- * was retired is simply absent.
- */
 export async function cardsForSkus(skus: readonly string[], locale: Locale): Promise<StripCard[]> {
     if (skus.length === 0) return []
     const [rows, discounts] = await Promise.all([ProductService.getProductsByIds([...skus], locale), activeDiscounts()])

@@ -1,22 +1,3 @@
-/**
- * Catalog export and restore — BUILD §20 conditions 2 and 7.
- *
- *   pnpm --filter @repo/database catalog:export [path]
- *   pnpm --filter @repo/database catalog:restore <path>
- *
- * The legacy JSON files under apps/www/data are currently acting as an accidental backup of
- * the catalog. Deleting them makes the database the ONLY copy, so §20 will not let them go
- * until a real replacement exists AND has been proven to restore. This is both halves: the
- * export is the backup and the dev-environment seed source, and `restore` is what makes
- * condition 7 something you can run rather than something you assert.
- *
- * Deterministic: everything is ordered by a stable key and serialised with sorted output, so
- * two exports of the same catalog are byte-identical and a diff between them is meaningful.
- * Money is exported as a STRING — a JSON number cannot hold a Decimal without lying.
- *
- * Restore is additive-upsert, never destructive: it will not delete a row the file does not
- * mention. Restoring into a non-empty database is refused unless --force is passed.
- */
 import { writeFileSync, readFileSync, existsSync, renameSync } from "node:fs"
 import { join } from "node:path"
 import { PrismaClient } from "@prisma/client"
@@ -68,7 +49,6 @@ async function collect() {
             productSpecs: products.reduce((n, p) => n + p.specs.length, 0),
             productImages: products.reduce((n, p) => n + p.images.length, 0),
         },
-        /** The §18.3 invariant, carried inside the file so a restore can check itself. */
         priceTotal: serializeMoney(sumMoney(products.map((p) => p.price))),
         colors,
         specDefinitions,
@@ -108,7 +88,6 @@ async function restoreCatalog(source: string, force: boolean) {
         throw new Error(`refusing to restore over ${existing} existing product(s). Pass --force if that is what you mean.`)
     }
 
-    // Order matters: a product cannot reference a sub-category that does not exist yet.
     for (const color of data.colors) {
         await prisma.productColor.upsert({ where: { id: color.id }, create: color, update: color })
     }
@@ -167,7 +146,6 @@ async function restoreCatalog(source: string, force: boolean) {
         await prisma.productSlugHistory.upsert({ where: { id: entry.id }, create: entry, update: entry })
     }
 
-    // Condition 7 is "a PROVEN restore", so the restore proves itself.
     const restored = await collect()
     const checks: Array<[string, unknown, unknown]> = [
         ["products", restored.counts.products, data.counts.products],

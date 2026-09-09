@@ -7,17 +7,6 @@ const ROW_HEIGHT: Record<TableState["density"], string> = {
     dense: "h-[28px]",
 }
 
-/**
- * Loading rows shaped like the real ones (§11, §19).
- *
- * A spinner in place of a table tells you nothing and moves everything: the header vanishes,
- * the page height collapses, and when the data lands the whole layout jumps. Rows of the
- * right height in the right number of columns hold the layout still, so the only thing that
- * changes on arrival is the text.
- *
- * Widths vary per column on a fixed cycle rather than randomly — random widths re-roll on
- * every render and make the skeleton shimmer with a second, meaningless animation.
- */
 const WIDTHS = ["w-24", "w-32", "w-16", "w-20", "w-28", "w-14"]
 
 export function DataTableSkeleton({

@@ -5,18 +5,6 @@ import type { Locale } from "@repo/database/locale"
 
 import { formatNumberWithConversion } from "@/lib/price"
 
-/**
- * The lines on an order.
- *
- * A server component now: it had `"use client"` with nothing interactive in it, and it was
- * printing money with `item.price.toLocaleString()` — which on a `Prisma.Decimal` calls the
- * object's own `toString` and renders "1234.5" where the rest of the storefront renders
- * "EGP 1,234.50". Money goes through the shared formatter, like everywhere else.
- *
- * The colour-temperature labels used to be a private bilingual map inside this file. They now
- * come from the caller's translations, so there is one place a colour temperature is named.
- */
-
 const COLOR_TEMP_KELVIN: Record<string, string> = {
     WARM_3000K: "3000K",
     COOL_4000K: "4000K",

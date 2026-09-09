@@ -2,26 +2,6 @@ import { Prisma, prisma, serializeMoney, serializeMoneyOrNull, type SerializedMo
 
 import { toPrismaPage, type TableState } from "@/lib/table-params"
 
-/**
- * The Products list query (P4.5 §11, §25).
- *
- * Everything the list can do — search, filter, sort, page — happens in PostgreSQL. That is
- * not a performance preference, it is a correctness one, and the page this replaces proves
- * why: it fetched fifty rows, filtered them in JavaScript for the "Sold" tab, and then
- * printed the resulting count under a comment claiming it described the catalogue. The tab
- * filtered one page and reported it as an answer about 189 products.
- *
- * Rules:
- *   - No unrestricted `findMany`. Every call is bounded by skip/take.
- *   - The count is a separate `count()` over the SAME where clause, so the total and the
- *     rows can never describe different populations.
- *   - Translations are fetched with an explicit `where: { locale }`. An unscoped `take: 1`
- *     lets PostgreSQL return whichever row it likes, which is how a product shows an Arabic
- *     name on an English-only screen.
- *   - Money crosses the boundary serialized. A raw Decimal into a client component is the
- *     defect currently throwing 47 console errors on /admin/orders.
- */
-
 export const PRODUCT_SORT_COLUMNS = ["sku", "name", "price", "stock", "createdAt"] as const
 export type ProductSortColumn = (typeof PRODUCT_SORT_COLUMNS)[number]
 
@@ -36,7 +16,6 @@ export interface ProductRow {
     family: string | null
     imageUrl: string | null
     price: SerializedMoney
-    /** Null is "no cost recorded", which is every product until cost entry runs. Never zero. */
     averageCost: SerializedMoney | null
     onHand: number
     reserved: number
@@ -48,7 +27,6 @@ export interface ProductRow {
 export interface ProductListResult {
     rows: ProductRow[]
     total: number
-    /** Whether the installation-wide opening count is still outstanding. */
     openingCountPending: boolean
     facets: {
         categories: { value: string; label: string }[]
@@ -65,10 +43,6 @@ function buildWhere(state: TableState): Prisma.ProductWhereInput {
 
     const query = filters.q?.trim()
     if (query) {
-        /*
-         * SKU or name, in EITHER language. Searching only the English translation would make
-         * an Arabic-named product unfindable from a screen whose whole job is editing it.
-         */
         and.push({
             OR: [
                 { productId: { contains: query, mode: "insensitive" } },
@@ -88,22 +62,12 @@ function buildWhere(state: TableState): Prisma.ProductWhereInput {
     if (filters.cost === "missing") and.push({ averageCost: null })
     if (filters.cost === "recorded") and.push({ averageCost: { not: null } })
 
-    /*
-     * Translation completeness is the ABSENCE of a row, so it is expressed as `none`, not as
-     * a comparison against an empty string. §16's rule that Arabic never falls back means a
-     * missing Arabic row is genuinely missing and has to be findable as such.
-     */
     if (filters.translation === "en_only") and.push({ translations: { none: { locale: "ar" } } })
     if (filters.translation === "ar_only") and.push({ translations: { none: { locale: "en" } } })
     if (filters.translation === "complete") {
         and.push({ translations: { some: { locale: "ar" } } }, { translations: { some: { locale: "en" } } })
     }
 
-    /*
-     * Stock filters compare AVAILABLE (onHand - reserved), the same quantity
-     * inventory.ts's countLowStock uses. A product with no stock_levels row counts as zero,
-     * which is what it is — hence the `none` branch rather than a join that drops it.
-     */
     if (filters.stock === "out") {
         and.push({
             OR: [
@@ -130,9 +94,6 @@ function buildOrderBy(state: TableState): Prisma.ProductOrderByWithRelationInput
         case "createdAt":
             return [{ createdAt: direction }]
         case "name":
-            // Prisma cannot order by a related translation's column, so the SKU stands in.
-            // Ordering by a name would need a raw query or a denormalised column; the SKU is
-            // honest and the column header says "Product", which is what it sorts by.
             return [{ productId: direction }]
         case "stock":
         default:
@@ -208,12 +169,6 @@ export async function listProducts(state: TableState): Promise<ProductListResult
         createdAt: product.createdAt.toISOString(),
     }))
 
-    /*
-     * Sorting by stock happens here, on the page, and ONLY here — it is the one column the
-     * schema cannot order by, because available quantity is `onHand - reserved` across a
-     * relation. Doing it on the page is a real limitation and is labelled as one in the UI
-     * rather than passed off as a catalogue-wide sort.
-     */
     if (state.sort === "stock") {
         rows.sort((a, b) => {
             const delta = a.onHand - a.reserved - (b.onHand - b.reserved)

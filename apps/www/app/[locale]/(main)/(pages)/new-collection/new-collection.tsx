@@ -44,16 +44,6 @@ interface NewCollectionProps {
     }
 }
 
-/**
- * The lookbook: installed work, as a grid of cards.
- *
- * A server component now. The client version carried a `<style jsx>` block with two keyframe
- * animations that set every card to `opacity: 0` and faded it in on a timer — the same effect
- * `Reveal` gives every other grid on the site, on scroll rather than on a clock, and with the
- * resting state visible. The 72px `font-light` title and the `bg-card` closing band were the
- * page's own, and are the shared `PageHeader` and CTA band now. The CTA had a translated
- * button label and rendered no button; it renders one.
- */
 export default function NewCollection({
     filteredCollections,
     allCollectionsCount,

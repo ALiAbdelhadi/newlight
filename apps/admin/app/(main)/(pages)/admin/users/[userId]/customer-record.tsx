@@ -14,19 +14,6 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { sumMoney, serializeMoney } from "@repo/database"
 
-/**
- * The customer record, on the record archetype (P4.5 §12).
- *
- * Two tabs, not five broken ones. The screen this replaces had a five-tab strip over a single
- * `TabsContent`, so four of the five tabs rendered an empty panel — and the tabs themselves
- * named statuses (`processing`, `fulfilled`) that migration 0010 removed from the enum, so two
- * of them could never have matched an order even if they had rendered.
- *
- * The duplicated "Billing Address" / "Shipping Address" columns are gone too: the schema has
- * ONE `ShippingAddress` per user, and both columns were printing the same row twice under two
- * different headings, which states that the customer has two addresses that happen to agree.
- */
-
 export interface CustomerOrder {
     id: string
     orderNumber: string
@@ -70,7 +57,6 @@ export function CustomerRecord({ customer, audit }: { customer: Customer; audit:
     const lifetime = useMemo(() => {
         const billable = customer.orders.filter((order) => order.status !== OrderStatusEnum.cancelled)
         return {
-            // Decimal arithmetic on the serialized strings, not `+` over floats (ADR 0001).
             spend: serializeMoney(sumMoney(billable.map((order) => order.total))),
             orders: billable.length,
             cancelled: customer.orders.length - billable.length,

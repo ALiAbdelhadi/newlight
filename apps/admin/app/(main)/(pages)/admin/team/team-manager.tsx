@@ -46,7 +46,6 @@ export function TeamManager({
     const [email, setEmail] = useState("")
     const [name, setName] = useState("")
     const [role, setRole] = useState<Role>("ADMIN")
-    /** Shown once, never stored. Cleared when the page reloads. */
     const [issued, setIssued] = useState<{ email: string; password: string } | null>(null)
 
     const isSuper = me.role === "SUPER_ADMIN"
@@ -86,12 +85,6 @@ export function TeamManager({
             )}
 
             {issued && (
-                /*
-                 * A one-time secret, so it is a WARNING rather than a success: the operator has
-                 * something in their hands that will be gone when this box closes. The banner it
-                 * replaces was a hand-mixed `border-yellow-500/40 bg-yellow-50 dark:bg-yellow-900/10`
-                 * — an amber no token reaches, and a `dark:` utility of the kind §3 forbids.
-                 */
                 <InlineAlert
                     tone="warning"
                     title={`Password for ${issued.email}`}
@@ -104,8 +97,6 @@ export function TeamManager({
                     <p className="mb-1.5 font-mono text-base break-all text-foreground select-all">
                         {issued.password}
                     </p>
-                    {/* Shown once because it is stored nowhere — the account holds a hash, and the
-                        audit log deliberately holds neither. */}
                     This is shown once and is stored nowhere. Give it to them directly and have them change it. When
                     the sending domain is verified this becomes an emailed link instead.
                 </InlineAlert>
@@ -182,9 +173,6 @@ export function TeamManager({
                                         {admin.sessions} device{admin.sessions === 1 ? "" : "s"}
                                     </TableCell>
                                     <TableCell className="text-right whitespace-nowrap">
-                                        {/* Both refusals are enforced by the service; drawing them here as
-                                            explanations rather than disabled buttons means the reason is
-                                            visible before the click, not after. */}
                                         {isMe ? (
                                             <span className="text-2xs text-muted-foreground">
                                                 Ask another SUPER_ADMIN to change your own role

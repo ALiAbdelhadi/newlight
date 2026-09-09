@@ -21,16 +21,6 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {
-        /*
-         * The control ladder, from §3.2's `--field-height`. shadcn ships 36 / 32 / 40, which is
-         * a marketing site's ladder: a 36px button beside a 30px input does not line up, and the
-         * panel had ~40 call sites passing `className="h-[30px]"` or `"h-7 text-xs"` to correct
-         * it one button at a time.
-         *
-         *   default 30px — the same height as an Input, so a form row is one line
-         *   sm      28px — table rows, toolbars, inline row actions
-         *   lg      34px — the one primary action on a page, where it needs to be found
-         */
         default: "h-[30px] px-3 has-[>svg]:px-2.5",
         sm: "h-7 gap-1 rounded-md px-2.5 text-xs has-[>svg]:px-2",
         lg: "h-[34px] rounded-md px-5 has-[>svg]:px-4",

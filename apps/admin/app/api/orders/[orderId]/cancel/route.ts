@@ -18,9 +18,6 @@ export async function PATCH(
 
         console.log(`[API] Attempting to cancel order: ${orderId}`)
 
-        // This route cancelled orders with NO AUTHENTICATION AT ALL — the check was a TODO
-        // and `null` was passed where an actor belonged, with a comment explaining that null
-        // meant "admin". Anyone who could reach the URL could cancel any order.
         const admin = await requireCurrentAdmin()
 
         const result = await OrderService.cancelOrder(
@@ -32,7 +29,6 @@ export async function PATCH(
         if (!result.success) {
             console.error(`[API] Failed to cancel order: ${result.error}`)
 
-            // Return specific error messages
             if (result.error === "Order not found") {
                 return NextResponse.json(
                     { error: "Order not found" },
@@ -57,7 +53,6 @@ export async function PATCH(
                 )
             }
 
-            // Generic error
             return NextResponse.json(
                 { error: result.error || "Failed to cancel order" },
                 { status: 400 }
@@ -74,7 +69,6 @@ export async function PATCH(
     } catch (error) {
         console.error("[API] Error cancelling order:", error)
 
-        // Handle unexpected errors
         return NextResponse.json(
             {
                 error: "An unexpected error occurred while cancelling the order",

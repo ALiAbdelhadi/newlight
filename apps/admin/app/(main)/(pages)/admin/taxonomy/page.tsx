@@ -7,18 +7,6 @@ import { PageBody, PageHeader, PageStack, Panel } from "@/components/page"
 import { EmptyState } from "@/components/states"
 import { cn } from "@/lib/utils"
 
-/**
- * The category tree.
- *
- * There was no way to create, rename, reorder or retire a category or sub-category from the
- * panel — adding one meant writing a migration. This is the other half of "define a catalogue",
- * the half `/admin/products/new` needed to exist for.
- *
- * The marks — archived, hidden, missing a language — are deliberately not `Badge`. That
- * component is `rounded-full` with a focus ring and four brand variants, which is a marketing
- * chip; these are readouts on a dense list, and they are set in the same 4px-cornered, muted
- * vocabulary the rest of the panel uses for the same job.
- */
 export const dynamic = "force-dynamic"
 
 function nameFor(translations: Array<{ locale: string; name: string; slug: string }>, locale: string) {
@@ -26,10 +14,6 @@ function nameFor(translations: Array<{ locale: string; name: string; slug: strin
     return t ? { name: t.name.trim(), slug: t.slug } : null
 }
 
-/**
- * A state mark. Three tones and nothing else — a fourth would be a fourth meaning nobody
- * defined.
- */
 function Mark({ tone = "neutral", children }: { tone?: "neutral" | "warning" | "danger"; children: React.ReactNode }) {
     return (
         <span
@@ -96,7 +80,6 @@ export default async function TaxonomyPage() {
                                                 ) : !category.isActive ? (
                                                     <Mark tone="warning">Hidden</Mark>
                                                 ) : null}
-                                                {/* A missing locale is the defect the storefront renders as a gap. */}
                                                 {(!en || !ar) && <Mark tone="danger">Missing a language</Mark>}
                                             </div>
                                             <p className="mt-0.5 font-mono text-2xs text-muted-foreground">

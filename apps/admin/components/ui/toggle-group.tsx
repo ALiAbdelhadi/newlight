@@ -4,19 +4,6 @@ import * as React from "react"
 import { cn } from "@/lib/utils"
 import { ToggleGroup as ToggleGroupPrimitive } from "radix-ui"
 
-/**
- * A segmented single- or multi-select control.
- *
- * The density switcher is the reason this exists: three mutually exclusive
- * options that must read as one control and be reachable with the arrow keys.
- * Radix gives it `role="radiogroup"` and roving focus, which three adjacent
- * buttons would not.
- *
- * Written by hand rather than pulled from the registry: the CLI blocks on an
- * interactive overwrite prompt for `button.tsx`, and overwriting that file to
- * get past it would silently replace a component the app already depends on.
- */
-
 const ToggleGroupContext = React.createContext<{ size: "sm" | "default" }>({
     size: "default",
 })

@@ -3,10 +3,6 @@ import { requireCurrentAdmin } from "@/lib/auth"
 import { NewProductForm } from "./new-product-form"
 import { PageBody, PageHeader } from "@/components/page"
 
-/**
- * §13.2 did not ask for this, and the panel was unusable as an ERP without it: every editing
- * screen P5 built operates on a product that already exists, and nothing could make one.
- */
 export const dynamic = "force-dynamic"
 
 export default async function NewProductPage() {

@@ -14,11 +14,6 @@ function describe(error: unknown): string {
     return error instanceof Error ? error.message : "Something went wrong."
 }
 
-/**
- * The created password is returned to the caller ONCE and is not stored, logged or emailed.
- * Emailing it is what this should do; `RESEND_API_KEY` is unset, so an invitation would sit in
- * the outbox and the new administrator would wait for something that is not coming.
- */
 export async function createAdmin(input: {
     email: string
     name: string

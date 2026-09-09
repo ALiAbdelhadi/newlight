@@ -5,13 +5,6 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { reportError } from "@/lib/report-error"
 
-/**
- * The admin panel had no error boundary at all, so a thrown exception on any of its fourteen
- * screens rendered Next's default error page — no navigation, no way back to the dashboard,
- * and nothing written down.
- *
- * It is English-only, like the rest of the admin, by design (CLAUDE.md).
- */
 export default function AdminError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {
         reportError(error, { boundary: "admin" })

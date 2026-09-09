@@ -1,5 +1,3 @@
-// Type definitions - re-export all types from Prisma
-// This file provides type definitions only
 export type {
     Prisma,
     PrismaClient,

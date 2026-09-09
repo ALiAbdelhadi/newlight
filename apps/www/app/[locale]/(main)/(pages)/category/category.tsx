@@ -18,15 +18,6 @@ interface CategoriesSectionProps {
     categories: Category[]
 }
 
-/**
- * The catalogue's front page.
- *
- * It had its own masthead — display italic `h1`, a hover-growing hairline, an English-only
- * "Collections" eyebrow and an English-only "{n} Categories" pill in an Arabic storefront —
- * and its own closing band with square, uppercase, `font-light` buttons that appear nowhere
- * else on the site. Both are now the shared pieces: `PageHeader`, which every other index page
- * (search, offers, orders) leads with, and the same sunk CTA band the homepage ends on.
- */
 export default function CategoriesSection({ categories }: CategoriesSectionProps) {
     const t = useTranslations("categories-page")
 

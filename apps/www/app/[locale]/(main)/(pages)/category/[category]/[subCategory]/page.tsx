@@ -27,13 +27,9 @@ async function load(params: Props["params"]) {
     }
     if (resolution.kind === "missing") notFound()
 
-    // One card per family, not per SKU: five wattages of one fixture are one product to a
-    // reader, and v1 listed them as five (§6).
     const view = await CategoryService.getProductsWithUniqueVariants(locale, categorySlug, subCategorySlug)
     if (!view) notFound()
 
-    // What is on offer IN THIS SECTION (§13.2). Null while nothing is discounted, which is what
-    // makes the banner remove itself when the window closes rather than needing to be taken down.
     const [offer, siblings] = await Promise.all([
         offersForSection({ subCategoryId: view.id }),
         CategoryService.getSubCategories(locale, categorySlug),
@@ -46,8 +42,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const t = await getTranslations("metadatas.section-type-page")
     const translation = view.translations[0]
     const name = translation?.name ?? ""
-    // The message takes {section} and {category}; passing the wrong parameter names renders
-    // the raw key, which is what the page was doing before this was checked in a browser.
     const categoryName = view.category.translations[0]?.name ?? ""
 
     return constructMetadata({
@@ -75,8 +69,6 @@ export async function generateStaticParams() {
 export default async function Page({ params }: Props) {
     const { view, locale, categorySlug, offer, siblings } = await load(params)
 
-    // The other sections of this category, for the chip row under the title — a shopper who
-    // opened "Bollards" and wants "Spike lights" should not have to go up a level to find it.
     const alsoIn = siblings
         .filter((sibling) => sibling.id !== view.id)
         .flatMap((sibling) => {
@@ -84,23 +76,12 @@ export default async function Page({ params }: Props) {
             return translation ? [{ id: sibling.id, name: translation.name, slug: translation.slug }] : []
         })
 
-    /*
-     * The banner is rendered HERE rather than inside the listing component, and that is a
-     * placement decision as well as a code one: a band directly under the site header reads as
-     * a statement about the whole section, which is what it is. Inside the grid it would read
-     * as one more tile.
-     */
     const sectionName = view.translations[0]?.name ?? ""
     const categoryPath = `/${locale}/category/${encodeSlug(categorySlug)}`
     const sectionPath = `${categoryPath}/${encodeSlug(view.translations[0]?.slug ?? "")}`
 
     return (
         <>
-            {/*
-             * Names and links only. A full `Product` per tile would repeat, on every listing,
-             * the block the product page owns — and every repetition is a place the price can
-             * go stale.
-             */}
             <JsonLd
                 data={[
                     breadcrumbSchema([

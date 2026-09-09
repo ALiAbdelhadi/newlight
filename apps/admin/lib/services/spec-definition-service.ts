@@ -2,23 +2,6 @@ import { prisma, type SpecValueType } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
 import { revalidateStorefront } from "@/lib/revalidate"
 
-/**
- * Managing the specification DICTIONARY — which measurements exist at all.
- *
- * `SpecDefinition` was seeded by migration `0006` and read-only ever since, so a new kind of
- * fixture with a measurement nobody had thought of could not be described without writing a
- * migration. `SubCategorySpec` — which specs a sub-category expects — was the same.
- *
- * The dangerous part is not creating one. It is deleting one:
- *
- *     ProductSpec.spec  →  SpecDefinition  ON DELETE CASCADE
- *
- * Removing a definition takes every product's value for it with it, silently, with no
- * confirmation from the database. So deletion is refused while any value exists, and the
- * refusal names the count. Nothing here can be undone by an undo button; it is prevented
- * instead.
- */
-
 export class SpecDefinitionError extends Error {
     constructor(message: string) {
         super(message)
@@ -36,11 +19,9 @@ export interface SpecDefinitionInput {
     order: number
 }
 
-/** Keys are referenced from SQL, the transform's dictionary and the storefront's filters. */
 const KEY_PATTERN = /^[a-z][a-z0-9_]*$/
 
 export class SpecDefinitionService {
-    /** Every definition, with what would be lost if it were deleted. */
     static async list() {
         await requireCurrentAdmin()
         return prisma.specDefinition.findMany({
@@ -103,18 +84,6 @@ export class SpecDefinitionService {
         return created
     }
 
-    /**
-     * Labels, units and order can change freely — they are presentation.
-     *
-     * The KEY cannot: it is the primary key, it is what `ProductSpec` rows point at, and it is
-     * written into the storefront's filters and the transform's dictionary. Renaming it would
-     * be a migration, not an edit, so it is not offered.
-     *
-     * The TYPE can change, but only when it does not contradict data that already exists —
-     * `valueNumber` is derived from the text when a spec is NUMBER, and switching an existing
-     * TEXT spec to NUMBER would leave every current row without one. The count is checked and
-     * reported rather than silently coerced.
-     */
     static async update(key: string, input: Omit<SpecDefinitionInput, "key">) {
         const admin = await requireCurrentAdmin()
 
@@ -175,12 +144,6 @@ export class SpecDefinitionService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    /**
-     * Delete a definition — only when nothing uses it.
-     *
-     * `ProductSpec.specKey` cascades, so the database would take every product's value for this
-     * measurement without a word. That is the entire reason this method counts first.
-     */
     static async remove(key: string) {
         const admin = await requireCurrentAdmin()
         const definition = await prisma.specDefinition.findUniqueOrThrow({
@@ -218,8 +181,6 @@ export class SpecDefinitionService {
         await revalidateStorefront({ kind: "all" })
     }
 
-    // --- which specs a sub-category asks for ------------------------------------------------
-
     static async forSubCategory(subCategoryId: string) {
         await requireCurrentAdmin()
         const [assigned, all] = await Promise.all([
@@ -233,14 +194,6 @@ export class SpecDefinitionService {
         return { assigned, all }
     }
 
-    /**
-     * Replace a sub-category's whole list in one transaction.
-     *
-     * Removing an assignment does NOT delete any product's value — `ProductSpec` is a different
-     * table with no dependency on this one. Those values keep existing and the product page
-     * marks them "not declared here", which is deliberate: unasking a question is not the same
-     * as destroying the answers that were already given.
-     */
     static async setForSubCategory(
         subCategoryId: string,
         specs: Array<{ specKey: string; required: boolean; order: number }>

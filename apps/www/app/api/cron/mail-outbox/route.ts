@@ -4,20 +4,6 @@ import { dispatchOutbox } from "@repo/mail/outbox"
 
 import { authorizeCron } from "@/lib/cron-auth"
 
-/**
- * The outbox sweep — BUILD §16.
- *
- * Runs on a Vercel Cron schedule and is what makes the outbox a delivery guarantee rather
- * than a table of good intentions: anything queued inside a business transaction, and
- * anything whose direct send failed, is retried here with backoff.
- *
- * Lives in apps/www because it needs both @repo/database and @repo/mail, and @repo/database
- * must not depend on @repo/mail — @repo/mail already depends on it, and a cycle between two
- * workspace packages is a build problem waiting for the wrong bundler.
- *
- * Authorised by a shared secret, not by obscurity: this endpoint sends email, and an open URL
- * that sends email is an open URL that sends email for someone else.
- */
 export const dynamic = "force-dynamic"
 export const maxDuration = 60
 

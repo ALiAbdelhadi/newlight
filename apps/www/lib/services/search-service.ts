@@ -8,27 +8,12 @@ import {
     type ProductFacets,
 } from "./product-facets"
 
-/**
- * Site-wide search across products and taxonomy.
- *
- * Rewritten for v2. Two defects went with the rewrite:
- *
- *   1. **The locale was hardcoded.** `searchContent` opened with `const searchLocale = "en"`
- *      and the API route passed `"en"` explicitly, so an Arabic reader searching in Arabic
- *      matched nothing and got English results for the terms that did match. It is a
- *      parameter now, and the route passes the request's locale.
- *   2. **Slugs came off the entity.** They live on the translation row (§9.2), so a search
- *      result now links to the URL for the language the reader is actually in.
- */
-
 export interface SearchResult {
     products: Array<{
         id: string
         productId: string
         slug: string
-        /** What the customer pays — discounted where a discount is live (§13.2). */
         price: SerializedMoney
-        /** The undiscounted price. Equal to `price` when nothing is on offer. */
         basePrice: SerializedMoney
         discountPercent: number
         image: string | null
@@ -65,8 +50,6 @@ export class SearchService {
                         { productId: contains },
                         { slug: contains },
                         { translations: { some: { locale, OR: [{ name: contains }, { description: contains }] } } },
-                        // Spec values, through the normalised table rather than eight columns
-                        // (§2.2). valueEn only, to keep the equivalence proof intact.
                         { specs: { some: { valueEn: contains } } },
                     ],
                 },
@@ -84,8 +67,6 @@ export class SearchService {
                 },
             }),
 
-            // Searching the TRANSLATION rows, so the slug that comes back is the one for this
-            // locale — which is also the slug the result has to link to.
             prisma.categoryTranslation.findMany({
                 where: { locale, category: liveCategory, OR: [{ name: contains }, { description: contains }] },
                 take: limit,
@@ -100,7 +81,6 @@ export class SearchService {
             }),
         ])
 
-        // One load for the whole result set, not one per hit.
         const discounts = await activeDiscounts()
 
         return {
@@ -115,7 +95,6 @@ export class SearchService {
                     price: priced.effective,
                     basePrice: priced.base,
                     discountPercent: priced.percentOff,
-                    // order === 0 is the primary image, and `take: 1` over that ordering is it.
                     image: product.images[0]?.url ?? null,
                     name: product.translations[0]?.name ?? product.productId,
                     description: product.translations[0]?.description,
@@ -143,8 +122,6 @@ export class SearchService {
     }
 }
 
-/* ------------------------------------------------------- search, as a listing */
-
 export interface SearchListingEntry {
     product: ListingProduct
     categorySlug: string
@@ -157,24 +134,6 @@ export interface SearchListing {
     facets: ProductFacets
 }
 
-/**
- * Search results in the shape the LISTING understands.
- *
- * `product-facets.ts` — the filter and sort machinery, with its own tests — was built for the
- * catalogue and search could not use a line of it, because `searchContent` returns a tile
- * payload with no stock, no colours and no specs. So a customer who searched "spot" got
- * forty-eight results in one arbitrary order with no way to narrow them, on a site whose
- * category pages have had filters for weeks.
- *
- * This is the same query with the listing's include, mapped through the same
- * `toListingProduct`. What it deliberately does NOT build is spec facets: those come from
- * `SubCategorySpec`, which is configured per section, and a result set spanning six sections
- * has no single answer for which specs matter. Colour temperature, finish, availability, sale
- * and the sort orders all apply everywhere and are all here.
- *
- * One card per family, exactly as the catalogue does — over the matches, so a search that hits
- * three wattages of one fixture returns one tile for it rather than three.
- */
 export async function searchListing(query: string, locale: Locale, limit = 48): Promise<SearchListing> {
     const term = query.trim()
     const empty: SearchListing = {
@@ -247,7 +206,6 @@ export async function searchListing(query: string, locale: Locale, limit = 48): 
 
     return {
         entries,
-        // `specs: []` is not a stub — see the note above. An empty facet renders no control.
         facets: { ...buildFacets(entries.map((entry) => entry.product), colorNames, locale), specs: [] },
     }
 }

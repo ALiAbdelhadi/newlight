@@ -13,11 +13,6 @@ function describe(error: unknown): string {
     return error instanceof Error ? error.message : "Something went wrong."
 }
 
-/**
- * Upload takes a `FormData` rather than a `File` argument: a server action receiving a file
- * has to be reached by multipart, and going through FormData is what lets the browser stream
- * it instead of base64-ing a 10 MB image through a JSON payload.
- */
 export async function uploadProductImage(formData: FormData): Promise<ActionResult> {
     try {
         const productId = String(formData.get("productId") ?? "")

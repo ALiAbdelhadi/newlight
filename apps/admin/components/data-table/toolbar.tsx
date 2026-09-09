@@ -18,22 +18,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { buildTableQuery } from "@/lib/table-params"
 import { cn } from "@/lib/utils"
 
-/**
- * The list toolbar: search, filters, column visibility.
- *
- * 40px tall and on one line. The pattern this replaces — a row of tabs above the table —
- * looks tidier and is a trap: tabs can only express one filter at a time, so "out of stock"
- * and "magnetic" cannot both be on, and the moment a second dimension is needed somebody
- * adds a second tab strip.
- */
-
 export interface FilterOption {
     value: string
     label: string
 }
 
 export interface FilterDef {
-    /** The query-string key. Becomes part of the shareable URL. */
     key: string
     label: string
     options: FilterOption[]
@@ -44,7 +34,6 @@ interface ToolbarProps {
     searchKey?: string
     searchPlaceholder?: string
     filters?: FilterDef[]
-    /** Column id → label, for the visibility menu. */
     columns?: { id: string; label: string; visible: boolean; toggle: () => void }[]
     actions?: React.ReactNode
 }
@@ -72,23 +61,12 @@ export function DataTableToolbar({
     const urlQuery = searchParams.get(searchKey) ?? ""
     const [query, setQuery] = useState(urlQuery)
 
-    /*
-     * Debounced, and the input is uncontrolled with respect to the URL between keystrokes.
-     * Navigating on every character would re-run the server query per letter and fight the
-     * caret. 300ms is long enough to finish a SKU and short enough not to feel stuck.
-     */
     useEffect(() => {
         if (query === urlQuery) return
         const timer = setTimeout(() => push({ [searchKey]: query || null }), 300)
         return () => clearTimeout(timer)
     }, [query, urlQuery, searchKey, push])
 
-    /*
-     * The URL can change without the input — back/forward, or "Clear filters". Adjusting
-     * during render rather than in an effect is React's own documented pattern for
-     * "state derived from a prop that changed": an effect here would render the stale
-     * value once, then re-render, which is the cascading render the compiler rejects.
-     */
     const [lastUrlQuery, setLastUrlQuery] = useState(urlQuery)
     if (urlQuery !== lastUrlQuery) {
         setLastUrlQuery(urlQuery)
@@ -99,8 +77,6 @@ export function DataTableToolbar({
     const hasAnyFilter = activeFilters.length > 0 || urlQuery.length > 0
 
     return (
-        // min-h, not h: at a narrow width the controls wrap to a second line, and a fixed
-        // height made them overflow the box and render on top of the first table row.
         <div className="flex min-h-10 shrink-0 flex-wrap items-center gap-2 px-3 py-1.5">
             <div className="relative">
                 <Search
@@ -108,7 +84,6 @@ export function DataTableToolbar({
                     className="pointer-events-none absolute top-1/2 left-2 size-3.5 -translate-y-1/2 text-muted-foreground"
                 />
                 <Input
-                    // The `/` shortcut finds the input by this attribute.
                     data-table-search
                     value={query}
                     onChange={(event) => setQuery(event.target.value)}

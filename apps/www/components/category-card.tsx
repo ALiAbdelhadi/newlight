@@ -6,22 +6,6 @@ import Image from "@/components/app-image"
 
 import { Reveal } from "@/components/reveal"
 
-/**
- * A category tile.
- *
- * The GSAP block this replaces was visibly broken in the browser, not just theoretically: it set
- * the image and the content to `opacity: 0` on mount and revealed them from a ScrollTrigger with
- * `start: "top 75%"`, `end: "top 35%"` and `scrub: 1` — so a card that was ALREADY past that
- * range when the page loaded never animated, and stayed invisible. On `/category` the first tile
- * rendered as an empty box with a "01" badge in it.
- *
- * Its cleanup was worse than the bug: `ScrollTrigger.getAll().forEach(t => t.kill())` on unmount
- * killed every ScrollTrigger on the page, including ones belonging to other components.
- *
- * `Reveal` does the same fade with the opposite failure mode — visible unless JavaScript is
- * running and motion is welcome.
- */
-
 interface CategoryCardProps {
     title: string
     subtitle: string

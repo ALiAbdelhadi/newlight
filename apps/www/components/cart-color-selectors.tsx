@@ -34,18 +34,6 @@ const formatAvailableColor = (color: string, locale: string): string => {
     return map[color] || color.replace(/_/g, " ")
 }
 
-/**
- * The two per-line pickers in the cart drawer.
- *
- * They were two components with one body between them: the same dropdown, the same trigger, the
- * same list, and each carrying its own copy of a swatch palette that also existed on the product
- * page. The palette is `components/swatch.tsx` now and the dropdown is `SwatchSelect` below, so
- * what is left of each export is its vocabulary — which keys it offers and how they are named.
- *
- * A trigger holding one option is a control that cannot be operated; both callers already pass
- * `disabled` for that case and it stays, but the chevron goes with it, so a single-option line
- * reads as a statement of fact rather than a broken menu.
- */
 function SwatchSelect({
     kind,
     options,

@@ -51,7 +51,6 @@ export default async function OrderDetailsPage({ params }: OrderDetailsPageProps
     const currentLocale = await getLocale()
     const t = await getTranslations("orderDetails")
 
-
     if (!userId) {
         notFound()
     }
@@ -88,11 +87,8 @@ export default async function OrderDetailsPage({ params }: OrderDetailsPageProps
     return (
         <OrderDetailsView
             order={order}
-            // A validated Locale, not the raw route segment: the status vocabulary is keyed by
-            // it, so a stray "en-GB" would index the record with a string it does not have.
             locale={resolveLocale(currentLocale)}
             translations={translations}
         />
     )
 }
-

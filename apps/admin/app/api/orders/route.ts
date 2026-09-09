@@ -26,8 +26,6 @@ export async function GET() {
                 productImage: item.productImage || "/placeholder-product.png",
                 productPrice: item.price,
                 quantity: item.quantity,
-                // Money stays Decimal until it is serialised, and shipping is apportioned
-                // across the lines rather than divided in floating point (ADR 0001).
                 shippingPrice: serializeMoney(divideMoney(order.shippingCost, order.items.length)),
                 discountRate: 0,
                 totalPrice: serializeMoney(

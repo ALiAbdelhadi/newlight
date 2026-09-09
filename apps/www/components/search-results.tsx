@@ -22,18 +22,6 @@ import {
 } from "@/lib/services/product-facets"
 import type { SearchListing } from "@/lib/services/search-service"
 
-/**
- * Search results, filtered and sorted like any other listing.
- *
- * The page it belongs to fetched forty-eight matches and printed them in one order with no
- * controls, on a site whose category pages have had a filter panel and four sort orders for
- * weeks — built from `product-facets.ts`, which search could not reach because its results
- * arrived in a different shape. `searchListing` fixes the shape; this reuses everything else.
- *
- * The QUERY is part of the URL state and survives every filter change, which is the one thing
- * this page has to get right that a category listing does not: dropping `?q=` while ticking a
- * checkbox would leave a filtered view of nothing.
- */
 export function SearchResults({ listing, query }: { listing: SearchListing; query: string }) {
     const t = useTranslations("search")
     const router = useRouter()
@@ -53,8 +41,6 @@ export function SearchResults({ listing, query }: { listing: SearchListing; quer
     )
 
     function updateFilters(next: ListingFilters) {
-        // `q` is kept explicitly: it is the only parameter on this page that is not a filter,
-        // and losing it would turn a narrowed search into an empty one.
         const params = filtersToParams(next, { q: query })
         router.replace(`${pathname}?${params.toString()}`, { scroll: false })
     }

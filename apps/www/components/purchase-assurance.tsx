@@ -1,14 +1,6 @@
 import { getTranslations } from "next-intl/server"
 import { Banknote, ShieldCheck, Truck } from "lucide-react"
 
-/**
- * What buying involves, next to the button that starts it.
- *
- * The homepage has said "5–7 day delivery", "3–5 year warranty" and "cash on delivery" since
- * v1 — in the features band, four screens away from any product. The place a customer weighs
- * those three facts is under the Add to cart button, so they are repeated there, from the same
- * three claims and nowhere else.
- */
 export async function PurchaseAssurance() {
     const t = await getTranslations("merchandising.assurance")
 

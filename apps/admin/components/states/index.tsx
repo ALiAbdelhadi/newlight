@@ -6,20 +6,6 @@ import { AlertCircle, Inbox, Lock, RefreshCw, SearchX } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-/**
- * The global state system (P4.5 §19).
- *
- * Five states, defined once. The reason they live together in one file rather than being
- * written inline per surface is that the DISTINCTIONS are the whole point, and a distinction
- * only survives if there is one place to look it up.
- *
- * The distinction that gets lost most often is empty-vs-no-results, so it is not optional
- * here: `EmptyState` has no default variant, and the caller must say which one it means.
- * "No products yet" and "No products match these filters" call for opposite actions — create
- * one, or clear the filters — and a surface that renders the first when it means the second
- * sends an operator to add a product they already have.
- */
-
 interface StateShellProps {
     icon: LucideIcon
     title: string
@@ -47,12 +33,6 @@ function StateShell({ icon: Icon, title, description, action, className, tone = 
 }
 
 export interface EmptyStateProps {
-    /**
-     * `no-data` — the collection is genuinely empty.
-     * `no-results` — there is data, but the current filters exclude all of it.
-     * No default: choosing between them is the caller's job, and getting it wrong sends the
-     * operator to the wrong action.
-     */
     variant: "no-data" | "no-results"
     title: string
     description?: string
@@ -70,11 +50,6 @@ export function EmptyState({ variant, title, description, action }: EmptyStatePr
     )
 }
 
-/**
- * `onRetry` must actually re-run the failed request. A "Retry" that calls
- * `location.reload()` is a page refresh wearing a retry's clothes: it throws away every
- * other piece of state on the screen to re-attempt one query.
- */
 export function ErrorState({
     title = "That did not load",
     description,
@@ -102,13 +77,6 @@ export function ErrorState({
     )
 }
 
-/**
- * Names the role required and nothing else.
- *
- * It deliberately does not say what is behind the wall — "You need SUPER_ADMIN to see the
- * other administrators' email addresses" tells someone without access that those addresses
- * exist and where. The restriction is explained; the data is not described.
- */
 export function PermissionDenied({ requiredRole }: { requiredRole?: string }) {
     return (
         <StateShell
@@ -123,13 +91,6 @@ export function PermissionDenied({ requiredRole }: { requiredRole?: string }) {
     )
 }
 
-/**
- * Concurrency, treated as the operational outcome it is (§19).
- *
- * Two people editing one product is normal in a warehouse, not an exception. The rule this
- * enforces is that the newer version is never silently overwritten: the operator is told,
- * and chooses.
- */
 export function StaleNotice({
     entity = "record",
     onReload,

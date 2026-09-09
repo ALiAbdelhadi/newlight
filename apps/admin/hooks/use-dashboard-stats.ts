@@ -4,8 +4,6 @@ import { getDashboardStats } from "@/app/action/dashboard-actions"
 import { useEffect, useState } from "react"
 import type { DashboardStats } from "@/types"
 
-
-
 export function useDashboardStats(initialStats: DashboardStats, refreshInterval = 60000) {
     const [stats, setStats] = useState<DashboardStats>(initialStats)
     const [isRefreshing, setIsRefreshing] = useState(false)
@@ -23,7 +21,6 @@ export function useDashboardStats(initialStats: DashboardStats, refreshInterval 
     }
 
     useEffect(() => {
-        // Auto-refresh every X milliseconds
         const interval = setInterval(refreshStats, refreshInterval)
 
         return () => clearInterval(interval)

@@ -24,18 +24,6 @@ const COLOUR_TEMPERATURES = [
     { key: "WHITE_6500K", label: "White 6500K" },
 ] as const
 
-/**
- * Creating a product.
- *
- * The form asks for the minimum that makes a product real and nothing else — everything
- * optional belongs on the workbench, where it can be seen next to what it affects. Photographs
- * are not here on purpose: a file upload inside a create form means a half-created product when
- * the upload fails, and the workbench already does images properly.
- *
- * Both names are required. A product created in English only renders as a gap on the Arabic
- * storefront, and the translation queue would report it tomorrow — refusing now is cheaper than
- * reporting it forever.
- */
 export function NewProductForm({ subCategories, families }: { subCategories: Option[]; families: Family[] }) {
     const router = useRouter()
     const [pending, start] = useTransition()
@@ -53,7 +41,6 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
     const [descriptionEn, setDescriptionEn] = useState("")
     const [descriptionAr, setDescriptionAr] = useState("")
 
-    // A family belongs to one sub-category, so offering the others would offer a contradiction.
     const availableFamilies = families.filter((f) => f.subCategoryId === subCategoryId)
     const chosenFamily = availableFamilies.find((f) => f.id === familyId)
 
@@ -61,7 +48,6 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
         start(async () => {
             const result = await createProductAction({
                 sku,
-                // Blank means "use the SKU" — the service decides, so the rule lives in one place.
                 slug: slug.trim(),
                 subCategoryId,
                 familyId: familyId || null,
@@ -77,7 +63,6 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
 
             if (result.ok && result.productId) {
                 toast.success(result.message ?? "Created.")
-                // Straight to Photos: it is inactive until it has one, and that is the next thing.
                 router.push(`/admin/products/${result.productId}?tab=images`)
             } else if (!result.ok) {
                 toast.error(result.error)
@@ -166,7 +151,6 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                             onChange={(e) => setVariantValue(e.target.value)}
                             placeholder="12w"
                         />
-                        {/* This is what distinguishes it from its siblings on the storefront. */}
                         <p className="text-xs text-muted-foreground">What makes this one different from the rest of {chosenFamily.name}.</p>
                     </div>
                 )}

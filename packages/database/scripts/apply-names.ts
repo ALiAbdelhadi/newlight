@@ -1,16 +1,3 @@
-/**
- * Write reviewed product names — the second half of A26.
- *
- *   pnpm --filter @repo/database names:apply [--dry]
- *
- * Reads `data/name-proposals.json` and writes `proposedEn` / `proposedAr` into
- * `ProductTranslation.name`. Separate from `names:propose` on purpose: generating a name and
- * committing it to the catalogue are different decisions, and the file in between is where a
- * person makes the second one.
- *
- * It REFUSES to write any row still carrying `needsReview`. Clear the field to accept the
- * proposal as it stands — that is the acknowledgement, and it has to be deliberate.
- */
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
 import { PrismaClient } from "@prisma/client"

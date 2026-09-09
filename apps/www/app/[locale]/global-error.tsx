@@ -3,14 +3,6 @@
 import { useEffect } from "react"
 import { reportError } from "@/lib/report-error"
 
-/**
- * The last resort: an error in the root layout itself.
- *
- * This replaces `<html>` and `<body>`, so it cannot use the app's providers, fonts, theme or
- * translations — every one of those lives in the layout that just failed. That is why it is
- * hand-styled and says the same thing twice rather than picking a language: at this point the
- * code that knows which language the visitor reads is the code that broke.
- */
 export default function GlobalError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
     useEffect(() => {
         reportError(error, { boundary: "global" })

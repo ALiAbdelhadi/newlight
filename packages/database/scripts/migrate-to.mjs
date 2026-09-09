@@ -1,20 +1,4 @@
 #!/usr/bin/env node
-/**
- * Applies the migration chain up to (and including) a named migration.
- *
- *   node scripts/migrate-to.mjs 0010_order_lifecycle_and_configuration
- *   node scripts/migrate-to.mjs --all
- *   node scripts/migrate-to.mjs --baseline 0000_baseline_production
- *
- * `prisma migrate deploy` applies everything pending, and this chain cannot be applied
- * all at once: 0011_drop_v1_catalog_columns destroys the data the P2 transform reads and
- * refuses to run before it. So P1 stops at 0010 and P2 finishes the chain.
- *
- * `--baseline` records a migration as applied WITHOUT running it, for a database that
- * already holds that shape (the branch, restored from a production snapshot).
- *
- * Every write goes through the §0.4 target guard in env.mjs.
- */
 import { execFileSync } from "node:child_process"
 import { readdirSync, readFileSync, writeFileSync, mkdtempSync } from "node:fs"
 import { tmpdir } from "node:os"
@@ -44,7 +28,7 @@ try {
     process.exit(1)
 }
 
-const url = process.env.DIRECT_DATABASE_URL // migrations never run over the pooler (A14)
+const url = process.env.DIRECT_DATABASE_URL
 const all = readdirSync(MIGRATIONS, { withFileTypes: true })
     .filter((entry) => entry.isDirectory() && /^\d{4}_/.test(entry.name))
     .map((entry) => entry.name)
@@ -78,11 +62,6 @@ if (held.length) {
     console.log(`[migrate-to] held back on purpose: ${held.join(", ")}`)
 }
 
-/**
- * `prisma db execute` does not wrap a script in a transaction, so a migration that failed
- * halfway would leave the database in a state no migration describes. Wrapping it means a
- * failed migration changes nothing and can simply be re-run after the cause is fixed.
- */
 function execute(file) {
     const dir = mkdtempSync(join(tmpdir(), "nl-migrate-"))
     const wrapped = join(dir, "migration.sql")
@@ -90,11 +69,6 @@ function execute(file) {
     run(prisma, ["db", "execute", "--url", url, "--file", wrapped])
 }
 
-/**
- * Derived from `prisma migrate status`, which reports what is NOT applied rather than what
- * is. Inverting its answer is the reliable direction: a name it does not mention as pending
- * is one the database has already recorded.
- */
 function listPending() {
     let output = ""
     try {
@@ -105,16 +79,12 @@ function listPending() {
             stdio: ["ignore", "pipe", "pipe"],
         })
     } catch (error) {
-        // `migrate status` exits non-zero whenever anything is pending, which is this
-        // chain's normal state; its stdout is still the answer.
         output = `${error.stdout ?? ""}${error.stderr ?? ""}`
     }
     if (/have not yet been applied/i.test(output)) {
         return all.filter((name) => new RegExp(`\\b${name}\\b`).test(output))
     }
     if (/up to date|No pending migrations/i.test(output)) return []
-    // Anything else (no migrations table yet, an unreadable database) means nothing has
-    // been applied. Guessing "already applied" here would silently skip real work.
     return [...all]
 }
 

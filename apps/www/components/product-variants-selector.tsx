@@ -9,11 +9,6 @@ import { useRouter } from "next/navigation"
 import { useState, useTransition } from "react"
 import { Button } from "./ui/button"
 
-/**
- * Derived from ProductService.getProductVariants, so this cannot drift from what the service
- * returns. `variantType` moved to the FAMILY in v2 (§6) — every member of a family varies by
- * the same axis, which is what made it a per-product column that could disagree with itself.
- */
 type ProductVariant = ProductVariantView
 
 interface ProductVariantsSelectorProps {
@@ -101,7 +96,6 @@ export default function ProductVariantsSelector({
             <div className="flex flex-wrap gap-3 transition-all">
                 {variants.map((variant) => {
                     const isSelected = selectedVariant === variant.productId
-                    // Per-variant stock is a P3b read; the selector no longer claims to know it.
                     const isOutOfStock = false
                     const label = formatVariantLabel(variant)
                     return (

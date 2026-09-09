@@ -1,26 +1,3 @@
-/**
- * Cloudinary migration — BUILD §15.
- *
- *   pnpm --filter @repo/database media:scan     # local only, no credentials needed
- *   pnpm --filter @repo/database media:upload   # needs CLOUDINARY_*
- *   pnpm --filter @repo/database media:verify   # every URL returns 200
- *
- * Split into two phases on purpose. The expensive, deterministic work — resolving every
- * catalog path, reading dimensions, deriving a stable public_id, hashing — needs no
- * credentials and can be reviewed before a single byte leaves the machine. Uploading is then
- * a thin, resumable pass that only fills in `url` and `blurDataUrl`.
- *
- * The manifest is COMMITTED and is what the transform consumes; the transform never calls
- * Cloudinary (§15.1). It is keyed by the catalog path, so a lookup is exactly the string
- * stored in Product.images.
- *
- * Idempotent: public_id is derived from the resolved file, so re-running overwrites in place
- * and never duplicates. Resumable: an entry whose sha256 is unchanged and whose url is
- * already set is skipped.
- *
- * No Cloudinary SDK. The upload API is a signed multipart POST; adding a dependency to make
- * one HTTP call would hide the one part of this worth reading.
- */
 import { createHash } from "node:crypto"
 import { existsSync, readFileSync, renameSync, writeFileSync } from "node:fs"
 import { join, relative } from "node:path"
@@ -44,7 +21,6 @@ const MANIFEST = join(PACKAGE_ROOT, "data", "media-manifest.json")
 
 interface Entry {
     publicId: string
-    /** Repo-relative path of the file that backs this catalog path. */
     file: string
     source: TreeName
     via: "exact" | "override"
@@ -62,7 +38,6 @@ interface Manifest {
     $comment: string[]
     version: number
     generatedAt: string
-    /** "local" until every entry has a Cloudinary URL. */
     provider: "local" | "cloudinary"
     entries: Record<string, Entry>
 }
@@ -71,7 +46,6 @@ function readManifest(): Manifest | null {
     return existsSync(MANIFEST) ? (JSON.parse(readFileSync(MANIFEST, "utf8")) as Manifest) : null
 }
 
-/** Written via a temp file and renamed, so a crash mid-write never leaves a partial manifest. */
 function writeManifest(manifest: Manifest): void {
     const temp = `${MANIFEST}.tmp`
     writeFileSync(temp, `${JSON.stringify(manifest, null, 2)}\n`)
@@ -99,14 +73,13 @@ async function scan(): Promise<void> {
     let carried = 0
 
     for (const resolution of resolutions) {
-        if (entries[resolution.path]) continue // several colours may name the same path
+        if (entries[resolution.path]) continue
         const file = resolution.file!
         const buffer = readFileSync(file)
         const sha256 = createHash("sha256").update(buffer).digest("hex")
         const dimensions = readDimensions(buffer)
         const publicId = publicIdFor(treeByName.get(resolution.source!)!, file)
 
-        // A public_id collision would silently overwrite one photograph with another.
         const owner = idOwner.get(publicId)
         if (owner && owner !== sha256) {
             console.error(`[media] REFUSING: public_id "${publicId}" is claimed by two different files.`)
@@ -114,7 +87,6 @@ async function scan(): Promise<void> {
         }
         idOwner.set(publicId, sha256)
 
-        // Carry an existing upload forward only when the bytes are unchanged.
         const before = previous?.entries[resolution.path]
         const reusable = before?.url && before.sha256 === sha256 && before.publicId === publicId
         if (reusable) carried++
@@ -176,7 +148,6 @@ function credentials() {
     return { cloudName, apiKey, apiSecret }
 }
 
-/** Cloudinary signs the sorted, non-file parameters plus the API secret. */
 function sign(params: Record<string, string>, apiSecret: string): string {
     const canonical = Object.keys(params)
         .sort()
@@ -196,7 +167,6 @@ async function upload(): Promise<void> {
     const pending = Object.entries(manifest.entries).filter(([, entry]) => !entry.url)
     console.log(`[media] ${pending.length} of ${Object.keys(manifest.entries).length} entries pending upload`)
 
-    // Distinct files, so a photograph shared by several catalog paths uploads once.
     const byPublicId = new Map<string, Entry[]>()
     for (const [, entry] of pending) byPublicId.set(entry.publicId, [...(byPublicId.get(entry.publicId) ?? []), entry])
 
@@ -221,8 +191,6 @@ async function upload(): Promise<void> {
             if (!response.ok) throw new Error(`${response.status} ${await response.text()}`)
             const result = (await response.json()) as { secure_url: string; width: number; height: number }
 
-            // A tiny transformed copy, inlined as the blur placeholder. Nullable in the
-            // schema, so a failure here degrades rather than fails the migration.
             let blurDataUrl: string | null = null
             try {
                 const tiny = await fetch(
@@ -239,13 +207,12 @@ async function upload(): Promise<void> {
                 member.url = result.secure_url
                 member.blurDataUrl = blurDataUrl
                 member.uploadedAt = new Date().toISOString()
-                // Cloudinary decoded the file; trust its dimensions over the header parse.
                 member.width = result.width ?? member.width
                 member.height = result.height ?? member.height
             }
             done++
             if (done % 25 === 0) {
-                writeManifest(manifest) // checkpoint, so an interrupted run resumes
+                writeManifest(manifest)
                 console.log(`[media]   ${done}/${byPublicId.size}`)
             }
         } catch (error) {
@@ -271,12 +238,6 @@ async function verify(): Promise<void> {
 
     const prisma = new PrismaClient()
 
-    // Which catalog this database HAS decides which question is answerable.
-    //
-    // Before `0011`, the catalog paths live in v1's `products.images`, and the check is
-    // "every referenced path has a manifest entry". After `0011` those columns are gone —
-    // `collectReferences` raises `column "images" does not exist` — and the equivalent check
-    // is against `product_images.publicId`, which is the same identity carried forward.
     let missing: string[] = []
     let referenceCount = 0
     try {
@@ -292,7 +253,6 @@ async function verify(): Promise<void> {
         const local = rows.filter((row) => row.url.startsWith("/")).length
         console.log(`[media] v2 catalog: ${referenceCount} images; ${missing.length} with no manifest entry`)
         if (local > 0) {
-            // Uploaded but not wired up is a catalog that still breaks when the local files go.
             console.error(`[media]   ${local} image(s) still hold a local path — run \`pnpm media:sync\``)
             missing.push(...rows.filter((row) => row.url.startsWith("/")).map((row) => row.url))
         }

@@ -12,28 +12,6 @@ import { SearchService, searchListing } from "@/lib/services/search-service"
 import { constructMetadata } from "@/lib/metadata"
 import type { SupportedLanguage } from "@/types"
 
-/**
- * Search results, as a page.
- *
- * The storefront had search and could not show you its results. `SearchService.searchContent`
- * was written, localised and correct; `/api/search` served it; and the only thing that consumed
- * either was a sheet in the header that closed the moment you clicked anything. There was no
- * URL for a search, so a result set could not be linked, bookmarked, shared, opened in a new
- * tab, or returned to with the back button — the four things a person actually does with a
- * search on a shop.
- *
- * A SERVER COMPONENT reading `?q=`, so the query IS the address. No client fetch, no spinner,
- * and the empty state is decided on the server from the real result count.
- *
- * It searches three things because the service does: products, categories and sub-categories.
- * Someone typing "outdoor" wants the section, not eleven of its products; someone typing a SKU
- * wants the product. Both are answered on one page, products first.
- *
- * NOINDEX. Search result pages are the classic thin-content trap — infinite URLs, no unique
- * content of their own, and every one of them a duplicate of the catalogue. The catalogue and
- * the product pages are what should rank.
- */
-
 export const dynamic = "force-dynamic"
 
 export async function generateMetadata({
@@ -61,12 +39,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
     const locale = resolveLocale(await getLocale())
     const t = await getTranslations("search")
 
-    /*
-     * TWO reads, and deliberately: the taxonomy hits come from `searchContent`, and the product
-     * hits come from `searchListing` in the shape the filter panel understands. One query
-     * cannot serve both without either starving the filters or making the header's search
-     * sheet pay for stock levels and specs it never renders.
-     */
     const [results, listing] = await Promise.all([
         query
             ? SearchService.searchContent(query, locale, 48)
@@ -89,7 +61,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
         })),
     ]
 
-    // The COLLAPSED count — one card per family, which is what the page renders.
     const productCount = listing?.entries.length ?? 0
     const total = productCount + taxonomy.length
 
@@ -102,8 +73,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
             />
 
             <Container className="py-10 lg:py-14">
-                {/* No query at all — arrived from a bare /search link. Not an error, and not a
-                    "no results" either: there is nothing to have results for yet. */}
                 {!query ? (
                     <EmptyState
                         variant="no-results"
@@ -136,8 +105,6 @@ export default async function SearchPage({ searchParams }: { searchParams: Promi
                     />
                 ) : (
                     <div className="space-y-14">
-                        {/* Sections before products: a matching category is a better answer to a
-                            broad term than the first four products inside it. */}
                         {taxonomy.length > 0 && (
                             <section aria-labelledby="search-sections">
                                 <h2

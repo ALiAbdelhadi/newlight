@@ -26,13 +26,6 @@ interface Family {
     nameAr: string
 }
 
-/**
- * A family groups the wattages or sizes of one fixture into a single storefront card.
- *
- * Archiving one does not delete anything: `Product.familyId` is SET NULL, so every member
- * becomes a standalone product. The dialog says the number, because "3 products will appear
- * separately" is a decision and "archive?" is not.
- */
 export function FamiliesPanel({
     families,
     subCategories,

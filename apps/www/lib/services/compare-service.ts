@@ -4,18 +4,6 @@ import { activeDiscounts } from "@/lib/discounts"
 import { liveProduct, productSpecs, toCardView } from "./selectors"
 import { translationsFor } from "@repo/database"
 
-/**
- * The rows a comparison table is built from.
- *
- * A comparison is the one screen where this catalogue's data earns its shape: `ProductSpec`
- * holds a typed value per product and `SubCategorySpec` holds the operator's order for them, so
- * "wattage, lumens, beam angle, IP rating, side by side" is a join, not a feature to invent.
- * The storefront was loading those specs on every listing page and rendering none of them.
- *
- * Unlike a listing, this does NOT collapse a family: comparing the 6W against the 30W of one
- * fixture is exactly the question a specifier has, and folding them into one row would answer
- * it with "6-30".
- */
 export interface CompareProduct {
     id: string
     sku: string
@@ -27,16 +15,13 @@ export interface CompareProduct {
     discountPercent: number
     inStock: boolean
     section: string
-    /** Spec key → the value as it should read, unit folded in. */
     specs: Record<string, string>
 }
 
 export interface CompareRow {
     key: string
     label: string
-    /** Aligned with `products`; null where a product does not declare the spec. */
     values: Array<string | null>
-    /** True when every product answers the same — used to fold the row away. */
     identical: boolean
 }
 
@@ -62,8 +47,6 @@ export async function compareProducts(skus: readonly string[], locale: Locale): 
                     include: {
                         translations: translationsFor(locale),
                         category: { include: { translations: translationsFor(locale) } },
-                        // The operator's spec order for this section, which is the order the
-                        // table's rows appear in.
                         specs: { include: { spec: true }, orderBy: { order: "asc" as const } },
                     },
                 },
@@ -73,7 +56,6 @@ export async function compareProducts(skus: readonly string[], locale: Locale): 
     ])
 
     const bySku = new Map(rows.map((row) => [row.productId, row]))
-    // The customer's order, not the database's: the columns stay in the order they were picked.
     const ordered = skus.flatMap((sku) => {
         const row = bySku.get(sku)
         return row ? [row] : []
@@ -100,7 +82,6 @@ export async function compareProducts(skus: readonly string[], locale: Locale): 
             if (!value || value === PLACEHOLDER) continue
             const unit = locale === "ar" ? spec.spec.unitAr : spec.spec.unitEn
             specs[spec.specKey] = unit ? `${value} ${unit}` : value
-            // A product can carry a spec its section never declared; it still deserves a row.
             if (!labels.has(spec.specKey)) {
                 labels.set(spec.specKey, {
                     label: locale === "ar" ? spec.spec.labelAr : spec.spec.labelEn,
@@ -132,7 +113,6 @@ export async function compareProducts(skus: readonly string[], locale: Locale): 
         .sort((a, b) => a[1].order - b[1].order || a[1].label.localeCompare(b[1].label))
         .flatMap(([key, meta]) => {
             const values = products.map((product) => product.specs[key] ?? null)
-            // A row nobody answers is not a difference, it is an empty row.
             if (values.every((value) => value === null)) return []
             const first = values[0]
             return [{ key, label: meta.label, values, identical: values.every((value) => value === first) }]

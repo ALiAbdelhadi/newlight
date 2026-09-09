@@ -2,10 +2,6 @@ import { afterAll, beforeAll, beforeEach, describe, expect, it } from "vitest"
 import { createTestDatabase, type TestDatabase } from "./harness"
 import { consume, sweepRateLimits } from "../rate-limit"
 
-/**
- * The contact form's limiter used to be a module-level `Map` — per-instance, forgotten on every
- * cold start. These hold the properties that made replacing it worth a migration.
- */
 let db: TestDatabase
 
 beforeAll(async () => {
@@ -37,7 +33,6 @@ describe("rate limiting", () => {
         for (let i = 0; i < 3; i++) await consume(db.prisma, "contact:9.9.9.9", 3, 60)
         expect((await consume(db.prisma, "contact:9.9.9.9", 3, 60)).allowed).toBe(false)
 
-        // Age the window rather than waiting a minute for it.
         await db.prisma.$executeRaw`
             UPDATE rate_limits SET "windowStart" = (now() AT TIME ZONE 'UTC') - interval '2 minutes'
             WHERE "key" = 'contact:9.9.9.9'`
@@ -48,20 +43,11 @@ describe("rate limiting", () => {
     })
 
     it("compares against UTC, not the session timezone (A55)", async () => {
-        // Three timezone defects in P4 came from the same shape: a column that PRISMA wrote in
-        // UTC, compared against a bare `now()`. `windowStart` is `timestamp` without time zone,
-        // so that comparison casts it through the session timezone — on Africa/Cairo, three
-        // hours, which makes a live one-minute window look long expired. A limiter that always
-        // sees an expired window always resets, and never limits.
-        //
-        // So the row is created THROUGH PRISMA — the only way to reproduce the real asymmetry.
-        // Two earlier versions of this test flipped both sides at once and passed with the
-        // defect reintroduced, which is a test that asserts nothing.
         await db.prisma.rateLimit.create({
             data: {
                 key: "contact:tz",
                 count: 3,
-                windowStart: new Date(Date.now() - 30_000), // well inside a 60-second window
+                windowStart: new Date(Date.now() - 30_000),
             },
         })
 
@@ -69,9 +55,6 @@ describe("rate limiting", () => {
             await tx.$executeRawUnsafe(`SET LOCAL TIME ZONE 'Africa/Cairo'`)
             const fourth = await consume(tx, "contact:tz", 3, 60)
 
-            // The window is 30 seconds old, so this is the fourth request inside it: refused.
-            // Read through a session three hours ahead it would look expired, the counter would
-            // reset to 1, and it would be allowed.
             expect(fourth.count).toBe(4)
             expect(fourth.allowed).toBe(false)
         })
