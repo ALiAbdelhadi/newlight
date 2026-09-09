@@ -150,6 +150,26 @@ describe("renaming keeps the old URL alive", () => {
         await CatalogService.rename(fixture.products.small, "nl-test-5w")
         expect(await db.prisma.productSlugHistory.count()).toBe(before)
     })
+
+    it("can revive one of its own old slugs, and then retire it again", async () => {
+        const CatalogService = await catalog()
+        await CatalogService.rename(fixture.products.small, "nl-test-5w-renamed")
+        await CatalogService.rename(fixture.products.small, "nl-test-5w")
+        await CatalogService.rename(fixture.products.small, "nl-test-5w-renamed")
+
+        const product = await db.prisma.product.findUniqueOrThrow({
+            where: { id: fixture.products.small },
+            select: { slug: true },
+        })
+        expect(product.slug).toBe("nl-test-5w-renamed")
+
+        const history = await db.prisma.productSlugHistory.findMany({
+            where: { productId: fixture.products.small },
+            select: { slug: true },
+        })
+        // The live slug is never also a redirect.
+        expect(history.map((h) => h.slug).sort()).toEqual(["nl-test-5w", "nl-test-5w-old"])
+    })
 })
 
 describe("money snapshots are immutable (§13.2 item 4)", () => {

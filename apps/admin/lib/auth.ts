@@ -9,10 +9,29 @@ function requiredEnv(name: string): string {
     return value
 }
 
+// Every origin this deployment can be reached on. Better Auth refuses a sign-in whose Origin
+// header is not the baseURL or one of these, so the *.vercel.app addresses (production alias,
+// branch alias, and the per-deployment URL) must be listed alongside the custom domain, or a
+// browser on any of them gets INVALID_ORIGIN before the password is even looked at.
+function deploymentOrigins(): string[] {
+    const explicit = [process.env.BETTER_AUTH_URL, process.env.NEXT_PUBLIC_ADMIN_URL]
+    const vercel = [
+        process.env.VERCEL_PROJECT_PRODUCTION_URL,
+        process.env.VERCEL_BRANCH_URL,
+        process.env.VERCEL_URL,
+    ].map((host) => (host ? `https://${host}` : undefined))
+    const extra = (process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "").split(",").map((value) => value.trim())
+    return [...new Set([...explicit, ...vercel, ...extra].filter((value): value is string => Boolean(value)))]
+}
+
 export const auth = betterAuth({
     database: prismaAdapter(prisma, { provider: "postgresql" }),
     secret: requiredEnv("BETTER_AUTH_SECRET"),
-    baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_ADMIN_URL,
+    baseURL:
+        process.env.BETTER_AUTH_URL ??
+        process.env.NEXT_PUBLIC_ADMIN_URL ??
+        (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : undefined),
+    trustedOrigins: deploymentOrigins(),
 
     emailAndPassword: {
         enabled: true,

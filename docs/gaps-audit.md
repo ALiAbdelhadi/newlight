@@ -120,7 +120,7 @@ customer, the only trace is whatever `pino` wrote to a log nobody is watching. C
 
 ## 9. Mail is written and never sent
 
-`RESEND_API_KEY` is empty in all three `.env.local` files, so every message goes to the outbox
+`SMTP_HOST` is unset in all three `.env.local` files (Resend was dropped; SMTP is the only transport), so every message goes to the outbox
 and the log instead of to a customer. The outbox, the retry schedule and the cron are all
 built and working; the credential is missing. Owner-blocked.
 

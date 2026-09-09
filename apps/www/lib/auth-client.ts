@@ -3,8 +3,9 @@
 import { createAuthClient } from "better-auth/react"
 import { inferAdditionalFields } from "better-auth/client/plugins"
 
+// No baseURL on purpose: the browser talks to the origin the page was served from, so preview
+// deployments and the *.vercel.app alias work without a per-deployment variable.
 export const authClient = createAuthClient({
-    baseURL: process.env.NEXT_PUBLIC_APP_URL,
     plugins: [
         inferAdditionalFields({
             user: {

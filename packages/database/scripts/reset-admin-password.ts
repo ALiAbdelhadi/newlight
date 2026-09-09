@@ -14,11 +14,23 @@ function generatePassword(): string {
     return randomBytes(18).toString("base64url")
 }
 
+// Better Auth in apps/admin enforces minPasswordLength: 12; a shorter one would be stored
+// here and then refused at sign-in.
+function chosenPassword(): string {
+    const supplied = arg("password")
+    if (supplied === undefined) return generatePassword()
+    if (supplied.length < 12) {
+        console.error("[password] --password must be at least 12 characters.")
+        process.exit(2)
+    }
+    return supplied
+}
+
 async function main() {
     const email = arg("email")
 
     if (!email) {
-        console.error("usage: reset-admin-password.ts --email <address>")
+        console.error("usage: reset-admin-password.ts --email <address> [--password <12+ chars>]")
         process.exit(2)
     }
     if (!process.env.BETTER_AUTH_SECRET) {
@@ -45,7 +57,7 @@ async function main() {
         emailAndPassword: { enabled: true },
     })
 
-    const password = generatePassword()
+    const password = chosenPassword()
     const hash = await auth.$context.then((context) => context.password.hash(password))
 
     const sessionsRevoked = await prisma.$transaction(async (tx) => {
@@ -68,7 +80,7 @@ async function main() {
 
     console.log("")
     console.log(`[reset] password reset for ${user.role} ${email}`)
-    console.log(`[reset] password: ${password}`)
+    console.log(arg("password") === undefined ? `[reset] password: ${password}` : "[reset] password: the one you supplied")
     console.log(`[reset] ${sessionsRevoked} existing session(s) revoked; sign in again.`)
     console.log("[reset] This is printed once and is not stored anywhere else. Change it after signing in.")
     console.log("")

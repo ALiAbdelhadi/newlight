@@ -22,6 +22,16 @@ export const auth = betterAuth({
     database: prismaAdapter(prisma, { provider: "postgresql" }),
     secret: requiredEnv("BETTER_AUTH_SECRET"),
     baseURL: process.env.BETTER_AUTH_URL ?? process.env.NEXT_PUBLIC_APP_URL,
+    // The custom domain plus every *.vercel.app address this deployment answers on; see the
+    // same helper in apps/admin/lib/auth.ts for why.
+    trustedOrigins: [
+        process.env.BETTER_AUTH_URL,
+        process.env.NEXT_PUBLIC_APP_URL,
+        ...[process.env.VERCEL_PROJECT_PRODUCTION_URL, process.env.VERCEL_BRANCH_URL, process.env.VERCEL_URL].map((host) =>
+            host ? `https://${host}` : undefined
+        ),
+        ...(process.env.BETTER_AUTH_TRUSTED_ORIGINS ?? "").split(",").map((value) => value.trim()),
+    ].filter((value): value is string => Boolean(value)),
 
     emailAndPassword: {
         enabled: true,

@@ -142,7 +142,15 @@ export class CatalogService {
             })
             if (current.slug === slug) return { slug, changed: false }
 
-            await tx.productSlugHistory.create({ data: { productId, slug: current.slug } })
+            // The new slug may be one of this product's own old addresses. It stops being a
+            // redirect the moment it is live again, and the slug being vacated becomes one — an
+            // upsert because a slug that was live, retired and revived can already have a row.
+            await tx.productSlugHistory.deleteMany({ where: { slug } })
+            await tx.productSlugHistory.upsert({
+                where: { slug: current.slug },
+                create: { productId, slug: current.slug },
+                update: { productId },
+            })
             await tx.product.update({ where: { id: productId }, data: { slug } })
             await tx.adminAuditLog.create({
                 data: {

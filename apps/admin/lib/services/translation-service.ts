@@ -35,6 +35,21 @@ function emptyFields(): TranslationFields {
     return { name: null, description: null, metaTitle: null, metaDescription: null }
 }
 
+// The editor round-trips the `TranslationPair` row (which carries `exists` and `dir`) back into
+// the save call. Prisma rejects unknown columns, so only the four translatable fields go through.
+function pickFields(input: TranslationFields): TranslationFields {
+    const trim = (value: string | null | undefined) => {
+        const text = value?.trim()
+        return text ? text : null
+    }
+    return {
+        name: trim(input.name),
+        description: trim(input.description),
+        metaTitle: trim(input.metaTitle),
+        metaDescription: trim(input.metaDescription),
+    }
+}
+
 function score(fields: TranslationFields, sku: string | null) {
     const missing: string[] = []
     for (const field of TRANSLATABLE_FIELDS) {
@@ -115,7 +130,7 @@ export class TranslationService {
             })
 
             for (const locale of LOCALES) {
-                const next = input[locale]
+                const next = pickFields(input[locale])
                 await tx.productTranslation.upsert({
                     where: { productId_locale: { productId, locale } },
                     create: { productId, locale, ...next, name: next.name ?? product.productId },

@@ -164,8 +164,14 @@ export class TaxonomyService {
 
                 if (current && current.slug !== next.slug) {
                     await assertSlugFree(tx, locale, next.slug, { categoryId: id })
-                    await tx.taxonomySlugHistory.create({
-                        data: { locale, slug: current.slug, entityType: "CATEGORY", entityId: id },
+                    // Reviving one of this entity's own old slugs: it is live again, so it stops
+                    // redirecting, and the vacated slug takes its place (upsert — it may have been
+                    // live, retired and revived before).
+                    await tx.taxonomySlugHistory.deleteMany({ where: { locale, slug: next.slug } })
+                    await tx.taxonomySlugHistory.upsert({
+                        where: { locale_slug: { locale, slug: current.slug } },
+                        create: { locale, slug: current.slug, entityType: "CATEGORY", entityId: id },
+                        update: { entityType: "CATEGORY", entityId: id },
                     })
                     changes.push({ locale, from: current.slug, to: next.slug })
                 } else if (!current) {
@@ -256,8 +262,14 @@ export class TaxonomyService {
 
                 if (current && current.slug !== next.slug) {
                     await assertSlugFree(tx, locale, next.slug, { subCategoryId: id })
-                    await tx.taxonomySlugHistory.create({
-                        data: { locale, slug: current.slug, entityType: "SUB_CATEGORY", entityId: id },
+                    // Reviving one of this entity's own old slugs: it is live again, so it stops
+                    // redirecting, and the vacated slug takes its place (upsert — it may have been
+                    // live, retired and revived before).
+                    await tx.taxonomySlugHistory.deleteMany({ where: { locale, slug: next.slug } })
+                    await tx.taxonomySlugHistory.upsert({
+                        where: { locale_slug: { locale, slug: current.slug } },
+                        create: { locale, slug: current.slug, entityType: "SUB_CATEGORY", entityId: id },
+                        update: { entityType: "SUB_CATEGORY", entityId: id },
                     })
                     changes.push({ locale, from: current.slug, to: next.slug })
                 } else if (!current) {

@@ -45,7 +45,7 @@ which is why §6 makes this a blocking dependency of §7 rather than parallel wo
 - The cron route lives in `apps/www`, not `packages/database`: it needs both packages, and
   `@repo/mail` already depends on `@repo/database`. A cycle between two workspace packages is
   a build problem waiting for the wrong bundler.
-- Without `RESEND_API_KEY` the console transport logs instead of delivering, and says so. The
+- Without `SMTP_HOST` the console transport logs instead of delivering, and says so. The
   fallback exists so a developer never has to comment out a send — which is how a codebase
   acquires a second, local-only code path.
 - **A runtime bug the type checker could not see**: rendering under plain tsx threw

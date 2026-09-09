@@ -1,5 +1,4 @@
 import { consoleTransport } from "./transport/console"
-import { resendTransport } from "./transport/resend"
 import { smtpConfigFromEnv, smtpTransport } from "./transport/smtp"
 import { renderTemplate } from "./templates/index"
 import type { PayloadByTemplate } from "./templates/payloads"
@@ -19,14 +18,11 @@ export function transport(): MailTransport {
     if (cached) return cached
     const from = process.env.EMAIL_FROM
     const smtp = smtpConfigFromEnv()
-    const apiKey = process.env.RESEND_API_KEY
 
-    if (from && smtp) cached = smtpTransport(smtp, from)
-    else if (from && apiKey) cached = resendTransport(apiKey, from)
-    else cached = consoleTransport()
+    cached = from && smtp ? smtpTransport(smtp, from) : consoleTransport()
 
     if (cached.name === "console") {
-        console.warn("[mail] no SMTP_HOST, no RESEND_API_KEY, or no EMAIL_FROM — mail will be logged, not delivered.")
+        console.warn("[mail] no SMTP_HOST or no EMAIL_FROM — mail will be logged, not delivered.")
     }
     return cached
 }

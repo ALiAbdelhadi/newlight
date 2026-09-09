@@ -95,10 +95,13 @@ export function DataTableToolbar({
 
             {filters.map((filter) => {
                 const value = searchParams.get(filter.key) ?? ""
+                // A value the URL carries but no option declares (a stale link, a typo) would
+                // otherwise leave the trigger blank; show it as "all", which is what the server applied.
+                const known = filter.options.some((option) => option.value === value)
                 return (
                     <Select
                         key={filter.key}
-                        value={value || "__all"}
+                        value={known ? value : "__all"}
                         onValueChange={(next) => push({ [filter.key]: next === "__all" ? null : next })}
                     >
                         <SelectTrigger

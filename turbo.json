@@ -26,7 +26,6 @@
         "MAIL_OUTBOX_CRON_SECRET",
         "NEXT_PUBLIC_*",
         "PUSH_SWEEP_CRON_SECRET",
-        "RESEND_API_KEY",
         "SMTP_HOST",
         "SMTP_PASSWORD",
         "SMTP_POOL",
@@ -39,6 +38,9 @@
         "VAPID_PUBLIC_KEY",
         "VAPID_SUBJECT",
         "VERCEL_ENV",
+        "BETTER_AUTH_TRUSTED_ORIGINS",
+        "VERCEL_BRANCH_URL",
+        "VERCEL_PROJECT_PRODUCTION_URL",
         "VERCEL_URL"
       ],
       "outputs": [

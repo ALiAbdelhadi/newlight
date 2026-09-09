@@ -90,6 +90,27 @@ describe("renaming writes the redirect in the same transaction", () => {
         await expect(TaxonomyService.createCategory(input("panel-old", "قديم"))).rejects.toThrow(/still redirects/)
     })
 
+    it("can revive an old slug of the same entity without tripping the unique redirect", async () => {
+        const TaxonomyService = await service()
+        await TaxonomyService.updateSubCategory(fixture.subCategoryId, fixture.categoryId, input("panel-lights", "بانل-جديد"))
+        await TaxonomyService.updateSubCategory(fixture.subCategoryId, fixture.categoryId, input("panel", "بانل-لايت"))
+        await TaxonomyService.updateSubCategory(fixture.subCategoryId, fixture.categoryId, input("panel-lights", "بانل-جديد"))
+
+        const live = await db.prisma.subCategoryTranslation.findMany({
+            where: { subCategoryId: fixture.subCategoryId },
+            select: { locale: true, slug: true },
+        })
+        const history = await db.prisma.taxonomySlugHistory.findMany({
+            where: { entityId: fixture.subCategoryId },
+            select: { locale: true, slug: true },
+        })
+        for (const row of live) {
+            expect(history).not.toContainEqual(row)
+        }
+        expect(history.map((h) => h.slug)).toContain("panel")
+        expect(history.map((h) => h.slug)).toContain("بانل-لايت")
+    })
+
     it("leaves history alone when the slug did not change", async () => {
         const TaxonomyService = await service()
         const before = await db.prisma.taxonomySlugHistory.count()
