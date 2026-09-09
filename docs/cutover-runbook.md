@@ -16,7 +16,7 @@ These do not need downtime and should be done days earlier.
 | # | Step | How you know it is done |
 |---|---|---|
 | 1 | Confirm Neon **PITR retention** on the production project | You have read the window in the console. §20 condition 5 |
-| 2 | Verify the **Resend sending domain** | A test send arrives, rather than being queued |
+| 2 | Confirm the **mail transport** on the deployment that drains the outbox | `cutover:preflight` P2.1 reports `smtp` or `resend`, not `console` |
 | 3 | Finish the **Cloudinary upload** | `pnpm --filter @repo/database media:upload` reports 0 pending |
 | 4 | **Rotate** the seeded SUPER_ADMIN password | You changed it; the printed one no longer works |
 | 5 | Decide the **announcement** | Storefront is read-only for the window; orders placed during it are lost |

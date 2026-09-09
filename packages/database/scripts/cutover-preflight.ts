@@ -154,7 +154,23 @@ async function main() {
         "manual",
         "P1 proved this once (189/2051/232454.00). Re-prove it against the export taken inside the cutover window"
     )
-    record("P2.1", "Resend sending domain verified", "manual", "until then mail is queued and logged, not delivered")
+    const mailFrom = process.env.EMAIL_FROM
+    const smtpHost = process.env.SMTP_HOST
+    const smtpUser = process.env.SMTP_USER
+    const smtpPassword = process.env.SMTP_PASSWORD
+    const resendKey = process.env.RESEND_API_KEY
+    const selected = mailFrom && smtpHost ? "smtp" : mailFrom && resendKey ? "resend" : "console"
+    const smtpIncomplete = selected === "smtp" && Boolean(smtpUser) && !smtpPassword
+    record(
+        "P2.1",
+        "mail transport delivers rather than logs",
+        selected === "console" || smtpIncomplete ? "fail" : "ok",
+        selected === "console"
+            ? `EMAIL_FROM${mailFrom ? " is set" : " is not set"}, SMTP_HOST is not set and RESEND_API_KEY is not set — @repo/mail falls back to the console transport and nothing is delivered. Checked in this environment; the deployment that runs the outbox cron needs the same variables`
+            : smtpIncomplete
+              ? "SMTP_USER is set but SMTP_PASSWORD is not — smtpConfigFromEnv throws before the first send"
+              : `${selected} transport selected. Checked in this environment; confirm the same variables on the deployment that runs the outbox cron`
+    )
     record(
         "P5.1",
         "seeded SUPER_ADMIN password rotated",
