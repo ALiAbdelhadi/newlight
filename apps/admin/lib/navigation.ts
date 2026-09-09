@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react"
 import {
+    BadgePercent,
     Boxes,
     FolderTree,
     Gauge,
@@ -90,7 +91,7 @@ export const NAVIGATION: NavDomain[] = [
                 badge: (s) => s.products,
                 badgeTone: "neutral",
                 // Record and create routes belong to Products; repricing does not.
-                except: ["/admin/products/pricing"],
+                except: ["/admin/products/pricing", "/admin/products/discounts"],
             },
             { label: "Categories", href: "/admin/taxonomy", icon: FolderTree },
             { label: "Specifications", href: "/admin/specs", icon: Ruler },
@@ -107,7 +108,16 @@ export const NAVIGATION: NavDomain[] = [
     {
         id: "pricing",
         label: "Pricing",
-        surfaces: [{ label: "Bulk repricing", href: "/admin/products/pricing", icon: Tags }],
+        surfaces: [
+            { label: "Bulk repricing", href: "/admin/products/pricing", icon: Tags },
+            /*
+             * A separate surface from repricing, not a mode of it. Repricing changes what a
+             * product costs; a discount is a period during which it costs less, and the two
+             * have different undo stories — one is a new price in the audit trail, the other
+             * expires by itself.
+             */
+            { label: "Discounts", href: "/admin/products/discounts", icon: BadgePercent },
+        ],
     },
     {
         id: "inventory",
@@ -208,6 +218,7 @@ export interface Crumb {
 const RECORD_SEGMENT_LABEL: Record<string, string> = {
     new: "New",
     pricing: "Bulk repricing",
+    discounts: "Discounts",
     category: "Category",
     "sub-category": "Sub-category",
 }

@@ -1,0 +1,122 @@
+"use client"
+
+import { useMemo } from "react"
+import { useTranslations } from "next-intl"
+import { usePathname, useRouter } from "@/i18n/navigation"
+import { useSearchParams } from "next/navigation"
+import { encodeSlug } from "@repo/database"
+
+import { CompareToggle } from "@/components/compare/compare-toggle"
+import { CompareTray } from "@/components/compare/compare-tray"
+import { ProductCard } from "@/components/product-card"
+import { ProductFilterBar } from "@/components/product-filter-bar"
+import { EmptyState } from "@/components/states"
+import { Button } from "@/components/ui/button"
+import { Link } from "@/i18n/navigation"
+import {
+    applyFilters,
+    EMPTY_FILTERS,
+    filtersFromParams,
+    filtersToParams,
+    type ListingFilters,
+} from "@/lib/services/product-facets"
+import type { SearchListing } from "@/lib/services/search-service"
+
+/**
+ * Search results, filtered and sorted like any other listing.
+ *
+ * The page it belongs to fetched forty-eight matches and printed them in one order with no
+ * controls, on a site whose category pages have had a filter panel and four sort orders for
+ * weeks — built from `product-facets.ts`, which search could not reach because its results
+ * arrived in a different shape. `searchListing` fixes the shape; this reuses everything else.
+ *
+ * The QUERY is part of the URL state and survives every filter change, which is the one thing
+ * this page has to get right that a category listing does not: dropping `?q=` while ticking a
+ * checkbox would leave a filtered view of nothing.
+ */
+export function SearchResults({ listing, query }: { listing: SearchListing; query: string }) {
+    const t = useTranslations("search")
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
+
+    const filters: ListingFilters = useMemo(
+        () => filtersFromParams(new URLSearchParams(searchParams.toString())),
+        [searchParams]
+    )
+
+    const products = useMemo(() => listing.entries.map((entry) => entry.product), [listing.entries])
+    const visible = useMemo(() => applyFilters(products, filters), [products, filters])
+    const linkOf = useMemo(
+        () => new Map(listing.entries.map((entry) => [entry.product.id, entry])),
+        [listing.entries]
+    )
+
+    function updateFilters(next: ListingFilters) {
+        // `q` is kept explicitly: it is the only parameter on this page that is not a filter,
+        // and losing it would turn a narrowed search into an empty one.
+        const params = filtersToParams(next, { q: query })
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false })
+    }
+
+    return (
+        <>
+            <ProductFilterBar
+                facets={listing.facets}
+                filters={filters}
+                resultCount={visible.length}
+                onChange={updateFilters}
+            />
+
+            {visible.length === 0 ? (
+                <EmptyState
+                    variant="no-results"
+                    title={t("noMatches")}
+                    description={t("noMatchesBody")}
+                    action={
+                        <div className="flex flex-wrap justify-center gap-3">
+                            <Button
+                                size="lg"
+                                variant="outline"
+                                onClick={() => updateFilters({ ...EMPTY_FILTERS, sort: filters.sort })}
+                            >
+                                {t("clearFilters")}
+                            </Button>
+                            <Button asChild size="lg">
+                                <Link href="/category">{t("browseInstead")}</Link>
+                            </Button>
+                        </div>
+                    }
+                    className="mt-10 rounded-lg border bg-surface-sunk"
+                />
+            ) : (
+                <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
+                    {visible.map((product) => {
+                        const entry = linkOf.get(product.id)
+                        return (
+                            <Link
+                                key={product.id}
+                                href={`/category/${encodeSlug(entry?.categorySlug ?? "")}/${encodeSlug(
+                                    entry?.subCategorySlug ?? ""
+                                )}/${encodeSlug(product.slug)}`}
+                                className="block"
+                            >
+                                <ProductCard
+                                    image={product.image ?? "/lighting-product.jpg"}
+                                    title={product.name}
+                                    category={entry?.sectionName ?? ""}
+                                    price={product.price}
+                                    basePrice={product.basePrice}
+                                    discountPercent={product.discountPercent}
+                                    action={<CompareToggle sku={product.productId} />}
+                                />
+                            </Link>
+                        )
+                    })}
+                </div>
+            )}
+
+            <CompareTray />
+        </>
+    )
+}

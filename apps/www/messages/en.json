@@ -3,7 +3,33 @@
     "title": "Loading",
     "message": "Please wait while we prepare everything for you"
   },
+  "offers": {
+    "homeTitle": "Up to {percent}% off, while it lasts",
+    "homeDescription": "A few of the products on offer right now. The offer ends {date} and prices go back to normal on their own.",
+    "previous": "Previous offers",
+    "next": "More offers",
+    "barTitle": "Up to {percent}% off",
+    "barMeta": "· {count, plural, one {{formattedCount} product} other {{formattedCount} products}} · ends {date}",
+    "bannerLabel": "Current offer",
+    "bannerTitle": "Up to {percent}% off {section}",
+    "bannerMeta": "{count, plural, one {{formattedCount} product} other {{formattedCount} products}} · ends {date}",
+    "seeAll": "See all offers",
+    "pageTitle": "Offers",
+    "pageDescription": "Everything on offer right now, by section. Prices go back to normal on their own when each offer ends.",
+    "pageSummary": "Up to {percent}% off {count, plural, one {{formattedCount} product} other {{formattedCount} products}}",
+    "sectionMeta": "Up to {percent}% off · ends {date}",
+    "browseSection": "Browse the section",
+    "emptyTitle": "Nothing is on offer right now",
+    "emptyDescription": "Offers run for a set period. While one is running it appears here, and on the section it applies to.",
+    "browseCatalogue": "Browse the catalogue",
+    "metaTitle": "Offers",
+    "metaDescription": "Lighting on offer at NewLight — the current discounts by section, for a limited period."
+  },
   "product-card": {
+    "was": "Was",
+    "now": "Now",
+    "off": "off",
+    "saleBadge": "Sale",
     "view": "View",
     "currency": "EGP"
   },
@@ -23,7 +49,8 @@
         "nativeName": "العربية",
         "region": "Middle East"
       }
-    }
+    },
+    "title": "Choose a language"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -33,24 +60,27 @@
   },
   "Common": {
     "welcome": "Welcome",
-    "error": "An error occurred"
+    "error": "An error occurred",
+    "skipToContent": "Skip to content"
   },
   "loading": {
     "title": "Loading your order...",
     "description": "This won’t take long"
   },
   "nav": {
+    "offersLink": "Offers",
     "logoNew": "new",
     "logoLight": "light",
-    "desktopContactSr": "Contact",
     "mobileMenuTitleHome": "Home",
     "mobileMenuTitleProducts": "Products",
     "mobileMenuTitleAbout": "About",
     "mobileMenuTitleContact": "Contact",
     "mobileMenuLabelLanguage": "Language",
     "mobileMenuLabelTheme": "Theme",
-    "mobileMenuLabelSearch": "Search",
-    "mobileMenuFooterCta": "The New Thesaurus: Premium Lighting Solutions"
+    "technicalResources": "Technical resources",
+    "primaryNav": "Primary",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu"
   },
   "search": {
     "button": "Search",
@@ -70,7 +100,23 @@
       "solutions": "lighting Solutions",
       "outdoor": "Outdoor Lighting",
       "smart": "Smart Lighting"
-    }
+    },
+    "eyebrow": "Search",
+    "resultsTitle": "Search the catalogue",
+    "resultsTitleFor": "Search: {query}",
+    "resultsFor": "Results for “{query}”",
+    "resultsDescription": "Search products, categories and lighting solutions across the NewLight catalogue.",
+    "count": "{count, plural, =0 {No matches} one {One match} other {# matches}}",
+    "prompt": "What are you looking for?",
+    "promptBody": "Search by product name, SKU or category — in English or Arabic.",
+    "noResultsBody": "Check the spelling, try a shorter term, or browse the catalogue by category.",
+    "browseInstead": "Browse the catalogue",
+    "sections": "Sections",
+    "products": "{count, plural, one {# product} other {# products}}",
+    "seeAll": "See all results",
+    "noMatches": "No products match these filters",
+    "noMatchesBody": "Your search found products, but none of them match the filters you have on. Clear them to see everything that matched.",
+    "clearFilters": "Clear filters"
   },
   "collection-detail": {
     "breadcrumbHome": "Home",
@@ -321,7 +367,8 @@
     "viewAll": "View All",
     "ctaTitle": "Transform Your Space",
     "ctaDescription": "Discover our handcrafted lighting solutions that combine natural materials with timeless design",
-    "ctaButton": "Get in Touch"
+    "ctaButton": "Get in Touch",
+    "eyebrow": "Lookbook"
   },
   "categories": {
     "Natural Woven": "Natural Woven",
@@ -467,7 +514,8 @@
     "smart-spacesTitle": "Smart Spaces",
     "smart-spacesDescription": "Integrate intelligent systems that adapt to your lifestyle and enhance your daily experience.",
     "smart-spacesAction": "Explore Tech",
-    "buttonText": "Explore Collection"
+    "buttonText": "Explore Collection",
+    "eyebrow": "Lookbook"
   },
   "cart": {
     "title": "Shopping Cart",
@@ -500,7 +548,8 @@
     },
     "discount": "discount",
     "orderNow": "Order Now",
-    "currency": "EGP"
+    "currency": "EGP",
+    "viewFull": "View full cart"
   },
   "auth-section": {
     "account": "Account",
@@ -510,7 +559,10 @@
     "dashboard": "Dashboard",
     "loading": "Loading...",
     "userMenu": "User menu",
-    "signOut": "Sign out"
+    "signOut": "Sign out",
+    "myOrders": "My orders",
+    "myAccount": "My account",
+    "cart": "Cart"
   },
   "hero-section": {
     "illuminate": "Illuminate",
@@ -519,7 +571,8 @@
     "technicalResources": "Technical Resources",
     "weAre": "We Are",
     "weAreNewLight": "New Light",
-    "category": "Category"
+    "category": "Category",
+    "browseCatalogue": "Browse the catalogue"
   },
   "about-us-page": {
     "heroTitle": "Illuminating Excellence",
@@ -558,13 +611,13 @@
       {
         "title": "Indoor Lighting",
         "description": "Transform your interior spaces with our exquisite collection.",
-        "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+        "image": "https://res.cloudinary.com/p1fq9xua/image/upload/v1788702195/products/indoor/magnetic/nl-a603-24w/nl-a603-24w-1.png",
         "slug": "indoor"
       },
       {
         "title": "Outdoor Lighting",
         "description": "Illuminate your exterior spaces with our weather-resistant outdoor lighting solutions.",
-        "image": "/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
+        "image": "https://res.cloudinary.com/p1fq9xua/image/upload/v1788702364/products/outdoor/bollard/nl-b-beam/nl-b-beam-1.png",
         "slug": "outdoor"
       }
     ],
@@ -576,7 +629,8 @@
     "ctaTitle": "Ready to Transform Your Space?",
     "ctaDescription": "Discover our complete collection of premium lighting solutions and let our experts help you create the perfect ambiance for your project.",
     "ctaExplore": "Explore Collections",
-    "ctaContact": "Contact Us"
+    "ctaContact": "Contact Us",
+    "eyebrow": "About"
   },
   "privacy-page": {
     "heroTitle": "Privacy Policy",
@@ -722,34 +776,6 @@
       "consultation": "Free consultation"
     }
   },
-  "category-section": {
-    "header": {
-      "title": "Product Categories",
-      "subtitle": "Discover our curated collections of premium lighting solutions, meticulously designed for both interior and exterior applications."
-    },
-    "categories": {
-      "indoor": {
-        "title": "Indoor Lighting",
-        "subtitle": "Interior Collection",
-        "description": "Sophisticated lighting solutions designed to enhance every interior space. From ambient ceiling fixtures to accent wall lights, our indoor collection combines aesthetic excellence with functional illumination.",
-        "href": "/category/indoor"
-      },
-      "outdoor": {
-        "title": "Outdoor Lighting",
-        "subtitle": "Exterior Collection",
-        "description": "Weather-resistant lighting engineered for outdoor environments. Illuminate gardens, pathways, and architectural features with fixtures built to withstand the elements while delivering exceptional performance.",
-        "href": "/category/outdoor"
-      }
-    },
-    "features": {
-      "consultationTitle": "Expert Consultation",
-      "consultationDescription": "Professional lighting design assistance to help you select the perfect fixtures for your project.",
-      "technicalTitle": "Technical Support",
-      "technicalDescription": "Comprehensive installation guides and technical specifications for all products.",
-      "qualityTitle": "Quality Assurance",
-      "qualityDescription": "All fixtures undergo rigorous testing to meet international lighting standards."
-    }
-  },
   "footer": {
     "logo": {
       "part1": "NEW",
@@ -774,6 +800,13 @@
         "contact": "Contact",
         "privacy": "Privacy",
         "faqs": "FAQs"
+      },
+      "account": {
+        "title": "Account",
+        "account": "My account",
+        "cart": "Cart",
+        "orders": "My orders",
+        "offers": "Offers"
       }
     },
     "copyright": "New Light. All rights reserved.",
@@ -839,7 +872,10 @@
       "badgeNew": "New",
       "badgeFeatured": "Featured",
       "badgeSale": "Sale"
-    }
+    },
+    "eyebrow": "Featured",
+    "browseAll": "Browse the catalogue",
+    "noProducts": "No featured products right now."
   },
   "categories-page": {
     "heroTitle": "Illuminate Your World",
@@ -855,18 +891,23 @@
     "ctaContact": "Contact Us",
     "ctaLearn": "Learn More",
     "exploreCollection": "Explore Collection",
-    "productsCount": "{count} products"
+    "productsCount": "{count} products",
+    "eyebrow": "Catalogue",
+    "count": "{count, plural, one {# category} other {# categories}}",
+    "ctaEyebrow": "Expert consultation"
   },
   "sub-category-page": {
     "backTo": "Back to {category}",
     "noSubcategories": "No subcategories available",
-    "exploreCollection": "Explore our {name} collection"
+    "exploreCollection": "Explore our {name} collection",
+    "catalogue": "Catalogue"
   },
   "section-type-page": {
     "noProducts": "No products available in this category",
     "productCount": "{count} {count, plural, =1 {product} other {products}}",
     "products": "products",
-    "product": "product"
+    "product": "product",
+    "catalogue": "Catalogue"
   },
   "product-page": {
     "noImage": "No Image Available",
@@ -993,8 +1034,9 @@
     "tax": "Tax",
     "total": "Total",
     "trackingNumber": "Tracking Number",
-    "backToOrders": "Back to Home",
-    "continueShopping": "Continue Shopping"
+    "backToOrders": "Back to my orders",
+    "continueShopping": "Continue Shopping",
+    "free": "Free"
   },
   "offline": {
     "title": "You're offline",
@@ -1064,6 +1106,14 @@
     "orders-page": {
       "title": "My Orders | New Light",
       "description": "Every order you have placed with New Light, with its status and what happens next."
+    },
+    "cart-page": {
+      "title": "Your cart | New Light",
+      "description": "Everything you have added, priced as it is today, ready to order."
+    },
+    "account-page": {
+      "title": "My account | New Light",
+      "description": "Your profile, delivery address and order history with New Light."
     }
   },
   "auth": {
@@ -1093,7 +1143,13 @@
     "genericError": "That did not work. Please check your details and try again.",
     "invalidCredentials": "Email or password is incorrect.",
     "emailInUse": "An account already exists for that email address.",
-    "unverified": "Confirm your email address before signing in. We sent you a link."
+    "unverified": "Confirm your email address before signing in. We sent you a link.",
+    "backHome": "Back to home",
+    "loading": "Loading…",
+    "welcomeBack": "Welcome back",
+    "welcomeBackBody": "Sign in to track your orders and reorder in a couple of taps.",
+    "joinUs": "Join us",
+    "joinUsBody": "Create an account to order, track delivery and keep your details for next time."
   },
   "orders-page": {
     "title": "My Orders | New Light",
@@ -1118,12 +1174,8 @@
     "previous": "Previous",
     "next": "Next",
     "page": "Page {page} of {total}",
-    "status": {
-      "awaiting_shipment": "Awaiting shipment",
-      "shipped": "Shipped",
-      "delivered": "Delivered",
-      "cancelled": "Cancelled"
-    }
+    "emptyBody": "When you place one, it will appear here with its status and everything you ordered.",
+    "eyebrow": "Account"
   },
   "error-page": {
     "title": "Something went wrong",
@@ -1132,5 +1184,194 @@
     "home": "Back to home",
     "reference": "Reference",
     "referenceHint": "Quote this if you contact us."
+  },
+  "plp": {
+    "results": "{count, plural, =0 {No products} one {# product} other {# products}}",
+    "ofTotal": "of {total}",
+    "filters": "Filters",
+    "sortBy": "Sort by",
+    "sort": {
+      "featured": "Featured",
+      "price-asc": "Price: low to high",
+      "price-desc": "Price: high to low",
+      "newest": "Newest first"
+    },
+    "colorTemperature": "Colour temperature",
+    "finish": "Finish",
+    "availability": "Availability",
+    "inStock": "In stock",
+    "onSale": "On sale",
+    "clearAll": "Clear all",
+    "remove": "Remove filter",
+    "noMatches": "No products match these filters",
+    "noMatchesBody": "Try removing a filter — everything in this section is still here.",
+    "noProductsBody": "Nothing is listed in this section yet. Browse the rest of the category.",
+    "showResults": "{count, plural, =0 {No products} one {Show # product} other {Show # products}}"
+  },
+  "cart-page": {
+    "eyebrow": "Account",
+    "heading": "Your cart",
+    "subheading": "{count, plural, =0 {Nothing in it yet} one {One item} other {# items}}",
+    "clear": "Empty cart",
+    "clearConfirm": "Remove everything from your cart? You can add the products again from the catalogue.",
+    "emptyTitle": "Your cart is empty",
+    "emptyBody": "Products you add will wait here, priced as they are today, until you are ready to order.",
+    "browse": "Browse the catalogue",
+    "summary": "Summary",
+    "subtotal": "Subtotal",
+    "discount": "Discount",
+    "shipping": "Shipping",
+    "total": "Total",
+    "howToOrder": "Each product is ordered on its own page — choose Order now on the item you want and we will ask for your delivery details there.",
+    "continue": "Continue shopping",
+    "quantity": "Quantity",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "remove": "Remove",
+    "removed": "Removed from your cart.",
+    "orderNow": "Order now",
+    "updateFailed": "The quantity could not be changed. Please try again.",
+    "removeFailed": "The item could not be removed. Please try again.",
+    "shippingFrom": "From {amount}",
+    "beforeShipping": "Before shipping"
+  },
+  "account": {
+    "eyebrow": "Account",
+    "heading": "Hello, {name}",
+    "subheading": "Your details, where we deliver, and everything you have ordered.",
+    "profile": {
+      "title": "Profile",
+      "name": "Name",
+      "email": "Email",
+      "since": "Customer since",
+      "readOnly": "Your name and email come from your sign-in. To change them, contact us and we will update them for you."
+    },
+    "address": {
+      "title": "Delivery address",
+      "edit": "Edit",
+      "delete": "Remove",
+      "deleteConfirm": "Remove your saved address? You will be asked for it again at your next order.",
+      "deleted": "Address removed.",
+      "saved": "Address saved.",
+      "failed": "That could not be saved. Please try again.",
+      "save": "Save address",
+      "saving": "Saving…",
+      "cancel": "Cancel",
+      "fields": {
+        "fullName": "Full name",
+        "phone": "Phone",
+        "email": "Email",
+        "addressLine1": "Address",
+        "addressLine2": "Address line 2 (optional)",
+        "city": "City",
+        "state": "Governorate (optional)",
+        "postalCode": "Postal code"
+      }
+    },
+    "orders": {
+      "title": "Orders",
+      "all": "All orders",
+      "count": "Orders placed",
+      "spent": "Total spent",
+      "empty": "You have not placed an order yet. When you do, the latest ones will appear here.",
+      "browse": "Browse the catalogue"
+    }
+  },
+  "merchandising": {
+    "browseAll": "Browse the catalogue",
+    "shopByCategory": {
+      "eyebrow": "Shop by section",
+      "title": "Everything we make, by use",
+      "description": "Every section with products in it, one click from here.",
+      "all": "All sections",
+      "count": "{count, plural, one {# product} other {# products}}"
+    },
+    "newArrivals": {
+      "eyebrow": "New arrivals",
+      "title": "Just added",
+      "description": "The newest fixtures to enter the catalogue."
+    },
+    "bestSellers": {
+      "eyebrow": "Best sellers",
+      "title": "What customers keep ordering",
+      "description": "Ranked by what has actually shipped, not by a label."
+    },
+    "related": {
+      "eyebrow": "More in {section}",
+      "title": "You may also like",
+      "link": "See all {section}"
+    },
+    "popularIn": {
+      "eyebrow": "Highlights",
+      "title": "Popular in {category}",
+      "description": "Featured pieces first, then the newest additions."
+    },
+    "offersIn": {
+      "eyebrow": "On offer",
+      "title": "Up to {percent}% off in {category}",
+      "link": "See all offers"
+    },
+    "recentlyViewed": {
+      "eyebrow": "Recently viewed",
+      "title": "Pick up where you left off",
+      "clear": "Clear"
+    },
+    "alsoIn": "Also in {category}",
+    "assurance": {
+      "inStock": "In stock",
+      "delivery": "Delivery in 5 to 7 days",
+      "deliveryBody": "Tracked to your door, across all regions.",
+      "warranty": "3 to 5 year warranty",
+      "warrantyBody": "On structural and electronic components.",
+      "cod": "Cash on delivery",
+      "codBody": "Pay when it arrives. No card needed."
+    }
+  },
+  "shipping": {
+    "coverageTitle": "Cairo and Giza",
+    "coverageBody": "The rates above are for delivery inside Cairo and Giza. Anywhere else in Egypt, shipping is priced by the size of the order and we confirm it with you within 24 hours of placing it.",
+    "outsideTitle": "Outside Cairo and Giza",
+    "outsideBody": "We deliver to {governorate} too. The rate shown is not final there: shipping is priced by the size of the order, and we call you within 24 hours to confirm the cost before anything is dispatched.",
+    "cartNote": "Rates shown are for Cairo and Giza. Elsewhere, shipping is priced by order size and confirmed within 24 hours."
+  },
+  "compare": {
+    "eyebrow": "Compare",
+    "title": "Side by side",
+    "description": "The same specifications, in one table, for the products you picked.",
+    "metaTitle": "Compare products | New Light",
+    "metaDescription": "Compare lighting specifications side by side.",
+    "add": "Add to comparison",
+    "remove": "Remove from comparison",
+    "removeOne": "Remove {name} from the comparison",
+    "full": "You can compare {max} products at a time. Remove one first.",
+    "selected": "{count, plural, one {# product selected} other {# products selected}} of {max}",
+    "needMore": "Pick one more",
+    "open": "Compare",
+    "clear": "Clear",
+    "comparing": "{count, plural, one {# product} other {# products}}",
+    "differenceCount": "{count, plural, one {# difference} other {# differences}}",
+    "differencesOnly": "Only differences",
+    "emptyTitle": "Nothing to compare yet",
+    "emptyBody": "Tick the compare button on any two products in the catalogue and they will line up here.",
+    "browse": "Browse the catalogue",
+    "product": "Product",
+    "view": "View",
+    "inStock": "In stock",
+    "outOfStock": "Out of stock",
+    "notSpecified": "Not specified",
+    "identical": "These products match on every specification recorded for them."
+  },
+  "bulkOrder": {
+    "about": "About {product}, {quantity} units or more. Leave your details and our sales team will come back to you with pricing.",
+    "message": "Bulk order enquiry — {product} (SKU {sku}), quantity around {quantity}.",
+    "fullName": "Full name",
+    "jobPosition": "Job title",
+    "email": "Email",
+    "phoneNumber": "Phone",
+    "sending": "Sending…",
+    "sent": "Enquiry sent",
+    "sentBody": "Our sales team will be in touch with pricing.",
+    "failed": "That did not send",
+    "failedBody": "Please try again, or call us directly."
   }
 }

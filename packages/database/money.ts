@@ -141,7 +141,9 @@ export interface FormatMoneyOptions {
      * How many fraction digits to show.
      *
      * `"auto"` (the default) drops a trailing `.00`, which is right for a storefront: a
-     * price tag reading "EGP 165" is how the number is written on a shelf.
+     * price tag reading "EGP 165" is how the number is written on a shelf. It drops the
+     * decimals or shows BOTH of them — never one. A discounted 449.00 is 359.20, and
+     * "EGP 359.2" is not a price anybody has ever written on anything.
      *
      * `"fixed"` always shows MONEY_SCALE digits. That is a TABLE requirement, not a taste:
      * a column alternating "EGP 1,200" and "EGP 1,234.56" has its decimal points in
@@ -196,10 +198,12 @@ export function formatMoneyNumber(
 ): string {
     const base = locale.split("-")[0] ?? "en"
     const display = CURRENCY_DISPLAY[base] ?? CURRENCY_DISPLAY.en!
-    const fixed = options.digits === "fixed"
+    const rounded = roundMoney(value)
+    // Cents are all-or-nothing: `minimumFractionDigits: 0` alone formats 359.20 as "359.2".
+    const withCents = options.digits === "fixed" || !rounded.isInteger()
 
     return new Intl.NumberFormat(display.arabicDigits ? `${base}-EG-u-nu-arab` : locale, {
-        minimumFractionDigits: fixed ? MONEY_SCALE : 0,
+        minimumFractionDigits: withCents ? MONEY_SCALE : 0,
         maximumFractionDigits: MONEY_SCALE,
-    }).format(roundMoney(value).toNumber())
+    }).format(rounded.toNumber())
 }

@@ -1,13 +1,14 @@
 "use client"
 
 import { ConfirmForm } from "@/components/confirm-form"
-import { Container } from "@/components/container"
+import { Container } from "@/components/layout/section"
 import { OrderSummary } from "@/components/order-summary"
 import { ConfirmPageViewProps } from "@/types"
 import { motion } from "framer-motion"
 import { ShoppingBag, MapPin, CheckCircle, Check } from "lucide-react"
 
 export function ConfirmPageView({
+    shippingRates,
     configId,
     userId,
     configuration,
@@ -32,7 +33,7 @@ export function ConfirmPageView({
                                 <ShoppingBag className="w-6 h-6 text-primary" />
                             </div>
                             <div>
-                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light tracking-tight">
+                                <h1 className="text-3xl md:text-4xl lg:text-5xl font-display font-light tracking-tight">
                                     {t.confirmYourOrder}
                                 </h1>
                             </div>
@@ -118,6 +119,7 @@ export function ConfirmPageView({
                                 configId={configId}
                                 userId={userId}
                                 existingAddress={existingAddress}
+                                shippingRates={shippingRates}
                                 translations={{
                                     shippingInformation: t.shippingInformation,
                                     fullName: t.fullName,
@@ -151,34 +153,40 @@ export function ConfirmPageView({
                         transition={{ duration: 0.5, delay: 0.4 }}
                         className="mt-12"
                     >
-                        <div className="bg-linear-to-r from-green-50 to-emerald-50 dark:from-green-950/20 dark:to-emerald-950/20 border border-green-200 dark:border-green-800 rounded-xl p-6">
+                        {/* The success tone, from the tokens that own it. What this replaces was
+                            eight green literals and six `dark:` overrides — a two-stop gradient,
+                            a border, a disc, an icon, a heading, a paragraph and three list rows,
+                            each picking its own step off the Tailwind palette. The panel is the
+                            tone; the copy inside it is ordinary text, because tinting body type
+                            green is what made five shades of green necessary in the first place. */}
+                        <div className="rounded-xl border border-success-border bg-success-bg p-6">
                             <div className="flex items-start gap-4">
-                                <div className="w-12 h-12 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center shrink-0">
-                                    <svg className="w-6 h-6 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div className="grid size-12 shrink-0 place-items-center rounded-full bg-background text-success">
+                                    <svg className="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
                                     </svg>
                                 </div>
                                 <div className="flex-1">
-                                    <h3 className="font-semibold text-green-900 dark:text-green-100 mb-2">
+                                    <h3 className="mb-2 font-semibold text-foreground">
                                         {isArabic ? "الدفع عند الاستلام" : "Cash on Delivery"}
                                     </h3>
-                                    <p className="text-sm text-green-800 dark:text-green-200 mb-3">
+                                    <p className="mb-3 text-sm text-muted-foreground">
                                         {isArabic
                                             ? "ادفع عندما تستلم طلبك - لا حاجة لبطاقة ائتمان أو دفع مسبق. نقبل النقد فقط عند التسليم."
                                             : "Pay when you receive your order - no credit card or advance payment needed. We accept cash only upon delivery."
                                         }
                                     </p>
                                     <div className="flex flex-wrap gap-3 text-xs">
-                                        <div className="flex items-center gap-1.5 text-green-700 dark:text-green-300">
-                                            <CheckCircle className="w-3.5 h-3.5" />
+                                        <div className="flex items-center gap-1.5 text-foreground">
+                                            <CheckCircle className="size-3.5 text-success" />
                                             <span>{isArabic ? "آمن ومضمون" : "Safe & Secure"}</span>
                                         </div>
-                                        <div className="flex items-center gap-1.5 text-green-700 dark:text-green-300">
-                                            <CheckCircle className="w-3.5 h-3.5" />
+                                        <div className="flex items-center gap-1.5 text-foreground">
+                                            <CheckCircle className="size-3.5 text-success" />
                                             <span>{isArabic ? "لا رسوم إضافية" : "No Extra Fees"}</span>
                                         </div>
-                                        <div className="flex items-center gap-1.5 text-green-700 dark:text-green-300">
-                                            <CheckCircle className="w-3.5 h-3.5" />
+                                        <div className="flex items-center gap-1.5 text-foreground">
+                                            <CheckCircle className="size-3.5 text-success" />
                                             <span>{isArabic ? "فحص المنتج قبل الدفع" : "Inspect Before Payment"}</span>
                                         </div>
                                     </div>

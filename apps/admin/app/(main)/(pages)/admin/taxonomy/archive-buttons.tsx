@@ -39,7 +39,13 @@ export function ArchiveButtons({
 
     if (archived) {
         return (
-            <Button size="sm" variant="secondary" disabled={pending} onClick={() => run(() => restoreTaxonomy(kind, id))}>
+            <Button
+                size="sm"
+                variant="outline"
+                className="h-7 text-xs"
+                disabled={pending}
+                onClick={() => run(() => restoreTaxonomy(kind, id))}
+            >
                 Restore
             </Button>
         )
@@ -49,7 +55,7 @@ export function ArchiveButtons({
         <Button
             size="sm"
             variant="ghost"
-            className="text-destructive hover:text-destructive"
+            className="h-7 text-xs text-destructive hover:text-destructive"
             disabled={pending}
             onClick={() => run(() => (kind === "category" ? archiveCategory(id) : archiveSubCategory(id)))}
         >

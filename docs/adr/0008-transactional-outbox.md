@@ -14,7 +14,8 @@ which is why §6 makes this a blocking dependency of §7 rather than parallel wo
 ## Decision
 
 - **One entry point.** `packages/mail` exports `sendMail`, and no app imports Resend or React
-  Email. Transport is a runtime choice behind a Nodemailer-shaped interface.
+  Email. Transport is a runtime choice behind a Nodemailer-shaped interface — SMTP via
+  Nodemailer when `SMTP_HOST` is set, Resend's HTTP API otherwise, console in development.
 - **HTTP, not SMTP**, because Vercel's functions cannot hold a persistent SMTP connection
   reliably. No SDK: the Resend API is one POST, and a dependency to make it would hide the
   only part worth reading.

@@ -1,6 +1,7 @@
-import { prisma, resolveLocale, consume, NotificationType, Prisma } from "@repo/database"
+import { prisma, resolveLocale, consume } from "@repo/database"
 import { NextRequest, NextResponse } from "next/server"
 import { queueMail } from "@repo/mail/outbox"
+import { adminRecipients, dispatchPushSoon, notifyRecipients } from "@repo/notifications"
 import { z } from "zod"
 
 const contactFormSchema = z.object({
@@ -50,6 +51,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
         const adminUrl = process.env.NEXT_PUBLIC_ADMIN_URL ?? ""
 
+        // Outside the transaction, like everywhere else: the recipients are a slow-changing
+        // fact, and reading them inside is what put a predicate lock on `users` in the order
+        // path. Uniform here even though this transaction is READ COMMITTED, so there is one
+        // shape to recognise rather than two.
+        const recipients = await adminRecipients(prisma)
+
         // The form row and BOTH emails commit together (§16). If the transaction rolls back
         // there is no orphaned "we received your message" for a message nobody received; if
         // it commits, the mail is queued and the sweep will deliver it even if the transport
@@ -96,20 +103,31 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 console.warn("[contact] neither EMAIL_REPLY_TO nor EMAIL_FROM is set; no admin notification queued.")
             }
 
+            // In the transaction, beside the mail. It used to run after the commit in a
+            // helper that swallowed its own errors, so a form could be stored with no
+            // notification and nothing anywhere saying so (§17).
+            await notifyRecipients(tx, recipients, {
+                type: "NEW_CONTACT_FORM",
+                title: "New contact form",
+                message: `${data.fullName} (${data.jobPosition}) submitted the contact form.`,
+                // `/admin/contact-forms/<id>` was never a route in the admin app — the
+                // notification linked to a 404 from the day it was written. The queue is at
+                // `/admin/contact`.
+                actionUrl: "/admin/contact",
+                metadata: {
+                    contactFormId: created.id,
+                    email: data.email,
+                    phone: data.phoneNumber,
+                },
+            })
+
             return created
         })
 
-        await createAdminNotifications({
-            type: NotificationType.NEW_CONTACT_FORM,
-            title: "New Contact Form Submission",
-            message: `${data.fullName} from ${data.jobPosition} has submitted a contact form`,
-            actionUrl: `/admin/contact-forms/${contactForm.id}`,
-            metadata: {
-                contactFormId: contactForm.id,
-                email: data.email,
-                phone: data.phoneNumber,
-            },
-        })
+        // After the commit, and not awaited: the enquiry is already stored, and the person
+        // waiting on this response should not also wait on Google's push service. The cron
+        // sweep is what makes the delivery a guarantee rather than a hope.
+        dispatchPushSoon(prisma)
 
         return NextResponse.json(
             {
@@ -125,44 +143,5 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             { error: "Failed to submit contact form" },
             { status: 500 }
         )
-    }
-}
-
-async function createAdminNotifications(notificationData: {
-    type: NotificationType
-    title: string
-    message: string
-    actionUrl: string
-    metadata: Prisma.InputJsonValue
-}) {
-    try {
-        // Every administrator, by ROLE. The previous version looked up one user by
-        // process.env.ADMIN_EMAIL and gave up silently when it did not match a row — so a
-        // second administrator, or a changed address, meant notifications that went nowhere.
-        const admins = await prisma.user.findMany({
-            where: { role: { in: ["ADMIN", "SUPER_ADMIN"] } },
-            select: { id: true },
-        })
-
-        if (admins.length === 0) {
-            console.warn("[contact] no ADMIN or SUPER_ADMIN users exist; in-app notification skipped.")
-            return
-        }
-
-        await prisma.notification.createMany({
-            data: admins.map((admin) => ({
-                userId: admin.id,
-                type: notificationData.type,
-                title: notificationData.title,
-                message: notificationData.message,
-                actionUrl: notificationData.actionUrl,
-                metadata: notificationData.metadata,
-                priority: "NORMAL" as const,
-            })),
-        })
-    } catch (error) {
-        // An in-app notification failing must not fail the form submission — the email
-        // outbox row is already committed and is the reliable channel.
-        console.error("Failed to create admin notifications:", error)
     }
 }

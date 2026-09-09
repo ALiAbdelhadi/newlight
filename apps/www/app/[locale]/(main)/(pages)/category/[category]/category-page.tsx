@@ -1,19 +1,19 @@
-"use client"
-
 import { encodeSlug } from "@repo/database"
+import { Breadcrumbs } from "@/components/breadcrumbs"
 import CategoryCard from "@/components/category-card"
-import { Container } from "@/components/container"
+import { Container } from "@/components/layout/section"
+import { EmptyState } from "@/components/states"
 import { Link } from "@/i18n/navigation"
 import type { CategoryWithSubCategories } from "@/lib/services/category-service"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowLeft } from "lucide-react"
 import { useTranslations } from "next-intl"
-import { useEffect, useRef } from "react"
 
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger)
-}
+/**
+ * One category, listing its sub-categories.
+ *
+ * A server component. Both GSAP blocks are gone: the hero's `gsap.from` and a per-card
+ * ScrollTrigger that duplicated the reveal `CategoryCard` now does for itself — so every tile
+ * was being animated twice, once by its own component and once by this page's wrapper div.
+ */
 interface CategoryPageProps {
     /** Derived from the query that produced it, so the shape and the type cannot disagree. */
     category: CategoryWithSubCategories
@@ -21,77 +21,25 @@ interface CategoryPageProps {
 
 export default function CategoryPage({ category }: CategoryPageProps) {
     const t = useTranslations("sub-category-page")
-    const heroRef = useRef<HTMLElement>(null)
-    const gridRef = useRef<HTMLDivElement>(null)
-    const cardRefs = useRef<(HTMLDivElement | null)[]>([])
-
     const categoryTranslation = category.translations[0]
     // categoryType is gone with the enum (§3). A row with no translation in this locale is
     // a data defect, not something to substitute a slug for (§14.2).
     const categoryName = categoryTranslation?.name ?? ""
     const categorySlug = categoryTranslation?.slug ?? ""
 
-    useEffect(() => {
-        if (!heroRef.current) return
-
-        const ctx = gsap.context(() => {
-            gsap.from(heroRef.current, {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top 60%",
-                    once: true,
-                },
-            })
-        }, heroRef)
-
-        return () => ctx.revert()
-    }, [])
-
-    useEffect(() => {
-        if (category.subCategories.length === 0) return
-
-        const validCards = cardRefs.current.filter((el): el is HTMLDivElement => el !== null)
-        if (validCards.length === 0) return
-
-        const ctx = gsap.context(() => {
-            validCards.forEach((el, index) => {
-                gsap.from(el, {
-                    opacity: 0,
-                    y: 40,
-                    duration: 0.7,
-                    delay: index * 0.05,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 66%",
-                        once: true,
-                    },
-                })
-            })
-        }, gridRef)
-
-        return () => ctx.revert()
-    }, [category.subCategories])
-
     return (
         <div className="min-h-screen">
-            <section ref={heroRef} className="py-24">
+            <section className="py-12 lg:py-20">
                 <Container>
-                    <Link
-                        href="/category"
-                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
-                    >
-                        <ArrowLeft className="w-4 h-4 rtl:rotate-180 transition-transform group-hover:-translate-x-1" />
-                        <span className="font-light tracking-wide">{t("backTo", { category: "Categories" })}</span>
-                    </Link>
+                    {/* The trail, in place of a back link whose label was the English word
+                        "Categories" interpolated into a translated sentence on both locales. */}
+                    <Breadcrumbs
+                        className="mb-8"
+                        items={[{ name: t("catalogue"), href: "/category" }, { name: categoryName }]}
+                    />
                     <div className="max-w-3xl space-y-6">
                         <div className="space-y-4">
-                            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">Collection</p>
-                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-foreground text-balance leading-[1.1]">
+                            <h1 className="font-display text-3xl leading-[1.1] font-light tracking-tight text-balance sm:text-4xl lg:text-6xl">
                                 {categoryName}
                             </h1>
                             <div className="h-px w-20 bg-accent" />
@@ -104,35 +52,31 @@ export default function CategoryPage({ category }: CategoryPageProps) {
                     </div>
                 </Container>
             </section>
-            <section ref={gridRef} className="pb-28 lg:pb-36">
+            <section className="pb-20 lg:pb-28">
                 <Container>
                     {category.subCategories.length === 0 ? (
-                        <div className="text-center py-24 border border-border rounded-sm bg-secondary/20">
-                            <p className="text-muted-foreground font-light text-lg tracking-wide">{t("noSubcategories")}</p>
-                        </div>
+                        <EmptyState
+                            variant="no-data"
+                            title={t("noSubcategories")}
+                            className="rounded-lg border bg-surface-sunk"
+                        />
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-12 lg:gap-x-8 lg:gap-y-16">
                             {category.subCategories.map((subCategory, index) => {
                                 const subCategoryTranslation = subCategory.translations[0]
                                 const subCategoryName = subCategoryTranslation?.name ?? ""
                                 return (
-                                    <div
+                                    <CategoryCard
                                         key={subCategory.id}
-                                        ref={(el) => {
-                                            cardRefs.current[index] = el
-                                        }}
-                                    >
-                                        <CategoryCard
-                                            title={subCategoryName}
-                                            subtitle={categoryName}
-                                            description={
-                                                subCategoryTranslation?.description || t("exploreCollection", { name: subCategoryName })
-                                            }
-                                            imageUrl={subCategory.imageUrl || ""}
-                                            href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(subCategoryTranslation?.slug ?? "")}`}
-                                            index={index}
-                                        />
-                                    </div>
+                                        title={subCategoryName}
+                                        subtitle={categoryName}
+                                        description={
+                                            subCategoryTranslation?.description || t("exploreCollection", { name: subCategoryName })
+                                        }
+                                        imageUrl={subCategory.imageUrl || ""}
+                                        href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(subCategoryTranslation?.slug ?? "")}`}
+                                        index={index}
+                                    />
                                 )
                             })}
                         </div>

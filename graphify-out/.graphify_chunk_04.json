@@ -1,0 +1,319 @@
+{
+  "nodes": [
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a606_6w_nl_a606_6w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (1).png",
+      "symbol": "nl_a606_6w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a606-6w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a606_6w_nl_a606_6w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (2).png",
+      "symbol": "nl_a606_6w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a606-6w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a606_6w_nl_a606_6w_3",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a606-6w/nl-a606-6w (3).png",
+      "symbol": "nl_a606_6w_3",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a606-6w",
+        "image_sequence": 3,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a609_12w_nl_609_12w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a609-12w/nl-609-12w (1).png",
+      "symbol": "nl_609_12w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a609-12w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a609_18w_nl_609_18w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a609-18w/nl-609-18w (1).png",
+      "symbol": "nl_609_18w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a609-18w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a609_24w_nl_a609_24w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a609-24w/nl-a609-24w (1).png",
+      "symbol": "nl_a609_24w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a609-24w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a609_30w_nl_a609_30w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a609-30w/nl-a609-30w (1).png",
+      "symbol": "nl_a609_30w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a609-30w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a609_6w_nl_609_6w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a609-6w/nl-609-6w (1).png",
+      "symbol": "nl_609_6w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a609-6w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_12w_nl_a612_12w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (1).png",
+      "symbol": "nl_a612_12w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-12w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_12w_nl_a612_12w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (2).png",
+      "symbol": "nl_a612_12w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-12w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_12w_nl_a612_12w_3",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-12w/nl-a612-12w (3).png",
+      "symbol": "nl_a612_12w_3",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-12w",
+        "image_sequence": 3,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_18w_nl_a612_18w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (1).png",
+      "symbol": "nl_a612_18w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-18w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_18w_nl_a612_18w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (2).png",
+      "symbol": "nl_a612_18w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-18w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_18w_nl_a612_18w_3",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-18w/nl-a612-18w (3).png",
+      "symbol": "nl_a612_18w_3",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-18w",
+        "image_sequence": 3,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_24w_nl_a612_24w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (1).png",
+      "symbol": "nl_a612_24w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-24w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_24w_nl_a612_24w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (2).png",
+      "symbol": "nl_a612_24w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-24w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_24w_nl_a612_24w_3",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-24w/nl-a612-24w (3).png",
+      "symbol": "nl_a612_24w_3",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-24w",
+        "image_sequence": 3,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_30w_nl_a612_30w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (1).png",
+      "symbol": "nl_a612_30w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-30w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_30w_nl_a612_30w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (2).png",
+      "symbol": "nl_a612_30w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-30w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_30w_nl_a612_30w_3",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-30w/nl-a612-30w (3).png",
+      "symbol": "nl_a612_30w_3",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-30w",
+        "image_sequence": 3,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_6w_nl_a612_6w_1",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (1).png",
+      "symbol": "nl_a612_6w_1",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-6w",
+        "image_sequence": 1,
+        "file_extension": "png"
+      }
+    },
+    {
+      "node_id": "apps_admin_public_products_indoor_magnetic_nl_a612_6w_nl_a612_6w_2",
+      "file_type": "image",
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (2).png",
+      "symbol": "nl_a612_6w_2",
+      "confidence": 1.0,
+      "metadata": {
+        "category": "products",
+        "subcategory": "indoor/magnetic",
+        "product_id": "nl-a612-6w",
+        "image_sequence": 2,
+        "file_extension": "png"
+      }
+    }
+  ],
+  "metadata": {
+    "chunk_number": 4,
+    "total_files": 22,
+    "extraction_timestamp": "2026-09-06T00:00:00Z",
+    "repository_root": "/Users/ali/Downloads/altruvex's projects/newlight",
+    "file_pattern": "apps/admin/public/products/indoor/magnetic/**/*.png"
+  }
+}

@@ -1,7 +1,6 @@
 "use client"
 
 import { useState } from "react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 
 /**
@@ -21,7 +20,7 @@ import { Button } from "@/components/ui/button"
 export function AuditDiff({ diff }: { diff: unknown }) {
     const [open, setOpen] = useState(false)
 
-    if (diff === null || diff === undefined) return <span className="text-muted-foreground text-sm">—</span>
+    if (diff === null || diff === undefined) return <span className="text-muted-foreground">—</span>
     if (typeof diff !== "object") return <span className="font-mono text-xs">{String(diff)}</span>
 
     const record = diff as Record<string, unknown>
@@ -32,13 +31,21 @@ export function AuditDiff({ diff }: { diff: unknown }) {
         return (
             <div className="space-y-2">
                 <div className="flex items-center gap-2">
-                    <Badge variant="outline">{changes.length} change{changes.length === 1 ? "" : "s"}</Badge>
-                    <Button size="sm" variant="ghost" onClick={() => setOpen((v) => !v)}>
+                    <span className="rounded border px-1.5 py-0.5 text-2xs tabular-nums text-muted-foreground">
+                        {changes.length} change{changes.length === 1 ? "" : "s"}
+                    </span>
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setOpen((v) => !v)}
+                        aria-expanded={open}
+                        className="h-6 px-1.5 text-xs"
+                    >
                         {open ? "Hide" : "Show"}
                     </Button>
                 </div>
                 {open && (
-                    <ul className="text-xs font-mono space-y-1 max-h-64 overflow-y-auto">
+                    <ul className="max-h-64 space-y-1 overflow-y-auto font-mono text-2xs">
                         {changes.map((change, i) => (
                             <li key={i} className="text-muted-foreground">
                                 {String(change.sku ?? change.key ?? change.productId ?? i)}:{" "}
@@ -78,7 +85,7 @@ export function AuditDiff({ diff }: { diff: unknown }) {
     }
 
     return (
-        <ul className="text-xs space-y-0.5">
+        <ul className="space-y-0.5 text-xs">
             {rows.slice(0, open ? rows.length : 4).map((row, i) => (
                 <li key={i} className="break-all">
                     <span className="text-muted-foreground">{row.label}:</span>{" "}
@@ -94,7 +101,13 @@ export function AuditDiff({ diff }: { diff: unknown }) {
             ))}
             {rows.length > 4 && (
                 <li>
-                    <Button size="sm" variant="ghost" className="h-6 px-1" onClick={() => setOpen((v) => !v)}>
+                    <Button
+                        size="sm"
+                        variant="ghost"
+                        aria-expanded={open}
+                        className="h-6 px-1 text-xs"
+                        onClick={() => setOpen((v) => !v)}
+                    >
                         {open ? "less" : `+${rows.length - 4} more`}
                     </Button>
                 </li>

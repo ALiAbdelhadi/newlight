@@ -1,16 +1,14 @@
 "use client"
 
-import { Container } from "@/components/container"
+import { Container } from "@/components/layout/section"
 import { Link } from "@/i18n/navigation"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowRight, Award, Lightbulb, TrendingUp, Zap } from "lucide-react"
+import { Award, Lightbulb, TrendingUp, Zap } from "lucide-react"
 import { useTranslations } from "next-intl"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import type React from "react"
-import { useEffect, useRef } from "react"
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { RevealScope } from "@/components/reveal-scope"
 
-gsap.registerPlugin(ScrollTrigger)
 
 const benefits: { icon: React.ReactNode; titleKey: string; descKey: string }[] = [
   {
@@ -44,82 +42,15 @@ const processSteps: { number: string; titleKey: string; descKey: string }[] = [
 
 export default function TechnicalResources() {
   const t = useTranslations("technical-resources")
-  const rootRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const root = rootRef.current
-    if (!root) return
-
-    const ctx = gsap.context(() => {
-      const mm = gsap.matchMedia()
-
-      // Reduced motion: everything is simply present. No transforms, no fades.
-      mm.add("(prefers-reduced-motion: reduce)", () => {
-        gsap.set(root.querySelectorAll("[data-reveal], [data-reveal-group] > *, [data-reveal-media]"), {
-          clearProps: "all",
-          opacity: 1,
-        })
-      })
-
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const ease = "power3.out"
-
-        // Hero — the only sequence that plays on load rather than on scroll.
-        gsap.from("[data-hero-reveal]", {
-          opacity: 0,
-          y: 32,
-          duration: 0.9,
-          stagger: 0.12,
-          ease,
-        })
-
-        root.querySelectorAll<HTMLElement>("[data-reveal]").forEach((el) => {
-          gsap.from(el, {
-            opacity: 0,
-            y: 32,
-            duration: 0.9,
-            ease,
-            scrollTrigger: { trigger: el, start: "top 85%", once: true },
-          })
-        })
-
-        root.querySelectorAll<HTMLElement>("[data-reveal-group]").forEach((group) => {
-          gsap.from(Array.from(group.children), {
-            opacity: 0,
-            y: 32,
-            duration: 0.9,
-            stagger: 0.1,
-            ease,
-            scrollTrigger: { trigger: group, start: "top 85%", once: true },
-          })
-        })
-
-        // Signature moment: the before/after pair settles out of a slow push-in.
-        root.querySelectorAll<HTMLElement>("[data-reveal-media]").forEach((el, index) => {
-          gsap.from(el, {
-            opacity: 0,
-            scale: 1.04,
-            duration: 1.2,
-            delay: index * 0.15,
-            ease: "power2.out",
-            scrollTrigger: { trigger: el, start: "top 80%", once: true },
-          })
-        })
-      })
-    }, root)
-
-    return () => ctx.revert()
-  }, [])
-
   return (
-    <div ref={rootRef} className="min-h-screen">
+    <RevealScope>
       {/* Hero */}
       <section className="bg-card text-card-foreground pt-24 pb-16 lg:pt-32 lg:pb-24">
         <Container>
           <div className="max-w-4xl">
             <div data-hero-reveal className="flex items-center gap-4 mb-8">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-light uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="text-xs font-light uppercase tracking-label text-muted-foreground">
                 {t("hero.label")}
               </span>
             </div>
@@ -184,7 +115,7 @@ export default function TechnicalResources() {
           <div data-reveal className="mb-16 lg:mb-20">
             <div className="flex items-center gap-4 mb-6">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-light uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="text-xs font-light uppercase tracking-label text-muted-foreground">
                 {t("benefits.label")}
               </span>
             </div>
@@ -199,7 +130,7 @@ export default function TechnicalResources() {
           >
             {benefits.map((benefit) => (
               <div key={benefit.titleKey} className="group flex flex-col">
-                <div className="mb-6 text-muted-foreground transition-colors duration-300 group-hover:text-primary">
+                <div className="mb-6 text-muted-foreground transition-colors duration-(--duration-base) ease-out-fast group-hover:text-primary">
                   {benefit.icon}
                 </div>
                 <h3 className="font-display text-2xl font-light tracking-tight mb-4">
@@ -208,7 +139,7 @@ export default function TechnicalResources() {
                 <p className="text-base font-light text-muted-foreground leading-relaxed tracking-wide">
                   {t(benefit.descKey)}
                 </p>
-                <div className="mt-6 h-px w-12 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
+                <div className="mt-6 h-px w-24 origin-left scale-x-50 bg-border transition-[scale,background-color] duration-(--duration-base) ease-out-fast group-hover:scale-x-100 group-hover:bg-primary rtl:origin-right" />
               </div>
             ))}
           </div>
@@ -257,18 +188,18 @@ export default function TechnicalResources() {
                     alt={t(side.titleKey)}
                     fill
                     sizes="(max-width: 1024px) 100vw, 640px"
-                    className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-105"
                   />
                   {/* Scrim sits over a photograph, so it stays dark in both themes. */}
                   <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/25 to-transparent" />
                   <div className="absolute inset-x-0 bottom-0 p-6 lg:p-8">
                     <div className="flex items-center gap-3 mb-3">
                       <div className={`h-px w-8 ${side.rule}`} />
-                      <span className="text-xs font-light uppercase tracking-[0.25em] text-white/90">
+                      <span className="text-xs font-light uppercase tracking-label text-on-media-muted">
                         {t(side.labelKey)}
                       </span>
                     </div>
-                    <h3 className="font-display text-2xl md:text-3xl font-light tracking-tight text-white text-balance">
+                    <h3 className="font-display text-2xl md:text-3xl font-light tracking-tight text-on-media text-balance">
                       {t(side.titleKey)}
                     </h3>
                   </div>
@@ -280,7 +211,7 @@ export default function TechnicalResources() {
                       key={i}
                       className="flex items-baseline gap-4 py-4 border-b border-border"
                     >
-                      <span className="font-display text-sm font-light text-muted-foreground/60 tabular-nums">
+                      <span className="font-display text-sm font-light text-muted-foreground tabular-nums">
                         {String(i).padStart(2, "0")}
                       </span>
                       <span className="text-base font-light text-muted-foreground leading-relaxed tracking-wide">
@@ -301,7 +232,7 @@ export default function TechnicalResources() {
           <div data-reveal className="mb-16 lg:mb-20">
             <div className="flex items-center gap-4 mb-6">
               <div className="h-px w-12 bg-primary" />
-              <span className="text-xs font-light uppercase tracking-[0.25em] text-muted-foreground">
+              <span className="text-xs font-light uppercase tracking-label text-muted-foreground">
                 {t("process.label")}
               </span>
             </div>
@@ -315,7 +246,7 @@ export default function TechnicalResources() {
               <li key={step.number} className="group border-b border-border">
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-4 md:gap-10 py-10 lg:py-12">
                   <div className="md:col-span-2">
-                    <span className="font-display text-4xl md:text-5xl font-light tracking-tighter text-muted-foreground/40 transition-colors duration-300 group-hover:text-primary tabular-nums">
+                    <span className="font-display text-4xl md:text-5xl font-light tracking-tighter text-muted-foreground transition-colors duration-(--duration-base) ease-out-fast group-hover:text-primary tabular-nums">
                       {step.number}
                     </span>
                   </div>
@@ -347,14 +278,14 @@ export default function TechnicalResources() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/contact"
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-light tracking-wide rounded-sm transition-colors duration-300 hover:bg-primary/90"
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-light tracking-wide rounded-sm transition-colors duration-(--duration-base) ease-out-fast hover:bg-primary/90"
               >
                 {t("cta.contact")}
-                <ArrowRight className="w-4 h-4 rtl:rotate-180" strokeWidth={1.5} />
+                <DirectionalArrow />
               </Link>
               <Link
                 href="/category"
-                className="inline-flex items-center justify-center px-8 py-4 border border-border text-foreground font-light tracking-wide rounded-sm transition-colors duration-300 hover:bg-secondary hover:border-primary"
+                className="inline-flex items-center justify-center px-8 py-4 border border-border text-foreground font-light tracking-wide rounded-sm transition-colors duration-(--duration-base) ease-out-fast hover:bg-secondary hover:border-primary"
               >
                 {t("cta.explore")}
               </Link>
@@ -362,6 +293,6 @@ export default function TechnicalResources() {
           </div>
         </Container>
       </section>
-    </div>
+    </RevealScope>
   )
 }

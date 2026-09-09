@@ -1,0 +1,22 @@
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (1).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (2).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (3).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-gold-6 (4).webp
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-washer/nl-wl-30w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-washer/nl-wl-60w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/web-app-manifest-192x192.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/web-app-manifest-512x512.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/apple-touch-icon.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/ar/logo-black.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/ar/logo-white.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/en/logo-black.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/en/logo-white.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/category/indoor-lighting-1.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/category/outdoor-lighting-1.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/favicon-96x96.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/favicon.svg
+/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/hero/hero.jpg

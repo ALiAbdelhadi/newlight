@@ -31,7 +31,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
         <Dialog open={open} onOpenChange={onOpenChange}>
             <DialogContent className="sm:max-w-md">
                 <DialogHeader>
-                    <DialogTitle className="text-2xl font-serif font-light text-center">
+                    <DialogTitle className="text-2xl font-display font-light text-center">
                         {t.title}
                     </DialogTitle>
                     <DialogDescription className="text-center pt-2">
@@ -41,7 +41,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                 <DialogFooter className="flex-col sm:flex-col gap-3 pt-4">
                     <Link href={`/${locale}/sign-in`}>
                         <Button
-                            className="w-full h-12 text-base uppercase tracking-[0.2em]"
+                            className="w-full h-12 text-base uppercase tracking-label"
                             size="lg"
                         >
                             <LogIn className="w-5 h-5 ltr:mr-2 rtl:ml-2" />
@@ -61,7 +61,7 @@ export function LoginModel({ open, onOpenChange, translations: t }: LoginDialogP
                     <Link href={`/${locale}/sign-up`}>
                         <Button
                             variant="outline"
-                            className="w-full h-12 text-base uppercase tracking-[0.2em]"
+                            className="w-full h-12 text-base uppercase tracking-label"
                             size="lg"
                         >
                             <UserPlus className="w-5 h-5 ltr:mr-2 rtl:ml-2" />

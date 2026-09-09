@@ -1,12 +1,12 @@
 "use client"
 
-import { serializeMoney } from "@repo/database"
-import { Container } from "@/components/container"
+import { resolveLocale, serializeMoney } from "@repo/database"
+import { Container } from "@/components/layout/section"
 import { OrderActions } from "@/components/order-actions"
 import { OrderItemsList } from "@/components/order-items-list"
 import { OrderPaymentSummary } from "@/components/order-payment-summary"
 import { OrderShippingInfo } from "@/components/order-shipping-info"
-import { OrderStatusTimeline } from "@/components/order-status-timeline"
+import { OrderProgress } from "@/components/order-progress"
 import { OrderSuccessHeader } from "@/components/order-success-header"
 import type { CompleteTranslations, OrderWithDetails } from "@/types"
 import { useEffect } from "react"
@@ -14,14 +14,12 @@ import { useEffect } from "react"
 interface CompletePageViewProps {
     order: OrderWithDetails
     locale: string
-    isArabic: boolean
     translations: CompleteTranslations
 }
 
 export function CompletePageView({
     order,
     locale,
-    isArabic,
     translations: t
 }: CompletePageViewProps) {
     useEffect(() => {
@@ -58,33 +56,36 @@ export function CompletePageView({
                             orderNumber: t.orderNumber
                         }}
                     />
-                    <OrderStatusTimeline
+                    {/*
+                      * The real ladder, driven by the order's own status. What stood here drew
+                      * "Order placed → Processing" for every order forever — `processing` being
+                      * a status migration 0010 removed from the enum, and "Estimated delivery"
+                      * being a promise nothing in the system computes.
+                      */}
+                    <OrderProgress
+                        status={order.status}
                         createdAt={order.createdAt}
-                        locale={locale}
-                        translations={{
-                            orderPlaced: t.orderPlaced,
-                            processing: t.processing,
-                            estimatedDelivery: t.estimatedDelivery
-                        }}
+                        shippedAt={order.shippedAt}
+                        deliveredAt={order.deliveredAt}
+                        locale={resolveLocale(locale)}
+                        className="mb-8"
                     />
                     <div className="grid gap-8">
                         <OrderItemsList
                             items={order.items}
-                            isArabic={isArabic}
+                            locale={resolveLocale(locale)}
                             translations={{
                                 orderItems: t.orderItems,
                                 colorTemp: t.colorTemp,
                                 color: t.color,
                                 quantity: t.quantity,
-                                each: t.each,
-                                currency: t.currency
                             }}
                         />
                         {order.shippingAddress && (
                             <OrderShippingInfo
                                 shippingAddress={order.shippingAddress}
                                 shippingOption={order.shippingOption}
-                                isArabic={isArabic}
+                                locale={resolveLocale(locale)}
                                 translations={{
                                     shippingAddress: t.shippingAddress,
                                     shippingMethod: t.shippingMethod
@@ -100,7 +101,6 @@ export function CompletePageView({
                                 subtotal: t.subtotal,
                                 shipping: t.shipping,
                                 total: t.total,
-                                currency: t.currency
                             }}
                         />
                         <OrderActions

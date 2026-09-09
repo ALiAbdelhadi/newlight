@@ -11,12 +11,13 @@
 // "ReferenceError: React is not defined" AT RUNTIME — the type checker cannot see it,
 // and it was found by rendering a template rather than by compiling one.
 import * as React from "react"
-import { Section, Text } from "@react-email/components"
+import { Hr, Img, Link, Section, Text } from "@react-email/components"
 import type { MailLocale } from "../types"
-import { ActionButton, DetailRows, INK, MUTED, Muted, Paragraph, Shell } from "./layout"
+import { ActionButton, DetailRows, INK, MUTED, Muted, Paragraph, RULE, Shell } from "./layout"
 import { strings, t } from "./strings"
 import type {
     ContactAcknowledgementPayload,
+    OrderLine,
     ContactAdminNotificationPayload,
     EmailVerificationPayload,
     OrderConfirmationPayload,
@@ -52,9 +53,106 @@ export function PasswordReset({ locale, payload }: { locale: MailLocale; payload
     )
 }
 
-export function OrderConfirmation({ locale, payload }: { locale: MailLocale; payload: OrderConfirmationPayload }) {
+/**
+ * One line of the order, with everything the customer needs to recognise what is coming:
+ * the picture, the code they would quote on the phone, the configured colour and colour
+ * temperature, the specifications, and the arithmetic — unit price, quantity, line total.
+ *
+ * A table rather than flexbox, and inline styles rather than classes, because this is email:
+ * Outlook renders through Word, which has no flexbox and no external stylesheet.
+ *
+ * Every field except the name, the quantity and the unit price is optional and is DROPPED
+ * when absent rather than rendered empty. A confirmation queued before those fields existed
+ * has to render, and a row that reads "Code: —" is worse than no row.
+ */
+function OrderItem({
+    locale,
+    item,
+    money,
+    last,
+}: {
+    locale: MailLocale
+    item: OrderLine
+    money: (amount: string) => string
+    last: boolean
+}) {
     const rtl = locale === "ar"
-    const align = rtl ? ("right" as const) : ("left" as const)
+    const start = rtl ? ("right" as const) : ("left" as const)
+    const end = rtl ? ("left" as const) : ("right" as const)
+
+    return (
+        <Section style={{ margin: 0 }}>
+            <table role="presentation" width="100%" cellPadding={0} cellSpacing={0} style={{ borderCollapse: "collapse" }}>
+                <tbody>
+                    <tr>
+                        {item.imageUrl ? (
+                            <td
+                                width={72}
+                                valign="top"
+                                style={{ padding: rtl ? "10px 0 10px 12px" : "10px 12px 10px 0", width: 72 }}
+                            >
+                                {/*
+                                 * A fixed box with an explicit width and height. Most clients
+                                 * do not load images at all until the reader allows it, and
+                                 * one without dimensions collapses the row to nothing and
+                                 * reflows the whole line when it finally arrives.
+                                 */}
+                                <Img
+                                    src={item.imageUrl}
+                                    alt={item.name}
+                                    width={72}
+                                    height={72}
+                                    style={{ borderRadius: 6, border: `1px solid ${RULE}`, objectFit: "cover" }}
+                                />
+                            </td>
+                        ) : null}
+
+                        <td valign="top" style={{ padding: "10px 0", textAlign: start }}>
+                            <Text style={{ color: INK, fontSize: 14, fontWeight: 600, lineHeight: "20px", margin: 0 }}>
+                                {item.name}
+                            </Text>
+
+                            {item.sku ? (
+                                <Text style={{ color: MUTED, fontSize: 12, lineHeight: "18px", margin: "2px 0 0" }}>
+                                    {`${t(strings.orderSku, locale)}: ${item.sku}`}
+                                </Text>
+                            ) : null}
+
+                            {item.attributes?.map((attribute) => (
+                                <Text
+                                    key={attribute.label}
+                                    style={{ color: MUTED, fontSize: 12, lineHeight: "18px", margin: "2px 0 0" }}
+                                >
+                                    {`${attribute.label}: ${attribute.value}`}
+                                </Text>
+                            ))}
+
+                            {item.productUrl ? (
+                                <Text style={{ fontSize: 12, lineHeight: "18px", margin: "4px 0 0" }}>
+                                    <Link href={item.productUrl} style={{ color: INK, textDecoration: "underline" }}>
+                                        {t(strings.orderViewProduct, locale)}
+                                    </Link>
+                                </Text>
+                            ) : null}
+                        </td>
+
+                        <td valign="top" style={{ padding: "10px 0", textAlign: end, whiteSpace: "nowrap" }}>
+                            <Text style={{ color: INK, fontSize: 14, fontWeight: 600, lineHeight: "20px", margin: 0 }}>
+                                {money(item.lineTotal ?? item.price)}
+                            </Text>
+                            <Text style={{ color: MUTED, fontSize: 12, lineHeight: "18px", margin: "2px 0 0" }}>
+                                {`${item.quantity} × ${money(item.price)}`}
+                            </Text>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            {last ? null : <Hr style={{ border: "none", borderTop: `1px solid ${RULE}`, margin: 0 }} />}
+        </Section>
+    )
+}
+
+export function OrderConfirmation({ locale, payload }: { locale: MailLocale; payload: OrderConfirmationPayload }) {
     const money = (amount: string) => `${amount} ${payload.currency}`
 
     return (
@@ -67,21 +165,9 @@ export function OrderConfirmation({ locale, payload }: { locale: MailLocale; pay
             <Text style={{ color: INK, fontSize: 14, fontWeight: 700, margin: "24px 0 8px" }}>
                 {t(strings.orderItems, locale)}
             </Text>
-            <table role="presentation" width="100%" cellPadding={0} cellSpacing={0}>
-                <tbody>
-                    {payload.items.map((item, index) => (
-                        <tr key={`${item.name}-${index}`}>
-                            <td style={{ color: INK, fontSize: 14, padding: "6px 0", textAlign: align }}>
-                                {item.name}
-                                <span style={{ color: MUTED }}>{`  ×${item.quantity}`}</span>
-                            </td>
-                            <td style={{ color: INK, fontSize: 14, padding: "6px 0", textAlign: rtl ? "left" : "right", whiteSpace: "nowrap" }}>
-                                {money(item.price)}
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+            {payload.items.map((item, index) => (
+                <OrderItem key={`${item.name}-${index}`} locale={locale} item={item} money={money} last={index === payload.items.length - 1} />
+            ))}
 
             <DetailRows
                 locale={locale}

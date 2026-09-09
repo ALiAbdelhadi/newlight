@@ -175,7 +175,7 @@ export function ConfirmAction({
                             value={typed}
                             onChange={(event) => setTyped(event.target.value)}
                             autoComplete="off"
-                            className="h-[30px] font-mono text-sm"
+                            className="font-mono"
                         />
                     </div>
                 )}
@@ -195,7 +195,7 @@ export function ConfirmAction({
                         }}
                         className={cn(
                             "h-8 text-xs",
-                            severity === "destructive" && "bg-destructive text-white hover:bg-destructive/90"
+                            severity === "destructive" && "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         )}
                     >
                         {pending ? "Working…" : (confirmLabel ?? "Confirm")}

@@ -110,6 +110,16 @@ describe("money", () => {
             expect(formatMoney("165.00", "en", "EGP", { digits: "auto" })).toBe("EGP 165")
         })
 
+        it("shows both cents or neither — never one", () => {
+            /*
+             * `minimumFractionDigits: 0` alone renders 359.20 as "359.2". Nobody writes a
+             * price that way, and discounts make the case ordinary: 449 less 20% is 359.20.
+             */
+            expect(formatMoney("359.20", "en")).toBe("EGP 359.20")
+            expect(formatMoney("359.25", "en")).toBe("EGP 359.25")
+            expect(formatMoney("360.00", "en")).toBe("EGP 360")
+        })
+
         it("still uses Arabic-Indic digits when fixed", () => {
             const formatted = formatMoney("1200.00", "ar", "EGP", { digits: "fixed" })
             expect(formatted).toMatch(/[٠-٩]/)

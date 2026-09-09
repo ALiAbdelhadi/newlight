@@ -3,15 +3,17 @@
 import type { SearchResult } from "@/actions/search"
 import { formatMoney } from "@repo/database"
 import { searchProducts } from "@/actions/search"
+import { DirectionalArrow } from "@/components/directional-arrow"
 import { Input } from "@/components/ui/input"
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Search, X, Loader2, Zap, Droplet } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
-import { Link } from "@/i18n/navigation"
-import Image from "next/image"
+import { Link, useRouter } from "@/i18n/navigation"
+import Image from "@/components/app-image"
 import { useDebounce } from "use-debounce"
 import { useTranslations, useLocale } from "next-intl"
 import { Badge } from "@/components/ui/badge"
+import { PriceTag } from "@/components/price-tag"
 
 interface Product {
     id: string
@@ -41,6 +43,7 @@ export function SearchSheet() {
     const [filteredProducts, setFilteredProducts] = useState<SearchResult[]>([])
     const [isSearching, setIsSearching] = useState(false)
     const inputRef = useRef<HTMLInputElement>(null)
+    const router = useRouter()
 
     useEffect(() => {
         if (open && inputRef.current) {
@@ -113,15 +116,25 @@ export function SearchSheet() {
                 side="top"
                 className="w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
+                {/*
+                  * Radix requires a title on every dialog and logs an accessibility error
+                  * without one — the console carried four of them on every page load, because
+                  * this sheet, the cart and the search all opened untitled. A screen reader
+                  * announced "dialog" and nothing else. It is visually hidden here because the
+                  * sheet is already unmistakably a search box on screen.
+                  */}
+                <SheetTitle className="sr-only">{t('button')}</SheetTitle>
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
+                        {/* Not an `h1`: the page underneath already has one, and this is an
+                            overlay's chrome rather than a document heading. */}
                         <div className="flex items-baseline gap-1">
-                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground transition-all duration-300 group-hover:tracking-tight">
+                            <span className="text-xl font-extrabold tracking-tight uppercase">
                                 {tLogo('logoNew')}
-                            </h1>
-                            <p className="text-2xl font-light tracking-widest uppercase text-foreground/90 transition-all duration-300 group-hover:tracking-wider">
+                            </span>
+                            <span className="text-xl font-light tracking-wordmark uppercase">
                                 {tLogo('logoLight')}
-                            </p>
+                            </span>
                         </div>
                         <SheetClose asChild>
                             <button className="rounded-lg p-2 transition-all duration-200 hover:bg-secondary">
@@ -132,22 +145,44 @@ export function SearchSheet() {
                     </div>
                     <div className="flex-1 overflow-y-auto hide-scrollbar">
                         <div className="container mx-auto max-w-3xl px-8 py-12">
-                            <div className="relative">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+                            {/*
+                              * A real form, so Enter goes to /search?q= — the sheet is a
+                              * preview of the top matches, not the only way to see them. It had
+                              * no submit at all: a customer who typed a term and pressed Enter
+                              * got nothing, and there was no URL the results could live at.
+                              */}
+                            <form
+                                role="search"
+                                onSubmit={(event) => {
+                                    event.preventDefault()
+                                    const term = searchQuery.trim()
+                                    if (!term) return
+                                    handleResultClick()
+                                    router.push(`/search?q=${encodeURIComponent(term)}`)
+                                }}
+                                className="relative"
+                            >
+                                <Search
+                                    aria-hidden
+                                    className="pointer-events-none absolute start-4 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground"
+                                />
                                 <Input
                                     ref={inputRef}
-                                    type="text"
+                                    type="search"
+                                    name="q"
+                                    aria-label={t('placeholder')}
                                     placeholder={t('placeholder')}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    className="w-full pl-12 pr-4 h-14 text-lg bg-muted/50 border-border focus-visible:ring-2 focus-visible:ring-ring"
+                                    className="h-14 w-full ps-12 pe-12 text-lg"
                                 />
                                 {isSearching && (
-                                    <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+                                    <div className="absolute end-4 top-1/2 -translate-y-1/2">
+                                        <Loader2 aria-hidden className="h-5 w-5 animate-spin text-muted-foreground" />
+                                        <span className="sr-only">{t('searching', { query: searchQuery })}</span>
                                     </div>
                                 )}
-                            </div>
+                            </form>
                             <div className="mt-8 space-y-6">
                                 {searchQuery ? (
                                     <>
@@ -160,8 +195,16 @@ export function SearchSheet() {
                                             </div>
                                         ) : filteredProducts.length > 0 ? (
                                             <>
-                                                <div className="text-sm text-muted-foreground mb-4">
-                                                    {filteredProducts.length} {filteredProducts.length === 1 ? 'result' : 'results'} found
+                                                <div className="mb-4 flex items-center justify-between gap-4 text-sm text-muted-foreground">
+                                                    <span>{t('count', { count: filteredProducts.length })}</span>
+                                                    <Link
+                                                        href={`/search?q=${encodeURIComponent(searchQuery.trim())}`}
+                                                        onClick={handleResultClick}
+                                                        className="group inline-flex items-center gap-1.5 font-medium text-foreground underline-offset-4 hover:underline"
+                                                    >
+                                                        {t('seeAll')}
+                                                        <DirectionalArrow />
+                                                    </Link>
                                                 </div>
                                                 <div className="space-y-2">
                                                     {filteredProducts.map((product) => (
@@ -178,6 +221,7 @@ export function SearchSheet() {
                                                                             src={product.images[0].url}
                                                                             alt={product.name}
                                                                             fill
+                                                                            sizes="80px"
                                                                             className="object-cover"
                                                                         />
                                                                     </div>
@@ -224,10 +268,15 @@ export function SearchSheet() {
                                                                         )}
                                                                     </div>
                                                                 </div>
-                                                                <div className="text-right shrink-0">
-                                                                    <p className="font-semibold text-foreground whitespace-nowrap">
-                                                                        {formatMoney(product.price, locale)}
-                                                                    </p>
+                                                                <div className="shrink-0 text-end">
+                                                                    {/* `price` is already the discounted number (§13.2);
+                                                                        PriceTag renders the struck original beside it. */}
+                                                                    <PriceTag
+                                                                        price={product.price}
+                                                                        basePrice={product.basePrice}
+                                                                        size="sm"
+                                                                        className="justify-end"
+                                                                    />
                                                                 </div>
                                                             </div>
                                                         </Link>
@@ -237,7 +286,7 @@ export function SearchSheet() {
                                         ) : (
                                             <div className="text-center py-12">
                                                 <div className="mb-4">
-                                                    <Search className="h-12 w-12 text-muted-foreground/50 mx-auto" />
+                                                    <Search className="h-12 w-12 text-muted-foreground mx-auto" />
                                                 </div>
                                                 <p className="text-sm text-muted-foreground mb-2">
                                                     {t('noResults', { query: searchQuery })}
@@ -250,7 +299,7 @@ export function SearchSheet() {
                                     </>
                                 ) : (
                                     <div>
-                                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+                                        <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-label mb-4">
                                             {t('popularSearches')}
                                         </h3>
                                         <div className="grid grid-cols-2 gap-2">
@@ -258,7 +307,7 @@ export function SearchSheet() {
                                                 <button
                                                     key={item}
                                                     onClick={() => setSearchQuery(item)}
-                                                    className="text-left px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors text-foreground text-sm border border-border/50"
+                                                    className="text-left px-4 py-3 rounded-lg hover:bg-muted/50 transition-colors text-foreground text-sm border border-border"
                                                 >
                                                     {item}
                                                 </button>

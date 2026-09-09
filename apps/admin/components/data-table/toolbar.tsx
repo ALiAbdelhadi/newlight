@@ -114,7 +114,7 @@ export function DataTableToolbar({
                     onChange={(event) => setQuery(event.target.value)}
                     placeholder={searchPlaceholder}
                     aria-label={searchPlaceholder}
-                    className="h-[30px] w-56 pl-7 text-sm"
+                    className="w-56 pl-7"
                 />
             </div>
 
@@ -127,8 +127,7 @@ export function DataTableToolbar({
                         onValueChange={(next) => push({ [filter.key]: next === "__all" ? null : next })}
                     >
                         <SelectTrigger
-                            size="sm"
-                            className={cn("h-[30px] text-xs", filter.width ?? "w-40", value && "border-ring")}
+                            className={cn("text-xs", filter.width ?? "w-40", value && "border-ring")}
                         >
                             <SelectValue placeholder={filter.label} />
                         </SelectTrigger>
@@ -149,13 +148,12 @@ export function DataTableToolbar({
             {hasAnyFilter && (
                 <Button
                     variant="ghost"
-                    size="sm"
                     onClick={() => {
                         const cleared: Record<string, null> = { [searchKey]: null }
                         for (const filter of filters) cleared[filter.key] = null
                         push(cleared)
                     }}
-                    className="h-[30px] px-2 text-xs text-muted-foreground"
+                    className="px-2 text-muted-foreground"
                 >
                     <X aria-hidden className="mr-1 size-3" />
                     Clear
@@ -166,13 +164,13 @@ export function DataTableToolbar({
                 {columns.length > 0 && (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" size="sm" className="h-[30px] text-xs">
+                            <Button variant="outline" className="text-xs">
                                 <Settings2 aria-hidden className="mr-1.5 size-3.5" />
                                 Columns
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end" className="w-44">
-                            <DropdownMenuLabel className="text-2xs font-semibold tracking-wide text-muted-foreground uppercase">
+                            <DropdownMenuLabel className="text-2xs font-semibold tracking-label text-muted-foreground uppercase">
                                 Visible columns
                             </DropdownMenuLabel>
                             <DropdownMenuSeparator />

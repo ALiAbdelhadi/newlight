@@ -41,7 +41,7 @@ export function RateEditor({ rates }: { rates: Rate[] }) {
                 return (
                     <form
                         key={rate.option}
-                        className="bg-card rounded-lg border p-4 shadow-sm space-y-3"
+                        className="rounded-lg border bg-card p-3 space-y-3"
                         onSubmit={(e) => {
                             e.preventDefault()
                             save(rate.option)

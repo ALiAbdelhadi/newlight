@@ -3,7 +3,7 @@
 import { formatMoney } from "@repo/database"
 import { useLocale } from "next-intl"
 import { OrderSummaryProps } from "@/types"
-import Image from "next/image"
+import Image from "@/components/app-image"
 
 export function OrderSummary({
     product,
@@ -14,7 +14,7 @@ export function OrderSummary({
     const locale = useLocale()
     return (
         <div className="bg-secondary/30 rounded-lg p-6 border border-border sticky top-24">
-            <h2 className="text-xl font-serif font-light mb-4">
+            <h2 className="text-xl font-display font-light mb-4">
                 {t.orderSummary}
             </h2>
             <div className="flex gap-4 mb-6">
@@ -24,6 +24,7 @@ export function OrderSummary({
                             src={product.images[0]!.url}
                             alt={productName}
                             fill
+                            sizes="96px"
                             className="object-cover"
                         />
                     ) : null}

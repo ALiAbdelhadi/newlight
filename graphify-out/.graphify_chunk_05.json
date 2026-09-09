@@ -1,0 +1,387 @@
+{
+  "nodes": [
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612_6w_nl_a612_6w_3_png_image",
+      "type": "image",
+      "label": "nl-a612-6w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (3).png",
+      "metadata": {
+        "product_model": "nl-a612-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_12w_nl_d403_12w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-12w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_12w_nl_d403_12w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-12w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_18w_nl_d403_18w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-18w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_18w_nl_d403_18w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-18w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_24w_nl_d403_24w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-24w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_24w_nl_d403_24w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-24w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "type": "product_variant",
+      "label": "same_product_different_view",
+      "score": 0.95
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_3_png_image",
+      "type": "product_variant",
+      "label": "same_product_different_view",
+      "score": 0.95
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    }
+  ],
+  "metadata": {
+    "chunk": 5,
+    "total_nodes": 22,
+    "asset_type": "product_images",
+    "product_categories": ["indoor", "magnetic"],
+    "product_models": ["nl-a612-6w", "nl-a612c-6w", "nl-a612c-12w", "nl-a612c-18w", "nl-a612c-24w", "nl-a612c-30w", "nl-d403-12w", "nl-d403-18w", "nl-d403-24w"],
+    "wattage_options": ["6w", "12w", "18w", "24w", "30w"],
+    "extraction_notes": "Product image assets from NewLight e-commerce admin dashboard. Images organized by product hierarchy (category/subcategory/model). Multiple variants (views) per product. IDs generated from normalized file paths with product model as symbol."
+  }
+}

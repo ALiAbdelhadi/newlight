@@ -52,6 +52,7 @@ export default async function NewCollectionPage({
   const featuredCollection = COLLECTION_CARDS.find((card) => card.featured);
 
   const translations = {
+    eyebrow: t('new-collection-page.eyebrow'),
     heroTitle: t('new-collection-page.heroTitle'),
     heroDescription: t('new-collection-page.heroDescription'),
     featuredButton: t('new-collection-page.featuredButton'),

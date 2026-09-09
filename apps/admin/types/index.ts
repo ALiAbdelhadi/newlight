@@ -1,5 +1,10 @@
 import type { Prisma } from "@repo/database"
 
+// Re-exported rather than restated. The notification bell needs the two enums on the
+// client, and a hand-written copy of a Prisma enum is a copy that goes stale the first
+// time someone adds a case to the schema.
+export type { NotificationType, NotificationPriority } from "@repo/database"
+
 /**
  * Order shape returned by `getOrderDetails` in app/action/order.ts.
  * Derived from that query so the two cannot drift.

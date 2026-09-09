@@ -1,0 +1,216 @@
+{
+  "chunk_number": 13,
+  "chunk_type": "product_images",
+  "base_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products",
+  "total_files": 22,
+  "category": "outdoor",
+  "files": [
+    {
+      "index": 1,
+      "filename": "nl-floodlight-150w.jpg",
+      "subcategory": "flood-light",
+      "product": "nl-floodlight-150w",
+      "extension": "jpg",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/flood-light/nl-floodlight-150w.jpg"
+    },
+    {
+      "index": 2,
+      "filename": "nl-floodlight-200w.jpg",
+      "subcategory": "flood-light",
+      "product": "nl-floodlight-200w",
+      "extension": "jpg",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/flood-light/nl-floodlight-200w.jpg"
+    },
+    {
+      "index": 3,
+      "filename": "nl-floodlight-50w.jpg",
+      "subcategory": "flood-light",
+      "product": "nl-floodlight-50w",
+      "extension": "jpg",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/flood-light/nl-floodlight-50w.jpg"
+    },
+    {
+      "index": 4,
+      "filename": "nl-high-pay-100w.png",
+      "subcategory": "high-pay",
+      "product": "nl-high-pay-100w",
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/high-pay/nl-high-pay-100w.png"
+    },
+    {
+      "index": 5,
+      "filename": "nl-high-pay-150w.png",
+      "subcategory": "high-pay",
+      "product": "nl-high-pay-150w",
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/high-pay/nl-high-pay-150w.png"
+    },
+    {
+      "index": 6,
+      "filename": "nl-high-pay-200w.png",
+      "subcategory": "high-pay",
+      "product": "nl-high-pay-200w",
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/high-pay/nl-high-pay-200w.png"
+    },
+    {
+      "index": 7,
+      "filename": "nl-garden-pole-1 (1).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-1",
+      "variant": 1,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (1).png"
+    },
+    {
+      "index": 8,
+      "filename": "nl-garden-pole-1 (2).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-1",
+      "variant": 2,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (2).png"
+    },
+    {
+      "index": 9,
+      "filename": "nl-garden-pole-1 (3).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-1",
+      "variant": 3,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-1/nl-garden-pole-1 (3).png"
+    },
+    {
+      "index": 10,
+      "filename": "nl-garden-pole-2 (1).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-2",
+      "variant": 1,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (1).png"
+    },
+    {
+      "index": 11,
+      "filename": "nl-garden-pole-2 (2).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-2",
+      "variant": 2,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (2).png"
+    },
+    {
+      "index": 12,
+      "filename": "nl-garden-pole-2 (3).png",
+      "subcategory": "poles",
+      "product": "nl-garden-pole-2",
+      "variant": 3,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/poles/nl-garden-pole-2/nl-garden-pole-2 (3).png"
+    },
+    {
+      "index": 13,
+      "filename": "nl-spike-1-5w.png",
+      "subcategory": "spikes",
+      "product": "nl-spike-1-5w",
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-1-5w.png"
+    },
+    {
+      "index": 14,
+      "filename": "nl-spike-2 (1).png",
+      "subcategory": "spikes",
+      "product": "nl-spike-2",
+      "variant": 1,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-2/nl-spike-2 (1).png"
+    },
+    {
+      "index": 15,
+      "filename": "nl-spike-2 (2).webp",
+      "subcategory": "spikes",
+      "product": "nl-spike-2",
+      "variant": 2,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-2/nl-spike-2 (2).webp"
+    },
+    {
+      "index": 16,
+      "filename": "nl-spike-3-12w (1).png",
+      "subcategory": "spikes",
+      "product": "nl-spike-3",
+      "variant": 1,
+      "extension": "png",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (1).png"
+    },
+    {
+      "index": 17,
+      "filename": "nl-spike-3-12w (2).webp",
+      "subcategory": "spikes",
+      "product": "nl-spike-3",
+      "variant": 2,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (2).webp"
+    },
+    {
+      "index": 18,
+      "filename": "nl-spike-3-12w (3).webp",
+      "subcategory": "spikes",
+      "product": "nl-spike-3",
+      "variant": 3,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/spikes/nl-spike-3/nl-spike-3-12w (3).webp"
+    },
+    {
+      "index": 19,
+      "filename": "nl-blade (1).webp",
+      "subcategory": "stairs-light",
+      "product": "nl-stairs-light-1",
+      "variant": 1,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (1).webp"
+    },
+    {
+      "index": 20,
+      "filename": "nl-blade (2).webp",
+      "subcategory": "stairs-light",
+      "product": "nl-stairs-light-1",
+      "variant": 2,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (2).webp"
+    },
+    {
+      "index": 21,
+      "filename": "nl-blade (3).webp",
+      "subcategory": "stairs-light",
+      "product": "nl-stairs-light-1",
+      "variant": 3,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-1/nl-blade (3).webp"
+    },
+    {
+      "index": 22,
+      "filename": "nl-blade (1).webp",
+      "subcategory": "stairs-light",
+      "product": "nl-stairs-light-2",
+      "variant": 1,
+      "extension": "webp",
+      "full_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (1).webp"
+    }
+  ],
+  "summary": {
+    "subcategories": [
+      "flood-light",
+      "high-pay",
+      "poles",
+      "spikes",
+      "stairs-light"
+    ],
+    "file_formats": {
+      "jpg": 3,
+      "png": 13,
+      "webp": 6
+    },
+    "products_count": 9,
+    "total_variants": 22
+  }
+}

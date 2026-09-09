@@ -1,71 +1,124 @@
-import { notFound } from "next/navigation";
-import UserClient from "./user-client";
-import { prisma } from "@repo/database";
+import { notFound } from "next/navigation"
+import { prisma, serializeMoney } from "@repo/database"
 
-export const dynamic = 'force-dynamic';
-export const revalidate = 0;
+import { requireCurrentAdmin } from "@/lib/auth"
+import { CustomerRecord } from "./customer-record"
 
-const UserPage = async ({ params }: { params: Promise<{ userId: string }> }) => {
-  const resolvedParams = await params;
+export const dynamic = "force-dynamic"
+export const revalidate = 0
 
-  console.log("Received params:", resolvedParams);
-  console.log("Searching for user with ID:", resolvedParams.userId);
+/**
+ * A customer record (P4.5 §12).
+ *
+ * What this replaces logged the route params, the whole Prisma result and a summary of it to
+ * the server console on every request — including the customer's email and address — then
+ * rendered a page whose order table declared fourteen column headers over eleven cells, so
+ * every value below "Price" sat under the wrong heading. Its tab strip had five tabs and one
+ * `TabsContent`: choosing any tab except "All Orders" rendered an empty panel. Its order links
+ * pointed at `/admin/dashboard/orders/<id>`, which is not a route.
+ *
+ * It is rebuilt on `RecordLayout`, the same shape as a product, so the status, the identifiers
+ * and the audit trail are where an operator has already learned to look.
+ *
+ * The unbounded `include` is gone as well: the orders are selected with the four fields the
+ * table shows plus a line count, rather than every line item with its full product row.
+ */
+export default async function CustomerPage({ params }: { params: Promise<{ userId: string }> }) {
+    await requireCurrentAdmin()
+    const { userId } = await params
 
-  let user;
-  let fetchError = false;
-
-  try {
-    user = await prisma.user.findUnique({
-      where: {
-        id: resolvedParams.userId,
-      },
-      include: {
-        shippingAddress: true,
-        product: true,
-        orders: {
-          include: {
-            items: {
-              include: {
-                product: true,
-              },
+    const [user, audit] = await Promise.all([
+        prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                phoneNumber: true,
+                role: true,
+                preferredLanguage: true,
+                preferredCurrency: true,
+                createdAt: true,
+                updatedAt: true,
+                shippingAddress: true,
+                orders: {
+                    orderBy: { createdAt: "desc" },
+                    select: {
+                        id: true,
+                        orderNumber: true,
+                        status: true,
+                        paymentStatus: true,
+                        total: true,
+                        shippingCost: true,
+                        trackingNumber: true,
+                        createdAt: true,
+                        deliveredAt: true,
+                        _count: { select: { items: true } },
+                    },
+                },
             },
-            shippingAddress: true,
-            configuration: true,
-          },
-          orderBy: {
-            createdAt: "desc",
-          },
-        },
-      },
-    });
+        }),
+        prisma.adminAuditLog.findMany({
+            where: { entity: "User", entityId: userId },
+            orderBy: { createdAt: "desc" },
+            take: 10,
+            select: {
+                id: true,
+                action: true,
+                actorEmail: true,
+                actorType: true,
+                createdAt: true,
+            },
+        }),
+    ])
 
-    console.log("Database query result:", user);
-  } catch (error) {
-    console.error("Error fetching user:", error);
-    fetchError = true;
-  }
+    if (!user) notFound()
 
-  if (fetchError) {
     return (
-      <div className="container mx-auto px-4 py-8 text-center">
-        <p className="text-red-600">Error loading customer data.</p>
-      </div>
-    );
-  }
-
-  if (!user) {
-    console.log("User not found!");
-    return notFound();
-  }
-
-  console.log("Returning user data:", {
-    id: user.id,
-    email: user.email,
-    shippingAddress: user.shippingAddress,
-    ordersCount: user.orders.length,
-  });
-
-  return <UserClient user={user} />;
-};
-
-export default UserPage;
+        <CustomerRecord
+            customer={{
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                phone: user.phoneNumber,
+                role: user.role,
+                preferredLanguage: user.preferredLanguage,
+                preferredCurrency: user.preferredCurrency,
+                createdAt: user.createdAt.toISOString(),
+                updatedAt: user.updatedAt.toISOString(),
+                address: user.shippingAddress
+                    ? {
+                          fullName: user.shippingAddress.fullName,
+                          phone: user.shippingAddress.phone,
+                          email: user.shippingAddress.email,
+                          addressLine1: user.shippingAddress.addressLine1,
+                          addressLine2: user.shippingAddress.addressLine2,
+                          city: user.shippingAddress.city,
+                          state: user.shippingAddress.state,
+                          postalCode: user.shippingAddress.postalCode,
+                          country: user.shippingAddress.country,
+                      }
+                    : null,
+                orders: user.orders.map((order) => ({
+                    id: order.id,
+                    orderNumber: order.orderNumber,
+                    status: order.status,
+                    paymentStatus: order.paymentStatus,
+                    total: serializeMoney(order.total),
+                    shippingCost: serializeMoney(order.shippingCost),
+                    lines: order._count.items,
+                    trackingNumber: order.trackingNumber,
+                    createdAt: order.createdAt.toISOString(),
+                    deliveredAt: order.deliveredAt?.toISOString() ?? null,
+                })),
+            }}
+            audit={audit.map((entry) => ({
+                id: entry.id,
+                action: entry.action,
+                actorEmail: entry.actorEmail,
+                actorType: entry.actorType,
+                createdAt: entry.createdAt.toISOString(),
+            }))}
+        />
+    )
+}

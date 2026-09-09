@@ -1,4 +1,12 @@
-import { Prisma, serializeMoney, translationsFor, type Locale, type SerializedMoney } from "@repo/database"
+import {
+    DEFAULT_LOCATION_ID,
+    Prisma,
+    resolveEffectivePrice,
+    translationsFor,
+    type ActiveDiscount,
+    type Locale,
+    type SerializedMoney,
+} from "@repo/database"
 
 /**
  * The shared Prisma fragments every storefront read is built from.
@@ -50,6 +58,53 @@ export function productDetailInclude(locale: Locale) {
 }
 
 export type ProductCard = Prisma.ProductGetPayload<{ include: ReturnType<typeof productCardInclude> }>
+
+/**
+ * A product card on a LISTING that can be filtered — the sub-category page.
+ *
+ * Everything a tile needs, plus the three things the filter bar can legitimately narrow by,
+ * and nothing else. Each was chosen because the database can actually answer it:
+ *
+ *   `colorTemperatures` is a scalar enum array on the product row, so it costs no join.
+ *   `availableColors` is a real relation to `ProductColor`, which the admin's Reference data
+ *     screen maintains — the finishes are operator-managed, not a hardcoded list.
+ *   `stockLevels` is the ledger's derived level at the main location. Availability is
+ *     `onHand - reserved`, which is the same arithmetic `countLowStock` and the admin's stock
+ *     column use; a filter that compared `onHand` alone would call a fully-reserved product
+ *     in stock.
+ *   `specs` joins `ProductSpec` to `SpecDefinition`, which carries the label, the unit and the
+ *     value type. Which specs a listing may offer is `SubCategorySpec`'s answer; which of those
+ *     are worth a control is decided from the data in `product-facets.ts`.
+ */
+export function productListCardInclude(locale: Locale) {
+    return {
+        translations: translationsFor(locale),
+        /*
+         * The FAMILY's own name, for the tile.
+         *
+         * A listing collapses a family to one card (§6), and the card was labelled with one
+         * member's name — so five wattages of `nl-a603` were represented by whichever variant
+         * sorted first, and the tile claimed to be the 6W. The family is what the tile IS.
+         */
+        family: { include: { translations: translationsFor(locale) } },
+        images: productImages,
+        availableColors: { include: { color: true }, orderBy: { order: "asc" as const } },
+        stockLevels: {
+            where: { locationId: DEFAULT_LOCATION_ID },
+            select: { onHand: true, reserved: true },
+        },
+        /*
+         * Specs, joined to their definition so a facet has the label, the unit and the value
+         * type without a second query. `SubCategorySpec` decides which of these a listing
+         * offers; `product-facets.ts` decides which of THOSE are worth a control.
+         */
+        specs: productSpecs,
+    } satisfies Prisma.ProductInclude
+}
+
+export type ProductListCard = Prisma.ProductGetPayload<{
+    include: ReturnType<typeof productListCardInclude>
+}>
 export type ProductDetail = Prisma.ProductGetPayload<{ include: ReturnType<typeof productDetailInclude> }>
 
 /**
@@ -99,10 +154,49 @@ export type ProductLinkedCard = Prisma.ProductGetPayload<{ include: ReturnType<t
  * Applying this at the service boundary is the point: a page that has to remember is a page
  * that will forget.
  */
-export function toCardView<T extends { price: Prisma.Decimal; averageCost: Prisma.Decimal | null }>(
-    product: T
-): Omit<T, "price" | "averageCost"> & { price: SerializedMoney } {
+export function toCardView<
+    T extends {
+        id: string
+        familyId: string | null
+        subCategoryId: string
+        price: Prisma.Decimal
+        averageCost: Prisma.Decimal | null
+    },
+>(product: T, discounts: readonly ActiveDiscount[] = []): CardView<T> {
     const { averageCost: _cost, price, ...rest } = product
     void _cost
-    return { ...rest, price: serializeMoney(price) }
+
+    /*
+     * `price` IS WHAT THE CUSTOMER PAYS. A discount is an overlay (migration 0015), so a
+     * component that renders `price` renders what the checkout will charge whether or not it
+     * knows a sale is running — which is what stops "but the tile said 850" from becoming a
+     * support ticket. `basePrice` is the struck-through number and equals `price` when nothing
+     * is on offer, so no caller has to branch on a null.
+     *
+     * The default empty `discounts` is the no-sale case, and it costs one function call: a
+     * caller that has not been taught about discounts yet still gets a correct base price
+     * rather than a wrong discounted one.
+     */
+    const resolved = resolveEffectivePrice(price, product, discounts)
+
+    return {
+        ...rest,
+        price: resolved.effective,
+        basePrice: resolved.base,
+        discountPercent: resolved.percentOff,
+        isDiscounted: resolved.discount !== null,
+    }
+}
+
+export type CardView<T extends { price: Prisma.Decimal; averageCost: Prisma.Decimal | null }> = Omit<
+    T,
+    "price" | "averageCost"
+> & {
+    /** What the customer pays right now — discounted where a discount is running. */
+    price: SerializedMoney
+    /** `products.price`. Equal to `price` when nothing is discounted. */
+    basePrice: SerializedMoney
+    /** Whole percent off, for the badge. 0 when nothing is discounted. */
+    discountPercent: number
+    isDiscounted: boolean
 }

@@ -5,14 +5,21 @@ import {
     DEFAULT_LOCATION_ID,
     grossMargin,
     listLowStock,
+    listStockLevels,
     movementHistory,
     prisma,
     recordMovement,
     sellThrough,
     stocktakeVariance,
     stockValuation,
-    type MovementType,
+    type StockLevelFilter,
+    type StockLevelPage,
+    type StockLevelRow,
+    type StockLevelSort,
 } from "@repo/database"
+
+/** One row of the stock list, as the client table consumes it. */
+export type StockRow = StockLevelRow
 import { requireCurrentAdmin } from "@/lib/auth"
 
 /**
@@ -27,6 +34,12 @@ import { requireCurrentAdmin } from "@/lib/auth"
  * admin — the role check is `requireCurrentAdmin()`, which throws, so a forgotten check fails
  * closed.
  */
+
+/** The stock states the list can be narrowed to. Mirrors `deriveStockState`'s vocabulary. */
+export const STOCK_FILTERS = ["all", "in_stock", "low", "reserved", "out", "negative"] as const
+
+/** Columns the stock list may be sorted by. Anything else is ignored, not interpolated. */
+export const STOCK_SORT_COLUMNS = ["sku", "name", "onHand", "reserved", "available"] as const
 
 export class InventoryService {
     /**
@@ -141,6 +154,52 @@ export class InventoryService {
     static async lowStockCount(threshold = 10) {
         await requireCurrentAdmin()
         return countLowStock(prisma, threshold)
+    }
+
+    /**
+     * Every product's stock level, filtered and paged by the DATABASE.
+     *
+     * `lowStock` answers one question — what is running out — and it was the only stock
+     * readout this panel had, which is why the inventory screen could not show a product
+     * that was fine. This is the same derived level (`onHand - reserved`, never a column
+     * anybody edits) with the low-stock threshold demoted to one filter among five.
+     *
+     * The sort column is validated against `STOCK_SORT_COLUMNS` HERE rather than trusted
+     * from the query string: `?sort=` is operator-editable, and the SQL builder looks the
+     * value up in a fragment table where an unknown key falls back rather than concatenates.
+     */
+    static async stockLevels(input: {
+        search?: string
+        filter?: string
+        status?: string
+        cost?: string
+        sort?: string | null
+        dir?: "asc" | "desc"
+        skip?: number
+        take?: number
+        threshold?: number
+    }): Promise<StockLevelPage> {
+        await requireCurrentAdmin()
+
+        const filter = (STOCK_FILTERS as readonly string[]).includes(input.filter ?? "")
+            ? (input.filter as StockLevelFilter)
+            : "all"
+        const sort = (STOCK_SORT_COLUMNS as readonly string[]).includes(input.sort ?? "")
+            ? (input.sort as StockLevelSort)
+            : "available"
+
+        return listStockLevels(prisma, {
+            search: input.search,
+            filter,
+            status: input.status,
+            cost: input.cost,
+            sort,
+            // Ascending by default: the useful end of a stock list is the empty end.
+            dir: input.dir ?? "asc",
+            skip: input.skip,
+            take: input.take,
+            threshold: input.threshold,
+        })
     }
 
     static async history(productId: string, limit = 100) {

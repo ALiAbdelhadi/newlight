@@ -63,21 +63,14 @@ export default async function CompletePage({ searchParams }: CompletePageProps) 
         notFound()
     }
 
-    const isArabic = locale.startsWith("ar")
-
     const translations = {
         orderConfirmed: t("orderConfirmed"),
         thankYou: t("thankYou"),
         orderNumber: t("orderNumber"),
-        orderPlaced: t("orderPlaced"),
-        processing: t("processing"),
-        estimatedDelivery: t("estimatedDelivery"),
         orderItems: t("orderItems"),
         colorTemp: t("colorTemp"),
         color: t("color"),
         quantity: t("quantity"),
-        each: t("each"),
-        currency: t("currency"),
         shippingAddress: t("shippingAddress"),
         shippingMethod: t("shippingMethod"),
         paymentSummary: t("paymentSummary"),
@@ -92,7 +85,6 @@ export default async function CompletePage({ searchParams }: CompletePageProps) 
         <CompletePageView
             order={order}
             locale={locale}
-            isArabic={isArabic}
             translations={translations}
         />
     )

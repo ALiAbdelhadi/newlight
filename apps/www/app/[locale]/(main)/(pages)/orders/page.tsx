@@ -1,15 +1,16 @@
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { redirect } from "next/navigation"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import { resolveLocale } from "@repo/database"
 import { Link } from "@/i18n/navigation"
 import { currentUserId } from "@/lib/auth"
 import { UserService } from "@/lib/services/user-service"
 import { constructMetadata } from "@/lib/metadata"
-import { Container } from "@/components/container"
+import { Container, PageHeader } from "@/components/layout/section"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
+import { EmptyState } from "@/components/states"
+import { StatusBadge } from "@/components/status-badge"
 import type { SupportedLanguage } from "@/types"
 import { CancelOrderButton } from "./cancel-order-button"
 
@@ -50,31 +51,40 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
     const totalPages = Math.max(1, Math.ceil(pagination.total / PAGE_SIZE))
 
     return (
-        <div className="min-h-screen py-16">
-            <Container>
-                <header className="mb-10">
-                    <h1 className="text-4xl md:text-5xl font-light tracking-tight">{t("heading")}</h1>
-                    <p className="text-muted-foreground mt-2">{t("subheading", { count: pagination.total })}</p>
-                </header>
+        <>
+            <PageHeader eyebrow={t("eyebrow")} title={t("heading")} description={t("subheading", { count: pagination.total })} />
 
+            <Container className="py-10 lg:py-14">
                 {orders.length === 0 ? (
-                    <div className="border border-border rounded-sm bg-secondary/20 py-20 text-center">
-                        <p className="text-muted-foreground text-lg font-light mb-6">{t("empty")}</p>
-                        <Button asChild>
-                            <Link href="/category">{t("emptyAction")}</Link>
-                        </Button>
-                    </div>
+                    /*
+                     * `no-data`, not `no-results`: this list has no filters, so an empty one
+                     * means this customer has never ordered — and the next action is the
+                     * catalogue, not "clear the filter".
+                     */
+                    <EmptyState
+                        variant="no-data"
+                        title={t("empty")}
+                        description={t("emptyBody")}
+                        action={
+                            <Button asChild size="lg">
+                                <Link href="/category">{t("emptyAction")}</Link>
+                            </Button>
+                        }
+                        className="rounded-lg border bg-surface-sunk"
+                    />
                 ) : (
                     <ul className="space-y-4">
                         {orders.map((order) => (
-                            <li key={order.id} className="border border-border rounded-sm p-5 bg-card">
+                            <li key={order.id} className="rounded-lg border bg-card p-5">
                                 <div className="flex flex-wrap items-start justify-between gap-4">
                                     <div className="min-w-0">
                                         <div className="flex flex-wrap items-center gap-3">
                                             <span className="font-mono font-medium">{order.orderNumber}</span>
-                                            <Badge variant={order.status === "cancelled" ? "destructive" : "secondary"}>
-                                                {t(`status.${order.status}`)}
-                                            </Badge>
+                                            {/* The label comes from @repo/database/status, in this
+                                                locale — not from a `status.*` block in the
+                                                message catalogue, which was a fifth copy of a
+                                                vocabulary the domain layer already owns. */}
+                                            <StatusBadge kind="order" value={order.status} locale={locale} />
                                         </div>
                                         <p className="text-sm text-muted-foreground mt-1">
                                             {t("placed")}{" "}
@@ -88,7 +98,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
 
                                     <div className="text-end">
                                         <p className="text-sm text-muted-foreground">{t("total")}</p>
-                                        <p className="text-xl font-medium tabular-nums">{order.total}</p>
+                                        <p className="text-xl font-semibold tabular-nums">{order.total}</p>
                                     </div>
                                 </div>
 
@@ -103,19 +113,19 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                                                 alt={item.product.name}
                                                 width={56}
                                                 height={56}
-                                                className="rounded-sm border object-cover h-14 w-14"
+                                                className="size-14 rounded-md border bg-surface-sunk object-contain"
                                             />
                                         ) : null
                                     )}
                                     {order.items.length > 5 && (
-                                        <span className="h-14 w-14 rounded-sm border grid place-items-center text-sm text-muted-foreground">
+                                        <span className="grid size-14 place-items-center rounded-md border text-sm text-muted-foreground">
                                             +{order.items.length - 5}
                                         </span>
                                     )}
                                 </div>
 
                                 <div className="flex flex-wrap gap-3 mt-5">
-                                    <Button variant="secondary" asChild>
+                                    <Button variant="outline" asChild>
                                         <Link href={`/orders/${order.id}`}>{t("view")}</Link>
                                     </Button>
                                     {/* Only before it ships. The server decides that too — this is
@@ -143,19 +153,27 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
                 )}
 
                 {totalPages > 1 && (
-                    <nav className="flex items-center justify-between mt-8" aria-label={t("heading")}>
-                        <Button variant="secondary" disabled={page <= 1} asChild={page > 1}>
-                            {page > 1 ? <Link href={`/orders?page=${page - 1}`}>{t("previous")}</Link> : <span>{t("previous")}</span>}
+                    <nav className="mt-10 flex items-center justify-between" aria-label={t("heading")}>
+                        <Button variant="outline" disabled={page <= 1} asChild={page > 1}>
+                            {page > 1 ? (
+                                <Link href={`/orders?page=${page - 1}`}>{t("previous")}</Link>
+                            ) : (
+                                <span>{t("previous")}</span>
+                            )}
                         </Button>
-                        <span className="text-sm text-muted-foreground tabular-nums">
+                        <span className="text-sm tabular-nums text-muted-foreground">
                             {t("page", { page, total: totalPages })}
                         </span>
-                        <Button variant="secondary" disabled={page >= totalPages} asChild={page < totalPages}>
-                            {page < totalPages ? <Link href={`/orders?page=${page + 1}`}>{t("next")}</Link> : <span>{t("next")}</span>}
+                        <Button variant="outline" disabled={page >= totalPages} asChild={page < totalPages}>
+                            {page < totalPages ? (
+                                <Link href={`/orders?page=${page + 1}`}>{t("next")}</Link>
+                            ) : (
+                                <span>{t("next")}</span>
+                            )}
                         </Button>
                     </nav>
                 )}
             </Container>
-        </div>
+        </>
     )
 }

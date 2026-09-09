@@ -6,6 +6,7 @@ import { formatDistanceToNowStrict } from "date-fns"
 
 import { StatusBadge } from "@/components/status-badge"
 import { StaleNotice } from "@/components/states"
+import { pageTabsTriggerClass } from "@/components/page"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { cn } from "@/lib/utils"
 import type { StatusKind, StatusValue } from "@/lib/status"
@@ -142,17 +143,8 @@ export function RecordLayout({
                             <TabsTrigger
                                 key={tab.id}
                                 value={tab.id}
-                                /*
-                                 * An underline, not a filled pill. A pill row reads as a set
-                                 * of buttons; an underline reads as a position within one
-                                 * record, which is what a tab is.
-                                 */
-                                className={cn(
-                                    "h-8 gap-1.5 rounded-none border-0 border-b-2 border-transparent bg-transparent px-2.5 text-xs",
-                                    "data-[state=active]:border-primary data-[state=active]:bg-transparent",
-                                    "data-[state=active]:font-medium data-[state=active]:text-foreground",
-                                    "data-[state=active]:shadow-none"
-                                )}
+                                // The underline vocabulary is shared with page-level tabs.
+                                className={pageTabsTriggerClass}
                             >
                                 {tab.label}
                                 {tab.badge}
@@ -198,7 +190,7 @@ function RecordRail({
 
             <div className="mt-3 border-t pt-3">
                 <div className="flex items-center justify-between">
-                    <h2 className="text-2xs font-semibold tracking-wide text-muted-foreground uppercase">
+                    <h2 className="text-2xs font-semibold tracking-label text-muted-foreground uppercase">
                         Audit trail
                     </h2>
                     {auditHref && (

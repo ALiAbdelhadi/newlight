@@ -1,0 +1,295 @@
+{
+  "chunk": 8,
+  "chunk_total": 34,
+  "generated_at": "2026-09-06",
+  "project": "/Users/ali/Downloads/altruvex's projects/newlight",
+  "nodes": [
+    {
+      "id": "nl-t501-20w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-20w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-20w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (3).jpg",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 3,
+      "format": "jpg"
+    },
+    {
+      "id": "nl-t501c-10w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (1).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-10w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (2).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-10w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (3).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (1).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (2).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (3).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (2).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t506-9w (3).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 3 (misnamed nl-t506-9w)",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 3,
+      "format": "png",
+      "note": "File in nl-t503-9w directory but named nl-t506-9w"
+    },
+    {
+      "id": "nl-t506-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t506-9w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (2).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t506-9w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (3).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t509-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t509-9w",
+      "label": "nl-t509-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t509-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    }
+  ],
+  "summary": {
+    "total_nodes": 22,
+    "type_distribution": {
+      "image": 22
+    },
+    "product_categories": [
+      "indoor/magnetic"
+    ],
+    "unique_skus": [
+      "nl-t501-20w",
+      "nl-t501-30w",
+      "nl-t501-3w",
+      "nl-t501c-10w",
+      "nl-t501c-20w",
+      "nl-t503-9w",
+      "nl-t506-9w",
+      "nl-t509-9w"
+    ],
+    "notes": [
+      "File found in nl-t503-9w directory with mismatched name nl-t506-9w"
+    ]
+  }
+}

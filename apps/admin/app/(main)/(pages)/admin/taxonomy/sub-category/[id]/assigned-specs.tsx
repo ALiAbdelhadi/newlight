@@ -77,7 +77,7 @@ export function AssignedSpecs({
         })
 
     return (
-        <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
+        <section className="rounded-lg border bg-card p-3 space-y-4">
             <div>
                 <h2 className="font-semibold">Specifications asked for</h2>
                 <p className="text-sm text-muted-foreground mt-1">

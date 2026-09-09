@@ -1,11 +1,11 @@
 import Link from "next/link"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { TaxonomyService } from "@/lib/services/taxonomy-service"
 import { ArchiveButtons } from "./archive-buttons"
+import { PageBody, PageHeader, PageStack, Panel } from "@/components/page"
+import { EmptyState } from "@/components/states"
+import { cn } from "@/lib/utils"
 
 /**
  * The category tree.
@@ -13,6 +13,11 @@ import { ArchiveButtons } from "./archive-buttons"
  * There was no way to create, rename, reorder or retire a category or sub-category from the
  * panel — adding one meant writing a migration. This is the other half of "define a catalogue",
  * the half `/admin/products/new` needed to exist for.
+ *
+ * The marks — archived, hidden, missing a language — are deliberately not `Badge`. That
+ * component is `rounded-full` with a focus ring and four brand variants, which is a marketing
+ * chip; these are readouts on a dense list, and they are set in the same 4px-cornered, muted
+ * vocabulary the rest of the panel uses for the same job.
  */
 export const dynamic = "force-dynamic"
 
@@ -21,56 +26,89 @@ function nameFor(translations: Array<{ locale: string; name: string; slug: strin
     return t ? { name: t.name.trim(), slug: t.slug } : null
 }
 
+/**
+ * A state mark. Three tones and nothing else — a fourth would be a fourth meaning nobody
+ * defined.
+ */
+function Mark({ tone = "neutral", children }: { tone?: "neutral" | "warning" | "danger"; children: React.ReactNode }) {
+    return (
+        <span
+            className={cn(
+                "inline-flex shrink-0 items-center rounded border px-1.5 py-0.5 text-2xs leading-none font-medium",
+                tone === "danger" && "border-danger-border bg-danger-bg text-danger",
+                tone === "warning" && "border-warning-border bg-warning-bg text-warning",
+                tone === "neutral" && "border-neutral-border bg-neutral-bg text-neutral"
+            )}
+        >
+            {children}
+        </span>
+    )
+}
+
 export default async function TaxonomyPage() {
     await requireCurrentAdmin()
     const categories = await TaxonomyService.tree()
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Categories">
-                <Button size="sm" asChild>
-                    <Link href="/admin/taxonomy/category/new">New category</Link>
-                </Button>
-            </DashboardHeader>
+        <>
+            <PageHeader
+                title="Categories"
+                description="A category is its two translation rows — it has no name of its own. Both languages are required, and renaming a URL retires the old one to a redirect rather than breaking it."
+                actions={
+                    <Button size="sm" asChild>
+                        <Link href="/admin/taxonomy/category/new">New category</Link>
+                    </Button>
+                }
+            />
 
-            <div className="mt-8">
-                <Container>
-                    <p className="text-sm text-muted-foreground mb-6 max-w-2xl">
-                        A category is its two translation rows — it has no name of its own. Both languages are
-                        required, and renaming a URL retires the old one to a redirect rather than breaking it.
-                    </p>
-
-                    <div className="space-y-4">
+            <PageBody>
+                {categories.length === 0 ? (
+                    <Panel padded={false}>
+                        <EmptyState
+                            variant="no-data"
+                            title="No categories yet"
+                            description="The storefront's navigation is this tree. Nothing appears on the site until a category holds a visible sub-category."
+                            action={
+                                <Button size="sm" asChild>
+                                    <Link href="/admin/taxonomy/category/new">New category</Link>
+                                </Button>
+                            }
+                        />
+                    </Panel>
+                ) : (
+                    <PageStack className="gap-3">
                         {categories.map((category) => {
                             const en = nameFor(category.translations, "en")
                             const ar = nameFor(category.translations, "ar")
                             return (
-                                <section key={category.id} className="border rounded-lg bg-card shadow-sm">
-                                    <header className="flex flex-wrap items-start justify-between gap-3 p-4 border-b">
+                                <section key={category.id} className="rounded-lg border bg-card">
+                                    <header className="flex flex-wrap items-start justify-between gap-3 border-b p-3">
                                         <div className="min-w-0">
                                             <div className="flex flex-wrap items-center gap-2">
-                                                <h2 className="font-semibold">{en?.name ?? "—"}</h2>
-                                                <span className="text-muted-foreground" dir="rtl">
+                                                <h2 className="text-base font-semibold">
+                                                    <bdi dir="auto">{en?.name ?? "—"}</bdi>
+                                                </h2>
+                                                <span className="text-muted-foreground" lang="ar" dir="rtl">
                                                     {ar?.name ?? "—"}
                                                 </span>
                                                 {category.deletedAt ? (
-                                                    <Badge variant="destructive">archived</Badge>
+                                                    <Mark tone="danger">Archived</Mark>
                                                 ) : !category.isActive ? (
-                                                    <Badge variant="secondary">hidden</Badge>
+                                                    <Mark tone="warning">Hidden</Mark>
                                                 ) : null}
-                                                {/* A missing locale is the defect the storefront would render as a gap. */}
-                                                {(!en || !ar) && <Badge variant="destructive">missing a language</Badge>}
+                                                {/* A missing locale is the defect the storefront renders as a gap. */}
+                                                {(!en || !ar) && <Mark tone="danger">Missing a language</Mark>}
                                             </div>
-                                            <p className="text-sm text-muted-foreground font-mono mt-1">
+                                            <p className="mt-0.5 font-mono text-2xs text-muted-foreground">
                                                 /{en?.slug ?? "?"} · /{ar?.slug ?? "?"}
                                             </p>
                                         </div>
 
-                                        <div className="flex flex-wrap gap-2">
-                                            <Button size="sm" variant="secondary" asChild>
+                                        <div className="flex flex-wrap items-center gap-1.5">
+                                            <Button size="sm" variant="outline" asChild className="h-7 text-xs">
                                                 <Link href={`/admin/taxonomy/category/${category.id}`}>Edit</Link>
                                             </Button>
-                                            <Button size="sm" variant="secondary" asChild>
+                                            <Button size="sm" variant="outline" asChild className="h-7 text-xs">
                                                 <Link href={`/admin/taxonomy/sub-category/new?category=${category.id}`}>
                                                     Add sub-category
                                                 </Link>
@@ -84,8 +122,9 @@ export default async function TaxonomyPage() {
                                     </header>
 
                                     {category.subCategories.length === 0 ? (
-                                        <p className="p-4 text-sm text-muted-foreground">
-                                            No sub-categories. Products hang from sub-categories, not from categories.
+                                        <p className="p-3 text-xs text-muted-foreground">
+                                            No sub-categories. Products hang from sub-categories, not from categories —
+                                            this branch of the storefront menu is empty until one exists.
                                         </p>
                                     ) : (
                                         <ul className="divide-y">
@@ -95,34 +134,45 @@ export default async function TaxonomyPage() {
                                                 return (
                                                     <li
                                                         key={sub.id}
-                                                        className="flex flex-wrap items-center justify-between gap-3 p-4"
+                                                        className="flex flex-wrap items-center justify-between gap-3 px-3 py-2"
                                                     >
                                                         <div className="min-w-0">
                                                             <div className="flex flex-wrap items-center gap-2">
-                                                                <span className="font-medium">{subEn?.name ?? "—"}</span>
-                                                                <span className="text-muted-foreground text-sm" dir="rtl">
+                                                                <span className="font-medium">
+                                                                    <bdi dir="auto">{subEn?.name ?? "—"}</bdi>
+                                                                </span>
+                                                                <span
+                                                                    className="text-xs text-muted-foreground"
+                                                                    lang="ar"
+                                                                    dir="rtl"
+                                                                >
                                                                     {subAr?.name ?? "—"}
                                                                 </span>
-                                                                <Badge variant="outline">
+                                                                <Mark>
                                                                     {sub._count.products} product
                                                                     {sub._count.products === 1 ? "" : "s"}
-                                                                </Badge>
+                                                                </Mark>
                                                                 {sub.deletedAt ? (
-                                                                    <Badge variant="destructive">archived</Badge>
+                                                                    <Mark tone="danger">Archived</Mark>
                                                                 ) : !sub.isActive ? (
-                                                                    <Badge variant="secondary">hidden</Badge>
+                                                                    <Mark tone="warning">Hidden</Mark>
                                                                 ) : null}
                                                                 {(!subEn || !subAr) && (
-                                                                    <Badge variant="destructive">missing a language</Badge>
+                                                                    <Mark tone="danger">Missing a language</Mark>
                                                                 )}
                                                             </div>
-                                                            <p className="text-xs text-muted-foreground font-mono mt-1">
+                                                            <p className="mt-0.5 font-mono text-2xs text-muted-foreground">
                                                                 /{subEn?.slug ?? "?"} · /{subAr?.slug ?? "?"}
                                                             </p>
                                                         </div>
 
-                                                        <div className="flex flex-wrap gap-2">
-                                                            <Button size="sm" variant="secondary" asChild>
+                                                        <div className="flex flex-wrap items-center gap-1.5">
+                                                            <Button
+                                                                size="sm"
+                                                                variant="outline"
+                                                                asChild
+                                                                className="h-7 text-xs"
+                                                            >
                                                                 <Link href={`/admin/taxonomy/sub-category/${sub.id}`}>
                                                                     Edit
                                                                 </Link>
@@ -141,9 +191,9 @@ export default async function TaxonomyPage() {
                                 </section>
                             )
                         })}
-                    </div>
-                </Container>
-            </div>
-        </div>
+                    </PageStack>
+                )}
+            </PageBody>
+        </>
     )
 }

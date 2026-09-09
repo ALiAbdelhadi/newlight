@@ -100,12 +100,12 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
                                     "flex items-center gap-1.5 rounded-md px-2 py-1 text-xs transition-colors duration-(--duration-fast)",
                                     current && "bg-accent font-medium text-foreground",
                                     done && "text-muted-foreground hover:bg-accent/60",
-                                    !current && !done && "cursor-default text-muted-foreground/60"
+                                    !current && !done && "cursor-default text-muted-foreground"
                                 )}
                             >
                                 <span
                                     className={cn(
-                                        "grid size-4 shrink-0 place-items-center rounded-full text-[9px] tabular-nums",
+                                        "grid size-4 shrink-0 place-items-center rounded-full text-2xs tabular-nums",
                                         done && "bg-success text-background",
                                         current && "bg-primary text-primary-foreground",
                                         !done && !current && "border"
@@ -116,7 +116,7 @@ export function Workflow({ steps, commitSummary, onCommit, result, busy = false 
                                 {entry.title}
                             </button>
                             {position < steps.length - 1 && (
-                                <ChevronRight aria-hidden className="size-3 text-muted-foreground/50" />
+                                <ChevronRight aria-hidden className="size-3 text-muted-foreground" />
                             )}
                         </li>
                     )

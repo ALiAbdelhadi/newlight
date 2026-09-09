@@ -50,7 +50,7 @@ export function ColorsPanel({ colors }: { colors: Color[] }) {
 
     return (
         <div className="space-y-6">
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4 max-w-4xl">
+            <section className="rounded-lg border bg-card p-3 space-y-4 max-w-4xl">
                 <h2 className="font-semibold">{editing ? `Editing ${draft.key}` : "Add a colour"}</h2>
                 {editing && (
                     <p className="text-sm text-muted-foreground">
@@ -117,7 +117,7 @@ export function ColorsPanel({ colors }: { colors: Color[] }) {
                 </div>
             </section>
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <div className="overflow-x-auto rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
                         <TableRow>

@@ -1,85 +1,38 @@
-"use client"
-
-import { Container } from "@/components/container"
 import { ThemedSignIn } from "@/components/theme-sign-in"
-import gsap from "gsap"
-import { ArrowLeft } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { Suspense, useEffect, useRef } from "react"
 
+/**
+ * Admin sign-in.
+ *
+ * What stood here was the storefront's sign-in, moved across whole: a full-bleed hero
+ * photograph, a GSAP timeline fading three refs in, a 48px "Welcome back" over the words
+ * "Sign in to continue shopping and managing your orders", and a `backdrop-blur` panel. This
+ * is an internal tool — nobody signing into it is shopping, and nobody needs to be sold the
+ * product they are about to administer.
+ *
+ * It also loaded `gsap` on the one route an operator sees before they have a session, to
+ * animate an opacity, and its headings used `text-5xl` — a utility globals.css sets to
+ * `initial`, i.e. removes — so they rendered at the inherited 13px anyway.
+ *
+ * A server component now. There is nothing on it that needs the client except the form, which
+ * is its own boundary.
+ */
 export default function SignInPage() {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
-  const backButtonRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.set([imageRef.current, contentRef.current], { opacity: 0 })
-      gsap.set(backButtonRef.current, { opacity: 0, y: -20 })
-
-      const masterTl = gsap.timeline({ defaults: { ease: "power3.out" } })
-
-      masterTl.to(backButtonRef.current, { opacity: 1, y: 0, duration: 0.6 }, 0)
-      masterTl.to(imageRef.current, { opacity: 1, duration: 1.2 }, 0.2)
-      masterTl.to(contentRef.current, { opacity: 1, duration: 1.2 }, 0.2)
-    }, containerRef)
-
-    return () => ctx.revert()
-  }, [])
-
-  return (
-    <div ref={containerRef} className="min-h-screen bg-background text-foreground pt-24 pb-12">
-      <Container>
-        <div ref={backButtonRef} className="mb-8">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 text-sm font-light tracking-wide hover:text-primary transition-colors duration-200"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Home
-          </Link>
-        </div>
-        <div className="max-w-6xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 border border-border overflow-hidden">
-            <div ref={imageRef} className="hidden lg:block relative min-h-[600px] overflow-hidden bg-muted">
-              <Image src="/hero/hero.jpg" alt="Sign In to New Light" fill className="object-cover" />
-              <div className="absolute inset-0 bg-linear-to-t from-black/60 via-black/40 to-transparent flex flex-col justify-end p-12">
-                <div className="space-y-4">
-                  <h2 className="text-5xl font-light tracking-tight text-white">Welcome back</h2>
-                  <p className="text-lg font-light text-white/70 tracking-wide">
-                    Sign in to continue shopping and managing your orders
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div
-              ref={contentRef}
-              className="flex flex-col items-center justify-center bg-card/50 backdrop-blur-sm"
-            >
-              <div className="w-full max-w-sm space-y-8">
-                <Suspense
-                  fallback={
-                    <div className="flex items-center justify-center py-16">
-                      <div className="space-y-2 text-center">
-                        <div className="flex justify-center gap-1">
-                          <div className="w-2 h-2 rounded-full bg-foreground/40 animate-pulse" />
-                          <div className="w-2 h-2 rounded-full bg-foreground/40 animate-pulse animation-delay-100" />
-                          <div className="w-2 h-2 rounded-full bg-foreground/40 animate-pulse animation-delay-200" />
-                        </div>
-                        <p className="text-xs font-light text-muted-foreground">Loading...</p>
-                      </div>
+    return (
+        <main className="grid min-h-screen place-items-center bg-surface-sunk px-4 py-12">
+            <div className="w-full max-w-sm">
+                <div className="mb-6 flex items-center gap-2">
+                    <div
+                        aria-hidden
+                        className="grid size-6 place-items-center rounded-sm bg-primary text-xs font-bold text-primary-foreground"
+                    >
+                        N
                     </div>
-                  }
-                >
-                  <ThemedSignIn />
-                </Suspense>
-              </div>
+                    <span className="text-sm font-semibold tracking-tight">NewLight</span>
+                    <span className="rounded border px-1 py-px font-mono text-2xs text-muted-foreground">ERP</span>
+                </div>
+
+                <ThemedSignIn />
             </div>
-          </div>
-        </div>
-      </Container>
-    </div>
-  )
+        </main>
+    )
 }

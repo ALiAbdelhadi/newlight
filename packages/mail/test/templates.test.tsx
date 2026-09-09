@@ -102,3 +102,67 @@ describe("content", () => {
         expect(mail.text).not.toContain("undefined")
     })
 })
+
+/**
+ * §17 widened the order line from "a name, a quantity and a price" to the whole product. The
+ * fields are optional in the type for a reason that only a test can hold onto: outbox rows
+ * queued before the widening are rendered by the code after it.
+ */
+describe("the order line carries the product, and survives without it", () => {
+    const enriched: PayloadByTemplate["order-confirmation"] = {
+        ...PAYLOADS["order-confirmation"],
+        items: [
+            {
+                name: "NL-A603 6W",
+                quantity: 2,
+                price: "150.00",
+                lineTotal: "300.00",
+                sku: "nl-a603-6w",
+                imageUrl: "https://cdn.invalid/nl-a603-6w.png",
+                productUrl: "https://x.invalid/en/category/indoor/spotlight/nl-a603-6w",
+                attributes: [
+                    { label: "Colour temperature", value: "Warm white (3000K)" },
+                    { label: "Wattage", value: "6 W" },
+                    { label: "IP rating", value: "IP65" },
+                ],
+            },
+        ],
+    }
+
+    it("renders the image, the code, the attributes and the arithmetic", async () => {
+        const mail = await renderTemplate("order-confirmation", "en", enriched)
+
+        expect(mail.html).toContain("https://cdn.invalid/nl-a603-6w.png")
+        expect(mail.html).toContain("nl-a603-6w")
+        expect(mail.html).toContain("IP65")
+        expect(mail.html).toContain("Warm white (3000K)")
+        // Unit price, quantity and line total all present, so the customer can check the sum.
+        expect(mail.text).toContain("300.00")
+        expect(mail.text).toContain("150.00")
+        expect(mail.text).toContain("2 ×")
+    })
+
+    it("renders the attributes in Arabic when the customer reads Arabic", async () => {
+        const mail = await renderTemplate("order-confirmation", "ar", {
+            ...enriched,
+            items: [{ ...enriched.items[0]!, attributes: [{ label: "درجة حرارة اللون", value: "أبيض دافئ" }] }],
+        })
+        expect(mail.html).toContain("درجة حرارة اللون")
+        expect(mail.html).toContain('dir="rtl"')
+    })
+
+    it("renders a line queued before any of those fields existed", async () => {
+        // The exact shape a row written by the previous deploy holds. This is the guarantee
+        // that makes the fields optional rather than merely convenient.
+        const mail = await renderTemplate("order-confirmation", "en", {
+            ...PAYLOADS["order-confirmation"],
+            items: [{ name: "nl-a603-6w", quantity: 2, price: "150.00" }],
+        })
+
+        expect(mail.html).not.toContain("undefined")
+        expect(mail.text).not.toContain("undefined")
+        expect(mail.html).not.toContain("<img")
+        // With no lineTotal to show, the unit price is what stands in — never a blank.
+        expect(mail.text).toContain("150.00")
+    })
+})

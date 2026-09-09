@@ -3,7 +3,6 @@
 import { currentAdminId } from "@/lib/auth"
 import { prisma , multiplyMoney } from "@repo/database"
 import { revalidatePath } from "next/cache"
-import { NextResponse } from "next/server"
 
 interface SaveConfigurationArgs {
     productId: string

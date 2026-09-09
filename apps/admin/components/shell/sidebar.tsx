@@ -1,14 +1,13 @@
 "use client"
 
-import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useSyncExternalStore } from "react"
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { NAVIGATION, OVERVIEW, activeDomainId, isSurfaceActive, type NavSurface } from "@/lib/navigation"
+import { NavList } from "@/components/shell/nav-list"
 import type { DashboardStats } from "@/types"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { TooltipProvider } from "@/components/ui/tooltip"
 
 /**
  * The navigation rail (P4.5 §7.1).
@@ -25,6 +24,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  *
  *   NAVIGATION IS NEVER ABSENT. Collapsed means a 48px icon rail, not zero. Every
  *   destination stays one click away, and the icons keep accessible names through tooltips.
+ *   Below `md` the rail is replaced by `MobileNav`'s drawer rather than removed — see the
+ *   `hidden md:flex` below, which is the whole of the responsive story on this side.
  *
  *   THE ACTIVE SURFACE IS OBVIOUS WITHOUT COLOUR. A 2px bar on the leading edge, a filled
  *   row, AND `aria-current="page"`. Colour alone fails the operator with a bad monitor and
@@ -32,6 +33,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
  *
  *   DENSITY. 30px rows and 12.5px labels put fourteen surfaces and six domain headings on
  *   screen without scrolling. The old sidebar needed a scroll area for thirteen flat items.
+ *
+ * The rows themselves live in `NavList`, shared with the mobile drawer.
  *
  * Motion is one property: width, 160ms. That is the only width animation in the application.
  */
@@ -96,7 +99,6 @@ interface SidebarProps {
 
 export function Sidebar({ stats, user }: SidebarProps) {
     const pathname = usePathname()
-    const openDomain = activeDomainId(pathname)
 
     const collapsed = useSyncExternalStore(subscribeCollapsed, readCollapsed, () => false)
     const toggle = () => setCollapsed(!collapsed)
@@ -107,7 +109,7 @@ export function Sidebar({ stats, user }: SidebarProps) {
                 data-collapsed={collapsed}
                 aria-label="Main"
                 className={cn(
-                    "sticky top-0 z-30 flex h-screen shrink-0 flex-col border-r bg-sidebar",
+                    "sticky top-0 z-30 hidden h-screen shrink-0 flex-col border-r bg-sidebar md:flex",
                     "transition-[width] duration-[160ms] ease-out-fast",
                     collapsed ? "w-12" : "w-56"
                 )}
@@ -121,14 +123,14 @@ export function Sidebar({ stats, user }: SidebarProps) {
                 >
                     <div
                         aria-hidden
-                        className="grid size-5 shrink-0 place-items-center rounded-sm bg-primary text-[10px] font-bold text-primary-foreground"
+                        className="grid size-5 shrink-0 place-items-center rounded-sm bg-primary text-2xs font-bold text-primary-foreground"
                     >
                         N
                     </div>
                     {!collapsed && (
                         <>
                             <span className="truncate text-sm font-semibold tracking-tight">NewLight</span>
-                            <span className="ml-auto rounded border px-1 py-px font-mono text-[9px] text-muted-foreground">
+                            <span className="ml-auto rounded border px-1 py-px font-mono text-2xs text-muted-foreground">
                                 ERP
                             </span>
                         </>
@@ -143,36 +145,7 @@ export function Sidebar({ stats, user }: SidebarProps) {
                 )}
 
                 <nav className="flex-1 overflow-y-auto overflow-x-hidden py-1.5">
-                    <div className={cn(collapsed ? "px-1.5" : "px-2")}>
-                        <NavRow surface={OVERVIEW} pathname={pathname} collapsed={collapsed} stats={stats} />
-                    </div>
-
-                    {NAVIGATION.map((domain) => (
-                        <div key={domain.id} className={cn("mt-1", collapsed ? "px-1.5" : "px-2")}>
-                            {collapsed ? (
-                                // The label cannot fit, so the grouping is carried by a rule.
-                                <div aria-hidden className="mx-1 my-1.5 border-t" />
-                            ) : (
-                                <div
-                                    className={cn(
-                                        "px-2 pt-2 pb-1 text-[10px] font-semibold tracking-[0.09em] uppercase",
-                                        domain.id === openDomain ? "text-foreground" : "text-muted-foreground"
-                                    )}
-                                >
-                                    {domain.label}
-                                </div>
-                            )}
-                            {domain.surfaces.map((surface) => (
-                                <NavRow
-                                    key={surface.href}
-                                    surface={surface}
-                                    pathname={pathname}
-                                    collapsed={collapsed}
-                                    stats={stats}
-                                />
-                            ))}
-                        </div>
-                    ))}
+                    <NavList pathname={pathname} collapsed={collapsed} stats={stats} />
                 </nav>
 
                 {user && !collapsed && (
@@ -189,75 +162,6 @@ export function Sidebar({ stats, user }: SidebarProps) {
                 )}
             </aside>
         </TooltipProvider>
-    )
-}
-
-function NavRow({
-    surface,
-    pathname,
-    collapsed,
-    stats,
-}: {
-    surface: NavSurface
-    pathname: string
-    collapsed: boolean
-    stats: DashboardStats
-}) {
-    const active = isSurfaceActive(surface, pathname)
-    const Icon = surface.icon
-    const count = surface.badge?.(stats)
-
-    const row = (
-        <Link
-            href={surface.href}
-            aria-current={active ? "page" : undefined}
-            className={cn(
-                "relative flex h-[30px] items-center rounded-md text-[12.5px]",
-                "transition-colors duration-(--duration-fast)",
-                collapsed ? "justify-center px-0" : "gap-2 px-2.5",
-                active
-                    ? "bg-accent font-medium text-foreground"
-                    : "text-muted-foreground hover:bg-accent/60 hover:text-foreground"
-            )}
-        >
-            {active && (
-                <span
-                    aria-hidden
-                    className="absolute inset-y-1 left-0 w-0.5 rounded-full bg-primary"
-                />
-            )}
-            <Icon className={cn("size-3.5 shrink-0", active && "text-primary")} />
-            {!collapsed && (
-                <>
-                    <span className="truncate">{surface.label}</span>
-                    {count !== undefined && (
-                        <span
-                            className={cn(
-                                "ml-auto shrink-0 rounded px-1 py-px text-[10px] tabular-nums",
-                                surface.badgeTone === "attention"
-                                    ? "bg-warning-bg text-warning"
-                                    : "text-muted-foreground"
-                            )}
-                        >
-                            {count}
-                        </span>
-                    )}
-                </>
-            )}
-        </Link>
-    )
-
-    if (!collapsed) return row
-
-    // Collapsed, the label is the only thing naming the destination, so it must still exist.
-    return (
-        <Tooltip>
-            <TooltipTrigger asChild>{row}</TooltipTrigger>
-            <TooltipContent side="right" className="text-xs">
-                {surface.label}
-                {count !== undefined && <span className="ml-1.5 tabular-nums opacity-70">{count}</span>}
-            </TooltipContent>
-        </Tooltip>
     )
 }
 

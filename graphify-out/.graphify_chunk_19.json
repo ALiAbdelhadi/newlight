@@ -1,0 +1,242 @@
+{
+  "chunk_metadata": {
+    "chunk_number": 19,
+    "total_chunks": 34,
+    "file_count": 22,
+    "generated_at": "2026-09-06T00:00:00Z"
+  },
+  "file_sources": {
+    "base_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor",
+    "category": "indoor",
+    "subcategories": ["magnetic-accessories", "magnetic"]
+  },
+  "files": [
+    {
+      "index": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-r1018.png",
+      "type": "image/png",
+      "product_id": "nl-r1018",
+      "category": "magnetic-accessories",
+      "filename": "nl-r1018.png"
+    },
+    {
+      "index": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-r1021.png",
+      "type": "image/png",
+      "product_id": "nl-r1021",
+      "category": "magnetic-accessories",
+      "filename": "nl-r1021.png"
+    },
+    {
+      "index": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-wI012.png",
+      "type": "image/png",
+      "product_id": "nl-wI012",
+      "category": "magnetic-accessories",
+      "filename": "nl-wI012.png"
+    },
+    {
+      "index": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-z1001.png",
+      "type": "image/png",
+      "product_id": "nl-z1001",
+      "category": "magnetic-accessories",
+      "filename": "nl-z1001.png"
+    },
+    {
+      "index": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-z1003.png",
+      "type": "image/png",
+      "product_id": "nl-z1003",
+      "category": "magnetic-accessories",
+      "filename": "nl-z1003.png"
+    },
+    {
+      "index": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-z1005.png",
+      "type": "image/png",
+      "product_id": "nl-z1005",
+      "category": "magnetic-accessories",
+      "filename": "nl-z1005.png"
+    },
+    {
+      "index": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic-accessories/nl-z1007.png",
+      "type": "image/png",
+      "product_id": "nl-z1007",
+      "category": "magnetic-accessories",
+      "filename": "nl-z1007.png"
+    },
+    {
+      "index": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-601c-10w/nl-601c-10w.png",
+      "type": "image/png",
+      "product_id": "nl-601c-10w",
+      "category": "magnetic",
+      "subcategory": "nl-601c-10w",
+      "filename": "nl-601c-10w.png"
+    },
+    {
+      "index": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-601c-20w/nl-601c-20w.png",
+      "type": "image/png",
+      "product_id": "nl-601c-20w",
+      "category": "magnetic",
+      "subcategory": "nl-601c-20w",
+      "filename": "nl-601c-20w.png"
+    },
+    {
+      "index": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-601c-30w/nl-601c-30w.png",
+      "type": "image/png",
+      "product_id": "nl-601c-30w",
+      "category": "magnetic",
+      "subcategory": "nl-601c-30w",
+      "filename": "nl-601c-30w.png"
+    },
+    {
+      "index": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-601c-40w/nl-601c-40w.png",
+      "type": "image/png",
+      "product_id": "nl-601c-40w",
+      "category": "magnetic",
+      "subcategory": "nl-601c-40w",
+      "filename": "nl-601c-40w.png"
+    },
+    {
+      "index": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (1).png",
+      "type": "image/png",
+      "product_id": "nl-a603-12w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-12w",
+      "variant": 1,
+      "filename": "nl-a603-12w (1).png"
+    },
+    {
+      "index": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (2).png",
+      "type": "image/png",
+      "product_id": "nl-a603-12w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-12w",
+      "variant": 2,
+      "filename": "nl-a603-12w (2).png"
+    },
+    {
+      "index": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-12w/nl-a603-12w (3).png",
+      "type": "image/png",
+      "product_id": "nl-a603-12w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-12w",
+      "variant": 3,
+      "filename": "nl-a603-12w (3).png"
+    },
+    {
+      "index": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (1).png",
+      "type": "image/png",
+      "product_id": "nl-a603-18w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-18w",
+      "variant": 1,
+      "filename": "nl-a603-18w (1).png"
+    },
+    {
+      "index": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (2).png",
+      "type": "image/png",
+      "product_id": "nl-a603-18w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-18w",
+      "variant": 2,
+      "filename": "nl-a603-18w (2).png"
+    },
+    {
+      "index": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-18w/nl-a603-18w (3).png",
+      "type": "image/png",
+      "product_id": "nl-a603-18w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-18w",
+      "variant": 3,
+      "filename": "nl-a603-18w (3).png"
+    },
+    {
+      "index": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+      "type": "image/png",
+      "product_id": "nl-a603-24w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-24w",
+      "variant": 1,
+      "filename": "nl-a603-24w (1).png"
+    },
+    {
+      "index": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (2).png",
+      "type": "image/png",
+      "product_id": "nl-a603-24w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-24w",
+      "variant": 2,
+      "filename": "nl-a603-24w (2).png"
+    },
+    {
+      "index": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (3).png",
+      "type": "image/png",
+      "product_id": "nl-a603-24w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-24w",
+      "variant": 3,
+      "filename": "nl-a603-24w (3).png"
+    },
+    {
+      "index": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (1).png",
+      "type": "image/png",
+      "product_id": "nl-a603-30w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-30w",
+      "variant": 1,
+      "filename": "nl-a603-30w (1).png"
+    },
+    {
+      "index": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products/indoor/magnetic/nl-a603-30w/nl-a603-30w (2).png",
+      "type": "image/png",
+      "product_id": "nl-a603-30w",
+      "category": "magnetic",
+      "subcategory": "nl-a603-30w",
+      "variant": 2,
+      "filename": "nl-a603-30w (2).png"
+    }
+  ],
+  "summary": {
+    "total_files": 22,
+    "by_category": {
+      "magnetic-accessories": 7,
+      "magnetic": 15
+    },
+    "by_product_type": {
+      "nl-r": 1,
+      "nl-r": 1,
+      "nl-w": 1,
+      "nl-z": 3,
+      "nl-601c": 4,
+      "nl-a603": 7
+    },
+    "file_format": "PNG images",
+    "path_structure": "apps/www/public/products/indoor/<category>/<product_id>/"
+  },
+  "notes": {
+    "multi_variant_products": [
+      "nl-a603-12w (3 variants)",
+      "nl-a603-18w (3 variants)",
+      "nl-a603-24w (3 variants)",
+      "nl-a603-30w (2+ variants, continues in next chunk)"
+    ]
+  }
+}

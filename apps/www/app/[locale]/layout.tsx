@@ -12,6 +12,27 @@ import { Inter, Playfair_Display, Almarai } from "next/font/google";
 import { notFound } from "next/navigation";
 import "../globals.css";
 
+/**
+ * Fonts.
+ *
+ * All three faces were being loaded and only one of them was reaching the page.
+ * globals.css mapped `--font-sans` to `--font-geist-sans`, a variable defined
+ * nowhere in this repository, so every `font-sans` utility resolved to nothing
+ * and the storefront rendered in the browser's default UI face while Inter sat
+ * downloaded and unused. Playfair was reached through `font-serif`, which is
+ * Tailwind's GENERIC serif utility and not this variable, so the display type
+ * was the browser's default serif too.
+ *
+ * The stacks are now assembled in globals.css from the LITERAL family names —
+ * `Inter, Almarai, …` — not from these variables. That is load-bearing:
+ * `var(--font-inter)` expands to `"Inter", "Inter Fallback"`, and that injected
+ * fallback is a metric-adjusted local Arial, which HAS Arabic glyphs. It
+ * therefore satisfies every Arabic codepoint before Almarai is consulted, and
+ * the entire Arabic catalogue renders in Arial without anybody noticing.
+ *
+ * These calls stay because they are what emits the @font-face rules and
+ * self-hosts the files; only the composition moved to CSS.
+ */
 const inter = Inter({
   subsets: ["latin"],
   display: "swap",
@@ -21,7 +42,7 @@ const inter = Inter({
 const playfair = Playfair_Display({
   subsets: ["latin"],
   display: "swap",
-  variable: "--font-serif",
+  variable: "--font-playfair",
 });
 
 const almarai = Almarai({
@@ -81,7 +102,9 @@ export default async function RootLayout({
   }
   return (
       <html lang={locale} suppressHydrationWarning dir={locale === "ar" ? "rtl" : "ltr"} className={cn(inter.variable, playfair.variable, almarai.variable)}>
-        <body className="antialiased overflow-x-hidden scroll-smooth bg-background dark:bg-card/60 selection:bg-primary/20" suppressHydrationWarning>
+        {/* `dark:bg-card/60` is gone: the ground is a token, and a translucent card
+            colour behind the whole document is not one. */}
+        <body className="overflow-x-hidden scroll-smooth selection:bg-primary/20" suppressHydrationWarning>
           <script
             suppressHydrationWarning
             dangerouslySetInnerHTML={{
@@ -104,6 +127,14 @@ export default async function RootLayout({
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
+            /*
+             * The anti-flash script above reads `theme-preference`; next-themes
+             * writes `theme` by default. The two never agreed, so a customer who
+             * chose light on a dark machine got a dark flash on every navigation
+             * and then a snap to light. Naming the key here makes them agree —
+             * the same defect, and the same fix, as the admin panel.
+             */
+            storageKey="theme-preference"
           >
             <NextIntlClientProvider>
               <Providers>

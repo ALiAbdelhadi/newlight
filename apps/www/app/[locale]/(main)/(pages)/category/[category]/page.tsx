@@ -1,8 +1,13 @@
 import type { Metadata } from "next"
+import { JsonLd, breadcrumbSchema, itemListSchema } from "@/lib/structured-data"
+import { ProductStrip } from "@/components/product-strip"
+import { categoryHighlights, categoryOffers } from "@/lib/services/merchandising-service"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, permanentRedirect } from "next/navigation"
 import { encodeSlug, resolveLocale, type Locale } from "@repo/database"
 import { CategoryService } from "@/lib/services/category-service"
+import { offersForSection } from "@/lib/services/offers-service"
+import { OfferBanner } from "@/components/offer-banner"
 import { constructMetadata } from "@/lib/metadata"
 import { allTaxonomyPaths } from "@/lib/services/taxonomy"
 import CategoryPage from "./category-page"
@@ -34,7 +39,10 @@ async function load(params: Props["params"]) {
 
     const category = await CategoryService.getCategoryBySlug(locale, resolution.value.translations[0]!.slug)
     if (!category) notFound()
-    return { category, locale }
+
+    // Anything discounted anywhere under this category (§13.2). Null the rest of the time.
+    const offer = await offersForSection({ categoryId: category.id })
+    return { category, locale, offer }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -70,6 +78,58 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: Props) {
-    const { category } = await load(params)
-    return <CategoryPage category={category} />
+    const { category, offer, locale } = await load(params)
+    const translation = category.translations[0]
+    const name = translation?.name ?? ""
+    const slug = translation?.slug ?? ""
+    const number = new Intl.NumberFormat(locale === "ar" ? "ar-EG" : "en-GB")
+
+    const [t, highlights, offers] = await Promise.all([
+        getTranslations("merchandising"),
+        categoryHighlights(category.id, locale),
+        offer ? categoryOffers(locale, slug) : Promise.resolve(null),
+    ])
+
+    /*
+     * A category landing that is only a list of its sections makes the customer choose before
+     * showing them anything. Under the grid: what is on offer here (while something is), then
+     * the category's featured and newest products — both derived, both absent when empty.
+     */
+    const categoryPath = `/${locale}/category/${encodeSlug(slug)}`
+
+    return (
+        <>
+            <JsonLd
+                data={[
+                    breadcrumbSchema([{ name, path: categoryPath }]),
+                    itemListSchema(
+                        category.subCategories.flatMap((subCategory) => {
+                            const sub = subCategory.translations[0]
+                            return sub ? [{ name: sub.name, path: `${categoryPath}/${encodeSlug(sub.slug)}` }] : []
+                        }),
+                        name
+                    ),
+                ]}
+            />
+            {offer && <OfferBanner {...offer} section={name} />}
+            <CategoryPage category={category} />
+            {offers && (
+                <ProductStrip
+                    cards={offers.cards}
+                    eyebrow={t("offersIn.eyebrow")}
+                    title={t("offersIn.title", { percent: number.format(offers.percentOff), category: name })}
+                    href="/offers"
+                    hrefLabel={t("offersIn.link")}
+                    tone="sunk"
+                />
+            )}
+            <ProductStrip
+                cards={highlights}
+                eyebrow={t("popularIn.eyebrow")}
+                title={t("popularIn.title", { category: name })}
+                description={t("popularIn.description")}
+                className="border-t"
+            />
+        </>
+    )
 }

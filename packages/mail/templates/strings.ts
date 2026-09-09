@@ -62,6 +62,10 @@ export const strings = {
     orderShipping: { en: "Shipping", ar: "الشحن" } as Copy,
     orderTotal: { en: "Total", ar: "الإجمالي" } as Copy,
     orderPaymentCod: { en: "Payment: cash on delivery", ar: "الدفع: نقداً عند الاستلام" } as Copy,
+    orderSku: { en: "Code", ar: "الكود" } as Copy,
+    orderUnitPrice: { en: "Unit price", ar: "سعر الوحدة" } as Copy,
+    orderLineTotal: { en: "Line total", ar: "إجمالي البند" } as Copy,
+    orderViewProduct: { en: "View product", ar: "عرض المنتج" } as Copy,
     orderDeliverTo: { en: "Delivery address", ar: "عنوان التسليم" } as Copy,
     orderButton: { en: "View order", ar: "عرض الطلب" } as Copy,
 

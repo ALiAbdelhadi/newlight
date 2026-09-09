@@ -1,27 +1,41 @@
-import Link from "next/link"
 import { prisma, OPENING_COUNT_PENDING_KEY } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { InventoryService } from "@/lib/services/inventory-service"
 import { BulkReceipt, OpeningStocktake } from "./inventory-client"
+import { StockTable } from "./stock-table"
+import { InlineAlert, PageBody, PageHeader, PageStack, Panel, Section, Stat, StatGrid } from "@/components/page"
+import { parseTableState } from "@/lib/table-params"
 
 /**
  * §13.2 items 2 and 3, and N1.
  *
- * The valuation and margin cards print a REASON when the number does not exist yet, never a
+ * The valuation and margin figures print a REASON when the number does not exist yet, never a
  * zero — a stock valuation of "0.00" and a stock valuation nobody has counted are different
- * claims, and only one of them is true.
+ * claims, and only one of them is true. `Stat`'s `unavailable` prop is that distinction made
+ * structural, so a later screen cannot quietly render the zero.
+ *
+ * The stock list is EVERY product, filterable, not a hard-coded low-stock table. The page
+ * previously shipped `lowStock(10)` and nothing else, so the only question it could answer was
+ * "what is nearly gone" — a stocktake, a cost review or a single SKU lookup had no list to
+ * work from. "Low" is now one filter on one table, and the default sort (available ascending)
+ * puts the same rows at the top that the old table held on its own.
  */
 export const dynamic = "force-dynamic"
 
-export default async function InventoryPage() {
+export default async function InventoryPage({
+    searchParams,
+}: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
     await requireCurrentAdmin()
+    const params = await searchParams
 
-    const [lowStock, reports, openingFlag, products] = await Promise.all([
-        InventoryService.lowStock(10),
+    // Available ascending: the useful end of a stock list is the empty end, so the default
+    // view opens on the products that need a decision.
+    const state = parseTableState(params, { sort: "available", dir: "asc", pageSize: 50 })
+
+    const [lowStockCount, reports, openingFlag, products, stock] = await Promise.all([
+        InventoryService.lowStockCount(10),
         InventoryService.reportsForLastDays(30),
         prisma.systemSetting.findUnique({ where: { key: OPENING_COUNT_PENDING_KEY }, select: { value: true } }),
         prisma.product.findMany({
@@ -29,72 +43,108 @@ export default async function InventoryPage() {
             select: { id: true, productId: true, averageCost: true },
             orderBy: { productId: "asc" },
         }),
+        InventoryService.stockLevels({
+            search: state.filters.q,
+            filter: state.filters.filter,
+            status: state.filters.status,
+            cost: state.filters.cost,
+            sort: state.sort,
+            dir: state.dir,
+            // `toPrismaPage` needs a total this page does not have yet, so the offset is
+            // computed here and CLAMPED inside the query, against the count it just ran.
+            skip: (state.page - 1) * state.pageSize,
+            take: state.pageSize,
+        }),
     ])
 
     const openingPending = openingFlag?.value === "true"
     const withoutCost = products.filter((p) => p.averageCost === null).length
 
+    const unavailableReason = (reason: string | undefined) =>
+        reason === "opening-count-pending" ? "opening count pending" : "cost not recorded"
+
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Inventory" />
-            <div className="mt-8">
-                <Container>
+        <>
+            <PageHeader
+                title="Inventory"
+                description="Stock levels come from the ledger, not from a column anybody edits. Valuation and margin refuse to produce a number until there is a cost behind it."
+            />
+
+            <PageBody>
+                <PageStack>
                     {openingPending && (
-                        <div className="rounded-lg border border-yellow-500/40 bg-yellow-50 dark:bg-yellow-900/10 p-4 mb-8">
-                            <h2 className="font-semibold mb-1">Opening count still pending</h2>
-                            <p className="text-sm text-muted-foreground mb-3">
-                                Stock levels came across from the migration as an opening balance nobody has physically
-                                counted. Until a real stocktake closes it, valuation and margin refuse to produce a
-                                number rather than produce a wrong one.
-                            </p>
-                            <OpeningStocktake />
-                        </div>
+                        <InlineAlert
+                            tone="warning"
+                            title="Opening count still pending"
+                            action={<OpeningStocktake />}
+                        >
+                            Stock levels came across from the migration as an opening balance nobody has physically
+                            counted. Until a real stocktake closes it, valuation and margin refuse to produce a number
+                            rather than produce a wrong one.
+                        </InlineAlert>
                     )}
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        <div className="bg-card rounded-lg border p-4 shadow-sm">
-                            <p className="text-sm text-muted-foreground mb-1">Stock valuation</p>
-                            {reports.valuation.available ? (
-                                <p className="text-2xl font-bold tabular-nums">{reports.valuation.value}</p>
-                            ) : (
-                                <p className="text-sm text-muted-foreground pt-2">
-                                    {reports.valuation.reason === "opening-count-pending"
-                                        ? "opening count pending"
-                                        : "cost not recorded"}
-                                </p>
-                            )}
-                        </div>
-                        <div className="bg-card rounded-lg border p-4 shadow-sm">
-                            <p className="text-sm text-muted-foreground mb-1">Gross margin (30d)</p>
-                            {reports.margin.available ? (
-                                <p className="text-2xl font-bold tabular-nums">{reports.margin.value}</p>
-                            ) : (
-                                <p className="text-sm text-muted-foreground pt-2">
-                                    {reports.margin.reason === "opening-count-pending"
-                                        ? "opening count pending"
-                                        : "cost not recorded"}
-                                </p>
-                            )}
-                        </div>
-                        <div className="bg-card rounded-lg border p-4 shadow-sm">
-                            <p className="text-sm text-muted-foreground mb-1">Low stock</p>
-                            <p className={`text-2xl font-bold tabular-nums ${lowStock.length > 0 ? "text-red-600" : ""}`}>
-                                {lowStock.length}
-                            </p>
-                        </div>
-                        <div className="bg-card rounded-lg border p-4 shadow-sm">
-                            <p className="text-sm text-muted-foreground mb-1">Products with no cost</p>
-                            <p className="text-2xl font-bold tabular-nums">{withoutCost}</p>
-                        </div>
-                    </div>
+                    <StatGrid>
+                        <Stat
+                            label="Stock valuation"
+                            {...(reports.valuation.available
+                                ? { value: reports.valuation.value }
+                                : { unavailable: unavailableReason(reports.valuation.reason) })}
+                        />
+                        <Stat
+                            label="Gross margin"
+                            hint="last 30 days"
+                            {...(reports.margin.available
+                                ? { value: reports.margin.value }
+                                : { unavailable: unavailableReason(reports.margin.reason) })}
+                        />
+                        {/*
+                          * The count is a link into the table's own filter rather than the
+                          * heading of a second table. A figure an operator cannot act on is
+                          * half a feature, and two tables listing the same rows under two
+                          * headings is how a page grows two answers to the same question.
+                          */}
+                        <Stat
+                            label="Low stock"
+                            value={lowStockCount}
+                            hint="fewer than 10 available"
+                            href="/admin/inventory?filter=low"
+                            tone={lowStockCount > 0 ? "warning" : "default"}
+                        />
+                        <Stat
+                            label="Products with no cost"
+                            value={withoutCost}
+                            hint={withoutCost > 0 ? "blocks margin reporting" : "every product costed"}
+                            href="/admin/inventory?cost=missing"
+                            tone={withoutCost > 0 ? "warning" : "default"}
+                        />
+                    </StatGrid>
 
-                    <section className="mb-10">
-                        <h2 className="font-semibold text-lg mb-1">Bulk cost entry</h2>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            One row per product: SKU, quantity, unit cost. Every row becomes a purchase receipt in the
-                            ledger, and the unit costs are what make margin reporting possible at all. A blank cost
-                            means <em>not recorded</em> — never zero.
-                        </p>
+                    <Section
+                        title="Stock levels"
+                        description="Every product, at the main location. Available is on hand minus reservations — the number a customer can actually be sold. Stock is only ever changed through the ledger, so a row opens the product's inventory tab rather than an editable field."
+                    >
+                        <Panel padded={false}>
+                            <StockTable
+                                rows={stock.rows}
+                                total={stock.total}
+                                openingCountPending={openingPending}
+                                state={state}
+                            />
+                        </Panel>
+                    </Section>
+
+                    <Section
+                        id="bulk-cost-entry"
+                        title="Bulk cost entry"
+                        description={
+                            <>
+                                One row per product: SKU, quantity, unit cost. Every row becomes a purchase receipt in
+                                the ledger, and the unit costs are what make margin reporting possible at all. A blank
+                                cost means <em>not recorded</em> — never zero.
+                            </>
+                        }
+                    >
                         <BulkReceipt
                             products={products.map((p) => ({
                                 id: p.id,
@@ -102,59 +152,9 @@ export default async function InventoryPage() {
                                 hasCost: p.averageCost !== null,
                             }))}
                         />
-                    </section>
-
-                    <section>
-                        <h2 className="font-semibold text-lg mb-1">Low stock</h2>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            Fewer than 10 available. Available, not on hand — reserved units are already spoken for.
-                        </p>
-                        <div className="overflow-x-auto border rounded-lg shadow">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>SKU</TableHead>
-                                        <TableHead className="text-right">On hand</TableHead>
-                                        <TableHead className="text-right">Reserved</TableHead>
-                                        <TableHead className="text-right">Available</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {lowStock.length === 0 ? (
-                                        <TableRow>
-                                            <TableCell colSpan={4} className="text-center py-8 text-muted-foreground">
-                                                Nothing is running low.
-                                            </TableCell>
-                                        </TableRow>
-                                    ) : (
-                                        lowStock.map((row) => (
-                                            <TableRow key={row.productId}>
-                                                <TableCell className="font-mono">
-                                                    <Link
-                                                        href={`/admin/products/${row.productId}?tab=inventory`}
-                                                        className="underline underline-offset-4"
-                                                    >
-                                                        {row.sku}
-                                                    </Link>
-                                                </TableCell>
-                                                <TableCell className="text-right tabular-nums">{row.onHand}</TableCell>
-                                                <TableCell className="text-right tabular-nums">{row.reserved}</TableCell>
-                                                <TableCell className="text-right tabular-nums">
-                                                    {row.available <= 0 ? (
-                                                        <Badge variant="destructive">{row.available}</Badge>
-                                                    ) : (
-                                                        <span className="font-medium text-red-600">{row.available}</span>
-                                                    )}
-                                                </TableCell>
-                                            </TableRow>
-                                        ))
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </section>
-                </Container>
-            </div>
-        </div>
+                    </Section>
+                </PageStack>
+            </PageBody>
+        </>
     )
 }

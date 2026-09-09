@@ -67,3 +67,15 @@ export function otherLocale(locale: Locale): Locale {
 export function intlLocale(locale: Locale): string {
     return locale === "ar" ? "ar-EG" : "en-US"
 }
+
+/**
+ * The tag for any number or date that appears BESIDE a price.
+ *
+ * `money.ts` pins `-u-nu-arab` because Arabic prices are written in Arabic-Indic digits, and a
+ * page that formats its prices that way and its percentages with plain `ar` renders "١٦٥ ج.م"
+ * next to "20%" — two digit systems on one card. Anything numeric that shares a surface with
+ * money resolves its locale here.
+ */
+export function numericLocale(locale: Locale): string {
+    return locale === "ar" ? "ar-EG-u-nu-arab" : "en-US"
+}

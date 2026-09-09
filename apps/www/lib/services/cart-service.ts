@@ -5,11 +5,14 @@ import {
     type Locale,
     multiplyMoney,
     prisma,
+    resolveEffectivePrice,
     ProductColorTemp,
     serializeMoney,
+    subtractMoney,
     sumMoney,
     type SerializedMoney,
 } from "@repo/database"
+import { activeDiscounts } from "@/lib/discounts"
 
 /**
  * Hand-written interfaces are gone: they declared `categoryType`, which the schema no longer
@@ -280,12 +283,23 @@ export class CartService {
         // `sum + item.product.price * item.quantity` multiplied a Decimal by a number in JS
         // and accumulated the result in a float — the arithmetic migration 0001 exists to
         // stop. Rounding happens once, at serialisation (ADR 0001).
-        const subtotal = sumMoney(cart.items.map((item) => multiplyMoney(item.product.price, item.quantity)))
+        //
+        // The unit price is the EFFECTIVE one (§13.2). `discount` is no longer the always-zero
+        // column A21 deleted: it is what the live discounts actually take off this cart, and
+        // subtotal + discount = total holds by construction rather than by hope.
+        const discounts = await activeDiscounts()
+        const priced = cart.items.map((item) => ({
+            quantity: item.quantity,
+            ...resolveEffectivePrice(item.product.price, item.product, discounts),
+        }))
+
+        const baseSubtotal = sumMoney(priced.map((line) => multiplyMoney(line.base, line.quantity)))
+        const total = sumMoney(priced.map((line) => multiplyMoney(line.effective, line.quantity)))
 
         return {
-            subtotal: serializeMoney(subtotal),
-            discount: "0.00",
-            total: serializeMoney(subtotal),
+            subtotal: serializeMoney(baseSubtotal),
+            discount: serializeMoney(subtractMoney(baseSubtotal, total)),
+            total: serializeMoney(total),
         }
     }
 }

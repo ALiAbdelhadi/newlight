@@ -1,6 +1,12 @@
 import type { LucideIcon } from "lucide-react"
 import { AlertTriangle, OctagonAlert } from "lucide-react"
 import { DEFAULT_LOW_STOCK_THRESHOLD } from "@repo/database"
+/*
+ * The order and payment LABELS come from the domain layer (§19), through the client-safe
+ * `@repo/database/status` subpath rather than the package root — the root instantiates a
+ * PrismaClient at module scope, and this module is imported by client components.
+ */
+import { ORDER_STATUS_COPY, PAYMENT_STATUS_COPY } from "@repo/database/status"
 import type {
     ActorType,
     ContactFormStatus,
@@ -50,25 +56,39 @@ export interface StatusEntry {
 // ---------------------------------------------------------------------------
 // Orders (§12) — the four states the state machine actually has. `processing`,
 // `fulfilled` and `refunded` were removed from the schema; nothing here revives them.
+//
+// THE LABEL IS THE DOMAIN'S, THE VARIANT AND THE DESCRIPTION ARE THIS APP'S.
+//
+// That split is deliberate and is the whole point of §19. What a status is CALLED is a fact
+// about the product — the storefront and the panel must not disagree about it, and they did:
+// "Awaiting shipment" here, "Awaiting Shipment" in the storefront's order page, "Awaiting" in
+// the old dropdown. It now comes from one place.
+//
+// The variant does NOT come from the domain's `tone`, and the difference is a real one rather
+// than drift. To a customer, `awaiting_shipment` is reassuring and `cancelled` is bad news —
+// the shared copy tones them warning and danger accordingly. To an operator, awaiting shipment
+// is ordinary inbound work (info), shipped is the state that needs watching because a parcel
+// is in somebody else's hands (warning), and cancelled is simply closed (neutral). Two
+// audiences, two readings, one vocabulary.
 // ---------------------------------------------------------------------------
 const order: Record<OrderStatus, StatusEntry> = {
     awaiting_shipment: {
-        label: "Awaiting shipment",
+        label: ORDER_STATUS_COPY.awaiting_shipment.label.en,
         variant: "info",
         description: "Placed and paid for on delivery. Not yet handed to a courier.",
     },
     shipped: {
-        label: "Shipped",
+        label: ORDER_STATUS_COPY.shipped.label.en,
         variant: "warning",
         description: "With the courier. Payment is collected on delivery.",
     },
     delivered: {
-        label: "Delivered",
+        label: ORDER_STATUS_COPY.delivered.label.en,
         variant: "success",
         description: "Received by the customer. Stock and payment are settled.",
     },
     cancelled: {
-        label: "Cancelled",
+        label: ORDER_STATUS_COPY.cancelled.label.en,
         variant: "neutral",
         description: "Terminal. Any reserved stock has been released.",
     },
@@ -78,9 +98,14 @@ const order: Record<OrderStatus, StatusEntry> = {
 // Payment. PAID means money received by the merchant, nothing weaker.
 // ---------------------------------------------------------------------------
 const payment: Record<PaymentStatus, StatusEntry> = {
+    /*
+     * "Pending", not the storefront's "Pay on delivery". Same status, same source of truth for
+     * the fact, different register: the customer is being told what to do, the operator is
+     * being told what has not happened yet.
+     */
     PENDING: { label: "Pending", variant: "neutral", description: "Collected on delivery under COD." },
-    PAID: { label: "Paid", variant: "success", description: "Money received by the merchant." },
-    REFUNDED: { label: "Refunded", variant: "warning" },
+    PAID: { label: PAYMENT_STATUS_COPY.PAID.label.en, variant: "success", description: "Money received by the merchant." },
+    REFUNDED: { label: PAYMENT_STATUS_COPY.REFUNDED.label.en, variant: "warning" },
     FAILED: { label: "Failed", variant: "danger", icon: OctagonAlert },
 }
 
@@ -216,6 +241,24 @@ const quality: Record<QualitySeverity, StatusEntry> = {
 }
 
 // ---------------------------------------------------------------------------
+// Discounts (§13.2, migration 0015). Four states, and the distinction that matters is
+// ended-vs-stopped: one ran to its date, the other was pulled. Both leave prices back at
+// base, and only one of them is something somebody decided.
+// ---------------------------------------------------------------------------
+export type DiscountState = "scheduled" | "live" | "ended" | "stopped"
+
+const discount: Record<DiscountState, StatusEntry> = {
+    scheduled: {
+        label: "Scheduled",
+        variant: "info",
+        description: "Created, not started. Customers still pay the base price.",
+    },
+    live: { label: "Live", variant: "success", description: "Customers are paying the discounted price now." },
+    ended: { label: "Ended", variant: "neutral", description: "Ran to its end date." },
+    stopped: { label: "Stopped", variant: "warning", description: "Ended early by an administrator." },
+}
+
+// ---------------------------------------------------------------------------
 // The registry.
 // ---------------------------------------------------------------------------
 export const STATUS = {
@@ -230,6 +273,7 @@ export const STATUS = {
     actor,
     translation,
     quality,
+    discount,
 } as const
 
 export type StatusKind = keyof typeof STATUS

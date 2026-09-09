@@ -1,182 +1,164 @@
-"use client"
+import Image from "@/components/app-image"
 
-import { Container } from '@/components/container';
-import Image from 'next/image';
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { Container, PageHeader, Section, SectionHeader } from "@/components/layout/section"
+import { Reveal } from "@/components/reveal"
+import { EmptyState } from "@/components/states"
+import { Button } from "@/components/ui/button"
+import { Link } from "@/i18n/navigation"
 
 interface CollectionCard {
-    slug: string;
-    title: string;
-    shortDescription: string;
-    imageUrl: string;
-    imageAlt: string;
-    category: string;
-    tags: string[];
-    featured?: boolean;
+    slug: string
+    title: string
+    shortDescription: string
+    imageUrl: string
+    imageAlt: string
+    category: string
+    tags: string[]
+    featured?: boolean
 }
 
-interface NewCollectionClientProps {
-    filteredCollections: CollectionCard[];
-    allCollectionsCount: number;
-    featuredCollection?: CollectionCard;
-    category?: string;
-    tag?: string;
-    search?: string;
+interface NewCollectionProps {
+    filteredCollections: CollectionCard[]
+    allCollectionsCount: number
+    featuredCollection?: CollectionCard
+    category?: string
+    tag?: string
+    search?: string
     translations: {
-        heroTitle: string;
-        heroDescription: string;
-        featuredButton: string;
-        filteredResults: string;
-        allProjects: string;
-        showing: string;
-        of: string;
-        projects: string;
-        clearFilters: string;
-        noProjects: string;
-        viewAll: string;
-        ctaTitle: string;
-        ctaDescription: string;
-        ctaButton: string;
-    };
+        eyebrow: string
+        heroTitle: string
+        heroDescription: string
+        featuredButton: string
+        filteredResults: string
+        allProjects: string
+        showing: string
+        of: string
+        projects: string
+        clearFilters: string
+        noProjects: string
+        viewAll: string
+        ctaTitle: string
+        ctaDescription: string
+        ctaButton: string
+    }
 }
 
+/**
+ * The lookbook: installed work, as a grid of cards.
+ *
+ * A server component now. The client version carried a `<style jsx>` block with two keyframe
+ * animations that set every card to `opacity: 0` and faded it in on a timer — the same effect
+ * `Reveal` gives every other grid on the site, on scroll rather than on a clock, and with the
+ * resting state visible. The 72px `font-light` title and the `bg-card` closing band were the
+ * page's own, and are the shared `PageHeader` and CTA band now. The CTA had a translated
+ * button label and rendered no button; it renders one.
+ */
 export default function NewCollection({
     filteredCollections,
     allCollectionsCount,
-    featuredCollection,
     category,
     tag,
     search,
     translations: t,
-}: NewCollectionClientProps) {
-    return (
-        <main className="min-h-screen">
-            <section className="py-20 lg:py-32">
-                <Container>
-                    <div className="text-center max-w-4xl mx-auto animate-fadeIn">
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-light tracking-tight mb-6 text-foreground">
-                            {t.heroTitle}
-                        </h1>
-                        <p className="text-xl md:text-2xl text-muted-foreground font-light tracking-wide">
-                            {t.heroDescription}
-                        </p>
-                    </div>
-                </Container>
-            </section>
-            {(category || tag || search) && (
-                <section className="py-8">
-                    <Container>
-                        <div className="flex items-center justify-between">
-                            <div className="text-sm text-muted-foreground">
-                                {t.showing} {filteredCollections.length} {t.of} {allCollectionsCount} {t.projects}
-                                {category && ` • ${t.filteredResults}: ${category}`}
-                                {tag && ` • Tag: ${tag}`}
-                                {search && ` • ${search}`}
-                            </div>
-                        </div>
-                    </Container>
-                </section>
-            )}
+}: NewCollectionProps) {
+    const filtered = Boolean(category || tag || search)
 
-            <section className="py-16">
+    return (
+        <>
+            <PageHeader
+                eyebrow={t.eyebrow}
+                title={t.heroTitle}
+                description={t.heroDescription}
+                action={
+                    filtered ? (
+                        <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                            <span>
+                                {t.showing} {filteredCollections.length} {t.of} {allCollectionsCount} {t.projects}
+                            </span>
+                            <Button asChild variant="outline" size="sm">
+                                <Link href="/new-collection">{t.clearFilters}</Link>
+                            </Button>
+                        </div>
+                    ) : undefined
+                }
+            />
+
+            <Section spacing="tight">
                 <Container>
-                    {filteredCollections.length > 0 ? (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredCollections.map((collection, index) => (
-                                <div
-                                    key={collection.slug}
-                                    className="group relative overflow-hidden bg-card"
-                                    style={{
-                                        opacity: 0,
-                                        animation: `fadeInUp 0.6s ease-out forwards ${index * 0.1}s`
-                                    }}
-                                >
-                                    <div className="aspect-4/3 overflow-hidden">
-                                        <Image
-                                            src={collection.imageUrl}
-                                            alt={collection.imageAlt}
-                                            width={1000}
-                                            height={700}
-                                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                                        />
-                                    </div>
-                                    <div className="p-6 border-t border-border">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <span className="text-xs text-muted-foreground font-light tracking-wider uppercase">
-                                                {collection.category}
-                                            </span>
-                                        </div>
-                                        <h3 className="text-xl font-light tracking-tight mb-2 text-foreground">
-                                            {collection.title}
-                                        </h3>
-                                        <p className="text-sm text-muted-foreground font-light leading-relaxed tracking-wide">
-                                            {collection.shortDescription}
-                                        </p>
-                                        {collection.tags && collection.tags.length > 0 && (
-                                            <div className="flex flex-wrap gap-2 mt-4">
-                                                {collection.tags.map((tag) => (
-                                                    <span
-                                                        key={tag}
-                                                        className="text-xs px-3 py-1 bg-muted/50 text-muted-foreground font-light tracking-wide"
-                                                    >
-                                                        {tag}
-                                                    </span>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                    {filteredCollections.length === 0 ? (
+                        <EmptyState
+                            variant={filtered ? "no-results" : "no-data"}
+                            title={t.noProjects}
+                            action={
+                                filtered ? (
+                                    <Button asChild variant="outline">
+                                        <Link href="/new-collection">{t.clearFilters}</Link>
+                                    </Button>
+                                ) : undefined
+                            }
+                            className="rounded-lg border bg-surface-sunk"
+                        />
                     ) : (
-                        <div className="text-center py-16">
-                            <p className="text-xl text-muted-foreground font-light">
-                                {t.noProjects}
-                            </p>
-                        </div>
+                        <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8">
+                            {filteredCollections.map((collection, index) => (
+                                <Reveal as="li" key={collection.slug} index={index}>
+                                    <article className="group overflow-hidden rounded-lg border bg-card transition-[box-shadow,translate,scale] duration-(--duration-base) ease-out-fast hover:-translate-y-0.5 hover:shadow-overlay">
+                                        <div className="relative aspect-[4/3] overflow-hidden bg-surface-sunk">
+                                            <Image
+                                                src={collection.imageUrl}
+                                                alt={collection.imageAlt}
+                                                fill
+                                                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                                className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-[1.03]"
+                                            />
+                                        </div>
+                                        <div className="space-y-3 p-6">
+                                            <p className="text-xs font-medium tracking-label text-muted-foreground uppercase">
+                                                {collection.category}
+                                            </p>
+                                            <h2 className="text-xl font-semibold tracking-tight">{collection.title}</h2>
+                                            <p className="text-pretty text-muted-foreground">{collection.shortDescription}</p>
+                                            {collection.tags.length > 0 && (
+                                                <ul className="flex flex-wrap gap-2 pt-1">
+                                                    {collection.tags.map((label) => (
+                                                        <li
+                                                            key={label}
+                                                            className="rounded-full border px-2.5 py-0.5 text-xs text-muted-foreground"
+                                                        >
+                                                            {label}
+                                                        </li>
+                                                    ))}
+                                                </ul>
+                                            )}
+                                        </div>
+                                    </article>
+                                </Reveal>
+                            ))}
+                        </ul>
                     )}
                 </Container>
-            </section>
+            </Section>
 
-            <section className="bg-card text-card-foreground py-20 border-t border-border">
+            <Section tone="sunk" aria-label={t.ctaTitle}>
                 <Container>
-                    <div className="text-center">
-                        <h2 className="text-4xl md:text-5xl font-light tracking-tight mb-6">
-                            {t.ctaTitle}
-                        </h2>
-                        <p className="text-xl text-muted-foreground font-light mb-8 max-w-2xl mx-auto tracking-wide">
-                            {t.ctaDescription}
-                        </p>
+                    <SectionHeader
+                        align="center"
+                        face="display"
+                        title={t.ctaTitle}
+                        description={t.ctaDescription}
+                        className="mb-0 lg:mb-0"
+                    />
+                    <div className="mt-10 text-center">
+                        <Button asChild size="lg" className="group">
+                            <Link href="/contact">
+                                {t.ctaButton}
+                                <DirectionalArrow />
+                            </Link>
+                        </Button>
                     </div>
                 </Container>
-            </section>
-
-            <style jsx>{`
-                @keyframes fadeInUp {
-                    from {
-                        opacity: 0;
-                        transform: translateY(30px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                
-                @keyframes fadeIn {
-                    from {
-                        opacity: 0;
-                        transform: translateY(20px);
-                    }
-                    to {
-                        opacity: 1;
-                        transform: translateY(0);
-                    }
-                }
-                
-                .animate-fadeIn {
-                    animation: fadeIn 1s ease-out forwards;
-                }
-            `}</style>
-        </main>
-    );
+            </Section>
+        </>
+    )
 }

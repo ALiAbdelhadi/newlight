@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { createProductAction } from "@/app/action/catalog-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 interface Option {
     id: string
@@ -93,7 +94,7 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                 submit()
             }}
         >
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
+            <section className="rounded-lg border bg-card p-3 space-y-4">
                 <h2 className="font-semibold">Identity</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -109,12 +110,12 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                 </div>
             </section>
 
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
+            <section className="rounded-lg border bg-card p-3 space-y-4">
                 <h2 className="font-semibold">Where it belongs</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
                         <Label htmlFor="sub">Sub-category</Label>
-                        <select
+                        <NativeSelect
                             id="sub"
                             required
                             value={subCategoryId}
@@ -122,32 +123,30 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                                 setSubCategoryId(e.target.value)
                                 setFamilyId("")
                             }}
-                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                        >
+                            >
                             <option value="">—</option>
                             {subCategories.map((s) => (
                                 <option key={s.id} value={s.id}>
                                     {s.name}
                                 </option>
                             ))}
-                        </select>
+                        </NativeSelect>
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="family">Family (optional)</Label>
-                        <select
+                        <NativeSelect
                             id="family"
                             value={familyId}
                             disabled={!subCategoryId}
                             onChange={(e) => setFamilyId(e.target.value)}
-                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50"
-                        >
+                            >
                             <option value="">Standalone product</option>
                             {availableFamilies.map((f) => (
                                 <option key={f.id} value={f.id}>
                                     {f.name}
                                 </option>
                             ))}
-                        </select>
+                        </NativeSelect>
                         <p className="text-xs text-muted-foreground">
                             {subCategoryId
                                 ? "A family groups the wattages or sizes of one fixture into a single card."
@@ -173,7 +172,7 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                 )}
             </section>
 
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
+            <section className="rounded-lg border bg-card p-3 space-y-4">
                 <h2 className="font-semibold">Price and stock</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div className="space-y-1.5">
@@ -226,7 +225,7 @@ export function NewProductForm({ subCategories, families }: { subCategories: Opt
                 </fieldset>
             </section>
 
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4">
+            <section className="rounded-lg border bg-card p-3 space-y-4">
                 <h2 className="font-semibold">Name</h2>
                 <p className="text-sm text-muted-foreground">
                     Both languages are required. A product with no Arabic name renders as a gap on the Arabic

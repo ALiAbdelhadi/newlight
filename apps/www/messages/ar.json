@@ -3,7 +3,33 @@
     "title": "جاري التحميل",
     "message": "الرجاء الانتظار ريثما نجهز كل شيء من أجلك"
   },
+  "offers": {
+    "homeTitle": "خصم لغاية {percent}% لفترة محدودة",
+    "homeDescription": "بعض المنتجات اللي عليها خصم دلوقتي. العرض بينتهي {date} والأسعار بترجع لطبيعتها لوحدها.",
+    "previous": "عروض سابقة",
+    "next": "عروض أكثر",
+    "barTitle": "خصم لغاية {percent}%",
+    "barMeta": "· {count, plural, zero {لا منتجات} one {منتج واحد} two {منتجان} few {{formattedCount} منتجات} many {{formattedCount} منتجًا} other {{formattedCount} منتج}} · ينتهي {date}",
+    "bannerLabel": "عرض حالي",
+    "bannerTitle": "خصم لغاية {percent}% على {section}",
+    "bannerMeta": "{count, plural, zero {لا منتجات} one {منتج واحد} two {منتجان} few {{formattedCount} منتجات} many {{formattedCount} منتجًا} other {{formattedCount} منتج}} · ينتهي {date}",
+    "seeAll": "كل العروض",
+    "pageTitle": "العروض",
+    "pageDescription": "كل ما عليه خصم الآن، مقسّمًا حسب القسم. الأسعار تعود لطبيعتها تلقائيًا عند انتهاء كل عرض.",
+    "pageSummary": "خصم لغاية {percent}% على {count, plural, zero {لا منتجات} one {منتج واحد} two {منتجين} few {{formattedCount} منتجات} many {{formattedCount} منتجًا} other {{formattedCount} منتج}}",
+    "sectionMeta": "خصم لغاية {percent}% · ينتهي {date}",
+    "browseSection": "تصفّح القسم",
+    "emptyTitle": "لا توجد عروض حاليًا",
+    "emptyDescription": "العروض تعمل لفترة محددة. أثناء عمل أي عرض يظهر هنا، وعلى القسم الذي ينطبق عليه.",
+    "browseCatalogue": "تصفّح الكتالوج",
+    "metaTitle": "العروض",
+    "metaDescription": "إضاءة عليها خصم في نيو لايت — العروض الحالية حسب القسم، لفترة محدودة."
+  },
   "product-card": {
+    "was": "كان",
+    "now": "الآن",
+    "off": "خصم",
+    "saleBadge": "خصم",
     "view": "استكشف",
     "currency": "ج.م"
   },
@@ -23,7 +49,8 @@
         "nativeName": "العربية",
         "region": "الشرق الأوسط"
       }
-    }
+    },
+    "title": "اختر اللغة"
   },
   "notFound": {
     "title": "الصفحة غير موجودة",
@@ -33,24 +60,27 @@
   },
   "Common": {
     "welcome": "مرحبًا",
-    "error": "حدث خطأ ما"
+    "error": "حدث خطأ ما",
+    "skipToContent": "تخطَّ إلى المحتوى"
   },
   "loading": {
     "title": "جارٍ تحميل طلبك...",
     "description": "لن يستغرق هذا وقتًا طويلاً"
   },
   "nav": {
+    "offersLink": "العروض",
     "logoNew": "نيو",
     "logoLight": "لايت",
-    "desktopContactSr": "تواصل",
     "mobileMenuTitleHome": "الرئيسية",
     "mobileMenuTitleProducts": "المنتجات",
     "mobileMenuTitleAbout": "حول الشركة",
     "mobileMenuTitleContact": "اتصال",
     "mobileMenuLabelLanguage": "اللغة",
     "mobileMenuLabelTheme": "السمة",
-    "mobileMenuLabelSearch": "بحث",
-    "mobileMenuFooterCta": "المكنز الجديد: حلول الإضاءة المتميزة"
+    "technicalResources": "الموارد الفنية",
+    "primaryNav": "التنقل الرئيسي",
+    "openMenu": "فتح القائمة",
+    "closeMenu": "إغلاق القائمة"
   },
   "search": {
     "button": "بحث",
@@ -70,7 +100,23 @@
       "solutions": "حلول الإضاءة",
       "outdoor": "إضاءة خارجية",
       "smart": "إضاءة ذكية"
-    }
+    },
+    "eyebrow": "بحث",
+    "resultsTitle": "ابحث في الكتالوج",
+    "resultsTitleFor": "بحث: {query}",
+    "resultsFor": "نتائج البحث عن “{query}”",
+    "resultsDescription": "ابحث في المنتجات والفئات وحلول الإضاءة في كتالوج نيو لايت.",
+    "count": "{count, plural, =0 {لا توجد نتائج} one {نتيجة واحدة} two {نتيجتان} few {# نتائج} many {# نتيجة} other {# نتيجة}}",
+    "prompt": "عمّا تبحث؟",
+    "promptBody": "ابحث باسم المنتج أو الكود أو الفئة — بالعربية أو بالإنجليزية.",
+    "noResultsBody": "تأكّد من الإملاء، أو جرّب كلمة أقصر، أو تصفّح الكتالوج حسب الفئة.",
+    "browseInstead": "تصفّح الكتالوج",
+    "sections": "الأقسام",
+    "products": "{count, plural, one {منتج واحد} two {منتجان} few {# منتجات} many {# منتجًا} other {# منتج}}",
+    "seeAll": "عرض كل النتائج",
+    "noMatches": "مفيش منتجات مطابقة للفلاتر دي",
+    "noMatchesBody": "بحثك لقى منتجات، بس مفيش فيهم اللي يطابق الفلاتر المفعّلة. امسحها عشان تشوف كل اللي ظهر.",
+    "clearFilters": "مسح الفلاتر"
   },
   "auth-section": {
     "account": "الحساب",
@@ -80,7 +126,10 @@
     "dashboard": "لوحة التحكم",
     "loading": "جاري التحميل...",
     "userMenu": "قائمة المستخدم",
-    "signOut": "تسجيل الخروج"
+    "signOut": "تسجيل الخروج",
+    "myOrders": "طلباتي",
+    "myAccount": "حسابي",
+    "cart": "السلة"
   },
   "hero-section": {
     "illuminate": "أضِئ",
@@ -89,7 +138,8 @@
     "technicalResources": "الموارد التقنية",
     "weAre": "نحن",
     "weAreNewLight": "نيو لايت",
-    "category": "الأقسام"
+    "category": "الأقسام",
+    "browseCatalogue": "تصفّح الكتالوج"
   },
   "new-collection-page": {
     "heroTitle": "مجموعة الإضاءة الطبيعية",
@@ -105,7 +155,8 @@
     "viewAll": "عرض الكل",
     "ctaTitle": "حول مساحتك",
     "ctaDescription": "اكتشف حلول الإضاءة المصنوعة يدوياً التي تجمع بين المواد الطبيعية والتصميم الخالد",
-    "ctaButton": "تواصل معنا"
+    "ctaButton": "تواصل معنا",
+    "eyebrow": "من الواقع"
   },
   "categories": {
     "Natural Woven": "المنسوجات الطبيعية",
@@ -486,7 +537,8 @@
     "smart-spacesTitle": "المساحات الذكية",
     "smart-spacesDescription": "دمج الأنظمة الذكية التي تتكيف مع أسلوب حياتك وتحسن تجربتك اليومية.",
     "smart-spacesAction": "استكشف التقنية",
-    "buttonText": "استكشف المجموعة"
+    "buttonText": "استكشف المجموعة",
+    "eyebrow": "من الواقع"
   },
   "about-us-page": {
     "heroTitle": "تميز في الإضاءة",
@@ -525,13 +577,13 @@
       {
         "title": "الإضاءة الداخلية",
         "description": "حول مساحاتك الداخلية بمجموعتنا الرائعة من الثريات والمصابيح المعلقة ومصابيح الحائط والإضاءة المخفية والتركيبات الزخرفية. مثالية للبيئات السكنية والفندقية والتجارية.",
-        "image": "/products/indoor/magnetic/nl-a603-24w/nl-a603-24w (1).png",
+        "image": "https://res.cloudinary.com/p1fq9xua/image/upload/v1788702195/products/indoor/magnetic/nl-a603-24w/nl-a603-24w-1.png",
         "slug": "indoor"
       },
       {
         "title": "الإضاءة الخارجية",
         "description": "أضئ مساحاتك الخارجية بحلول الإضاءة الخارجية المقاومة للعوامل الجوية. من مصابيح ممرات الحدائق إلى إضاءة واجهات المباني المعمارية، قم بإنشاء أجواء ليلية مذهلة وأمان محسّن.",
-        "image": "/products/outdoor/bollard/nl-bollard-1/nl-bollard (1).webp",
+        "image": "https://res.cloudinary.com/p1fq9xua/image/upload/v1788702364/products/outdoor/bollard/nl-b-beam/nl-b-beam-1.png",
         "slug": "outdoor"
       }
     ],
@@ -543,35 +595,8 @@
     "ctaTitle": "هل أنت مستعد لتحويل مساحتك؟",
     "ctaDescription": "اكتشف مجموعتنا الكاملة من حلول الإضاءة الفاخرة ودع خبراءنا يساعدونك في إنشاء الأجواء المثالية لمشروعك.",
     "ctaExplore": "استكشف المجموعات",
-    "ctaContact": "اتصل بنا"
-  },
-  "category-section": {
-    "header": {
-      "title": "فئات المنتجات",
-      "subtitle": "اكتشف مجموعاتنا المنسقة من حلول الإضاءة المتميزة، المصممة بدقة للتطبيقات الداخلية والخارجية على حد سواء."
-    },
-    "categories": {
-      "indoor": {
-        "title": "إضاءة داخلية",
-        "subtitle": "مجموعة الديكور الداخلي",
-        "description": "حلول إضاءة متطورة مصممة لتعزيز كل مساحة داخلية. من وحدات السقف المحيطة إلى مصابيح الجدران الموجهة، تجمع مجموعتنا الداخلية بين التميز الجمالي والإضاءة الوظيفية.",
-        "href": "/category/indoor"
-      },
-      "outdoor": {
-        "title": "إضاءة خارجية",
-        "subtitle": "مجموعة الديكور الخارجي",
-        "description": "إضاءة مقاومة للعوامل الجوية ومُهندسة للبيئات الخارجية. أضئ الحدائق والممرات والملامح المعمارية بتركيبات مصممة لتحمل العناصر مع تقديم أداء استثنائي.",
-        "href": "/category/outdoor"
-      }
-    },
-    "features": {
-      "consultationTitle": "استشارات الخبراء",
-      "consultationDescription": "مساعدة احترافية في تصميم الإضاءة لمساعدتك في اختيار التركيبات المثالية لمشروعك.",
-      "technicalTitle": "الدعم الفني",
-      "technicalDescription": "أدلة التثبيت الشاملة والمواصفات التقنية لجميع المنتجات.",
-      "qualityTitle": "ضمان الجودة",
-      "qualityDescription": "تخضع جميع التركيبات لاختبارات صارمة لتلبية معايير الإضاءة الدولية."
-    }
+    "ctaContact": "اتصل بنا",
+    "eyebrow": "من نحن"
   },
   "cart": {
     "title": "سلة التسوق",
@@ -604,7 +629,8 @@
     },
     "discount": "خصم",
     "orderNow": "اطلب الآن",
-    "currency": "ج.م"
+    "currency": "ج.م",
+    "viewFull": "عرض السلة كاملة"
   },
   "footer": {
     "logo": {
@@ -630,6 +656,13 @@
         "contact": "اتصل بنا",
         "privacy": "الخصوصية",
         "faqs": "الاسئلة الاكثر تكرارا"
+      },
+      "account": {
+        "title": "الحساب",
+        "account": "حسابي",
+        "cart": "السلة",
+        "orders": "طلباتي",
+        "offers": "العروض"
       }
     },
     "copyright": "نيو لايت. جميع الحقوق محفوظة.",
@@ -695,7 +728,10 @@
       "badgeNew": "جديد",
       "badgeFeatured": "مميز",
       "badgeSale": "تخفيضات"
-    }
+    },
+    "eyebrow": "مختارات",
+    "browseAll": "تصفّح الكتالوج",
+    "noProducts": "مفيش منتجات مختارة حاليًا."
   },
   "privacy-page": {
     "heroTitle": "سياسة الخصوصية",
@@ -855,18 +891,23 @@
     "ctaContact": "اتصل بنا",
     "ctaLearn": "اعرف المزيد",
     "exploreCollection": "استكشف المجموعة",
-    "productsCount": "{count} منتجات"
+    "productsCount": "{count} منتجات",
+    "eyebrow": "الكتالوج",
+    "count": "{count, plural, one {قسم واحد} two {قسمان} few {# أقسام} many {# قسمًا} other {# قسم}}",
+    "ctaEyebrow": "استشارة الخبراء"
   },
   "sub-category-page": {
     "backTo": "العودة إلى {category}",
     "noSubcategories": "لا توجد فئات فرعية متاحة",
-    "exploreCollection": "استكشف مجموعة {name} الخاصة بنا"
+    "exploreCollection": "استكشف مجموعة {name} الخاصة بنا",
+    "catalogue": "الكتالوج"
   },
   "section-type-page": {
     "noProducts": "لا توجد منتجات متاحة في هذه الفئة",
     "productCount": "{count} {count, plural, =1 {منتج} other {منتجات}}",
     "products": "منتجات",
-    "product": "منتج"
+    "product": "منتج",
+    "catalogue": "الكتالوج"
   },
   "product-page": {
     "noImage": "لا توجد صورة",
@@ -993,8 +1034,9 @@
     "tax": "الضريبة",
     "total": "الإجمالي",
     "trackingNumber": "رقم التتبع",
-    "backToOrders": "العودة للرئيسية",
-    "continueShopping": "متابعة التسوق"
+    "backToOrders": "العودة إلى طلباتي",
+    "continueShopping": "متابعة التسوق",
+    "free": "مجاني"
   },
   "offline": {
     "title": "أنت غير متصل بالإنترنت",
@@ -1064,6 +1106,14 @@
     "orders-page": {
       "title": "طلباتي | نيو لايت",
       "description": "كل طلب عملته مع نيو لايت، وحالته، وإيه اللي جاي بعده."
+    },
+    "cart-page": {
+      "title": "سلتك | نيو لايت",
+      "description": "كل اللي ضفته، بسعر النهارده، جاهز للطلب."
+    },
+    "account-page": {
+      "title": "حسابي | نيو لايت",
+      "description": "ملفك الشخصي وعنوان التوصيل وسجل طلباتك مع نيو لايت."
     }
   },
   "auth": {
@@ -1093,7 +1143,13 @@
     "genericError": "لم ينجح ذلك. برجاء مراجعة بياناتك والمحاولة مرة أخرى.",
     "invalidCredentials": "البريد الإلكتروني أو كلمة المرور غير صحيحة.",
     "emailInUse": "يوجد حساب بالفعل لهذا البريد الإلكتروني.",
-    "unverified": "أكد بريدك الإلكتروني قبل تسجيل الدخول. أرسلنا لك رابطاً."
+    "unverified": "أكد بريدك الإلكتروني قبل تسجيل الدخول. أرسلنا لك رابطاً.",
+    "backHome": "العودة إلى الرئيسية",
+    "loading": "جارٍ التحميل…",
+    "welcomeBack": "أهلًا بعودتك",
+    "welcomeBackBody": "سجّل الدخول لتتابع طلباتك وتعيد الطلب بضغطتين.",
+    "joinUs": "انضم إلينا",
+    "joinUsBody": "أنشئ حسابًا لتطلب وتتابع التوصيل وتحفظ بياناتك للمرة القادمة."
   },
   "orders-page": {
     "title": "طلباتي | نيو لايت",
@@ -1118,12 +1174,8 @@
     "previous": "السابق",
     "next": "التالي",
     "page": "صفحة {page} من {total}",
-    "status": {
-      "awaiting_shipment": "في انتظار الشحن",
-      "shipped": "تم الشحن",
-      "delivered": "تم التسليم",
-      "cancelled": "ملغي"
-    }
+    "emptyBody": "عند إتمام أول طلب، سيظهر هنا مع حالته وكل ما طلبته.",
+    "eyebrow": "الحساب"
   },
   "error-page": {
     "title": "حصل خطأ",
@@ -1132,5 +1184,194 @@
     "home": "الرجوع للرئيسية",
     "reference": "رقم مرجعي",
     "referenceHint": "قوله لنا لو تواصلت معانا."
+  },
+  "plp": {
+    "results": "{count, plural, =0 {لا توجد منتجات} one {منتج واحد} two {منتجان} few {# منتجات} many {# منتجًا} other {# منتج}}",
+    "ofTotal": "من {total}",
+    "filters": "التصفية",
+    "sortBy": "الترتيب حسب",
+    "sort": {
+      "featured": "المميّزة",
+      "price-asc": "السعر: من الأقل إلى الأعلى",
+      "price-desc": "السعر: من الأعلى إلى الأقل",
+      "newest": "الأحدث أولًا"
+    },
+    "colorTemperature": "درجة حرارة اللون",
+    "finish": "التشطيب",
+    "availability": "التوفّر",
+    "inStock": "متوفر",
+    "onSale": "عليه خصم",
+    "clearAll": "مسح الكل",
+    "remove": "إزالة الفلتر",
+    "noMatches": "لا توجد منتجات مطابقة لهذه الفلاتر",
+    "noMatchesBody": "جرّب إزالة أحد الفلاتر — كل منتجات القسم ما زالت موجودة.",
+    "noProductsBody": "لا توجد منتجات في هذا القسم بعد. تصفّح باقي الفئة.",
+    "showResults": "{count, plural, =0 {لا توجد منتجات} one {عرض منتج واحد} two {عرض منتجين} few {عرض # منتجات} many {عرض # منتجًا} other {عرض # منتج}}"
+  },
+  "cart-page": {
+    "eyebrow": "الحساب",
+    "heading": "سلتك",
+    "subheading": "{count, plural, =0 {لسه فاضية} one {منتج واحد} two {منتجان} few {# منتجات} many {# منتجًا} other {# منتج}}",
+    "clear": "تفريغ السلة",
+    "clearConfirm": "تشيل كل حاجة من السلة؟ تقدر تضيف المنتجات تاني من الكتالوج.",
+    "emptyTitle": "سلتك فاضية",
+    "emptyBody": "المنتجات اللي بتضيفها هتستناك هنا، بسعر النهارده، لحد ما تكون جاهز تطلب.",
+    "browse": "تصفّح الكتالوج",
+    "summary": "الملخص",
+    "subtotal": "المجموع الفرعي",
+    "discount": "الخصم",
+    "shipping": "الشحن",
+    "total": "الإجمالي",
+    "howToOrder": "كل منتج بيتطلب من صفحته — اختار «اطلب الآن» على المنتج اللي عايزه وهنطلب منك بيانات التوصيل هناك.",
+    "continue": "كمّل تسوق",
+    "quantity": "الكمية",
+    "decrease": "تقليل الكمية",
+    "increase": "زيادة الكمية",
+    "remove": "إزالة",
+    "removed": "اتشال من سلتك.",
+    "orderNow": "اطلب الآن",
+    "updateFailed": "معرفناش نغيّر الكمية. حاول تاني.",
+    "removeFailed": "معرفناش نشيل المنتج. حاول تاني.",
+    "shippingFrom": "من {amount}",
+    "beforeShipping": "قبل الشحن"
+  },
+  "account": {
+    "eyebrow": "الحساب",
+    "heading": "أهلًا، {name}",
+    "subheading": "بياناتك، وعنوان التوصيل، وكل اللي طلبته.",
+    "profile": {
+      "title": "الملف الشخصي",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "since": "عميل منذ",
+      "readOnly": "اسمك وبريدك جايين من تسجيل الدخول. لو عايز تغيّرهم، كلّمنا وهنعدّلهم لك."
+    },
+    "address": {
+      "title": "عنوان التوصيل",
+      "edit": "تعديل",
+      "delete": "إزالة",
+      "deleteConfirm": "تشيل العنوان المحفوظ؟ هنطلبه منك تاني في طلبك الجاي.",
+      "deleted": "اتشال العنوان.",
+      "saved": "اتحفظ العنوان.",
+      "failed": "معرفناش نحفظ. حاول تاني.",
+      "save": "حفظ العنوان",
+      "saving": "جارٍ الحفظ…",
+      "cancel": "إلغاء",
+      "fields": {
+        "fullName": "الاسم الكامل",
+        "phone": "رقم الهاتف",
+        "email": "البريد الإلكتروني",
+        "addressLine1": "العنوان",
+        "addressLine2": "العنوان (سطر ثانٍ، اختياري)",
+        "city": "المدينة",
+        "state": "المحافظة (اختياري)",
+        "postalCode": "الرمز البريدي"
+      }
+    },
+    "orders": {
+      "title": "الطلبات",
+      "all": "كل الطلبات",
+      "count": "عدد الطلبات",
+      "spent": "إجمالي المشتريات",
+      "empty": "لسه معملتش أي طلب. أول ما تطلب، آخر طلباتك هتظهر هنا.",
+      "browse": "تصفّح الكتالوج"
+    }
+  },
+  "merchandising": {
+    "browseAll": "تصفّح الكتالوج",
+    "shopByCategory": {
+      "eyebrow": "تسوّق حسب القسم",
+      "title": "كل اللي بنصنعه، حسب الاستخدام",
+      "description": "كل قسم فيه منتجات، على بُعد ضغطة واحدة من هنا.",
+      "all": "كل الأقسام",
+      "count": "{count, plural, one {منتج واحد} two {منتجان} few {# منتجات} many {# منتجًا} other {# منتج}}"
+    },
+    "newArrivals": {
+      "eyebrow": "وصل حديثًا",
+      "title": "أحدث الإضافات",
+      "description": "أحدث الوحدات اللي دخلت الكتالوج."
+    },
+    "bestSellers": {
+      "eyebrow": "الأكثر مبيعًا",
+      "title": "اللي العملاء بيطلبوه باستمرار",
+      "description": "مرتّبة حسب اللي اتشحن فعلًا، مش حسب لافتة."
+    },
+    "related": {
+      "eyebrow": "المزيد في {section}",
+      "title": "ممكن يعجبك كمان",
+      "link": "كل {section}"
+    },
+    "popularIn": {
+      "eyebrow": "مختارات",
+      "title": "الأكثر رواجًا في {category}",
+      "description": "القطع المميزة الأول، وبعدها أحدث الإضافات."
+    },
+    "offersIn": {
+      "eyebrow": "عروض",
+      "title": "خصم حتى {percent}٪ في {category}",
+      "link": "كل العروض"
+    },
+    "recentlyViewed": {
+      "eyebrow": "شاهدته مؤخرًا",
+      "title": "كمّل من حيث توقفت",
+      "clear": "مسح"
+    },
+    "alsoIn": "كمان في {category}",
+    "assurance": {
+      "inStock": "متوفر",
+      "delivery": "التوصيل خلال ٥ إلى ٧ أيام",
+      "deliveryBody": "بتتبّع لحد باب بيتك، في كل المناطق.",
+      "warranty": "ضمان من ٣ إلى ٥ سنوات",
+      "warrantyBody": "على المكونات الهيكلية والإلكترونية.",
+      "cod": "الدفع عند الاستلام",
+      "codBody": "ادفع لما يوصل. من غير بطاقة."
+    }
+  },
+  "shipping": {
+    "coverageTitle": "القاهرة والجيزة",
+    "coverageBody": "الأسعار دي للتوصيل جوّه القاهرة والجيزة. أي محافظة تانية، الشحن بيتحسب حسب حجم الطلب وبنأكده معاك خلال ٢٤ ساعة من وقت الطلب.",
+    "outsideTitle": "خارج القاهرة والجيزة",
+    "outsideBody": "بنوصّل لـ {governorate} برضه. بس السعر الظاهر مش نهائي هناك: الشحن بيتحسب حسب حجم الطلب، وبنكلّمك خلال ٢٤ ساعة نأكد التكلفة قبل ما يتشحن أي حاجة.",
+    "cartNote": "الأسعار دي للقاهرة والجيزة. برّه كده، الشحن بيتحسب حسب حجم الطلب وبيتأكد خلال ٢٤ ساعة."
+  },
+  "compare": {
+    "eyebrow": "مقارنة",
+    "title": "جنب بعض",
+    "description": "نفس المواصفات، في جدول واحد، للمنتجات اللي اخترتها.",
+    "metaTitle": "مقارنة المنتجات | نيو لايت",
+    "metaDescription": "قارن مواصفات الإضاءة جنب بعض.",
+    "add": "أضف للمقارنة",
+    "remove": "شيل من المقارنة",
+    "removeOne": "شيل {name} من المقارنة",
+    "full": "تقدر تقارن {max} منتجات في المرة. شيل واحد الأول.",
+    "selected": "{count, plural, one {منتج واحد مختار} two {منتجان مختاران} few {# منتجات مختارة} many {# منتجًا مختارًا} other {# منتج مختار}} من {max}",
+    "needMore": "اختار واحد كمان",
+    "open": "قارن",
+    "clear": "مسح",
+    "comparing": "{count, plural, one {منتج واحد} two {منتجان} few {# منتجات} many {# منتجًا} other {# منتج}}",
+    "differenceCount": "{count, plural, one {اختلاف واحد} two {اختلافان} few {# اختلافات} many {# اختلافًا} other {# اختلاف}}",
+    "differencesOnly": "الاختلافات بس",
+    "emptyTitle": "لسه مفيش حاجة للمقارنة",
+    "emptyBody": "علّم على زرار المقارنة في أي منتجين من الكتالوج وهيتصفّوا هنا.",
+    "browse": "تصفّح الكتالوج",
+    "product": "المنتج",
+    "view": "عرض",
+    "inStock": "متوفر",
+    "outOfStock": "غير متوفر",
+    "notSpecified": "غير محدد",
+    "identical": "المنتجات دي متطابقة في كل مواصفة متسجّلة ليها."
+  },
+  "bulkOrder": {
+    "about": "بخصوص {product}، {quantity} وحدة أو أكتر. سيب بياناتك وفريق المبيعات هيرجعلك بالأسعار.",
+    "message": "طلب كمية — {product} (كود {sku})، الكمية حوالي {quantity}.",
+    "fullName": "الاسم الكامل",
+    "jobPosition": "المسمى الوظيفي",
+    "email": "البريد الإلكتروني",
+    "phoneNumber": "رقم الهاتف",
+    "sending": "جارٍ الإرسال…",
+    "sent": "اتبعت الطلب",
+    "sentBody": "فريق المبيعات هيتواصل معاك بالأسعار.",
+    "failed": "الإرسال مانجحش",
+    "failedBody": "حاول تاني، أو كلّمنا على طول."
   }
 }

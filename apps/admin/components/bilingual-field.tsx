@@ -136,7 +136,7 @@ function LanguageRow({
         placeholder,
         "aria-invalid": !!field.error,
         "aria-describedby": field.error ? errorId : undefined,
-        className: cn(multiline ? "text-sm" : "h-[30px] text-sm", className),
+        className: cn(className),
     }
 
     return (

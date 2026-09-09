@@ -81,7 +81,7 @@ export function CancelOrderButton({
                 <DialogFooter>
                     <DialogCancel disabled={pending}>{labels.keep}</DialogCancel>
                     <DialogAction
-                        className="bg-destructive text-white hover:bg-destructive/90"
+                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                         onClick={(event: React.MouseEvent) => {
                             event.preventDefault()
                             cancel()

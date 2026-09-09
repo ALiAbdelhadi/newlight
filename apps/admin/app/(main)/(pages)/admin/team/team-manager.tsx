@@ -4,9 +4,10 @@ import { useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
+import { InlineAlert, PageStack, Section, TableFrame } from "@/components/page"
+import { StatusBadge } from "@/components/status-badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {
     AlertDialog,
@@ -20,6 +21,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { createAdmin, revokeAdminSessions, setAdminRole } from "@/app/action/admin-user-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 type Role = "ADMIN" | "SUPER_ADMIN"
 
@@ -76,32 +78,41 @@ export function TeamManager({
         })
 
     return (
-        <div className="space-y-8">
+        <PageStack>
             {!isSuper && (
-                <p className="rounded-lg border border-yellow-500/40 bg-yellow-50 dark:bg-yellow-900/10 p-4 text-sm">
-                    You can see who the administrators are. Only a SUPER_ADMIN can add or change them.
-                </p>
+                <InlineAlert tone="info">
+                    You can see who the administrators are. Only a SUPER_ADMIN can add, promote or remove one.
+                </InlineAlert>
             )}
 
             {issued && (
-                <section className="rounded-lg border border-yellow-500/60 bg-yellow-50 dark:bg-yellow-900/10 p-4 space-y-2">
-                    <h2 className="font-semibold">Password for {issued.email}</h2>
-                    <p className="font-mono text-lg break-all select-all">{issued.password}</p>
-                    <p className="text-sm text-muted-foreground">
-                        {/* It is shown once because it is stored nowhere — the account holds a hash,
-                            the audit log deliberately holds neither. */}
-                        This is shown once and is stored nowhere. Give it to them directly and have them change it.
-                        When the sending domain is verified this becomes an emailed link instead.
+                /*
+                 * A one-time secret, so it is a WARNING rather than a success: the operator has
+                 * something in their hands that will be gone when this box closes. The banner it
+                 * replaces was a hand-mixed `border-yellow-500/40 bg-yellow-50 dark:bg-yellow-900/10`
+                 * — an amber no token reaches, and a `dark:` utility of the kind §3 forbids.
+                 */
+                <InlineAlert
+                    tone="warning"
+                    title={`Password for ${issued.email}`}
+                    action={
+                        <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setIssued(null)}>
+                            I have passed it on
+                        </Button>
+                    }
+                >
+                    <p className="mb-1.5 font-mono text-base break-all text-foreground select-all">
+                        {issued.password}
                     </p>
-                    <Button size="sm" variant="secondary" onClick={() => setIssued(null)}>
-                        I have passed it on
-                    </Button>
-                </section>
+                    {/* Shown once because it is stored nowhere — the account holds a hash, and the
+                        audit log deliberately holds neither. */}
+                    This is shown once and is stored nowhere. Give it to them directly and have them change it. When
+                    the sending domain is verified this becomes an emailed link instead.
+                </InlineAlert>
             )}
 
             {isSuper && (
-                <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4 max-w-2xl">
-                    <h2 className="font-semibold">Add an administrator</h2>
+                <Section title="Add an administrator" className="max-w-2xl" framed>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div className="space-y-1.5">
                             <Label htmlFor="email">Email</Label>
@@ -113,34 +124,38 @@ export function TeamManager({
                         </div>
                         <div className="space-y-1.5">
                             <Label htmlFor="role">Role</Label>
-                            <select
+                            <NativeSelect
                                 id="role"
                                 value={role}
                                 onChange={(e) => setRole(e.target.value as Role)}
-                                className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                            >
+                                >
                                 <option value="ADMIN">ADMIN</option>
                                 <option value="SUPER_ADMIN">SUPER_ADMIN</option>
-                            </select>
+                            </NativeSelect>
                         </div>
                     </div>
                     <p className="text-xs text-muted-foreground">
                         SUPER_ADMIN can add and remove administrators. ADMIN can do everything else.
                     </p>
-                    <Button disabled={pending || !email.trim() || !name.trim()} onClick={submit}>
+                    <Button size="sm" disabled={pending || !email.trim() || !name.trim()} onClick={submit}>
                         {pending ? "Creating…" : "Create"}
                     </Button>
-                </section>
+                </Section>
             )}
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <TableFrame>
                 <Table>
+                    <caption className="sr-only">Everyone who can sign into this panel</caption>
                     <TableHeader>
                         <TableRow>
-                            <TableHead>Administrator</TableHead>
-                            <TableHead>Role</TableHead>
-                            <TableHead className="text-right">Signed in</TableHead>
-                            <TableHead />
+                            <TableHead scope="col">Administrator</TableHead>
+                            <TableHead scope="col">Role</TableHead>
+                            <TableHead scope="col" className="text-right">
+                                Signed in
+                            </TableHead>
+                            <TableHead scope="col">
+                                <span className="sr-only">Actions</span>
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -151,14 +166,17 @@ export function TeamManager({
                                 <TableRow key={admin.id}>
                                     <TableCell>
                                         <div className="font-medium">
-                                            {admin.name} {isMe && <Badge variant="secondary" className="ml-2">you</Badge>}
+                                            {admin.name}
+                                            {isMe && (
+                                                <span className="ml-2 rounded border border-neutral-border bg-neutral-bg px-1.5 py-0.5 text-2xs font-medium text-neutral">
+                                                    you
+                                                </span>
+                                            )}
                                         </div>
-                                        <div className="text-sm text-muted-foreground">{admin.email}</div>
+                                        <div className="text-2xs text-muted-foreground">{admin.email}</div>
                                     </TableCell>
                                     <TableCell>
-                                        <Badge variant={admin.role === "SUPER_ADMIN" ? "default" : "outline"}>
-                                            {admin.role}
-                                        </Badge>
+                                        <StatusBadge kind="role" value={admin.role} />
                                     </TableCell>
                                     <TableCell className="text-right tabular-nums">
                                         {admin.sessions} device{admin.sessions === 1 ? "" : "s"}
@@ -168,11 +186,11 @@ export function TeamManager({
                                             explanations rather than disabled buttons means the reason is
                                             visible before the click, not after. */}
                                         {isMe ? (
-                                            <span className="text-sm text-muted-foreground">
+                                            <span className="text-2xs text-muted-foreground">
                                                 Ask another SUPER_ADMIN to change your own role
                                             </span>
                                         ) : !isSuper ? null : isLastSuper ? (
-                                            <span className="text-sm text-muted-foreground">
+                                            <span className="text-2xs text-muted-foreground">
                                                 The last SUPER_ADMIN — promote someone else first
                                             </span>
                                         ) : (
@@ -221,7 +239,7 @@ export function TeamManager({
                                                         <AlertDialogFooter>
                                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                                                             <AlertDialogAction
-                                                                className="bg-destructive text-white hover:bg-destructive/90"
+                                                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                                                 onClick={() => call(() => setAdminRole(admin.id, "CUSTOMER"))}
                                                             >
                                                                 Remove access
@@ -237,7 +255,7 @@ export function TeamManager({
                         })}
                     </TableBody>
                 </Table>
-            </div>
-        </div>
+            </TableFrame>
+        </PageStack>
     )
 }

@@ -59,9 +59,16 @@ import { changeOrderStatus } from "../app/action/action";
 const StatusDropdown = ({
   id,
   orderStatus,
+  compact = false,
 }: {
   id: string;
   orderStatus: OrderStatus;
+  /**
+   * A 30px, content-width trigger for a table cell. The default 208px control is right on a
+   * record header, where the status is one of three things on the screen, and wrong in a
+   * 34px row where it would set the width of the whole column.
+   */
+  compact?: boolean;
 }) => {
   const router = useRouter();
   const [shipping, setShipping] = useState(false);
@@ -91,12 +98,15 @@ const StatusDropdown = ({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            className="w-52 flex justify-between items-center text-foreground bg-background border-border hover:bg-accent hover:text-accent-foreground"
+            className={cn(
+              "flex items-center justify-between border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground",
+              compact ? "h-7 w-auto min-w-36 px-2 text-xs" : "w-52"
+            )}
             variant="outline"
             disabled={isPending}
           >
             {statusLabel("order", orderStatus)}
-            <ChevronsUpDown className="ml-2 w-4 h-4 shrink-0 opacity-50" />
+            <ChevronsUpDown className={cn("shrink-0 opacity-50", compact ? "ml-1.5 size-3" : "ml-2 h-4 w-4")} />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="bg-popover text-popover-foreground border-border w-52">

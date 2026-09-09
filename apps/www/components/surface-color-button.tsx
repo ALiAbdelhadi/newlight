@@ -1,9 +1,10 @@
 "use client"
 
-import { cn } from "@/lib/utils"
-import { Check } from "lucide-react"
 import { useLocale } from "next-intl"
 import { useState } from "react"
+
+import { Swatch } from "@/components/swatch"
+import { cn } from "@/lib/utils"
 
 const formatAvailableColor = (color: string, locale: string): string => {
     const isArabic = locale.startsWith("ar")
@@ -18,14 +19,27 @@ const formatAvailableColor = (color: string, locale: string): string => {
 }
 
 interface ProductSurfaceColorButtonsProps {
-    productId: string
     availableColors: string[]
     initialColor?: string
     onSurfaceColorChange?: (newColor: string) => void
 }
 
+/**
+ * The finish picker on a product page.
+ *
+ * The sample itself is `components/swatch.tsx` now — this owns the choosing, not the drawing.
+ * Two things went out with the local copy of the palette:
+ *
+ *   SIX SELECTION RINGS, one per finish (`ring-gray-700`, `ring-yellow-500`, `ring-amber-600`, …).
+ *   Selection is a state, and this application has exactly one colour for it: `--ring`. A gold
+ *   lamp being selected does not mean something different from a black one being selected.
+ *
+ *   AN UNLABELLED CHOICE. The finish's name only appeared on hover, so on a touch screen — where
+ *   there is no hover — the control was five coloured dots and no way to learn what any of them
+ *   was without picking it. The selected finish is named in text now, always, and the per-swatch
+ *   label stays as the pointer's affordance.
+ */
 export default function ProductSurfaceColorButtons({
-    productId,
     availableColors,
     initialColor,
     onSurfaceColorChange,
@@ -42,110 +56,54 @@ export default function ProductSurfaceColorButtons({
 
     if (availableColors.length === 0) return null
 
-    const getColorClasses = (color: string) => {
-        const colorMap: Record<string, { bg: string; border: string; ring: string; checkColor: string }> = {
-            BLACK: {
-                bg: "bg-black",
-                border: "border-gray-900",
-                ring: "ring-gray-700",
-                checkColor: "text-white"
-            },
-            GRAY: {
-                bg: "bg-gradient-to-br from-gray-400 to-gray-600",
-                border: "border-gray-500",
-                ring: "ring-gray-500",
-                checkColor: "text-white"
-            },
-            WHITE: {
-                bg: "bg-gradient-to-br from-gray-50 to-white",
-                border: "border-gray-300",
-                ring: "ring-gray-300",
-                checkColor: "text-gray-900"
-            },
-            GOLD: {
-                bg: "bg-gradient-to-br from-yellow-400 via-yellow-500 to-yellow-600",
-                border: "border-yellow-600",
-                ring: "ring-yellow-500",
-                checkColor: "text-white"
-            },
-            WOOD: {
-                bg: "bg-gradient-to-br from-amber-600 via-amber-700 to-amber-800",
-                border: "border-amber-700",
-                ring: "ring-amber-600",
-                checkColor: "text-white"
-            },
-        }
-        return colorMap[color] || {
-            bg: "bg-gradient-to-br from-gray-200 to-gray-300",
-            border: "border-gray-400",
-            ring: "ring-gray-400",
-            checkColor: "text-gray-900"
-        }
-    }
-
     return (
         <div className="space-y-4">
-            <div className="flex items-center justify-between">
-                <div className="space-y-1">
-                    <p className="text-[15px] uppercase tracking-widest text-muted-foreground font-light">
-                        {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
-                    </p>
-                </div>
-            </div>
+            <p className="text-sm uppercase tracking-label text-muted-foreground font-light">
+                {locale.startsWith("ar") ? "الألوان المتاحة" : "Available Colors"}
+                {selectedColorKey && (
+                    <span className="ms-2 text-foreground">
+                        {formatAvailableColor(selectedColorKey, locale)}
+                    </span>
+                )}
+            </p>
 
             <div className="flex flex-wrap gap-3">
                 {availableColors.map((color) => {
                     const isSelected = selectedColorKey === color
-                    const colorClasses = getColorClasses(color)
 
                     return (
                         <button
                             key={color}
+                            type="button"
                             onClick={() => handleColorChange(color)}
-                            className="group relative"
+                            aria-pressed={isSelected}
                             aria-label={formatAvailableColor(color, locale)}
+                            className="group relative cursor-pointer"
                         >
-                            <div
+                            <Swatch
+                                value={color}
+                                kind="surface"
+                                size="lg"
+                                selected={isSelected}
                                 className={cn(
-                                    "absolute -inset-1 rounded-full transition-all duration-300",
+                                    "shadow-overlay transition-[scale,box-shadow] duration-(--duration-base) ease-out-fast",
                                     isSelected
-                                        ? `${colorClasses.ring} ring-2 ring-offset-2 ring-offset-background opacity-100`
-                                        : "opacity-0 group-hover:opacity-50"
+                                        ? "scale-110 ring-2 ring-ring ring-offset-2 ring-offset-background"
+                                        : "group-hover:scale-105"
                                 )}
                             />
 
-                            <div
+                            <span
+                                aria-hidden
                                 className={cn(
-                                    "flex items-center justify-center cursor-pointer relative w-7 h-7 rounded-full shadow-md border-2 transition-all duration-300",
-                                    colorClasses.bg,
-                                    colorClasses.border,
-                                    isSelected
-                                        ? "scale-110 shadow-lg"
-                                        : "group-hover:scale-105 group-hover:shadow-lg"
+                                    "absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap",
+                                    "text-xs font-light text-muted-foreground",
+                                    "opacity-0 transition-opacity duration-(--duration-base) ease-out-fast",
+                                    "group-hover:opacity-100"
                                 )}
                             >
-                                <div
-                                    className={cn(
-                                        "transition-all duration-300",
-                                        isSelected ? "opacity-100 scale-100" : "opacity-0 scale-0"
-                                    )}
-                                >
-                                    <Check
-                                        className={cn("w-4 h-4 drop-shadow-sm", colorClasses.checkColor)}
-                                        strokeWidth={2.5}
-                                    />
-                                </div>
-                                <div className="absolute inset-0 rounded-full bg-border opacity-0 group-hover:opacity-20 transition-opacity duration-300" />
-                            </div>
-
-                            <div className="absolute -bottom-6 left-1/2 -translate-x-1/2 whitespace-nowrap">
-                                <span className={cn(
-                                    "text-xs font-light tracking-wide transition-opacity duration-300",
-                                    isSelected ? "opacity-100 text-foreground" : "opacity-0 group-hover:opacity-70 text-muted-foreground"
-                                )}>
-                                    {formatAvailableColor(color, locale)}
-                                </span>
-                            </div>
+                                {formatAvailableColor(color, locale)}
+                            </span>
                         </button>
                     )
                 })}

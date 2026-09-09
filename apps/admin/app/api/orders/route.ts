@@ -16,7 +16,7 @@ export async function GET() {
                 order.user.email ||
                 "no-email@example.com"
 
-            return order.items.map((item, index) => ({
+            return order.items.map((item) => ({
                 id: order.id,
                 orderNumber: order.orderNumber,
                 customerName,

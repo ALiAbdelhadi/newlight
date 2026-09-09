@@ -28,6 +28,12 @@ const REQUIRED_CHECKS = [
     ["stock_levels", "stock_levels_reserved_non_negative"],
     ["stock_levels", "stock_levels_reserved_within_stock"],
     ["rate_limits", "rate_limits_count_non_negative"],
+    // 0015. The last one is the important one: without it a discount row can name a scope and
+    // a target that disagree, and the resolver decides what a customer pays by guessing.
+    ["discounts", "discounts_value_positive"],
+    ["discounts", "discounts_percent_bounded"],
+    ["discounts", "discounts_window_ordered"],
+    ["discounts", "discounts_scope_target_matches"],
 ]
 
 loadEnv()

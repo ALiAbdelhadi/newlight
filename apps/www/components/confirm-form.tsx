@@ -1,5 +1,8 @@
 "use client"
 
+import { formatMoney } from "@repo/database"
+import { Notice } from "@/components/states"
+import { isCoveredGovernorate } from "@/lib/shipping-coverage"
 import { createOrderFromConfiguration, saveShippingAddress } from "@/actions/order"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -24,41 +27,39 @@ import {
     User,
     Zap
 } from "lucide-react"
-import { useLocale } from "next-intl"
+import { useLocale, useTranslations } from "next-intl"
 import { useEffect, useRef, useState, useTransition } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-const SHIPPING_OPTIONS = {
-    BasicShipping: {
-        price: 50,
-        daysMin: 7,
-        daysMax: 10,
-        icon: Package
-    },
-    StandardShipping: {
-        price: 100,
-        daysMin: 3,
-        daysMax: 5,
-        icon: Truck
-    },
-    ExpressShipping: {
-        price: 200,
-        daysMin: 1,
-        daysMax: 2,
-        icon: Zap
-    }
+/**
+ * How each option is PRESENTED. What it costs is not here.
+ *
+ * This block used to carry `price: 50 / 100 / 200`, and those numbers were the ones the
+ * customer read while `order-service.ts` charged whatever the panel's rate editor had stored.
+ * Prices now arrive as a prop from the server, out of the same `shipping.rate.*` settings the
+ * order is priced from.
+ *
+ * The day ranges stay because they are a claim we make in copy, not a value anything stores —
+ * there is no column for them, and inventing one to hold a sentence would be worse.
+ */
+const SHIPPING_PRESENTATION = {
+    BasicShipping: { daysMin: 7, daysMax: 10, icon: Package },
+    StandardShipping: { daysMin: 3, daysMax: 5, icon: Truck },
+    ExpressShipping: { daysMin: 1, daysMax: 2, icon: Zap },
 } as const
 
 export function ConfirmForm({
     configId,
     userId,
     existingAddress,
+    shippingRates,
     translations: t,
     isArabic
 }: ConfirmFormProps) {
     const router = useRouter()
     const locale = useLocale()
+    const ts = useTranslations("shipping")
     const [isPending, startTransition] = useTransition()
     const [shippingOption, setShippingOption] = useState<ShippingOption>("StandardShipping")
     const [isSubmitting, setIsSubmitting] = useState(false)
@@ -71,6 +72,7 @@ export function ConfirmForm({
 
     const {
         register,
+        watch,
         handleSubmit,
         formState: { errors, isValid, dirtyFields },
     } = useForm<ShippingAddressFormData>({
@@ -109,6 +111,10 @@ export function ConfirmForm({
             return () => window.removeEventListener('beforeunload', handleBeforeUnload)
         }
     }, [isSubmitting, isArabic])
+
+    // Derived during render from the field itself — no effect, no second copy of the value.
+    const governorate = watch("state") ?? ""
+    const covered = isCoveredGovernorate(governorate)
 
     const onSubmit = async (data: ShippingAddressFormData) => {
         // Double-submit is guarded by `isSubmitting` here and, authoritatively, by the
@@ -273,14 +279,14 @@ export function ConfirmForm({
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className="bg-card/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-border/50 shadow-premium space-y-8"
+                className="bg-card/50 backdrop-blur-sm rounded-xl p-6 md:p-8 border border-border shadow-overlay space-y-8"
             >
                 <div className="flex items-center gap-4 mb-8">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                         <MapPin className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-serif italic text-foreground leading-none">
+                        <h2 className="text-2xl md:text-3xl font-display italic text-foreground leading-none">
                             {t.shippingInformation}
                         </h2>
                         <div className="h-px w-12 bg-primary mt-2 opacity-40" />
@@ -291,7 +297,7 @@ export function ConfirmForm({
                     <div className="space-y-3">
                         <Label
                             htmlFor="fullName"
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             <User className="w-3.5 h-3.5" />
                             {t.fullName}
@@ -301,7 +307,7 @@ export function ConfirmForm({
                             id="fullName"
                             {...register("fullName")}
                             placeholder={t.fullNamePlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.fullName ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.fullName ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
@@ -323,7 +329,7 @@ export function ConfirmForm({
                     <div className="space-y-3">
                         <Label
                             htmlFor="phone"
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             <Phone className="w-3.5 h-3.5" />
                             {t.phone}
@@ -333,7 +339,7 @@ export function ConfirmForm({
                             id="phone"
                             {...register("phone")}
                             placeholder={t.phonePlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.phone ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.phone ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
@@ -355,7 +361,7 @@ export function ConfirmForm({
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="email"
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             <Mail className="w-3.5 h-3.5" />
                             {t.email}
@@ -365,7 +371,7 @@ export function ConfirmForm({
                             id="email"
                             {...register("email")}
                             placeholder={t.emailPlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.email ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.email ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                     </div>
@@ -374,7 +380,7 @@ export function ConfirmForm({
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="addressLine1"
-                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="flex items-center gap-2 text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             <Home className="w-3.5 h-3.5" />
                             {t.addressLine1}
@@ -384,7 +390,7 @@ export function ConfirmForm({
                             id="addressLine1"
                             {...register("addressLine1")}
                             placeholder={t.addressPlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.addressLine1 ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 focus:ring-primary/20 transition-all duration-300 rounded-lg ${errors.addressLine1 ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                     </div>
@@ -393,24 +399,24 @@ export function ConfirmForm({
                     <div className="space-y-3 md:col-span-2">
                         <Label
                             htmlFor="addressLine2"
-                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             {t.addressLine2}
-                            <span className="text-muted-foreground text-[10px] ml-2 font-normal lowercase italic tracking-normal">
+                            <span className="text-muted-foreground text-2xs ml-2 font-normal lowercase italic tracking-normal">
                                 ({isArabic ? "اختياري" : "Optional"})
                             </span>
                         </Label>
                         <Input
                             id="addressLine2"
                             {...register("addressLine2")}
-                            className="h-12 bg-background/50 border-border/50 focus:border-primary/50 transition-all duration-300 rounded-lg"
+                            className="h-12 bg-background border-border focus:border-primary/50 transition-all duration-300 rounded-lg"
                             disabled={isLoading}
                         />
                     </div>
                     <div className="space-y-3">
                         <Label
                             htmlFor="city"
-                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             {t.city}
                             <span className="text-destructive">*</span>
@@ -419,7 +425,7 @@ export function ConfirmForm({
                             id="city"
                             {...register("city")}
                             placeholder={t.cityPlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.city ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.city ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                         <AnimatePresence mode="wait">
@@ -441,7 +447,7 @@ export function ConfirmForm({
                     <div className="space-y-3">
                         <Label
                             htmlFor="state"
-                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             {isArabic ? "المحافظة" : "Governorate"}
                             <span className="text-destructive">*</span>
@@ -450,7 +456,7 @@ export function ConfirmForm({
                             id="state"
                             {...register("state")}
                             placeholder={isArabic ? "اختر المحافظة" : "Select Governorate"}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.state ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.state ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                     </div>
@@ -459,7 +465,7 @@ export function ConfirmForm({
                     <div className="space-y-3">
                         <Label
                             htmlFor="postalCode"
-                            className="text-xs font-bold uppercase tracking-widest text-muted-foreground/80"
+                            className="text-xs font-bold uppercase tracking-label text-muted-foreground"
                         >
                             {t.postalCode}
                             <span className="text-destructive">*</span>
@@ -468,7 +474,7 @@ export function ConfirmForm({
                             id="postalCode"
                             {...register("postalCode")}
                             placeholder={t.postalCodePlaceholder}
-                            className={`h-12 bg-background/50 border-border/50 focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.postalCode ? "border-destructive/50" : ""}`}
+                            className={`h-12 bg-background border-border focus:border-primary/50 transition-all duration-300 rounded-lg ${errors.postalCode ? "border-destructive/50" : ""}`}
                             disabled={isLoading}
                         />
                     </div>
@@ -480,14 +486,14 @@ export function ConfirmForm({
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-border/50 shadow-premium space-y-8"
+                className="bg-card/50 backdrop-blur-sm rounded-2xl p-8 md:p-12 border border-border shadow-overlay space-y-8"
             >
                 <div className="flex items-center gap-4 mb-8">
                     <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                         <Truck className="w-6 h-6 text-primary" />
                     </div>
                     <div>
-                        <h2 className="text-2xl md:text-3xl font-serif italic text-foreground leading-none">
+                        <h2 className="text-2xl md:text-3xl font-display italic text-foreground leading-none">
                             {t.shippingOption}
                         </h2>
                         <div className="h-px w-12 bg-primary mt-2 opacity-40" />
@@ -500,8 +506,8 @@ export function ConfirmForm({
                     className="grid grid-cols-1 md:grid-cols-3 gap-6"
                     disabled={isLoading}
                 >
-                    {(Object.keys(SHIPPING_OPTIONS) as ShippingOption[]).map((option) => {
-                        const config = SHIPPING_OPTIONS[option]
+                    {(Object.keys(SHIPPING_PRESENTATION) as ShippingOption[]).map((option) => {
+                        const config = SHIPPING_PRESENTATION[option]
                         const Icon = config.icon
                         const isSelected = shippingOption === option
 
@@ -510,7 +516,7 @@ export function ConfirmForm({
                                 key={option}
                                 className={`relative group p-6 border rounded-2xl transition-all duration-500 flex flex-col items-center text-center space-y-4 ${isSelected
                                     ? "border-primary/40 bg-primary/[0.03] shadow-inner"
-                                    : "border-border/50 bg-background/30 hover:border-primary/20 hover:bg-background/50"
+                                    : "border-border bg-background hover:border-primary/20 hover:bg-background"
                                     } ${isLoading ? "opacity-50 cursor-not-allowed" : "cursor-pointer"}`}
                                 onClick={() => !isLoading && setShippingOption(option)}
                             >
@@ -520,13 +526,17 @@ export function ConfirmForm({
                                 </div>
                                 
                                 <div className="space-y-1">
-                                    <div className="text-xs font-bold uppercase tracking-widest text-muted-foreground/60 mb-1">
+                                    <div className="text-xs font-bold uppercase tracking-label text-muted-foreground mb-1">
                                         {t[option.charAt(0).toLowerCase() + option.slice(1) as keyof typeof t]}
                                     </div>
-                                    <div className="font-serif italic text-xl text-foreground">
-                                        {config.price} {isArabic ? "ج.م" : "EGP"}
+                                    <div className="font-display italic text-xl text-foreground">
+                                        {/* The stored rate, formatted by the locale's own money
+                                            rules — Arabic-Indic digits and the symbol after the
+                                            amount, rather than a bare number and a hand-picked
+                                            currency word. */}
+                                        {formatMoney(shippingRates[option], locale)}
                                     </div>
-                                    <p className="text-[10px] text-muted-foreground uppercase tracking-widest">
+                                    <p className="text-2xs text-muted-foreground uppercase tracking-label">
                                         {isArabic
                                             ? `${config.daysMin}-${config.daysMax} أيام`
                                             : `${config.daysMin}-${config.daysMax} days`
@@ -548,6 +558,25 @@ export function ConfirmForm({
                         )
                     })}
                 </RadioGroup>
+
+                {/*
+                 * The condition on every one of those three numbers. It is stated NEXT TO them
+                 * rather than on a policy page, because the moment a customer weighs 50 against
+                 * 200 is the moment the sentence changes their decision.
+                 *
+                 * When the governorate they typed is outside the covered pair, the same note
+                 * becomes a warning that names their governorate — the rate is not wrong, it is
+                 * not final, and they hear that before they submit rather than on a phone call.
+                 */}
+                {covered ? (
+                    <Notice tone="info" title={ts("coverageTitle")}>
+                        <p className="text-pretty">{ts("coverageBody")}</p>
+                    </Notice>
+                ) : (
+                    <Notice tone="warning" title={ts("outsideTitle")}>
+                        <p className="text-pretty">{ts("outsideBody", { governorate: governorate.trim() })}</p>
+                    </Notice>
+                )}
             </motion.div>
 
             <div className="pt-8">
@@ -555,7 +584,7 @@ export function ConfirmForm({
                 type="submit"
                 disabled={isLoading || !isValid}
                 size="lg"
-                className="w-full h-14 text-xs md:text-base font-semibold uppercase tracking-wider shadow-lg hover:shadow-xl transition-all relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-14 text-xs md:text-base font-semibold uppercase tracking-label shadow-lg hover:shadow-xl transition-all relative overflow-hidden group disabled:opacity-50 disabled:cursor-not-allowed"
             >
                 {isLoading ? (
                     <>
@@ -584,7 +613,7 @@ export function ConfirmForm({
             </Button>
 
                 
-                <p className="mt-8 text-[10px] text-center text-muted-foreground/60 uppercase tracking-[0.3em]">
+                <p className="mt-8 text-2xs text-center text-muted-foreground uppercase tracking-label">
                     {isArabic
                         ? "بمجرد النقر، أنت تقبل شروطنا وأحكامنا"
                         : "By confirming, you agree to our terms and conditions"

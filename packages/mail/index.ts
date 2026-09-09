@@ -1,7 +1,7 @@
 /**
  * @repo/mail — the only way anything in this repository sends an email.
  *
- * No app imports Resend, and no app imports React Email. That is the whole design: the
+ * No app imports Resend or Nodemailer, and no app imports React Email. That is the whole design: the
  * transport is a runtime choice, the templates are a rendering detail, and a call site says
  * only *what* to send and *to whom*.
  *
@@ -16,6 +16,7 @@
  */
 import { consoleTransport } from "./transport/console"
 import { resendTransport } from "./transport/resend"
+import { smtpConfigFromEnv, smtpTransport } from "./transport/smtp"
 import { renderTemplate } from "./templates/index"
 import type { PayloadByTemplate } from "./templates/payloads"
 import { MailTransportError, type MailInput, type MailLocale, type MailResult, type MailTemplate, type MailTransport } from "./types"
@@ -31,17 +32,27 @@ export type SendOutcome =
 let cached: MailTransport | null = null
 
 /**
- * Resend when configured, a logging transport otherwise. The fallback exists so that a
- * developer without an API key does not have to comment out the send — which is how a
- * codebase acquires a second, local-only code path.
+ * SMTP first, then Resend, then a logging transport.
+ *
+ * SMTP wins when SMTP_HOST is set because configuring it is a deliberate act — nobody sets a
+ * mail host by accident — so the explicit choice should not be silently outranked by a
+ * RESEND_API_KEY that is still sitting in the environment from an earlier deployment.
+ *
+ * The console fallback exists so that a developer with neither configured does not have to
+ * comment out the send, which is how a codebase acquires a second, local-only code path.
  */
 export function transport(): MailTransport {
     if (cached) return cached
-    const apiKey = process.env.RESEND_API_KEY
     const from = process.env.EMAIL_FROM
-    cached = apiKey && from ? resendTransport(apiKey, from) : consoleTransport()
+    const smtp = smtpConfigFromEnv()
+    const apiKey = process.env.RESEND_API_KEY
+
+    if (from && smtp) cached = smtpTransport(smtp, from)
+    else if (from && apiKey) cached = resendTransport(apiKey, from)
+    else cached = consoleTransport()
+
     if (cached.name === "console") {
-        console.warn("[mail] RESEND_API_KEY or EMAIL_FROM missing — mail will be logged, not delivered.")
+        console.warn("[mail] no SMTP_HOST, no RESEND_API_KEY, or no EMAIL_FROM — mail will be logged, not delivered.")
     }
     return cached
 }

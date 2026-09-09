@@ -5,7 +5,6 @@ import { currentAdminId } from "@/lib/auth"
 import { prisma, ProductColorTemp , addMoney } from "@repo/database"
 import { createHash } from "crypto"
 import { revalidatePath } from "next/cache"
-import { NextResponse } from "next/server"
 
 
 // No authentication required - anyone can view configuration details

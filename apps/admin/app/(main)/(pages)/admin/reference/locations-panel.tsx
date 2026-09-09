@@ -45,7 +45,7 @@ export function LocationsPanel({ locations }: { locations: Location[] }) {
 
     return (
         <div className="space-y-6">
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-3 max-w-xl">
+            <section className="rounded-lg border bg-card p-3 space-y-3 max-w-xl">
                 <h2 className="font-semibold">Add a location</h2>
                 <p className="text-sm text-muted-foreground">
                     Every movement, adjustment and sale is recorded against one. New stock goes to the default
@@ -60,7 +60,7 @@ export function LocationsPanel({ locations }: { locations: Location[] }) {
                 </Button>
             </section>
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <div className="overflow-x-auto rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
                         <TableRow>

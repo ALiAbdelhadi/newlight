@@ -1,5 +1,21 @@
 import { prisma, translationsFor, type Locale } from "@repo/database"
-import { liveProduct, liveSubCategory, productCardInclude, toCardView, type ProductCard } from "./selectors"
+import {
+    liveProduct,
+    liveSubCategory,
+    productCardInclude,
+    productListCardInclude,
+    toCardView,
+    type ProductCard,
+} from "./selectors"
+import { activeDiscounts } from "@/lib/discounts"
+import {
+    buildFacets,
+    buildSpecFacets,
+    toListingProduct,
+    type ListingProduct,
+    type ProductFacets,
+    type SpecDefinitionView,
+} from "./product-facets"
 import { resolveCategory, resolveSubCategory } from "./taxonomy"
 
 /**
@@ -113,7 +129,14 @@ export class CategoryService {
             include: productCardInclude(locale),
         })
 
-        return { ...resolved.value, products: this.sortForLocale(products, locale).map(toCardView) }
+        // Resolved against the live discount set, once for the whole listing (§13.2). A tile
+        // that renders `products.price` while a sale is running lies about what the checkout
+        // will charge.
+        const discounts = await activeDiscounts()
+        return {
+            ...resolved.value,
+            products: this.sortForLocale(products, locale).map((product) => toCardView(product, discounts)),
+        }
     }
 
     /**
@@ -129,22 +152,103 @@ export class CategoryService {
         const resolved = await resolveSubCategory(locale, categorySlug, subCategorySlug)
         if (resolved.kind !== "found") return null
 
+        /*
+         * The listing include, not the plain card one: it adds the three attributes the filter
+         * bar narrows by — colour temperatures, available finishes, and the stock level at the
+         * main location. All three are real columns; see `product-facets.ts` for what was left
+         * out and why.
+         */
         const products = await prisma.product.findMany({
             where: { subCategoryId: resolved.value.id, ...liveProduct },
             orderBy: [{ isFeatured: "desc" }, { displayOrder: "asc" }, { order: "asc" }],
-            include: productCardInclude(locale),
+            include: productListCardInclude(locale),
         })
 
-        const seen = new Set<string>()
-        const representatives: ProductCard[] = []
-        for (const product of products) {
-            const key = product.familyId ?? product.id
-            if (seen.has(key)) continue
-            seen.add(key)
-            representatives.push(product)
+        const discounts = await activeDiscounts()
+        const rows = products.map((product) => toCardView(product, discounts))
+
+        /*
+         * Group before deduplicating, so a family's card can carry the union of its variants'
+         * attributes. The representative is still the first row in the operator's order; what
+         * changes is that filtering for 4000K now finds a family whose 30W variant offers it,
+         * which is the answer the product page will give when the customer clicks through.
+         */
+        const families = new Map<string, typeof rows>()
+        for (const row of rows) {
+            const key = row.familyId ?? row.id
+            const group = families.get(key)
+            if (group) group.push(row)
+            else families.set(key, [row])
         }
 
-        return { ...resolved.value, products: this.sortForLocale(representatives, locale).map(toCardView) }
+        const representatives = [...families.values()].map((group) => group[0]!)
+        const ordered = this.sortForLocale(representatives, locale)
+
+        const listing: ListingProduct[] = ordered.map((row) =>
+            toListingProduct(row, families.get(row.familyId ?? row.id) ?? [row], locale)
+        )
+
+        /*
+         * Finish names come from `ProductColor`, which the admin's Reference data screen owns,
+         * and they are localised there — nameEn / nameAr are columns, not a lookup table in
+         * this app.
+         */
+        const colorKeys = [...new Set(listing.flatMap((product) => product.colorKeys))]
+        const colorRows = colorKeys.length
+            ? await prisma.productColor.findMany({
+                  where: { key: { in: colorKeys } },
+                  select: { key: true, hex: true, nameEn: true, nameAr: true },
+              })
+            : []
+        const colorNames = new Map(
+            colorRows.map((color) => [
+                color.key,
+                { name: locale === "ar" ? color.nameAr : color.nameEn, hex: color.hex },
+            ])
+        )
+
+        /*
+         * WHICH specs this sub-category asks for is the operator's answer, not a guess:
+         * `SubCategorySpec` is the join the admin's Categories screen maintains, and its
+         * `order` is the order the controls appear in. Which of those are worth a control is
+         * then decided from the values actually present — see `buildSpecFacets`.
+         */
+        const declaredSpecs = await prisma.subCategorySpec.findMany({
+            where: { subCategoryId: resolved.value.id },
+            include: { spec: true },
+            orderBy: { order: "asc" },
+        })
+        const definitions: SpecDefinitionView[] = declaredSpecs.map((row) => ({
+            key: row.specKey,
+            label: locale === "ar" ? row.spec.labelAr : row.spec.labelEn,
+            unit: (locale === "ar" ? row.spec.unitAr : row.spec.unitEn) || null,
+            numeric: row.spec.valueType === "NUMBER",
+            order: row.order,
+        }))
+
+        const facets: ProductFacets = {
+            ...buildFacets(listing, colorNames, locale),
+            specs: buildSpecFacets(listing, definitions, locale),
+        }
+
+        /*
+         * `listing` and `facets` ONLY. The raw rows are deliberately not returned.
+         *
+         * They were, and it was an ADR 0001 violation that the browser reported 441 times on a
+         * single page load: `ProductSpec.valueNumber` is a `Prisma.Decimal`, the listing page is
+         * a Client Component, and React cannot serialise a Decimal across that boundary. Adding
+         * specs to the listing query for the filter facets is what pulled them in — `toCardView`
+         * strips `price` and `averageCost` from the top level and knows nothing about a nested
+         * relation.
+         *
+         * `listing` is already flat, plain and locale-resolved, and nothing on the page reads
+         * anything else — so the fix is to stop sending what nobody asked for, rather than to
+         * serialise it. It also drops every image array, translation row and stock level from
+         * the payload.
+         */
+        // `definitions` rides along because the TILE needs the same labels the filter panel
+        // uses (see `quickSpecs`) — it is four fields of plain text per spec, already built.
+        return { ...resolved.value, listing, facets, definitions }
     }
 
     static async getSubCategories(locale: Locale, categorySlug: string) {

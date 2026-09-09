@@ -1,18 +1,21 @@
 import Link from "next/link"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { ShippingService } from "@/lib/services/shipping-service"
 import { RateEditor } from "./rate-editor"
 import { TrackingInput } from "./tracking-input"
+import { InlineAlert, PageBody, PageHeader, PageStack, Section, Stat, StatGrid, TableFrame } from "@/components/page"
+import { EmptyState } from "@/components/states"
 
 /**
  * §13.2 item 8: the sidebar linked here and there was nothing to link to.
  *
  * Two jobs, in the order they matter: what delivery costs (previously a literal in the
  * storefront's checkout, changeable only by deploying), and what is waiting to go out.
+ *
+ * The order of the sections is the order of the operator's day — the queue that has waited
+ * longest is above the reference data that rarely changes. Rates used to be first because they
+ * were built first.
  */
 export const dynamic = "force-dynamic"
 
@@ -26,181 +29,225 @@ export default async function ShippingPage() {
         ShippingService.shippedWithoutTracking(),
     ])
 
+    const awaiting = queue.counts.awaiting_shipment ?? 0
+
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Shipping" />
-            <div className="mt-8">
-                <Container>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                        {[
-                            { label: "Awaiting shipment", value: queue.counts.awaiting_shipment ?? 0 },
-                            { label: "In transit", value: queue.counts.shipped ?? 0 },
-                            { label: "Delivered", value: queue.counts.delivered ?? 0 },
-                            { label: "Shipped, untracked", value: untracked.length, warn: untracked.length > 0 },
-                        ].map((stat) => (
-                            <div key={stat.label} className="bg-card rounded-lg border p-4 shadow-sm">
-                                <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                                <p className={`text-2xl font-bold tabular-nums ${stat.warn ? "text-red-600" : ""}`}>
-                                    {stat.value}
-                                </p>
-                            </div>
-                        ))}
-                    </div>
+        <>
+            <PageHeader
+                title="Shipping"
+                description="What delivery costs, and what is waiting to go out. Changing a rate never touches an order already taken — what a customer was charged is a snapshot."
+            />
 
-                    <section className="mb-10">
-                        <h2 className="font-semibold text-lg mb-1">Rates</h2>
-                        <p className="text-sm text-muted-foreground mb-4">
-                            Applied when an order is placed. Changing a rate never touches an order already taken —
-                            what a customer was charged is a snapshot.
-                        </p>
-                        <RateEditor rates={rates} />
-                    </section>
+            <PageBody>
+                <PageStack>
+                    {untracked.length > 0 && (
+                        <InlineAlert tone="warning" title={`${untracked.length} shipped without a tracking number`}>
+                            Tracking numbers are entered by hand under COD, so a blank one is normal — and still a
+                            parcel nobody can answer a question about. They are listed under In transit below.
+                        </InlineAlert>
+                    )}
 
-                    <section className="mb-10">
-                        <h2 className="font-semibold text-lg mb-1">Awaiting shipment</h2>
-                        <p className="text-sm text-muted-foreground mb-4">Oldest first — the top row has waited longest.</p>
-                        <div className="overflow-x-auto border rounded-lg shadow">
-                            <Table>
-                                <TableHeader>
-                                    <TableRow>
-                                        <TableHead>Order</TableHead>
-                                        <TableHead>Waiting</TableHead>
-                                        <TableHead>Destination</TableHead>
-                                        <TableHead>Method</TableHead>
-                                        <TableHead className="text-right">Shipping</TableHead>
-                                        <TableHead className="text-right">Total</TableHead>
-                                    </TableRow>
-                                </TableHeader>
-                                <TableBody>
-                                    {queue.awaiting.length === 0 ? (
+                    <StatGrid>
+                        <Stat
+                            label="Awaiting shipment"
+                            value={awaiting}
+                            hint={awaiting > 0 ? "oldest first, below" : "nothing waiting"}
+                            tone={awaiting > 0 ? "warning" : "default"}
+                        />
+                        <Stat label="In transit" value={queue.counts.shipped ?? 0} />
+                        <Stat label="Delivered" value={queue.counts.delivered ?? 0} />
+                        <Stat
+                            label="Shipped, untracked"
+                            value={untracked.length}
+                            tone={untracked.length > 0 ? "warning" : "default"}
+                        />
+                    </StatGrid>
+
+                    <Section
+                        title="Awaiting shipment"
+                        description="Oldest first — the top row has waited longest."
+                    >
+                        <TableFrame>
+                            {queue.awaiting.length === 0 ? (
+                                <EmptyState
+                                    variant="no-data"
+                                    title="Nothing is waiting to ship"
+                                    description="Every order that has been paid for is either in transit or delivered."
+                                />
+                            ) : (
+                                <Table>
+                                    <caption className="sr-only">Orders awaiting shipment, oldest first</caption>
+                                    <TableHeader>
                                         <TableRow>
-                                            <TableCell colSpan={6} className="text-center py-8 text-muted-foreground">
-                                                Nothing is waiting to ship.
-                                            </TableCell>
+                                            <TableHead scope="col">Order</TableHead>
+                                            <TableHead scope="col">Waiting</TableHead>
+                                            <TableHead scope="col">Destination</TableHead>
+                                            <TableHead scope="col">Method</TableHead>
+                                            <TableHead scope="col" className="text-right">
+                                                Shipping
+                                            </TableHead>
+                                            <TableHead scope="col" className="text-right">
+                                                Total
+                                            </TableHead>
                                         </TableRow>
-                                    ) : (
-                                        queue.awaiting.map((order) => (
+                                    </TableHeader>
+                                    <TableBody>
+                                        {queue.awaiting.map((order) => (
                                             <TableRow key={order.id}>
                                                 <TableCell className="font-mono">
-                                                    <Link href={`/admin/orders/${order.id}`} className="underline underline-offset-4">
+                                                    <Link
+                                                        href={`/admin/orders/${order.id}`}
+                                                        className="underline-offset-2 hover:underline"
+                                                    >
                                                         {order.orderNumber}
                                                     </Link>
                                                 </TableCell>
                                                 <TableCell
-                                                    className={`tabular-nums ${order.waitingDays >= 3 ? "text-red-600 font-medium" : ""}`}
+                                                    className={
+                                                        order.waitingDays >= 3
+                                                            ? "font-medium tabular-nums text-warning"
+                                                            : "tabular-nums"
+                                                    }
                                                 >
                                                     {order.waitingDays === 0 ? "today" : `${order.waitingDays}d`}
                                                 </TableCell>
                                                 <TableCell>
                                                     {order.shippingAddress ? (
                                                         <>
-                                                            <span className="font-medium">{order.shippingAddress.city}</span>
-                                                            <span className="text-muted-foreground"> · {order.shippingAddress.fullName}</span>
+                                                            <span className="font-medium">
+                                                                <bdi dir="auto">{order.shippingAddress.city}</bdi>
+                                                            </span>
+                                                            <span className="text-muted-foreground">
+                                                                {" · "}
+                                                                <bdi dir="auto">{order.shippingAddress.fullName}</bdi>
+                                                            </span>
                                                         </>
                                                     ) : (
-                                                        // A real state: the address is optional on the order.
-                                                        <span className="text-red-600">no address</span>
+                                                        /* A real state: the address is optional on the order, and an
+                                                           order with none cannot be dispatched at all. */
+                                                        <span className="text-danger">No address</span>
                                                     )}
                                                 </TableCell>
-                                                <TableCell>
-                                                    <Badge variant="outline">
-                                                        {order.shippingOption.replace("Shipping", "")}
-                                                    </Badge>
+                                                <TableCell className="text-muted-foreground">
+                                                    {order.shippingOption.replace("Shipping", "")}
                                                 </TableCell>
-                                                <TableCell className="text-right tabular-nums">{order.shippingCost}</TableCell>
-                                                <TableCell className="text-right tabular-nums font-medium">{order.total}</TableCell>
+                                                <TableCell className="text-right tabular-nums">
+                                                    {order.shippingCost}
+                                                </TableCell>
+                                                <TableCell className="text-right font-medium tabular-nums">
+                                                    {order.total}
+                                                </TableCell>
                                             </TableRow>
-                                        ))
-                                    )}
-                                </TableBody>
-                            </Table>
-                        </div>
-                    </section>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            )}
+                        </TableFrame>
+                    </Section>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <section>
-                            <h2 className="font-semibold text-lg mb-1">In transit</h2>
-                            <p className="text-sm text-muted-foreground mb-4">
-                                Tracking numbers are entered by hand under COD, so a blank one is normal — and still
-                                a parcel nobody can answer a question about.
-                            </p>
-                            <div className="overflow-x-auto border rounded-lg shadow">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>Order</TableHead>
-                                            <TableHead>Shipped</TableHead>
-                                            <TableHead>Tracking</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {queue.inTransit.length === 0 ? (
+                    <div className="grid min-w-0 grid-cols-1 gap-5 lg:grid-cols-2">
+                        <Section
+                            title="In transit"
+                            description="A blank tracking number is normal under COD, and still a parcel nobody can answer a question about."
+                        >
+                            <TableFrame>
+                                {queue.inTransit.length === 0 ? (
+                                    <EmptyState
+                                        variant="no-data"
+                                        title="Nothing is in transit"
+                                        description="No order has been marked shipped and not yet delivered."
+                                    />
+                                ) : (
+                                    <Table>
+                                        <caption className="sr-only">Orders in transit</caption>
+                                        <TableHeader>
                                             <TableRow>
-                                                <TableCell colSpan={3} className="text-center py-8 text-muted-foreground">
-                                                    Nothing is in transit.
-                                                </TableCell>
+                                                <TableHead scope="col">Order</TableHead>
+                                                <TableHead scope="col">Shipped</TableHead>
+                                                <TableHead scope="col">Tracking</TableHead>
                                             </TableRow>
-                                        ) : (
-                                            queue.inTransit.map((order) => (
+                                        </TableHeader>
+                                        <TableBody>
+                                            {queue.inTransit.map((order) => (
                                                 <TableRow key={order.id}>
                                                     <TableCell className="font-mono">
-                                                        <Link href={`/admin/orders/${order.id}`} className="underline underline-offset-4">
+                                                        <Link
+                                                            href={`/admin/orders/${order.id}`}
+                                                            className="underline-offset-2 hover:underline"
+                                                        >
                                                             {order.orderNumber}
                                                         </Link>
                                                     </TableCell>
                                                     <TableCell className="tabular-nums whitespace-nowrap">
-                                                        {order.shippedAt ? new Date(order.shippedAt).toLocaleDateString("en-GB") : "—"}
+                                                        {order.shippedAt
+                                                            ? new Date(order.shippedAt).toLocaleDateString("en-GB")
+                                                            : "—"}
                                                     </TableCell>
                                                     <TableCell>
                                                         {/* The input lives where the gap is reported, rather than
                                                             three clicks away on the order. */}
-                                                        <TrackingInput orderId={order.id} current={order.trackingNumber} />
+                                                        <TrackingInput
+                                                            orderId={order.id}
+                                                            current={order.trackingNumber}
+                                                        />
                                                     </TableCell>
                                                 </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        </section>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                )}
+                            </TableFrame>
+                        </Section>
 
-                        <section>
-                            <h2 className="font-semibold text-lg mb-1">Destinations</h2>
-                            <p className="text-sm text-muted-foreground mb-4">
-                                Where orders actually go. Rates are flat today; this is what a per-city rate would be
-                                built on.
-                            </p>
-                            <div className="overflow-x-auto border rounded-lg shadow">
-                                <Table>
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableHead>City</TableHead>
-                                            <TableHead className="text-right">Orders</TableHead>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {destinations.length === 0 ? (
+                        <Section
+                            title="Destinations"
+                            description="Where orders actually go. Rates are flat today; this is what a per-city rate would be built on."
+                        >
+                            <TableFrame>
+                                {destinations.length === 0 ? (
+                                    <EmptyState
+                                        variant="no-data"
+                                        title="No orders with an address yet"
+                                        description="A destination appears here once an order carrying a shipping address is placed."
+                                    />
+                                ) : (
+                                    <Table>
+                                        <caption className="sr-only">Orders by destination city</caption>
+                                        <TableHeader>
                                             <TableRow>
-                                                <TableCell colSpan={2} className="text-center py-8 text-muted-foreground">
-                                                    No orders with an address yet.
-                                                </TableCell>
+                                                <TableHead scope="col">City</TableHead>
+                                                <TableHead scope="col" className="text-right">
+                                                    Orders
+                                                </TableHead>
                                             </TableRow>
-                                        ) : (
-                                            destinations.map((row) => (
+                                        </TableHeader>
+                                        <TableBody>
+                                            {destinations.map((row) => (
                                                 <TableRow key={row.city}>
-                                                    <TableCell className="font-medium">{row.city}</TableCell>
+                                                    <TableCell className="font-medium">
+                                                        <bdi dir="auto">{row.city}</bdi>
+                                                    </TableCell>
                                                     {/* count(*) comes back as bigint and JSON cannot carry one. */}
-                                                    <TableCell className="text-right tabular-nums">{Number(row.orders)}</TableCell>
+                                                    <TableCell className="text-right tabular-nums">
+                                                        {Number(row.orders)}
+                                                    </TableCell>
                                                 </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-                                </Table>
-                            </div>
-                        </section>
+                                            ))}
+                                        </TableBody>
+                                    </Table>
+                                )}
+                            </TableFrame>
+                        </Section>
                     </div>
-                </Container>
-            </div>
-        </div>
+
+                    <Section
+                        title="Rates"
+                        description="Applied when an order is placed. Changing a rate never touches an order already taken."
+                    >
+                        <RateEditor rates={rates} />
+                    </Section>
+                </PageStack>
+            </PageBody>
+        </>
     )
 }

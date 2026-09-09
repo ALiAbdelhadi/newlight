@@ -3,12 +3,14 @@
 import {
     Prisma,
     prisma,
+    resolveEffectivePrice,
     resolveLocale,
-    serializeMoney,
     translationsFor,
+    type ActiveDiscount,
     type Locale,
     type SerializedMoney,
 } from "@repo/database"
+import { activeDiscounts } from "@/lib/discounts"
 
 /**
  * Product search, rewritten onto ProductSpec (BUILD §2.2).
@@ -60,8 +62,14 @@ export interface SearchResult {
     id: string
     productId: string
     slug: string
-    /** A string, not a number: Decimal cannot cross the server/client boundary (§4). */
+    /**
+     * What the customer pays — discounted where a discount is live (§13.2). A string, not a
+     * number: Decimal cannot cross the server/client boundary (§4).
+     */
     price: SerializedMoney
+    /** The undiscounted price. Equal to `price` when nothing is on offer. */
+    basePrice: SerializedMoney
+    discountPercent: number
     images: SearchResultImage[]
     name: string
     description: string | null
@@ -92,17 +100,24 @@ function resultInclude(locale: Locale) {
 
 type ProductWithIncludes = Prisma.ProductGetPayload<{ include: ReturnType<typeof resultInclude> }>
 
-function toResult(product: ProductWithIncludes, locale: Locale): SearchResult {
+function toResult(
+    product: ProductWithIncludes,
+    locale: Locale,
+    discounts: readonly ActiveDiscount[]
+): SearchResult {
     const translation = product.translations[0]
     const subCategoryTranslation = product.subCategory?.translations[0]
     const categoryTranslation = product.subCategory?.category?.translations[0]
     const spec = (key: string) => product.specs.find((s) => s.specKey === key)?.valueEn ?? null
+    const priced = resolveEffectivePrice(product.price, product, discounts)
 
     return {
         id: product.id,
         productId: product.productId,
         slug: product.slug,
-        price: serializeMoney(product.price),
+        price: priced.effective,
+        basePrice: priced.base,
+        discountPercent: priced.percentOff,
         images: product.images.map((image) => ({
             url: image.url,
             blurDataUrl: image.blurDataUrl,
@@ -177,7 +192,11 @@ export async function searchProducts(searchItem: string, requestedLocale: string
 
     // The OR can match a product through several branches; findMany already returns each row
     // once, but the dedupe is kept because it is cheap and its absence would be silent.
-    return Array.from(new Map(products.map((p) => [p.id, p])).values()).map((p) => toResult(p, locale))
+    // One load for the whole result set (§13.2), not one per hit.
+    const discounts = await activeDiscounts()
+    return Array.from(new Map(products.map((p) => [p.id, p])).values()).map((p) =>
+        toResult(p, locale, discounts)
+    )
 }
 
 export async function advancedSearchProducts(filters: {
@@ -268,5 +287,6 @@ export async function advancedSearchProducts(filters: {
         take: 50,
     })
 
-    return products.map((p) => toResult(p, locale))
+    const discounts = await activeDiscounts()
+    return products.map((p) => toResult(p, locale, discounts))
 }

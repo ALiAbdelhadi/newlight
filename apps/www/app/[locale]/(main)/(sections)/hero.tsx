@@ -1,215 +1,197 @@
-"use client"
+import Image from "@/components/app-image"
+import { getLocale, getTranslations } from "next-intl/server"
+
+import { encodeSlug, resolveLocale } from "@repo/database"
 
 import { Link } from "@/i18n/navigation"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { useTranslations } from 'next-intl'
-import Image from "next/image"
-import { useEffect, useRef } from "react"
+import { CategoryService } from "@/lib/services/category-service"
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { cn } from "@/lib/utils"
 
-gsap.registerPlugin(ScrollTrigger)
+/**
+ * The homepage hero.
+ *
+ * A SERVER COMPONENT. What it replaces was a 214-line client component whose entire job was to
+ * render two images and four links, and whose GSAP timeline did four things — three of them
+ * wrong:
+ *
+ *   IT HID THE PAGE UNTIL JAVASCRIPT RAN. `gsap.set([...], { opacity: 0 })` on mount, revealed
+ *   by a timeline. With JS slow, blocked or errored, the hero was blank — and there was no
+ *   `prefers-reduced-motion` guard anywhere in the storefront, so the parallax ran for everyone.
+ *
+ *   IT REACHED OUTSIDE ITSELF. `document.querySelectorAll('a')` — every anchor on the page,
+ *   including the header's and the footer's — to attach mouseenter/mouseleave handlers. Both
+ *   handlers animated the underline to the same `3rem`, so the hover effect they existed for
+ *   was a no-op, and the listeners were never removed (the cleanup was returned from a `forEach`
+ *   callback, where nothing calls it).
+ *
+ *   IT SHOWED SOMEBODY ELSE'S LIGHTING. The products tile was a hardcoded Unsplash URL —
+ *   `photo-1513694203232-719a280e022f` — so a lighting manufacturer's homepage advertised its
+ *   catalogue with a stock photograph of a fixture it does not sell, fetched from a third party
+ *   on every visit. It is the real catalogue photograph now.
+ *
+ * IT DOES ANIMATE ON LOAD, and the distinction between this and what was removed is the whole
+ * point. The entrance is four CSS keyframe animations (`.hero-in` / `.hero-media` in
+ * globals.css) declared on markup the server has already sent: the photograph settles out of a
+ * 1.05 scale, the headline, the strapline and the buttons rise into place behind it, and the
+ * two category tiles follow. No bundle has to run for any of it, so the failure mode of a slow
+ * or blocked script is a hero that is simply already there — never a blank one. Under
+ * `prefers-reduced-motion: reduce` the animation is dropped entirely, not merely shortened,
+ * because the delays alone would hold the type invisible.
+ *
+ * Everything below the fold still reveals on scroll instead (`components/reveal.tsx`); this is
+ * the one surface that is on screen at the moment the page opens and therefore the one that can
+ * have an entrance at all.
+ */
+/** Fallback imagery, by position, for a category that has none of its own on disk yet. */
+const TILE_IMAGE = ["/category/indoor-lighting-1.png", "/category/outdoor-lighting-1.png"]
 
-export function Hero() {
-    const t = useTranslations('hero-section');
+export async function Hero() {
+    const t = await getTranslations("hero-section")
+    const locale = resolveLocale(await getLocale())
 
-    const heroImageRef = useRef<HTMLDivElement>(null)
-    const heroTextRef = useRef<HTMLDivElement>(null)
-    const inspirationRef = useRef<HTMLDivElement>(null)
-    const technicalLinksRef = useRef<HTMLDivElement>(null)
-    const productsRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            gsap.set([heroTextRef.current, heroImageRef.current], {
-                opacity: 0,
-            })
-            gsap.set(inspirationRef.current, {
-                opacity: 0,
-                x: -60
-            })
-            gsap.set(technicalLinksRef.current, {
-                opacity: 0,
-                y: -60
-            })
-            gsap.set(productsRef.current, {
-                opacity: 0,
-                x: -60
-            })
-
-            const masterTl = gsap.timeline({
-                defaults: {
-                    ease: 'power4.out'
-                }
-            })
-
-            masterTl.fromTo(
-                heroImageRef.current,
-                { opacity: 0, scale: 1.05 },
-                { opacity: 1, scale: 1, duration: 1.6 },
-                0
-            )
-
-            masterTl.fromTo(
-                heroTextRef.current,
-                { opacity: 0, y: 40 },
-                { opacity: 1, y: 0, duration: 1.4 },
-                0.3
-            )
-
-            masterTl.to(inspirationRef.current, {
-                opacity: 1,
-                x: 0,
-                duration: 1.2,
-                ease: 'power3.out'
-            }, 0.8)
-
-            masterTl.to(technicalLinksRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 1.2,
-                ease: 'power3.out'
-            }, 0.95)
-
-            masterTl.to(productsRef.current, {
-                opacity: 1,
-                x: 0,
-                duration: 1.2,
-                ease: 'power3.out'
-            }, 0.95)
-
-            if (heroImageRef.current) {
-                const bgImage = heroImageRef.current.querySelector(".bg-image") as HTMLElement
-
-                gsap.to(bgImage, {
-                    scrollTrigger: {
-                        trigger: heroImageRef.current,
-                        start: 'top top',
-                        end: 'bottom top',
-                        scrub: 1.2,
-                    },
-                    y: 150,
-                    scale: 1.1,
-                    ease: 'none'
-                })
-            }
-
-            const links = document.querySelectorAll('a')
-            links.forEach((link) => {
-                const underline = link.querySelector('.h-px')
-                if (!underline) return
-
-                const handleLinkEnter = () => {
-                    gsap.to(underline, {
-                        width: '3rem',
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    })
-                }
-                const handleLinkLeave = () => {
-                    gsap.to(underline, {
-                        width: '3rem',
-                        duration: 0.5,
-                        ease: 'power2.out'
-                    })
-                }
-
-                link.addEventListener('mouseenter', handleLinkEnter)
-                link.addEventListener('mouseleave', handleLinkLeave)
-
-                return () => {
-                    link.removeEventListener('mouseenter', handleLinkEnter)
-                    link.removeEventListener('mouseleave', handleLinkLeave)
-                }
-            })
-        })
-        return () => ctx.revert()
-    }, [t])
+    /*
+     * The tiles are the REAL top-level categories, in the operator's order, with the operator's
+     * names in the reader's language. Hardcoding "/category/indoor-lighting" would have been a
+     * link that breaks the day somebody renames a category in the panel — and renaming one is
+     * a thing the panel now supports, with the old slug kept as a redirect.
+     */
+    const categories = (await CategoryService.getAllCategories(locale)).slice(0, 2)
 
     return (
-        <div className="relative min-h-[80vh] flex flex-col lg:flex-row  border-b border-border/50">
-            {/* Main Visual Side */}
-            <div ref={heroImageRef} className="relative flex-1 lg:flex-7 min-h-[40vh] lg:min-h-0 overflow-hidden group">
-                <div className="absolute inset-0 bg-linear-to-r from-background/60 via-background/20 to-transparent z-10" />
-                
-                <Image
-                    src="/hero/hero.jpg"
-                    alt={t('illuminate')}
-                    fill
-                    priority
-                    className="bg-image object-cover object-center transition-transform duration-1000 ease-out will-change-transform"
-                    sizes="(max-width: 1024px) 100vw, 60vw"
-                />
-                
-                <div ref={heroTextRef} className="relative z-20 h-full flex flex-col justify-center px-8 sm:px-12 lg:px-20 py-24">
-                    <div className="space-y-4 max-w-2xl">
-                        <h1 className="font-serif text-6xl md:text-7xl lg:text-8xl italic text-foreground tracking-tight leading-[0.9]">
-                            {t('illuminate')}
+        <>
+            {/*
+              * TEXT BESIDE THE PHOTOGRAPH, NOT ON TOP OF IT.
+              *
+              * The first attempt kept the original composition — headline over the image behind
+              * a scrim — and looking at it settled the question: the hero photograph is a bright
+              * interior and the headline is near-black, so the scrim has to be strong enough to
+              * lift the whole picture towards white before the text is legible. At that point
+              * the photograph is gone and the scrim is doing nothing but hiding it.
+              *
+              * A column of plain ground next to a full-bleed image gives both things their own
+              * space: the type is set on the page's own background at full contrast, and the
+              * photograph is untouched.
+              */}
+            <section className="-mt-16 grid min-h-[80svh] grid-cols-1 border-b pt-16 lg:grid-cols-12">
+                <div className="order-2 flex flex-col justify-center px-5 py-14 lg:order-1 lg:col-span-5 lg:px-12 lg:py-24 xl:px-16">
+                    {/* The stagger. Three steps of 140ms — slow enough to read as a sequence
+                        being drawn rather than a block that arrived late, and the last of them
+                        still finishes at 400ms + 950ms, inside the time it takes to read the
+                        headline. The photograph starts at 0ms so that nothing waits on it. */}
+                    <div className="max-w-xl">
+                        <h1 className="hero-in font-display text-5xl leading-[1.05] text-balance italic [--hero-delay:120ms] md:text-6xl lg:text-6xl xl:text-7xl">
+                            {t("illuminate")}
                         </h1>
-                        <p className="text-sm md:text-base font-sans font-medium tracking-[0.3em] uppercase text-muted-foreground">
-                            {t('inspirationGlow')}
+                        <p className="hero-in mt-5 text-sm font-medium tracking-hero text-muted-foreground uppercase [--hero-delay:260ms]">
+                            {t("inspirationGlow")}
                         </p>
-                    </div>
-                </div>
-            </div>
-            <div className="flex-1 lg:flex-[5] flex flex-col bg-card">
-                <div
-                    ref={inspirationRef}
-                    className="flex-1 flex items-center justify-center p-12 lg:p-20 border-b border-border/50 group cursor-default"
-                >
-                    <div className="text-center space-y-4">
-                        <h2 className="text-5xl lg:text-7xl font-serif italic text-foreground leading-tight">
-                            {t('inspiration')}
-                        </h2>
-                        <div className="h-px w-12 bg-primary mx-auto transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500" />
-                    </div>
-                </div>
 
-                <div className="grid grid-cols-2 flex-1">
-                    <div
-                        ref={technicalLinksRef}
-                        className="p-8 lg:p-12 flex flex-col justify-center border-r border-border/50 hover:bg-muted/30 transition-colors duration-500"
-                    >
-                        <div className="space-y-8">
-                            <Link href="/technical-resources" className="block group">
-                                <p className="text-base font-medium tracking-wider mb-2 text-foreground group-hover:text-primary transition-colors">
-                                    {t('technicalResources').split(' ').map((word, index) => (
-                                        <span key={index} className="block">{word}</span>
-                                    ))}
-                                </p>
-                                <div className="h-px w-8 bg-border group-hover:w-full transition-all duration-500" />
-                            </Link>
-                            <Link href="/about" className="block group">
-                                <p className="text-base font-medium tracking-wider text-foreground group-hover:text-primary transition-colors mb-2">
-                                    <span>{t('weAre')}</span>
-                                    <span className="block italic font-serif lowercase">{t('weAreNewLight')}</span>
-                                </p>
-                                <div className="h-px w-8 bg-border group-hover:w-full transition-all duration-500" />
-                            </Link>
-                        </div>
-                    </div>
-
-                    <div
-                        ref={productsRef}
-                        className="relative overflow-hidden group cursor-pointer"
-                    >
-                        <div
-                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
-                            style={{
-                                backgroundImage: "url('https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2000')",
-                            }}
-                        />
-                        <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-10" />
-                        <div className="relative z-20 h-full flex items-end p-8 lg:p-12">
+                        <div className="hero-in mt-10 flex flex-wrap gap-3 [--hero-delay:400ms]">
                             <Link
-                                href="category"
-                                className="text-2xl lg:text-3xl font-serif italic text-white transition-all duration-300 group-hover:translate-x-2"
+                                href="/category"
+                                className="group inline-flex h-12 items-center gap-2 rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors duration-(--duration-fast) hover:bg-primary/90"
                             >
-                                {t('category')}
+                                {t("browseCatalogue")}
+                                <DirectionalArrow />
+                            </Link>
+                            <Link
+                                href="/technical-resources"
+                                className="inline-flex h-12 items-center rounded-md border border-border-strong px-6 text-sm font-medium transition-colors duration-(--duration-fast) hover:bg-accent"
+                            >
+                                {t("technicalResources")}
                             </Link>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+
+                {/* `overflow-hidden` because the photograph starts at `scale: 1.05` — the
+                    animation is on the image, not on this column, so the 5% never bleeds over
+                    the type beside it. */}
+                <div className="relative order-1 min-h-[42svh] overflow-hidden lg:order-2 lg:col-span-7 lg:min-h-0">
+                    <Image
+                        src="/hero/hero.jpg"
+                        alt=""
+                        fill
+                        priority
+                        sizes="(max-width: 1024px) 100vw, 58vw"
+                        className="hero-media object-cover object-center"
+                    />
+                    {/* A SCRIM MADE OF THE PAGE'S OWN GROUND, not of black. `--background`
+                        means the photograph fades into the same colour the column beside it is
+                        painted in — so the two halves read as one surface with a picture set
+                        into it, and the effect inverts correctly in dark mode instead of
+                        laying a grey film over a dark room. Weak on purpose: the strongest
+                        stop is 45% and only at the bottom edge, where the tiles begin. */}
+                    <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-background/8 bg-gradient-to-t from-background/45 via-background/8 to-transparent"
+                    />
+                </div>
+            </section>
+
+            {/* The two top-level categories, as their own band. They were a quarter of the hero
+                before, sharing it with a hover-only "inspiration" panel that had no link on it —
+                a quarter of the homepage's most valuable surface that did nothing when clicked. */}
+            {categories.length > 0 && (
+                <section aria-label={t("browseCatalogue")} className="grid grid-cols-1 border-b sm:grid-cols-2">
+                    {categories.map((category, index) => {
+                        const translation = category.translations[0]
+                        if (!translation) return null
+                        return (
+                            /* The delay class is written out rather than composed: Tailwind reads
+                               source text, so an interpolated `[--hero-delay:…]` generates no rule. */
+                            <HeroTile
+                                key={category.id}
+                                href={`/category/${encodeSlug(translation.slug)}`}
+                                image={category.imageUrl || TILE_IMAGE[index] || TILE_IMAGE[0]!}
+                                label={translation.name}
+                                delayClassName={index === 0 ? "[--hero-delay:540ms]" : "[--hero-delay:660ms]"}
+                            />
+                        )
+                    })}
+                </section>
+            )}
+        </>
+    )
+}
+
+function HeroTile({
+    href,
+    image,
+    label,
+    delayClassName,
+}: {
+    href: string
+    image: string
+    label: string
+    delayClassName: string
+}) {
+    return (
+        /* The entrance is on the Link itself, not on a wrapper: the tiles are the grid's own
+           children and `sm:not-first:border-s` draws the divider between them, so wrapping each
+           one would make every tile a first child and lose that border. */
+        <Link
+            href={href}
+            className={cn(
+                "hero-in group relative flex min-h-[34svh] overflow-hidden border-b last:border-b-0 sm:border-b-0 sm:not-first:border-s",
+                delayClassName
+            )}
+        >
+            <Image
+                src={image}
+                alt=""
+                fill
+                sizes="(max-width: 1024px) 100vw, 42vw"
+                className="object-cover transition-transform duration-(--duration-slow) group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+            />
+            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
+            <span className="relative z-10 mt-auto flex w-full items-center justify-between gap-4 p-6 lg:p-8">
+                <span className="font-display text-2xl text-background italic lg:text-3xl">{label}</span>
+                {/* The circled treatment, because the whole tile is the target — the same
+                    relationship the product card's arrow has to the product card. */}
+                <DirectionalArrow variant="circled" className="border-background/40 text-background" />
+            </span>
+        </Link>
     )
 }

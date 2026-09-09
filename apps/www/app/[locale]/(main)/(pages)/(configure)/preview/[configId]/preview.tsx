@@ -1,14 +1,15 @@
 "use client"
 
-import { encodeSlug, formatMoney, multiplyMoney } from "@repo/database"
-import { Container } from "@/components/container"
+import { encodeSlug, formatMoney, multiplyMoney, subtractMoney } from "@repo/database"
+import { PriceTag } from "@/components/price-tag"
+import { Container } from "@/components/layout/section"
 import { LoginModel } from "@/components/login-model"
 import { Button } from "@/components/ui/button"
 import { useRouter } from "@/i18n/navigation"
 import { PreviewClientProps } from "@/types"
 import { useSession } from "@/lib/auth-client"
 import { Loader2, ShoppingCart } from "lucide-react"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import Link from "next/link"
 import { useState } from "react"
 
@@ -99,7 +100,7 @@ export function PreviewClient({
                             <span>/</span>
                             <span className="text-foreground">{t.orderPreview}</span>
                         </div>
-                        <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tight mb-4">
+                        <h1 className="text-4xl md:text-5xl font-display font-light tracking-tight mb-4">
                             {t.reviewOrder}
                         </h1>
                         <p className="text-muted-foreground">
@@ -114,6 +115,8 @@ export function PreviewClient({
                                         src={product.images[0]!.url}
                                         alt={productName}
                                         fill
+                                        // Two of five columns from lg up, inside a 1280px container.
+                                        sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 40vw, 480px"
                                         className="object-cover"
                                         priority
                                     />
@@ -125,10 +128,10 @@ export function PreviewClient({
                             </div>
                             <div className="space-y-4">
                                 <div>
-                                    <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light mb-2">
+                                    <p className="text-sm uppercase tracking-label text-muted-foreground font-light mb-2">
                                         {subCategoryName}
                                     </p>
-                                    <h2 className="text-3xl font-serif font-light tracking-tight">
+                                    <h2 className="text-3xl font-display font-light tracking-tight">
                                         {productName}
                                     </h2>
                                 </div>
@@ -139,7 +142,7 @@ export function PreviewClient({
                                 )}
                                 {specs.length > 0 && (
                                     <div className="border-t border-border pt-4 space-y-2">
-                                        <h3 className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-light mb-3">
+                                        <h3 className="text-sm uppercase tracking-label text-muted-foreground font-light mb-3">
                                             {t.keySpecs}
                                         </h3>
                                         {/* Driven by the data, not by four hardcoded keys with
@@ -160,13 +163,13 @@ export function PreviewClient({
                         </div>
                         <div className="space-y-6 col-span-3">
                             <div className="bg-secondary/30 rounded-lg p-6 border border-border">
-                                <h3 className="text-xl font-serif font-light mb-6">
+                                <h3 className="text-xl font-display font-light mb-6">
                                     {t.orderSummary}
                                 </h3>
                                 <div className="space-y-4">
                                     {configuration.selectedColorTemp && (
-                                        <div className="flex justify-between items-center py-3 border-b border-border/50">
-                                            <span className="text-sm text-muted-foreground uppercase tracking-wider">
+                                        <div className="flex justify-between items-center py-3 border-b border-border">
+                                            <span className="text-sm text-muted-foreground uppercase tracking-label">
                                                 {t.colorTemperature}
                                             </span>
                                             <span className="font-medium">
@@ -175,8 +178,8 @@ export function PreviewClient({
                                         </div>
                                     )}
                                     {configuration.selectedColorKey && (
-                                        <div className="flex justify-between items-center py-3 border-b border-border/50">
-                                            <span className="text-sm text-muted-foreground uppercase tracking-wider">
+                                        <div className="flex justify-between items-center py-3 border-b border-border">
+                                            <span className="text-sm text-muted-foreground uppercase tracking-label">
                                                 {t.surfaceColor}
                                             </span>
                                             <span className="font-medium">
@@ -184,27 +187,52 @@ export function PreviewClient({
                                             </span>
                                         </div>
                                     )}
-                                    <div className="flex justify-between items-center py-3 border-b border-border/50">
-                                        <span className="text-sm text-muted-foreground uppercase tracking-wider">
+                                    <div className="flex justify-between items-center py-3 border-b border-border">
+                                        <span className="text-sm text-muted-foreground uppercase tracking-label">
                                             {t.quantity}
                                         </span>
                                         <span className="font-medium">{configuration.quantity}</span>
                                     </div>
                                     <div className="space-y-3 pt-4">
+                                        {/*
+                                          * `product.price` is the price the catalogue is
+                                          * charging right now — discounted while a discount is
+                                          * running (§13.2) — and the configuration is re-priced
+                                          * on every read, so the unit price, the subtotal and
+                                          * the total here cannot disagree with each other or
+                                          * with the order that follows.
+                                          */}
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.unitPrice}</span>
-                                            <span>{formatMoney(product.price, locale)}</span>
+                                            <PriceTag price={product.price} basePrice={product.basePrice} size="sm" />
                                         </div>
+                                        {product.discountPercent > 0 && (
+                                            <div className="flex justify-between text-sm">
+                                                <span className="text-muted-foreground">{t.discount}</span>
+                                                <span className="text-destructive">
+                                                    −{formatMoney(
+                                                        multiplyMoney(
+                                                            subtractMoney(product.basePrice, product.price),
+                                                            configuration.quantity
+                                                        ),
+                                                        locale
+                                                    )}
+                                                </span>
+                                            </div>
+                                        )}
                                         <div className="flex justify-between text-sm">
                                             <span className="text-muted-foreground">{t.subtotal}</span>
                                             <span>{formatMoney(multiplyMoney(product.price, configuration.quantity), locale)}</span>
                                         </div>
                                         <div className="flex justify-between items-baseline pt-4 border-t border-border">
-                                            <span className="text-lg font-light uppercase tracking-wide">
+                                            <span className="text-lg font-light uppercase tracking-label">
                                                 {t.total}
                                             </span>
-                                            <span className="text-3xl font-serif font-light">
-                                                {configuration.totalPrice.toLocaleString()} {t.currency}
+                                            <span className="text-3xl font-display font-light">
+                                                {/* formatMoney carries the currency itself; the
+                                                    `{t.currency}` that sat here printed it twice
+                                                    in English and on the wrong side in Arabic. */}
+                                                {formatMoney(configuration.totalPrice, locale)}
                                             </span>
                                         </div>
                                     </div>
@@ -214,7 +242,7 @@ export function PreviewClient({
                                 <Button
                                     onClick={handleProceedToCheckout}
                                     disabled={isProcessing}
-                                    className="w-full h-14 text-base uppercase tracking-[0.2em]"
+                                    className="w-full h-14 text-base uppercase tracking-label"
                                 >
                                     {isProcessing ? (
                                         <>

@@ -1,7 +1,9 @@
 import { ReactNode } from "react";
+import { redirect } from "next/navigation";
 
 import { getDashboardStats } from "@/app/action/dashboard-actions";
 import { getCurrentUserInfo } from "@/app/action/user-actions";
+import { currentAdmin } from "@/lib/auth";
 import { AdminShell } from "@/components/shell/admin-shell";
 
 /**
@@ -27,6 +29,19 @@ interface AdminLayoutProps {
  * cannot render meaningfully without the counters it puts in the sidebar.
  */
 export default async function AdminLayout({ children }: AdminLayoutProps) {
+    /*
+     * The role check, once, at the top of the subtree (§21).
+     *
+     * The proxy only checks that a session cookie EXISTS, and every page's own
+     * `requireCurrentAdmin()` THROWS — so a signed-in customer who typed an /admin URL landed
+     * in the error boundary reading "This screen failed to load", which is both wrong and
+     * unhelpful: nothing failed, they are simply not allowed in. The pages keep their guards
+     * (defence in depth, and server actions are not covered by a layout); this one exists to
+     * turn the refusal into the right screen instead of an error.
+     */
+    const admin = await currentAdmin()
+    if (!admin) redirect("/unauthorized")
+
     const [stats, userInfo] = await Promise.all([getDashboardStats(), getCurrentUserInfo()])
 
     return (

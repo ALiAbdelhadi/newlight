@@ -216,7 +216,7 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
                                             id="skus"
                                             value={scopeId}
                                             onChange={(event) => invalidate(setScopeId)(event.target.value)}
-                                            className="h-[30px] font-mono text-sm"
+                                            className="font-mono"
                                         />
                                     </div>
                                 ) : (
@@ -225,7 +225,7 @@ export function PricingEditor({ categories, subCategories, families }: Props) {
                                             Choose one
                                         </Label>
                                         <Select value={scopeId} onValueChange={invalidate(setScopeId)}>
-                                            <SelectTrigger id="scope" size="sm" className="h-[30px] w-full text-sm">
+                                            <SelectTrigger id="scope" className="w-full">
                                                 <SelectValue placeholder="—" />
                                             </SelectTrigger>
                                             <SelectContent>
@@ -391,7 +391,7 @@ function Field({
                 inputMode="decimal"
                 value={value}
                 onChange={(event) => onChange(event.target.value)}
-                className="h-[30px] w-32 tabular-nums text-sm"
+                className="w-32 tabular-nums"
             />
             {hint && <p className="text-2xs text-muted-foreground">{hint}</p>}
         </div>

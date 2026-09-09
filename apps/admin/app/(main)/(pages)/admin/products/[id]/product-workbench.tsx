@@ -5,7 +5,6 @@ import { useState, useTransition } from "react"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { TranslationPair, TranslationFields } from "@/lib/services/translation-service"
@@ -16,7 +15,7 @@ import { ImagesPanel, type ColorOption, type ImageRow } from "./images-panel"
 import { RecordLayout, type AuditEntry } from "@/components/record/record-layout"
 import { BilingualField } from "@/components/bilingual-field"
 import { ConfirmAction } from "@/components/confirm-action"
-import { StatusBadge } from "@/components/status-badge"
+import { Stat, StatGrid } from "@/components/page"
 import { Money } from "@/components/money"
 import { deriveStockState } from "@/lib/status"
 import {
@@ -346,34 +345,30 @@ function InventoryPanel({
 
     return (
         <div className="space-y-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                    { label: "On hand", value: onHand },
-                    { label: "Reserved", value: reserved },
-                    { label: "Available", value: onHand - reserved },
-                ].map((stat) => (
-                    <div key={stat.label} className="bg-card rounded-lg border p-4 shadow-sm">
-                        <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                        <p className="text-2xl font-bold tabular-nums">{stat.value}</p>
-                    </div>
-                ))}
-                <div className="bg-card rounded-lg border p-4 shadow-sm">
-                    <p className="text-sm text-muted-foreground mb-1">Average cost</p>
-                    <p className="text-2xl font-bold tabular-nums">
-                        {averageCost ?? <span className="text-base font-normal text-muted-foreground">not recorded</span>}
-                    </p>
-                </div>
-            </div>
+            <StatGrid>
+                <Stat label="On hand" value={onHand} />
+                <Stat label="Reserved" value={reserved} hint="already committed to orders" />
+                <Stat
+                    label="Available"
+                    value={onHand - reserved}
+                    tone={onHand - reserved <= 0 ? "danger" : onHand - reserved < 10 ? "warning" : "default"}
+                />
+                <Stat
+                    label="Average cost"
+                    value={averageCost}
+                    unavailable={averageCost ? undefined : "not recorded"}
+                />
+            </StatGrid>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <form
-                    className="bg-card rounded-lg border p-4 shadow-sm space-y-3"
+                    className="rounded-lg border bg-card p-3 space-y-3"
                     onSubmit={(e) => {
                         e.preventDefault()
                         call(() => adjustStock(productId, Number(adjustQty), adjustReason))
                     }}
                 >
-                    <h3 className="font-semibold">Correction</h3>
+                    <h2 className="font-semibold">Correction</h2>
                     <p className="text-xs text-muted-foreground">
                         Signed. <span className="font-mono">+3</span> found on a shelf,{" "}
                         <span className="font-mono">-2</span> miscounted.
@@ -399,13 +394,13 @@ function InventoryPanel({
                 </form>
 
                 <form
-                    className="bg-card rounded-lg border p-4 shadow-sm space-y-3"
+                    className="rounded-lg border bg-card p-3 space-y-3"
                     onSubmit={(e) => {
                         e.preventDefault()
                         call(() => recordDamage(productId, Number(damageQty), damageReason))
                     }}
                 >
-                    <h3 className="font-semibold">Damage or loss</h3>
+                    <h2 className="font-semibold">Damage or loss</h2>
                     <p className="text-xs text-muted-foreground">
                         Its own movement type, so it stays countable instead of hiding inside corrections.
                     </p>
@@ -429,13 +424,13 @@ function InventoryPanel({
                 </form>
 
                 <form
-                    className="bg-card rounded-lg border p-4 shadow-sm space-y-3"
+                    className="rounded-lg border bg-card p-3 space-y-3"
                     onSubmit={(e) => {
                         e.preventDefault()
                         call(() => receiveStock(productId, Number(receiveQty), receiveCost, "purchase receipt"))
                     }}
                 >
-                    <h3 className="font-semibold">Goods in</h3>
+                    <h2 className="font-semibold">Goods in</h2>
                     <p className="text-xs text-muted-foreground">
                         Unit cost is optional and blank means <em>not recorded</em> — never zero. It is what makes
                         margin reporting possible at all.
@@ -461,8 +456,8 @@ function InventoryPanel({
             </div>
 
             <section>
-                <h3 className="font-semibold mb-3">Movement history</h3>
-                <div className="overflow-x-auto border rounded-lg shadow">
+                <h2 className="font-semibold mb-3">Movement history</h2>
+                <div className="overflow-x-auto rounded-lg border bg-card">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -491,7 +486,7 @@ function InventoryPanel({
                                             <Badge variant="outline">{m.type.toLowerCase().replace(/_/g, " ")}</Badge>
                                         </TableCell>
                                         <TableCell
-                                            className={`text-right tabular-nums font-medium ${m.quantity < 0 ? "text-red-600" : "text-green-600"}`}
+                                            className={`text-right tabular-nums font-medium ${m.quantity < 0 ? "text-danger" : "text-success"}`}
                                         >
                                             {m.quantity > 0 ? `+${m.quantity}` : m.quantity}
                                         </TableCell>
@@ -528,33 +523,30 @@ function PricePanel({
 
     return (
         <div className="space-y-6">
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="bg-card rounded-lg border p-4 shadow-sm">
-                    <p className="text-sm text-muted-foreground mb-1">Current price</p>
-                    <p className="text-2xl font-bold tabular-nums">{price}</p>
-                </div>
-                <div className="bg-card rounded-lg border p-4 shadow-sm">
-                    <p className="text-sm text-muted-foreground mb-1">Average cost</p>
-                    <p className="text-2xl font-bold tabular-nums">{averageCost ?? "—"}</p>
-                </div>
-                <div className="bg-card rounded-lg border p-4 shadow-sm">
-                    <p className="text-sm text-muted-foreground mb-1">Gross margin</p>
-                    {/* Not "0%". A margin with no recorded cost is unknown, and a zero here would
-                        be read as a fact about the product rather than about the data. */}
-                    <p className="text-2xl font-bold tabular-nums">
-                        {margin ? `${margin}%` : <span className="text-base font-normal text-muted-foreground">cost not recorded</span>}
-                    </p>
-                </div>
-            </div>
+            <StatGrid className="md:grid-cols-3">
+                <Stat label="Current price" value={price} />
+                <Stat
+                    label="Average cost"
+                    value={averageCost}
+                    unavailable={averageCost ? undefined : "not recorded"}
+                />
+                {/* Not "0%". A margin with no recorded cost is unknown, and a zero here would be
+                    read as a fact about the product rather than about the data. */}
+                <Stat
+                    label="Gross margin"
+                    value={margin ? `${margin}%` : undefined}
+                    unavailable={margin ? undefined : "cost not recorded"}
+                />
+            </StatGrid>
 
             <form
-                className="bg-card rounded-lg border p-4 shadow-sm space-y-3 max-w-md"
+                className="rounded-lg border bg-card p-3 space-y-3 max-w-md"
                 onSubmit={(e) => {
                     e.preventDefault()
                     call(() => setProductPrice(productId, next))
                 }}
             >
-                <h3 className="font-semibold">Change this price</h3>
+                <h2 className="font-semibold">Change this price</h2>
                 <p className="text-sm text-muted-foreground">
                     Saved through the same path as the bulk editor, so it appears in the history below with your name
                     on it. Orders already placed keep the price they were charged.
@@ -593,7 +585,7 @@ function PricePanel({
                             type="button"
                             size="sm"
                             disabled={pending || next === price || next.trim() === ""}
-                            className="h-[30px] text-xs"
+                            className="text-xs"
                         >
                             {pending ? "Saving…" : "Save"}
                         </Button>
@@ -609,8 +601,8 @@ function PricePanel({
             </form>
 
             <section>
-                <h3 className="font-semibold mb-3">Price history</h3>
-                <div className="overflow-x-auto border rounded-lg shadow">
+                <h2 className="font-semibold mb-3">Price history</h2>
+                <div className="overflow-x-auto rounded-lg border bg-card">
                     <Table>
                         <TableHeader>
                             <TableRow>
@@ -719,7 +711,7 @@ function SpecsPanel({
                 </span>
             </div>
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <div className="overflow-x-auto rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -792,8 +784,8 @@ function SettingsPanel({
 
     return (
         <div className="space-y-8 max-w-3xl">
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-3">
-                <h3 className="font-semibold">Storefront visibility</h3>
+            <section className="rounded-lg border bg-card p-3 space-y-3">
+                <h2 className="font-semibold">Storefront visibility</h2>
                 <p className="text-sm text-muted-foreground">
                     Hiding is instant and reversible. It does not archive the product or touch any order.
                 </p>
@@ -810,13 +802,13 @@ function SettingsPanel({
             </section>
 
             <form
-                className="bg-card rounded-lg border p-4 shadow-sm space-y-3"
+                className="rounded-lg border bg-card p-3 space-y-3"
                 onSubmit={(e) => {
                     e.preventDefault()
                     call(() => renameProduct(productId, nextSlug))
                 }}
             >
-                <h3 className="font-semibold">URL</h3>
+                <h2 className="font-semibold">URL</h2>
                 <p className="text-sm text-muted-foreground">
                     The old address keeps working — renaming writes a redirect in the same transaction.
                 </p>
@@ -832,7 +824,7 @@ function SettingsPanel({
             </form>
 
             <section className="rounded-lg border border-destructive/40 p-4 space-y-4">
-                <h3 className="font-semibold text-destructive">Removal</h3>
+                <h2 className="font-semibold text-destructive">Removal</h2>
 
                 {isArchived ? (
                     <div className="space-y-2">

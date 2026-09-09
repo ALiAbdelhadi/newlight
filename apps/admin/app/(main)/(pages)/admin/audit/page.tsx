@@ -1,13 +1,13 @@
 import Link from "next/link"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { AuditService } from "@/lib/services/audit-service"
 import { AuditFilters } from "./audit-filters"
 import { AuditDiff } from "./audit-diff"
+import { PageBody, PageHeader, PageStack, Stat, StatGrid, TableFrame } from "@/components/page"
+import { StatusBadge } from "@/components/status-badge"
+import { EmptyState } from "@/components/states"
 
 /**
  * The audit log, finally readable.
@@ -68,27 +68,24 @@ export default async function AuditPage({
     }
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Audit log" />
-            <div className="mt-8">
-                <Container>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                        {[
-                            { label: "Last 24 hours", value: summary.today },
-                            { label: "Last 7 days", value: summary.week },
-                            { label: "People today", value: summary.actorsToday },
-                            { label: "Matching this filter", value: total },
-                        ].map((stat) => (
-                            <div key={stat.label} className="bg-card rounded-lg border p-4 shadow-sm">
-                                <p className="text-sm text-muted-foreground mb-1">{stat.label}</p>
-                                <p className="text-2xl font-bold tabular-nums">{stat.value}</p>
-                            </div>
-                        ))}
-                    </div>
+        <>
+            <PageHeader
+                title="Audit log"
+                description="Every change this panel makes, with the person who made it and when. Read-only by construction: entries cannot be edited or removed from here."
+            />
+
+            <PageBody>
+                <PageStack>
+                    <StatGrid>
+                        <Stat label="Changes" value={summary.today} hint="last 24 hours" />
+                        <Stat label="Changes" value={summary.week} hint="last 7 days" />
+                        <Stat label="People" value={summary.actorsToday} hint="active today" />
+                        <Stat label="Matching this filter" value={total} />
+                    </StatGrid>
 
                     <AuditFilters facets={facets} current={params} />
 
-                    <div className="overflow-x-auto border rounded-lg shadow mt-6">
+                    <TableFrame>
                         <Table>
                             <TableHeader>
                                 <TableRow>
@@ -101,9 +98,15 @@ export default async function AuditPage({
                             </TableHeader>
                             <TableBody>
                                 {rows.length === 0 ? (
-                                    <TableRow>
-                                        <TableCell colSpan={5} className="text-center py-10 text-muted-foreground">
-                                            Nothing matches that filter.
+                                    <TableRow className="hover:bg-transparent">
+                                        <TableCell colSpan={5} className="p-0">
+                                            {/* No-results, not no-data: the log is append-only and never
+                                                genuinely empty once anybody has used the panel. */}
+                                            <EmptyState
+                                                variant="no-results"
+                                                title="Nothing matches that filter"
+                                                description="Widen the date, the action or the person and try again."
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 ) : (
@@ -111,36 +114,38 @@ export default async function AuditPage({
                                         const href = linkFor(row.entity, row.entityId)
                                         return (
                                             <TableRow key={row.id}>
-                                                <TableCell className="whitespace-nowrap tabular-nums text-sm align-top">
+                                                <TableCell className="align-top whitespace-nowrap tabular-nums">
                                                     {new Date(row.createdAt).toLocaleString("en-GB")}
                                                 </TableCell>
                                                 <TableCell className="align-top">
-                                                    <div className="text-sm">{row.actorEmail ?? "—"}</div>
+                                                    <div>{row.actorEmail ?? "—"}</div>
                                                     {row.actorType && row.actorType !== "ADMIN" && (
-                                                        <Badge variant="outline" className="mt-1">
-                                                            {row.actorType.toLowerCase()}
-                                                        </Badge>
+                                                        <StatusBadge
+                                                            kind="actor"
+                                                            value={row.actorType}
+                                                            className="mt-1"
+                                                        />
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="align-top">
                                                     <Link
                                                         href={query({ action: row.action, page: undefined })}
-                                                        className="font-mono text-sm underline underline-offset-4"
+                                                        className="font-mono underline-offset-2 hover:underline"
                                                     >
                                                         {row.action}
                                                     </Link>
                                                 </TableCell>
                                                 <TableCell className="align-top">
-                                                    <div className="text-sm">{row.entity}</div>
+                                                    <div>{row.entity}</div>
                                                     {href ? (
                                                         <Link
                                                             href={href}
-                                                            className="font-mono text-xs text-muted-foreground underline underline-offset-4 break-all"
+                                                            className="font-mono text-2xs break-all text-muted-foreground underline-offset-2 hover:underline"
                                                         >
                                                             {row.entityId}
                                                         </Link>
                                                     ) : (
-                                                        <span className="font-mono text-xs text-muted-foreground break-all">
+                                                        <span className="font-mono text-2xs break-all text-muted-foreground">
                                                             {row.entityId}
                                                         </span>
                                                     )}
@@ -154,23 +159,31 @@ export default async function AuditPage({
                                 )}
                             </TableBody>
                         </Table>
-                    </div>
+                    </TableFrame>
 
                     {totalPages > 1 && (
-                        <nav className="flex items-center justify-between mt-4" aria-label="Audit log pages">
-                            <Button variant="secondary" size="sm" disabled={page <= 1} asChild={page > 1}>
-                                {page > 1 ? <Link href={query({ page: String(page - 1) })}>Previous</Link> : <span>Previous</span>}
+                        <nav className="flex items-center justify-between" aria-label="Audit log pages">
+                            <Button variant="outline" size="sm" disabled={page <= 1} asChild={page > 1}>
+                                {page > 1 ? (
+                                    <Link href={query({ page: String(page - 1) })}>Previous</Link>
+                                ) : (
+                                    <span>Previous</span>
+                                )}
                             </Button>
-                            <span className="text-sm text-muted-foreground tabular-nums">
+                            <span className="text-xs tabular-nums text-muted-foreground">
                                 Page {page} of {totalPages}
                             </span>
-                            <Button variant="secondary" size="sm" disabled={page >= totalPages} asChild={page < totalPages}>
-                                {page < totalPages ? <Link href={query({ page: String(page + 1) })}>Next</Link> : <span>Next</span>}
+                            <Button variant="outline" size="sm" disabled={page >= totalPages} asChild={page < totalPages}>
+                                {page < totalPages ? (
+                                    <Link href={query({ page: String(page + 1) })}>Next</Link>
+                                ) : (
+                                    <span>Next</span>
+                                )}
                             </Button>
                         </nav>
                     )}
-                </Container>
-            </div>
-        </div>
+                </PageStack>
+            </PageBody>
+        </>
     )
 }

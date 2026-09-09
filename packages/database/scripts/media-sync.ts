@@ -12,6 +12,11 @@
  *
  * Idempotent: a row whose url already matches is left alone and counted separately, so a
  * second run reports `0 updated` rather than looking like it did the work twice.
+ *
+ * `ProductImage` is not the only column holding a media path. `Category.imageUrl` and
+ * `SubCategory.imageUrl` are plain strings the transform never touched, and they name files
+ * in the same trees. They are matched by PATH rather than by publicId, because that is all
+ * they carry — the manifest is keyed by catalog path, so the lookup is direct.
  */
 import { readFileSync } from "node:fs"
 import { join } from "node:path"
@@ -42,6 +47,12 @@ async function main() {
     const byPublicId = new Map<string, Entry>()
     for (const entry of Object.values(manifest.entries)) {
         if (entry.url) byPublicId.set(entry.publicId, entry)
+    }
+
+    // Taxonomy rows carry a path, not a publicId, so they need the manifest keyed the other way.
+    const byPath = new Map<string, Entry>()
+    for (const [path, entry] of Object.entries(manifest.entries)) {
+        if (entry.url) byPath.set(path, entry)
     }
 
     const uploaded = byPublicId.size
@@ -90,6 +101,39 @@ async function main() {
         updated++
     }
 
+    // Category and SubCategory thumbnails. Same manifest, same rule: never guessed at.
+    let taxonomyUpdated = 0
+    let taxonomyCorrect = 0
+    const taxonomyUnmatched: string[] = []
+
+    const categories = await prisma.category.findMany({ select: { id: true, imageUrl: true } })
+    const subCategories = await prisma.subCategory.findMany({ select: { id: true, imageUrl: true } })
+    const taxonomy = [
+        ...categories.map((row) => ({ ...row, model: "category" as const })),
+        ...subCategories.map((row) => ({ ...row, model: "subCategory" as const })),
+    ]
+
+    for (const row of taxonomy) {
+        // A null thumbnail is a valid state, and a row already on Cloudinary is done.
+        if (!row.imageUrl || !row.imageUrl.startsWith("/")) {
+            if (row.imageUrl) taxonomyCorrect++
+            continue
+        }
+        const entry = byPath.get(row.imageUrl)
+        if (!entry) {
+            taxonomyUnmatched.push(`${row.model} ${row.id} — ${row.imageUrl}`)
+            continue
+        }
+        if (!dry) {
+            if (row.model === "category") {
+                await prisma.category.update({ where: { id: row.id }, data: { imageUrl: entry.url! } })
+            } else {
+                await prisma.subCategory.update({ where: { id: row.id }, data: { imageUrl: entry.url! } })
+            }
+        }
+        taxonomyUpdated++
+    }
+
     console.log("")
     console.log(`[sync] ${images.length} catalog images`)
     console.log(`[sync]   ${updated} ${dry ? "would be updated" : "updated"}`)
@@ -98,9 +142,16 @@ async function main() {
     for (const line of unmatched.slice(0, 10)) console.log(`[sync]     ${line}`)
     if (unmatched.length > 10) console.log(`[sync]     … and ${unmatched.length - 10} more`)
 
+    console.log("")
+    console.log(`[sync] ${taxonomy.length} category/subcategory thumbnails`)
+    console.log(`[sync]   ${taxonomyUpdated} ${dry ? "would be updated" : "updated"}`)
+    console.log(`[sync]   ${taxonomyCorrect} already pointing at Cloudinary`)
+    console.log(`[sync]   ${taxonomyUnmatched.length} with no uploaded manifest entry`)
+    for (const line of taxonomyUnmatched.slice(0, 10)) console.log(`[sync]     ${line}`)
+
     // A catalog that is only partly on Cloudinary is a catalog that breaks the moment the
     // local files stop being served, so it is a non-zero exit rather than a note.
-    if (unmatched.length > 0) process.exitCode = 1
+    if (unmatched.length > 0 || taxonomyUnmatched.length > 0) process.exitCode = 1
 
     await prisma.$disconnect()
 }

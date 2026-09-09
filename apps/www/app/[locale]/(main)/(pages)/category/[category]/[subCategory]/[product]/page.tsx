@@ -1,4 +1,9 @@
 import type { Metadata } from "next"
+import { ProductStrip } from "@/components/product-strip"
+import { JsonLd, breadcrumbSchema, productSchema } from "@/lib/structured-data"
+import { PurchaseAssurance } from "@/components/purchase-assurance"
+import { RecentlyViewed, RecordView } from "@/components/recently-viewed"
+import { relatedProducts } from "@/lib/services/merchandising-service"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, permanentRedirect } from "next/navigation"
 import { encodeSlug, resolveLocale } from "@repo/database"
@@ -63,6 +68,80 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function Page({ params }: Props) {
-    const { view } = await load(params)
-    return <ProductPage product={view} />
+    const { view, locale } = await load(params)
+    const [t, related] = await Promise.all([
+        getTranslations("merchandising"),
+        relatedProducts({ id: view.id, familyId: view.familyId, subCategoryId: view.subCategoryId }, locale),
+    ])
+    const section = view.subCategory.translations[0]
+    const category = view.subCategory.category.translations[0]
+
+    const productName = view.translations[0]?.name ?? view.productId
+    const categoryPath = `/${locale}/category/${encodeSlug(category?.slug ?? "")}`
+    const sectionPath = `${categoryPath}/${encodeSlug(section?.slug ?? "")}`
+    const productPath = `${sectionPath}/${encodeSlug(view.slug)}`
+
+    /*
+     * The spec rows a crawler gets are the spec rows the table shows: the same
+     * `valueEn`/`valueAr` and the same unit, with the PLACEHOLDER "-" dropped the same way.
+     * Two assemblies of one list is how a page ends up claiming a wattage it does not print.
+     */
+    const specs = view.specs.flatMap((row) => {
+        const value = locale === "ar" ? row.valueAr : row.valueEn
+        if (!value || value === "-") return []
+        const unit = locale === "ar" ? row.spec.unitAr : row.spec.unitEn
+        return [{
+            label: locale === "ar" ? row.spec.labelAr : row.spec.labelEn,
+            value: unit ? `${value} ${unit}` : value,
+        }]
+    })
+
+    /*
+     * The buy column and the specification table are the client component; everything a
+     * shopper looks at AFTER deciding — the rest of the section, what they looked at before —
+     * is composed here on the server, through the same strip every other page uses.
+     */
+    return (
+        <>
+            {/*
+             * Price, availability and the trail, for the reader that never renders the page.
+             * `price` is `view.price`, which IS the discounted price the buy button charges —
+             * a schema that quotes the undiscounted one is a page Google will flag.
+             */}
+            <JsonLd
+                data={[
+                    productSchema(
+                        {
+                            name: productName,
+                            description: view.translations[0]?.description,
+                            sku: view.productId,
+                            images: view.images.map((image) => image.url),
+                            url: productPath,
+                            price: view.price,
+                            inStock: view.inStock,
+                            category: section?.name,
+                            specs,
+                        },
+                        locale
+                    ),
+                    breadcrumbSchema([
+                        { name: category?.name ?? "", path: categoryPath },
+                        { name: section?.name ?? "", path: sectionPath },
+                        { name: productName, path: productPath },
+                    ]),
+                ]}
+            />
+            <ProductPage product={view} assurance={<PurchaseAssurance />} />
+            <RecordView sku={view.productId} />
+            <ProductStrip
+                cards={related}
+                eyebrow={t("related.eyebrow", { section: section?.name ?? "" })}
+                title={t("related.title")}
+                href={`/category/${encodeSlug(category?.slug ?? "")}/${encodeSlug(section?.slug ?? "")}`}
+                hrefLabel={t("related.link", { section: section?.name ?? "" })}
+                tone="sunk"
+            />
+            <RecentlyViewed exclude={view.productId} />
+        </>
+    )
 }

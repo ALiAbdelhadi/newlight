@@ -1,6 +1,15 @@
-import { prisma, Prisma, DEFAULT_LOCATION_ID, serializeMoney, type Locale, type SerializedMoney } from "@repo/database"
+import {
+    prisma,
+    Prisma,
+    DEFAULT_LOCATION_ID,
+    resolveEffectivePrice,
+    serializeMoney,
+    type Locale,
+    type SerializedMoney,
+} from "@repo/database"
 import { liveProduct, productCardInclude, productDetailInclude, productLinkedCardInclude, toCardView } from "./selectors"
 import { getLocaleOrDefault } from "../db"
+import { activeDiscounts } from "@/lib/discounts"
 import { Product } from "@/types"
 import type { SpecificationSource } from "./shared-types"
 
@@ -250,10 +259,12 @@ export class ProductService {
     static async getProductPrice(productId: string): Promise<SerializedMoney> {
         const product = await prisma.product.findUnique({
             where: { productId },
-            select: { price: true },
+            select: { id: true, price: true, familyId: true, subCategoryId: true },
         })
         if (!product) throw new Error("PRODUCT_NOT_FOUND")
-        return serializeMoney(product.price)
+        // The EFFECTIVE price, not the column. A helper called "getProductPrice" that returns
+        // the pre-discount number is a trap for whoever calls it next (§13.2).
+        return resolveEffectivePrice(product.price, product, await activeDiscounts()).effective
     }
 
     /**
@@ -350,8 +361,9 @@ export class ProductService {
 
         // Through `toCardView`, so the variant strip cannot be the one place that still ships
         // `averageCost` to the browser — spreading the row is exactly how it got there.
+        const discounts = await activeDiscounts()
         return variants.map((variant) => ({
-            ...toCardView(variant),
+            ...toCardView(variant, discounts),
             name: variant.translations[0]?.name ?? variant.productId,
         }))
     }
@@ -370,18 +382,19 @@ export class ProductService {
         })
         if (!product) return null
 
-        const [variants, stock] = await Promise.all([
+        const [variants, stock, discounts] = await Promise.all([
             this.getProductVariants(slug, locale),
             prisma.stockLevel.findUnique({
                 where: { productId_locationId: { productId: product.id, locationId: DEFAULT_LOCATION_ID } },
                 select: { onHand: true, reserved: true },
             }),
+            activeDiscounts(),
         ])
 
         return {
-            // Drops `averageCost` and serialises `price` — see toCardView. A page that has to
-            // remember is a page that will forget.
-            ...toCardView(product),
+            // Drops `averageCost`, serialises `price`, and applies whatever discount is live —
+            // see toCardView. A page that has to remember is a page that will forget.
+            ...toCardView(product, discounts),
             // `valueNumber` is a Decimal too, and the product page hands specs straight to a
             // client component — which React rejects outright (A82). Half a boundary is none.
             specs: product.specs.map((spec) => ({

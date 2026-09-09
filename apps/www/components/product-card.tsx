@@ -1,161 +1,140 @@
 "use client"
 
-import { formatMoney, type SerializedMoney } from "@repo/database"
-import { useLocale } from "next-intl"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
+import Image from "@/components/app-image"
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { DiscountBadge, PriceTag } from "@/components/price-tag"
+import { Reveal } from "@/components/reveal"
+import { cn } from "@/lib/utils"
+import { type SerializedMoney } from "@repo/database"
 import { useTranslations } from "next-intl"
-import Image from "next/image"
-import { useEffect, useRef } from "react"
-
-gsap.registerPlugin(ScrollTrigger)
+import { Fragment } from "react"
 
 interface ProductCardProps {
-    id: string
     image: string
     title: string
     category: string
-    /** Serialised money (ADR 0001). A `number` here is where a Decimal loses precision. */
     price: SerializedMoney
+    basePrice?: SerializedMoney
+    discountPercent?: number
     badge?: string
-    onClick?: () => void
+    /**
+     * Two or three specs, already collapsed by `quickSpecs`. A lighting tile that shows a photo,
+     * a name and a price makes a customer open it to learn its wattage. The card prints the
+     * values only, as one line of description — the labels stay on the product page.
+     */
+    specs?: Array<{ label: string; value: string }>
+    /** A compare checkbox, rendered over the image. Listings pass one; strips do not. */
+    action?: React.ReactNode
 }
 
-export function ProductCard({ id, image, title, category, price, badge, onClick }: ProductCardProps) {
-    const locale = useLocale()
-    const cardRef = useRef<HTMLDivElement>(null)
-    const imageRef = useRef<HTMLImageElement>(null)
-    const contentRef = useRef<HTMLDivElement>(null)
+export function ProductCard({
+    image,
+    title,
+    category,
+    price,
+    basePrice,
+    discountPercent = 0,
+    badge,
+    specs,
+    action,
+}: ProductCardProps) {
     const t = useTranslations("product-card")
-    useEffect(() => {
-        if (!cardRef.current) return
-
-        gsap.set([imageRef.current, contentRef.current], {
-            opacity: 0,
-        })
-
-        gsap.set(imageRef.current, {
-            filter: "grayscale(60%)",
-        })
-
-        const animateOnScroll = () => {
-            gsap.to(imageRef.current, {
-                filter: "grayscale(0%)",
-                opacity: 1,
-                duration: 1.2,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: cardRef.current,
-                    start: "top 80%",
-                    end: "top 60%",
-                    scrub: 0.5,
-                    once: true,
-                },
-            })
-
-            gsap.to(contentRef.current, {
-                opacity: 1,
-                y: 0,
-                duration: 0.8,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: cardRef.current,
-                    start: "top 80%",
-                    end: "top 70%",
-                    scrub: 0.5,
-                    once: true,
-                },
-            })
-        }
-
-        animateOnScroll()
-
-        return () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-        }
-    }, [])
-
-    const handleMouseEnter = () => {
-        if (imageRef.current) {
-            gsap.to(imageRef.current, {
-                scale: 1.05,
-                duration: 0.5,
-                ease: "power2.out",
-            })
-        }
-    }
-
-    const handleMouseLeave = () => {
-        if (imageRef.current) {
-            gsap.to(imageRef.current, {
-                scale: 1,
-                duration: 0.5,
-                ease: "power2.out",
-            })
-        }
-    }
 
     return (
-        <div 
-            ref={cardRef} 
-            onClick={onClick} 
-            className="group relative cursor-pointer rounded-xl bg-card border border-border/50 transition-all duration-500 hover:shadow-premium hover:-translate-y-1 overflow-hidden"
+        <Reveal
+            className={cn(
+                "group relative overflow-hidden rounded-lg border bg-card",
+                // Tailwind v4 compiles `-translate-y-*` to the `translate` property and `scale-*` to
+                // `scale` — neither is folded into `transform` any more, so a list naming
+                // `transform` transitioned nothing this card changes and the hover jumped.
+                "transition-[box-shadow,translate,scale] duration-(--duration-base) ease-out-fast",
+                "hover:-translate-y-0.5 hover:shadow-overlay",
+                // A press, not a lift: on touch the finger is already on the card, and lifting
+                // it away from the point of contact reads as the tap having missed.
+                "active:scale-[0.99] active:duration-(--duration-fast)"
+            )}
         >
-            <div
-                className="relative overflow-hidden aspect-square"
-                onMouseEnter={handleMouseEnter}
-                onMouseLeave={handleMouseLeave}
-            >
+            <div className="relative aspect-square overflow-hidden">
                 <Image
-                    ref={imageRef}
                     src={image || "/placeholder.svg"}
-                    alt={title}
+                    /* Empty, deliberately: the `h3` below prints this product's name inside the
+                       same link, and a screen reader should not read it twice per tile. */
+                    alt=""
                     width={500}
                     height={500}
-                    className="object-cover h-full w-full transition-transform duration-700 ease-out"
+                    data-reveal-media
+                    className={cn(
+                        "size-full object-cover",
+                        // `scale` carries the zoom, `filter` the grayscale entrance.
+                        "transition-[scale,filter] duration-(--duration-slow) ease-out-fast",
+                        "group-hover:scale-105",
+                        "group-active:scale-[1.02] group-active:duration-(--duration-fast)"
+                    )}
                     priority={false}
                 />
-                
-                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                    <div className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                        <span className="px-6 py-2.5 bg-background/90 backdrop-blur-md text-foreground text-xs font-medium uppercase tracking-widest rounded-full shadow-lg">
+                {/* One gesture, one duration. `backdrop-blur` is gone from the pill: a backdrop
+                    filter re-blurs its whole backdrop every frame, and this one did it while
+                    the image behind it was scaling. */}
+                <div
+                    /* Decorative. The word is a hover affordance for a pointer, and the tile is
+                       already a link — without this the accessible name of every product link
+                       began "View" before it reached the product. */
+                    aria-hidden
+                    className="absolute inset-0 flex items-center justify-center bg-foreground/5 opacity-0 transition-opacity duration-(--duration-slow) ease-out-fast group-hover:opacity-100"
+                >
+                    <div className="translate-y-4 transition-[translate] duration-(--duration-slow) ease-out-fast group-hover:translate-y-0">
+                        <span className="rounded-full bg-background/95 px-6 py-2.5 text-xs font-medium uppercase tracking-label text-foreground shadow-overlay">
                             {t("view")}
                         </span>
                     </div>
                 </div>
-
                 {badge && (
-                    <div className="absolute top-4 left-4 z-10 bg-primary/90 backdrop-blur-sm text-primary-foreground px-3 py-1 rounded-sm">
-                        <p className="text-[10px] font-bold uppercase tracking-widest">{badge}</p>
+                    <div className="absolute top-4 inset-s-4 z-10 rounded-sm bg-primary px-3 py-1 text-primary-foreground">
+                        <p className="text-2xs font-bold uppercase tracking-label">{badge}</p>
                     </div>
                 )}
+                {discountPercent > 0 && (
+                    <DiscountBadge percent={discountPercent} className="absolute top-4 inset-e-4 z-10" />
+                )}
+                {action && (
+                    <div className={cn("absolute inset-e-4 z-20", discountPercent > 0 ? "top-16" : "top-4")}>{action}</div>
+                )}
             </div>
-            
-            <div ref={contentRef} className="p-6 space-y-4">
+            <div className="space-y-2 p-4">
                 <div className="space-y-1">
-                    <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">{category}</p>
-                    <h3 className="lg:text-2xl text-lg font-serif italic tracking-tight text-foreground transition-colors duration-300">
+                    <p className="text-2xs font-medium tracking-label text-muted-foreground uppercase">
+                        {category}
+                    </p>
+                    <h3 className="font-display text-lg italic tracking-tight text-foreground lg:text-2xl">
                         {title}
                     </h3>
                 </div>
-                
-                <div className="flex items-center justify-between pt-4 border-t border-border/50">
-                    {/* formatMoney places the currency itself — before the number in English,
-                        after it in Arabic — so the separate {t("currency")} span it used to sit
-                        beside would now render the symbol twice. */}
-                    <div className="flex items-baseline gap-1.5">
-                        <span className="text-2xl font-medium tracking-tight text-foreground">
-                            {formatMoney(price ?? "0.00", locale)}
-                        </span>
-                    </div>
-                    
-                    <div className="w-8 h-8 rounded-full border border-border/50 flex items-center justify-center group-hover:bg-primary group-hover:border-primary transition-all duration-300">
-                        <svg className="w-4 h-4 text-foreground group-hover:text-primary-foreground rtl:rotate-180 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
-                    </div>
+                {specs && specs.length > 0 && (
+                    /* One quiet line, not a spec sheet. The labelled pairs read as a table wedged
+                       under the title, and their bold values competed with it for the eye; the
+                       units already say which spec each value is ("6-30 W", "AC 220V"), so the
+                       labels were paying for themselves in weight and earning nothing. One line,
+                       one weight, clipped rather than wrapped, so every tile stays the same height. */
+                    <p className="truncate text-xs text-muted-foreground">
+                        {specs.map((spec, index) => (
+                            /* Each value is its own bidi isolate. Joined as one plain string, an
+                               Arabic tile tore "١٥ W" in half — the digits are Arabic numbers and
+                               the unit is Latin, so the RTL paragraph reordered them around the
+                               separators and printed "W · Bridge lux ١٥ · تيار متردد". A `bdi`
+                               resolves each value on its own, so the units stay on their numbers
+                               and the specs stay in order, right to left. */
+                            <Fragment key={spec.label}>
+                                {index > 0 && " · "}
+                                <bdi>{spec.value}</bdi>
+                            </Fragment>
+                        ))}
+                    </p>
+                )}
+                <div className="flex flex-row items-center justify-between gap-3 border-t pt-4">
+                    <PriceTag price={price} basePrice={basePrice} size="md" />
+                    <DirectionalArrow variant="circled" />
                 </div>
             </div>
-        </div>
+        </Reveal>
     )
 }

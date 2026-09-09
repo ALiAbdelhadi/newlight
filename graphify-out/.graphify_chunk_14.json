@@ -1,0 +1,219 @@
+{
+  "chunk_id": 14,
+  "total_files": 22,
+  "category": "product_images",
+  "subcategory": "outdoor_lighting",
+  "files": [
+    {
+      "id": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (2).webp",
+      "filename": "nl-blade (2).webp",
+      "product_line": "nl-stairs-light-2",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (3).webp",
+      "filename": "nl-blade (3).webp",
+      "product_line": "nl-stairs-light-2",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (4).webp",
+      "filename": "nl-blade (4).webp",
+      "product_line": "nl-stairs-light-2",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-2/nl-blade (5).webp",
+      "filename": "nl-blade (5).webp",
+      "product_line": "nl-stairs-light-2",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (1).webp",
+      "filename": "nl-stairs-light (1).webp",
+      "product_line": "nl-stairs-light-3",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (2).webp",
+      "filename": "nl-stairs-light (2).webp",
+      "product_line": "nl-stairs-light-3",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-3/nl-stairs-light (3).webp",
+      "filename": "nl-stairs-light (3).webp",
+      "product_line": "nl-stairs-light-3",
+      "product_type": "stairs-light",
+      "format": "webp"
+    },
+    {
+      "id": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-black-5w.png",
+      "filename": "nl-stairs-light-black-5w.png",
+      "product_line": "nl-stairs-light-4",
+      "product_type": "stairs-light",
+      "variant": "black-5w",
+      "format": "png"
+    },
+    {
+      "id": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-4/nl-stairs-light-gray-5w.png",
+      "filename": "nl-stairs-light-gray-5w.png",
+      "product_line": "nl-stairs-light-4",
+      "product_type": "stairs-light",
+      "variant": "gray-5w",
+      "format": "png"
+    },
+    {
+      "id": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-black-7w.png",
+      "filename": "nl-stairs-light-black-7w.png",
+      "product_line": "nl-stairs-light-5",
+      "product_type": "stairs-light",
+      "variant": "black-7w",
+      "format": "png"
+    },
+    {
+      "id": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-5/nl-stairs-light-gray-7w.png",
+      "filename": "nl-stairs-light-gray-7w.png",
+      "product_line": "nl-stairs-light-5",
+      "product_type": "stairs-light",
+      "variant": "gray-7w",
+      "format": "png"
+    },
+    {
+      "id": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/stairs-light/nl-stairs-light-6-gray-5w.png",
+      "filename": "nl-stairs-light-6-gray-5w.png",
+      "product_line": "nl-stairs-light-6",
+      "product_type": "stairs-light",
+      "variant": "gray-5w",
+      "format": "png"
+    },
+    {
+      "id": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (1).png",
+      "filename": "nl-s-l-100w (1).png",
+      "product_line": "nl-s-l-100w",
+      "product_type": "street-light",
+      "wattage": "100w",
+      "format": "png"
+    },
+    {
+      "id": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (2).png",
+      "filename": "nl-s-l-100w (2).png",
+      "product_line": "nl-s-l-100w",
+      "product_type": "street-light",
+      "wattage": "100w",
+      "format": "png"
+    },
+    {
+      "id": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (3).png",
+      "filename": "nl-s-l-100w (3).png",
+      "product_line": "nl-s-l-100w",
+      "product_type": "street-light",
+      "wattage": "100w",
+      "format": "png"
+    },
+    {
+      "id": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-100w/nl-s-l-100w (4).png",
+      "filename": "nl-s-l-100w (4).png",
+      "product_line": "nl-s-l-100w",
+      "product_type": "street-light",
+      "wattage": "100w",
+      "format": "png"
+    },
+    {
+      "id": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (1).png",
+      "filename": "nl-s-l-150w (1).png",
+      "product_line": "nl-s-l-150w",
+      "product_type": "street-light",
+      "wattage": "150w",
+      "format": "png"
+    },
+    {
+      "id": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (2).png",
+      "filename": "nl-s-l-150w (2).png",
+      "product_line": "nl-s-l-150w",
+      "product_type": "street-light",
+      "wattage": "150w",
+      "format": "png"
+    },
+    {
+      "id": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (3).png",
+      "filename": "nl-s-l-150w (3).png",
+      "product_line": "nl-s-l-150w",
+      "product_type": "street-light",
+      "wattage": "150w",
+      "format": "png"
+    },
+    {
+      "id": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-150w/nl-s-l-150w (4).png",
+      "filename": "nl-s-l-150w (4).png",
+      "product_line": "nl-s-l-150w",
+      "product_type": "street-light",
+      "wattage": "150w",
+      "format": "png"
+    },
+    {
+      "id": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-200w/nl-s-l-200w (1).png",
+      "filename": "nl-s-l-200w (1).png",
+      "product_line": "nl-s-l-200w",
+      "product_type": "street-light",
+      "wattage": "200w",
+      "format": "png"
+    },
+    {
+      "id": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/street-light/nl-s-l-200w/nl-s-l-200w (2).png",
+      "filename": "nl-s-l-200w (2).png",
+      "product_line": "nl-s-l-200w",
+      "product_type": "street-light",
+      "wattage": "200w",
+      "format": "png"
+    }
+  ],
+  "summary": {
+    "total_stairs_light_images": 12,
+    "total_street_light_images": 10,
+    "stairs_light_variants": [
+      "nl-stairs-light-2",
+      "nl-stairs-light-3",
+      "nl-stairs-light-4",
+      "nl-stairs-light-5",
+      "nl-stairs-light-6"
+    ],
+    "street_light_wattages": [
+      "100w",
+      "150w",
+      "200w"
+    ],
+    "image_formats": [
+      "webp",
+      "png"
+    ]
+  }
+}

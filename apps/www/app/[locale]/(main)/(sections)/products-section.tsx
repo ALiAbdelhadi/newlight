@@ -1,4 +1,5 @@
-import { resolveLocale, serializeMoney } from "@repo/database";
+import { resolveEffectivePrice, resolveLocale } from "@repo/database";
+import { activeDiscounts } from "@/lib/discounts";
 import { ProductService } from "@/lib/services/product-service";
 import { getLocale } from "next-intl/server";
 import { Products, type UIProduct } from "./products";
@@ -27,19 +28,27 @@ export default async function productsSection() {
     // Mapped HERE, on the server, because `price` is a Decimal and a Decimal cannot cross into
     // a Client Component (§4, ADR 0001). It used to be handed over raw and serialised on the
     // far side, which React rejected 231 times per page load.
-    const cards: UIProduct[] = products.map((product) => ({
+    // One load for the whole strip, and the same resolver the checkout uses (§13.2).
+    const discounts = await activeDiscounts();
+
+    const cards: UIProduct[] = products.map((product) => {
+      const priced = resolveEffectivePrice(product.price, product, discounts)
+      return {
         id: product.id,
         image: product.images[0]?.url ?? "/lighting-product.jpg",
         title: product.translations[0]?.name || product.productId,
         category: product.subCategory.translations[0]?.name ?? "",
-        price: serializeMoney(product.price),
+        price: priced.effective,
+        basePrice: priced.base,
+        discountPercent: priced.percentOff,
         badge: product.isFeatured ? "Featured" : undefined,
         productId: product.productId,
         slug: product.slug,
         // Per-locale slugs off the translation rows (§9.2) — the entity has none.
         categorySlug: product.subCategory.category.translations[0]?.slug ?? "",
         subCategorySlug: product.subCategory.translations[0]?.slug ?? "",
-    }))
+      }
+    })
 
     return <Products products={cards} />
 }

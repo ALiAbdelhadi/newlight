@@ -1,7 +1,7 @@
 "use client"
 
 import { useRef, useState, useTransition } from "react"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -26,6 +26,7 @@ import {
     setImageColor,
     uploadProductImage,
 } from "@/app/action/media-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 export interface ImageRow {
     id: string
@@ -102,8 +103,8 @@ export function ImagesPanel({
         <div className="space-y-8">
             <OfferedColors productId={productId} colors={colors} offered={offeredColorIds} pending={pending} call={call} />
 
-            <form action={submitUpload} className="bg-card rounded-lg border p-4 shadow-sm space-y-3 max-w-2xl">
-                <h3 className="font-semibold">Add a photo</h3>
+            <form action={submitUpload} className="rounded-lg border bg-card p-3 space-y-3 max-w-2xl">
+                <h2 className="font-semibold">Add a photo</h2>
                 <p className="text-sm text-muted-foreground">
                     JPEG, PNG, WebP or AVIF, up to 10 MB. It goes to Cloudinary under this product&rsquo;s own path and
                     appears on the storefront as soon as it is saved.
@@ -122,19 +123,18 @@ export function ImagesPanel({
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="upload-color">Colour shown (optional)</Label>
-                        <select
+                        <NativeSelect
                             id="upload-color"
                             value={colorForUpload}
                             onChange={(e) => setColorForUpload(e.target.value)}
-                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                        >
+                            >
                             <option value="">Not colour-specific</option>
                             {colors.map((color) => (
                                 <option key={color.id} value={color.id}>
                                     {color.key.toLowerCase().replace(/_/g, " ")}
                                 </option>
                             ))}
-                        </select>
+                        </NativeSelect>
                     </div>
                 </div>
                 <Button type="submit" disabled={pending}>
@@ -148,13 +148,13 @@ export function ImagesPanel({
                 </p>
             ) : (
                 <div className="space-y-4">
-                    <h3 className="font-semibold">
+                    <h2 className="font-semibold">
                         {images.length} photo{images.length === 1 ? "" : "s"}
                         <span className="font-normal text-muted-foreground"> — the first is what listings show</span>
-                    </h3>
+                    </h2>
 
                     {images.map((image, index) => (
-                        <div key={image.id} className="bg-card rounded-lg border p-4 shadow-sm flex flex-wrap gap-4">
+                        <div key={image.id} className="rounded-lg border bg-card p-3 flex flex-wrap gap-4">
                             <div className="relative shrink-0">
                                 <Image
                                     src={image.url}
@@ -177,22 +177,21 @@ export function ImagesPanel({
                                         <Label htmlFor={`color-${image.id}`} className="text-xs">
                                             Colour shown
                                         </Label>
-                                        <select
+                                        <NativeSelect
                                             id={`color-${image.id}`}
                                             defaultValue={image.colorId ?? ""}
                                             disabled={pending}
                                             onChange={(e) =>
                                                 call(() => setImageColor(productId, image.id, e.target.value || null))
                                             }
-                                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                                        >
+                                            >
                                             <option value="">Not colour-specific</option>
                                             {colors.map((color) => (
                                                 <option key={color.id} value={color.id}>
                                                     {color.key.toLowerCase().replace(/_/g, " ")}
                                                 </option>
                                             ))}
-                                        </select>
+                                        </NativeSelect>
                                     </div>
 
                                     <AltEditor
@@ -240,7 +239,7 @@ export function ImagesPanel({
                                         <AlertDialogFooter>
                                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                                             <AlertDialogAction
-                                                className="bg-destructive text-white hover:bg-destructive/90"
+                                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                                 onClick={() => call(() => deleteProductImage(productId, image.id))}
                                             >
                                                 Remove
@@ -330,8 +329,8 @@ function OfferedColors({
     const dirty = selected.length !== offered.length || selected.some((id, i) => id !== offered[i])
 
     return (
-        <section className="bg-card rounded-lg border p-4 shadow-sm space-y-3">
-            <h3 className="font-semibold">Colours offered</h3>
+        <section className="rounded-lg border bg-card p-3 space-y-3">
+            <h2 className="font-semibold">Colours offered</h2>
             <p className="text-sm text-muted-foreground">
                 What a customer can choose between. The order here is the order they appear in.
             </p>

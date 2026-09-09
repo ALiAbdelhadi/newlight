@@ -1,52 +1,22 @@
-"use client"
-
-import { Container } from "@/components/container"
+import { Container, PageHeader } from "@/components/layout/section"
+import { Reveal } from "@/components/reveal"
 import { Link } from "@/i18n/navigation"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from "next-intl"
-import { useEffect, useRef } from "react"
 
-gsap.registerPlugin(ScrollTrigger)
-
+/**
+ * The privacy policy.
+ *
+ * A server component. Its GSAP was the gentler kind — `gsap.from`, so the resting state was
+ * visible and a failed script left the text readable — but it still pulled GSAP and
+ * ScrollTrigger onto a page that is eight headings and some prose, and it scrubbed each section
+ * against scroll position, so a section already behind the viewport on load could sit at a
+ * fraction of its animation.
+ *
+ * `Reveal` does the same fade with no library, and stops entirely for
+ * `prefers-reduced-motion`.
+ */
 export function PrivacyClient() {
     const t = useTranslations("privacy-page")
-    const heroRef = useRef<HTMLDivElement>(null)
-    const sectionsRef = useRef<HTMLDivElement>(null)
-
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            if (heroRef.current) {
-                gsap.from(heroRef.current.children, {
-                    opacity: 0,
-                    y: 30,
-                    duration: 1,
-                    stagger: 0.2,
-                    ease: "power3.out",
-                    once: true
-                })
-            }
-            if (sectionsRef.current) {
-                const sections = sectionsRef.current.querySelectorAll(".privacy-section")
-                sections.forEach((section) => {
-                    gsap.from(section, {
-                        opacity: 0,
-                        y: 40,
-                        duration: 0.8,
-                        scrollTrigger: {
-                            trigger: section,
-                            start: "top 85%",
-                            end: "top 60%",
-                            scrub: 1,
-                            once: true
-                        },
-                    })
-                })
-            }
-        })
-
-        return () => ctx.revert()
-    }, [])
 
     const sections = [
         {
@@ -90,26 +60,23 @@ export function PrivacyClient() {
     ]
 
     return (
-        <div className="min-h-screen">
-            <section className="relative py-24 md:py-32">
+        <>
+            <PageHeader
+                title={t("heroTitle")}
+                description={t("heroSubtitle")}
+                action={
+                    <p className="text-sm text-muted-foreground">
+                        {t("lastUpdated")}: {t("updateDate")}
+                    </p>
+                }
+            />
+
+            <section className="py-12 lg:py-16">
                 <Container>
-                    <div ref={heroRef} className="mx-auto max-w-3xl text-center">
-                        <h1 className="font-serif text-5xl font-light tracking-tight text-foreground md:text-6xl lg:text-7xl">
-                            {t("heroTitle")}
-                        </h1>
-                        <p className="mt-6 text-lg leading-relaxed text-muted-foreground md:text-xl">{t("heroSubtitle")}</p>
-                        <div className="mt-8 text-sm text-muted-foreground">
-                            {t("lastUpdated")}: {t("updateDate")}
-                        </div>
-                    </div>
-                </Container>
-            </section>
-            <section className="py-16">
-                <Container>
-                    <div ref={sectionsRef} className="mx-auto max-w-4xl space-y-16">
+                    <div className="mx-auto max-w-4xl space-y-14">
                         {sections.map((section, index) => (
-                            <div key={index} className="privacy-section space-y-4">
-                                <h2 className="font-serif text-3xl font-light text-foreground md:text-4xl">{section.title}</h2>
+                            <Reveal key={index} index={index} className="space-y-4">
+                                <h2 className="font-display text-2xl font-light lg:text-3xl">{section.title}</h2>
                                 <p className="text-base leading-relaxed text-muted-foreground md:text-lg">{section.content}</p>
                                 {section.items && section.items.length > 0 && (
                                     <ul className="mt-4 space-y-3 text-muted-foreground">
@@ -121,10 +88,11 @@ export function PrivacyClient() {
                                         ))}
                                     </ul>
                                 )}
-                            </div>
+                            </Reveal>
                         ))}
-                        <div className="privacy-section rounded-lg border border-border bg-muted/30 p-8 md:p-12">
-                            <h2 className="font-serif text-3xl font-light text-foreground md:text-4xl">{t("contact.title")}</h2>
+
+                        <Reveal className="rounded-lg border bg-surface-sunk p-8 md:p-12">
+                            <h2 className="font-display text-2xl font-light lg:text-3xl">{t("contact.title")}</h2>
                             <p className="mt-4 text-base leading-relaxed text-muted-foreground md:text-lg">{t("contact.content")}</p>
                             <div className="mt-6 space-y-2 text-muted-foreground">
                                 <p>
@@ -141,10 +109,10 @@ export function PrivacyClient() {
                                     {t("contact.address")}
                                 </p>
                             </div>
-                        </div>
+                        </Reveal>
                     </div>
                 </Container>
             </section>
-        </div>
+        </>
     )
 }

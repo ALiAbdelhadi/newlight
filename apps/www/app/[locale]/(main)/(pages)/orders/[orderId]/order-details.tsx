@@ -1,30 +1,48 @@
-"use client"
-
 import { isZeroMoney } from "@repo/database"
-import { Container } from "@/components/container"
+import { ORDER_STATUS_COPY, PAYMENT_STATUS_COPY } from "@repo/database/status"
+import type { Locale } from "@repo/database/locale"
+import { ArrowLeft, Truck } from "lucide-react"
+
+import { Container } from "@/components/layout/section"
 import { OrderItemsList } from "@/components/order-items-list"
+import { OrderProgress } from "@/components/order-progress"
 import { OrderShippingInfo } from "@/components/order-shipping-info"
-import { Badge } from "@/components/ui/badge"
+import { StatusBadge } from "@/components/status-badge"
+import { Notice } from "@/components/states"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { Link } from "@/i18n/navigation"
 import { formatNumberWithConversion } from "@/lib/price"
+import { cn } from "@/lib/utils"
 import type { OrderWithDetails } from "@/types"
-import { format } from "date-fns"
-import { ar, enUS } from "date-fns/locale"
-import { ArrowLeft, Calendar, CreditCard, FileText, Package, Truck } from "lucide-react"
-import { useMemo } from "react"
+
+/**
+ * One order, as the customer sees it.
+ *
+ * A SERVER COMPONENT. It was `"use client"` and had no state, no handlers and no effects — a
+ * client boundary around a read-only page, which shipped the whole subtree to the browser and,
+ * worse, pushed raw `Prisma.Decimal` values across the serialization boundary (ADR 0001). The
+ * one interactive thing on the page, cancelling, is already its own client component.
+ *
+ * Three product defects went with it:
+ *
+ *   ITS STATUS VOCABULARY WAS ITS OWN. A private map naming seven statuses, three of which
+ *   (`processing`, `fulfilled`, `refunded`) migration 0010 removed from the enum, and a colour
+ *   switch of hardcoded `bg-green-100 dark:bg-green-900/20` literals no token could reach. It
+ *   now reads `@repo/database/status`, the same record the admin panel reads.
+ *
+ *   "BACK TO ORDERS" WENT HOME. The button was labelled `backToOrders` and linked to `/`.
+ *
+ *   PAYMENT WAS INVISIBLE. Under cash on delivery the single most useful fact on this page is
+ *   "you pay the courier when it arrives", and the page never said it.
+ */
 
 interface OrderDetailsViewProps {
     order: OrderWithDetails
-    locale: string
-    isArabic: boolean
+    locale: Locale
     translations: {
         orderDetails: string
         orderNumber: string
         orderDate: string
-        orderStatus: string
         orderItems: string
         colorTemp: string
         color: string
@@ -41,185 +59,141 @@ interface OrderDetailsViewProps {
         trackingNumber: string
         backToOrders: string
         continueShopping: string
+        free: string
     }
 }
 
-export function OrderDetailsView({
-    order,
-    locale,
-    isArabic,
-    translations: t
-}: OrderDetailsViewProps) {
-    const orderStatusLabel = useMemo(() => {
-        const statusMap: Record<string, { en: string; ar: string }> = {
-            awaiting_shipment: { en: "Awaiting Shipment", ar: "في انتظار الشحن" },
-            processing: { en: "Processing", ar: "قيد المعالجة" },
-            shipped: { en: "Shipped", ar: "تم الشحن" },
-            delivered: { en: "Delivered", ar: "تم التسليم" },
-            fulfilled: { en: "Fulfilled", ar: "مكتمل" },
-            cancelled: { en: "Cancelled", ar: "ملغي" },
-            refunded: { en: "Refunded", ar: "مسترد" },
-        }
-        const status = statusMap[order.status] || { en: order.status, ar: order.status }
-        return isArabic ? status.ar : status.en
-    }, [order.status, isArabic])
-
-    const getStatusColor = (status: string) => {
-        switch (status) {
-            case "fulfilled":
-            case "delivered":
-                return "bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400"
-            case "shipped":
-                return "bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
-            case "processing":
-                return "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400"
-            case "cancelled":
-            case "refunded":
-                return "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
-            default:
-                return "bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400"
-        }
-    }
+export function OrderDetailsView({ order, locale, translations: t }: OrderDetailsViewProps) {
+    const statusCopy = ORDER_STATUS_COPY[order.status]
+    const paymentCopy = PAYMENT_STATUS_COPY[order.paymentStatus]
 
     return (
-        <div className="min-h-screen py-12 md:py-24">
+        <div className="py-10 lg:py-16">
             <Container>
-                <div className="max-w-6xl mx-auto">
-                    <div className="mb-8">
-                        <Link href="/">
-                            <Button variant="ghost" className="mb-4">
-                                <ArrowLeft className="mr-2 h-4 w-4" />
-                                {t.backToOrders}
-                            </Button>
-                        </Link>
-                        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                            <div>
-                                <h1 className="text-3xl md:text-4xl font-serif font-light tracking-tight mb-2">
-                                    {t.orderDetails}
-                                </h1>
-                                <p className="text-muted-foreground">
-                                    {t.orderNumber}: <span className="font-mono font-medium text-foreground">{order.orderNumber}</span>
-                                </p>
-                            </div>
-                            <Badge className={`${getStatusColor(order.status)} text-sm px-4 py-2`}>
-                                {orderStatusLabel}
-                            </Badge>
-                        </div>
+                <Button asChild variant="ghost" size="sm" className="-ms-3 mb-6">
+                    <Link href="/orders">
+                        <ArrowLeft className="size-4 rtl:rotate-180" />
+                        {t.backToOrders}
+                    </Link>
+                </Button>
+
+                <header className="flex flex-col gap-4 border-b pb-8 sm:flex-row sm:items-start sm:justify-between">
+                    <div className="min-w-0">
+                        <p className="text-xs font-medium tracking-label text-muted-foreground uppercase">
+                            {t.orderNumber}
+                        </p>
+                        <h1 className="mt-2 font-mono text-3xl font-semibold tracking-tight lg:text-4xl">
+                            {order.orderNumber}
+                        </h1>
+                        <p className="mt-2 text-muted-foreground">
+                            {t.orderDate}{" "}
+                            <time dateTime={new Date(order.createdAt).toISOString()}>
+                                {new Date(order.createdAt).toLocaleDateString(locale, {
+                                    day: "numeric",
+                                    month: "long",
+                                    year: "numeric",
+                                })}
+                            </time>
+                        </p>
                     </div>
-                    <Card className="mb-8">
-                        <CardHeader>
-                            <CardTitle className="flex items-center gap-2">
-                                <FileText className="h-5 w-5" />
-                                {t.orderDetails}
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div className="flex items-center gap-3">
-                                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                                        <Calendar className="h-5 w-5 text-muted-foreground" />
-                                    </div>
-                                    <div>
-                                        <p className="text-sm text-muted-foreground">{t.orderDate}</p>
-                                        <p className="font-medium">
-                                            {format(new Date(order.createdAt), "PPP", { locale: isArabic ? ar : enUS })}
-                                        </p>
-                                    </div>
-                                </div>
-                                {order.trackingNumber && (
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                                            <Truck className="h-5 w-5 text-muted-foreground" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-muted-foreground">{t.trackingNumber}</p>
-                                            <p className="font-medium font-mono">{order.trackingNumber}</p>
-                                        </div>
-                                    </div>
-                                )}
-                                {order.shippedAt && (
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
-                                            <Package className="h-5 w-5 text-muted-foreground" />
-                                        </div>
-                                        <div>
-                                            <p className="text-sm text-muted-foreground">Shipped Date</p>
-                                            <p className="font-medium">
-                                                {format(new Date(order.shippedAt), "PPP", { locale: isArabic ? ar : enUS })}
-                                            </p>
-                                        </div>
-                                    </div>
-                                )}
+
+                    <div className="flex flex-wrap items-center gap-2">
+                        <StatusBadge kind="order" value={order.status} locale={locale} size="md" />
+                        <StatusBadge kind="payment" value={order.paymentStatus} locale={locale} size="md" />
+                    </div>
+                </header>
+
+                <div className="mt-8 space-y-8">
+                    {/* What is happening, in one sentence, before any of the detail. */}
+                    <Notice tone={statusCopy.tone === "danger" ? "danger" : "info"} title={statusCopy.label[locale]}>
+                        {statusCopy.description[locale]}{" "}
+                        {order.paymentStatus === "PENDING" && paymentCopy.description[locale]}
+                    </Notice>
+
+                    <OrderProgress
+                        status={order.status}
+                        createdAt={order.createdAt}
+                        shippedAt={order.shippedAt}
+                        deliveredAt={order.deliveredAt}
+                        locale={locale}
+                    />
+
+                    {order.trackingNumber && (
+                        <div className="flex items-center gap-3 rounded-lg border bg-surface-sunk p-4">
+                            <Truck aria-hidden className="size-5 shrink-0 text-muted-foreground" />
+                            <div className="min-w-0">
+                                <p className="text-sm text-muted-foreground">{t.trackingNumber}</p>
+                                <p className="font-mono font-medium">{order.trackingNumber}</p>
                             </div>
-                        </CardContent>
-                    </Card>
+                        </div>
+                    )}
+
                     <div className="grid gap-8 lg:grid-cols-3">
-                        <div className="lg:col-span-2 space-y-8">
+                        <div className="space-y-8 lg:col-span-2">
                             <OrderItemsList
                                 items={order.items}
-                                isArabic={isArabic}
+                                locale={locale}
                                 translations={{
                                     orderItems: t.orderItems,
                                     colorTemp: t.colorTemp,
                                     color: t.color,
                                     quantity: t.quantity,
-                                    each: t.each,
-                                    currency: t.currency
                                 }}
                             />
+
                             {order.shippingAddress && (
                                 <OrderShippingInfo
                                     shippingAddress={order.shippingAddress}
                                     shippingOption={order.shippingOption}
-                                    isArabic={isArabic}
+                                    locale={locale}
                                     translations={{
                                         shippingAddress: t.shippingAddress,
-                                        shippingMethod: t.shippingMethod
+                                        shippingMethod: t.shippingMethod,
                                     }}
                                 />
                             )}
                         </div>
+
                         <div className="lg:col-span-1">
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <CreditCard className="h-5 w-5" />
-                                        {t.paymentSummary}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground">{t.subtotal}</span>
-                                        <span className="font-medium">{formatNumberWithConversion(order.subtotal, locale)}</span>
-                                    </div>
+                            <section
+                                aria-labelledby="payment-summary"
+                                className="rounded-lg border bg-card p-6 lg:sticky lg:top-24"
+                            >
+                                <h2 id="payment-summary" className="text-lg font-semibold tracking-tight">
+                                    {t.paymentSummary}
+                                </h2>
+
+                                <dl className="mt-5 space-y-3 text-sm">
+                                    <Row label={t.subtotal} value={formatNumberWithConversion(order.subtotal, locale)} />
                                     {order.tax && !isZeroMoney(order.tax) && (
-                                        <div className="flex justify-between text-sm">
-                                            <span className="text-muted-foreground">{t.tax}</span>
-                                            <span className="font-medium">{formatNumberWithConversion(order.tax, locale)}</span>
-                                        </div>
+                                        <Row label={t.tax} value={formatNumberWithConversion(order.tax, locale)} />
                                     )}
-                                    <div className="flex justify-between text-sm">
-                                        <span className="text-muted-foreground">{t.shipping}</span>
-                                        <span className="font-medium">
-                                            {!isZeroMoney(order.shippingCost) ? formatNumberWithConversion(order.shippingCost, locale) : (isArabic ? "مجاني" : "Free")}
-                                        </span>
-                                    </div>
-                                    <Separator />
-                                    <div className="flex justify-between items-baseline pt-2">
-                                        <span className="text-lg font-semibold uppercase tracking-wide">{t.total}</span>
-                                        <span className="text-2xl font-serif font-light">
-                                            {formatNumberWithConversion(order.total, locale)}
-                                        </span>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                            <div className="mt-6 flex flex-col gap-3">
-                                <Button asChild variant="outline" className="w-full">
-                                    <Link href="/">
-                                        {t.continueShopping}
-                                    </Link>
+                                    <Row
+                                        label={t.shipping}
+                                        value={
+                                            isZeroMoney(order.shippingCost)
+                                                ? t.free
+                                                : formatNumberWithConversion(order.shippingCost, locale)
+                                        }
+                                        muted={isZeroMoney(order.shippingCost)}
+                                    />
+                                </dl>
+
+                                <div className="mt-5 flex items-baseline justify-between border-t pt-5">
+                                    <dt className="font-medium">{t.total}</dt>
+                                    <dd className="text-2xl font-semibold tabular-nums">
+                                        {formatNumberWithConversion(order.total, locale)}
+                                    </dd>
+                                </div>
+
+                                <p className="mt-4 text-sm text-muted-foreground">
+                                    {paymentCopy.description[locale]}
+                                </p>
+
+                                <Button asChild variant="outline" className="mt-6 w-full">
+                                    <Link href="/category">{t.continueShopping}</Link>
                                 </Button>
-                            </div>
+                            </section>
                         </div>
                     </div>
                 </div>
@@ -228,3 +202,11 @@ export function OrderDetailsView({
     )
 }
 
+function Row({ label, value, muted = false }: { label: string; value: string; muted?: boolean }) {
+    return (
+        <div className="flex items-baseline justify-between gap-4">
+            <dt className="text-muted-foreground">{label}</dt>
+            <dd className={cn("tabular-nums", muted && "text-muted-foreground")}>{value}</dd>
+        </div>
+    )
+}

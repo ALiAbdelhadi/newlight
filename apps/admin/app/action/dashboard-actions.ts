@@ -48,8 +48,10 @@ export const getDashboardStats = unstable_cache(
                     },
                 }),
 
-                // Total customers (users)
-                prisma.user.count(),
+                // Customers, not users. The badge sits on a row labelled "Customers" and
+                // linking to a surface that lists `role: CUSTOMER` only — counting the
+                // administrators into it made the badge disagree with the page it points at.
+                prisma.user.count({ where: { role: "CUSTOMER" } }),
 
                 // Unread contact-form submissions (drives the sidebar badge)
                 prisma.contactForm.count({

@@ -1,12 +1,11 @@
 import { prisma } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ColorService, FamilyService, LocationService } from "@/lib/services/reference-service"
 import { FamiliesPanel } from "./families-panel"
 import { ColorsPanel } from "./colors-panel"
 import { LocationsPanel } from "./locations-panel"
+import { PageBody, PageHeader, pageTabsListClass, pageTabsTriggerClass } from "@/components/page"
 
 /**
  * The reference data everything else is built out of.
@@ -32,66 +31,77 @@ export default async function ReferencePage() {
     ])
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Reference data" />
-            <div className="mt-8">
-                <Container>
-                    <Tabs defaultValue="families" className="w-full">
-                        <TabsList>
-                            <TabsTrigger value="families">Families ({families.length})</TabsTrigger>
-                            <TabsTrigger value="colors">Colours ({colors.length})</TabsTrigger>
-                            <TabsTrigger value="locations">Locations ({locations.length})</TabsTrigger>
-                        </TabsList>
+        <>
+            <PageHeader
+                title="Reference data"
+                description="Colours, families and mounting locations — the shared lists products are built from. Editing one here changes it everywhere it is used."
+            />
 
-                        <TabsContent value="families" className="mt-6">
-                            <FamiliesPanel
-                                families={families.map((f) => ({
-                                    id: f.id,
-                                    slug: f.slug,
-                                    variantType: f.variantType,
-                                    order: f.order,
-                                    products: f._count.products,
-                                    subCategory: f.subCategory.translations[0]?.name ?? f.subCategoryId,
-                                    nameEn: f.translations.find((t) => t.locale === "en")?.name ?? "",
-                                    nameAr: f.translations.find((t) => t.locale === "ar")?.name ?? "",
-                                }))}
-                                subCategories={subCategories.map((s) => ({
-                                    id: s.id,
-                                    name: s.translations[0]?.name ?? s.id,
-                                }))}
-                            />
-                        </TabsContent>
+            <PageBody>
+                <Tabs defaultValue="families" className="w-full gap-0">
+                    <TabsList className={pageTabsListClass}>
+                        <TabsTrigger value="families" className={pageTabsTriggerClass}>
+                            Families
+                            <span className="tabular-nums text-muted-foreground">{families.length}</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="colors" className={pageTabsTriggerClass}>
+                            Colours
+                            <span className="tabular-nums text-muted-foreground">{colors.length}</span>
+                        </TabsTrigger>
+                        <TabsTrigger value="locations" className={pageTabsTriggerClass}>
+                            Locations
+                            <span className="tabular-nums text-muted-foreground">{locations.length}</span>
+                        </TabsTrigger>
+                    </TabsList>
 
-                        <TabsContent value="colors" className="mt-6">
-                            <ColorsPanel
-                                colors={colors.map((c) => ({
-                                    id: c.id,
-                                    key: c.key,
-                                    hex: c.hex,
-                                    nameEn: c.nameEn,
-                                    nameAr: c.nameAr,
-                                    order: c.order,
-                                    isActive: c.isActive,
-                                    products: c._count.products,
-                                    images: c._count.images,
-                                }))}
-                            />
-                        </TabsContent>
+                    <TabsContent value="families" className="mt-4">
+                        <FamiliesPanel
+                            families={families.map((f) => ({
+                                id: f.id,
+                                slug: f.slug,
+                                variantType: f.variantType,
+                                order: f.order,
+                                products: f._count.products,
+                                subCategory: f.subCategory.translations[0]?.name ?? f.subCategoryId,
+                                nameEn: f.translations.find((t) => t.locale === "en")?.name ?? "",
+                                nameAr: f.translations.find((t) => t.locale === "ar")?.name ?? "",
+                            }))}
+                            subCategories={subCategories.map((s) => ({
+                                id: s.id,
+                                name: s.translations[0]?.name ?? s.id,
+                            }))}
+                        />
+                    </TabsContent>
 
-                        <TabsContent value="locations" className="mt-6">
-                            <LocationsPanel
-                                locations={locations.map((l) => ({
-                                    id: l.id,
-                                    name: l.name,
-                                    isDefault: l.isDefault,
-                                    movements: l._count.movements,
-                                    onHand: l.onHand,
-                                }))}
-                            />
-                        </TabsContent>
-                    </Tabs>
-                </Container>
-            </div>
-        </div>
+                    <TabsContent value="colors" className="mt-4">
+                        <ColorsPanel
+                            colors={colors.map((c) => ({
+                                id: c.id,
+                                key: c.key,
+                                hex: c.hex,
+                                nameEn: c.nameEn,
+                                nameAr: c.nameAr,
+                                order: c.order,
+                                isActive: c.isActive,
+                                products: c._count.products,
+                                images: c._count.images,
+                            }))}
+                        />
+                    </TabsContent>
+
+                    <TabsContent value="locations" className="mt-4">
+                        <LocationsPanel
+                            locations={locations.map((l) => ({
+                                id: l.id,
+                                name: l.name,
+                                isDefault: l.isDefault,
+                                movements: l._count.movements,
+                                onHand: l.onHand,
+                            }))}
+                        />
+                    </TabsContent>
+                </Tabs>
+            </PageBody>
+        </>
     )
 }

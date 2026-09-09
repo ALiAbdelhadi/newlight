@@ -68,6 +68,12 @@ describe("constraints migrate diff cannot see (A22)", () => {
             SELECT conname AS name FROM pg_constraint
              WHERE contype = 'c' AND connamespace = 'public'::regnamespace`
         expect(rows.map((r) => r.name).sort()).toEqual([
+            // 0015 — a discount takes something off, never all of it, over a window that runs
+            // forwards, and its scope column cannot disagree with the target it points at.
+            "discounts_percent_bounded",
+            "discounts_scope_target_matches",
+            "discounts_value_positive",
+            "discounts_window_ordered",
             // §4.6 — the four the schema cannot express in Prisma.
             "products_price_positive",
             // 0014 — a rate-limit counter cannot go negative.

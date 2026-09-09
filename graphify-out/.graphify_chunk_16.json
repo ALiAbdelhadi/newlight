@@ -1,0 +1,273 @@
+{
+  "chunk_id": 16,
+  "chunk_name": "Image Assets - Product & Branding",
+  "total_files": 22,
+  "files": [
+    {
+      "id": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (1).webp",
+      "filename": "nl-wall-light-5 (1).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-5",
+      "variant": "1",
+      "app": "admin"
+    },
+    {
+      "id": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (2).webp",
+      "filename": "nl-wall-light-5 (2).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-5",
+      "variant": "2",
+      "app": "admin"
+    },
+    {
+      "id": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (3).webp",
+      "filename": "nl-wall-light-5 (3).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-5",
+      "variant": "3",
+      "app": "admin"
+    },
+    {
+      "id": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-5/nl-wall-light-5 (4).webp",
+      "filename": "nl-wall-light-5 (4).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-5",
+      "variant": "4",
+      "app": "admin"
+    },
+    {
+      "id": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (1).webp",
+      "filename": "nl-wall-light-6 (1).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-6",
+      "variant": "1",
+      "app": "admin"
+    },
+    {
+      "id": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (2).webp",
+      "filename": "nl-wall-light-6 (2).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-6",
+      "variant": "2",
+      "app": "admin"
+    },
+    {
+      "id": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6 (3).webp",
+      "filename": "nl-wall-light-6 (3).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-6",
+      "variant": "3",
+      "app": "admin"
+    },
+    {
+      "id": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-light/nl-w-l-6/nl-wall-light-6-gold-6 (4).webp",
+      "filename": "nl-wall-light-6-gold-6 (4).webp",
+      "extension": "webp",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-light",
+      "product_id": "nl-w-l-6",
+      "color": "gold",
+      "variant": "4",
+      "app": "admin"
+    },
+    {
+      "id": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-washer/nl-wl-30w.png",
+      "filename": "nl-wl-30w.png",
+      "extension": "png",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-washer",
+      "product_id": "nl-wl-30w",
+      "app": "admin"
+    },
+    {
+      "id": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/wall-washer/nl-wl-60w.png",
+      "filename": "nl-wl-60w.png",
+      "extension": "png",
+      "type": "product_image",
+      "category": "outdoor",
+      "subcategory": "wall-washer",
+      "product_id": "nl-wl-60w",
+      "app": "admin"
+    },
+    {
+      "id": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/web-app-manifest-192x192.png",
+      "filename": "web-app-manifest-192x192.png",
+      "extension": "png",
+      "type": "manifest_icon",
+      "size": "192x192",
+      "app": "admin"
+    },
+    {
+      "id": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/web-app-manifest-512x512.png",
+      "filename": "web-app-manifest-512x512.png",
+      "extension": "png",
+      "type": "manifest_icon",
+      "size": "512x512",
+      "app": "admin"
+    },
+    {
+      "id": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/apple-touch-icon.png",
+      "filename": "apple-touch-icon.png",
+      "extension": "png",
+      "type": "app_icon",
+      "purpose": "apple_touch",
+      "app": "www"
+    },
+    {
+      "id": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/ar/logo-black.png",
+      "filename": "logo-black.png",
+      "extension": "png",
+      "type": "brand_asset",
+      "asset": "logo",
+      "variant": "black",
+      "locale": "ar",
+      "app": "www"
+    },
+    {
+      "id": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/ar/logo-white.png",
+      "filename": "logo-white.png",
+      "extension": "png",
+      "type": "brand_asset",
+      "asset": "logo",
+      "variant": "white",
+      "locale": "ar",
+      "app": "www"
+    },
+    {
+      "id": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/en/logo-black.png",
+      "filename": "logo-black.png",
+      "extension": "png",
+      "type": "brand_asset",
+      "asset": "logo",
+      "variant": "black",
+      "locale": "en",
+      "app": "www"
+    },
+    {
+      "id": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/brand/en/logo-white.png",
+      "filename": "logo-white.png",
+      "extension": "png",
+      "type": "brand_asset",
+      "asset": "logo",
+      "variant": "white",
+      "locale": "en",
+      "app": "www"
+    },
+    {
+      "id": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/category/indoor-lighting-1.png",
+      "filename": "indoor-lighting-1.png",
+      "extension": "png",
+      "type": "category_image",
+      "category": "indoor-lighting",
+      "variant": "1",
+      "app": "www"
+    },
+    {
+      "id": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/category/outdoor-lighting-1.png",
+      "filename": "outdoor-lighting-1.png",
+      "extension": "png",
+      "type": "category_image",
+      "category": "outdoor-lighting",
+      "variant": "1",
+      "app": "www"
+    },
+    {
+      "id": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/favicon-96x96.png",
+      "filename": "favicon-96x96.png",
+      "extension": "png",
+      "type": "favicon",
+      "size": "96x96",
+      "app": "www"
+    },
+    {
+      "id": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/favicon.svg",
+      "filename": "favicon.svg",
+      "extension": "svg",
+      "type": "favicon",
+      "app": "www"
+    },
+    {
+      "id": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/hero/hero.jpg",
+      "filename": "hero.jpg",
+      "extension": "jpg",
+      "type": "hero_image",
+      "section": "hero",
+      "app": "www"
+    }
+  ],
+  "metadata": {
+    "apps_involved": ["admin", "www"],
+    "file_types": ["webp", "png", "svg", "jpg"],
+    "asset_categories": [
+      "product_images",
+      "brand_assets",
+      "app_icons",
+      "category_images",
+      "hero_images",
+      "favicons"
+    ],
+    "product_categories": ["outdoor"],
+    "product_subcategories": ["wall-light", "wall-washer"]
+  },
+  "relationships": {
+    "products_by_id": {
+      "nl-w-l-5": [1, 2, 3, 4],
+      "nl-w-l-6": [5, 6, 7, 8],
+      "nl-wl-30w": [9],
+      "nl-wl-60w": [10]
+    },
+    "brand_assets_by_locale": {
+      "en": [16, 17],
+      "ar": [14, 15]
+    },
+    "app_distribution": {
+      "admin": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+      "www": [13, 14, 15, 16, 17, 18, 19, 20, 21, 22]
+    }
+  }
+}

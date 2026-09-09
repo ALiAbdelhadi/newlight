@@ -1,0 +1,256 @@
+{
+  "chunk_id": 10,
+  "metadata": {
+    "created_at": "2026-09-06",
+    "total_files": 22,
+    "category": "indoor_lighting_product_images"
+  },
+  "files": [
+    {
+      "id": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-r/nl-pl-r-6w.png",
+      "filename": "nl-pl-r-6w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-pl-r",
+      "product_code": "nl-pl-r-6w",
+      "wattage": "6w"
+    },
+    {
+      "id": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-18w.png",
+      "filename": "nl-pl-r-s-18w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-pl-round-surface",
+      "product_code": "nl-pl-r-s-18w",
+      "wattage": "18w"
+    },
+    {
+      "id": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-24w.png",
+      "filename": "nl-pl-r-s-24w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-pl-round-surface",
+      "product_code": "nl-pl-r-s-24w",
+      "wattage": "24w"
+    },
+    {
+      "id": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-20w.png",
+      "filename": "nl-plastic-dl-20w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-plastic-downlights",
+      "product_code": "nl-plastic-dl-20w",
+      "wattage": "20w"
+    },
+    {
+      "id": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-30w.png",
+      "filename": "nl-plastic-dl-30w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-plastic-downlights",
+      "product_code": "nl-plastic-dl-30w",
+      "wattage": "30w"
+    },
+    {
+      "id": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-6w.png",
+      "filename": "nl-plastic-dl-6w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-plastic-downlights",
+      "product_code": "nl-plastic-dl-6w",
+      "wattage": "6w"
+    },
+    {
+      "id": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w (1).png",
+      "filename": "nl-s-r-dl-20w (1).png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-squared-recessed-plastic",
+      "product_code": "nl-s-r-dl-20w",
+      "wattage": "20w",
+      "variant": 1
+    },
+    {
+      "id": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w (1).png",
+      "filename": "nl-s-r-dl-30w (1).png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-squared-recessed-plastic",
+      "product_code": "nl-s-r-dl-30w",
+      "wattage": "30w",
+      "variant": 1
+    },
+    {
+      "id": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w (1).png",
+      "filename": "nl-s-r-dl-6w (1).png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-squared-recessed-plastic",
+      "product_code": "nl-s-r-dl-6w",
+      "wattage": "6w",
+      "variant": 1
+    },
+    {
+      "id": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-20w.png",
+      "filename": "nl-s-s-dl-20w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-squared-surface-plastic",
+      "product_code": "nl-s-s-dl-20w",
+      "wattage": "20w"
+    },
+    {
+      "id": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-30w.png",
+      "filename": "nl-s-s-dl-30w.png",
+      "type": "image/png",
+      "category": "panel",
+      "subcategory": "nl-squared-surface-plastic",
+      "product_code": "nl-s-s-dl-30w",
+      "wattage": "30w"
+    },
+    {
+      "id": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (1).png",
+      "filename": "nl-p-12w (1).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-12w",
+      "product_code": "nl-p-12w",
+      "wattage": "12w",
+      "variant": 1
+    },
+    {
+      "id": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (2).png",
+      "filename": "nl-p-12w (2).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-12w",
+      "product_code": "nl-p-12w",
+      "wattage": "12w",
+      "variant": 2
+    },
+    {
+      "id": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (3).png",
+      "filename": "nl-p-12w (3).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-12w",
+      "product_code": "nl-p-12w",
+      "wattage": "12w",
+      "variant": 3
+    },
+    {
+      "id": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (1).png",
+      "filename": "nl-p-9w (1).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-9w",
+      "product_code": "nl-p-9w",
+      "wattage": "9w",
+      "variant": 1
+    },
+    {
+      "id": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (2).png",
+      "filename": "nl-p-9w (2).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-9w",
+      "product_code": "nl-p-9w",
+      "wattage": "9w",
+      "variant": 2
+    },
+    {
+      "id": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (3).png",
+      "filename": "nl-p-9w (3).png",
+      "type": "image/png",
+      "category": "plafonnier",
+      "subcategory": "nl-p-9w",
+      "product_code": "nl-p-9w",
+      "wattage": "9w",
+      "variant": 3
+    },
+    {
+      "id": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (1).png",
+      "filename": "nl-strip-2835-19w (1).png",
+      "type": "image/png",
+      "category": "strip",
+      "subcategory": "nl-strip-2835-19w",
+      "product_code": "nl-strip-2835-19w",
+      "wattage": "19w",
+      "variant": 1
+    },
+    {
+      "id": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).jpg",
+      "filename": "nl-strip-2835-19w (2).jpg",
+      "type": "image/jpeg",
+      "category": "strip",
+      "subcategory": "nl-strip-2835-19w",
+      "product_code": "nl-strip-2835-19w",
+      "wattage": "19w",
+      "variant": 2
+    },
+    {
+      "id": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (1).png",
+      "filename": "nl-strip-2835-24w (1).png",
+      "type": "image/png",
+      "category": "strip",
+      "subcategory": "nl-strip-2835-24w",
+      "product_code": "nl-strip-2835-24w",
+      "wattage": "24w",
+      "variant": 1
+    },
+    {
+      "id": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).jpg",
+      "filename": "nl-strip-2835-24w (2).jpg",
+      "type": "image/jpeg",
+      "category": "strip",
+      "subcategory": "nl-strip-2835-24w",
+      "product_code": "nl-strip-2835-24w",
+      "wattage": "24w",
+      "variant": 2
+    },
+    {
+      "id": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (1).png",
+      "filename": "nl-l1001-2000mm (1).png",
+      "type": "image/png",
+      "category": "track",
+      "subcategory": "nl-l1001-2000mm",
+      "product_code": "nl-l1001-2000mm",
+      "size": "2000mm",
+      "variant": 1
+    }
+  ],
+  "summary": {
+    "total_by_category": {
+      "panel": 10,
+      "plafonnier": 6,
+      "strip": 4,
+      "track": 1
+    },
+    "file_types": {
+      "png": 20,
+      "jpg": 2
+    }
+  }
+}

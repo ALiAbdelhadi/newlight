@@ -1,8 +1,7 @@
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
 import { SpecDefinitionService } from "@/lib/services/spec-definition-service"
 import { SpecsManager } from "./specs-manager"
+import { PageBody, PageHeader } from "@/components/page"
 
 /**
  * The specification dictionary — which measurements exist at all.
@@ -17,25 +16,27 @@ export default async function SpecsPage() {
     const definitions = await SpecDefinitionService.list()
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Specifications" />
-            <div className="mt-8">
-                <Container>
-                    <SpecsManager
-                        definitions={definitions.map((d) => ({
-                            key: d.key,
-                            valueType: d.valueType,
-                            labelEn: d.labelEn,
-                            labelAr: d.labelAr,
-                            unitEn: d.unitEn,
-                            unitAr: d.unitAr,
-                            order: d.order,
-                            usedByProducts: d._count.productSpecs,
-                            askedByCategories: d._count.subCategories,
-                        }))}
-                    />
-                </Container>
-            </div>
-        </div>
+        <>
+            <PageHeader
+                title="Specifications"
+                description="The vocabulary every product's technical fields are drawn from. A definition is shared, so renaming one renames it on every product that uses it."
+            />
+
+            <PageBody>
+                <SpecsManager
+                    definitions={definitions.map((d) => ({
+                        key: d.key,
+                        valueType: d.valueType,
+                        labelEn: d.labelEn,
+                        labelAr: d.labelAr,
+                        unitEn: d.unitEn,
+                        unitAr: d.unitAr,
+                        order: d.order,
+                        usedByProducts: d._count.productSpecs,
+                        askedByCategories: d._count.subCategories,
+                    }))}
+                />
+            </PageBody>
+        </>
     )
 }

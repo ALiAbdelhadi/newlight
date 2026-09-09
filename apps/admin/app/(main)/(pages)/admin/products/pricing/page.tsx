@@ -1,10 +1,7 @@
-import Link from "next/link"
 import { prisma } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Button } from "@/components/ui/button"
 import { PricingEditor } from "./pricing-editor"
+import { PageBody, PageHeader } from "@/components/page"
 
 /**
  * §13.2 item 1 — the bulk price editor.
@@ -40,31 +37,29 @@ export default async function PricingPage() {
     ])
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Bulk pricing">
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href="/admin/products">← All products</Link>
-                </Button>
-            </DashboardHeader>
-            <div className="mt-8">
-                <Container>
-                    <PricingEditor
-                        categories={categories.map((c) => ({ id: c.id, name: c.translations[0]?.name ?? c.id }))}
-                        subCategories={subCategories.map((s) => ({
-                            id: s.id,
-                            categoryId: s.categoryId,
-                            name: s.translations[0]?.name ?? s.id,
-                            productCount: s._count.products,
-                        }))}
-                        families={families.map((f) => ({
-                            id: f.id,
-                            subCategoryId: f.subCategoryId,
-                            name: f.slug,
-                            productCount: f._count.products,
-                        }))}
-                    />
-                </Container>
-            </div>
-        </div>
+        <>
+            <PageHeader
+                title="Bulk repricing"
+                description="Preview first, apply second. Nothing is written until the preview is confirmed, and every changed price is recorded against the person who changed it."
+            />
+
+            <PageBody>
+                <PricingEditor
+                    categories={categories.map((c) => ({ id: c.id, name: c.translations[0]?.name ?? c.id }))}
+                    subCategories={subCategories.map((s) => ({
+                        id: s.id,
+                        categoryId: s.categoryId,
+                        name: s.translations[0]?.name ?? s.id,
+                        productCount: s._count.products,
+                    }))}
+                    families={families.map((f) => ({
+                        id: f.id,
+                        subCategoryId: f.subCategoryId,
+                        name: f.slug,
+                        productCount: f._count.products,
+                    }))}
+                />
+            </PageBody>
+        </>
     )
 }

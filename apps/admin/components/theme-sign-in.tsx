@@ -41,21 +41,30 @@ export function ThemedSignIn() {
     }
 
     return (
-        <div className="w-full border border-border p-6 sm:p-8">
-            <h1 className="text-2xl font-light tracking-[0.05em] text-foreground">Sign in</h1>
-            <p className="mt-2 mb-6 text-sm font-light tracking-[0.05em] text-muted-foreground">
-                Newlight admin. Access is granted by an existing administrator.
+        /*
+         * The panel is the system's surface — 6px radius, one border, no shadow (§3.4, §3.5).
+         * It used square corners, 300ms transitions, letter-spaced light type and a button that
+         * lifted 2px on hover: the storefront's vocabulary, on the one screen where an operator
+         * wants to type two fields and get to work.
+         */
+        <div className="w-full rounded-lg border bg-card p-6">
+            <h1 className="text-lg font-semibold tracking-tight">Sign in</h1>
+            <p className="mt-1 mb-5 text-xs text-muted-foreground">
+                Access is granted by an existing administrator. There is no self-service sign-up.
             </p>
 
             <form onSubmit={onSubmit} noValidate>
                 {error ? (
-                    <p role="alert" className="mb-4 border-s-2 border-destructive py-2 ps-3 text-sm text-destructive">
+                    <p
+                        role="alert"
+                        className="mb-4 rounded-md border border-danger-border bg-danger-bg px-3 py-2 text-xs text-danger"
+                    >
                         {error}
                     </p>
                 ) : null}
 
-                <div className="mb-4 space-y-2">
-                    <Label htmlFor="email" className="text-sm font-normal tracking-[0.05em]">
+                <div className="mb-3 space-y-1">
+                    <Label htmlFor="email" className="text-xs">
                         Email address
                     </Label>
                     <Input
@@ -64,12 +73,11 @@ export function ThemedSignIn() {
                         type="email"
                         autoComplete="email"
                         required
-                        className="rounded-none border-border bg-primary/5 transition-all duration-300 focus-visible:border-primary focus-visible:bg-primary/10"
                     />
                 </div>
 
-                <div className="mb-4 space-y-2">
-                    <Label htmlFor="password" className="text-sm font-normal tracking-[0.05em]">
+                <div className="mb-4 space-y-1">
+                    <Label htmlFor="password" className="text-xs">
                         Password
                     </Label>
                     <Input
@@ -78,14 +86,14 @@ export function ThemedSignIn() {
                         type="password"
                         autoComplete="current-password"
                         required
-                        className="rounded-none border-border bg-primary/5 transition-all duration-300 focus-visible:border-primary focus-visible:bg-primary/10"
                     />
                 </div>
 
                 <Button
                     type="submit"
                     disabled={pending}
-                    className="w-full rounded-none text-sm font-medium tracking-[0.05em] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 disabled:translate-y-0 disabled:opacity-70"
+                    size="sm"
+                    className="w-full"
                 >
                     {pending ? "Please wait…" : "Sign in"}
                 </Button>

@@ -13,6 +13,7 @@ import {
     AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { archiveFamily, createFamily, updateFamily } from "@/app/action/reference-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 interface Family {
     id: string
@@ -55,21 +56,20 @@ export function FamiliesPanel({
 
     return (
         <div className="space-y-6">
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4 max-w-4xl">
+            <section className="rounded-lg border bg-card p-3 space-y-4 max-w-4xl">
                 <h2 className="font-semibold">{editing ? `Editing ${draft.slug}` : "Add a family"}</h2>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="space-y-1.5">
                         <Label htmlFor="f-sub">Sub-category</Label>
-                        <select
+                        <NativeSelect
                             id="f-sub"
                             value={draft.subCategoryId}
                             disabled={editing !== null}
                             onChange={(e) => setDraft({ ...draft, subCategoryId: e.target.value })}
-                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 disabled:opacity-50"
-                        >
+                            >
                             <option value="">—</option>
                             {subCategories.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
-                        </select>
+                        </NativeSelect>
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="f-slug">URL</Label>
@@ -118,7 +118,7 @@ export function FamiliesPanel({
                 </div>
             </section>
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <div className="overflow-x-auto rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
                         <TableRow>

@@ -1,70 +1,94 @@
-"use client"
-
-import Image from "next/image"
+import Image from "@/components/app-image"
 import { Package } from "lucide-react"
-import { OrderItem } from "@repo/database"
+import type { OrderItem } from "@repo/database"
+import type { Locale } from "@repo/database/locale"
 
+import { formatNumberWithConversion } from "@/lib/price"
+
+/**
+ * The lines on an order.
+ *
+ * A server component now: it had `"use client"` with nothing interactive in it, and it was
+ * printing money with `item.price.toLocaleString()` — which on a `Prisma.Decimal` calls the
+ * object's own `toString` and renders "1234.5" where the rest of the storefront renders
+ * "EGP 1,234.50". Money goes through the shared formatter, like everywhere else.
+ *
+ * The colour-temperature labels used to be a private bilingual map inside this file. They now
+ * come from the caller's translations, so there is one place a colour temperature is named.
+ */
+
+const COLOR_TEMP_KELVIN: Record<string, string> = {
+    WARM_3000K: "3000K",
+    COOL_4000K: "4000K",
+    WHITE_6500K: "6500K",
+}
 
 interface OrderItemsListProps {
     items: OrderItem[]
-    isArabic: boolean
+    locale: Locale
     translations: {
         orderItems: string
         colorTemp: string
         color: string
         quantity: string
-        each: string
-        currency: string
     }
 }
 
-export function OrderItemsList({ items, isArabic, translations: t }: OrderItemsListProps) {
-    const formatColorTemp = (temp: string) => {
-        const map: Record<string, string> = {
-            WARM_3000K: isArabic ? "دافئ 3000K" : "Warm 3000K",
-            COOL_4000K: isArabic ? "بارد 4000K" : "Cool 4000K",
-            WHITE_6500K: isArabic ? "أبيض 6500K" : "White 6500K",
-        }
-        return map[temp] || temp
-    }
-
+export function OrderItemsList({ items, locale, translations: t }: OrderItemsListProps) {
     return (
-        <div className="rounded-lg p-6 border border-border">
-            <div className="flex items-center gap-2 mb-6">
-                <Package className="w-5 h-5" />
-                <h2 className="text-2xl font-serif font-light">{t.orderItems}</h2>
+        <section aria-labelledby="order-items" className="rounded-lg border bg-card p-6">
+            <div className="mb-6 flex items-center gap-2">
+                <Package aria-hidden className="size-5 text-muted-foreground" />
+                <h2 id="order-items" className="text-lg font-semibold tracking-tight">
+                    {t.orderItems}
+                </h2>
             </div>
-            <div className="space-y-4">
+
+            <ul className="divide-y">
                 {items.map((item) => (
-                    <div key={item.id} className="flex gap-4 pb-4 border-b border-border last:border-0">
-                        <div className="relative w-20 h-20 bg-muted rounded-lg overflow-hidden shrink-0">
+                    <li key={item.id} className="flex gap-4 py-4 first:pt-0 last:pb-0">
+                        <div className="relative size-20 shrink-0 overflow-hidden rounded-lg border bg-surface-sunk">
                             {item.productImage && (
                                 <Image
                                     src={item.productImage}
-                                    alt={item.productName}
+                                    alt=""
                                     fill
-                                    className="object-cover"
+                                    sizes="80px"
+                                    className="object-contain"
                                 />
                             )}
                         </div>
-                        <div className="flex-1">
-                            <h3 className="font-medium mb-2">{item.productName}</h3>
-                            <div className="text-sm text-muted-foreground space-y-1">
+
+                        <div className="min-w-0 flex-1">
+                            <h3 className="font-medium">
+                                <bdi dir="auto">{item.productName}</bdi>
+                            </h3>
+                            <dl className="mt-1.5 space-y-1 text-sm text-muted-foreground">
                                 {item.selectedColorTemp && (
-                                    <p>{t.colorTemp}: {formatColorTemp(item.selectedColorTemp)}</p>
+                                    <div className="flex gap-1.5">
+                                        <dt>{t.colorTemp}:</dt>
+                                        <dd>{COLOR_TEMP_KELVIN[item.selectedColorTemp] ?? item.selectedColorTemp}</dd>
+                                    </div>
                                 )}
                                 {item.selectedColorKey && (
-                                    <p>{t.color}: {item.selectedColorKey}</p>
+                                    <div className="flex gap-1.5">
+                                        <dt>{t.color}:</dt>
+                                        <dd>{item.selectedColorKey}</dd>
+                                    </div>
                                 )}
-                                <p>{t.quantity}: {item.quantity}</p>
-                            </div>
+                                <div className="flex gap-1.5">
+                                    <dt>{t.quantity}:</dt>
+                                    <dd className="tabular-nums">{item.quantity}</dd>
+                                </div>
+                            </dl>
                         </div>
-                        <div className="text-right">
-                            <p className="font-medium">{item.price.toLocaleString()} {t.currency}</p>
-                        </div>
-                    </div>
+
+                        <p className="shrink-0 font-medium tabular-nums">
+                            {formatNumberWithConversion(item.price, locale)}
+                        </p>
+                    </li>
                 ))}
-            </div>
-        </div>
+            </ul>
+        </section>
     )
 }

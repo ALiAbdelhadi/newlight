@@ -14,7 +14,6 @@ interface OrderPaymentSummaryProps {
         subtotal: string
         shipping: string
         total: string
-        currency: string
     }
 }
 
@@ -26,27 +25,27 @@ export function OrderPaymentSummary({
 }: OrderPaymentSummaryProps) {
     const locale = useLocale()
     return (
-        <div className="bg-secondary/30 rounded-lg p-6 border border-border">
-            <div className="flex items-center gap-2 mb-6">
-                <CreditCard className="w-5 h-5" />
-                <h2 className="text-2xl font-serif font-light">{t.paymentSummary}</h2>
+        <section aria-labelledby="payment-summary" className="rounded-lg border bg-card p-6">
+            <div className="mb-6 flex items-center gap-2">
+                <CreditCard aria-hidden className="size-5 text-muted-foreground" />
+                <h2 id="payment-summary" className="text-lg font-semibold tracking-tight">
+                    {t.paymentSummary}
+                </h2>
             </div>
-            <div className="space-y-3">
-                <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{t.subtotal}</span>
-                    <span>{formatMoney(subtotal, locale)}</span>
+            <dl className="space-y-3 text-sm">
+                <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">{t.subtotal}</dt>
+                    <dd className="tabular-nums">{formatMoney(subtotal, locale)}</dd>
                 </div>
-                <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{t.shipping}</span>
-                    <span>{formatMoney(shippingCost, locale)}</span>
+                <div className="flex justify-between gap-4">
+                    <dt className="text-muted-foreground">{t.shipping}</dt>
+                    <dd className="tabular-nums">{formatMoney(shippingCost, locale)}</dd>
                 </div>
-                <div className="flex justify-between items-baseline pt-4 border-t border-border">
-                    <span className="text-lg font-light uppercase tracking-wide">{t.total}</span>
-                    <span className="text-3xl font-serif font-light">
-                        {formatMoney(total, locale)}
-                    </span>
+                <div className="flex items-baseline justify-between gap-4 border-t pt-4">
+                    <dt className="font-medium">{t.total}</dt>
+                    <dd className="text-2xl font-semibold tabular-nums">{formatMoney(total, locale)}</dd>
                 </div>
-            </div>
-        </div>
+            </dl>
+        </section>
     )
 }

@@ -66,7 +66,7 @@ export function AccountMenu() {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuLabel className="text-2xs font-semibold tracking-wide text-muted-foreground uppercase">
+                <DropdownMenuLabel className="text-2xs font-semibold tracking-label text-muted-foreground uppercase">
                     Appearance
                 </DropdownMenuLabel>
                 {/*

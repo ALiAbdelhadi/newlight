@@ -1,46 +1,32 @@
-import { currentAdmin, currentAdminId, requireCurrentAdmin } from "@/lib/auth"
-import { prisma } from "@repo/database";
-import { notFound } from "next/navigation";
-import OrdersClient from "./orders-client";
+import { requireCurrentAdmin } from "@/lib/auth"
+import { listOrders } from "@/lib/services/order-list-service"
+import { parseTableState } from "@/lib/table-params"
+import { OrdersTable } from "./orders-table"
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic"
 export const revalidate = 0
 
-const OrdersPage = async () => {
-  // One guard, replacing the signed-in check plus the ADMIN_EMAIL comparison.
-  const admin = await requireCurrentAdmin();
-  const userId = admin.id;
+/**
+ * Orders (P4.5 §11).
+ *
+ * Server component, URL-driven, one row per order. What it replaces fetched every order in
+ * the database with every line item, every line's product, every product's translations and
+ * every configuration — unbounded — on each render, and then searched the result in the
+ * browser.
+ */
+export default async function OrdersPage({
+    searchParams,
+}: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>
+}) {
+    await requireCurrentAdmin()
 
-  const orders = await prisma.order.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      user: {
-        select: {
-          id: true,
-          email: true,
-          phoneNumber: true,
-          preferredLanguage: true,
-          preferredCurrency: true,
-        },
-      },
-      shippingAddress: true,
-      items: {
-        include: {
-          product: {
-            include: {
-              translations: {
-                take: 1,
-              },
-            },
-          },
-          configuration: true,
-        },
-      },
-      configuration: true,
-    },
-  });
+    const state = parseTableState(await searchParams, { sort: "createdAt", dir: "desc" })
+    const result = await listOrders(state)
 
-  return <OrdersClient orders={orders} />;
-};
-
-export default OrdersPage;
+    return (
+        <div className="flex h-full flex-col">
+            <OrdersTable {...result} state={state} />
+        </div>
+    )
+}

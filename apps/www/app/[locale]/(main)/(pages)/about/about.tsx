@@ -1,23 +1,17 @@
-"use client"
-
-import { Container } from "@/components/container"
-import { Link } from "@/i18n/navigation"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowRight, Award, CircleCheck, Eye, Lamp, Lightbulb, Shield, Target, Truck, Zap } from "lucide-react"
 import { useTranslations } from "next-intl"
-import type React from "react"
-import { useEffect, useRef } from "react"
+import Image from "@/components/app-image"
+import type { LucideIcon } from "lucide-react"
+import { Award, CircleCheck, Eye, Lightbulb, Shield, Target, Truck, Zap } from "lucide-react"
 
-gsap.registerPlugin(ScrollTrigger)
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { Container, PageHeader, Section, SectionHeader } from "@/components/layout/section"
+import { Reveal } from "@/components/reveal"
+import { Button } from "@/components/ui/button"
+import { Link } from "@/i18n/navigation"
 
 interface FeatureData {
     title: string
     description: string
-}
-
-interface Feature extends FeatureData {
-    icon: React.ReactNode
 }
 
 interface CategoryData {
@@ -27,265 +21,124 @@ interface CategoryData {
     slug: string
 }
 
-const featureIcons: React.ReactNode[] = [
-    <Lightbulb className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="lightbulb" />,
-    <Award className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="award" />,
-    <Truck className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="truck" />,
-    <Shield className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="shield" />,
-    <CircleCheck className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="check" />,
-    <Zap className="w-8 h-8 text-muted-foreground group-hover:text-primary" key="zap" />,
-]
+const FEATURE_ICONS: LucideIcon[] = [Lightbulb, Award, Truck, Shield, CircleCheck, Zap]
 
+/**
+ * About.
+ *
+ * This page had a type scale of its own: the display face in `font-light` at 72px for the
+ * title, 60px for every section heading and 36px for each feature's `h3` — four sizes, none of
+ * them used by any other page, all of them larger than the homepage's. Its bands alternated
+ * `bg-card` with the page ground, which on the light theme is the same colour, so the rhythm
+ * it was going for did not render.
+ *
+ * It is a content page, so it leads with `PageHeader` like the others; its sections are
+ * `Section`/`SectionHeader`; its feature grid is the homepage's feature grid; and its closing
+ * band is the same sunk display-face CTA the homepage and the catalogue end on.
+ */
 export function AboutUsClient() {
     const t = useTranslations("about-us-page")
-    const sectionRef = useRef<HTMLDivElement>(null)
-    const featureRefs = useRef<HTMLDivElement[]>([])
-    const categoryRefs = useRef<HTMLElement[]>([])
-    const visionMissionRef = useRef<HTMLDivElement>(null)
 
-    const translatedFeaturesData = t.raw("features") as FeatureData[]
-    const features: Feature[] = translatedFeaturesData.map((data, index) => ({
-        ...data,
-        icon: featureIcons[index] || <Lightbulb className="w-8 h-8 text-muted-foreground group-hover:text-primary" />,
-    }))
-
+    const features = t.raw("features") as FeatureData[]
     const categories = t.raw("categories") as CategoryData[]
 
-    useEffect(() => {
-        const ctx = gsap.context(() => {
-            if (sectionRef.current) {
-                gsap.from(sectionRef.current.querySelector(".hero-title"), {
-                    opacity: 0,
-                    y: 40,
-                    duration: 1,
-                    ease: "power3.out",
-                })
-                gsap.from(sectionRef.current.querySelector(".hero-subtitle"), {
-                    opacity: 0,
-                    y: 30,
-                    duration: 1,
-                    delay: 0.2,
-                    ease: "power3.out",
-                })
-            }
-
-            featureRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    gsap.set(ref, {
-                        opacity: 0,
-                        y: 60,
-                    })
-
-                    gsap.to(ref, {
-                        opacity: 1,
-                        y: 0,
-                        duration: 1,
-                        ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: ref,
-                            start: "top 80%",
-                            end: "top 50%",
-                            scrub: 1,
-                            once: true,
-                        },
-                        delay: index * 0.1,
-                    })
-                }
-            })
-
-            categoryRefs.current.forEach((ref, index) => {
-                if (ref) {
-                    gsap.set(ref, {
-                        opacity: 0,
-                        scale: 0.95,
-                    })
-
-                    gsap.to(ref, {
-                        opacity: 1,
-                        scale: 1,
-                        duration: 1,
-                        ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: ref,
-                            start: "top 80%",
-                            end: "top 50%",
-                            scrub: 1,
-                            once: true,
-                        },
-                        delay: index * 0.15,
-                    })
-                }
-            })
-
-            if (visionMissionRef.current) {
-                gsap.set(visionMissionRef.current, {
-                    opacity: 0,
-                    y: 50,
-                })
-
-                gsap.to(visionMissionRef.current, {
-                    opacity: 1,
-                    y: 0,
-                    duration: 1,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: visionMissionRef.current,
-                        start: "top 80%",
-                        end: "top 50%",
-                        scrub: 1,
-                        once: true,
-                    },
-                })
-            }
-        })
-
-        return () => ctx.revert()
-    }, [])
-
     return (
-        <div ref={sectionRef} className="min-h-screen">
-            <section className="min-h-[60vh] flex items-center justify-center bg-card text-card-foreground py-24 lg:py-32">
+        <>
+            <PageHeader eyebrow={t("eyebrow")} title={t("heroTitle")} description={t("heroSubtitle")} />
+
+            <Section aria-label={t("featuresTitle")}>
                 <Container>
-                    <div className="max-w-4xl mx-auto text-center">
-                        <h1 className="hero-title text-6xl md:text-7xl lg:text-8xl font-serif font-light tracking-tighter mb-6 text-balance">
-                            {t("heroTitle")}
-                        </h1>
-                        <p className="hero-subtitle text-lg md:text-xl font-light text-muted-foreground leading-relaxed max-w-2xl mx-auto text-balance">
-                            {t("heroSubtitle")}
-                        </p>
-                        <div className="mt-8 h-px w-16 bg-primary mx-auto" />
-                    </div>
+                    <SectionHeader title={t("featuresTitle")} description={t("featuresSubtitle")} />
+                    <ul className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-3 lg:gap-12">
+                        {features.map((feature, index) => {
+                            const Icon = FEATURE_ICONS[index] ?? Lightbulb
+                            return (
+                                <Reveal as="li" key={feature.title} index={index}>
+                                    <Icon aria-hidden className="size-6 text-primary" />
+                                    <h3 className="mt-4 text-lg font-semibold tracking-tight">{feature.title}</h3>
+                                    <p className="mt-2 text-pretty text-muted-foreground">{feature.description}</p>
+                                </Reveal>
+                            )
+                        })}
+                    </ul>
                 </Container>
-            </section>
-            <section className="py-16 lg:py-24">
+            </Section>
+
+            <Section tone="sunk" aria-label={t("categoriesTitle")}>
                 <Container>
-                    <div className="mb-16">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tighter mb-4 text-balance">
-                            {t("featuresTitle")}
-                        </h2>
-                        <p className="text-lg text-muted-foreground font-light max-w-2xl">{t("featuresSubtitle")}</p>
-                        <div className="h-px w-12 bg-border mt-6" />
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 lg:gap-12">
-                        {features.map((feature, index) => (
-                            <div
-                                key={index}
-                                ref={(el) => {
-                                    if (el) featureRefs.current[index] = el
-                                }}
-                                className="flex flex-col group"
-                            >
-                                <div className="mb-6 transition-transform duration-300 group-hover:scale-110 ">{feature.icon}</div>
-                                <h3 className="text-2xl md:text-3xl font-serif font-light tracking-tight mb-4">{feature.title}</h3>
-                                <p className="text-base font-light text-muted-foreground tracking-wide leading-relaxed">
-                                    {feature.description}
-                                </p>
-                                <div className="mt-6 h-px w-12 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
-                            </div>
-                        ))}
-                    </div>
-                </Container>
-            </section>
-            <section className="py-16 lg:py-24 bg-card">
-                <Container>
-                    <div className="mb-16">
-                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tighter mb-4 text-balance">
-                            {t("categoriesTitle")}
-                        </h2>
-                        <p className="text-lg text-muted-foreground font-light max-w-2xl">{t("categoriesSubtitle")}</p>
-                        <div className="h-px w-12 bg-border mt-6" />
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-8">
+                    <SectionHeader title={t("categoriesTitle")} description={t("categoriesSubtitle")} />
+                    <ul className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
                         {categories.map((category, index) => (
-                            <div
-                                key={index}
-                                ref={(el) => {
-                                    if (el) categoryRefs.current[index] = el
-                                }}
-                                className="group"
-                            >
-                                <Link href={`/category/${category.slug}`}>
-                                    <div className="relative overflow-hidden rounded-sm aspect-4/5 bg-muted mb-6">
-                                        <div
-                                            className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
-                                            style={{
-                                                backgroundImage: `url('${category.image || "/placeholder.svg"}')`,
-                                            }}
-                                        />
-                                        {/* Scrim and everything on it sit over a photograph, so they stay
-                                            dark-on-light in both themes rather than following the theme. */}
-                                        <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/65 via-75% to-black/20" />
-                                        <div className="relative z-10 h-full flex flex-col justify-end p-6">
-                                            <div className="space-y-2">
-                                                <h3 className="text-3xl md:text-4xl font-serif font-light tracking-wide text-white">
-                                                    {category.title}
-                                                </h3>
-                                                <div className="h-px w-12 bg-white/60 transition-all duration-500 group-hover:w-20 group-hover:bg-primary" />
-                                                <p className="text-white/75 font-light text-base tracking-wide leading-relaxed max-w-xl">
-                                                    {category.description}
-                                                </p>
-                                            </div>
-                                            <div className="mt-6 flex items-center gap-2 opacity-0 translate-y-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-y-0">
-                                                <div className="flex items-center gap-2 text-sm text-white font-light">
-                                                    <span>{t("exploreCategory")}</span>
-                                                    <ArrowRight className="w-4 h-4 text-white/80 rtl:rotate-180" />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                            <Reveal as="li" key={category.slug} index={index}>
+                                <Link
+                                    href={`/category/${category.slug}`}
+                                    className="group relative block aspect-[4/5] overflow-hidden rounded-lg border bg-card"
+                                >
+                                    <Image
+                                        src={category.image || "/placeholder.svg"}
+                                        alt=""
+                                        fill
+                                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                                        className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-[1.03]"
+                                    />
+                                    {/* The scrim and caption sit over a photograph, so they stay
+                                        light-on-dark in both themes rather than following the theme. */}
+                                    <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent" />
+                                    <span className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-background">
+                                        <span className="min-w-0">
+                                            <span className="block font-display text-2xl italic">{category.title}</span>
+                                            <span className="mt-1 line-clamp-2 block text-sm opacity-80">{category.description}</span>
+                                        </span>
+                                        <DirectionalArrow variant="circled" className="border-background/40 text-background" />
+                                    </span>
                                 </Link>
-                            </div>
+                            </Reveal>
                         ))}
-                    </div>
+                    </ul>
                 </Container>
-            </section>
-            <section ref={visionMissionRef} className="py-16 lg:py-24">
+            </Section>
+
+            <Section aria-label={t("visionTitle")}>
                 <Container>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24">
-                        <div className="flex flex-col group">
-                            <div className="mb-8 text-muted-foreground transition-colors duration-300 group-hover:text-primary">
-                                <Eye className="w-12 h-12" />
-                            </div>
-                            <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-6">{t("visionTitle")}</h2>
-                            <p className="text-lg font-light text-muted-foreground leading-relaxed">{t("visionDescription")}</p>
-                            <div className="mt-8 h-px w-16 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
-                        </div>
-                        <div className="flex flex-col group">
-                            <div className="mb-8 text-muted-foreground transition-colors duration-300 group-hover:text-primary">
-                                <Target className="w-12 h-12" />
-                            </div>
-                            <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-6">{t("missionTitle")}</h2>
-                            <p className="text-lg font-light text-muted-foreground leading-relaxed">{t("missionDescription")}</p>
-                            <div className="mt-8 h-px w-16 bg-border transition-all duration-300 group-hover:w-24 group-hover:bg-primary" />
-                        </div>
+                    <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-16">
+                        <Reveal>
+                            <Eye aria-hidden className="size-6 text-primary" />
+                            <h2 className="mt-4 text-2xl font-semibold tracking-tight lg:text-3xl">{t("visionTitle")}</h2>
+                            <p className="mt-3 text-lg text-pretty text-muted-foreground">{t("visionDescription")}</p>
+                        </Reveal>
+                        <Reveal index={1}>
+                            <Target aria-hidden className="size-6 text-primary" />
+                            <h2 className="mt-4 text-2xl font-semibold tracking-tight lg:text-3xl">{t("missionTitle")}</h2>
+                            <p className="mt-3 text-lg text-pretty text-muted-foreground">{t("missionDescription")}</p>
+                        </Reveal>
                     </div>
                 </Container>
-            </section>
-            <section className="py-16 lg:py-24 bg-card">
+            </Section>
+
+            <Section tone="sunk" aria-label={t("ctaTitle")}>
                 <Container>
-                    <div className="max-w-3xl mx-auto text-center">
-                        <Lamp className="w-16 h-16 text-primary mx-auto mb-8" />
-                        <h2 className="text-4xl md:text-5xl font-serif font-light tracking-tighter mb-6 text-balance">
-                            {t("ctaTitle")}
-                        </h2>
-                        <p className="text-lg text-muted-foreground font-light leading-relaxed mb-8">{t("ctaDescription")}</p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link
-                                href="/category"
-                                className="px-8 py-4 bg-primary text-primary-foreground font-light tracking-wide transition-all duration-300 hover:bg-primary/90 hover:scale-105"
-                            >
-                                {t("ctaExplore")}
-                            </Link>
-                            <Link
-                                href="/contact"
-                                className="px-8 py-4 border border-border text-foreground font-light tracking-wide transition-all duration-300 hover:bg-secondary hover:border-primary"
-                            >
-                                {t("ctaContact")}
-                            </Link>
+                    <Reveal>
+                        <SectionHeader
+                            align="center"
+                            face="display"
+                            title={t("ctaTitle")}
+                            description={t("ctaDescription")}
+                            className="mb-0 lg:mb-0"
+                        />
+                        <div className="mt-10 flex flex-wrap justify-center gap-3">
+                            <Button asChild size="lg" className="group">
+                                <Link href="/category">
+                                    {t("ctaExplore")}
+                                    <DirectionalArrow />
+                                </Link>
+                            </Button>
+                            <Button asChild variant="outline" size="lg">
+                                <Link href="/contact">{t("ctaContact")}</Link>
+                            </Button>
                         </div>
-                    </div>
+                    </Reveal>
                 </Container>
-            </section>
-        </div>
+            </Section>
+        </>
     )
 }

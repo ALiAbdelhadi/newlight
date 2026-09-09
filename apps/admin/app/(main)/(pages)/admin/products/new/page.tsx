@@ -1,10 +1,7 @@
-import Link from "next/link"
 import { prisma } from "@repo/database"
 import { requireCurrentAdmin } from "@/lib/auth"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Button } from "@/components/ui/button"
 import { NewProductForm } from "./new-product-form"
+import { PageBody, PageHeader } from "@/components/page"
 
 /**
  * §13.2 did not ask for this, and the panel was unusable as an ERP without it: every editing
@@ -32,28 +29,26 @@ export default async function NewProductPage() {
     ])
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="New product">
-                <Button variant="ghost" size="sm" asChild>
-                    <Link href="/admin/products">← All products</Link>
-                </Button>
-            </DashboardHeader>
-            <div className="mt-8">
-                <Container>
-                    <NewProductForm
-                        subCategories={subCategories.map((s) => ({
-                            id: s.id,
-                            name: `${s.category.translations[0]?.name ?? "—"} / ${s.translations[0]?.name ?? s.id}`,
-                        }))}
-                        families={families.map((f) => ({
-                            id: f.id,
-                            subCategoryId: f.subCategoryId,
-                            name: f.slug,
-                            variantType: f.variantType,
-                        }))}
-                    />
-                </Container>
-            </div>
-        </div>
+        <>
+            <PageHeader
+                title="New product"
+                description="A product exists as soon as it has a SKU and a sub-category. Everything else — pricing, images, specifications, the Arabic name — is edited on the record afterwards."
+            />
+
+            <PageBody>
+                <NewProductForm
+                    subCategories={subCategories.map((s) => ({
+                        id: s.id,
+                        name: `${s.category.translations[0]?.name ?? "—"} / ${s.translations[0]?.name ?? s.id}`,
+                    }))}
+                    families={families.map((f) => ({
+                        id: f.id,
+                        subCategoryId: f.subCategoryId,
+                        name: f.slug,
+                        variantType: f.variantType,
+                    }))}
+                />
+            </PageBody>
+        </>
     )
 }

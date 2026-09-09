@@ -1,0 +1,223 @@
+{
+  "chunk": 6,
+  "total_chunks": 34,
+  "nodes": [
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-30w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-30w/nl-d403-30w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-30w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-36w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-36w/nl-d403-36w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-36w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-6w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403-6w/nl-d403-6w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403-6w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-12w/nl-d403c-12w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-12w/nl-d403c-12w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-12w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-12w/nl-d403c-12w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-12w/nl-d403c-12w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-12w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-18w/nl-d403c-18w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-18w/nl-d403c-18w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-18w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-18w/nl-d403c-18w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-18w/nl-d403c-18w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-18w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-24w/nl-d403c-24w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-24w/nl-d403c-24w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-24w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-24w/nl-d403c-24w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-24w/nl-d403c-24w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-24w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-30w/nl-d403c-30w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-30w/nl-d403c-30w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-30w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-30w/nl-d403c-30w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-30w/nl-d403c-30w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-30w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-36w/nl-d403c-36w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-36w/nl-d403c-36w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-36w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-d403c-36w/nl-d403c-36w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-d403c-36w/nl-d403c-36w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-d403c-36w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (1).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (1).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-ip905-5w",
+      "variant": "image-1"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (2).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (2).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-ip905-5w",
+      "variant": "image-2"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (3).png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-ip905-5w/nl-ip905-5w (3).png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-ip905-5w",
+      "variant": "image-3"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-l601-10w/nl-l601-10w.png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-l601-10w/nl-l601-10w.png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-l601-10w",
+      "variant": "primary"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-l601-20w/nl-l601-20w.png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-l601-20w/nl-l601-20w.png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-l601-20w",
+      "variant": "primary"
+    },
+    {
+      "node_id": "apps/admin/public/products/indoor/magnetic/nl-l601-30w/nl-l601-30w.png_image",
+      "type": "image",
+      "path": "apps/admin/public/products/indoor/magnetic/nl-l601-30w/nl-l601-30w.png",
+      "score": 1.0,
+      "category": "product-asset",
+      "product_id": "nl-l601-30w",
+      "variant": "primary"
+    }
+  ],
+  "summary": {
+    "total_nodes": 22,
+    "by_type": {
+      "image": 22
+    },
+    "by_score": {
+      "1.0": 22
+    },
+    "by_category": {
+      "product-asset": 22
+    },
+    "product_lines": [
+      "nl-d403",
+      "nl-d403c",
+      "nl-ip905",
+      "nl-l601"
+    ],
+    "collection": "indoor/magnetic"
+  }
+}

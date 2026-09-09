@@ -4,6 +4,7 @@ import { SupportedLanguage } from "@/types"
 import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
+import { resolveLocale } from "@repo/database"
 import { notFound } from "next/navigation"
 import { OrderDetailsView } from "./order-details"
 
@@ -60,8 +61,6 @@ export default async function OrderDetailsPage({ params }: OrderDetailsPageProps
         notFound()
     }
 
-    const isArabic = currentLocale.startsWith("ar")
-
     const translations = {
         orderDetails: t("orderDetails"),
         orderNumber: t("orderNumber"),
@@ -83,13 +82,15 @@ export default async function OrderDetailsPage({ params }: OrderDetailsPageProps
         trackingNumber: t("trackingNumber"),
         backToOrders: t("backToOrders"),
         continueShopping: t("continueShopping"),
+        free: t("free"),
     }
 
     return (
         <OrderDetailsView
             order={order}
-            locale={currentLocale}
-            isArabic={isArabic}
+            // A validated Locale, not the raw route segment: the status vocabulary is keyed by
+            // it, so a stray "en-GB" would index the record with a string it does not have.
+            locale={resolveLocale(currentLocale)}
             translations={translations}
         />
     )

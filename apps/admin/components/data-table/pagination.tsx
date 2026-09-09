@@ -32,7 +32,10 @@ export function DataTablePagination({
     const window = pageWindow(state, total)
 
     return (
-        <div className="flex h-10 shrink-0 flex-wrap items-center gap-x-4 gap-y-1 px-3 text-xs">
+        // min-h, not h: below about 640px the controls wrap to a second line, and a fixed
+        // height made them overflow the bar and sit on top of the last table row — the same
+        // defect the toolbar had.
+        <div className="flex min-h-10 shrink-0 flex-wrap items-center gap-x-4 gap-y-1 px-3 py-1.5 text-xs">
             <span className="tabular-nums text-muted-foreground">
                 {total === 0 ? (
                     "No rows"
@@ -48,9 +51,11 @@ export function DataTablePagination({
 
             <div className="ml-auto flex items-center gap-3">
                 <label className="flex items-center gap-1.5 text-muted-foreground">
-                    Density
+                    {/* The word goes on a phone; the control does not. Both selects still carry
+                        an accessible name through the label element that wraps them. */}
+                    <span className="hidden sm:inline">Density</span>
                     <Select value={state.density} onValueChange={(value) => onChange({ density: value })}>
-                        <SelectTrigger size="sm" className="h-6 w-28 text-xs">
+                        <SelectTrigger size="sm" aria-label="Row density" className="h-6 w-28 text-xs">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -64,12 +69,12 @@ export function DataTablePagination({
                 </label>
 
                 <label className="flex items-center gap-1.5 text-muted-foreground">
-                    Rows
+                    <span className="hidden sm:inline">Rows</span>
                     <Select
                         value={String(state.pageSize)}
                         onValueChange={(value) => onChange({ size: value })}
                     >
-                        <SelectTrigger size="sm" className="h-6 w-16 text-xs">
+                        <SelectTrigger size="sm" aria-label="Rows per page" className="h-6 w-16 text-xs">
                             <SelectValue />
                         </SelectTrigger>
                         <SelectContent>

@@ -90,7 +90,7 @@ export function BulkReceipt({ products }: { products: ProductRow[] }) {
                 </div>
             </div>
 
-            <div className="overflow-x-auto border rounded-lg shadow max-h-[28rem]">
+            <div className="overflow-x-auto rounded-lg border bg-card max-h-[28rem]">
                 <Table>
                     <TableHeader>
                         <TableRow>

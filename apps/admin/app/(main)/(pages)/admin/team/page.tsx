@@ -1,10 +1,9 @@
 import { currentAdmin } from "@/lib/auth"
 import { redirect } from "next/navigation"
-import { Container } from "@/components/container"
-import DashboardHeader from "@/components/dashboard-header"
-import { Badge } from "@/components/ui/badge"
 import { AdminUserService } from "@/lib/services/admin-user-service"
 import { TeamManager } from "./team-manager"
+import { PageBody, PageHeader } from "@/components/page"
+import { StatusBadge } from "@/components/status-badge"
 
 /**
  * Administrators.
@@ -22,31 +21,37 @@ export default async function TeamPage() {
     const { admins, customers } = await AdminUserService.list()
 
     return (
-        <div className="flex flex-col min-h-screen pb-10">
-            <DashboardHeader Route="Administrators" />
-            <div className="mt-8">
-                <Container>
-                    <div className="flex flex-wrap gap-3 mb-6">
-                        <Badge variant="outline">{admins.length} administrator{admins.length === 1 ? "" : "s"}</Badge>
-                        <Badge variant="outline">{customers} customer{customers === 1 ? "" : "s"}</Badge>
-                        <Badge variant={me.role === "SUPER_ADMIN" ? "default" : "secondary"}>
-                            you are {me.role}
-                        </Badge>
-                    </div>
+        <>
+            <PageHeader
+                title="Administrators"
+                description="Who can sign into this panel, and what each of them is allowed to do. Only a SUPER_ADMIN can promote, demote or remove an administrator."
+                /*
+                 * Your own role, in the header rather than as one chip among three counts.
+                 * Whether you may promote somebody is the first thing this screen has to
+                 * answer, and it governs every control below it.
+                 */
+                status={<StatusBadge kind="role" value={me.role} />}
+                actions={
+                    <p className="text-xs tabular-nums text-muted-foreground">
+                        {admins.length} administrator{admins.length === 1 ? "" : "s"} · {customers} customer
+                        {customers === 1 ? "" : "s"}
+                    </p>
+                }
+            />
 
-                    <TeamManager
-                        me={{ id: me.id, role: me.role }}
-                        admins={admins.map((a) => ({
-                            id: a.id,
-                            name: a.name,
-                            email: a.email,
-                            role: a.role as "ADMIN" | "SUPER_ADMIN",
-                            sessions: a._count.sessions,
-                            createdAt: a.createdAt.toISOString(),
-                        }))}
-                    />
-                </Container>
-            </div>
-        </div>
+            <PageBody>
+                <TeamManager
+                    me={{ id: me.id, role: me.role }}
+                    admins={admins.map((a) => ({
+                        id: a.id,
+                        name: a.name,
+                        email: a.email,
+                        role: a.role as "ADMIN" | "SUPER_ADMIN",
+                        sessions: a._count.sessions,
+                        createdAt: a.createdAt.toISOString(),
+                    }))}
+                />
+            </PageBody>
+        </>
     )
 }

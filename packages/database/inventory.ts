@@ -454,3 +454,182 @@ export async function sweepExpiredReservations(
 
     return summary
 }
+
+/* ------------------------------------------------------------------ stock list */
+
+/**
+ * How a row is being narrowed. `all` is the default and is the point of the whole function:
+ * `listLowStock` could only ever answer "what is running out", and an operator doing a
+ * stocktake needs to see the products that are fine as well as the ones that are not.
+ */
+export type StockLevelFilter = "all" | "in_stock" | "low" | "reserved" | "out" | "negative"
+
+/** Sortable columns. A string outside this union never reaches the SQL — see `SORT_SQL`. */
+export type StockLevelSort = "sku" | "name" | "onHand" | "reserved" | "available"
+
+export interface StockLevelRow {
+    productId: string
+    sku: string
+    name: string | null
+    onHand: number
+    reserved: number
+    available: number
+    isActive: boolean
+    /** Whether `averageCost` is recorded. Null cost is why valuation refuses a number (N1). */
+    hasCost: boolean
+}
+
+export interface StockLevelPage {
+    rows: StockLevelRow[]
+    /** Rows matching the filter across the WHOLE catalogue, not the length of `rows`. */
+    total: number
+}
+
+/**
+ * ORDER BY, as a closed map rather than an interpolated string.
+ *
+ * `$queryRaw` parameterises VALUES, never identifiers, so a sort column arriving from the
+ * query string has to be looked up in a table of fragments written here. There is no branch
+ * that concatenates the caller's string into SQL, which is the only way to be sure a
+ * hand-edited `?sort=` cannot become one.
+ */
+const SORT_SQL: Record<StockLevelSort, string> = {
+    sku: `p."productId"`,
+    name: `t.name`,
+    onHand: `COALESCE(l."onHand", 0)`,
+    reserved: `COALESCE(l."reserved", 0)`,
+    available: `COALESCE(l."onHand", 0) - COALESCE(l."reserved", 0)`,
+}
+
+/**
+ * Every product with its derived stock level — the readout `listLowStock` is one filter of.
+ *
+ * Filtering, sorting, counting and paging all happen in PostgreSQL over the same predicate,
+ * so the total under the table and the rows in it always describe the same population. The
+ * alternative — fetch a page, filter it in JavaScript, print its length as a catalogue total
+ * — is the defect §25 exists to forbid.
+ *
+ * Products with no `stock_levels` row are INCLUDED, at zero, via a LEFT JOIN. They are the
+ * products nobody has ever received stock for, which is exactly what an operator opening a
+ * stock list is looking for.
+ *
+ * Inactive products are included unless filtered out, and carry `isActive` so the screen can
+ * mark them. A hidden product still occupies shelf space.
+ */
+export async function listStockLevels(
+    prisma: PrismaClient,
+    options: {
+        search?: string
+        filter?: StockLevelFilter
+        /** `active` / `hidden` — storefront visibility, not a stock state. */
+        status?: string
+        /** `missing` / `recorded` — whether a unit cost exists to value the stock with. */
+        cost?: string
+        sort?: StockLevelSort
+        dir?: "asc" | "desc"
+        skip?: number
+        take?: number
+        threshold?: number
+        locale?: string
+        locationId?: string
+    } = {}
+): Promise<StockLevelPage> {
+    const threshold = options.threshold ?? DEFAULT_LOW_STOCK_THRESHOLD
+    const locationId = options.locationId ?? DEFAULT_LOCATION_ID
+    const locale = options.locale ?? "en"
+    const take = Math.min(Math.max(options.take ?? 50, 1), 500)
+    const skip = Math.max(options.skip ?? 0, 0)
+
+    const available = Prisma.sql`COALESCE(l."onHand", 0) - COALESCE(l."reserved", 0)`
+    const onHand = Prisma.sql`COALESCE(l."onHand", 0)`
+
+    const where: Prisma.Sql[] = [Prisma.sql`p."deletedAt" IS NULL`]
+
+    const search = options.search?.trim()
+    if (search) {
+        // SKU or name, in EITHER language — an Arabic-named product has to be findable from
+        // the screen that counts it. The name JOIN is locale-scoped for display only.
+        const pattern = `%${search}%`
+        where.push(Prisma.sql`(
+            p."productId" ILIKE ${pattern}
+         OR p.slug ILIKE ${pattern}
+         OR EXISTS (SELECT 1 FROM product_translations tr
+                     WHERE tr."productId" = p.id AND tr.name ILIKE ${pattern})
+        )`)
+    }
+
+    // The five states are the ones `deriveStockState` renders, expressed in SQL so the badge
+    // and the filter can never disagree about what "low" means. `negative` is not a state a
+    // badge shows — it is a ledger fault worth being able to list.
+    switch (options.filter) {
+        case "out":
+            where.push(Prisma.sql`${onHand} <= 0`)
+            break
+        case "reserved":
+            where.push(Prisma.sql`${onHand} > 0 AND ${available} <= 0`)
+            break
+        case "low":
+            where.push(Prisma.sql`${available} > 0 AND ${available} < ${threshold}`)
+            break
+        case "in_stock":
+            where.push(Prisma.sql`${available} >= ${threshold}`)
+            break
+        case "negative":
+            where.push(Prisma.sql`(${onHand} < 0 OR COALESCE(l."reserved", 0) < 0)`)
+            break
+        default:
+            break
+    }
+
+    if (options.status === "active") where.push(Prisma.sql`p."isActive"`)
+    if (options.status === "hidden") where.push(Prisma.sql`NOT p."isActive"`)
+    if (options.cost === "missing") where.push(Prisma.sql`p."averageCost" IS NULL`)
+    if (options.cost === "recorded") where.push(Prisma.sql`p."averageCost" IS NOT NULL`)
+
+    const predicate = Prisma.join(where, " AND ")
+    const level = Prisma.sql`
+        LEFT JOIN stock_levels l ON l."productId" = p.id AND l."locationId" = ${locationId}
+        LEFT JOIN product_translations t ON t."productId" = p.id AND t.locale = ${locale}`
+
+    const column = SORT_SQL[options.sort ?? "available"] ?? SORT_SQL.available
+    // NULLS LAST so untranslated products sort to the end of a name sort rather than to the
+    // top of it, in both directions.
+    const order = Prisma.raw(`${column} ${options.dir === "asc" ? "ASC" : "DESC"} NULLS LAST`)
+
+    /*
+     * The count runs FIRST, and the offset is clamped against it. A hand-edited `?page=40`
+     * on a nine-page list would otherwise return zero rows next to a total of four hundred,
+     * and the screen would read "no products match" about a filter that matches all of them.
+     */
+    const counted = await prisma.$queryRaw<Array<{ n: bigint }>>`
+        SELECT count(*) AS n FROM products p ${level} WHERE ${predicate}`
+    const total = Number(counted[0]?.n ?? 0)
+    const offset = Math.min(skip, Math.max(0, (Math.max(1, Math.ceil(total / take)) - 1) * take))
+
+    const rows = await prisma.$queryRaw<
+            Array<{
+                productId: string
+                sku: string
+                name: string | null
+                onHand: number
+                reserved: number
+                available: number
+                isActive: boolean
+                hasCost: boolean
+            }>
+        >`
+            SELECT p.id AS "productId",
+                   p."productId" AS sku,
+                   t.name AS name,
+                   ${onHand} AS "onHand",
+                   COALESCE(l."reserved", 0) AS reserved,
+                   ${available} AS available,
+                   p."isActive" AS "isActive",
+                   (p."averageCost" IS NOT NULL) AS "hasCost"
+              FROM products p ${level}
+             WHERE ${predicate}
+             ORDER BY ${order}, p."productId" ASC
+             LIMIT ${take} OFFSET ${offset}`
+
+    return { rows, total }
+}

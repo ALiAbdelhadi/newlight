@@ -13,6 +13,7 @@ import {
     updateCategory,
     updateSubCategory,
 } from "@/app/action/taxonomy-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 interface Existing {
     id: string
@@ -145,22 +146,21 @@ export function TaxonomyForm({
             }}
         >
             {kind === "subCategory" && categories && (
-                <section className="bg-card rounded-lg border p-4 shadow-sm space-y-1.5">
+                <section className="rounded-lg border bg-card p-3 space-y-1.5">
                     <Label htmlFor="parent">Category</Label>
-                    <select
+                    <NativeSelect
                         id="parent"
                         required
                         value={parent}
                         onChange={(e) => setParent(e.target.value)}
-                        className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                    >
+                        >
                         <option value="">—</option>
                         {categories.map((c) => (
                             <option key={c.id} value={c.id}>
                                 {c.name}
                             </option>
                         ))}
-                    </select>
+                    </NativeSelect>
                     <p className="text-xs text-muted-foreground">
                         Moving it changes the URL of every product inside.
                     </p>
@@ -202,7 +202,7 @@ export function TaxonomyForm({
                 </div>
             ))}
 
-            <section className="bg-card rounded-lg border p-4 shadow-sm grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <section className="rounded-lg border bg-card p-3 grid grid-cols-1 sm:grid-cols-3 gap-4">
                 <div className="space-y-1.5">
                     <Label htmlFor="image">Image URL</Label>
                     <Input id="image" value={imageUrl} onChange={(e) => setImageUrl(e.target.value)} />

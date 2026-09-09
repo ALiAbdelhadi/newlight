@@ -24,6 +24,7 @@
     "@radix-ui/react-tabs": "^1.1.13",
     "@repo/database": "workspace:*",
     "@repo/mail": "workspace:*",
+    "@repo/notifications": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-table": "^8.21.3",
     "better-auth": "^1.7.3",
@@ -32,8 +33,6 @@
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
     "eslint-config": "^0.3.0",
-    "framer-motion": "^12.23.26",
-    "gsap": "^3.14.2",
     "lucide-react": "^0.555.0",
     "next": "16.1.6",
     "next-cloudinary": "^6.18.8",
@@ -45,7 +44,6 @@
     "react-hook-form": "^7.71.2",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
-    "xlsx": "^0.18.5",
     "zod": "^4.2.1"
   },
   "devDependencies": {

@@ -1,0 +1,200 @@
+{
+  "chunk": 12,
+  "total_files": 22,
+  "file_type": "product_images",
+  "category": "outdoor_lighting_assets",
+  "base_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products",
+  "files": [
+    {
+      "id": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-loop/nl-b-loop (2).png",
+      "product_type": "bollard",
+      "product_code": "nl-b-loop",
+      "asset_name": "nl-b-loop (2)",
+      "format": "png"
+    },
+    {
+      "id": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-loop/nl-b-loop (3).webp",
+      "product_type": "bollard",
+      "product_code": "nl-b-loop",
+      "asset_name": "nl-b-loop (3)",
+      "format": "webp"
+    },
+    {
+      "id": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-stria/nl-b-stria (1).png",
+      "product_type": "bollard",
+      "product_code": "nl-b-stria",
+      "asset_name": "nl-b-stria (1)",
+      "format": "png"
+    },
+    {
+      "id": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-stria/nl-b-stria (2).png",
+      "product_type": "bollard",
+      "product_code": "nl-b-stria",
+      "asset_name": "nl-b-stria (2)",
+      "format": "png"
+    },
+    {
+      "id": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-stria/nl-b-stria (3).webp",
+      "product_type": "bollard",
+      "product_code": "nl-b-stria",
+      "asset_name": "nl-b-stria (3)",
+      "format": "webp"
+    },
+    {
+      "id": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (1).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-12w",
+      "asset_name": "nl-b-h-12w (1)",
+      "format": "png"
+    },
+    {
+      "id": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (2).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-12w",
+      "asset_name": "nl-b-h-12w (2)",
+      "format": "png"
+    },
+    {
+      "id": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-12w/nl-b-h-12w (3).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-12w",
+      "asset_name": "nl-b-h-12w (3)",
+      "format": "png"
+    },
+    {
+      "id": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (1).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-9w",
+      "asset_name": "nl-b-h-9w (1)",
+      "format": "png"
+    },
+    {
+      "id": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (2).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-9w",
+      "asset_name": "nl-b-h-9w (2)",
+      "format": "png"
+    },
+    {
+      "id": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bulkhead/nl-b-h-9w/nl-b-h-9w (3).png",
+      "product_type": "bulkhead",
+      "product_code": "nl-b-h-9w",
+      "asset_name": "nl-b-h-9w (3)",
+      "format": "png"
+    },
+    {
+      "id": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (1).png",
+      "product_type": "drive-over",
+      "product_code": "nl-d-o-1",
+      "asset_name": "nl-d-o-1 (1)",
+      "format": "png"
+    },
+    {
+      "id": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (2).webp",
+      "product_type": "drive-over",
+      "product_code": "nl-d-o-1",
+      "asset_name": "nl-d-o-1 (2)",
+      "format": "webp"
+    },
+    {
+      "id": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (3).webp",
+      "product_type": "drive-over",
+      "product_code": "nl-d-o-1",
+      "asset_name": "nl-d-o-1 (3)",
+      "format": "webp"
+    },
+    {
+      "id": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/drive-over/nl-d-o-1/nl-d-o-1 (4).webp",
+      "product_type": "drive-over",
+      "product_code": "nl-d-o-1",
+      "asset_name": "nl-d-o-1 (4)",
+      "format": "webp"
+    },
+    {
+      "id": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (1).png",
+      "product_type": "dustproof-led",
+      "product_code": "nl-d-p-1",
+      "asset_name": "nl-d-p-1 (1)",
+      "format": "png"
+    },
+    {
+      "id": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (2).png",
+      "product_type": "dustproof-led",
+      "product_code": "nl-d-p-1",
+      "asset_name": "nl-d-p-1 (2)",
+      "format": "png"
+    },
+    {
+      "id": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/dustproof-led/nl-d-p-1/nl-d-p-1 (3).png",
+      "product_type": "dustproof-led",
+      "product_code": "nl-d-p-1",
+      "asset_name": "nl-d-p-1 (3)",
+      "format": "png"
+    },
+    {
+      "id": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/exit/nl-exit-3w (1).png",
+      "product_type": "exit",
+      "product_code": "nl-exit-3w",
+      "asset_name": "nl-exit-3w (1)",
+      "format": "png"
+    },
+    {
+      "id": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/exit/nl-exit-3w (2).png",
+      "product_type": "exit",
+      "product_code": "nl-exit-3w",
+      "asset_name": "nl-exit-3w (2)",
+      "format": "png"
+    },
+    {
+      "id": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/exit/nl-exit-3w (3).png",
+      "product_type": "exit",
+      "product_code": "nl-exit-3w",
+      "asset_name": "nl-exit-3w (3)",
+      "format": "png"
+    },
+    {
+      "id": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/flood-light/nl-floodlight-100w.jpg",
+      "product_type": "flood-light",
+      "product_code": "nl-floodlight-100w",
+      "asset_name": "nl-floodlight-100w",
+      "format": "jpg"
+    }
+  ],
+  "summary": {
+    "product_types": [
+      "bollard",
+      "bulkhead",
+      "drive-over",
+      "dustproof-led",
+      "exit",
+      "flood-light"
+    ],
+    "format_distribution": {
+      "png": 16,
+      "webp": 4,
+      "jpg": 1
+    }
+  }
+}

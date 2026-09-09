@@ -32,6 +32,10 @@
      36px and costs two visible rows per screen at 1080p.
      These deliberately override Tailwind's defaults — the whole app gets
      denser, which is the point. */
+  /* Uppercase labels track at ONE value, and it is tighter than the shop's
+     0.18em because this is a 13px console, not a showroom. */
+  --tracking-label: 0.09em;
+
   --text-2xs: 11px;               /* audit timestamps, cell metadata          */
   --text-2xs--line-height: 14px;
   --text-xs: 12px;                /* column headers, labels, badges, nav      */

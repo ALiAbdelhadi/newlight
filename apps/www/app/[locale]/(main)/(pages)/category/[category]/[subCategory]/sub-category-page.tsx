@@ -1,164 +1,184 @@
 "use client"
 
-import { Container } from "@/components/container"
+import { Container } from "@/components/layout/section"
 import { ProductCard } from "@/components/product-card"
-import { Link } from "@/i18n/navigation"
-import { encodeSlug } from "@repo/database"
+import { ProductFilterBar } from "@/components/product-filter-bar"
+import { Breadcrumbs } from "@/components/breadcrumbs"
+import { CompareToggle } from "@/components/compare/compare-toggle"
+import { CompareTray } from "@/components/compare/compare-tray"
+import { EmptyState } from "@/components/states"
+import { Button } from "@/components/ui/button"
+import { Link, usePathname, useRouter } from "@/i18n/navigation"
 import type { CategoryService } from "@/lib/services/category-service"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ArrowLeft } from "lucide-react"
-import { useTranslations } from "next-intl"
-import { useEffect, useRef } from "react"
-
-if (typeof window !== "undefined") {
-    gsap.registerPlugin(ScrollTrigger)
-}
+import {
+    EMPTY_FILTERS,
+    applyFilters,
+    filtersFromParams,
+    filtersToParams,
+    quickSpecs,
+    type ListingFilters,
+} from "@/lib/services/product-facets"
+import { encodeSlug, resolveLocale } from "@repo/database"
+import { useLocale, useTranslations } from "next-intl"
+import { useSearchParams } from "next/navigation"
+import { useMemo } from "react"
 
 type SubCategoryView = NonNullable<Awaited<ReturnType<typeof CategoryService.getProductsWithUniqueVariants>>>
 
 interface SubCategoryPageProps {
     subCategory: SubCategoryView
-    /** The parent's slug in THIS locale — needed to build links (§9.2). */
     categorySlug: string
+    /** The category's other sections, for the "also in" row. Already excludes this one. */
+    siblings?: Array<{ id: string; name: string; slug: string }>
 }
 
-export default function SectionTypePage({ subCategory, categorySlug }: SubCategoryPageProps) {
+export default function SectionTypePage({ subCategory, categorySlug, siblings = [] }: SubCategoryPageProps) {
     const t = useTranslations("section-type-page")
-    const heroRef = useRef<HTMLElement>(null)
-    const gridRef = useRef<HTMLDivElement>(null)
-    const cardRefs = useRef<HTMLDivElement[]>([])
+    const tm = useTranslations("merchandising")
+    const locale = resolveLocale(useLocale())
+    const router = useRouter()
+    const pathname = usePathname()
+    const searchParams = useSearchParams()
 
     const subCategoryTranslation = subCategory.translations[0]
     const categoryTranslation = subCategory.category.translations[0]
     const subCategoryName = subCategoryTranslation?.name ?? ""
     const categoryName = categoryTranslation?.name ?? ""
-    // Slugs are per-locale (§9.2), so every link is built from the translation row that this
-    // render is already showing — never from the entity, which no longer has one.
     const subCategorySlug = subCategoryTranslation?.slug ?? ""
 
-    useEffect(() => {
-        if (!heroRef.current) return
+    // Parsed and serialised by `product-facets`, so the listing and the search results page
+    // cannot drift on what `sale=1` means.
+    const filters: ListingFilters = useMemo(
+        () => filtersFromParams(new URLSearchParams(searchParams.toString())),
+        [searchParams]
+    )
 
-        const ctx = gsap.context(() => {
-            gsap.from(heroRef.current, {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top 60%",
-                    once: true,
-                },
-            })
-        }, heroRef)
+    const visible = useMemo(() => applyFilters(subCategory.listing, filters), [subCategory.listing, filters])
 
-        return () => ctx.revert()
-    }, [])
-
-    useEffect(() => {
-
-        const validRefs = cardRefs.current.filter((el): el is HTMLDivElement => el !== null && el !== undefined)
-        if (validRefs.length === 0) return
-
-        const ctx = gsap.context(() => {
-            validRefs.forEach((el, index) => {
-                gsap.from(el, {
-                    opacity: 0,
-                    y: 40,
-                    duration: 0.7,
-                    delay: index * 0.05,
-                    ease: "power3.out",
-                    scrollTrigger: {
-                        trigger: el,
-                        start: "top 66%",
-                        once: true,
-                    },
-                })
-            })
-        }, gridRef)
-
-        return () => ctx.revert()
-    }, [subCategory.products])
-
-    const productCount = subCategory.products.length
-    const productLabel = productCount === 1 ? t("product") : t("products")
+    function updateFilters(next: ListingFilters) {
+        const query = filtersToParams(next).toString()
+        router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    }
 
     return (
         <div className="min-h-screen">
-            <section ref={heroRef} className="py-24">
+            <section className="py-10 lg:py-20">
                 <Container>
-                    <Link
-                        href={`/category/${encodeSlug(categorySlug)}`}
-                        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors mb-8 group"
-                    >
-                        <ArrowLeft className="w-4 h-4 rtl:rotate-180 transition-transform group-hover:-translate-x-1" />
-                        <span className="font-light tracking-wide">{categoryName}</span>
-                    </Link>
-                    <div className="max-w-3xl space-y-6">
-                        <div className="space-y-4">
-                            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-light">{categoryName}</p>
-                            <h1 className="text-5xl md:text-6xl lg:text-7xl font-serif font-light tracking-tight text-foreground text-balance leading-[1.1]">
+                    {/* Where you ARE, not where you came from. The back link this replaces
+                        answered a question the browser's own back button already answers. */}
+                    <Breadcrumbs
+                        className="mb-6 lg:mb-8"
+                        items={[
+                            { name: t("catalogue"), href: "/category" },
+                            { name: categoryName, href: `/category/${encodeSlug(categorySlug)}` },
+                            { name: subCategoryName },
+                        ]}
+                    />
+                    <div className="max-w-3xl space-y-4 lg:space-y-6">
+                        <div className="space-y-3 lg:space-y-4">
+                            <h1 className="font-display text-3xl leading-[1.1] font-light tracking-tight text-balance sm:text-4xl lg:text-6xl">
                                 {subCategoryName}
                             </h1>
                             <div className="h-px w-20 bg-accent" />
                         </div>
                         {subCategoryTranslation?.description && (
-                            <p className="text-lg md:text-xl font-light text-muted-foreground tracking-wide max-w-2xl leading-relaxed">
+                            <p className="max-w-2xl text-base leading-relaxed font-light tracking-wide text-muted-foreground lg:text-lg">
                                 {subCategoryTranslation.description}
                             </p>
                         )}
                     </div>
+                    {siblings.length > 0 && (
+                        <nav aria-label={tm("alsoIn", { category: categoryName })} className="mt-8 lg:mt-10">
+                            <p className="mb-3 text-xs font-medium tracking-label text-muted-foreground uppercase">
+                                {tm("alsoIn", { category: categoryName })}
+                            </p>
+                            <ul className="flex flex-wrap gap-2">
+                                {siblings.map((sibling) => (
+                                    <li key={sibling.id}>
+                                        <Link
+                                            href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(sibling.slug)}`}
+                                            className="inline-flex h-9 items-center rounded-full border bg-card px-4 text-sm transition-colors duration-(--duration-fast) hover:border-border-strong hover:bg-accent"
+                                        >
+                                            <bdi dir="auto">{sibling.name}</bdi>
+                                        </Link>
+                                    </li>
+                                ))}
+                            </ul>
+                        </nav>
+                    )}
                 </Container>
             </section>
-            <section ref={gridRef} className="pb-28 lg:pb-36">
+            <section className="pb-16 lg:pb-28">
                 <Container>
-                    {subCategory.products.length === 0 ? (
-                        <div className="text-center py-24 border border-border rounded-sm bg-secondary/20">
-                            <p className="text-muted-foreground font-light text-lg tracking-wide">{t("noProducts")}</p>
-                        </div>
+                    {subCategory.listing.length === 0 ? (
+                        <EmptyState
+                            variant="no-data"
+                            title={t("noProducts")}
+                            description={t("noProductsBody")}
+                            action={
+                                <Button asChild size="lg" className="group">
+                                    <Link href={`/category/${encodeSlug(categorySlug)}`}>{categoryName}</Link>
+                                </Button>
+                            }
+                            className="rounded-lg border bg-surface-sunk"
+                        />
                     ) : (
                         <>
-                            <div className="mb-10 pb-6 border-b border-border">
-                                <p className="text-sm text-muted-foreground font-light tracking-wide">
-                                    {productCount} {productLabel}
-                                </p>
-                            </div>
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-                                {subCategory.products.map((product, index) => {
-                                    const productTranslation = product.translations[0]
-                                    const productName = productTranslation?.name || product.productId
-                                    const productImage = product.images[0]?.url ?? "/lighting-product.jpg"
-                                    return (
-                                        <div
-                                            key={product.id}
-                                            ref={(el) => {
-                                                if (el) cardRefs.current[index] = el
-                                            }}
+                            <ProductFilterBar
+                                facets={subCategory.facets}
+                                filters={filters}
+                                resultCount={visible.length}
+                                onChange={updateFilters}
+                            />
+                            {visible.length === 0 ? (
+                                <EmptyState
+                                    variant="no-results"
+                                    title={t("noMatches")}
+                                    description={t("noMatchesBody")}
+                                    action={
+                                        <Button
+                                            size="lg"
+                                            variant="outline"
+                                            onClick={() => updateFilters({ ...EMPTY_FILTERS, sort: filters.sort })}
                                         >
-                                            <Link
-                                                href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(subCategorySlug)}/${encodeSlug(product.slug)}`}
-                                                className="block"
-                                            >
-                                                <ProductCard
-                                                    id={product.id}
-                                                    image={productImage}
-                                                    title={productName}
-                                                    category={subCategoryName}
-                                                    // Already a string: the service serialises at its own boundary (A82).
-                                                    price={product.price}
-                                                    badge={product.isFeatured ? "Featured" : undefined}
-                                                />
-                                            </Link>
-                                        </div>
-                                    )
-                                })}
-                            </div>
+                                            {t("clearAll")}
+                                        </Button>
+                                    }
+                                    className="mt-10 rounded-lg border bg-surface-sunk"
+                                />
+                            ) : (
+                                <div className="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
+                                    {visible.map((product) => (
+                                        <Link
+                                            key={product.id}
+                                            href={`/category/${encodeSlug(categorySlug)}/${encodeSlug(subCategorySlug)}/${encodeSlug(product.slug)}`}
+                                            className="block"
+                                        >
+                                            <ProductCard
+                                                image={product.image ?? "/lighting-product.jpg"}
+                                                title={product.name}
+                                                category={subCategoryName}
+                                                price={product.price}
+                                                basePrice={product.basePrice}
+                                                discountPercent={product.discountPercent}
+                                                badge={product.isFeatured ? "Featured" : undefined}
+                                                /* The specs this section is configured to care
+                                                   about, in the operator's order — the same rows
+                                                   the filter panel is built from. */
+                                                specs={quickSpecs(product, subCategory.definitions, locale)}
+                                                action={<CompareToggle sku={product.productId} />}
+                                            />
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
                         </>
                     )}
                 </Container>
             </section>
+
+            {/* Only present once something is ticked. */}
+            <CompareTray />
         </div>
     )
 }

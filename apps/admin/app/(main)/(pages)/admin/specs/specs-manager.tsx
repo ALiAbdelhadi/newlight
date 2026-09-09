@@ -20,6 +20,7 @@ import {
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { createSpec, deleteSpec, updateSpec } from "@/app/action/spec-actions"
+import { NativeSelect } from "@/components/ui/native-select"
 
 type ValueType = "NUMBER" | "TEXT" | "BOOLEAN"
 
@@ -93,7 +94,7 @@ export function SpecsManager({ definitions }: { definitions: SpecRow[] }) {
 
     return (
         <div className="space-y-8">
-            <section className="bg-card rounded-lg border p-4 shadow-sm space-y-4 max-w-4xl">
+            <section className="rounded-lg border bg-card p-3 space-y-4 max-w-4xl">
                 <h2 className="font-semibold">{editing ? `Editing ${editing}` : "Add a specification"}</h2>
                 <p className="text-sm text-muted-foreground">
                     {editing
@@ -115,18 +116,17 @@ export function SpecsManager({ definitions }: { definitions: SpecRow[] }) {
                     </div>
                     <div className="space-y-1.5">
                         <Label htmlFor="type">Type</Label>
-                        <select
+                        <NativeSelect
                             id="type"
                             value={draft.valueType}
                             onChange={(e) => setDraft({ ...draft, valueType: e.target.value as ValueType })}
-                            className="w-full h-9 rounded-md border border-input bg-transparent px-3 text-sm shadow-xs outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
-                        >
+                            >
                             {TYPES.map((t) => (
                                 <option key={t.value} value={t.value}>
                                     {t.value}
                                 </option>
                             ))}
-                        </select>
+                        </NativeSelect>
                         <p className="text-xs text-muted-foreground">
                             {TYPES.find((t) => t.value === draft.valueType)?.hint}
                         </p>
@@ -191,7 +191,7 @@ export function SpecsManager({ definitions }: { definitions: SpecRow[] }) {
                 </div>
             </section>
 
-            <div className="overflow-x-auto border rounded-lg shadow">
+            <div className="overflow-x-auto rounded-lg border bg-card">
                 <Table>
                     <TableHeader>
                         <TableRow>
@@ -244,7 +244,7 @@ export function SpecsManager({ definitions }: { definitions: SpecRow[] }) {
                                                 <AlertDialogFooter>
                                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                                     <AlertDialogAction
-                                                        className="bg-destructive text-white hover:bg-destructive/90"
+                                                        className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
                                                         onClick={() => call(() => deleteSpec(row.key))}
                                                     >
                                                         Delete

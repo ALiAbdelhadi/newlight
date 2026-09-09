@@ -1,84 +1,90 @@
-"use client"
-
 import { encodeSlug, type SerializedMoney } from "@repo/database"
-import { Container } from "@/components/container";
-import { ProductCard } from "@/components/product-card";
-import { Link } from "@/i18n/navigation";
-import { useTranslations } from 'next-intl';
+import { getTranslations } from "next-intl/server"
+
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { Container, Section, SectionHeader } from "@/components/layout/section"
+import { ProductCard } from "@/components/product-card"
+import { EmptyState } from "@/components/states"
+import { Link } from "@/i18n/navigation"
 
 interface ProductsProps {
-    products: UIProduct[];
+    products: UIProduct[]
 }
 
 /**
  * A view model, built on the SERVER.
  *
- * This component used to take raw Prisma rows and call `serializeMoney(product.price)` here,
- * which is the money boundary enforced on the wrong side of itself: a `Decimal` cannot cross
- * into a Client Component at all, and React said so 231 times in the console — "Only plain
- * objects can be passed to Client Components from Server Components. Decimal objects are not
- * supported". Whatever arrived was no longer a Decimal, so serialising it here was serialising
- * the wreckage.
- *
- * Money is a string by the time it gets here (§4, ADR 0001), because the server made it one.
+ * Money is a string by the time it gets here (§4, ADR 0001), because the server made it one —
+ * this component used to take raw Prisma rows and serialise them on the wrong side of the
+ * boundary, which React rejected 231 times per page load.
  */
 export interface UIProduct {
-    id: string;
-    image: string;
-    title: string;
-    category: string;
-    price: SerializedMoney;
-    slug: string;
-    badge?: string;
-    productId: string;
-    categorySlug: string;
-    subCategorySlug: string;
+    id: string
+    image: string
+    title: string
+    category: string
+    /** What the customer pays — discounted where a discount is live (§13.2). */
+    price: SerializedMoney
+    /** The undiscounted price. Equal to `price` when nothing is on offer. */
+    basePrice: SerializedMoney
+    discountPercent: number
+    slug: string
+    badge?: string
+    productId: string
+    categorySlug: string
+    subCategorySlug: string
 }
 
-export function Products({ products }: ProductsProps) {
-    const t = useTranslations('products-section');
-
-    const mappedProducts = products
+/**
+ * The featured strip on the homepage.
+ *
+ * A server component now — nothing here needed the client. It was the one section on the
+ * homepage that did not use `Section`/`SectionHeader`: it wrapped itself in `min-h-screen`
+ * (a full viewport of height whether it had eight products or none), set its own 60px
+ * `font-light` heading, its own `mb-16` and its own `gap-12`, and so sat visibly apart from the
+ * offers band above it and the collection below. It also had no way to the catalogue: eight
+ * products and no "see everything".
+ *
+ * The grid is the PLP's grid, gap for gap, so a card is the same size here as on the page the
+ * "Browse" link leads to.
+ */
+export async function Products({ products }: ProductsProps) {
+    const t = await getTranslations("products-section")
 
     return (
-        <div className="min-h-screen text-foreground">
+        <Section aria-label={t("headerTitle")}>
             <Container>
-                <section className="pt-12 pb-6">
-                    <div>
-                        <div className="mb-16">
-                            <h2 className="text-5xl md:text-6xl font-light tracking-tight mb-4">
-                                {t('headerTitle')}
-                            </h2>
-                            <p className="text-lg text-muted-foreground font-light max-w-2xl">
-                                {t('headerDescription')}
-                            </p>
-                        </div>
+                <SectionHeader
+                    eyebrow={t("eyebrow")}
+                    title={t("headerTitle")}
+                    description={t("headerDescription")}
+                    action={
+                        <Link
+                            href="/category"
+                            className="group inline-flex items-center gap-2 text-sm font-medium underline-offset-4 hover:underline"
+                        >
+                            {t("browseAll")}
+                            <DirectionalArrow />
+                        </Link>
+                    }
+                />
+
+                {products.length === 0 ? (
+                    <EmptyState variant="no-data" title={t("noProducts")} className="rounded-lg border bg-surface-sunk" />
+                ) : (
+                    <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
+                        {products.map((product) => (
+                            <Link
+                                key={product.id}
+                                href={`/category/${encodeSlug(product.categorySlug)}/${encodeSlug(product.subCategorySlug)}/${encodeSlug(product.slug)}`}
+                                className="block"
+                            >
+                                <ProductCard {...product} />
+                            </Link>
+                        ))}
                     </div>
-                </section>
-                <section className="pb-20">
-                    <div>
-                        {mappedProducts.length === 0 ? (
-                            <div className="text-center py-24 border border-border rounded-sm bg-secondary/20">
-                                <p className="text-muted-foreground font-light text-lg tracking-wide">
-                                    {t('noProducts') || 'No products available'}
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-12">
-                                {mappedProducts.map((product) => (
-                                    <Link
-                                        key={product.id}
-                                        href={`/category/${encodeSlug(product.categorySlug)}/${encodeSlug(product.subCategorySlug)}/${encodeSlug(product.slug)}`}
-                                        className="block"
-                                    >
-                                        <ProductCard {...product} />
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
-                    </div>
-                </section>
+                )}
             </Container>
-        </div>
+        </Section>
     )
 }

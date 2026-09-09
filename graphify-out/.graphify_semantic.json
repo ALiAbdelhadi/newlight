@@ -1,0 +1,2291 @@
+{
+  "nodes": [
+    {
+      "id": "claude_md_newlight_project",
+      "label": "NewLight E-commerce Platform",
+      "file_type": "document",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "1-73",
+      "source_url": null,
+      "captured_at": null,
+      "author": "Ali Abdelhadi",
+      "contributor": null
+    },
+    {
+      "id": "apps_www_storefront",
+      "label": "WWW App - Public Storefront",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "9",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "apps_admin_dashboard",
+      "label": "Admin App - Internal Dashboard",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "10",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "packages_database",
+      "label": "Database Package - Prisma & Schema",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "12",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "turborepo_monorepo_architecture",
+      "label": "Turborepo Monorepo Architecture",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "3",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "nextjs_16_framework",
+      "label": "Next.js 16 with App Router",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "19",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "react_19",
+      "label": "React 19",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "19",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "typescript_static_typing",
+      "label": "TypeScript for Static Typing",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "19",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "prisma_6_orm",
+      "label": "Prisma 6 ORM",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "20",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "postgresql_neon_database",
+      "label": "PostgreSQL with Neon Adapter",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "20",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "clerk_authentication",
+      "label": "Clerk Authentication Service",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "21",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tailwindcss_4_styling",
+      "label": "Tailwind CSS 4 with shadcn Components",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "22",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "nextintl_i18n_framework",
+      "label": "next-intl for i18n (en/ar)",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "23",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "rtl_support_arabic",
+      "label": "RTL Support for Arabic Language",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "23",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "tanstack_react_query",
+      "label": "TanStack React Query for Data Fetching",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "24",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "react_hook_form_validation",
+      "label": "react-hook-form + Zod for Forms",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "24",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "framer_motion_gsap_animation",
+      "label": "framer-motion & gsap for Animation",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "25",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "pino_logging_library",
+      "label": "Pino for Server-side Logging",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "26",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "pwa_support_service_worker",
+      "label": "PWA Support with Service Worker",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "27",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "category_model",
+      "label": "Category Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "subcategory_model",
+      "label": "SubCategory Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "product_model",
+      "label": "Product Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "product_translation_pattern",
+      "label": "Product Translation Side-table Pattern",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "33",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "cart_model",
+      "label": "Cart Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "order_model",
+      "label": "Order Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "user_model",
+      "label": "User Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "notification_model",
+      "label": "Notification Domain Model",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "31",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "locale_segment_routing_pattern",
+      "label": "Locale Segment Routing Pattern (www)",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "68",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "route_groups_pattern",
+      "label": "Route Groups Pattern (main/auth)",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "69",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "server_actions_pattern",
+      "label": "Server Actions Pattern",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "70",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "service_layer_pattern",
+      "label": "Service Layer Pattern for Business Logic",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "71",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "order_service_www",
+      "label": "Order Service (WWW App)",
+      "file_type": "code",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "126-155",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "order_service_admin",
+      "label": "Order Service (Admin App)",
+      "file_type": "code",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "173-183",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "inventory_management_system",
+      "label": "Inventory Management System",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "124-183",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "prisma_transaction_isolation",
+      "label": "Prisma Serializable Transaction Isolation",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "144",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "neon_database_adapter",
+      "label": "Neon PostgreSQL Adapter Configuration",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/packages/database/README.md",
+      "source_location": "1-53",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "prisma_accelerate_caching",
+      "label": "Prisma Accelerate Query Caching",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/packages/database/README.md",
+      "source_location": "10-14",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "audit_2026_09_findings",
+      "label": "Comprehensive Schema Audit Report (2026-09)",
+      "file_type": "document",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "1-242",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "product_specifications_module",
+      "label": "Product Specifications Module",
+      "file_type": "code",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "26-65",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "product_family_grouping",
+      "label": "Product Family Grouping by baseProductId",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "69-100",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_email_auth_pattern",
+      "label": "Admin Email Authorization Pattern",
+      "file_type": "rationale",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "104-121",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "admin_only_dashboard",
+      "label": "Admin-only Dashboard Access",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "118",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "product_inventory_data",
+      "label": "Product Inventory Database (189 products)",
+      "file_type": "concept",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "192",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "pnpm_workspace_config",
+      "label": "pnpm Workspace Configuration",
+      "file_type": "document",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/pnpm-workspace.yaml",
+      "source_location": "1-15",
+      "source_url": null,
+      "captured_at": null,
+      "author": null,
+      "contributor": null
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603_6w_nl_a603_6w_3_png",
+      "label": "nl-a603-6w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603-6w/nl-a603-6w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_1_png",
+      "label": "nl-a603c-12w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-12w/nl-a603c-12w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_2_png",
+      "label": "nl-a603c-12w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-12w/nl-a603c-12w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_3_png",
+      "label": "nl-a603c-12w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-12w/nl-a603c-12w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_1_png",
+      "label": "nl-a603c-18w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-18w/nl-a603c-18w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_2_png",
+      "label": "nl-a603c-18w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-18w/nl-a603c-18w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_3_png",
+      "label": "nl-a603c-18w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-18w/nl-a603c-18w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_1_png",
+      "label": "nl-a603c-6w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-6w/nl-a603c-6w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_2_png",
+      "label": "nl-a603c-6w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-6w/nl-a603c-6w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_3_png",
+      "label": "nl-a603c-6w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a603c-6w/nl-a603c-6w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_1_png",
+      "label": "nl-a606-12w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_2_png",
+      "label": "nl-a606-12w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_3_png",
+      "label": "nl-a606-12w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-12w/nl-a606-12w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_1_png",
+      "label": "nl-a606-18w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_2_png",
+      "label": "nl-a606-18w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_3_png",
+      "label": "nl-a606-18w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-18w/nl-a606-18w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_1_png",
+      "label": "nl-a606-24w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_2_png",
+      "label": "nl-a606-24w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_3_png",
+      "label": "nl-a606-24w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-24w/nl-a606-24w (3).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_1_png",
+      "label": "nl-a606-30w (1)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (1).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_2_png",
+      "label": "nl-a606-30w (2)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (2).png"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_3_png",
+      "label": "nl-a606-30w (3)",
+      "file_type": "image",
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-a606-30w/nl-a606-30w (3).png"
+    },
+    {
+      "id": "product_nl_a603_6w",
+      "label": "nl-a603-6w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a603c_12w",
+      "label": "nl-a603c-12w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a603c_18w",
+      "label": "nl-a603c-18w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a603c_6w",
+      "label": "nl-a603c-6w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a606_12w",
+      "label": "nl-a606-12w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a606_18w",
+      "label": "nl-a606-18w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a606_24w",
+      "label": "nl-a606-24w",
+      "file_type": "concept"
+    },
+    {
+      "id": "product_nl_a606_30w",
+      "label": "nl-a606-30w",
+      "file_type": "concept"
+    },
+    {
+      "id": "category_indoor",
+      "label": "indoor",
+      "file_type": "concept"
+    },
+    {
+      "id": "subcategory_magnetic",
+      "label": "magnetic",
+      "file_type": "concept"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612_6w_nl_a612_6w_3_png_image",
+      "type": "image",
+      "label": "nl-a612-6w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612-6w/nl-a612-6w (3).png",
+      "metadata": {
+        "product_model": "nl-a612-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-12w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-12w/nl-a612c-12w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-18w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-18w/nl-a612c-18w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-24w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-24w/nl-a612c-24w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-30w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-30w/nl-a612c-30w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-30w",
+        "wattage": "30w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_1_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (1).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_2_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (2).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_3_png_image",
+      "type": "image",
+      "label": "nl-a612c-6w (3).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-a612c-6w/nl-a612c-6w (3).png",
+      "metadata": {
+        "product_model": "nl-a612c-6w",
+        "wattage": "6w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "3",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_12w_nl_d403_12w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-12w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_12w_nl_d403_12w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-12w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-12w/nl-d403-12w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-12w",
+        "wattage": "12w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_18w_nl_d403_18w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-18w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_18w_nl_d403_18w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-18w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-18w/nl-d403-18w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-18w",
+        "wattage": "18w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_24w_nl_d403_24w_1_png_image",
+      "type": "image",
+      "label": "nl-d403-24w (1).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (1).png",
+      "metadata": {
+        "product_model": "nl-d403-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "1",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_d403_24w_nl_d403_24w_2_png_image",
+      "type": "image",
+      "label": "nl-d403-24w (2).png",
+      "score": 1.0,
+      "source_file": "apps/admin/public/products/indoor/magnetic/nl-d403-24w/nl-d403-24w (2).png",
+      "metadata": {
+        "product_model": "nl-d403-24w",
+        "wattage": "24w",
+        "category": "indoor",
+        "subcategory": "magnetic",
+        "variant": "2",
+        "file_type": "image/png"
+      }
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_l601_40w_nl_l601_40w_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-l601-40w/nl-l601-40w.png",
+      "type": "image",
+      "symbol": "nl-l601-40w",
+      "score": 1.0,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "40w",
+      "model": "nl-l601-40w"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_12w_nl_n801_12w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (1).png",
+      "type": "image",
+      "symbol": "nl-n801-12w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n801-12w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_12w_nl_n801_12w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (2).png",
+      "type": "image",
+      "symbol": "nl-n801-12w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n801-12w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_12w_nl_n801_12w_3_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-12w/nl-n801-12w (3).png",
+      "type": "image",
+      "symbol": "nl-n801-12w-angle3",
+      "score": 0.75,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n801-12w",
+      "variant": "angle_3"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_22w_nl_n801_22w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (1).png",
+      "type": "image",
+      "symbol": "nl-n801-22w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "22w",
+      "model": "nl-n801-22w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_22w_nl_n801_22w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (2).png",
+      "type": "image",
+      "symbol": "nl-n801-22w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "22w",
+      "model": "nl-n801-22w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_22w_nl_n801_22w_3_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-22w/nl-n801-22w (3).png",
+      "type": "image",
+      "symbol": "nl-n801-22w-angle3",
+      "score": 0.75,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "22w",
+      "model": "nl-n801-22w",
+      "variant": "angle_3"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_40w_nl_n801_40w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (1).png",
+      "type": "image",
+      "symbol": "nl-n801-40w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "40w",
+      "model": "nl-n801-40w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_40w_nl_n801_40w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (2).png",
+      "type": "image",
+      "symbol": "nl-n801-40w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "40w",
+      "model": "nl-n801-40w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_40w_nl_n801_40w_3_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-40w/nl-n801-40w (3).png",
+      "type": "image",
+      "symbol": "nl-n801-40w-angle3",
+      "score": 0.75,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "40w",
+      "model": "nl-n801-40w",
+      "variant": "angle_3"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_57w_nl_n801_57w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (1).png",
+      "type": "image",
+      "symbol": "nl-n801-57w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "57w",
+      "model": "nl-n801-57w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_57w_nl_n801_57w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (2).png",
+      "type": "image",
+      "symbol": "nl-n801-57w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "57w",
+      "model": "nl-n801-57w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n801_57w_nl_n801_57w_3_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n801-57w/nl-n801-57w (3).png",
+      "type": "image",
+      "symbol": "nl-n801-57w-angle3",
+      "score": 0.75,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "57w",
+      "model": "nl-n801-57w",
+      "variant": "angle_3"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n803_12w_nl_n803_12w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (1).png",
+      "type": "image",
+      "symbol": "nl-n803-12w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n803-12w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n803_12w_nl_n803_12w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n803-12w/nl-n803-12w (2).png",
+      "type": "image",
+      "symbol": "nl-n803-12w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n803-12w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n803_6w_nl_n803_6w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (1).png",
+      "type": "image",
+      "symbol": "nl-n803-6w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "6w",
+      "model": "nl-n803-6w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n803_6w_nl_n803_6w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n803-6w/nl-n803-6w (2).png",
+      "type": "image",
+      "symbol": "nl-n803-6w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "6w",
+      "model": "nl-n803-6w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n805_12w_nl_n805_12w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n805-12w/nl-n805-12w (1).png",
+      "type": "image",
+      "symbol": "nl-n805-12w",
+      "score": 1.0,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "12w",
+      "model": "nl-n805-12w"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_n806_6w_nl_n806_6w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-n806-6w/nl-n806-6w (1).png",
+      "type": "image",
+      "symbol": "nl-n806-6w",
+      "score": 1.0,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "6w",
+      "model": "nl-n806-6w"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_t501_10w_nl_t501_10w_1_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-10w-angle1",
+      "score": 0.95,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "10w",
+      "model": "nl-t501-10w",
+      "variant": "angle_1"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_t501_10w_nl_t501_10w_2_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-10w-angle2",
+      "score": 0.85,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "10w",
+      "model": "nl-t501-10w",
+      "variant": "angle_2"
+    },
+    {
+      "id": "apps_admin_public_products_indoor_magnetic_nl_t501_10w_nl_t501_10w_3_png",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-10w/nl-t501-10w (3).png",
+      "type": "image",
+      "symbol": "nl-t501-10w-angle3",
+      "score": 0.75,
+      "category": "product_photo",
+      "product_line": "magnetic",
+      "wattage": "10w",
+      "model": "nl-t501-10w",
+      "variant": "angle_3"
+    },
+    {
+      "id": "nl-t501-20w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-20w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-20w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-20w/nl-t501-20w (3).png",
+      "type": "image",
+      "symbol": "nl-t501-20w",
+      "label": "nl-t501-20w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-20w",
+      "wattage": "20w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-30w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-30w/nl-t501-30w (3).png",
+      "type": "image",
+      "symbol": "nl-t501-30w",
+      "label": "nl-t501-30w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-30w",
+      "wattage": "30w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (1).png",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (2).png",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501-3w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501-3w/nl-t501-3w (3).jpg",
+      "type": "image",
+      "symbol": "nl-t501-3w",
+      "label": "nl-t501-3w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501-3w",
+      "wattage": "3w",
+      "variant": 3,
+      "format": "jpg"
+    },
+    {
+      "id": "nl-t501c-10w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (1).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-10w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (2).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-10w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-10w/nl-t501c-10w (3).png",
+      "type": "image",
+      "symbol": "nl-t501c-10w",
+      "label": "nl-t501c-10w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-10w",
+      "wattage": "10w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (1).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (2).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t501c-20w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t501c-20w/nl-t501c-20w (3).png",
+      "type": "image",
+      "symbol": "nl-t501c-20w",
+      "label": "nl-t501c-20w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t501c-20w",
+      "wattage": "20w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t503-9w (2).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t503-9w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t503-9w/nl-t506-9w (3).png",
+      "type": "image",
+      "symbol": "nl-t503-9w",
+      "label": "nl-t503-9w product image 3 (misnamed nl-t506-9w)",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t503-9w",
+      "wattage": "9w",
+      "variant": 3,
+      "format": "png",
+      "note": "File in nl-t503-9w directory but named nl-t506-9w"
+    },
+    {
+      "id": "nl-t506-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    },
+    {
+      "id": "nl-t506-9w_2",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (2).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 2",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 2,
+      "format": "png"
+    },
+    {
+      "id": "nl-t506-9w_3",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t506-9w/nl-t506-9w (3).png",
+      "type": "image",
+      "symbol": "nl-t506-9w",
+      "label": "nl-t506-9w product image 3",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t506-9w",
+      "wattage": "9w",
+      "variant": 3,
+      "format": "png"
+    },
+    {
+      "id": "nl-t509-9w_1",
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/magnetic/nl-t509-9w/nl-t509-9w (1).png",
+      "type": "image",
+      "symbol": "nl-t509-9w",
+      "label": "nl-t509-9w product image 1",
+      "category": "product/indoor/magnetic",
+      "sku": "nl-t509-9w",
+      "wattage": "9w",
+      "variant": 1,
+      "format": "png"
+    }
+  ],
+  "edges": [
+    {
+      "source": "claude_md_newlight_project",
+      "target": "apps_www_storefront",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "9",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md_newlight_project",
+      "target": "apps_admin_dashboard",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "10",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md_newlight_project",
+      "target": "packages_database",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "12",
+      "weight": 1.0
+    },
+    {
+      "source": "claude_md_newlight_project",
+      "target": "turborepo_monorepo_architecture",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "3",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "nextjs_16_framework",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "9",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "nextjs_16_framework",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "10",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "packages_database",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "67",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "packages_database",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "67",
+      "weight": 1.0
+    },
+    {
+      "source": "nextjs_16_framework",
+      "target": "react_19",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "19",
+      "weight": 1.0
+    },
+    {
+      "source": "nextjs_16_framework",
+      "target": "typescript_static_typing",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "19",
+      "weight": 1.0
+    },
+    {
+      "source": "packages_database",
+      "target": "prisma_6_orm",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "20",
+      "weight": 1.0
+    },
+    {
+      "source": "packages_database",
+      "target": "postgresql_neon_database",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "20",
+      "weight": 1.0
+    },
+    {
+      "source": "prisma_6_orm",
+      "target": "postgresql_neon_database",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "20",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "clerk_authentication",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "21",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "clerk_authentication",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "21",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "tailwindcss_4_styling",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "22",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "tailwindcss_4_styling",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "22",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "nextintl_i18n_framework",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "23",
+      "weight": 1.0
+    },
+    {
+      "source": "nextintl_i18n_framework",
+      "target": "rtl_support_arabic",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "23",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "tanstack_react_query",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "24",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "react_hook_form_validation",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "24",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "framer_motion_gsap_animation",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "25",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "pino_logging_library",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "26",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "pino_logging_library",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "26",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "pwa_support_service_worker",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "27",
+      "weight": 1.0
+    },
+    {
+      "source": "product_model",
+      "target": "product_translation_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "33",
+      "weight": 1.0
+    },
+    {
+      "source": "category_model",
+      "target": "product_translation_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "33",
+      "weight": 1.0
+    },
+    {
+      "source": "subcategory_model",
+      "target": "product_translation_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "33",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "locale_segment_routing_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "68",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "route_groups_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "69",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "route_groups_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "69",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "server_actions_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "70",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "service_layer_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "71",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "service_layer_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md",
+      "source_location": "71",
+      "weight": 1.0
+    },
+    {
+      "source": "order_service_www",
+      "target": "inventory_management_system",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "131-141",
+      "weight": 1.0
+    },
+    {
+      "source": "order_service_admin",
+      "target": "inventory_management_system",
+      "relation": "implements",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "173-183",
+      "weight": 1.0
+    },
+    {
+      "source": "order_service_www",
+      "target": "prisma_transaction_isolation",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "144",
+      "weight": 1.0
+    },
+    {
+      "source": "inventory_management_system",
+      "target": "prisma_transaction_isolation",
+      "relation": "rationale_for",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "124-183",
+      "weight": 1.0
+    },
+    {
+      "source": "postgresql_neon_database",
+      "target": "neon_database_adapter",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/packages/database/README.md",
+      "source_location": "1-53",
+      "weight": 1.0
+    },
+    {
+      "source": "prisma_6_orm",
+      "target": "prisma_accelerate_caching",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/packages/database/README.md",
+      "source_location": "10-14",
+      "weight": 1.0
+    },
+    {
+      "source": "audit_2026_09_findings",
+      "target": "product_specifications_module",
+      "relation": "cites",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "26-65",
+      "weight": 1.0
+    },
+    {
+      "source": "product_model",
+      "target": "product_family_grouping",
+      "relation": "conceptually_related_to",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "69-100",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "admin_email_auth_pattern",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "104-121",
+      "weight": 1.0
+    },
+    {
+      "source": "admin_email_auth_pattern",
+      "target": "admin_only_dashboard",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "118",
+      "weight": 1.0
+    },
+    {
+      "source": "product_model",
+      "target": "product_inventory_data",
+      "relation": "shares_data_with",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "192",
+      "weight": 1.0
+    },
+    {
+      "source": "pnpm_workspace_config",
+      "target": "turborepo_monorepo_architecture",
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/pnpm-workspace.yaml",
+      "source_location": "1-15",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_www_storefront",
+      "target": "order_service_www",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "126",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_dashboard",
+      "target": "order_service_admin",
+      "relation": "references",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/docs/audit-2026-09.md",
+      "source_location": "173",
+      "weight": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603_6w_nl_a603_6w_3_png",
+      "target": "product_nl_a603_6w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_1_png",
+      "target": "product_nl_a603c_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_2_png",
+      "target": "product_nl_a603c_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_12w_nl_a603c_12w_3_png",
+      "target": "product_nl_a603c_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_1_png",
+      "target": "product_nl_a603c_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_2_png",
+      "target": "product_nl_a603c_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_18w_nl_a603c_18w_3_png",
+      "target": "product_nl_a603c_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_1_png",
+      "target": "product_nl_a603c_6w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_2_png",
+      "target": "product_nl_a603c_6w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a603c_6w_nl_a603c_6w_3_png",
+      "target": "product_nl_a603c_6w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_1_png",
+      "target": "product_nl_a606_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_2_png",
+      "target": "product_nl_a606_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_12w_nl_a606_12w_3_png",
+      "target": "product_nl_a606_12w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_1_png",
+      "target": "product_nl_a606_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_2_png",
+      "target": "product_nl_a606_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_18w_nl_a606_18w_3_png",
+      "target": "product_nl_a606_18w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_1_png",
+      "target": "product_nl_a606_24w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_2_png",
+      "target": "product_nl_a606_24w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_24w_nl_a606_24w_3_png",
+      "target": "product_nl_a606_24w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_1_png",
+      "target": "product_nl_a606_30w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_2_png",
+      "target": "product_nl_a606_30w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a606_30w_nl_a606_30w_3_png",
+      "target": "product_nl_a606_30w",
+      "type": "ASSET_OF",
+      "confidence": 1.0
+    },
+    {
+      "source": "product_nl_a603_6w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a603c_12w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a603c_18w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a603c_6w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a606_12w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a606_18w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a606_24w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "product_nl_a606_30w",
+      "target": "subcategory_magnetic",
+      "type": "IN_CATEGORY",
+      "confidence": 0.95
+    },
+    {
+      "source": "subcategory_magnetic",
+      "target": "category_indoor",
+      "type": "SUBCATEGORY_OF",
+      "confidence": 0.95
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "type": "product_variant",
+      "label": "same_product_different_view",
+      "score": 0.95
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_2_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_3_png_image",
+      "type": "product_variant",
+      "label": "same_product_different_view",
+      "score": 0.95
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_6w_nl_a612c_6w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_12w_nl_a612c_12w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_18w_nl_a612c_18w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    },
+    {
+      "source": "apps_admin_public_products_indoor_magnetic_nl_a612c_24w_nl_a612c_24w_1_png_image",
+      "target": "apps_admin_public_products_indoor_magnetic_nl_a612c_30w_nl_a612c_30w_1_png_image",
+      "type": "product_family",
+      "label": "same_series_different_wattage",
+      "score": 0.85
+    }
+  ],
+  "hyperedges": [
+    {
+      "id": "monorepo_structure",
+      "label": "Turborepo Monorepo Structure",
+      "nodes": [
+        "turborepo_monorepo_architecture",
+        "apps_www_storefront",
+        "apps_admin_dashboard",
+        "packages_database",
+        "pnpm_workspace_config"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md"
+    },
+    {
+      "id": "tech_stack_shared",
+      "label": "Shared Technology Stack",
+      "nodes": [
+        "apps_www_storefront",
+        "apps_admin_dashboard",
+        "nextjs_16_framework",
+        "react_19",
+        "typescript_static_typing",
+        "tailwindcss_4_styling",
+        "clerk_authentication",
+        "pino_logging_library"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md"
+    },
+    {
+      "id": "domain_models",
+      "label": "Domain Models with Translations",
+      "nodes": [
+        "category_model",
+        "subcategory_model",
+        "product_model",
+        "product_translation_pattern",
+        "cart_model",
+        "order_model",
+        "user_model",
+        "notification_model"
+      ],
+      "relation": "participate_in",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "/Users/ali/Downloads/altruvex's projects/newlight/CLAUDE.md"
+    }
+  ],
+  "input_tokens": 648,
+  "output_tokens": 2156
+}

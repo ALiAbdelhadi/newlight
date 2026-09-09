@@ -1,7 +1,8 @@
 "use server"
 
 import { currentUserId } from "@/lib/auth"
-import { multiplyMoney, prisma } from "@repo/database"
+import { multiplyMoney, prisma, resolveEffectivePrice, serializeMoney, type MoneyInput } from "@repo/database"
+import { activeDiscounts } from "@/lib/discounts"
 import { revalidatePath } from "next/cache"
 
 interface SaveConfigurationArgs {
@@ -32,7 +33,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
         // resolved for zero of the 13 production rows.
         const product = await prisma.product.findFirst({
             where: { productId: args.productId, isActive: true, deletedAt: null },
-            select: { id: true, productId: true, price: true },
+            select: { id: true, productId: true, price: true, familyId: true, subCategoryId: true },
         })
 
         if (!product) {
@@ -42,7 +43,15 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             }
         }
 
-        const lineTotal = multiplyMoney(product.price, args.quantity)
+        /*
+         * `configPrice` is the price the customer is being shown, which is the DISCOUNTED one
+         * while a discount is running (§13.2). Storing the base price here and discounting
+         * later would put the sale in one place and the charge in another; storing the
+         * discounted price and never revisiting it would honour an expired sale forever, which
+         * is why `getConfiguration` re-prices on every read.
+         */
+        const unitPrice = resolveEffectivePrice(product.price, product, await activeDiscounts()).effective
+        const lineTotal = multiplyMoney(unitPrice, args.quantity)
 
         if (userId) {
 
@@ -82,7 +91,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
                 data: {
                     productId: product.id,
                     productSku: product.productId,
-                    configPrice: product.price,
+                    configPrice: unitPrice,
                     quantity: args.quantity,
                     totalPrice: lineTotal,
                     currency: "EGP",
@@ -108,7 +117,7 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
             data: {
                 productId: product.id,
                 productSku: product.productId,
-                configPrice: product.price,
+                configPrice: unitPrice,
                 quantity: args.quantity,
                 totalPrice: lineTotal,
                 currency: "EGP",
@@ -136,6 +145,41 @@ export async function saveConfiguration(args: SaveConfigurationArgs) {
     }
 }
 
+
+/**
+ * Re-price a configuration against the discounts that are live NOW.
+ *
+ * A configuration is this storefront's cart: it is created when a customer picks a quantity
+ * and read again on the preview, the confirmation and the order. Between those reads a
+ * discount can start or end, and a stored price is a promise about a moment that has passed —
+ * so it is refreshed here, on read, rather than trusted.
+ *
+ * That the refresh happens in ONE place is the point. Preview, confirm and checkout all go
+ * through `getConfiguration`, so they cannot disagree about what this costs; a page that
+ * priced itself would be the second implementation §13.2 exists to prevent.
+ */
+async function repriceConfiguration<
+    T extends { id: string; productId: string; quantity: number; configPrice: MoneyInput },
+>(
+    configuration: T
+): Promise<T> {
+    const product = await prisma.product.findUnique({
+        where: { id: configuration.productId },
+        select: { id: true, price: true, familyId: true, subCategoryId: true },
+    })
+    if (!product) return configuration
+
+    const unitPrice = resolveEffectivePrice(product.price, product, await activeDiscounts()).effective
+    if (unitPrice === serializeMoney(configuration.configPrice)) return configuration
+
+    const updated = await prisma.productConfiguration.update({
+        where: { id: configuration.id },
+        data: { configPrice: unitPrice, totalPrice: multiplyMoney(unitPrice, configuration.quantity) },
+    })
+
+    return { ...configuration, ...updated }
+}
+
 export async function getConfiguration(configId: string) {
     try {
         const userId = await currentUserId()
@@ -157,7 +201,7 @@ export async function getConfiguration(configId: string) {
             // selectedColorKey, which are real columns — and it was read FIRST, so a stale
             // copy could override the column it was copied from.
             if (configuration) {
-                return configuration
+                return repriceConfiguration(configuration)
             }
         }
 
@@ -172,7 +216,7 @@ export async function getConfiguration(configId: string) {
             return null
         }
 
-        return configuration
+        return repriceConfiguration(configuration)
 
     } catch (error) {
         console.error("Failed to get configuration:", error)

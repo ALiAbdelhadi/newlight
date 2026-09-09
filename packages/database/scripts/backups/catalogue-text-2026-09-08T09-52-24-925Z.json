@@ -1,0 +1,4868 @@
+{
+  "familyEdits": [
+    {
+      "id": "famt_nl-1001_ar",
+      "locale": "ar",
+      "slug": "nl-1001",
+      "from": "nl-1001",
+      "to": "إضاءة تحت الأرض 1001"
+    },
+    {
+      "id": "famt_nl-1001_en",
+      "locale": "en",
+      "slug": "nl-1001",
+      "from": "nl-1001",
+      "to": "Uplights 1001"
+    },
+    {
+      "id": "famt_nl-1046_en",
+      "locale": "en",
+      "slug": "nl-1046",
+      "from": "nl-1046",
+      "to": "Uplights 1046"
+    },
+    {
+      "id": "famt_nl-1046_ar",
+      "locale": "ar",
+      "slug": "nl-1046",
+      "from": "nl-1046",
+      "to": "إضاءة تحت الأرض 1046"
+    },
+    {
+      "id": "famt_nl-1050_en",
+      "locale": "en",
+      "slug": "nl-1050",
+      "from": "nl-1050",
+      "to": "Uplights 1050"
+    },
+    {
+      "id": "famt_nl-1050_ar",
+      "locale": "ar",
+      "slug": "nl-1050",
+      "from": "nl-1050",
+      "to": "إضاءة تحت الأرض 1050"
+    },
+    {
+      "id": "famt_nl-1051_en",
+      "locale": "en",
+      "slug": "nl-1051",
+      "from": "nl-1051",
+      "to": "Uplights 1051"
+    },
+    {
+      "id": "famt_nl-1051_ar",
+      "locale": "ar",
+      "slug": "nl-1051",
+      "from": "nl-1051",
+      "to": "إضاءة تحت الأرض 1051"
+    },
+    {
+      "id": "famt_nl-1100_en",
+      "locale": "en",
+      "slug": "nl-1100",
+      "from": "nl-1100",
+      "to": "Uplights 1100"
+    },
+    {
+      "id": "famt_nl-1100_ar",
+      "locale": "ar",
+      "slug": "nl-1100",
+      "from": "nl-1100",
+      "to": "إضاءة تحت الأرض 1100"
+    },
+    {
+      "id": "famt_nl-601c_en",
+      "locale": "en",
+      "slug": "nl-601c",
+      "from": "nl-601c",
+      "to": "Magnetic Track 601C"
+    },
+    {
+      "id": "famt_nl-601c_ar",
+      "locale": "ar",
+      "slug": "nl-601c",
+      "from": "nl-601c",
+      "to": "ماجناتيك تراك كشافات 601C"
+    },
+    {
+      "id": "famt_nl-a603_en",
+      "locale": "en",
+      "slug": "nl-a603",
+      "from": "nl-a603",
+      "to": "Magnetic Track A603"
+    },
+    {
+      "id": "famt_nl-a603_ar",
+      "locale": "ar",
+      "slug": "nl-a603",
+      "from": "nl-a603",
+      "to": "ماجناتيك تراك كشافات A603"
+    },
+    {
+      "id": "famt_nl-a603c_en",
+      "locale": "en",
+      "slug": "nl-a603c",
+      "from": "nl-a603c",
+      "to": "Magnetic Track A603C"
+    },
+    {
+      "id": "famt_nl-a603c_ar",
+      "locale": "ar",
+      "slug": "nl-a603c",
+      "from": "nl-a603c",
+      "to": "ماجناتيك تراك كشافات A603C"
+    },
+    {
+      "id": "famt_nl-a606_en",
+      "locale": "en",
+      "slug": "nl-a606",
+      "from": "nl-a606",
+      "to": "Magnetic Track A606"
+    },
+    {
+      "id": "famt_nl-a606_ar",
+      "locale": "ar",
+      "slug": "nl-a606",
+      "from": "nl-a606",
+      "to": "ماجناتيك تراك كشافات A606"
+    },
+    {
+      "id": "famt_nl-a609_en",
+      "locale": "en",
+      "slug": "nl-a609",
+      "from": "nl-a609",
+      "to": "Magnetic Track A609"
+    },
+    {
+      "id": "famt_nl-a609_ar",
+      "locale": "ar",
+      "slug": "nl-a609",
+      "from": "nl-a609",
+      "to": "ماجناتيك تراك كشافات A609"
+    },
+    {
+      "id": "famt_nl-a612_en",
+      "locale": "en",
+      "slug": "nl-a612",
+      "from": "nl-a612",
+      "to": "Magnetic Track A612"
+    },
+    {
+      "id": "famt_nl-a612_ar",
+      "locale": "ar",
+      "slug": "nl-a612",
+      "from": "nl-a612",
+      "to": "ماجناتيك تراك كشافات A612"
+    },
+    {
+      "id": "famt_nl-a612c_en",
+      "locale": "en",
+      "slug": "nl-a612c",
+      "from": "nl-a612c",
+      "to": "Magnetic Track A612C"
+    },
+    {
+      "id": "famt_nl-a612c_ar",
+      "locale": "ar",
+      "slug": "nl-a612c",
+      "from": "nl-a612c",
+      "to": "ماجناتيك تراك كشافات A612C"
+    },
+    {
+      "id": "famt_nl-b-beam_en",
+      "locale": "en",
+      "slug": "nl-b-beam",
+      "from": "nl-b-beam",
+      "to": "Bollard Lights B-BEAM"
+    },
+    {
+      "id": "famt_nl-b-beam_ar",
+      "locale": "ar",
+      "slug": "nl-b-beam",
+      "from": "nl-b-beam",
+      "to": "أعمدة إنارة B-BEAM"
+    },
+    {
+      "id": "famt_nl-b-frame_ar",
+      "locale": "ar",
+      "slug": "nl-b-frame",
+      "from": "nl-b-frame",
+      "to": "أعمدة إنارة B-FRAME"
+    },
+    {
+      "id": "famt_nl-b-frame_en",
+      "locale": "en",
+      "slug": "nl-b-frame",
+      "from": "nl-b-frame",
+      "to": "Bollard Lights B-FRAME"
+    },
+    {
+      "id": "famt_nl-b-h_en",
+      "locale": "en",
+      "slug": "nl-b-h",
+      "from": "nl-b-h",
+      "to": "Bulkhead B-H"
+    },
+    {
+      "id": "famt_nl-b-h_ar",
+      "locale": "ar",
+      "slug": "nl-b-h",
+      "from": "nl-b-h",
+      "to": "عين بقرة B-H"
+    },
+    {
+      "id": "famt_nl-b-loop_en",
+      "locale": "en",
+      "slug": "nl-b-loop",
+      "from": "nl-b-loop",
+      "to": "Bollard Lights B-LOOP"
+    },
+    {
+      "id": "famt_nl-b-loop_ar",
+      "locale": "ar",
+      "slug": "nl-b-loop",
+      "from": "nl-b-loop",
+      "to": "أعمدة إنارة B-LOOP"
+    },
+    {
+      "id": "famt_nl-b-stria_en",
+      "locale": "en",
+      "slug": "nl-b-stria",
+      "from": "nl-b-stria",
+      "to": "Bollard Lights B-STRIA"
+    },
+    {
+      "id": "famt_nl-b-stria_ar",
+      "locale": "ar",
+      "slug": "nl-b-stria",
+      "from": "nl-b-stria",
+      "to": "أعمدة إنارة B-STRIA"
+    },
+    {
+      "id": "famt_nl-c-1_en",
+      "locale": "en",
+      "slug": "nl-c-1",
+      "from": "nl-c-1",
+      "to": "Cylinder C-1"
+    },
+    {
+      "id": "famt_nl-c-1_ar",
+      "locale": "ar",
+      "slug": "nl-c-1",
+      "from": "nl-c-1",
+      "to": "إضاءة Cylinder C-1"
+    },
+    {
+      "id": "famt_nl-d-1_en",
+      "locale": "en",
+      "slug": "nl-d-1",
+      "from": "nl-d-1",
+      "to": "Downlight D-1"
+    },
+    {
+      "id": "famt_nl-d-1_ar",
+      "locale": "ar",
+      "slug": "nl-d-1",
+      "from": "nl-d-1",
+      "to": "إضاءة Downlight D-1"
+    },
+    {
+      "id": "famt_nl-d-o-1_en",
+      "locale": "en",
+      "slug": "nl-d-o-1",
+      "from": "nl-d-o-1",
+      "to": "Drive Over Lights D-O-1"
+    },
+    {
+      "id": "famt_nl-d-o-1_ar",
+      "locale": "ar",
+      "slug": "nl-d-o-1",
+      "from": "nl-d-o-1",
+      "to": "إضاءة أرضية D-O-1"
+    },
+    {
+      "id": "famt_nl-d-p-1_en",
+      "locale": "en",
+      "slug": "nl-d-p-1",
+      "from": "nl-d-p-1",
+      "to": "2×120 Cm Dustproof Led D-P-1"
+    },
+    {
+      "id": "famt_nl-d-p-1_ar",
+      "locale": "ar",
+      "slug": "nl-d-p-1",
+      "from": "nl-d-p-1",
+      "to": "كشافات 2×120 Cm D-P-1"
+    },
+    {
+      "id": "famt_nl-d403_en",
+      "locale": "en",
+      "slug": "nl-d403",
+      "from": "nl-d403",
+      "to": "Magnetic Track D403"
+    },
+    {
+      "id": "famt_nl-d403_ar",
+      "locale": "ar",
+      "slug": "nl-d403",
+      "from": "nl-d403",
+      "to": "ماجناتيك تراك كشافات D403"
+    },
+    {
+      "id": "famt_nl-d403c_en",
+      "locale": "en",
+      "slug": "nl-d403c",
+      "from": "nl-d403c",
+      "to": "Magnetic Track D403C"
+    },
+    {
+      "id": "famt_nl-d403c_ar",
+      "locale": "ar",
+      "slug": "nl-d403c",
+      "from": "nl-d403c",
+      "to": "ماجناتيك تراك كشافات D403C"
+    },
+    {
+      "id": "famt_nl-dv-102_en",
+      "locale": "en",
+      "slug": "nl-dv-102",
+      "from": "nl-dv-102",
+      "to": "Track Built-in Drivers DV-102"
+    },
+    {
+      "id": "famt_nl-dv-102_ar",
+      "locale": "ar",
+      "slug": "nl-dv-102",
+      "from": "nl-dv-102",
+      "to": "ترانسات مدمجة مع الأعواد DV-102"
+    },
+    {
+      "id": "famt_nl-e1030_en",
+      "locale": "en",
+      "slug": "nl-e1030",
+      "from": "nl-e1030",
+      "to": "Magnetic Track Accessories E1030"
+    },
+    {
+      "id": "famt_nl-e1030_ar",
+      "locale": "ar",
+      "slug": "nl-e1030",
+      "from": "nl-e1030",
+      "to": "ملحقات الاعواد الماجناتيك تراك E1030"
+    },
+    {
+      "id": "famt_nl-e1031_en",
+      "locale": "en",
+      "slug": "nl-e1031",
+      "from": "nl-e1031",
+      "to": "Magnetic Track Accessories E1031"
+    },
+    {
+      "id": "famt_nl-e1031_ar",
+      "locale": "ar",
+      "slug": "nl-e1031",
+      "from": "nl-e1031",
+      "to": "ملحقات الاعواد الماجناتيك تراك E1031"
+    },
+    {
+      "id": "famt_nl-e1032_en",
+      "locale": "en",
+      "slug": "nl-e1032",
+      "from": "nl-e1032",
+      "to": "Magnetic Track Accessories E1032"
+    },
+    {
+      "id": "famt_nl-e1032_ar",
+      "locale": "ar",
+      "slug": "nl-e1032",
+      "from": "nl-e1032",
+      "to": "ملحقات الاعواد الماجناتيك تراك E1032"
+    },
+    {
+      "id": "famt_nl-exit_en",
+      "locale": "en",
+      "slug": "nl-exit",
+      "from": "nl-exit",
+      "to": "Exit"
+    },
+    {
+      "id": "famt_nl-exit_ar",
+      "locale": "ar",
+      "slug": "nl-exit",
+      "from": "nl-exit",
+      "to": "مخرج طوارئ EXIT"
+    },
+    {
+      "id": "famt_nl-f012_en",
+      "locale": "en",
+      "slug": "nl-f012",
+      "from": "nl-f012",
+      "to": "Magnetic Track Accessories F012"
+    },
+    {
+      "id": "famt_nl-f012_ar",
+      "locale": "ar",
+      "slug": "nl-f012",
+      "from": "nl-f012",
+      "to": "ملحقات الاعواد الماجناتيك تراك F012"
+    },
+    {
+      "id": "famt_nl-floodlight_ar",
+      "locale": "ar",
+      "slug": "nl-floodlight",
+      "from": "nl-floodlight",
+      "to": "كشافات واجهات FLOODLIGHT"
+    },
+    {
+      "id": "famt_nl-floodlight_en",
+      "locale": "en",
+      "slug": "nl-floodlight",
+      "from": "nl-floodlight",
+      "to": "Flood Lights"
+    },
+    {
+      "id": "famt_nl-garden-pole-1_en",
+      "locale": "en",
+      "slug": "nl-garden-pole-1",
+      "from": "nl-garden-pole-1",
+      "to": "Poles Head GARDEN-POLE-1"
+    },
+    {
+      "id": "famt_nl-garden-pole-1_ar",
+      "locale": "ar",
+      "slug": "nl-garden-pole-1",
+      "from": "nl-garden-pole-1",
+      "to": "رأس العمود GARDEN-POLE-1"
+    },
+    {
+      "id": "famt_nl-garden-pole-2_en",
+      "locale": "en",
+      "slug": "nl-garden-pole-2",
+      "from": "nl-garden-pole-2",
+      "to": "Poles Head GARDEN-POLE-2"
+    },
+    {
+      "id": "famt_nl-garden-pole-2_ar",
+      "locale": "ar",
+      "slug": "nl-garden-pole-2",
+      "from": "nl-garden-pole-2",
+      "to": "رأس العمود GARDEN-POLE-2"
+    },
+    {
+      "id": "famt_nl-high-pay_en",
+      "locale": "en",
+      "slug": "nl-high-pay",
+      "from": "nl-high-pay",
+      "to": "High Bay HIGH-PAY"
+    },
+    {
+      "id": "famt_nl-high-pay_ar",
+      "locale": "ar",
+      "slug": "nl-high-pay",
+      "from": "nl-high-pay",
+      "to": "إضاءة المستودعات HIGH-PAY"
+    },
+    {
+      "id": "famt_nl-ip905_en",
+      "locale": "en",
+      "slug": "nl-ip905",
+      "from": "nl-ip905",
+      "to": "Magnetic Track IP905"
+    },
+    {
+      "id": "famt_nl-ip905_ar",
+      "locale": "ar",
+      "slug": "nl-ip905",
+      "from": "nl-ip905",
+      "to": "ماجناتيك تراك كشافات IP905"
+    },
+    {
+      "id": "famt_nl-l-1_en",
+      "locale": "en",
+      "slug": "nl-l-1",
+      "from": "nl-l-1",
+      "to": "Linear L-1"
+    },
+    {
+      "id": "famt_nl-l-1_ar",
+      "locale": "ar",
+      "slug": "nl-l-1",
+      "from": "nl-l-1",
+      "to": "إضاءة Linear L-1"
+    },
+    {
+      "id": "famt_nl-l-2_en",
+      "locale": "en",
+      "slug": "nl-l-2",
+      "from": "nl-l-2",
+      "to": "Linear L-2"
+    },
+    {
+      "id": "famt_nl-l-2_ar",
+      "locale": "ar",
+      "slug": "nl-l-2",
+      "from": "nl-l-2",
+      "to": "إضاءة Linear L-2"
+    },
+    {
+      "id": "famt_nl-l-3_en",
+      "locale": "en",
+      "slug": "nl-l-3",
+      "from": "nl-l-3",
+      "to": "Linear L-3"
+    },
+    {
+      "id": "famt_nl-l-3_ar",
+      "locale": "ar",
+      "slug": "nl-l-3",
+      "from": "nl-l-3",
+      "to": "إضاءة Linear L-3"
+    },
+    {
+      "id": "famt_nl-l1001_ar",
+      "locale": "ar",
+      "slug": "nl-l1001",
+      "from": "nl-l1001",
+      "to": "أعواد تراك L1001"
+    },
+    {
+      "id": "famt_nl-l1001_en",
+      "locale": "en",
+      "slug": "nl-l1001",
+      "from": "nl-l1001",
+      "to": "Track L1001"
+    },
+    {
+      "id": "famt_nl-l1003_en",
+      "locale": "en",
+      "slug": "nl-l1003",
+      "from": "nl-l1003",
+      "to": "Track L1003"
+    },
+    {
+      "id": "famt_nl-l1003_ar",
+      "locale": "ar",
+      "slug": "nl-l1003",
+      "from": "nl-l1003",
+      "to": "أعواد تراك L1003"
+    },
+    {
+      "id": "famt_nl-l1005_en",
+      "locale": "en",
+      "slug": "nl-l1005",
+      "from": "nl-l1005",
+      "to": "Track L1005"
+    },
+    {
+      "id": "famt_nl-l1005_ar",
+      "locale": "ar",
+      "slug": "nl-l1005",
+      "from": "nl-l1005",
+      "to": "أعواد تراك L1005"
+    },
+    {
+      "id": "famt_nl-l1007_en",
+      "locale": "en",
+      "slug": "nl-l1007",
+      "from": "nl-l1007",
+      "to": "Track L1007"
+    },
+    {
+      "id": "famt_nl-l1007_ar",
+      "locale": "ar",
+      "slug": "nl-l1007",
+      "from": "nl-l1007",
+      "to": "أعواد تراك L1007"
+    },
+    {
+      "id": "famt_nl-l601_en",
+      "locale": "en",
+      "slug": "nl-l601",
+      "from": "nl-l601",
+      "to": "Magnetic Track L601"
+    },
+    {
+      "id": "famt_nl-l601_ar",
+      "locale": "ar",
+      "slug": "nl-l601",
+      "from": "nl-l601",
+      "to": "ماجناتيك تراك كشافات L601"
+    },
+    {
+      "id": "famt_nl-led-dl_en",
+      "locale": "en",
+      "slug": "nl-led-dl",
+      "from": "nl-led-dl",
+      "to": "Panel Lights LED-DL"
+    },
+    {
+      "id": "famt_nl-led-dl_ar",
+      "locale": "ar",
+      "slug": "nl-led-dl",
+      "from": "nl-led-dl",
+      "to": "بانل لايت LED-DL"
+    },
+    {
+      "id": "famt_nl-n801_en",
+      "locale": "en",
+      "slug": "nl-n801",
+      "from": "nl-n801",
+      "to": "Magnetic Track N801"
+    },
+    {
+      "id": "famt_nl-n801_ar",
+      "locale": "ar",
+      "slug": "nl-n801",
+      "from": "nl-n801",
+      "to": "ماجناتيك تراك كشافات N801"
+    },
+    {
+      "id": "famt_nl-n803_en",
+      "locale": "en",
+      "slug": "nl-n803",
+      "from": "nl-n803",
+      "to": "Magnetic Track N803"
+    },
+    {
+      "id": "famt_nl-n803_ar",
+      "locale": "ar",
+      "slug": "nl-n803",
+      "from": "nl-n803",
+      "to": "ماجناتيك تراك كشافات N803"
+    },
+    {
+      "id": "famt_nl-n805_en",
+      "locale": "en",
+      "slug": "nl-n805",
+      "from": "nl-n805",
+      "to": "Magnetic Track N805"
+    },
+    {
+      "id": "famt_nl-n805_ar",
+      "locale": "ar",
+      "slug": "nl-n805",
+      "from": "nl-n805",
+      "to": "ماجناتيك تراك كشافات N805"
+    },
+    {
+      "id": "famt_nl-n806_en",
+      "locale": "en",
+      "slug": "nl-n806",
+      "from": "nl-n806",
+      "to": "Magnetic Track N806"
+    },
+    {
+      "id": "famt_nl-n806_ar",
+      "locale": "ar",
+      "slug": "nl-n806",
+      "from": "nl-n806",
+      "to": "ماجناتيك تراك كشافات N806"
+    },
+    {
+      "id": "famt_nl-p_en",
+      "locale": "en",
+      "slug": "nl-p",
+      "from": "nl-p",
+      "to": "Plafonnier"
+    },
+    {
+      "id": "famt_nl-p_ar",
+      "locale": "ar",
+      "slug": "nl-p",
+      "from": "nl-p",
+      "to": "بلفونيرة P"
+    },
+    {
+      "id": "famt_nl-pl-r_en",
+      "locale": "en",
+      "slug": "nl-pl-r",
+      "from": "nl-pl-r",
+      "to": "Panel Lights PL-R"
+    },
+    {
+      "id": "famt_nl-pl-r_ar",
+      "locale": "ar",
+      "slug": "nl-pl-r",
+      "from": "nl-pl-r",
+      "to": "بانل لايت PL-R"
+    },
+    {
+      "id": "famt_nl-pl-r-s_en",
+      "locale": "en",
+      "slug": "nl-pl-r-s",
+      "from": "nl-pl-r-s",
+      "to": "Panel Lights PL-R-S"
+    },
+    {
+      "id": "famt_nl-pl-r-s_ar",
+      "locale": "ar",
+      "slug": "nl-pl-r-s",
+      "from": "nl-pl-r-s",
+      "to": "بانل لايت PL-R-S"
+    },
+    {
+      "id": "famt_nl-r-ds_en",
+      "locale": "en",
+      "slug": "nl-r-ds",
+      "from": "nl-r-ds",
+      "to": "COB Lighting R-DS"
+    },
+    {
+      "id": "famt_nl-r-ds_ar",
+      "locale": "ar",
+      "slug": "nl-r-ds",
+      "from": "nl-r-ds",
+      "to": "إضاءة COB R-DS"
+    },
+    {
+      "id": "famt_nl-r1015_en",
+      "locale": "en",
+      "slug": "nl-r1015",
+      "from": "nl-r1015",
+      "to": "Magnetic Track Accessories R1015"
+    },
+    {
+      "id": "famt_nl-r1015_ar",
+      "locale": "ar",
+      "slug": "nl-r1015",
+      "from": "nl-r1015",
+      "to": "ملحقات الاعواد الماجناتيك تراك R1015"
+    },
+    {
+      "id": "famt_nl-r1018_en",
+      "locale": "en",
+      "slug": "nl-r1018",
+      "from": "nl-r1018",
+      "to": "Magnetic Track Accessories R1018"
+    },
+    {
+      "id": "famt_nl-r1018_ar",
+      "locale": "ar",
+      "slug": "nl-r1018",
+      "from": "nl-r1018",
+      "to": "ملحقات الاعواد الماجناتيك تراك R1018"
+    },
+    {
+      "id": "famt_nl-r1021_en",
+      "locale": "en",
+      "slug": "nl-r1021",
+      "from": "nl-r1021",
+      "to": "Magnetic Track Accessories R1021"
+    },
+    {
+      "id": "famt_nl-r1021_ar",
+      "locale": "ar",
+      "slug": "nl-r1021",
+      "from": "nl-r1021",
+      "to": "ملحقات الاعواد الماجناتيك تراك R1021"
+    },
+    {
+      "id": "famt_nl-r107c3_en",
+      "locale": "en",
+      "slug": "nl-r107c3",
+      "from": "nl-r107c3",
+      "to": "Magnetic Track R107C3"
+    },
+    {
+      "id": "famt_nl-r107c3_ar",
+      "locale": "ar",
+      "slug": "nl-r107c3",
+      "from": "nl-r107c3",
+      "to": "ماجناتيك تراك كشافات R107C3"
+    },
+    {
+      "id": "famt_nl-recessed_en",
+      "locale": "en",
+      "slug": "nl-recessed",
+      "from": "nl-recessed",
+      "to": "COB Lighting RECESSED"
+    },
+    {
+      "id": "famt_nl-recessed_ar",
+      "locale": "ar",
+      "slug": "nl-recessed",
+      "from": "nl-recessed",
+      "to": "إضاءة COB RECESSED"
+    },
+    {
+      "id": "famt_nl-s-l_en",
+      "locale": "en",
+      "slug": "nl-s-l",
+      "from": "nl-s-l",
+      "to": "Street Light S-L"
+    },
+    {
+      "id": "famt_nl-s-l_ar",
+      "locale": "ar",
+      "slug": "nl-s-l",
+      "from": "nl-s-l",
+      "to": "إضاءة الشوارع S-L"
+    },
+    {
+      "id": "famt_nl-s-l-2_ar",
+      "locale": "ar",
+      "slug": "nl-s-l-2",
+      "from": "nl-s-l-2",
+      "to": "درج سلم S-L-2"
+    },
+    {
+      "id": "famt_nl-s-l-2_en",
+      "locale": "en",
+      "slug": "nl-s-l-2",
+      "from": "nl-s-l-2",
+      "to": "Stair Lights S-L-2"
+    },
+    {
+      "id": "famt_nl-s-l-3_en",
+      "locale": "en",
+      "slug": "nl-s-l-3",
+      "from": "nl-s-l-3",
+      "to": "Stair Lights S-L-3"
+    },
+    {
+      "id": "famt_nl-s-l-3_ar",
+      "locale": "ar",
+      "slug": "nl-s-l-3",
+      "from": "nl-s-l-3",
+      "to": "درج سلم S-L-3"
+    },
+    {
+      "id": "famt_nl-s-l-4_en",
+      "locale": "en",
+      "slug": "nl-s-l-4",
+      "from": "nl-s-l-4",
+      "to": "Stair Lights S-L-4"
+    },
+    {
+      "id": "famt_nl-s-l-4_ar",
+      "locale": "ar",
+      "slug": "nl-s-l-4",
+      "from": "nl-s-l-4",
+      "to": "درج سلم S-L-4"
+    },
+    {
+      "id": "famt_nl-s-l-5_en",
+      "locale": "en",
+      "slug": "nl-s-l-5",
+      "from": "nl-s-l-5",
+      "to": "Stair Lights S-L-5"
+    },
+    {
+      "id": "famt_nl-s-l-5_ar",
+      "locale": "ar",
+      "slug": "nl-s-l-5",
+      "from": "nl-s-l-5",
+      "to": "درج سلم S-L-5"
+    },
+    {
+      "id": "famt_nl-s-l-6_en",
+      "locale": "en",
+      "slug": "nl-s-l-6",
+      "from": "nl-s-l-6",
+      "to": "Stair Lights S-L-6"
+    },
+    {
+      "id": "famt_nl-s-l-6_ar",
+      "locale": "ar",
+      "slug": "nl-s-l-6",
+      "from": "nl-s-l-6",
+      "to": "درج سلم S-L-6"
+    },
+    {
+      "id": "famt_nl-s-r-dl_en",
+      "locale": "en",
+      "slug": "nl-s-r-dl",
+      "from": "nl-s-r-dl",
+      "to": "Panel Lights S-R-DL"
+    },
+    {
+      "id": "famt_nl-s-r-dl_ar",
+      "locale": "ar",
+      "slug": "nl-s-r-dl",
+      "from": "nl-s-r-dl",
+      "to": "بانل لايت S-R-DL"
+    },
+    {
+      "id": "famt_nl-s-s-dl_en",
+      "locale": "en",
+      "slug": "nl-s-s-dl",
+      "from": "nl-s-s-dl",
+      "to": "Panel Lights S-S-DL"
+    },
+    {
+      "id": "famt_nl-s-s-dl_ar",
+      "locale": "ar",
+      "slug": "nl-s-s-dl",
+      "from": "nl-s-s-dl",
+      "to": "بانل لايت S-S-DL"
+    },
+    {
+      "id": "famt_nl-spike-1_en",
+      "locale": "en",
+      "slug": "nl-spike-1",
+      "from": "nl-spike-1",
+      "to": "Spike Lights SPIKE-1"
+    },
+    {
+      "id": "famt_nl-spike-1_ar",
+      "locale": "ar",
+      "slug": "nl-spike-1",
+      "from": "nl-spike-1",
+      "to": "حربات SPIKE-1"
+    },
+    {
+      "id": "famt_nl-spike-2_en",
+      "locale": "en",
+      "slug": "nl-spike-2",
+      "from": "nl-spike-2",
+      "to": "Spike Lights SPIKE-2"
+    },
+    {
+      "id": "famt_nl-spike-2_ar",
+      "locale": "ar",
+      "slug": "nl-spike-2",
+      "from": "nl-spike-2",
+      "to": "حربات SPIKE-2"
+    },
+    {
+      "id": "famt_nl-spike-3_en",
+      "locale": "en",
+      "slug": "nl-spike-3",
+      "from": "nl-spike-3",
+      "to": "Spike Lights SPIKE-3"
+    },
+    {
+      "id": "famt_nl-spike-3_ar",
+      "locale": "ar",
+      "slug": "nl-spike-3",
+      "from": "nl-spike-3",
+      "to": "حربات SPIKE-3"
+    },
+    {
+      "id": "famt_nl-strip-2835_en",
+      "locale": "en",
+      "slug": "nl-strip-2835",
+      "from": "nl-strip-2835",
+      "to": "LED Strips STRIP-2835"
+    },
+    {
+      "id": "famt_nl-strip-2835_ar",
+      "locale": "ar",
+      "slug": "nl-strip-2835",
+      "from": "nl-strip-2835",
+      "to": "شرائط LED STRIP-2835"
+    },
+    {
+      "id": "famt_nl-t501_en",
+      "locale": "en",
+      "slug": "nl-t501",
+      "from": "nl-t501",
+      "to": "Magnetic Track T501"
+    },
+    {
+      "id": "famt_nl-t501_ar",
+      "locale": "ar",
+      "slug": "nl-t501",
+      "from": "nl-t501",
+      "to": "ماجناتيك تراك كشافات T501"
+    },
+    {
+      "id": "famt_nl-t501c_en",
+      "locale": "en",
+      "slug": "nl-t501c",
+      "from": "nl-t501c",
+      "to": "Magnetic Track T501C"
+    },
+    {
+      "id": "famt_nl-t501c_ar",
+      "locale": "ar",
+      "slug": "nl-t501c",
+      "from": "nl-t501c",
+      "to": "ماجناتيك تراك كشافات T501C"
+    },
+    {
+      "id": "famt_nl-t503_en",
+      "locale": "en",
+      "slug": "nl-t503",
+      "from": "nl-t503",
+      "to": "Magnetic Track T503"
+    },
+    {
+      "id": "famt_nl-t503_ar",
+      "locale": "ar",
+      "slug": "nl-t503",
+      "from": "nl-t503",
+      "to": "ماجناتيك تراك كشافات T503"
+    },
+    {
+      "id": "famt_nl-t506_en",
+      "locale": "en",
+      "slug": "nl-t506",
+      "from": "nl-t506",
+      "to": "Magnetic Track T506"
+    },
+    {
+      "id": "famt_nl-t506_ar",
+      "locale": "ar",
+      "slug": "nl-t506",
+      "from": "nl-t506",
+      "to": "ماجناتيك تراك كشافات T506"
+    },
+    {
+      "id": "famt_nl-t509_en",
+      "locale": "en",
+      "slug": "nl-t509",
+      "from": "nl-t509",
+      "to": "Magnetic Track T509"
+    },
+    {
+      "id": "famt_nl-t509_ar",
+      "locale": "ar",
+      "slug": "nl-t509",
+      "from": "nl-t509",
+      "to": "ماجناتيك تراك كشافات T509"
+    },
+    {
+      "id": "famt_nl-t512_en",
+      "locale": "en",
+      "slug": "nl-t512",
+      "from": "nl-t512",
+      "to": "Magnetic Track T512"
+    },
+    {
+      "id": "famt_nl-t512_ar",
+      "locale": "ar",
+      "slug": "nl-t512",
+      "from": "nl-t512",
+      "to": "ماجناتيك تراك كشافات T512"
+    },
+    {
+      "id": "famt_nl-tr1001-220v_en",
+      "locale": "en",
+      "slug": "nl-tr1001-220v",
+      "from": "nl-tr1001-220v",
+      "to": "Magnetic Track TR1001-220V"
+    },
+    {
+      "id": "famt_nl-tr1001-220v_ar",
+      "locale": "ar",
+      "slug": "nl-tr1001-220v",
+      "from": "nl-tr1001-220v",
+      "to": "ماجناتيك تراك كشافات TR1001-220V"
+    },
+    {
+      "id": "famt_nl-tr1002-220v_en",
+      "locale": "en",
+      "slug": "nl-tr1002-220v",
+      "from": "nl-tr1002-220v",
+      "to": "Magnetic Track TR1002-220V"
+    },
+    {
+      "id": "famt_nl-tr1002-220v_ar",
+      "locale": "ar",
+      "slug": "nl-tr1002-220v",
+      "from": "nl-tr1002-220v",
+      "to": "ماجناتيك تراك كشافات TR1002-220V"
+    },
+    {
+      "id": "famt_nl-w-l-1_en",
+      "locale": "en",
+      "slug": "nl-w-l-1",
+      "from": "nl-w-l-1",
+      "to": "Wall Lights W-L-1"
+    },
+    {
+      "id": "famt_nl-w-l-1_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-1",
+      "from": "nl-w-l-1",
+      "to": "إضاءة جدارية W-L-1"
+    },
+    {
+      "id": "famt_nl-w-l-2_en",
+      "locale": "en",
+      "slug": "nl-w-l-2",
+      "from": "nl-w-l-2",
+      "to": "Wall Lights W-L-2"
+    },
+    {
+      "id": "famt_nl-w-l-2_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-2",
+      "from": "nl-w-l-2",
+      "to": "إضاءة جدارية W-L-2"
+    },
+    {
+      "id": "famt_nl-w-l-3_en",
+      "locale": "en",
+      "slug": "nl-w-l-3",
+      "from": "nl-w-l-3",
+      "to": "Wall Lights W-L-3"
+    },
+    {
+      "id": "famt_nl-w-l-3_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-3",
+      "from": "nl-w-l-3",
+      "to": "إضاءة جدارية W-L-3"
+    },
+    {
+      "id": "famt_nl-w-l-4_en",
+      "locale": "en",
+      "slug": "nl-w-l-4",
+      "from": "nl-w-l-4",
+      "to": "Wall Lights W-L-4"
+    },
+    {
+      "id": "famt_nl-w-l-4_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-4",
+      "from": "nl-w-l-4",
+      "to": "إضاءة جدارية W-L-4"
+    },
+    {
+      "id": "famt_nl-w-l-5_en",
+      "locale": "en",
+      "slug": "nl-w-l-5",
+      "from": "nl-w-l-5",
+      "to": "Wall Lights W-L-5"
+    },
+    {
+      "id": "famt_nl-w-l-5_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-5",
+      "from": "nl-w-l-5",
+      "to": "إضاءة جدارية W-L-5"
+    },
+    {
+      "id": "famt_nl-w-l-6_en",
+      "locale": "en",
+      "slug": "nl-w-l-6",
+      "from": "nl-w-l-6",
+      "to": "Wall Lights W-L-6"
+    },
+    {
+      "id": "famt_nl-w-l-6_ar",
+      "locale": "ar",
+      "slug": "nl-w-l-6",
+      "from": "nl-w-l-6",
+      "to": "إضاءة جدارية W-L-6"
+    },
+    {
+      "id": "famt_nl-wl_en",
+      "locale": "en",
+      "slug": "nl-wl",
+      "from": "nl-wl",
+      "to": "Wall Washer WL"
+    },
+    {
+      "id": "famt_nl-wl_ar",
+      "locale": "ar",
+      "slug": "nl-wl",
+      "from": "nl-wl",
+      "to": "إضاءة Wall Washer WL"
+    },
+    {
+      "id": "famt_nl-z1001_en",
+      "locale": "en",
+      "slug": "nl-z1001",
+      "from": "nl-z1001",
+      "to": "Magnetic Track Accessories Z1001"
+    },
+    {
+      "id": "famt_nl-z1001_ar",
+      "locale": "ar",
+      "slug": "nl-z1001",
+      "from": "nl-z1001",
+      "to": "ملحقات الاعواد الماجناتيك تراك Z1001"
+    },
+    {
+      "id": "famt_nl-z1003_en",
+      "locale": "en",
+      "slug": "nl-z1003",
+      "from": "nl-z1003",
+      "to": "Magnetic Track Accessories Z1003"
+    },
+    {
+      "id": "famt_nl-z1003_ar",
+      "locale": "ar",
+      "slug": "nl-z1003",
+      "from": "nl-z1003",
+      "to": "ملحقات الاعواد الماجناتيك تراك Z1003"
+    },
+    {
+      "id": "famt_nl-z1005_en",
+      "locale": "en",
+      "slug": "nl-z1005",
+      "from": "nl-z1005",
+      "to": "Magnetic Track Accessories Z1005"
+    },
+    {
+      "id": "famt_nl-z1005_ar",
+      "locale": "ar",
+      "slug": "nl-z1005",
+      "from": "nl-z1005",
+      "to": "ملحقات الاعواد الماجناتيك تراك Z1005"
+    },
+    {
+      "id": "famt_nl-z1007_en",
+      "locale": "en",
+      "slug": "nl-z1007",
+      "from": "nl-z1007",
+      "to": "Magnetic Track Accessories Z1007"
+    },
+    {
+      "id": "famt_nl-z1007_ar",
+      "locale": "ar",
+      "slug": "nl-z1007",
+      "from": "nl-z1007",
+      "to": "ملحقات الاعواد الماجناتيك تراك Z1007"
+    },
+    {
+      "id": "famt_nl-zl07_en",
+      "locale": "en",
+      "slug": "nl-zl07",
+      "from": "nl-zl07",
+      "to": "Magnetic Track ZL07"
+    },
+    {
+      "id": "famt_nl-zl07_ar",
+      "locale": "ar",
+      "slug": "nl-zl07",
+      "from": "nl-zl07",
+      "to": "ماجناتيك تراك كشافات ZL07"
+    }
+  ],
+  "specEdits": [
+    {
+      "id": "ps_nl-1001-2w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "2",
+      "to": "٢"
+    },
+    {
+      "id": "ps_nl-1001-2w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-1001-2w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-1046-2w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "2",
+      "to": "٢"
+    },
+    {
+      "id": "ps_nl-1046-2w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-1046-2w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-1050-2w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "2",
+      "to": "٢"
+    },
+    {
+      "id": "ps_nl-1050-2w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-1051-3w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "2",
+      "to": "٢"
+    },
+    {
+      "id": "ps_nl-1051-3w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-1051-3w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-1100-2w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "2",
+      "to": "٢"
+    },
+    {
+      "id": "ps_nl-1100-2w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-1100-2w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-60*60-led_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "48",
+      "to": "٤٨"
+    },
+    {
+      "id": "ps_nl-60*60-led_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "4800",
+      "to": "٤٨٠٠"
+    },
+    {
+      "id": "ps_nl-60*60-led_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-601c-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-601c-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-601c-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-601c-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-601c-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-601c-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-601c-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-601c-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-601c-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-601c-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-601c-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-601c-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-a603-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a603-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a603-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-a603-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a603-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603c-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-a603c-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603c-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603c-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a603c-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603c-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a603c-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a603c-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a603c-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a606-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-a606-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a606-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a606-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a606-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a606-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a606-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-a606-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a606-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a606-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-a606-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a606-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a606-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a606-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a606-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a609-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a609-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a609-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a609-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a609-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a609-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a609-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a609-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a609-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a609-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a609-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a609-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a609-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a609-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a609-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-a612-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a612-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-a612-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-a612-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a612-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612c-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-a612c-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612c-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612c-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-a612c-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612c-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612c-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-a612c-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612c-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-a612c-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-a612c-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612c-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-a612c-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-a612c-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-beam-60cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-beam-60cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-beam-60cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-beam-90cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-beam-90cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-beam-90cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-frame-60cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-frame-60cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-frame-60cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-frame-90cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-frame-90cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-frame-90cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-h-12w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-b-h-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-h-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-b-h-9w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-b-h-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-loop-60cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-loop-60cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-loop-60cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-loop-90cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-loop-90cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-loop-90cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-stria-60cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-stria-60cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-stria-60cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-stria-90cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-b-stria-90cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-b-stria-90cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-15w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-c-1-15w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1950",
+      "to": "١٩٥٠"
+    },
+    {
+      "id": "ps_nl-c-1-15w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-c-1-15w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-c-1-15w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-c-1-15w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-15w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "135×94 مللي",
+      "to": "١٣٥×٩٤ مللي"
+    },
+    {
+      "id": "ps_nl-c-1-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-c-1-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2600",
+      "to": "٢٦٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-20w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-c-1-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-c-1-20w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-c-1-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-20w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "135×94 مللي",
+      "to": "١٣٥×٩٤ مللي"
+    },
+    {
+      "id": "ps_nl-c-1-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-c-1-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "3900",
+      "to": "٣٩٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-30w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-c-1-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-c-1-30w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-c-1-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-30w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "135×94 مللي",
+      "to": "١٣٥×٩٤ مللي"
+    },
+    {
+      "id": "ps_nl-c-1-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-c-1-40w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "5200",
+      "to": "٥٢٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-40w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-c-1-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-c-1-40w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-c-1-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-c-1-40w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "135×94 مللي",
+      "to": "١٣٥×٩٤ مللي"
+    },
+    {
+      "id": "ps_nl-d-1-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-d-1-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2600",
+      "to": "٢٦٠٠"
+    },
+    {
+      "id": "ps_nl-d-1-20w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-d-1-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-d-1-20w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-d-1-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-d-1-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "3900",
+      "to": "٣٩٠٠"
+    },
+    {
+      "id": "ps_nl-d-1-30w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-d-1-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-d-1-30w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-d-1-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d-o-1-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-d-o-1-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-d-o-1-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d-o-1-8w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "8",
+      "to": "٨"
+    },
+    {
+      "id": "ps_nl-d-o-1-8w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-d-o-1-8w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d-p-1_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-d-p-1_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "4800",
+      "to": "٤٨٠٠"
+    },
+    {
+      "id": "ps_nl-d-p-1_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-d-p-1_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-d403-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-d403-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-d403-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-d403-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-36w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "36",
+      "to": "٣٦"
+    },
+    {
+      "id": "ps_nl-d403-36w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-36w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-d403-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-d403c-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403c-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-d403c-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-d403c-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403c-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-d403c-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403c-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-36w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "36",
+      "to": "٣٦"
+    },
+    {
+      "id": "ps_nl-d403c-36w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-d403c-36w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-exit-3w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "3",
+      "to": "٣"
+    },
+    {
+      "id": "ps_nl-exit-3w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-exit-3w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-100w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-100w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "10000",
+      "to": "١٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-100w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-floodlight-100w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-150w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "150",
+      "to": "١٥٠"
+    },
+    {
+      "id": "ps_nl-floodlight-150w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "15000",
+      "to": "١٥٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-150w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-floodlight-150w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-200w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "200",
+      "to": "٢٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-200w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "20000",
+      "to": "٢٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-200w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-floodlight-200w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-50w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "50",
+      "to": "٥٠"
+    },
+    {
+      "id": "ps_nl-floodlight-50w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "5000",
+      "to": "٥٠٠٠"
+    },
+    {
+      "id": "ps_nl-floodlight-50w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-floodlight-50w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-garden-pole-1_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "45",
+      "to": "٤٥"
+    },
+    {
+      "id": "ps_nl-garden-pole-1_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "4500",
+      "to": "٤٥٠٠"
+    },
+    {
+      "id": "ps_nl-garden-pole-1_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-garden-pole-2_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "45",
+      "to": "٤٥"
+    },
+    {
+      "id": "ps_nl-garden-pole-2_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "4500",
+      "to": "٤٥٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-100w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-100w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "13000",
+      "to": "١٣٠٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-100w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-high-pay-100w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-150w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "150",
+      "to": "١٥٠"
+    },
+    {
+      "id": "ps_nl-high-pay-150w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "19500",
+      "to": "١٩٥٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-150w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-high-pay-150w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-200w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "200",
+      "to": "٢٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-200w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "26000",
+      "to": "٢٦٠٠٠"
+    },
+    {
+      "id": "ps_nl-high-pay-200w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-high-pay-200w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-ip905-5w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "5",
+      "to": "٥"
+    },
+    {
+      "id": "ps_nl-ip905-5w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-ip905-5w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-l-1-40w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "5200",
+      "to": "٥٢٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-40w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-1-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-1-40w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-1-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-40w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "200x30×7 مللي",
+      "to": "٢٠٠×٣٠×٧ مللي"
+    },
+    {
+      "id": "ps_nl-l-1-40w_hole_size",
+      "specKey": "hole_size",
+      "from": "Ø 40 مللي",
+      "to": "Ø ٤٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-1-60w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l-1-60w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "7800",
+      "to": "٧٨٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-60w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-1-60w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-1-60w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-1-60w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-60w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "200x30×7 مللي",
+      "to": "٢٠٠×٣٠×٧ مللي"
+    },
+    {
+      "id": "ps_nl-l-1-60w_hole_size",
+      "specKey": "hole_size",
+      "from": "Ø 60 مللي",
+      "to": "Ø ٦٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-1-80w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "80",
+      "to": "٨٠"
+    },
+    {
+      "id": "ps_nl-l-1-80w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "10400",
+      "to": "١٠٤٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-80w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-1-80w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-1-80w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-1-80w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-1-80w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "200x30×7 مللي",
+      "to": "٢٠٠×٣٠×٧ مللي"
+    },
+    {
+      "id": "ps_nl-l-1-80w_hole_size",
+      "specKey": "hole_size",
+      "from": "Ø 80 مللي",
+      "to": "Ø ٨٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-2-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-l-2-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2600",
+      "to": "٢٦٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-20w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-2-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-2-20w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-2-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-20w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "560x50×70 مللي",
+      "to": "٥٦٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-2-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-l-2-40w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "5200",
+      "to": "٥٢٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-40w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-2-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-2-40w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-2-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-40w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "1140x50×70 مللي",
+      "to": "١١٤٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-2-60w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l-2-60w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "7800",
+      "to": "٧٨٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-60w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-2-60w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-2-60w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-2-60w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-60w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "1700x50×70 مللي",
+      "to": "١٧٠٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-2-80w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "80",
+      "to": "٨٠"
+    },
+    {
+      "id": "ps_nl-l-2-80w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-2-80w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-2-80w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-2-80w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-80w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "12260x50×70 مللي",
+      "to": "١٢٢٦٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-3-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-l-3-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2600",
+      "to": "٢٦٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-20w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-3-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-3-20w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-3-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-20w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "560x50×70 مللي",
+      "to": "٥٦٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-3-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-l-3-40w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "5200",
+      "to": "٥٢٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-40w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-3-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-3-40w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-3-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-40w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "1140x50×70 مللي",
+      "to": "١١٤٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-3-60w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l-3-60w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "7800",
+      "to": "٧٨٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-60w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-3-60w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-3-60w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-3-60w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-60w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "1700x50×70 مللي",
+      "to": "١٧٠٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l-3-80w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "80",
+      "to": "٨٠"
+    },
+    {
+      "id": "ps_nl-l-3-80w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "10400",
+      "to": "١٠٤٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-80w_cri",
+      "specKey": "cri",
+      "from": ">85",
+      "to": ">٨٥"
+    },
+    {
+      "id": "ps_nl-l-3-80w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-l-3-80w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-l-3-80w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-3-80w_product_dimensions",
+      "specKey": "product_dimensions",
+      "from": "12260x50×70 مللي",
+      "to": "١٢٢٦٠×٥٠×٧٠ مللي"
+    },
+    {
+      "id": "ps_nl-l601-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-l601-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l601-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l601-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-l601-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l601-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l601-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-l601-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l601-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l601-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-l601-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-l601-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-led-dl-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-led-dl-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-led-dl-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-led-dl-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-led-dl-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-led-dl-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2700",
+      "to": "٢٧٠٠"
+    },
+    {
+      "id": "ps_nl-led-dl-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-led-dl-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n801-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-n801-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "180",
+      "to": "١٨٠"
+    },
+    {
+      "id": "ps_nl-n801-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n801-22w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "22",
+      "to": "٢٢"
+    },
+    {
+      "id": "ps_nl-n801-22w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "180",
+      "to": "١٨٠"
+    },
+    {
+      "id": "ps_nl-n801-22w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n801-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-n801-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "180",
+      "to": "١٨٠"
+    },
+    {
+      "id": "ps_nl-n801-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n801-57w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "57",
+      "to": "٥٧"
+    },
+    {
+      "id": "ps_nl-n801-57w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "180",
+      "to": "١٨٠"
+    },
+    {
+      "id": "ps_nl-n801-57w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n803-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-n803-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-n803-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n803-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-n803-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n805-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-n805-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-n805-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-n806-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-n806-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-n806-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-p-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-p-12w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-p-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-p-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-p-9w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-p-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-pl-r-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-pl-r-18w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1250",
+      "to": "١٢٥٠"
+    },
+    {
+      "id": "ps_nl-pl-r-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-3w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "3",
+      "to": "٣"
+    },
+    {
+      "id": "ps_nl-pl-r-3w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "210",
+      "to": "٢١٠"
+    },
+    {
+      "id": "ps_nl-pl-r-3w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-3w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-pl-r-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-pl-r-6w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "420",
+      "to": "٤٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-18w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-pl-r-s-18w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1250",
+      "to": "١٢٥٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-pl-r-s-24w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1680",
+      "to": "١٦٨٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-24w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-pl-r-s-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-r-ds-5w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "5",
+      "to": "٥"
+    },
+    {
+      "id": "ps_nl-r-ds-5w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "350",
+      "to": "٣٥٠"
+    },
+    {
+      "id": "ps_nl-r-ds-5w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-r-ds-5w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-r-ds-6.5w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6.5",
+      "to": "٦.٥"
+    },
+    {
+      "id": "ps_nl-r-ds-6.5w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "350",
+      "to": "٣٥٠"
+    },
+    {
+      "id": "ps_nl-r-ds-6.5w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-r-ds-6.5w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-recessed-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-recessed-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-recessed-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-recessed-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-recessed-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-recessed-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2700",
+      "to": "٢٧٠٠"
+    },
+    {
+      "id": "ps_nl-recessed-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-recessed-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-recessed-5w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "5",
+      "to": "٥"
+    },
+    {
+      "id": "ps_nl-recessed-5w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "450",
+      "to": "٤٥٠"
+    },
+    {
+      "id": "ps_nl-recessed-5w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-recessed-5w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-100w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "100",
+      "to": "١٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-100w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "11000",
+      "to": "١١٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-100w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-l-100w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-150w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "150",
+      "to": "١٥٠"
+    },
+    {
+      "id": "ps_nl-s-l-150w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "16500",
+      "to": "١٦٥٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-150w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-l-150w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*10-cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*10-cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*10-cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*5-cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*5-cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*5-cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*7-cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*7-cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-5*7-cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-7*7-cm_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-2-7*7-cm_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-2-7*7-cm_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-200w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "200",
+      "to": "٢٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-200w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "22000",
+      "to": "٢٢٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-200w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-l-200w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-3_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-3_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-3_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-4_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-4_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-4_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-5_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-5_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-5_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-l-6_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "7",
+      "to": "٧"
+    },
+    {
+      "id": "ps_nl-s-l-6_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-s-l-6_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2700",
+      "to": "٢٧٠٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-s-r-dl-6w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "540",
+      "to": "٥٤٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-6w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-r-dl-6w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "18",
+      "to": "١٨"
+    },
+    {
+      "id": "ps_nl-s-s-dl-20w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "2700",
+      "to": "٢٧٠٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-s-s-dl-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-1-5w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "5",
+      "to": "٥"
+    },
+    {
+      "id": "ps_nl-spike-1-5w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-2_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "5",
+      "to": "٥"
+    },
+    {
+      "id": "ps_nl-spike-2_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-spike-2_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-2-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-spike-2-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-spike-2-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-2-8w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "8",
+      "to": "٨"
+    },
+    {
+      "id": "ps_nl-spike-2-8w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-spike-2-8w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-3-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-spike-3-12w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-spike-3-12w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-strip-2835-19w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "19",
+      "to": "١٩"
+    },
+    {
+      "id": "ps_nl-strip-2835-19w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-strip-2835-19w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-strip-2835-24w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-strip-2835-24w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "1800",
+      "to": "١٨٠٠"
+    },
+    {
+      "id": "ps_nl-strip-2835-24w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t501-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-t501-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t501-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-t501-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t501-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-t501-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t501-3w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "3",
+      "to": "٣"
+    },
+    {
+      "id": "ps_nl-t501-3w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501-3w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t501c-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-t501c-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501c-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-t501c-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501c-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t503-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-t503-9w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t503-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t506-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-t506-9w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t506-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t509-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-t509-9w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t509-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-t512-9w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "9",
+      "to": "٩"
+    },
+    {
+      "id": "ps_nl-t512-9w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t512-9w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1001-220v-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-10w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "10",
+      "to": "١٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-10w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-tr1002-220v-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-1_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-1_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-1_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-2_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-2_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-2_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-3_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-3_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-3_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-4_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-4_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-4_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-5_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-5_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-5_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-w-l-6_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "15",
+      "to": "١٥"
+    },
+    {
+      "id": "ps_nl-w-l-6_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-w-l-6_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-wl-30w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "30",
+      "to": "٣٠"
+    },
+    {
+      "id": "ps_nl-wl-30w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "3900",
+      "to": "٣٩٠٠"
+    },
+    {
+      "id": "ps_nl-wl-30w_cri",
+      "specKey": "cri",
+      "from": ">80",
+      "to": ">٨٠"
+    },
+    {
+      "id": "ps_nl-wl-30w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-wl-30w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-wl-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-wl-60w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-wl-60w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "7800",
+      "to": "٧٨٠٠"
+    },
+    {
+      "id": "ps_nl-wl-60w_cri",
+      "specKey": "cri",
+      "from": ">80",
+      "to": ">٨٠"
+    },
+    {
+      "id": "ps_nl-wl-60w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "24",
+      "to": "٢٤"
+    },
+    {
+      "id": "ps_nl-wl-60w_power_factor",
+      "specKey": "power_factor",
+      "from": ">0.5",
+      "to": ">٠.٥"
+    },
+    {
+      "id": "ps_nl-wl-60w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-zl07-20w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "20",
+      "to": "٢٠"
+    },
+    {
+      "id": "ps_nl-zl07-20w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-zl07-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-zl07-40w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "40",
+      "to": "٤٠"
+    },
+    {
+      "id": "ps_nl-zl07-40w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-1050-2w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-60*60-led_beam_angle",
+      "specKey": "beam_angle",
+      "from": "120",
+      "to": "١٢٠"
+    },
+    {
+      "id": "ps_nl-a612c-30w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-b-h-12w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "12",
+      "to": "١٢"
+    },
+    {
+      "id": "ps_nl-d-1-20w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-d403c-18w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-garden-pole-2_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-l-2-80w_luminous_flux",
+      "specKey": "luminous_flux",
+      "from": "10400",
+      "to": "١٠٤٠٠"
+    },
+    {
+      "id": "ps_nl-n803-6w_maximum_wattage",
+      "specKey": "maximum_wattage",
+      "from": "6",
+      "to": "٦"
+    },
+    {
+      "id": "ps_nl-pl-r-18w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-spike-1-5w_beam_angle",
+      "specKey": "beam_angle",
+      "from": "60",
+      "to": "٦٠"
+    },
+    {
+      "id": "ps_nl-t501c-10w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    },
+    {
+      "id": "ps_nl-zl07-40w_life_time",
+      "specKey": "life_time",
+      "from": "50000",
+      "to": "٥٠٠٠٠"
+    }
+  ]
+}

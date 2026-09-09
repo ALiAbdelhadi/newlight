@@ -17,6 +17,7 @@ const config = JSON.parse(readFileSync(join(repoRoot, "scripts/verification-budg
 const PACKAGE_DIRS = {
     "@repo/database": "packages/database",
     "@repo/mail": "packages/mail",
+    "@repo/notifications": "packages/notifications",
     www: "apps/www",
     admin: "apps/admin",
 }

@@ -1,0 +1,225 @@
+{
+  "chunk_id": 11,
+  "total_chunks": 34,
+  "file_count": 22,
+  "files": [
+    {
+      "index": 1,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1001-2000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 2,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1001-3000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 3,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1001-3000mm/nl-l1001-3000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1001-3000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 4,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1003-2000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 5,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1003-2000mm/nl-l1003-2000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1003-2000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 6,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1003-3000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 7,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1003-3000mm/nl-l1003-3000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1003-3000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 8,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1005-2000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 9,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1005-2000mm/nl-l1005-2000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1005-2000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 10,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1005-3000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 11,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1005-3000mm/nl-l1005-3000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1005-3000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 12,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1007-2000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 13,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1007-2000mm/nl-l1007-2000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1007-2000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 14,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (1).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1007-3000mm",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 15,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1007-3000mm/nl-l1007-3000mm (2).png",
+      "category": "indoor",
+      "subcategory": "track",
+      "product_code": "nl-l1007-3000mm",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 16,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-beam/nl-b-beam (1).png",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-beam",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 17,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-beam/nl-b-beam (2).png",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-beam",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 18,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-beam/nl-b-beam (3).webp",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-beam",
+      "file_type": "webp",
+      "variant": 3
+    },
+    {
+      "index": 19,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-frame/nl-b-frame (1).png",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-frame",
+      "file_type": "png",
+      "variant": 1
+    },
+    {
+      "index": 20,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-frame/nl-b-frame (2).png",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-frame",
+      "file_type": "png",
+      "variant": 2
+    },
+    {
+      "index": 21,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-frame/nl-b-frame (3).webp",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-frame",
+      "file_type": "webp",
+      "variant": 3
+    },
+    {
+      "index": 22,
+      "path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/outdoor/bollard/nl-b-loop/nl-b-loop (1).png",
+      "category": "outdoor",
+      "subcategory": "bollard",
+      "product_code": "nl-b-loop",
+      "file_type": "png",
+      "variant": 1
+    }
+  ],
+  "summary": {
+    "categories": {
+      "indoor": {
+        "track": {
+          "products": ["nl-l1001-2000mm", "nl-l1001-3000mm", "nl-l1003-2000mm", "nl-l1003-3000mm", "nl-l1005-2000mm", "nl-l1005-3000mm", "nl-l1007-2000mm", "nl-l1007-3000mm"],
+          "file_count": 15
+        }
+      },
+      "outdoor": {
+        "bollard": {
+          "products": ["nl-b-beam", "nl-b-frame", "nl-b-loop"],
+          "file_count": 7
+        }
+      }
+    },
+    "file_types": {
+      "png": 19,
+      "webp": 3
+    }
+  }
+}

@@ -1,34 +1,38 @@
 "use client"
 
-import { formatMoney, type ProductColorTemp } from "@repo/database"
+import { type ProductColorTemp } from "@repo/database"
 import { addToCart } from "@/actions/cart"
 import { saveConfiguration } from "@/actions/configuration"
 import ProductColorTempButtons from "@/components/color-temp-buttons"
-import { Container } from "@/components/container"
+import { Breadcrumbs } from "@/components/breadcrumbs"
+import { BulkOrderDialog } from "@/components/bulk-order-dialog"
+import { Container } from "@/components/layout/section"
 import ProductVariantsSelector from "@/components/product-variants-selector"
+import { Reveal } from "@/components/reveal"
 import ProductSurfaceColorButtons from "@/components/surface-color-button"
 import { Button } from "@/components/ui/button"
 import { Link, useRouter } from "@/i18n/navigation"
 import type { ProductDetailView } from "@/lib/services/product-service"
+import { DiscountBadge, PriceTag } from "@/components/price-tag"
 import { useSession } from "@/lib/auth-client"
 import { useMutation } from "@tanstack/react-query"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
-import { ChevronRight, Minus, Plus, ShoppingCart } from "lucide-react"
+import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import { startTransition, useCallback, useEffect, useRef, useState } from "react"
 import { toast } from "sonner"
 
-gsap.registerPlugin(ScrollTrigger)
 
 interface ProductPageProps {
+    /** Delivery / warranty / payment facts, rendered by the server under the buy buttons. */
+    assurance?: React.ReactNode
     /** Derived from ProductService.getProductBySlug, so the page and the query cannot drift. */
     product: ProductDetailView
 }
 
-export default function ProductIdPage({ product }: ProductPageProps) {
+export default function ProductIdPage({ product, assurance }: ProductPageProps) {
     const t = useTranslations("product-page")
+    const tm = useTranslations("merchandising")
     const locale = useLocale()
     const { data: session } = useSession()
     const isSignedIn = Boolean(session?.user)
@@ -41,8 +45,6 @@ export default function ProductIdPage({ product }: ProductPageProps) {
     const [quantity, setQuantity] = useState(1)
     const [isAddingToCart, setIsAddingToCart] = useState(false)
 
-    const heroRef = useRef<HTMLElement>(null)
-    const specsRef = useRef<HTMLElement>(null)
 
     const productTranslation = product.translations[0]
     const subCategoryTranslation = product.subCategory.translations[0]
@@ -133,53 +135,18 @@ export default function ProductIdPage({ product }: ProductPageProps) {
         })
     }, [isSignedIn, isAddingToCart, quantity, product.productId, selectedColorTemp, surfaceColor, productName, t])
 
-    useEffect(() => {
-        if (!heroRef.current) return
-
-        const ctx = gsap.context(() => {
-            gsap.from(heroRef.current?.children || [], {
-                opacity: 0,
-                y: 30,
-                duration: 1,
-                stagger: 0.15,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: heroRef.current,
-                    start: "top 80%",
-                    once: true,
-                },
-            })
-        })
-
-        return () => {
-            ctx.revert()
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-        }
-    }, [])
-
-    useEffect(() => {
-        if (!specsRef.current) return
-
-        const ctx = gsap.context(() => {
-            gsap.from(specsRef.current?.children || [], {
-                opacity: 0,
-                y: 25,
-                duration: 0.8,
-                stagger: 0.08,
-                ease: "power3.out",
-                scrollTrigger: {
-                    trigger: specsRef.current,
-                    start: "top 85%",
-                    once: true,
-                },
-            })
-        })
-
-        return () => {
-            ctx.revert()
-            ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-        }
-    }, [])
+    /*
+     * The two GSAP entrances that stood here are gone.
+     *
+     * They were `gsap.from` — so the resting state was visible, unlike the ones on the listing
+     * pages — but both cleanups ran `ScrollTrigger.getAll().forEach(t => t.kill())`, which kills
+     * every trigger on the page rather than the two this component created. Navigating away
+     * from a product silently disabled the reveals on whatever rendered next.
+     *
+     * The hero does not animate at all now: it is the product, above the fold, and the reason
+     * the page was opened. The specification block reveals through `Reveal`, the same one
+     * everything else uses.
+     */
 
     const formatAvailableColor = (color: string, isArabic: boolean): string => {
         const map: Record<string, string> = {
@@ -394,28 +361,21 @@ export default function ProductIdPage({ product }: ProductPageProps) {
 
     return (
         <main className="min-h-screen">
-            <div className="border-b border-border/50 py-24">
+            <div className="border-b border-border py-24">
                 <Container>
-                    <nav className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap py-5" aria-label="Breadcrumb">
-                        <Link
-                            href={`/category/${categorySlug}`}
-                            className="hover:text-foreground transition-colors font-light tracking-widest uppercase"
-                        >
-                            {categoryName}
-                        </Link>
-                        <ChevronRight className="w-3 h-3 rtl:rotate-180 text-muted-foreground/40" aria-hidden="true" />
-                        <Link
-                            href={`/category/${categorySlug}/${subCategorySlug}`}
-                            className="hover:text-foreground transition-colors font-light tracking-widest uppercase"
-                        >
-                            {subCategoryName}
-                        </Link>
-                        <ChevronRight className="w-3 h-3 rtl:rotate-180 text-muted-foreground/40" aria-hidden="true" />
-                        <span className="text-foreground font-light tracking-widest uppercase">{productName}</span>
-                    </nav>
+                    {/* The same component the catalogue and the listing use — this page had
+                        the only trail on the site, hand-written, at its own tracking and size. */}
+                    <Breadcrumbs
+                        className="py-5"
+                        items={[
+                            { name: categoryName, href: `/category/${categorySlug}` },
+                            { name: subCategoryName, href: `/category/${categorySlug}/${subCategorySlug}` },
+                            { name: productName },
+                        ]}
+                    />
                 </Container>
             </div>
-            <section ref={heroRef} className="py-16 lg:py-24">
+            <section className="py-12 lg:py-20">
                 <Container>
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 xl:gap-20 items-start">
                         <div className="space-y-4 lg:sticky lg:top-8">
@@ -425,9 +385,11 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                         src={product.images[selectedImageIndex]?.url ?? product.images[0]!.url}
                                         alt={productName}
                                         fill
+                                        // Half of a 1280px container from lg up. Without this a
+                                        // 600px slot asks Cloudinary for 3840px.
+                                        sizes="(max-width: 1024px) 100vw, (max-width: 1280px) 50vw, 600px"
                                         className="object-contain p-6 transition-opacity duration-300"
                                         priority
-                                        quality={100}
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center text-muted-foreground font-light text-sm tracking-wide">
@@ -436,7 +398,7 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                 )}
                                 {product.isFeatured && (
                                     <div className="absolute top-4 ltr:left-4 rtl:right-4 z-10">
-                                        <span className="px-3 py-1 bg-primary text-primary-foreground text-[10px] uppercase tracking-widest font-medium">
+                                        <span className="px-3 py-1 bg-primary text-primary-foreground text-2xs uppercase tracking-label font-medium">
                                             {t("featured")}
                                         </span>
                                     </div>
@@ -450,7 +412,7 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                             onClick={() => setSelectedImageIndex(index)}
                                             className={`relative aspect-square bg-muted overflow-hidden border transition-all duration-200 ${selectedImageIndex === index
                                                 ? "border-foreground"
-                                                : "border-border/40 hover:border-border"
+                                                : "border-border hover:border-border"
                                                 }`}
                                             aria-label={`${t("viewImage")} ${index + 1}`}
                                         >
@@ -458,6 +420,8 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                                 src={image.url}
                                                 alt={`${productName} - ${index + 1}`}
                                                 fill
+                                                // One of five thumbnails across the gallery column.
+                                                sizes="(max-width: 1024px) 20vw, (max-width: 1280px) 10vw, 120px"
                                                 className="object-contain p-1"
                                             />
                                         </button>
@@ -467,10 +431,10 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                         </div>
                         <div className="space-y-8">
                             <div className="space-y-5">
-                                <p className="text-[12px] uppercase tracking-[0.4em] text-primary font-medium">
+                                <p className="text-xs uppercase tracking-label text-primary font-medium">
                                     {subCategoryName}
                                 </p>
-                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif italic tracking-tight text-foreground leading-[1]">
+                                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display italic tracking-tight text-foreground leading-[1]">
                                     {productName}
                                 </h1>
                                 <div className="h-px w-14 bg-border" />
@@ -480,14 +444,15 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                     {productDescription}
                                 </p>
                             )}
-                            {/* formatMoney places the currency itself — "EGP 165.00" in English,
-                                "١٦٥.٠٠ ج.م" in Arabic — so the separate {t("currency")} span that
-                                sat beside this rendered "ج.م165.00" with no space and the symbol
-                                on the wrong side. */}
-                            <div className="flex items-baseline gap-2 pt-2 pb-6 border-b border-border/60">
-                                <span className="text-5xl md:text-6xl font-serif font-light tracking-tight text-foreground">
-                                    {formatMoney(product.price, locale)}
-                                </span>
+                            {/* PriceTag owns currency placement — "EGP 165.00" in English,
+                                "١٦٥.٠٠ ج.م" in Arabic — and the struck "was" price while a
+                                discount is running (§13.2). `product.price` is already the
+                                discounted number; the badge says by how much. */}
+                            <div className="flex flex-wrap items-baseline gap-3 pt-2 pb-6 border-b border-border">
+                                <PriceTag price={product.price} basePrice={product.basePrice} size="xl" />
+                                {product.discountPercent > 0 && (
+                                    <DiscountBadge percent={product.discountPercent} />
+                                )}
                             </div>
                             {product.variants && product.variants.length > 1 && (
                                 <ProductVariantsSelector
@@ -499,7 +464,6 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                             )}
                             {!isMagneticAccessories && product.colorTemperatures.length > 0 && (
                                 <ProductColorTempButtons
-                                    productId={product.productId}
                                     availableTemps={product.colorTemperatures}
                                     initialTemp={selectedColorTemp}
                                     onColorTempChange={setSelectedColorTemp}
@@ -507,7 +471,6 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                             )}
                             {availableColorKeys && availableColorKeys.length > 0 && (
                                 <ProductSurfaceColorButtons
-                                    productId={product.productId}
                                     availableColors={availableColorKeys}
                                     initialColor={surfaceColor}
                                     onSurfaceColorChange={setSurfaceColor}
@@ -515,7 +478,7 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                             )}
                             <div className="space-y-5 pt-2">
                                 <div className="flex items-center gap-6">
-                                    <span className="text-[12px] uppercase tracking-[0.3em] text-muted-foreground font-light">
+                                    <span className="text-xs uppercase tracking-label text-muted-foreground font-light">
                                         {t("quantity")}
                                     </span>
                                     <div className="flex items-center border border-border">
@@ -543,15 +506,23 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                             <Plus className="h-3.5 w-3.5" />
                                         </Button>
                                     </div>
-                                    {isOutOfStock && (
-                                        <span className="text-xs text-destructive font-light tracking-wide">{t("outOfStock")}</span>
+                                    {/* Availability, both ways. The page only ever said "out of
+                                        stock"; a customer about to pay wants to hear the other
+                                        answer too, and it comes from the same ledger read. */}
+                                    {isOutOfStock ? (
+                                        <span className="text-xs text-danger font-medium">{t("outOfStock")}</span>
+                                    ) : (
+                                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-success">
+                                            <span aria-hidden className="size-1.5 rounded-full bg-success" />
+                                            {tm("assurance.inStock")}
+                                        </span>
                                     )}
                                 </div>
                                 <div className="flex flex-col sm:flex-row gap-3">
                                     <Button
                                         onClick={handleAddToCart}
                                         disabled={isAddingToCart || isOutOfStock}
-                                        className="flex-1 h-13 text-sm uppercase tracking-[0.25em] font-light rounded-none bg-transparent border border-border hover:bg-muted hover:border-foreground text-foreground transition-all duration-300"
+                                        className="flex-1 h-13 text-sm uppercase tracking-label font-light rounded-none bg-transparent border border-border hover:bg-muted hover:border-foreground text-foreground transition-all duration-300"
                                         variant="outline"
                                     >
                                         <ShoppingCart className="w-4 h-4 ltr:mr-2.5 rtl:ml-2.5" />
@@ -560,13 +531,18 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                                     <Button
                                         onClick={handleOrderNow}
                                         disabled={isSaving || isOutOfStock}
-                                        className="flex-1 h-13 text-sm uppercase tracking-[0.25em] font-light rounded-none bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
+                                        className="flex-1 h-13 text-sm uppercase tracking-label font-light rounded-none bg-foreground text-background hover:bg-foreground/90 transition-all duration-300"
                                     >
                                         {isSaving ? t("processing") : t("orderNow")}
                                     </Button>
                                 </div>
                             </div>
-                            <p className="text-[11px] text-muted-foreground/50 font-light tracking-widest uppercase border-t border-border/30 pt-4">
+                            {/* The quantity in the stepper travels with the enquiry, so a
+                                contractor who dialled it up to 200 does not retype it. */}
+                            <BulkOrderDialog sku={product.productId} productName={productName} quantity={quantity} />
+
+                            {assurance}
+                            <p className="text-2xs text-muted-foreground font-light tracking-label uppercase border-t border-border pt-4">
                                 SKU: {product.productId}
                             </p>
                         </div>
@@ -574,36 +550,36 @@ export default function ProductIdPage({ product }: ProductPageProps) {
                 </Container>
             </section>
             {specifications.length > 0 && (
-                <section ref={specsRef} className="border-t border-border/50 bg-muted/20 py-24">
+                <Reveal as="section" className="border-t bg-surface-sunk py-16 lg:py-24">
                     <Container>
                         <div className="mb-12 space-y-3">
-                            <p className="text-[10px] uppercase tracking-[0.4em] text-primary font-medium">
+                            <p className="text-2xs uppercase tracking-label text-primary font-medium">
                                 {t("technicalLabel")}
                             </p>
-                            <h2 className="text-3xl md:text-4xl font-serif italic tracking-tight text-foreground">
+                            <h2 className="text-3xl md:text-4xl font-display italic tracking-tight text-foreground">
                                 {t("specifications")}
                             </h2>
                             <div className="h-px w-14 bg-border mt-2" />
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="w-full text-sm border-t border-border/50">
+                            <table className="w-full text-sm border-t border-border">
                                 <tbody>
                                     {specifications.map((spec, index) => (
                                         <tr
                                             key={`${spec.originalLabel}-${index}`}
-                                            className={`border-b border-border/40 transition-colors ${index % 2 === 0 ? "" : "bg-background/60"}`}
+                                            className={`border-b border-border transition-colors ${index % 2 === 0 ? "" : "bg-background"}`}
                                         >
-                                            <td className="py-4 px-5 text-muted-foreground uppercase tracking-[0.2em] text-[11px] w-2/5 lg:w-1/3">
+                                            <td className="py-4 px-5 text-muted-foreground uppercase tracking-label text-2xs w-2/5 lg:w-1/3">
                                                 {spec.label}
                                             </td>
-                                            <td className="py-4 px-5 font-light text-foreground text-[15px]">{spec.value}</td>
+                                            <td className="py-4 px-5 font-light text-foreground">{spec.value}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
                         </div>
                     </Container>
-                </section>
+                </Reveal>
             )}
         </main>
     )

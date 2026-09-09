@@ -1,10 +1,11 @@
 /**
  * The mail interface.
  *
- * Deliberately Nodemailer-shaped (`to`, `subject`, `html`, `text`, `from`, `replyTo`) even
- * though the transport is Resend's HTTP API, because on Vercel a persistent SMTP connection
- * is unreliable and the choice of transport should not be visible to a single call site.
- * Swapping to SMTP later means writing one more file in transport/ and changing one import.
+ * Nodemailer-shaped (`to`, `subject`, `html`, `text`, `from`, `replyTo`), because the transport
+ * is a runtime choice and should not be visible to a single call site. Two implement it today:
+ * transport/smtp.ts (Nodemailer, chosen when SMTP_HOST is set) and transport/resend.ts (HTTP
+ * API, for serverless deployments where a persistent SMTP connection is unreliable). A third
+ * would be one more file in transport/ and one more branch in `transport()`.
  */
 
 export type MailLocale = "en" | "ar"

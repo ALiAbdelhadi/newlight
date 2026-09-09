@@ -93,7 +93,7 @@ export default function ProductVariantsSelector({
     return (
         <div className="space-y-4">
             <div className="space-y-1">
-                <p className="text-sm uppercase tracking-widest text-muted-foreground font-light">
+                <p className="text-sm uppercase tracking-label text-muted-foreground font-light">
                     {typeLabel}
                 </p>
             </div>
@@ -126,7 +126,7 @@ export default function ProductVariantsSelector({
                                     {label}
                                 </span>
                                 {isSelected && (
-                                    <Check className="w-4 h-4 text-green-500" strokeWidth={2.5} />
+                                    <Check aria-hidden className="size-4 text-primary" strokeWidth={2.5} />
                                 )}
                             </div>
                             {isOutOfStock && (

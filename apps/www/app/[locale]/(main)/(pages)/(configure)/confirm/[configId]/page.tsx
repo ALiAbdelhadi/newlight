@@ -7,6 +7,7 @@ import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
 import { notFound, redirect } from "next/navigation"
+import { shippingRates } from "@/lib/services/shipping-service"
 import { ConfirmPageView } from "./confirm"
 
 export const dynamic = 'force-dynamic'
@@ -66,9 +67,12 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
 
     const t = await getTranslations("confirm")
 
-    const [configuration, existingAddress] = await Promise.all([
+    const [configuration, existingAddress, rates] = await Promise.all([
         getConfiguration(configId),
-        getUserShippingAddress(userId)
+        getUserShippingAddress(userId),
+        // The rates the panel stores, so the three prices on this page are the three prices
+        // `createOrderFromConfiguration` will charge (see lib/services/shipping-service.ts).
+        shippingRates(),
     ])
 
     if (!configuration) {
@@ -140,6 +144,7 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
             product={product}
             productName={productName}
             existingAddress={formattedAddress}
+            shippingRates={rates}
             translations={translations}
             isArabic={isArabic}
         />

@@ -1,6 +1,7 @@
 "use client"
 
-import { Sheet, SheetClose, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { DirectionalArrow } from "@/components/directional-arrow"
+import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { usePathname, useRouter } from 'next/navigation'
 import { Globe, X } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
@@ -93,15 +94,18 @@ export function LanguageSelector() {
                 side="top"
                 className="p-0 w-full border-b border-border h-screen data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
             >
+                {/* Radix logs an accessibility error for a dialog with no title, and a screen
+                    reader announces "dialog" and nothing else. */}
+                <SheetTitle className="sr-only">{t('title')}</SheetTitle>
                 <div className="h-full flex flex-col">
                     <div className="flex items-center justify-between px-8 py-6 border-b border-border">
                         <div className="flex items-baseline gap-1">
-                            <h1 className="text-2xl font-extrabold tracking-tighter uppercase text-foreground transition-all duration-300 group-hover:tracking-tight">
+                            <span className="text-xl font-extrabold tracking-tight uppercase">
                                 {tLogo('logoNew')}
-                            </h1>
-                            <p className="text-2xl font-light tracking-widest uppercase text-foreground/90 transition-all duration-300 group-hover:tracking-wider">
+                            </span>
+                            <span className="text-xl font-light tracking-wordmark uppercase">
                                 {tLogo('logoLight')}
-                            </p>
+                            </span>
                         </div>
                         <SheetClose asChild>
                             <button className="rounded-lg p-2 transition-all duration-200 hover:bg-secondary">
@@ -128,14 +132,20 @@ export function LanguageSelector() {
                                                     : 'text-muted-foreground hover:text-foreground'
                                                     } disabled:opacity-50 disabled:cursor-not-allowed`}
                                             >
-                                                {language.code === currentLanguage.code && (
-                                                    <span className="text-foreground rtl:rotate-180">→</span>
-                                                )}
-                                                {language.code !== currentLanguage.code && (
-                                                    <span className="opacity-0 group-hover:opacity-100 transition-opacity text-foreground rtl:rotate-180">
-                                                        →
-                                                    </span>
-                                                )}
+                                                {/*
+                                                  * Two literal "→" characters lived here — a
+                                                  * glyph from whatever font happened to resolve,
+                                                  * at whatever weight, rotated by hand for RTL.
+                                                  * The canonical arrow instead: one shape, one
+                                                  * stroke, mirrored by the primitive.
+                                                  */}
+                                                <DirectionalArrow
+                                                    className={
+                                                        language.code === currentLanguage.code
+                                                            ? "text-foreground"
+                                                            : "opacity-0 transition-opacity group-hover:opacity-100"
+                                                    }
+                                                />
                                                 <span className="text-base font-light">{language.name}</span>
                                             </button>
                                         ))}

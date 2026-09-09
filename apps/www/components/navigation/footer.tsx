@@ -1,5 +1,5 @@
 import { encodeSlug, resolveLocale } from "@repo/database"
-import { Container } from "@/components/container";
+import { Container } from "@/components/layout/section";
 import { Link } from "@/i18n/navigation";
 import { CategoryService } from "@/lib/services/category-service";
 import { convertToArabicNumerals } from "@/lib/utils";
@@ -36,25 +36,28 @@ export async function Footer() {
     };
 
     return (
-        <footer className="border-t border-border bg-card/60 backdrop-blur-xl supports-backdrop-filter:bg-card/80">
+        <footer className="border-t bg-surface-sunk">
             <Container>
                 <div className="py-12">
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-12">
+                    <div className="grid grid-cols-2 gap-10 md:grid-cols-3 lg:grid-cols-[1.2fr_repeat(auto-fit,minmax(9rem,1fr))]">
                         <div className="flex flex-col items-center md:items-start space-y-4">
-                            <div className="flex items-center space-x-1">
-                                <h1 className="text-2xl font-extrabold tracking-wider text-primary uppercase">
+                            {/* Not an `h1`. The footer's logo was one, on every page — so a
+                                product page had two `h1`s and its heading outline ended with the
+                                company name. */}
+                            <div className="flex items-baseline gap-1">
+                                <span className="text-xl font-extrabold tracking-tight uppercase">
                                     {t("logo.part1")}
-                                </h1>
-                                <p className="text-2xl font-light tracking-widest uppercase">
+                                </span>
+                                <span className="text-xl font-light tracking-wordmark uppercase">
                                     {t("logo.part2")}
-                                </p>
+                                </span>
                             </div>
                         </div>
                         {[...columns.values()].map((column) => (
                             <div key={column.slug}>
-                                <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
+                                <h2 className="mb-4 text-xs font-medium tracking-label uppercase">
                                     {column.name}
-                                </h5>
+                                </h2>
                                 <ul className="space-y-3 text-sm text-muted-foreground">
                                     {column.items.length > 0 ? (
                                         column.items.map((subCategory) => (
@@ -68,17 +71,20 @@ export async function Footer() {
                                             </li>
                                         ))
                                     ) : (
-                                        <li className="text-muted-foreground/70">
-                                            {t("sections.products.noSubCategories")}
-                                        </li>
+                                        /* `t("sections.products.noSubCategories")` was rendered
+                                           here and the key does not exist in either message
+                                           file, so next-intl printed the key path itself. A
+                                           category with nothing live under it simply shows
+                                           nothing. */
+                                        null
                                     )}
                                 </ul>
                             </div>
                         ))}
                         <div>
-                            <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">
+                            <h2 className="mb-4 text-xs font-medium tracking-label uppercase">
                                 {t("sections.company.title")}
-                            </h5>
+                            </h2>
                             <ul className="space-y-3 text-sm text-muted-foreground">
                                 <li>
                                     <Link
@@ -98,36 +104,75 @@ export async function Footer() {
                                 </li>
                                 <li>
                                     <Link
+                                        href="/technical-resources"
+                                        className="transition-colors hover:text-foreground"
+                                    >
+                                        {t("sections.resources.technical")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link
                                         href="/privacy"
-                                        className="hover:text-foreground transition-colors"
+                                        className="transition-colors hover:text-foreground"
                                     >
                                         {t("sections.company.privacy")}
                                     </Link>
                                 </li>
                             </ul>
                         </div>
+                        <div>
+                            <h2 className="mb-4 text-xs font-medium tracking-label uppercase">
+                                {t("sections.account.title")}
+                            </h2>
+                            <ul className="space-y-3 text-sm text-muted-foreground">
+                                {/* The proxy sends a signed-out visitor to sign-in and back, so
+                                    these are safe to show in both session states. */}
+                                <li>
+                                    <Link href="/account" className="transition-colors hover:text-foreground">
+                                        {t("sections.account.account")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/cart" className="transition-colors hover:text-foreground">
+                                        {t("sections.account.cart")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/orders" className="transition-colors hover:text-foreground">
+                                        {t("sections.account.orders")}
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link href="/offers" className="transition-colors hover:text-foreground">
+                                        {t("sections.account.offers")}
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                         <div className="flex items-start flex-col ">
                             <div>
-                                <h5 className="text-sm uppercase tracking-wider mb-4 text-foreground">{t("social-header")}</h5>
+                                <h2 className="mb-4 text-xs font-medium tracking-label uppercase">
+                                    {t("social-header")}
+                                </h2>
                             </div>
                             <div className="flex gap-4 pt-2">
                                 <Link
                                     href={socialLinks.facebook}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors duration-300 group"
+                                    className="grid size-10 place-items-center rounded-md border transition-colors duration-(--duration-fast) hover:bg-accent"
                                     aria-label="Facebook"
                                 >
-                                    <Facebook className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                    <Facebook aria-hidden className="size-5" />
                                 </Link>
                                 <Link
                                     href={socialLinks.instagram}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="w-10 h-10 rounded-lg bg-primary/10 hover:bg-primary/20 flex items-center justify-center transition-colors duration-300 group"
+                                    className="grid size-10 place-items-center rounded-md border transition-colors duration-(--duration-fast) hover:bg-accent"
                                     aria-label="Instagram"
                                 >
-                                    <Instagram className="w-6 h-6 text-primary group-hover:scale-110 transition-transform duration-300" />
+                                    <Instagram aria-hidden className="size-5" />
                                 </Link>
                             </div>
                         </div>

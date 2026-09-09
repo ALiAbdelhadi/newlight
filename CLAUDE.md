@@ -10,6 +10,8 @@ apps/
   admin/   Next.js 16 admin dashboard — order/product management, no i18n
 packages/
   database/           @repo/database — Prisma client + schema, shared by both apps
+  mail/               @repo/mail — the only sender of email; templates + transactional outbox
+  notifications/      @repo/notifications — the only writer of notifications; Web Push sweep
   eslint-config/       shared ESLint config
   typescript-config/   shared tsconfig base
 ```
@@ -77,5 +79,6 @@ SHADOW_DATABASE_URL=... pnpm db:verify-chain   # replaying migrations == schema.
 - `www` routes live under `app/[locale]/...` — any new storefront page must work under the locale segment and needs entries in both `messages/en.json` and `messages/ar.json` if it has visible strings.
 - Route groups: `(main)` for storefront pages/sections, `(auth)` for sign-in/sign-up, mirrored in both apps.
 - Server actions live in `apps/www/actions/*.ts` (cart, order, search, configuration) — prefer extending these over adding new API routes when the operation is app-internal.
+- Notifications and push go through `@repo/notifications`: resolve recipients with `adminRecipients(prisma)` **before** the transaction, then `notifyRecipients(tx, recipients, …)` **inside** it — never a bare `prisma.notification.create` at a call site. The read is outside because it is a Seq Scan on `users` and, at SERIALIZABLE, locks the whole table. The one exception is `packages/database/inventory.ts`, which cannot import the package without closing a dependency cycle and writes rows directly; the sweep picks those up like any other. Delivery is a separate sweep; see [docs/push-notifications.md](docs/push-notifications.md).
 - `apps/*/lib/services` holds business-logic/service-layer code — put non-trivial DB/domain logic there rather than inline in routes/actions.
 - Keep the admin app free of customer-facing i18n; it's internal-only and English-only by design.

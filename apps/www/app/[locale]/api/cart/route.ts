@@ -1,6 +1,9 @@
-import { multiplyMoney, resolveLocale, serializeMoney } from "@repo/database"
+import { resolveLocale } from "@repo/database"
+import { activeDiscounts } from "@/lib/discounts"
 import { CartService } from "@/lib/services/cart-service"
-import { removeCartItemSchema, updateCartItemSchema } from "@/lib/validation/scehma"
+import { formatCartItem } from "@/lib/services/cart-view"
+import type { CartItem } from "@/types"
+import { removeCartItemSchema, updateCartItemSchema } from "@/lib/validation/schema"
 import { currentUserId } from "@/lib/auth"
 import { getLocale } from "next-intl/server"
 import { NextResponse } from "next/server"
@@ -25,33 +28,8 @@ export async function GET() {
     }
 
     // Format items for frontend
-    const cartItems = cart.items.map((item) => {
-      const productTranslation = item.product.translations[0]
-      const subCategoryTranslation = item.product.subCategory.translations[0]
-      const categoryTranslation = item.product.subCategory.category.translations[0]
-
-      return {
-        id: item.id,
-        productId: item.product.productId,
-        productName: productTranslation?.name || item.product.productId,
-        // ProductImage rows, primary first — `images[]` on the product is gone (§5).
-        productImages: item.product.images.map((image) => image.url),
-        // Money crosses as a string: a Decimal does not survive the boundary (ADR 0001).
-        price: serializeMoney(item.product.price),
-        quantity: item.quantity,
-        discount: "0.00",
-        subCategory: subCategoryTranslation?.name || "N/A",
-        // categoryType is gone with the enum (§3); the category's own slug identifies it,
-        // per-locale, which is also what a link needs.
-        categorySlug: categoryTranslation?.slug ?? "",
-        category: categoryTranslation?.name || "N/A",
-        selectedColorTemp: item.selectedColorTemp,
-        selectedColorKey: item.selectedColorKey,
-        colorTemperatures: item.product.colorTemperatures || [],
-        availableColors: item.product.availableColors.map((link) => link.color.key),
-        totalPrice: serializeMoney(multiplyMoney(item.product.price, item.quantity)),
-      }
-    })
+    const discounts = await activeDiscounts()
+    const cartItems: CartItem[] = cart.items.map((item) => formatCartItem(item, discounts))
 
     return NextResponse.json(cartItems)
   } catch (error) {
@@ -100,26 +78,9 @@ export async function PATCH(request: Request) {
       return NextResponse.json({ error: "Item not found" }, { status: 404 })
     }
 
-    // Format response
-    const productTranslation = updatedItem.product.translations[0]
-    const subCategoryTranslation = updatedItem.product.subCategory.translations[0]
-    const categoryTranslation = updatedItem.product.subCategory.category.translations[0]
-
-    const formattedItem = {
-      id: updatedItem.id,
-      productId: updatedItem.product.productId,
-      productName: productTranslation?.name || updatedItem.product.productId,
-      productImages: updatedItem.product.images.map((image) => image.url),
-      price: serializeMoney(updatedItem.product.price),
-      quantity: updatedItem.quantity,
-      discount: "0.00",
-      subCategory: subCategoryTranslation?.name || "N/A",
-      category: categoryTranslation?.name || "N/A",
-      categorySlug: categoryTranslation?.slug ?? "",
-      selectedColorTemp: updatedItem.selectedColorTemp,
-      selectedColorKey: updatedItem.selectedColorKey,
-      totalPrice: serializeMoney(multiplyMoney(updatedItem.product.price, updatedItem.quantity)),
-    }
+    // The same formatter as GET: a row that comes back from a quantity change must be the
+    // same shape as the row it replaces, discount included.
+    const formattedItem = formatCartItem(updatedItem, await activeDiscounts())
 
     return NextResponse.json(formattedItem)
   } catch (error) {

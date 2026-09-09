@@ -32,6 +32,7 @@ model Category {
 
   translations  CategoryTranslation[]
   subCategories SubCategory[]
+  discounts     Discount[]
 
   @@index([isActive, order])
   @@index([deletedAt])
@@ -73,6 +74,7 @@ model SubCategory {
   families     ProductFamily[]
   products     Product[]
   specs        SubCategorySpec[]
+  discounts    Discount[]
 
   @@index([categoryId, order])
   @@index([deletedAt])
@@ -120,6 +122,7 @@ model ProductFamily {
   subCategory  SubCategory                @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
   translations ProductFamilyTranslation[]
   products     Product[]
+  discounts    Discount[]
 
   @@index([subCategoryId, order])
   @@index([deletedAt])
@@ -189,6 +192,7 @@ model Product {
   orderItems      OrderItem[]
   configurations  ProductConfiguration[]
   users           User[]                  @relation("UserToProduct")
+  discounts       DiscountProduct[]
 
   @@index([subCategoryId])
   @@index([familyId, displayOrder])
@@ -448,6 +452,10 @@ model User {
   orders          Order[]
   sessions        Session[]
   accounts        Account[]
+
+  // Browser push endpoints. Cascade, because a deleted user's endpoints are dead mail:
+  // pushing to them can only ever produce a 410 from the push service.
+  pushSubscriptions PushSubscription[]
 
   @@index([email])
   @@index([role])
@@ -801,13 +809,65 @@ model Notification {
   priority  NotificationPriority @default(NORMAL)
   metadata  Json?
   expiresAt DateTime?
+
+  /// NULL means "the push sweep has not handled this row yet".
+  ///
+  /// This is what makes the Notification table its own push outbox, exactly as EmailOutbox is
+  /// the mail one: the row is written inside the business transaction, and the delivery
+  /// happens after it. An order that commits always has its notification; a push service that
+  /// is unreachable can never roll back an order. Set once the fan-out has been attempted —
+  /// success or permanent failure — so a sweep does not re-push a notification an admin has
+  /// already seen.
+  pushedAt DateTime?
+
   createdAt DateTime             @default(now())
   updatedAt DateTime             @updatedAt
 
   @@index([userId, isRead])
   @@index([createdAt])
   @@index([type])
+  // The sweep's claim predicate: unpushed rows, oldest first.
+  @@index([pushedAt, createdAt])
   @@map("notifications")
+}
+
+/// One browser push endpoint belonging to one user (§17).
+///
+/// Not a resurrection of the v1 channel deleted in A8. That one queried a table production did
+/// not have, from a service worker that never subscribed. This is subscribed to by the admin
+/// shell, keyed on the endpoint the browser issues, and pruned by the sweep whenever the push
+/// service answers 404 or 410 — the only two statuses that mean "this endpoint is gone", as
+/// opposed to "try again later".
+model PushSubscription {
+  id String @id @default(cuid())
+
+  userId String
+
+  /// The push service's URL for this browser. Unique because a re-subscribe from the same
+  /// browser must UPDATE the row rather than accumulate duplicates that all deliver to the
+  /// same place — which is how one notification becomes four.
+  endpoint String @unique
+
+  /// The two halves of the Web Push encryption key material, exactly as
+  /// `PushSubscription.toJSON().keys` gives them.
+  p256dh String
+  auth   String
+
+  /// So a person can tell "my laptop" from "my phone" when revoking one.
+  userAgent String?
+
+  /// Consecutive transport failures that were NOT a hard 404/410. A subscription that fails
+  /// this many times in a row is stale in practice even if the push service will not say so.
+  failureCount  Int       @default(0)
+  lastSuccessAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@map("push_subscriptions")
 }
 
 // ---------------------------------------------------------------------------
@@ -965,4 +1025,101 @@ model RateLimit {
 
   @@index([windowStart])
   @@map("rate_limits")
+}
+
+// ---------------------------------------------------------------------------
+// Discounts (§13.2, amendment A21 follow-up)
+//
+// A21 dropped `ProductConfiguration.discount` because three always-zero money columns
+// advertised a capability the checkout never had, and said that when discounts arrived they
+// should be DESIGNED rather than inherited. This is that design.
+//
+// A discount is an OVERLAY, never a write to `products.price`:
+//
+//   - the base price is what the product costs; a discount is a period during which it costs
+//     less. Writing the sale price into the column destroys the "was" half of "was 1000, now
+//     850", and there is then nothing to restore when the period ends;
+//   - the end of a discount is a fact about time, not a job that has to run. Nothing has to
+//     fire at midnight for a discount to expire, so nothing can fail to fire; and
+//   - bulk repricing stays what it is — a permanent price change, audited as one. A seasonal
+//     sale run through it would put fifteen days of noise in every product's price history.
+//
+// packages/database/pricing.ts is the ONLY resolver. Both apps read effective prices through
+// it, because a storefront showing 850 while the checkout charges 1000 is the defect this
+// table would otherwise introduce.
+// ---------------------------------------------------------------------------
+
+enum DiscountKind {
+  /// `value` is a percentage of the base price: 15 means 15% off.
+  PERCENT
+  /// `value` is an amount off in the store currency.
+  AMOUNT
+
+  @@map("discount_kind")
+}
+
+/// What a discount is pointed at. One discount, one target — the join table exists only so
+/// that PRODUCTS can name several SKUs without needing several discounts.
+enum DiscountScopeType {
+  ALL
+  CATEGORY
+  SUB_CATEGORY
+  FAMILY
+  PRODUCTS
+
+  @@map("discount_scope_type")
+}
+
+model Discount {
+  id    String       @id @default(cuid())
+  /// Internal label. Never rendered to a customer: the storefront shows "−15%", not a name
+  /// that would then need a translation row and a locale fallback of its own.
+  name  String
+  kind  DiscountKind
+  value Decimal      @db.Decimal(12, 2)
+
+  scopeType     DiscountScopeType
+  categoryId    String?
+  subCategoryId String?
+  familyId      String?
+
+  /// The window, in UTC, half-open: `startsAt <= now < endsAt`. Half-open so a discount that
+  /// ends on the 15th and one that starts on the 15th cannot both be live for one instant.
+  startsAt DateTime
+  endsAt   DateTime
+
+  /// The kill switch. Ending a discount early sets this false rather than deleting the row:
+  /// an order placed at the discounted price has to stay explicable afterwards.
+  isActive Boolean @default(true)
+
+  /// Who created it. Denormalised like AdminAuditLog's actor columns, for the same reason —
+  /// the answer must survive the admin account being deleted.
+  createdById    String?
+  createdByEmail String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  category    Category?         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  subCategory SubCategory?      @relation(fields: [subCategoryId], references: [id], onDelete: Cascade)
+  family      ProductFamily?    @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  products    DiscountProduct[]
+
+  /// The resolver's only query: live rows whose window contains now.
+  @@index([isActive, startsAt, endsAt])
+  @@index([scopeType])
+  @@map("discounts")
+}
+
+/// The SKUs a PRODUCTS-scoped discount names.
+model DiscountProduct {
+  discountId String
+  productId  String
+
+  discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@id([discountId, productId])
+  @@index([productId])
+  @@map("discount_products")
 }

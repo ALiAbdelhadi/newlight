@@ -1,0 +1,22 @@
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-r/nl-pl-r-6w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-18w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-pl-round-surface/nl-pl-r-s-24w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-20w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-30w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-plastic-downlights/nl-plastic-dl-6w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-20w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-30w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-recessed-plastic/nl-s-r-dl-6w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-20w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/panel/nl-squared-surface-plastic/nl-s-s-dl-30w.png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (2).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-12w/nl-p-12w (3).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (2).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/plafonnier/nl-p-9w/nl-p-9w (3).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-19w/nl-strip-2835-19w (2).jpg
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (1).png
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/strip/nl-strip-2835-24w/nl-strip-2835-24w (2).jpg
+/Users/ali/Downloads/altruvex's projects/newlight/apps/admin/public/products/indoor/track/nl-l1001-2000mm/nl-l1001-2000mm (1).png

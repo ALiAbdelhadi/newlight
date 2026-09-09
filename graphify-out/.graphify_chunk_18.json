@@ -1,0 +1,225 @@
+{
+  "chunk_id": 18,
+  "chunk_type": "product_assets",
+  "file_count": 22,
+  "base_path": "/Users/ali/Downloads/altruvex's projects/newlight/apps/www/public/products",
+  "files": [
+    {
+      "id": 1,
+      "file_path": "indoor/cylinder/nl-c-1-30w.png",
+      "category": "indoor",
+      "subcategory": "cylinder",
+      "product_id": "nl-c-1-30w",
+      "file_type": "png"
+    },
+    {
+      "id": 2,
+      "file_path": "indoor/cylinder/nl-c-1-40w.png",
+      "category": "indoor",
+      "subcategory": "cylinder",
+      "product_id": "nl-c-1-40w",
+      "file_type": "png"
+    },
+    {
+      "id": 3,
+      "file_path": "indoor/downlight/nl-d-1-20w.png",
+      "category": "indoor",
+      "subcategory": "downlight",
+      "product_id": "nl-d-1-20w",
+      "file_type": "png"
+    },
+    {
+      "id": 4,
+      "file_path": "indoor/downlight/nl-d-1-30w.png",
+      "category": "indoor",
+      "subcategory": "downlight",
+      "product_id": "nl-d-1-30w",
+      "file_type": "png"
+    },
+    {
+      "id": 5,
+      "file_path": "indoor/drivers/track-built-in/nl-dv102-100w.jpg",
+      "category": "indoor",
+      "subcategory": "drivers",
+      "sub_subcategory": "track-built-in",
+      "product_id": "nl-dv102-100w",
+      "file_type": "jpg"
+    },
+    {
+      "id": 6,
+      "file_path": "indoor/drivers/track-built-in/nl-dv102-200w.png",
+      "category": "indoor",
+      "subcategory": "drivers",
+      "sub_subcategory": "track-built-in",
+      "product_id": "nl-dv102-200w",
+      "file_type": "png"
+    },
+    {
+      "id": 7,
+      "file_path": "indoor/linear/nl-l-1/nl-l-1-40w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-1",
+      "product_id": "nl-l-1-40w",
+      "file_type": "png"
+    },
+    {
+      "id": 8,
+      "file_path": "indoor/linear/nl-l-1/nl-l-1-60w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-1",
+      "product_id": "nl-l-1-60w",
+      "file_type": "png"
+    },
+    {
+      "id": 9,
+      "file_path": "indoor/linear/nl-l-1/nl-l-1-80w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-1",
+      "product_id": "nl-l-1-80w",
+      "file_type": "png"
+    },
+    {
+      "id": 10,
+      "file_path": "indoor/linear/nl-l-2/nl-l-2-20w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-2",
+      "product_id": "nl-l-2-20w",
+      "file_type": "png"
+    },
+    {
+      "id": 11,
+      "file_path": "indoor/linear/nl-l-2/nl-l-2-40w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-2",
+      "product_id": "nl-l-2-40w",
+      "file_type": "png"
+    },
+    {
+      "id": 12,
+      "file_path": "indoor/linear/nl-l-2/nl-l-2-60w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-2",
+      "product_id": "nl-l-2-60w",
+      "file_type": "png"
+    },
+    {
+      "id": 13,
+      "file_path": "indoor/linear/nl-l-2/nl-l-2-80w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-2",
+      "product_id": "nl-l-2-80w",
+      "file_type": "png"
+    },
+    {
+      "id": 14,
+      "file_path": "indoor/linear/nl-l-3/nl-l-3-20w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-3",
+      "product_id": "nl-l-3-20w",
+      "file_type": "png"
+    },
+    {
+      "id": 15,
+      "file_path": "indoor/linear/nl-l-3/nl-l-3-40w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-3",
+      "product_id": "nl-l-3-40w",
+      "file_type": "png"
+    },
+    {
+      "id": 16,
+      "file_path": "indoor/linear/nl-l-3/nl-l-3-60w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-3",
+      "product_id": "nl-l-3-60w",
+      "file_type": "png"
+    },
+    {
+      "id": 17,
+      "file_path": "indoor/linear/nl-l-3/nl-l-3-80w.png",
+      "category": "indoor",
+      "subcategory": "linear",
+      "product_line": "nl-l-3",
+      "product_id": "nl-l-3-80w",
+      "file_type": "png"
+    },
+    {
+      "id": 18,
+      "file_path": "indoor/magnetic-accessories/nl-e1030.png",
+      "category": "indoor",
+      "subcategory": "magnetic-accessories",
+      "product_id": "nl-e1030",
+      "file_type": "png"
+    },
+    {
+      "id": 19,
+      "file_path": "indoor/magnetic-accessories/nl-e1031.png",
+      "category": "indoor",
+      "subcategory": "magnetic-accessories",
+      "product_id": "nl-e1031",
+      "file_type": "png"
+    },
+    {
+      "id": 20,
+      "file_path": "indoor/magnetic-accessories/nl-e1032.png",
+      "category": "indoor",
+      "subcategory": "magnetic-accessories",
+      "product_id": "nl-e1032",
+      "file_type": "png"
+    },
+    {
+      "id": 21,
+      "file_path": "indoor/magnetic-accessories/nl-fI012.png",
+      "category": "indoor",
+      "subcategory": "magnetic-accessories",
+      "product_id": "nl-fI012",
+      "file_type": "png"
+    },
+    {
+      "id": 22,
+      "file_path": "indoor/magnetic-accessories/nl-r1015.png",
+      "category": "indoor",
+      "subcategory": "magnetic-accessories",
+      "product_id": "nl-r1015",
+      "file_type": "png"
+    }
+  ],
+  "summary": {
+    "total_files": 22,
+    "category_breakdown": {
+      "indoor": 22
+    },
+    "subcategory_breakdown": {
+      "cylinder": 2,
+      "downlight": 2,
+      "drivers": 2,
+      "linear": 11,
+      "magnetic-accessories": 5
+    },
+    "file_type_breakdown": {
+      "png": 21,
+      "jpg": 1
+    },
+    "product_lines_identified": [
+      "nl-c-1",
+      "nl-d-1",
+      "nl-dv102",
+      "nl-l-1",
+      "nl-l-2",
+      "nl-l-3",
+      "nl-e",
+      "nl-f",
+      "nl-r"
+    ]
+  }
+}

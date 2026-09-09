@@ -1,13 +1,15 @@
 "use client"
+import { multiplyMoney, serializeMoney } from "@repo/database"
 import { CartColorTempSelector, CartSurfaceColorSelector } from "@/components/cart-color-selectors"
+import { DiscountBadge, PriceTag } from "@/components/price-tag"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { CartItem } from "@/types"
 import { useSession } from "@/lib/auth-client"
 import { Loader2, ShoppingBag, ShoppingBagIcon, ShoppingCart, Trash2 } from "lucide-react"
-import { useTranslations } from "next-intl"
-import Image from "next/image"
+import { useLocale, useTranslations } from "next-intl"
+import Image from "@/components/app-image"
 import Link from "next/link"
 import { useEffect, useState } from "react"
 import { toast } from "sonner"
@@ -18,6 +20,7 @@ export function CartSidebar() {
     const isSignedIn = Boolean(session?.user)
     const userId = session?.user?.id ?? null
     const t = useTranslations("cart")
+    const locale = useLocale()
     const [isOpen, setIsOpen] = useState(false)
     const [cartItems, setCartItems] = useState<CartItem[]>([])
     const [isLoading, setIsLoading] = useState(false)
@@ -60,7 +63,11 @@ export function CartSidebar() {
                     ? {
                         ...item,
                         quantity: newQuantity,
-                        totalPrice: item.price * newQuantity * (1 - item.discount / 100),
+                        // `item.price * newQuantity` multiplied a money STRING by a number and
+                        // relied on JavaScript coercing it back — the arithmetic ADR 0001
+                        // forbids. `price` is already the discounted unit price, so the line
+                        // total is one multiplication through the money helpers.
+                        totalPrice: serializeMoney(multiplyMoney(item.price, newQuantity)),
                     }
                     : item,
             ),
@@ -186,7 +193,7 @@ export function CartSidebar() {
                 <Button
                     variant="outline"
                     size="icon"
-                    className="relative h-9 w-9 border-border/30 hover:border-border hover:bg-accent/5 transition-all bg-transparent"
+                    className="relative h-9 w-9 border-border hover:border-border hover:bg-accent/5 transition-all bg-transparent"
                     aria-label={t("actions.openCart")}
                 >
                     <ShoppingCart className="h-4 w-4" />
@@ -202,7 +209,7 @@ export function CartSidebar() {
             </SheetTrigger>
             <SheetContent className="h-full">
                 <ScrollArea className="h-[calc(100vh-64px)] w-full">
-                    <SheetHeader className="border-b border-border/50 pb-2">
+                    <SheetHeader className="border-b border-border pb-2">
                         <SheetTitle className="flex items-center gap-3 text-lg font-semibold">
                             <ShoppingBag className="h-5 w-5 text-muted-foreground" />
                             <span>{t("title")}</span>
@@ -225,14 +232,23 @@ export function CartSidebar() {
                         ) : cartItems.length === 0 ? (
                             <EmptyState icon={ShoppingCart} title={t("emptyCart.title")} description={t("emptyCart.description")} />
                         ) : (
-                            <CartItemsList
-                                items={cartItems}
-                                isUpdating={isUpdating}
-                                onUpdateQuantity={updateQuantity}
-                                onUpdateColorTemp={updateColorTemp}
-                                onUpdateSurfaceColor={updateSurfaceColor}
-                                onRemoveItem={removeItem}
-                            />
+                            <>
+                                <CartItemsList
+                                    items={cartItems}
+                                    isUpdating={isUpdating}
+                                    onUpdateQuantity={updateQuantity}
+                                    onUpdateColorTemp={updateColorTemp}
+                                    onUpdateSurfaceColor={updateSurfaceColor}
+                                    onRemoveItem={removeItem}
+                                />
+                                {/* The drawer is for a glance; comparing, editing several lines and
+                                    sharing happen on the page, which has an address. */}
+                                <div className="border-t px-4 py-4">
+                                    <Button asChild variant="outline" className="w-full" onClick={() => setIsOpen(false)}>
+                                        <Link href={`/${locale}/cart`}>{t("viewFull")}</Link>
+                                    </Button>
+                                </div>
+                            </>
                         )}
                     </div>
                 </ScrollArea>
@@ -328,7 +344,7 @@ function CartItemCard({
     const hasColors = Array.isArray(item.availableColors) && item.availableColors.length > 0
 
     return (
-        <div className="group relative bg-card border border-border/50 rounded-lg p-3 hover:border-border/80 hover:shadow-sm transition-all duration-200">
+        <div className="group relative bg-card border border-border rounded-lg p-3 hover:border-border hover:shadow-sm transition-all duration-200">
             <div className="flex gap-3">
                 <Link
                     href={`/preview/${item.productId}`}
@@ -339,17 +355,18 @@ function CartItemCard({
                             src={item.productImages[0]}
                             alt={item.productName}
                             fill
+                            sizes="64px"
                             className="object-cover rounded-md hover:opacity-80 transition-opacity"
                         />
                     ) : (
                         <div className="w-full h-full bg-muted rounded-md flex items-center justify-center hover:bg-muted/80 transition-colors">
-                            <ShoppingCart className="h-6 w-6 text-muted-foreground/50" />
+                            <ShoppingCart className="h-6 w-6 text-muted-foreground" />
                         </div>
                     )}
-                    {item.discount > 0 && (
-                        <Badge variant="destructive" className="absolute -top-2 -right-2 text-xs px-1.5 py-0.5">
-                            -{Math.round(item.discount)}%
-                        </Badge>
+                    {item.discountPercent > 0 && (
+                        // Logical inset, so the badge sits at the image's outer corner in
+                        // Arabic as well as in English.
+                        <DiscountBadge percent={item.discountPercent} className="absolute -top-2 -end-2 px-1.5 py-0.5" />
                     )}
                 </Link>
                 <div className="flex-1 min-w-0 flex flex-col justify-between">
@@ -364,7 +381,7 @@ function CartItemCard({
                             <Button
                                 variant="outline"
                                 size="icon"
-                                className="h-6 w-6 opacity-0 group-hover:opacity-100 transition-opacity shrink-0 bg-red-200/40 hover:bg-red-200"
+                                className="size-6 shrink-0 text-muted-foreground opacity-0 transition-opacity duration-(--duration-fast) group-hover:opacity-100 hover:border-danger-border hover:bg-danger-bg hover:text-danger"
                                 onClick={() => onRemoveItem(item.id)}
                                 disabled={isUpdating}
                             >
@@ -384,7 +401,6 @@ function CartItemCard({
                             <div className="flex flex-col gap-1.5 mt-2">
                                 {hasColorTemps && (
                                     <CartColorTempSelector
-                                        productId={item.productId}
                                         availableTemps={item.colorTemperatures}
                                         selectedTemp={item.selectedColorTemp || item.colorTemperatures[0]}
                                         onChange={(temp) => onUpdateColorTemp(item.id, temp)}
@@ -404,16 +420,17 @@ function CartItemCard({
                     </div>
                     <div className="space-y-2 pt-2">
                         <div className="flex items-center justify-between gap-2">
-                            <div className="space-y-0.5">
-                                <p className="text-sm font-semibold">
-                                    {item.totalPrice.toLocaleString()} {t("currency")}
-                                </p>
-                                {item.discount > 0 && (
-                                    <p className="text-xs text-muted-foreground line-through">
-                                        {(item.price * item.quantity).toLocaleString()}
-                                    </p>
-                                )}
-                            </div>
+                            {/*
+                              * The line total, and the line total before the discount. Both are
+                              * computed through the money helpers rather than by multiplying a
+                              * string, and PriceTag decides which one is announced as the price.
+                              */}
+                            <PriceTag
+                                price={item.totalPrice}
+                                basePrice={serializeMoney(multiplyMoney(item.basePrice, item.quantity))}
+                                size="sm"
+                                className="flex-col items-start gap-0"
+                            />
                             <div className="flex items-center gap-1 bg-muted rounded-md p-1">
                                 <Button
                                     variant="ghost"

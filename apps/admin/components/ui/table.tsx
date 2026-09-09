@@ -4,6 +4,21 @@ import * as React from "react"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * The STATIC table (P4.5 §11).
+ *
+ * `components/data-table` is the answer for any list an operator sorts, filters or pages.
+ * This one is for readouts whose whole result set is the point — the low-stock list, the
+ * fulfilment queue, an order's line items — and its only job is to look identical to the
+ * other one while doing less.
+ *
+ * That is what these defaults are for. shadcn ships 40px headers in foreground weight and
+ * 8px cell padding, so a static table beside a DataTable read as a different component in a
+ * different application: taller rows, darker headers, no sunk header ground. The numbers here
+ * are §3.3's compact density — 32px header, 34px rows, 10px/6px cells — so the two agree
+ * without every caller passing className overrides to make them.
+ */
+
 function Table({ className, ...props }: React.ComponentProps<"table">) {
   return (
     <div
@@ -23,7 +38,7 @@ function TableHeader({ className, ...props }: React.ComponentProps<"thead">) {
   return (
     <thead
       data-slot="table-header"
-      className={cn("[&_tr]:border-b", className)}
+      className={cn("bg-surface-sunk [&_tr]:border-b [&_tr]:border-border-strong", className)}
       {...props}
     />
   )
@@ -57,7 +72,8 @@ function TableRow({ className, ...props }: React.ComponentProps<"tr">) {
     <tr
       data-slot="table-row"
       className={cn(
-        "hover:bg-muted/50 data-[state=selected]:bg-muted border-b transition-colors",
+        "h-[34px] border-b transition-colors duration-(--duration-fast)",
+        "hover:bg-accent/50 data-[state=selected]:bg-primary-soft",
         className
       )}
       {...props}
@@ -70,7 +86,8 @@ function TableHead({ className, ...props }: React.ComponentProps<"th">) {
     <th
       data-slot="table-head"
       className={cn(
-        "text-foreground h-10 px-2 text-left align-middle font-medium whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "h-8 px-2.5 py-0 text-left align-middle text-xs font-medium whitespace-nowrap text-muted-foreground",
+        "[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}
@@ -83,7 +100,8 @@ function TableCell({ className, ...props }: React.ComponentProps<"td">) {
     <td
       data-slot="table-cell"
       className={cn(
-        "p-2 align-middle whitespace-nowrap [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+        "px-2.5 py-1.5 align-middle whitespace-nowrap",
+        "[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
         className
       )}
       {...props}
@@ -98,7 +116,7 @@ function TableCaption({
   return (
     <caption
       data-slot="table-caption"
-      className={cn("text-muted-foreground mt-4 text-sm", className)}
+      className={cn("mt-3 text-xs text-muted-foreground", className)}
       {...props}
     />
   )

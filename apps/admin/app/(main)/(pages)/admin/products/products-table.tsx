@@ -2,7 +2,7 @@
 
 import type { ColumnDef } from "@tanstack/react-table"
 import { useRouter } from "next/navigation"
-import Image from "next/image"
+import Image from "@/components/app-image"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 
@@ -257,10 +257,16 @@ export function ProductsTable({ rows, total, openingCountPending, facets, state 
                     columns={visibleColumns}
                     actions={
                         <>
-                            <Button asChild variant="outline" size="sm" className="h-[30px] text-xs">
+                            <Button asChild variant="outline" className="text-xs">
                                 <Link href="/admin/products/pricing">Bulk pricing</Link>
                             </Button>
-                            <Button asChild size="sm" className="h-[30px] text-xs">
+                            {/* Beside repricing, because the question "can I put this on
+                                offer?" is asked from this screen and the answer used to be
+                                "reprice it and remember to reprice it back". */}
+                            <Button asChild variant="outline" className="text-xs">
+                                <Link href="/admin/products/discounts">Discounts</Link>
+                            </Button>
+                            <Button asChild className="text-xs">
                                 <Link href="/admin/products/new">New product</Link>
                             </Button>
                         </>

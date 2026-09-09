@@ -17,7 +17,7 @@ const intlMiddleware = createIntlMiddleware(routing)
  * page repeats anyway. It is an optimistic gate, not the authorization: the real check is
  * `getIdentity()` in the page or action. A forged cookie gets past this and fails there.
  */
-const PROTECTED = ["/orders", "/confirm", "/complete"]
+const PROTECTED = ["/account", "/cart", "/orders", "/confirm", "/complete"]
 
 export default function proxy(request: NextRequest) {
     const { pathname } = request.nextUrl

@@ -60,7 +60,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: 'Content-Security-Policy',
-            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'self'; worker-src 'self' blob:;",
+            value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://res.cloudinary.com https://images.unsplash.com https://api.dicebear.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-src 'self' https://maps.google.com https://www.google.com; worker-src 'self' blob:;",
           },
           {
             key: 'Strict-Transport-Security',
@@ -102,6 +102,9 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
+    // ADR 0002 — the Cloudinary loader is applied per source in components/app-image.tsx,
+    // not here: `loader: "custom"` is global and disables /_next/image, which every asset
+    // in /public still needs.
     remotePatterns: [
       {
         protocol: "https",

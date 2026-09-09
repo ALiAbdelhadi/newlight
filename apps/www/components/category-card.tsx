@@ -1,13 +1,26 @@
 "use client"
 
 import { Link } from "@/i18n/navigation"
-import gsap from "gsap"
-import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useTranslations } from 'next-intl'
-import Image from "next/image"
-import { useEffect, useRef } from "react"
+import Image from "@/components/app-image"
 
-gsap.registerPlugin(ScrollTrigger)
+import { Reveal } from "@/components/reveal"
+
+/**
+ * A category tile.
+ *
+ * The GSAP block this replaces was visibly broken in the browser, not just theoretically: it set
+ * the image and the content to `opacity: 0` on mount and revealed them from a ScrollTrigger with
+ * `start: "top 75%"`, `end: "top 35%"` and `scrub: 1` — so a card that was ALREADY past that
+ * range when the page loaded never animated, and stayed invisible. On `/category` the first tile
+ * rendered as an empty box with a "01" badge in it.
+ *
+ * Its cleanup was worse than the bug: `ScrollTrigger.getAll().forEach(t => t.kill())` on unmount
+ * killed every ScrollTrigger on the page, including ones belonging to other components.
+ *
+ * `Reveal` does the same fade with the opposite failure mode — visible unless JavaScript is
+ * running and motion is welcome.
+ */
 
 interface CategoryCardProps {
     title: string
@@ -19,73 +32,26 @@ interface CategoryCardProps {
 }
 
 const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: CategoryCardProps) => {
-    const cardRef = useRef<HTMLDivElement>(null)
-    const imageRef = useRef<HTMLDivElement>(null)
-    const contentRef = useRef<HTMLDivElement>(null)
     const t = useTranslations("CategoryCard")
-
-    useEffect(() => {
-        if (!cardRef.current || !imageRef.current || !contentRef.current) return
-
-        gsap.set(imageRef.current, {
-            opacity: 0,
-            scale: 1.1,
-            filter: "grayscale(70%)",
-        })
-
-        gsap.set(contentRef.current, {
-            opacity: 0,
-            y: 40,
-        })
-
-        const tl = gsap.timeline({
-            scrollTrigger: {
-                trigger: cardRef.current,
-                start: "top 75%",
-                end: "top 35%",
-                scrub: 1,
-                once: true,
-            },
-        })
-
-        tl.to(imageRef.current, {
-            opacity: 1,
-            scale: 1,
-            filter: "grayscale(0%)",
-            duration: 1.2,
-            ease: "power3.out",
-        })
-
-        tl.to(contentRef.current, {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-        }, "-=0.8")
-
-        return () => {
-            ScrollTrigger.getAll().forEach((trigger) => trigger.kill())
-        }
-    }, [])
 
     const hasValidImage = imageUrl && imageUrl.trim() !== ""
 
     return (
-        <div ref={cardRef} className="group cursor-pointer">
+        <Reveal index={index} className="group">
             <Link href={href} className="block">
-                <div ref={imageRef} className="relative overflow-hidden aspect-square bg-muted">
+                <div className="relative aspect-square overflow-hidden rounded-lg bg-muted">
                     {hasValidImage ? (
                         <Image
                             src={imageUrl}
                             alt={title}
                             fill
-                            className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                            className="object-cover transition-transform duration-(--duration-slow) ease-out-fast group-hover:scale-105"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                         />
                     ) : (
                         <div className="absolute inset-0 flex items-center justify-center bg-muted">
                             <svg
-                                className="w-14 h-14 text-muted-foreground/25"
+                                className="w-14 h-14 text-muted-foreground"
                                 fill="none"
                                 viewBox="0 0 24 24"
                                 stroke="currentColor"
@@ -100,28 +66,28 @@ const CategoryCard = ({ title, subtitle, description, imageUrl, href, index }: C
                         </div>
                     )}
                     <div className="absolute top-4 ltr:left-4 rtl:right-4 z-10">
-                        <span className="inline-flex items-center justify-center w-7 h-7 bg-background/80 backdrop-blur-sm text-foreground/70 text-[10px] font-medium tracking-wider border border-border/50">
+                        <span className="inline-flex items-center justify-center w-7 h-7 bg-background/80 backdrop-blur-sm text-foreground/70 text-2xs font-medium tracking-label border border-border">
                             {String(index + 1).padStart(2, "0")}
                         </span>
                     </div>
-                    <div className="absolute inset-0 bg-foreground/0 group-hover:bg-foreground/10 transition-colors duration-500" />
+                    <div className="absolute inset-0 bg-foreground/0 transition-colors duration-(--duration-slow) ease-out-fast group-hover:bg-foreground/10" />
                 </div>
-                <div ref={contentRef} className="pt-5 pb-2 space-y-3">
-                    <p className="text-[10px] uppercase tracking-[0.3em] text-muted-foreground font-light">
+                <div className="space-y-3 pt-5 pb-2">
+                    <p className="text-2xs uppercase tracking-label text-muted-foreground font-light">
                         {subtitle}
                     </p>
-                    <h3 className="text-lg md:text-xl font-serif italic tracking-tight text-foreground leading-snug group-hover:text-primary transition-colors duration-300">
+                    <h3 className="text-lg md:text-xl font-display italic tracking-tight text-foreground leading-snug group-hover:text-primary transition-colors duration-(--duration-base) ease-out-fast">
                         {title}
                     </h3>
                     <div className="flex items-center gap-3 pt-1">
-                        <div className="h-px w-8 bg-border group-hover:w-14 group-hover:bg-primary transition-all duration-500 ease-out" />
-                        <span className="text-[10px] uppercase tracking-widest text-muted-foreground/0 group-hover:text-muted-foreground transition-all duration-300 whitespace-nowrap">
+                        <div className="h-px w-14 origin-left scale-x-[0.571] bg-border transition-[scale,background-color] duration-(--duration-slow) ease-out-fast group-hover:scale-x-100 group-hover:bg-primary rtl:origin-right" />
+                        <span className="text-2xs uppercase tracking-label text-muted-foreground opacity-0 transition-opacity duration-(--duration-base) ease-out-fast group-hover:opacity-100 whitespace-nowrap">
                             {t("text")}
                         </span>
                     </div>
                 </div>
             </Link>
-        </div>
+        </Reveal>
     )
 }
 

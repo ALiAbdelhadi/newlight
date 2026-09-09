@@ -30,6 +30,10 @@
     "@repo/mail": {
       "max": 0,
       "note": "new in P2; green from the day it lands"
+    },
+    "@repo/notifications": {
+      "max": 0,
+      "note": "green from the day it lands; a package written after the v2 schema has no excuse"
     }
   },
   "history": [
