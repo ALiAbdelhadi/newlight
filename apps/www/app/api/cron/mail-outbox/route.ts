@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 import { prisma } from "@repo/database"
 import { dispatchOutbox } from "@repo/mail/outbox"
 
+import { authorizeCron } from "@/lib/cron-auth"
+
 /**
  * The outbox sweep — BUILD §16.
  *
@@ -20,19 +22,8 @@ export const dynamic = "force-dynamic"
 export const maxDuration = 60
 
 export async function GET(request: NextRequest) {
-    const secret = process.env.MAIL_OUTBOX_CRON_SECRET
-    if (!secret) {
-        console.error("[cron:mail] MAIL_OUTBOX_CRON_SECRET is not set; refusing to run unauthenticated.")
-        return NextResponse.json({ error: "not configured" }, { status: 503 })
-    }
-
-    // Vercel Cron sends `Authorization: Bearer <CRON_SECRET>`; the query form is for a manual
-    // run during an incident, when reaching for curl is faster than reaching for the console.
-    const header = request.headers.get("authorization")
-    const provided = header?.startsWith("Bearer ") ? header.slice(7) : request.nextUrl.searchParams.get("secret")
-    if (provided !== secret) {
-        return NextResponse.json({ error: "unauthorized" }, { status: 401 })
-    }
+    const denied = authorizeCron(request, "MAIL_OUTBOX_CRON_SECRET", "cron:mail")
+    if (denied) return denied
 
     const summary = await dispatchOutbox(prisma)
     if (summary.failed > 0) {

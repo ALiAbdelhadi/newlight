@@ -1,6 +1,8 @@
 import { NextResponse, type NextRequest } from "next/server"
 import { prisma, sweepExpiredReservations, sweepRateLimits } from "@repo/database"
 
+import { authorizeCron } from "@/lib/cron-auth"
+
 /**
  * The reservation sweep — BUILD §8.3.
  *
@@ -15,17 +17,8 @@ export const dynamic = "force-dynamic"
 export const maxDuration = 60
 
 export async function GET(request: NextRequest) {
-    const secret = process.env.INVENTORY_SWEEP_CRON_SECRET
-    if (!secret) {
-        console.error("[cron:sweep] INVENTORY_SWEEP_CRON_SECRET is not set; refusing to run unauthenticated.")
-        return NextResponse.json({ error: "not configured" }, { status: 503 })
-    }
-
-    const header = request.headers.get("authorization")
-    const provided = header?.startsWith("Bearer ") ? header.slice(7) : request.nextUrl.searchParams.get("secret")
-    if (provided !== secret) {
-        return NextResponse.json({ error: "unauthorized" }, { status: 401 })
-    }
+    const denied = authorizeCron(request, "INVENTORY_SWEEP_CRON_SECRET", "cron:sweep")
+    if (denied) return denied
 
     const summary = await sweepExpiredReservations(prisma)
 

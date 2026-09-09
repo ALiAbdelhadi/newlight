@@ -2,12 +2,8 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "crons": [
     {
-      "path": "/api/cron/mail-outbox",
-      "schedule": "*/2 * * * *"
-    },
-    {
-      "path": "/api/cron/reservation-sweep",
-      "schedule": "17 * * * *"
+      "path": "/api/cron/sweep",
+      "schedule": "0 3 * * *"
     }
   ]
 }
