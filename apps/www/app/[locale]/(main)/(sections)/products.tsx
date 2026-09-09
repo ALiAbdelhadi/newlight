@@ -1,4 +1,5 @@
 import { encodeSlug, type SerializedMoney } from "@repo/database"
+import type { StockStatus } from "@/lib/stock"
 import { getTranslations } from "next-intl/server"
 
 import { DirectionalArrow } from "@/components/directional-arrow"
@@ -24,6 +25,7 @@ export interface UIProduct {
     productId: string
     categorySlug: string
     subCategorySlug: string
+    stock: StockStatus
 }
 
 export async function Products({ products }: ProductsProps) {

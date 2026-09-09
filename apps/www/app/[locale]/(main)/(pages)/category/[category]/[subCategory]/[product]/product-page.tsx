@@ -9,6 +9,7 @@ import { BulkOrderDialog } from "@/components/bulk-order-dialog"
 import { Container } from "@/components/layout/section"
 import ProductVariantsSelector from "@/components/product-variants-selector"
 import { Reveal } from "@/components/reveal"
+import { StockIndicator, formatCount } from "@/components/stock-status"
 import ProductSurfaceColorButtons from "@/components/surface-color-button"
 import { Button } from "@/components/ui/button"
 import { Link, useRouter } from "@/i18n/navigation"
@@ -29,7 +30,6 @@ interface ProductPageProps {
 
 export default function ProductIdPage({ product, assurance }: ProductPageProps) {
     const t = useTranslations("product-page")
-    const tm = useTranslations("merchandising")
     const locale = useLocale()
     const { data: session } = useSession()
     const isSignedIn = Boolean(session?.user)
@@ -41,6 +41,11 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
     const [surfaceColor, setSurfaceColor] = useState<string>(availableColorKeys[0] ?? "")
     const [quantity, setQuantity] = useState(1)
     const [isAddingToCart, setIsAddingToCart] = useState(false)
+
+    const stockStatus = product.stockStatus
+    const isOutOfStock = stockStatus === "out"
+    const maxQuantity = Math.max(1, product.stockAvailable)
+    const atMaxQuantity = !isOutOfStock && quantity >= maxQuantity
 
     const productTranslation = product.translations[0]
     const subCategoryTranslation = product.subCategory.translations[0]
@@ -114,7 +119,22 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
 
         startTransition(async () => {
             try {
-                await addToCart(product.productId, quantity, selectedColorTemp as ProductColorTemp | undefined, surfaceColor)
+                const result = await addToCart(
+                    product.productId,
+                    quantity,
+                    selectedColorTemp as ProductColorTemp | undefined,
+                    surfaceColor
+                )
+
+                if (!result?.success) {
+                    toast.error(t("error"), {
+                        description: result?.error === "INSUFFICIENT_STOCK"
+                            ? t("insufficientStock")
+                            : t("failedToAddToCart"),
+                    })
+                    return
+                }
+
                 toast.success(t("addedToCart"), {
                     description: `${productName} ${t("addedToCart").toLowerCase()}`,
                 })
@@ -337,8 +357,6 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
         return a.label.localeCompare(b.label, isArabic ? "ar" : "en")
     })
 
-    const isOutOfStock = !product.inStock
-
     return (
         <main className="min-h-screen">
             <div className="border-b border-border py-24">
@@ -448,7 +466,7 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                 />
                             )}
                             <div className="space-y-5 pt-2">
-                                <div className="flex items-center gap-6">
+                                <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
                                     <span className="text-xs uppercase tracking-label text-muted-foreground font-light">
                                         {t("quantity")}
                                     </span>
@@ -458,7 +476,7 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                             size="icon"
                                             className="h-10 w-10 rounded-none hover:bg-muted"
                                             onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                                            disabled={isOutOfStock}
+                                            disabled={isOutOfStock || quantity <= 1}
                                             aria-label={t("decreaseQuantity")}
                                         >
                                             <Minus className="h-3.5 w-3.5" />
@@ -470,22 +488,39 @@ export default function ProductIdPage({ product, assurance }: ProductPageProps) 
                                             variant="ghost"
                                             size="icon"
                                             className="h-10 w-10 rounded-none hover:bg-muted"
-                                            onClick={() => setQuantity(quantity + 1)}
-                                            disabled={isOutOfStock}
+                                            onClick={() => setQuantity(Math.min(maxQuantity, quantity + 1))}
+                                            disabled={isOutOfStock || atMaxQuantity}
                                             aria-label={t("increaseQuantity")}
                                         >
                                             <Plus className="h-3.5 w-3.5" />
                                         </Button>
                                     </div>
-                                    {isOutOfStock ? (
-                                        <span className="text-xs text-danger font-medium">{t("outOfStock")}</span>
-                                    ) : (
-                                        <span className="inline-flex items-center gap-1.5 text-xs font-medium text-success">
-                                            <span aria-hidden className="size-1.5 rounded-full bg-success" />
-                                            {tm("assurance.inStock")}
-                                        </span>
-                                    )}
+                                    <StockIndicator status={stockStatus} available={product.stockAvailable} />
                                 </div>
+                                {atMaxQuantity && (
+                                    <p className="text-2xs font-light tracking-wide text-muted-foreground" role="status">
+                                        {t("maxAvailable", {
+                                            count: product.stockAvailable,
+                                            value: formatCount(product.stockAvailable, locale),
+                                        })}
+                                    </p>
+                                )}
+                                {isOutOfStock ? (
+                                    <div className="border border-danger-border bg-danger-bg/60 p-5 space-y-2">
+                                        <p className="text-xs uppercase tracking-label font-medium text-danger">
+                                            {t("outOfStock")}
+                                        </p>
+                                        <p className="text-sm font-light leading-relaxed text-muted-foreground">
+                                            {t("outOfStockBody")}
+                                        </p>
+                                        <Link
+                                            href={`/category/${categorySlug}/${subCategorySlug}`}
+                                            className="inline-block text-xs font-medium underline underline-offset-4 text-foreground"
+                                        >
+                                            {t("browseAlternatives")}
+                                        </Link>
+                                    </div>
+                                ) : null}
                                 <div className="flex flex-col sm:flex-row gap-3">
                                     <Button
                                         onClick={handleAddToCart}

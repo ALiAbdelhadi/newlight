@@ -94,6 +94,7 @@ export function SearchResults({ listing, query }: { listing: SearchListing; quer
                                     price={product.price}
                                     basePrice={product.basePrice}
                                     discountPercent={product.discountPercent}
+                                    stock={product.stockStatus}
                                     action={<CompareToggle sku={product.productId} />}
                                 />
                             </Link>

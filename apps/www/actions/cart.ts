@@ -48,6 +48,13 @@ export async function addToCart(
           error: "Product not found",
         }
       }
+
+      if (error.message === "INSUFFICIENT_STOCK") {
+        return {
+          success: false,
+          error: "INSUFFICIENT_STOCK",
+        }
+      }
     }
 
     return {
@@ -97,6 +104,13 @@ export async function updateCartItemQuantity(itemId: string, quantity: number) {
         return {
           success: false,
           error: "Invalid quantity",
+        }
+      }
+
+      if (error.message === "INSUFFICIENT_STOCK") {
+        return {
+          success: false,
+          error: "INSUFFICIENT_STOCK",
         }
       }
     }

@@ -3,6 +3,7 @@
 import { useLocale, useTranslations } from "next-intl"
 import { useState, type FormEvent } from "react"
 import { signUp } from "@/lib/auth-client"
+import { Link } from "@/i18n/navigation"
 import { AuthField, AuthMessage, AuthShell, AuthSubmit } from "./auth-form"
 
 const MIN_PASSWORD = 10
@@ -56,20 +57,47 @@ export function SignUpForm() {
             footer={
                 <span className="text-muted-foreground">
                     {t("haveAccount")}{" "}
-                    <a href={`/${locale}/sign-in`} className="text-primary transition-colors hover:text-primary/80">
+                    <Link
+                        href="/sign-in"
+                        className="text-primary underline-offset-4 transition-colors duration-(--duration-fast) hover:text-primary/80 hover:underline"
+                    >
                         {t("submitSignIn")}
-                    </a>
+                    </Link>
                 </span>
             }
         >
             <form onSubmit={onSubmit} noValidate>
                 <AuthMessage tone="error">{error}</AuthMessage>
-                <AuthField id="name" label={t("name")} autoComplete="name" />
-                <AuthField id="email" label={t("email")} type="email" autoComplete="email" />
-                <AuthField id="phoneNumber" label={t("phone")} type="tel" autoComplete="tel" required={false} />
-                <AuthField id="password" label={t("password")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} />
-                <AuthField id="confirmPassword" label={t("confirmPassword")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} />
-                <AuthSubmit pending={pending}>{pending ? t("working") : t("submitSignUp")}</AuthSubmit>
+                <AuthField id="name" label={t("name")} autoComplete="name" autoFocus />
+                <AuthField id="email" label={t("email")} type="email" autoComplete="email" dir="ltr" />
+                <AuthField
+                    id="phoneNumber"
+                    label={t("phone")}
+                    type="tel"
+                    autoComplete="tel"
+                    required={false}
+                    dir="ltr"
+                />
+                <AuthField
+                    id="password"
+                    label={t("password")}
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={MIN_PASSWORD}
+                    hint={t("passwordHint", { min: MIN_PASSWORD })}
+                    dir="ltr"
+                />
+                <AuthField
+                    id="confirmPassword"
+                    label={t("confirmPassword")}
+                    type="password"
+                    autoComplete="new-password"
+                    minLength={MIN_PASSWORD}
+                    dir="ltr"
+                />
+                <div className="mt-6">
+                    <AuthSubmit pending={pending}>{pending ? t("working") : t("submitSignUp")}</AuthSubmit>
+                </div>
             </form>
         </AuthShell>
     )

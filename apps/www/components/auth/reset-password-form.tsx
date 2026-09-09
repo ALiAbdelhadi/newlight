@@ -37,8 +37,8 @@ export function ResetPasswordForm({ token }: { token: string | null }) {
         <AuthShell title={t("forgotTitle")} subtitle={t("forgotSubtitle")}>
             <form onSubmit={onSubmit} noValidate>
                 <AuthMessage tone="error">{error}</AuthMessage>
-                <AuthField id="password" label={t("password")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} />
-                <AuthField id="confirmPassword" label={t("confirmPassword")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} />
+                <AuthField id="password" label={t("password")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} hint={t("passwordHint", { min: MIN_PASSWORD })} dir="ltr" autoFocus />
+                <AuthField id="confirmPassword" label={t("confirmPassword")} type="password" autoComplete="new-password" minLength={MIN_PASSWORD} dir="ltr" />
                 <AuthSubmit pending={pending || !token}>{pending ? t("working") : t("submitForgot")}</AuthSubmit>
             </form>
         </AuthShell>

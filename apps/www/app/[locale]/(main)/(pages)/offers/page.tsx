@@ -8,6 +8,7 @@ import { ProductCard } from "@/components/product-card"
 import { Link } from "@/i18n/navigation"
 import { constructMetadata } from "@/lib/metadata"
 import { allOffers } from "@/lib/services/offers-service"
+import { stockStatusOfLevels } from "@/lib/stock"
 
 export const revalidate = 900
 
@@ -99,6 +100,7 @@ export default async function OffersPage() {
                                             price={product.price}
                                             basePrice={product.basePrice}
                                             discountPercent={product.discountPercent}
+                                            stock={stockStatusOfLevels(product.stockLevels)}
                                         />
                                     </Link>
                                 ))}

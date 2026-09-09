@@ -1,4 +1,5 @@
 import {
+    availableQuantity,
     Cart,
     CartItem,
     type Locale,
@@ -111,6 +112,13 @@ export class CartService {
                 },
             })
 
+            const available = await availableQuantity(tx, product.id)
+            const requested = (existingItem?.quantity ?? 0) + quantity
+
+            if (requested > available) {
+                throw new Error("INSUFFICIENT_STOCK")
+            }
+
             let cartItem: CartItem
 
             if (existingItem) {
@@ -154,6 +162,11 @@ export class CartService {
 
         if (!cartItem) {
             throw new Error("CART_ITEM_NOT_FOUND")
+        }
+
+        const available = await availableQuantity(prisma, cartItem.productId)
+        if (quantity > available) {
+            throw new Error("INSUFFICIENT_STOCK")
         }
 
         const updatedItem = await prisma.cartItem.update({

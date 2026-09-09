@@ -90,7 +90,7 @@ export default async function Page({ params }: Props) {
                             images: view.images.map((image) => image.url),
                             url: productPath,
                             price: view.price,
-                            inStock: view.inStock,
+                            stock: view.stockStatus,
                             category: section?.name,
                             specs,
                         },

@@ -42,7 +42,9 @@ export function CartList({ items }: { items: CartItem[] }) {
         startTransition(async () => {
             apply({ type: "quantity", id: item.id, quantity })
             const result = await updateCartItemQuantity(item.id, quantity)
-            if (!result.success) toast.error(t("updateFailed"))
+            if (!result.success) {
+                toast.error(result.error === "INSUFFICIENT_STOCK" ? t("stockFailed") : t("updateFailed"))
+            }
         })
     }
 

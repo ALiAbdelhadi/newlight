@@ -3,6 +3,7 @@
 import { ProductCard } from "@/components/product-card"
 import { Link } from "@/i18n/navigation"
 import type { SerializedMoney } from "@repo/database"
+import type { StockStatus } from "@/lib/stock"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { useTranslations } from "next-intl"
 import { useRef } from "react"
@@ -18,6 +19,7 @@ export interface CarouselCard {
     price: SerializedMoney
     basePrice: SerializedMoney
     discountPercent: number
+    stock?: StockStatus
 }
 export interface CarouselGeometry {
     containerWidth: number
@@ -88,6 +90,7 @@ export function ProductCarousel({ products }: { products: CarouselCard[] }) {
                                 price={product.price}
                                 basePrice={product.basePrice}
                                 discountPercent={product.discountPercent}
+                                stock={product.stock}
                             />
                         </Link>
                     </li>

@@ -158,6 +158,7 @@ export default function SectionTypePage({ subCategory, categorySlug, siblings = 
                                                 discountPercent={product.discountPercent}
                                                 badge={product.isFeatured ? "Featured" : undefined}
                                                 specs={quickSpecs(product, subCategory.definitions, locale)}
+                                                stock={product.stockStatus}
                                                 action={<CompareToggle sku={product.productId} />}
                                             />
                                         </Link>

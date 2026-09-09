@@ -10,6 +10,7 @@ import {
 import { liveProduct, productCardInclude, productDetailInclude, productLinkedCardInclude, toCardView } from "./selectors"
 import { getLocaleOrDefault } from "../db"
 import { activeDiscounts } from "@/lib/discounts"
+import { availableOf, stockStatusOf } from "@/lib/stock"
 import { Product } from "@/types"
 import type { SpecificationSource } from "./shared-types"
 
@@ -330,6 +331,8 @@ export class ProductService {
             activeDiscounts(),
         ])
 
+        const available = availableOf(stock ? [stock] : [])
+
         return {
             ...toCardView(product, discounts),
             specs: product.specs.map((spec) => ({
@@ -337,7 +340,9 @@ export class ProductService {
                 valueNumber: spec.valueNumber === null ? null : serializeMoney(spec.valueNumber),
             })),
             variants,
-            inStock: Math.max(0, (stock?.onHand ?? 0) - (stock?.reserved ?? 0)) > 0,
+            inStock: available > 0,
+            stockAvailable: available,
+            stockStatus: stockStatusOf(available),
         }
     }
 

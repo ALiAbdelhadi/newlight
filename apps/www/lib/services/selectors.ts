@@ -71,6 +71,10 @@ export function productLinkedCardInclude(locale: Locale) {
     return {
         translations: translationsFor(locale),
         images: productImages,
+        stockLevels: {
+            where: { locationId: DEFAULT_LOCATION_ID },
+            select: { onHand: true, reserved: true },
+        },
         subCategory: {
             include: {
                 translations: translationsFor(locale),

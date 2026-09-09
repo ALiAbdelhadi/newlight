@@ -1,5 +1,7 @@
 import { DEFAULT_CURRENCY, type Locale, type SerializedMoney } from "@repo/database"
 
+import type { StockStatus } from "@/lib/stock"
+
 export const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://newlight-eg.com"
 
 export function absoluteUrl(path: string): string {
@@ -85,6 +87,12 @@ export function breadcrumbSchema(crumbs: Crumb[]): Thing {
     }
 }
 
+const AVAILABILITY: Record<StockStatus, string> = {
+    in: "https://schema.org/InStock",
+    low: "https://schema.org/LimitedAvailability",
+    out: "https://schema.org/OutOfStock",
+}
+
 export interface ProductSchemaInput {
     name: string
     description?: string | null
@@ -92,7 +100,7 @@ export interface ProductSchemaInput {
     images: string[]
     url: string
     price: SerializedMoney
-    inStock: boolean
+    stock: StockStatus
     category?: string
     specs?: Array<{ label: string; value: string }>
 }
@@ -123,9 +131,7 @@ export function productSchema(input: ProductSchemaInput, locale: Locale): Thing 
             url,
             price: input.price,
             priceCurrency: DEFAULT_CURRENCY,
-            availability: input.inStock
-                ? "https://schema.org/InStock"
-                : "https://schema.org/OutOfStock",
+            availability: AVAILABILITY[input.stock],
             acceptedPaymentMethod: {
                 "@type": "PaymentMethod",
                 name: "http://purl.org/goodrelations/v1#COD",

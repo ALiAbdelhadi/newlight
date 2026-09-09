@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation"
 import { useLocale, useTranslations } from "next-intl"
 import { useState, type FormEvent } from "react"
 import { signIn } from "@/lib/auth-client"
+import { Link } from "@/i18n/navigation"
 import { AuthField, AuthMessage, AuthShell, AuthSubmit } from "./auth-form"
 
 export function SignInForm({ redirectTo }: { redirectTo?: string }) {
@@ -45,23 +46,37 @@ export function SignInForm({ redirectTo }: { redirectTo?: string }) {
             title={t("signInTitle")}
             subtitle={t("signInSubtitle")}
             footer={
-                <div className="flex flex-col gap-2">
-                    <a href={`/${locale}/forgot-password`} className="text-primary transition-colors hover:text-primary/80">
-                        {t("forgotLink")}
-                    </a>
-                    <span className="text-muted-foreground">
-                        {t("noAccount")}{" "}
-                        <a href={`/${locale}/sign-up`} className="text-primary transition-colors hover:text-primary/80">
-                            {t("submitSignUp")}
-                        </a>
-                    </span>
-                </div>
+                <span className="text-muted-foreground">
+                    {t("noAccount")}{" "}
+                    <Link
+                        href="/sign-up"
+                        className="text-primary underline-offset-4 transition-colors duration-(--duration-fast) hover:text-primary/80 hover:underline"
+                    >
+                        {t("submitSignUp")}
+                    </Link>
+                </span>
             }
         >
             <form onSubmit={onSubmit} noValidate>
                 <AuthMessage tone="error">{error}</AuthMessage>
-                <AuthField id="email" label={t("email")} type="email" autoComplete="email" />
-                <AuthField id="password" label={t("password")} type="password" autoComplete="current-password" />
+                <AuthField id="email" label={t("email")} type="email" autoComplete="email" dir="ltr" autoFocus />
+                <AuthField
+                    id="password"
+                    label={t("password")}
+                    type="password"
+                    autoComplete="current-password"
+                    dir="ltr"
+                />
+
+                <div className="mb-6 -mt-1 flex justify-end">
+                    <Link
+                        href="/forgot-password"
+                        className="text-xs text-muted-foreground underline-offset-4 transition-colors duration-(--duration-fast) ltr:tracking-wide hover:text-foreground hover:underline"
+                    >
+                        {t("forgotLink")}
+                    </Link>
+                </div>
+
                 <AuthSubmit pending={pending}>{pending ? t("working") : t("submitSignIn")}</AuthSubmit>
             </form>
         </AuthShell>

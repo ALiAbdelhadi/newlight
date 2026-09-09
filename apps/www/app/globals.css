@@ -192,9 +192,6 @@
   --duration-fast: 120ms;
   --duration-base: 180ms;
   --duration-slow: 400ms;
-  --duration-hero: 950ms;
-  --duration-hero-media: 1500ms;
-  --duration-hero-drift: 24s;
 }
 
 .dark {
@@ -320,34 +317,13 @@
     filter: grayscale(0.6);
   }
 
-  .hero-in {
-    animation: hero-rise var(--duration-hero) var(--ease-out-fast) var(--hero-delay, 0ms) backwards;
+  .hero-anim {
+    opacity: 0;
   }
 
-  .hero-media {
-    animation:
-      hero-settle var(--duration-hero-media) var(--ease-out-fast) var(--hero-delay, 0ms) backwards,
-      hero-drift var(--duration-hero-drift) var(--ease-standard) 1500ms infinite alternate;
-  }
-
-  @keyframes hero-rise {
-    from {
-      opacity: 0;
-      translate: 0 1.25rem;
-    }
-  }
-
-  @keyframes hero-settle {
-    from {
-      opacity: 0;
-      scale: 1.05;
-    }
-  }
-
-  @keyframes hero-drift {
-    to {
-      scale: 1.04;
-      translate: 0 -1%;
+  @media (prefers-reduced-motion: reduce) {
+    .hero-anim {
+      opacity: 1;
     }
   }
 }
@@ -360,10 +336,5 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
-  }
-
-  .hero-in,
-  .hero-media {
-    animation: none !important;
   }
 }

@@ -1,119 +1,122 @@
 import Image from "@/components/app-image"
-import { getLocale, getTranslations } from "next-intl/server"
-
-import { encodeSlug, resolveLocale } from "@repo/database"
-
+import { DirectionalArrow } from "@/components/directional-arrow"
 import { Link } from "@/i18n/navigation"
 import { CategoryService } from "@/lib/services/category-service"
-import { DirectionalArrow } from "@/components/directional-arrow"
-import { cn } from "@/lib/utils"
+import { encodeSlug, resolveLocale } from "@repo/database"
+import { getLocale, getTranslations } from "next-intl/server"
+import { HeroMotion } from "./hero-motion"
 
-const TILE_IMAGE = ["/category/indoor-lighting-1.png", "/category/outdoor-lighting-1.png"]
+const TILE_FALLBACK = "/category/indoor-lighting-1.png"
 
 export async function Hero() {
     const t = await getTranslations("hero-section")
     const locale = resolveLocale(await getLocale())
 
-    const categories = (await CategoryService.getAllCategories(locale)).slice(0, 2)
+    const [category] = await CategoryService.getAllCategories(locale)
+    const categoryTranslation = category?.translations[0]
+    const categoryHref = categoryTranslation ? `/category/${encodeSlug(categoryTranslation.slug)}` : "/category"
+    const categoryImage = category?.imageUrl || TILE_FALLBACK
 
     return (
-        <>
+        <HeroMotion>
             <section className="-mt-16 grid min-h-[80svh] grid-cols-1 border-b pt-16 lg:grid-cols-12">
-                <div className="order-2 flex flex-col justify-center px-5 py-14 lg:order-1 lg:col-span-5 lg:px-12 lg:py-24 xl:px-16">
-                    <div className="max-w-xl">
-                        <h1 className="hero-in font-display text-5xl leading-[1.05] text-balance italic [--hero-delay:120ms] md:text-6xl lg:text-6xl xl:text-7xl">
-                            {t("illuminate")}
-                        </h1>
-                        <p className="hero-in mt-5 text-sm font-medium tracking-hero text-muted-foreground uppercase [--hero-delay:260ms]">
-                            {t("inspirationGlow")}
-                        </p>
-
-                        <div className="hero-in mt-10 flex flex-wrap gap-3 [--hero-delay:400ms]">
-                            <Link
-                                href="/category"
-                                className="group inline-flex h-12 items-center gap-2 rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground transition-colors duration-(--duration-fast) hover:bg-primary/90"
-                            >
-                                {t("browseCatalogue")}
-                                <DirectionalArrow />
-                            </Link>
-                            <Link
-                                href="/technical-resources"
-                                className="inline-flex h-12 items-center rounded-md border border-border-strong px-6 text-sm font-medium transition-colors duration-(--duration-fast) hover:bg-accent"
-                            >
-                                {t("technicalResources")}
-                            </Link>
+                <div data-hero-media className="hero-anim relative min-h-[48svh] overflow-hidden lg:col-span-7 lg:min-h-0">
+                    <div data-hero-image className="absolute inset-0 will-change-transform">
+                        <Image
+                            src="/hero/hero.jpg"
+                            alt=""
+                            fill
+                            priority
+                            sizes="(max-width: 1024px) 100vw, 58vw"
+                            className="object-cover object-center"
+                        />
+                    </div>
+                    <div
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 bg-linear-to-r from-black/80 via-black/45 via-55% to-black/10 rtl:bg-gradient-to-l"
+                    />
+                    <div
+                        data-hero-text
+                        className="hero-anim relative z-10 flex h-full flex-col justify-center px-5 py-20 sm:px-12 lg:px-16 xl:px-20"
+                    >
+                        <div className="max-w-2xl space-y-5">
+                            <h1 className="font-display text-5xl leading-[0.95] text-balance text-on-media italic md:text-6xl xl:text-7xl">
+                                {t("illuminate")}
+                            </h1>
+                            <p className="text-sm font-medium text-on-media-muted uppercase ltr:tracking-hero md:text-base">
+                                {t("inspirationGlow")}
+                            </p>
                         </div>
                     </div>
                 </div>
-
-                <div className="relative order-1 min-h-[42svh] overflow-hidden lg:order-2 lg:col-span-7 lg:min-h-0">
-                    <Image
-                        src="/hero/hero.jpg"
-                        alt=""
-                        fill
-                        priority
-                        sizes="(max-width: 1024px) 100vw, 58vw"
-                        className="hero-media object-cover object-center"
-                    />
+                <div className="flex flex-col bg-card lg:col-span-5">
                     <div
-                        aria-hidden
-                        className="pointer-events-none absolute inset-0 bg-background/8 bg-gradient-to-t from-background/45 via-background/8 to-transparent"
-                    />
+                        data-hero-inspiration
+                        className="hero-anim flex flex-1 items-center justify-center border-b p-12 lg:p-16"
+                    >
+                        <div className="space-y-5 text-center">
+                            <h2 className="font-display text-5xl leading-tight italic lg:text-6xl">{t("inspiration")}</h2>
+                            <div aria-hidden className="mx-auto h-px w-12 bg-primary" />
+                        </div>
+                    </div>
+                    <div className="grid flex-1 grid-cols-2">
+                        <div
+                            data-hero-links
+                            className="hero-anim flex flex-col justify-center border-e p-6 transition-colors duration-(--duration-slow) hover:bg-muted/40 sm:p-8 lg:p-12"
+                        >
+                            <div className="space-y-8">
+                                <Link href="/technical-resources" className="group block">
+                                    <p className="mb-2 text-base font-medium transition-colors duration-(--duration-fast) group-hover:text-primary">
+                                        {t("technicalResources")
+                                            .split(" ")
+                                            .map((word) => (
+                                                <span key={word} className="block">
+                                                    {word}
+                                                </span>
+                                            ))}
+                                    </p>
+                                    <div
+                                        aria-hidden
+                                        className="h-px w-8 bg-border-strong transition-all duration-(--duration-slow) group-hover:w-full group-hover:bg-primary motion-reduce:transition-none"
+                                    />
+                                </Link>
+                                <Link href="/about" className="group block">
+                                    <p className="mb-2 text-base font-medium transition-colors duration-(--duration-fast) group-hover:text-primary">
+                                        <span className="block">{t("weAre")}</span>
+                                        <span className="block font-display text-lg italic">{t("weAreNewLight")}</span>
+                                    </p>
+                                    <div
+                                        aria-hidden
+                                        className="h-px w-8 bg-border-strong transition-all duration-(--duration-slow) group-hover:w-full group-hover:bg-primary motion-reduce:transition-none"
+                                    />
+                                </Link>
+                            </div>
+                        </div>
+                        <Link
+                            href={categoryHref}
+                            data-hero-tile
+                            className="hero-anim group relative flex min-h-[28svh] overflow-hidden"
+                        >
+                            <Image
+                                src={categoryImage}
+                                alt=""
+                                fill
+                                sizes="(max-width: 1024px) 50vw, 21vw"
+                                className="object-cover transition-transform duration-(--duration-slow) group-hover:scale-105 motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                            />
+                            <div aria-hidden className="absolute inset-0 bg-linear-to-t from-black/80 via-black/25 to-black/5" />
+                            <div
+                                aria-hidden
+                                className="absolute inset-0 bg-primary/20 opacity-0 transition-opacity duration-(--duration-slow) group-hover:opacity-100"
+                            />
+                            <span className="relative z-10 mt-auto flex w-full items-center justify-between gap-3 p-6 lg:p-8">
+                                <span className="font-display text-2xl text-on-media italic lg:text-3xl">{t("category")}</span>
+                                <DirectionalArrow variant="circled" className="border-on-media/40 text-on-media" />
+                            </span>
+                        </Link>
+                    </div>
                 </div>
             </section>
-
-            {categories.length > 0 && (
-                <section aria-label={t("browseCatalogue")} className="grid grid-cols-1 border-b sm:grid-cols-2">
-                    {categories.map((category, index) => {
-                        const translation = category.translations[0]
-                        if (!translation) return null
-                        return (
-                            <HeroTile
-                                key={category.id}
-                                href={`/category/${encodeSlug(translation.slug)}`}
-                                image={category.imageUrl || TILE_IMAGE[index] || TILE_IMAGE[0]!}
-                                label={translation.name}
-                                delayClassName={index === 0 ? "[--hero-delay:540ms]" : "[--hero-delay:660ms]"}
-                            />
-                        )
-                    })}
-                </section>
-            )}
-        </>
-    )
-}
-
-function HeroTile({
-    href,
-    image,
-    label,
-    delayClassName,
-}: {
-    href: string
-    image: string
-    label: string
-    delayClassName: string
-}) {
-    return (
-        <Link
-            href={href}
-            className={cn(
-                "hero-in group relative flex min-h-[34svh] overflow-hidden border-b last:border-b-0 sm:border-b-0 sm:not-first:border-s",
-                delayClassName
-            )}
-        >
-            <Image
-                src={image}
-                alt=""
-                fill
-                sizes="(max-width: 1024px) 100vw, 42vw"
-                className="object-cover transition-transform duration-(--duration-slow) group-hover:scale-[1.03] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-            />
-            <div aria-hidden className="absolute inset-0 bg-gradient-to-t from-foreground/70 to-transparent" />
-            <span className="relative z-10 mt-auto flex w-full items-center justify-between gap-4 p-6 lg:p-8">
-                <span className="font-display text-2xl text-background italic lg:text-3xl">{label}</span>
-                <DirectionalArrow variant="circled" className="border-background/40 text-background" />
-            </span>
-        </Link>
+        </HeroMotion>
     )
 }

@@ -1,6 +1,7 @@
 import { resolveEffectivePrice, resolveLocale } from "@repo/database";
 import { activeDiscounts } from "@/lib/discounts";
 import { ProductService } from "@/lib/services/product-service";
+import { stockStatusOfLevels } from "@/lib/stock";
 import { getLocale } from "next-intl/server";
 import { Products, type UIProduct } from "./products";
 
@@ -41,6 +42,7 @@ export default async function productsSection() {
         slug: product.slug,
         categorySlug: product.subCategory.category.translations[0]?.slug ?? "",
         subCategorySlug: product.subCategory.translations[0]?.slug ?? "",
+        stock: stockStatusOfLevels(product.stockLevels),
       }
     })
 

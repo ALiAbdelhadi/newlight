@@ -1,5 +1,6 @@
 import { PLACEHOLDER, type Locale, type ProductColorTemp } from "@repo/database"
 
+import { availableOf, stockStatusOf, type StockStatus } from "@/lib/stock"
 import type { CardView, ProductListCard } from "./selectors"
 
 export type SortKey = "featured" | "price-asc" | "price-desc" | "newest"
@@ -40,6 +41,7 @@ export interface ListingProduct {
     colorKeys: string[]
     specs: Record<string, string[]>
     available: boolean
+    stockStatus: StockStatus
     createdAt: string
     isFeatured: boolean
 }
@@ -62,13 +64,12 @@ export function toListingProduct(
     const temps = new Set<ProductColorTemp>()
     const colors = new Set<string>()
     const specs = new Map<string, Set<string>>()
-    let available = false
+    let availableQuantity = 0
 
     for (const member of family) {
         for (const temp of member.colorTemperatures) temps.add(temp)
         for (const entry of member.availableColors) colors.add(entry.color.key)
-        const level = member.stockLevels[0]
-        if (level && level.onHand - level.reserved > 0) available = true
+        availableQuantity += availableOf(member.stockLevels)
 
         for (const [key, value] of specValuesOf(member.specs, locale)) {
             const values = specs.get(key) ?? new Set<string>()
@@ -95,7 +96,8 @@ export function toListingProduct(
         ),
         colorKeys: [...colors],
         specs: Object.fromEntries([...specs].map(([key, values]) => [key, [...values]])),
-        available,
+        available: availableQuantity > 0,
+        stockStatus: stockStatusOf(availableQuantity),
         createdAt: row.createdAt.toISOString(),
         isFeatured: row.isFeatured,
     }

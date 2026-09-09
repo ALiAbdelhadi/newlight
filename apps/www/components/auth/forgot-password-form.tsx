@@ -29,7 +29,7 @@ export function ForgotPasswordForm() {
                 <AuthMessage tone="success">{t("resetSent")}</AuthMessage>
             ) : (
                 <form onSubmit={onSubmit} noValidate>
-                    <AuthField id="email" label={t("email")} type="email" autoComplete="email" />
+                    <AuthField id="email" label={t("email")} type="email" autoComplete="email" dir="ltr" autoFocus />
                     <AuthSubmit pending={pending}>{pending ? t("working") : t("submitForgot")}</AuthSubmit>
                 </form>
             )}

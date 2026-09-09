@@ -1,6 +1,7 @@
 import { encodeSlug, prisma, type ActiveDiscount, type Locale, type SerializedMoney } from "@repo/database"
 
 import { activeDiscounts } from "@/lib/discounts"
+import { stockStatusOfLevels, type StockStatus } from "@/lib/stock"
 import { CategoryService } from "./category-service"
 import { allOffers } from "./offers-service"
 import { ProductService } from "./product-service"
@@ -18,6 +19,7 @@ export interface StripCard {
     price: SerializedMoney
     basePrice: SerializedMoney
     discountPercent: number
+    stock: StockStatus
 }
 
 const FALLBACK_IMAGE = "/lighting-product.jpg"
@@ -37,6 +39,7 @@ function fromPricedRow(row: PricedLinkedRow): StripCard {
         price: row.price,
         basePrice: row.basePrice,
         discountPercent: row.discountPercent,
+        stock: stockStatusOfLevels(row.stockLevels),
     }
 }
 

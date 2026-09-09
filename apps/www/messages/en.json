@@ -937,7 +937,13 @@
     "invalidQuantity": "Invalid quantity",
     "decreaseQuantity": "Decrease Quantity",
     "increaseQuantity": "Increase Quantity",
-    "viewImage": "View Product Image"
+    "viewImage": "View Product Image",
+    "outOfStockBody": "This product is sold out right now. Ask our team about the next restock, or request a bulk quote below.",
+    "browseAlternatives": "Browse similar products",
+    "maxAvailable": "{count, plural, =1 {1 piece available — that is all we hold right now.} other {{value} pieces available — that is all we hold right now.}}",
+    "error": "Something went wrong",
+    "failedToAddToCart": "We could not add this product to your cart.",
+    "insufficientStock": "There is not enough stock left for that quantity."
   },
   "preview": {
     "home": "Home",
@@ -1149,7 +1155,12 @@
     "welcomeBack": "Welcome back",
     "welcomeBackBody": "Sign in to track your orders and reorder in a couple of taps.",
     "joinUs": "Join us",
-    "joinUsBody": "Create an account to order, track delivery and keep your details for next time."
+    "joinUsBody": "Create an account to order, track delivery and keep your details for next time.",
+    "optional": "Optional",
+    "showPassword": "Show password",
+    "hidePassword": "Hide password",
+    "capsLock": "Caps Lock is on.",
+    "passwordHint": "At least {min} characters."
   },
   "orders-page": {
     "title": "My Orders | New Light",
@@ -1233,7 +1244,8 @@
     "updateFailed": "The quantity could not be changed. Please try again.",
     "removeFailed": "The item could not be removed. Please try again.",
     "shippingFrom": "From {amount}",
-    "beforeShipping": "Before shipping"
+    "beforeShipping": "Before shipping",
+    "stockFailed": "Not enough stock left for that quantity."
   },
   "account": {
     "eyebrow": "Account",
@@ -1373,5 +1385,12 @@
     "sentBody": "Our sales team will be in touch with pricing.",
     "failed": "That did not send",
     "failedBody": "Please try again, or call us directly."
+  },
+  "stock": {
+    "in": "In stock",
+    "out": "Out of stock",
+    "lowShort": "Low stock",
+    "lowCount": "{count, plural, =1 {Only 1 left} other {Only {value} left}}",
+    "lowHint": "Selling fast — order soon to secure yours."
   }
 }
