@@ -7,7 +7,8 @@ import { CategoryService } from "@/lib/services/category-service"
 import { offersForSection } from "@/lib/services/offers-service"
 import { OfferBanner } from "@/components/offer-banner"
 import { constructMetadata } from "@/lib/metadata"
-import { allTaxonomyPaths } from "@/lib/services/taxonomy"
+import { createSubCategoryCanonicalUrl } from "@/lib/canonical-url"
+import { allTaxonomyPaths, alternateCategorySlug, alternateSubCategorySlug } from "@/lib/services/taxonomy"
 import SubCategoryPage from "./sub-category-page"
 
 export const revalidate = 7200
@@ -38,16 +39,32 @@ async function load(params: Props["params"]) {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-    const { view, locale } = await load(params)
+    const { view, locale, categorySlug } = await load(params)
     const t = await getTranslations("metadatas.section-type-page")
     const translation = view.translations[0]
     const name = translation?.name ?? ""
     const categoryName = view.category.translations[0]?.name ?? ""
+    const otherLocale = locale === "ar" ? "en" : "ar"
+    const [otherCategorySlug, otherSubCategorySlug] = await Promise.all([
+        alternateCategorySlug(view.category.id, otherLocale),
+        alternateSubCategorySlug(view.id, otherLocale),
+    ])
 
     return constructMetadata({
         title: t("title", { section: name, category: categoryName }),
         description: translation?.description || t("description", { section: name, category: categoryName }),
         locale,
+        canonicalUrl: createSubCategoryCanonicalUrl({ locale, categorySlug, subCategorySlug: translation?.slug ?? "" }),
+        alternateUrls:
+            otherCategorySlug && otherSubCategorySlug
+                ? {
+                      [otherLocale]: createSubCategoryCanonicalUrl({
+                          locale: otherLocale,
+                          categorySlug: otherCategorySlug,
+                          subCategorySlug: otherSubCategorySlug,
+                      }),
+                  }
+                : undefined,
         image: view.imageUrl ?? undefined,
     })
 }

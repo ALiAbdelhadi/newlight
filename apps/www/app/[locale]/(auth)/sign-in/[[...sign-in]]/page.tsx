@@ -1,8 +1,25 @@
 import { Suspense } from "react"
-import { getTranslations } from "next-intl/server"
+import type { Metadata } from "next"
+import { getLocale, getTranslations } from "next-intl/server"
+import { resolveLocale } from "@repo/database"
 
 import { AuthSplit } from "@/components/auth/auth-split"
 import { ThemedSignIn } from "@/components/theme-sign-in"
+import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
+
+export async function generateMetadata(): Promise<Metadata> {
+    const t = await getTranslations("auth")
+    const locale = resolveLocale(await getLocale())
+    return constructMetadata({
+        title: t("signInTitle"),
+        description: t("signInSubtitle"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "sign-in" }),
+        // Also blocked in robots.txt; noindex is belt-and-suspenders for a link-only path in.
+        noIndex: true,
+    })
+}
 
 export default async function SignInPage() {
     const t = await getTranslations("auth")

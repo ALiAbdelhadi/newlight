@@ -113,6 +113,7 @@ export async function allTaxonomyPaths(locale: Locale) {
             select: {
                 slug: true,
                 updatedAt: true,
+                subCategoryId: true,
                 subCategory: { select: { category: { select: { translations: { where: { locale }, select: { slug: true } } } } } },
             },
         }),

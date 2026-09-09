@@ -59,6 +59,7 @@
         "catalog:restore": "node scripts/with-env.mjs tsx scripts/export-catalog.ts restore",
         "seed:super-admin": "node scripts/with-env.mjs tsx scripts/seed-super-admin.ts",
         "admin:reset-password": "node scripts/with-env.mjs tsx scripts/reset-admin-password.ts",
+        "purge:demo": "node scripts/with-env.mjs tsx scripts/purge-demo-data.ts",
         "test": "vitest run",
         "media:sync": "node scripts/with-env.mjs tsx scripts/media-sync.ts",
         "media:sync:dry": "node scripts/with-env.mjs --read-only tsx scripts/media-sync.ts --dry",

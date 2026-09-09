@@ -29,23 +29,64 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         LOCALES.map(async (locale) => ({ locale, ...(await allTaxonomyPaths(locale)) }))
     )
 
+    // categoryId/subCategoryId are stable across locales; a slug is not — this indexes every
+    // locale's slug by that id so each entry's sitemap-level hreflang (`alternates.languages`)
+    // can point at the same entity's actual URL in the other language, the same rule the page
+    // metadata's hreflang follows (see alternateCategorySlug/alternateSubCategorySlug).
+    const categorySlugById = new Map<string, Partial<Record<Locale, string>>>()
+    const subCategorySlugById = new Map<string, Partial<Record<Locale, string>>>()
     for (const { locale, categories, subCategories } of byLocale) {
         for (const category of categories) {
+            const byLocaleSlug = categorySlugById.get(category.categoryId) ?? {}
+            byLocaleSlug[locale] = category.slug
+            categorySlugById.set(category.categoryId, byLocaleSlug)
+        }
+        for (const subCategory of subCategories) {
+            const byLocaleSlug = subCategorySlugById.get(subCategory.subCategoryId) ?? {}
+            byLocaleSlug[locale] = subCategory.slug
+            subCategorySlugById.set(subCategory.subCategoryId, byLocaleSlug)
+        }
+    }
+
+    for (const { locale, categories, subCategories } of byLocale) {
+        for (const category of categories) {
+            const languages = categorySlugById.get(category.categoryId)
             entries.push({
                 url: url(base, locale, `/category/${category.slug}`),
                 lastModified: category.updatedAt,
                 changeFrequency: "weekly",
                 priority: 0.8,
+                ...(languages
+                    ? { alternates: { languages: Object.fromEntries(
+                          Object.entries(languages).map(([lng, slug]) => [lng, url(base, lng as Locale, `/category/${slug}`)])
+                      ) } }
+                    : {}),
             })
         }
         for (const subCategory of subCategories) {
             const categorySlug = subCategory.subCategory.category.translations[0]?.slug
             if (!categorySlug) continue
+            const languages = subCategorySlugById.get(subCategory.subCategoryId)
+            const categoryLanguages = categorySlugById.get(
+                categories.find((c) => c.slug === categorySlug)?.categoryId ?? ""
+            )
             entries.push({
                 url: url(base, locale, `/category/${categorySlug}/${subCategory.slug}`),
                 lastModified: subCategory.updatedAt,
                 changeFrequency: "weekly",
                 priority: 0.8,
+                ...(languages && categoryLanguages
+                    ? {
+                          alternates: {
+                              languages: Object.fromEntries(
+                                  Object.entries(languages).flatMap(([lng, subSlug]) => {
+                                      const catSlug = categoryLanguages[lng as Locale]
+                                      return catSlug ? [[lng, url(base, lng as Locale, `/category/${catSlug}/${subSlug}`)]] : []
+                                  })
+                              ),
+                          },
+                      }
+                    : {}),
             })
         }
     }

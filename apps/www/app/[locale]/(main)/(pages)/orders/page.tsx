@@ -7,6 +7,7 @@ import { Link } from "@/i18n/navigation"
 import { currentUserId } from "@/lib/auth"
 import { UserService } from "@/lib/services/user-service"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { Container, PageHeader } from "@/components/layout/section"
 import { Button } from "@/components/ui/button"
 import { EmptyState } from "@/components/states"
@@ -21,7 +22,14 @@ const PAGE_SIZE = 10
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("metadatas.orders-page")
     const locale = (await getLocale()) as SupportedLanguage
-    return constructMetadata({ title: t("title"), description: t("description"), locale })
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "orders" }),
+        // Requires sign-in (see the redirect below) and is different for every visitor.
+        noIndex: true,
+    })
 }
 
 export default async function OrdersPage({ searchParams }: { searchParams: Promise<{ page?: string }> }) {

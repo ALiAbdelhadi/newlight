@@ -1,5 +1,6 @@
 import { getOrderDetails } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { SupportedLanguage } from "@/types"
 import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
@@ -15,10 +16,12 @@ interface CompletePageProps {
 }
 
 type MetadataProps = {
+    params: Promise<{ configId: string }>
     searchParams: Promise<{ orderId?: string }>
 }
 
-export async function generateMetadata({ searchParams }: MetadataProps): Promise<Metadata> {
+export async function generateMetadata({ params, searchParams }: MetadataProps): Promise<Metadata> {
+    const { configId } = await params
     const { orderId } = await searchParams
     const locale = await getLocale() as SupportedLanguage
     const t = await getTranslations("metadatas.complete")
@@ -38,6 +41,10 @@ export async function generateMetadata({ searchParams }: MetadataProps): Promise
         title: t("title", { orderNumber: order.orderNumber }),
         description: t("description", { orderNumber: order.orderNumber }),
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: `complete/${configId}` }),
+        // A one-time order receipt behind an unguessable id; robots.txt already disallows
+        // the whole /complete/ tree.
+        noIndex: true,
         image: productImage
     })
 }

@@ -7,6 +7,8 @@ import { Globe, X } from "lucide-react"
 import { useLocale, useTranslations } from "next-intl"
 import { useState, useTransition } from "react"
 
+import { localizedPathFor } from "@/actions/locale"
+
 type LanguageCode = "en" | "ar"
 
 interface Language {
@@ -51,25 +53,20 @@ export function LanguageSelector() {
             return
         }
 
-        startTransition(() => {
-            const segments = pathname.split('/').filter(Boolean)
-            if (segments[0] === currentLocale) {
-                segments.shift()
-            }
-
-            const newPath = segments.length > 0
-                ? `/${languageCode}/${segments.join('/')}`
-                : `/${languageCode}`
-
+        // A category or product page carries a locale-specific slug in its own language —
+        // swapping only the /en//ar prefix on those pages would land on a URL that 404s, so
+        // the real path is resolved server-side (see actions/locale.ts) instead of guessed here.
+        startTransition(async () => {
             const newLanguage = LANGUAGES.find(lang => lang.code === languageCode)
             if (newLanguage) {
                 document.documentElement.dir = newLanguage.dir
                 document.documentElement.lang = languageCode
             }
 
+            const newPath = await localizedPathFor(pathname, languageCode)
             router.push(newPath)
-            setOpen(false)
         })
+        setOpen(false)
     }
 
     return (

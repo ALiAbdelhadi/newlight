@@ -768,7 +768,9 @@
           "max": "Phone number must not exceed 15 digits",
           "invalid": "Please enter a valid phone number"
         }
-      }
+      },
+      "successDescription": "We received your message and will get back to you within one business day.",
+      "errorDescription": "Please try again, or reach us by phone or email."
     },
     "footer": {
       "languages": "Available in Arabic & English",

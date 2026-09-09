@@ -1,4 +1,5 @@
 import { constructMetadata } from "@/lib/metadata";
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { getLocale, getTranslations } from "next-intl/server";
 import { PrivacyClient } from "./privacy";
 import { SupportedLanguage } from "@/types";
@@ -10,6 +11,7 @@ export async function generateMetadata() {
         title: t("title"),
         description: t("description"),
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "privacy" }),
     });
 }
 

@@ -2,6 +2,7 @@ import { serializeMoney } from "@repo/database"
 import { getConfiguration } from "@/actions/configuration"
 import { getProductWithDetails, getUserShippingAddress } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { SupportedLanguage } from "@/types"
 import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
@@ -32,15 +33,19 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
             title: t("defaultTitle"),
             description: t("defaultDescription"),
             locale: locale as SupportedLanguage,
+            canonicalUrl: createPageCanonicalUrl({ locale, path: `confirm/${configId}` }),
+            noIndex: true,
         })
     }
 
-    const product = await getProductWithDetails(configuration.productId, locale)
+    const product = await getProductWithDetails(configuration.productSku, locale)
     if (!product) {
         return constructMetadata({
             title: t("defaultTitle"),
             description: t("defaultDescription"),
             locale: locale as SupportedLanguage,
+            canonicalUrl: createPageCanonicalUrl({ locale, path: `confirm/${configId}` }),
+            noIndex: true,
         })
     }
 
@@ -53,6 +58,10 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         description: t("description", { product: productName }),
         image: productImage,
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: `confirm/${configId}` }),
+        // A one-time checkout step behind an unguessable id; robots.txt already disallows
+        // the whole /confirm/ tree.
+        noIndex: true,
     })
 }
 
@@ -77,7 +86,7 @@ export default async function ConfirmPage({ params }: ConfirmPageProps) {
         notFound()
     }
 
-    const product = await getProductWithDetails(configuration.productId, locale)
+    const product = await getProductWithDetails(configuration.productSku, locale)
     if (!product) {
         notFound()
     }

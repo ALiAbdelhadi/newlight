@@ -2,6 +2,7 @@ import { getLocale, getTranslations } from "next-intl/server"
 import { resolveLocale } from "@repo/database"
 import { CategoryService } from "@/lib/services/category-service"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import CategoriesSection from "./category"
 
 export const revalidate = 14400
@@ -9,7 +10,12 @@ export const revalidate = 14400
 export async function generateMetadata() {
     const t = await getTranslations("metadatas.category-page")
     const locale = resolveLocale(await getLocale())
-    return constructMetadata({ title: t("title"), description: t("description"), locale })
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "category" }),
+    })
 }
 
 export default async function CategoriesPage() {

@@ -18,6 +18,8 @@ export function formatCartItem(item: CartRow, discounts: readonly ActiveDiscount
     const subCategoryTranslation = item.product.subCategory.translations[0]
     const categoryTranslation = item.product.subCategory.category.translations[0]
     const priced = resolveEffectivePrice(item.product.price, item.product, discounts)
+    const categorySlug = categoryTranslation?.slug ?? ""
+    const subCategorySlug = subCategoryTranslation?.slug ?? ""
 
     return {
         id: item.id,
@@ -29,7 +31,10 @@ export function formatCartItem(item: CartRow, discounts: readonly ActiveDiscount
         discountPercent: priced.percentOff,
         quantity: item.quantity,
         subCategory: subCategoryTranslation?.name || "N/A",
-        categorySlug: categoryTranslation?.slug ?? "",
+        categorySlug,
+        subCategorySlug,
+        productSlug: item.product.slug,
+        href: `/category/${categorySlug}/${subCategorySlug}/${item.product.slug}`,
         category: categoryTranslation?.name || "N/A",
         selectedColorTemp: item.selectedColorTemp,
         selectedColorKey: item.selectedColorKey,

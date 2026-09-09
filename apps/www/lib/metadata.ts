@@ -12,6 +12,7 @@ export function constructMetadata({
     keywords,
     noIndex = false,
     canonicalUrl,
+    alternateUrls,
 }: {
     title?: string
     description?: string
@@ -23,6 +24,13 @@ export function constructMetadata({
     keywords?: string
     noIndex?: boolean
     canonicalUrl?: string
+    /**
+     * The exact `/locale/path` for each language, when a page's path isn't the same string
+     * in both — a category, sub-category or product page, where the slug itself is
+     * translated. Swapping the locale prefix on `canonicalUrl` (the fallback below) would
+     * keep the untranslated slug and point hreflang at a URL that doesn't exist.
+     */
+    alternateUrls?: Partial<Record<SupportedLanguage, string>>
 } = {}): Metadata {
     const defaultTitles: Record<SupportedLanguage, string> = {
         en: "New Light Company - Professional Lighting Solutions",
@@ -130,12 +138,16 @@ export function constructMetadata({
         alternates: {
             canonical: fullUrl,
             languages: {
-                en: canonicalUrl
-                    ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/en')}`
-                    : `${baseUrl}/en/`,
-                ar: canonicalUrl
-                    ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/ar')}`
-                    : `${baseUrl}/ar/`,
+                en: alternateUrls?.en
+                    ? `${baseUrl}${alternateUrls.en}`
+                    : canonicalUrl
+                      ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/en')}`
+                      : `${baseUrl}/en/`,
+                ar: alternateUrls?.ar
+                    ? `${baseUrl}${alternateUrls.ar}`
+                    : canonicalUrl
+                      ? `${baseUrl}${canonicalUrl.replace(/^\/(ar|en)/, '/ar')}`
+                      : `${baseUrl}/ar/`,
             },
         },
     }

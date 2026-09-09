@@ -2,6 +2,7 @@ import { serializeMoney } from "@repo/database"
 import { getConfiguration } from "@/actions/configuration"
 import { getProductWithDetails } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { SupportedLanguage } from "@/types"
 import { Metadata } from "next"
 import { getLocale, getTranslations } from "next-intl/server"
@@ -30,15 +31,19 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
             title: t("defaultTitle"),
             description: t("defaultDescription"),
             locale: locale as SupportedLanguage,
+            canonicalUrl: createPageCanonicalUrl({ locale, path: `preview/${configId}` }),
+            noIndex: true,
         })
     }
 
-    const product = await getProductWithDetails(configuration.productId, locale)
+    const product = await getProductWithDetails(configuration.productSku, locale)
     if (!product) {
         return constructMetadata({
             title: t("defaultTitle"),
             description: t("defaultDescription"),
             locale: locale as SupportedLanguage,
+            canonicalUrl: createPageCanonicalUrl({ locale, path: `preview/${configId}` }),
+            noIndex: true,
         })
     }
 
@@ -67,6 +72,11 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
             price: configuration.totalPrice.toLocaleString()
         }),
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: `preview/${configId}` }),
+        // A one-time cart/checkout step behind an unguessable id — robots.txt already
+        // disallows the whole /preview/ tree; this is belt-and-suspenders for any crawler
+        // that reaches it through a link anyway.
+        noIndex: true,
         image: productImage
     })
 }
@@ -81,7 +91,7 @@ export default async function PreviewPage({ params }: PreviewPageProps) {
         notFound()
     }
 
-    const product = await getProductWithDetails(configuration.productId, locale)
+    const product = await getProductWithDetails(configuration.productSku, locale)
     if (!product) {
         notFound()
     }

@@ -35,6 +35,10 @@ export interface CartItem {
     subCategory: string
     category: string
     categorySlug: string
+    subCategorySlug: string
+    productSlug: string
+    /** The product's own page — the cart never links into the checkout flow by product id. */
+    href: string
     selectedColorTemp: string | null
     selectedColorKey: string | null
     totalPrice: SerializedMoney

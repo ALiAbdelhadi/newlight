@@ -1,15 +1,21 @@
+import { encodeSlug } from "@repo/database"
+
 type CanonicalUrlParams = {
     locale: string
     segments: string[]
 }
 
 export function createCanonicalUrl({ locale, segments }: CanonicalUrlParams): string {
+    // Arabic slugs are stored, and linked to, as raw text (encodeSlug/encodeURIComponent only
+    // at the point a URL is built) — the same rule applies here, or the canonical tag and the
+    // hreflang alternates end up with an unencoded Arabic path while every <Link> on the page
+    // uses the encoded one, which reads as two different URLs to a crawler.
     const cleanSegments = segments
-        .filter(Boolean) 
-        .map(s => s.replace(/^\/|\/$/g, ''))
+        .filter(Boolean)
+        .map((s) => encodeSlug(s.replace(/^\/|\/$/g, "")))
         .filter(Boolean)
 
-    return `/${locale}/${cleanSegments.join('/')}`
+    return `/${locale}/${cleanSegments.join("/")}`
 }
 
 export function createProductCanonicalUrl(params: {
@@ -47,7 +53,7 @@ export function createCategoryCanonicalUrl(params: {
 
 export function createPageCanonicalUrl(params: {
     locale: string
-    path: string 
+    path: string
 }): string {
     return createCanonicalUrl({
         locale: params.locale,

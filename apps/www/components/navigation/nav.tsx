@@ -88,20 +88,16 @@ export function Nav({ hasOffers = false }: { hasOffers?: boolean }) {
                             </Link>
                         ))}
                     </nav>
-
                     <div className="ms-auto flex items-center gap-1">
                         <SearchSheet />
                         <div className="hidden sm:flex sm:items-center sm:gap-1">
                             <LanguageSelector />
                             <ThemeToggle />
                         </div>
-
                         <AuthSectionWrapper>
                             <AuthSection />
                         </AuthSectionWrapper>
-
                         <CartSidebar />
-
                         <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
                             <SheetTrigger asChild>
                                 <button
@@ -112,7 +108,6 @@ export function Nav({ hasOffers = false }: { hasOffers?: boolean }) {
                                     <Menu aria-hidden className="size-5" />
                                 </button>
                             </SheetTrigger>
-
                             <SheetContent
                                 side={isRTL ? "left" : "right"}
                                 className="flex w-full flex-col gap-0 p-0 sm:max-w-sm"
@@ -126,7 +121,6 @@ export function Nav({ hasOffers = false }: { hasOffers?: boolean }) {
                                             {t("logoLight")}
                                         </span>
                                     </SheetTitle>
-
                                     <SheetClose
                                         aria-label={t("closeMenu")}
                                         className="-me-2.5 grid size-10 place-items-center rounded-md transition-colors duration-(--duration-fast) hover:bg-accent"
@@ -134,7 +128,6 @@ export function Nav({ hasOffers = false }: { hasOffers?: boolean }) {
                                         <X aria-hidden className="size-5" />
                                     </SheetClose>
                                 </div>
-
                                 <nav aria-label={t("primaryNav")} className="flex-1 overflow-y-auto p-5">
                                     <ul className="space-y-1">
                                         <li>

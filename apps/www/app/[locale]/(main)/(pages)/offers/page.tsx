@@ -7,6 +7,7 @@ import { EmptyState } from "@/components/states"
 import { ProductCard } from "@/components/product-card"
 import { Link } from "@/i18n/navigation"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { allOffers } from "@/lib/services/offers-service"
 import { stockStatusOfLevels } from "@/lib/stock"
 
@@ -20,6 +21,7 @@ export async function generateMetadata(): Promise<Metadata> {
         title: t("metaTitle"),
         description: t("metaDescription"),
         locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "offers" }),
     })
 }
 

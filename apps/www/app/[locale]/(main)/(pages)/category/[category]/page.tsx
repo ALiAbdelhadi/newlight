@@ -9,7 +9,8 @@ import { CategoryService } from "@/lib/services/category-service"
 import { offersForSection } from "@/lib/services/offers-service"
 import { OfferBanner } from "@/components/offer-banner"
 import { constructMetadata } from "@/lib/metadata"
-import { allTaxonomyPaths } from "@/lib/services/taxonomy"
+import { createCategoryCanonicalUrl } from "@/lib/canonical-url"
+import { allTaxonomyPaths, alternateCategorySlug } from "@/lib/services/taxonomy"
 import CategoryPage from "./category-page"
 
 export const revalidate = 7200
@@ -38,11 +39,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     const t = await getTranslations("metadatas.sub-category-page")
     const translation = category.translations[0]
     const name = translation?.name ?? ""
+    const otherLocale = locale === "ar" ? "en" : "ar"
+    const otherCategorySlug = await alternateCategorySlug(category.id, otherLocale)
 
     return constructMetadata({
         title: t("title", { category: name }),
         description: translation?.description || t("description", { category: name }),
         locale,
+        canonicalUrl: createCategoryCanonicalUrl({ locale, categorySlug: translation?.slug ?? "" }),
+        alternateUrls: otherCategorySlug
+            ? { [otherLocale]: createCategoryCanonicalUrl({ locale: otherLocale, categorySlug: otherCategorySlug }) }
+            : undefined,
         image: category.imageUrl ?? category.subCategories[0]?.imageUrl ?? undefined,
         keywords: category.subCategories
             .slice(0, 8)

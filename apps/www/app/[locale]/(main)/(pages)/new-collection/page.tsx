@@ -1,5 +1,6 @@
 import { getCollectionCards } from '@/constants/collections';
 import { constructMetadata } from '@/lib/metadata';
+import { createPageCanonicalUrl } from '@/lib/canonical-url';
 import type { SupportedLanguage } from '@/types';
 import { getLocale, getTranslations } from 'next-intl/server';
 import NewCollectionClient from './new-collection';
@@ -11,6 +12,7 @@ export async function generateMetadata() {
     title: t('title'),
     description: t('description'),
     locale,
+    canonicalUrl: createPageCanonicalUrl({ locale, path: 'new-collection' }),
   });
 }
 

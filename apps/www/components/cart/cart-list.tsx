@@ -8,9 +8,8 @@ import { toast } from "sonner"
 import { formatMoney, multiplyMoney, serializeMoney } from "@repo/database"
 
 import { removeFromCart, updateCartItemQuantity } from "@/actions/cart"
-import { DirectionalArrow } from "@/components/directional-arrow"
+import { OrderNowButton } from "@/components/cart/order-now-button"
 import { PriceTag } from "@/components/price-tag"
-import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { cn } from "@/lib/utils"
 import type { CartItem } from "@/types"
@@ -62,7 +61,7 @@ export function CartList({ items }: { items: CartItem[] }) {
             {rows.map((item) => (
                 <li key={item.id} className="flex gap-4 rounded-lg border bg-card p-4 sm:gap-6 sm:p-5">
                     <Link
-                        href={`/preview/${item.productId}`}
+                        href={item.href}
                         className="relative size-24 shrink-0 overflow-hidden rounded-md border bg-surface-sunk sm:size-28"
                     >
                         <Image
@@ -81,7 +80,7 @@ export function CartList({ items }: { items: CartItem[] }) {
                                     <bdi dir="auto">{item.subCategory}</bdi>
                                 </p>
                                 <h3 className="mt-0.5 truncate font-medium">
-                                    <Link href={`/preview/${item.productId}`} className="hover:underline underline-offset-4">
+                                    <Link href={item.href} className="hover:underline underline-offset-4">
                                         <bdi dir="auto">{item.productName}</bdi>
                                     </Link>
                                 </h3>
@@ -139,12 +138,7 @@ export function CartList({ items }: { items: CartItem[] }) {
                                 <span className="text-sm font-medium tabular-nums">
                                     {formatMoney(item.totalPrice, locale)}
                                 </span>
-                                <Button asChild size="sm" className="group">
-                                    <Link href={`/preview/${item.productId}`}>
-                                        {t("orderNow")}
-                                        <DirectionalArrow />
-                                    </Link>
-                                </Button>
+                                <OrderNowButton item={item} disabled={pending} />
                             </div>
                         </div>
                     </div>

@@ -1,4 +1,5 @@
 import { constructMetadata } from "@/lib/metadata";
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { SupportedLanguage } from "@/types";
 import { getLocale, getTranslations, setRequestLocale } from "next-intl/server";
 import { AboutUsClient } from "./about";
@@ -11,6 +12,7 @@ export async function generateMetadata() {
         title: t("title"),
         description: t("description"),
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "about" }),
     });
 }
 

@@ -13,6 +13,7 @@ import { Link } from "@/i18n/navigation"
 import { currentUserId } from "@/lib/auth"
 import { formatDate } from "@/lib/date"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { UserService } from "@/lib/services/user-service"
 
 export const dynamic = "force-dynamic"
@@ -22,7 +23,14 @@ const RECENT_ORDERS = 3
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("metadatas.account-page")
     const locale = resolveLocale(await getLocale())
-    return constructMetadata({ title: t("title"), description: t("description"), locale })
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "account" }),
+        // Requires sign-in (see the redirect below) and is different for every visitor.
+        noIndex: true,
+    })
 }
 
 export default async function AccountPage() {

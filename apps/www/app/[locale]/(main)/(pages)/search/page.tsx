@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/button"
 import { Link } from "@/i18n/navigation"
 import { SearchService, searchListing } from "@/lib/services/search-service"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import type { SupportedLanguage } from "@/types"
 
 export const dynamic = "force-dynamic"
@@ -23,14 +24,15 @@ export async function generateMetadata({
     const t = await getTranslations("search")
     const locale = (await getLocale()) as SupportedLanguage
 
-    return {
-        ...constructMetadata({
-            title: q ? t("resultsTitleFor", { query: q }) : t("resultsTitle"),
-            description: t("resultsDescription"),
-            locale,
-        }),
-        robots: { index: false, follow: true },
-    }
+    // Canonical (and the index) points at the bare /search page — one result set per query
+    // string is exactly the kind of thin, near-duplicate page Google asks sites not to index.
+    return constructMetadata({
+        title: q ? t("resultsTitleFor", { query: q }) : t("resultsTitle"),
+        description: t("resultsDescription"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "search" }),
+        noIndex: true,
+    })
 }
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<{ q?: string }> }) {

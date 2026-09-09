@@ -193,7 +193,7 @@ export function ConfirmForm({
                         const orderId = 'order' in orderResult ? orderResult.order?.id : null;
                         if (orderId) {
                             setTimeout(() => {
-                                router.push(`/complete/configId=${configId}?orderId=${orderId}`)
+                                router.push(`/complete/${configId}?orderId=${orderId}`)
                             }, 1000)
                         }
                         return
@@ -224,7 +224,7 @@ export function ConfirmForm({
 
                 const orderId = 'order' in orderResult ? orderResult.order?.id : null;
                 setTimeout(() => {
-                    router.push(`/complete/configId=${configId}?orderId=${orderId}`)
+                    router.push(`/complete/${configId}?orderId=${orderId}`)
                 }, 1500)
 
             } catch (err) {

@@ -13,6 +13,7 @@ import { Link } from "@/i18n/navigation"
 import { currentUserId } from "@/lib/auth"
 import { activeDiscounts } from "@/lib/discounts"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { CartService } from "@/lib/services/cart-service"
 import { cartTotals, formatCartItem } from "@/lib/services/cart-view"
 import { cheapestShippingRate, shippingRates } from "@/lib/services/shipping-service"
@@ -22,7 +23,14 @@ export const dynamic = "force-dynamic"
 export async function generateMetadata(): Promise<Metadata> {
     const t = await getTranslations("metadatas.cart-page")
     const locale = resolveLocale(await getLocale())
-    return constructMetadata({ title: t("title"), description: t("description"), locale })
+    return constructMetadata({
+        title: t("title"),
+        description: t("description"),
+        locale,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "cart" }),
+        // Requires sign-in (see the redirect below) and is different for every visitor.
+        noIndex: true,
+    })
 }
 
 export default async function CartPage() {

@@ -161,8 +161,9 @@ export class UserService {
             prisma.order.count({
                 where: { userId },
             }),
+            // A cancellation is not money spent — the same rule the admin's customer record applies.
             prisma.order.aggregate({
-                where: { userId },
+                where: { userId, status: { not: "cancelled" } },
                 _sum: { total: true },
             }),
             prisma.order.findMany({

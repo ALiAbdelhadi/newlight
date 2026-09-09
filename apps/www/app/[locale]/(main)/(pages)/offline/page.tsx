@@ -1,4 +1,5 @@
 import { constructMetadata } from "@/lib/metadata";
+import { createPageCanonicalUrl } from "@/lib/canonical-url";
 import { SupportedLanguage } from "@/types";
 import { getLocale, getTranslations } from "next-intl/server";
 
@@ -10,6 +11,9 @@ export async function generateMetadata() {
         title: t("title"),
         description: t("description"),
         locale: locale as SupportedLanguage,
+        canonicalUrl: createPageCanonicalUrl({ locale, path: "offline" }),
+        // A PWA fallback shell, not content — never worth a place in the index.
+        noIndex: true,
     });
 }
 

@@ -9,7 +9,8 @@ import { notFound, permanentRedirect } from "next/navigation"
 import { encodeSlug, resolveLocale } from "@repo/database"
 import { ProductService } from "@/lib/services/product-service"
 import { constructMetadata } from "@/lib/metadata"
-import { resolveProductSlug } from "@/lib/services/taxonomy"
+import { createProductCanonicalUrl } from "@/lib/canonical-url"
+import { alternateCategorySlug, alternateSubCategorySlug, resolveProductSlug } from "@/lib/services/taxonomy"
 import ProductPage from "./product-page"
 
 export const revalidate = 3600
@@ -44,12 +45,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         .slice(0, 3)
         .map((row) => `${row.spec.labelEn}: ${row.valueEn}`)
         .join(", ")
+    // The product's own slug is locale-invariant; only its category and sub-category are
+    // translated, so those are the only pieces the other language's URL needs resolved.
+    const otherLocale = locale === "ar" ? "en" : "ar"
+    const [otherCategorySlug, otherSubCategorySlug] = await Promise.all([
+        alternateCategorySlug(view.subCategory.category.id, otherLocale),
+        alternateSubCategorySlug(view.subCategory.id, otherLocale),
+    ])
 
     return constructMetadata({
         title: translation?.metaTitle || t("title", { name, category: categoryName }),
         description:
             translation?.metaDescription || translation?.description || t("description", { name, category: categoryName, specs }),
         locale,
+        canonicalUrl: createProductCanonicalUrl({
+            locale,
+            categorySlug: view.subCategory.category.translations[0]?.slug ?? "",
+            subCategorySlug: view.subCategory.translations[0]?.slug ?? "",
+            productId: view.slug,
+        }),
+        alternateUrls:
+            otherCategorySlug && otherSubCategorySlug
+                ? {
+                      [otherLocale]: createProductCanonicalUrl({
+                          locale: otherLocale,
+                          categorySlug: otherCategorySlug,
+                          subCategorySlug: otherSubCategorySlug,
+                          productId: view.slug,
+                      }),
+                  }
+                : undefined,
         image: view.images[0]?.url,
     })
 }

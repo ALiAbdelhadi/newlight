@@ -1,6 +1,6 @@
 import { useTranslations } from "next-intl"
 
-export default function Loading() {
+export function LoadingScreen() {
     const t = useTranslations("LoadingScreen")
 
     return (

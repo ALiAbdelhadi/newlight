@@ -1,5 +1,6 @@
 import { getOrderDetails } from "@/actions/order"
 import { constructMetadata } from "@/lib/metadata"
+import { createPageCanonicalUrl } from "@/lib/canonical-url"
 import { SupportedLanguage } from "@/types"
 import { currentUserId } from "@/lib/auth"
 import { Metadata } from "next"
@@ -41,7 +42,10 @@ export async function generateMetadata({ params }: MetadataProps): Promise<Metad
         title: tMetadata("title", { orderNumber: order.orderNumber }),
         description: tMetadata("description", { orderNumber: order.orderNumber }),
         locale: currentLocale,
-        image: productImage
+        image: productImage,
+        canonicalUrl: createPageCanonicalUrl({ locale: currentLocale, path: `orders/${orderId}` }),
+        // Requires sign-in and belongs to one customer — never a search result.
+        noIndex: true,
     })
 }
 
