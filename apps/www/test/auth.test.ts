@@ -1,8 +1,8 @@
-import { afterAll, beforeAll, describe, expect, it } from "vitest"
+import { ADMIN_ROLES } from "@repo/database"
+import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
-import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
-import { ADMIN_ROLES, isAdminRole } from "@repo/database"
+import { afterAll, beforeAll, describe, expect, it } from "vitest"
 
 let db: TestDatabase
 let auth: Awaited<ReturnType<typeof makeAuth>>

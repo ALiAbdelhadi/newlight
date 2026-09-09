@@ -1,7 +1,6 @@
+import { authorizeCron } from "@/lib/cron-auth"
 import { NextRequest } from "next/server"
 import { afterEach, describe, expect, it } from "vitest"
-
-import { authorizeCron } from "@/lib/cron-auth"
 
 const SECRET_NAME = "TEST_CRON_SECRET"
 

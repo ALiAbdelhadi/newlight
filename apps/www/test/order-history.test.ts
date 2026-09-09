@@ -1,6 +1,6 @@
-import { afterAll, beforeAll, describe, expect, it, vi } from "vitest"
-import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
 import { seedFixture, type Fixture } from "@repo/database/test-fixtures"
+import { createTestDatabase, type TestDatabase } from "@repo/database/test-harness"
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest"
 
 let db: TestDatabase
 let fixture: Fixture
