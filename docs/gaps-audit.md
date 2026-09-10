@@ -120,9 +120,11 @@ customer, the only trace is whatever `pino` wrote to a log nobody is watching. C
 
 ## 9. Mail is written and never sent
 
-`SMTP_HOST` is unset in all three `.env.local` files (Resend was dropped; SMTP is the only transport), so every message goes to the outbox
+`RESEND_API_KEY` is unset in all three `.env.local` files (the transport moved back to Resend's
+HTTP API on 2026-09-10; SMTP and Nodemailer are gone), so every message goes to the outbox
 and the log instead of to a customer. The outbox, the retry schedule and the cron are all
-built and working; the credential is missing. Owner-blocked.
+built and working; the credential — and the Resend domain verification behind it — is missing.
+Owner-blocked.
 
 ## 10. The READMEs describe a different project
 
