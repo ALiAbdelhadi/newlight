@@ -89,9 +89,12 @@ describe("dispatch", () => {
         const first = await dispatchOutbox(db.prisma)
         expect(first).toMatchObject({ claimed: 1, sent: 1, failed: 0 })
         expect(sent).toHaveLength(1)
-        expect(sent[0]!.subject).toMatch(/[؀-ۿ]/)
+        // The row asked for Arabic; every message goes out in English (SENDING_LOCALE).
+        expect(sent[0]!.subject).not.toMatch(/[؀-ۿ]/)
+        expect(sent[0]!.subject).toBe("Order NL-1 confirmed")
 
         const row = await db.prisma.emailOutbox.findFirstOrThrow()
+        expect(row.locale).toBe("ar")
         expect(row.status).toBe("SENT")
         expect(row.sentAt).not.toBeNull()
 

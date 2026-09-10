@@ -73,3 +73,17 @@ HTTP API, no SDK, one POST to `/emails`.
   itself 429s that cost a minute of backoff each.
 - **Outbox rows carry an `Idempotency-Key`** derived from the row id, so a sweep that dies
   after Resend accepted a message but before the row was marked SENT cannot send it twice.
+
+## Amendment — 2026-09-10, English is the sending language
+
+Mail now goes out in English whatever locale the customer browses in. `SENDING_LOCALE` in
+`packages/mail/types.ts` is the single decision; `sendTemplate`, `dispatchOutbox` and
+`sendOrQueue` render against it rather than against the caller's locale.
+
+- The caller's locale is still a parameter and is still stored on every outbox row. Nothing
+  upstream had to change, the Arabic templates and their tests stay in place, and switching
+  back is that constant.
+- This contradicts "six templates, both languages" above only in what is *sent*. The Arabic
+  half of the copy is kept rather than deleted, because the reason for English is that the
+  Arabic transactional copy has not been reviewed by anyone whose language it is — not that
+  bilingual mail was wrong.

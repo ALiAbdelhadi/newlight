@@ -2,7 +2,7 @@ import type { Prisma, PrismaClient } from "@repo/database"
 import { renderTemplate } from "./templates/index"
 import type { PayloadByTemplate } from "./templates/payloads"
 import { sendMail } from "./index"
-import type { MailLocale, MailTemplate } from "./types"
+import { SENDING_LOCALE, type MailLocale, type MailTemplate } from "./types"
 
 const BACKOFF_MINUTES = [1, 5, 15, 60, 360]
 export const MAX_ATTEMPTS = BACKOFF_MINUTES.length + 1
@@ -64,9 +64,10 @@ export async function dispatchOutbox(prisma: PrismaClient, limit = 25): Promise<
 
     for (const row of claimed) {
         try {
+            // The row keeps the customer's locale; the message itself goes out in SENDING_LOCALE.
             const rendered = await renderTemplate(
                 row.template as MailTemplate,
-                row.locale as MailLocale,
+                SENDING_LOCALE,
                 row.payload as PayloadByTemplate[MailTemplate]
             )
             const outcome = await sendMail({
@@ -124,7 +125,7 @@ export async function sendOrQueue<T extends MailTemplate>(
     prisma: PrismaClient,
     input: QueueMailInput<T>
 ): Promise<{ delivered: boolean; queued: boolean }> {
-    const rendered = await renderTemplate(input.template, input.locale, input.payload)
+    const rendered = await renderTemplate(input.template, SENDING_LOCALE, input.payload)
     const outcome = await sendMail({
         to: input.to,
         subject: rendered.subject,

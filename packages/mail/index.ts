@@ -2,7 +2,7 @@ import { consoleTransport } from "./transport/console"
 import { resendConfigFromEnv, resendTransport } from "./transport/resend"
 import { renderTemplate } from "./templates/index"
 import type { PayloadByTemplate } from "./templates/payloads"
-import { MailTransportError, type MailInput, type MailLocale, type MailResult, type MailTemplate, type MailTransport } from "./types"
+import { MailTransportError, SENDING_LOCALE, type MailInput, type MailLocale, type MailResult, type MailTemplate, type MailTransport } from "./types"
 
 export * from "./types"
 export type * from "./templates/payloads"
@@ -52,6 +52,7 @@ export async function sendTemplate<T extends MailTemplate>(
     locale: MailLocale,
     payload: PayloadByTemplate[T]
 ): Promise<SendOutcome> {
-    const rendered = await renderTemplate(template, locale, payload)
+    // `locale` is the customer's, and is deliberately not the language sent — see SENDING_LOCALE.
+    const rendered = await renderTemplate(template, SENDING_LOCALE, payload)
     return sendMail({ to, subject: rendered.subject, html: rendered.html, text: rendered.text, tags: { template } })
 }
